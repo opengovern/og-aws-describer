@@ -1,6 +1,6 @@
 module github.com/kaytu-io/kaytu-aws-describer
 
-go 1.20
+go 1.19
 
 require (
 	github.com/aws/aws-lambda-go v1.13.3
@@ -119,6 +119,7 @@ require (
 	github.com/turbot/go-kit v0.4.0
 	go.uber.org/zap v1.21.0
 	google.golang.org/grpc v1.48.0
+	google.golang.org/protobuf v1.28.0
 )
 
 require (
@@ -151,7 +152,5 @@ require (
 	golang.org/x/sys v0.6.0 // indirect
 	golang.org/x/text v0.7.0 // indirect
 	google.golang.org/genproto v0.0.0-20220407144326-9054f6ed7bac // indirect
-	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
-

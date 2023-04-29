@@ -9,33 +9,28 @@ import (
 	"github.com/go-errors/errors"
 	"github.com/kaytu-io/kaytu-aws-describer/aws"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/describer"
-	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
-	"gitlab.com/keibiengine/keibi-engine/pkg/describe"
-	"gitlab.com/keibiengine/keibi-engine/pkg/describe/api"
-	"gitlab.com/keibiengine/keibi-engine/pkg/describe/es"
-	"gitlab.com/keibiengine/keibi-engine/pkg/describe/proto/src/golang"
-	"gitlab.com/keibiengine/keibi-engine/pkg/kafka"
-	"gitlab.com/keibiengine/keibi-engine/pkg/source"
-	"gitlab.com/keibiengine/keibi-engine/pkg/steampipe"
-	"gitlab.com/keibiengine/keibi-engine/pkg/vault"
+	"github.com/kaytu-io/kaytu-aws-describer/pkg/describe"
+	"github.com/kaytu-io/kaytu-aws-describer/pkg/source"
+	"github.com/kaytu-io/kaytu-aws-describer/pkg/vault"
+	"github.com/kaytu-io/kaytu-aws-describer/proto/src/golang"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 )
 
 func doDescribeAWS(ctx context.Context, job describe.DescribeJob, config map[string]any,
-	logger *zap.Logger, client *golang.DescribeServiceClient) ([]kafka.Doc, []string, error) {
+	logger *zap.Logger, client *golang.DescribeServiceClient) ([]string, error) {
 
 	var resourceIDs []string
 	creds, err := aws.AccountConfigFromMap(config)
 	if err != nil {
-		return nil, nil, fmt.Errorf("aws account credentials: %w", err)
+		return nil, fmt.Errorf("aws account credentials: %w", err)
 	}
 
 	var clientStream *describer.StreamSender
 	if client != nil {
 		stream, err := (*client).DeliverAWSResources(context.Background())
 		if err != nil {
-			return nil, nil, err
+			return nil, err
 		}
 
 		f := func(resource describer.Resource) error {
@@ -85,7 +80,7 @@ func doDescribeAWS(ctx context.Context, job describe.DescribeJob, config map[str
 		clientStream,
 	)
 	if err != nil {
-		return nil, nil, fmt.Errorf("AWS: %w", err)
+		return nil, fmt.Errorf("AWS: %w", err)
 	}
 
 	var errs []string
@@ -95,89 +90,13 @@ func doDescribeAWS(ctx context.Context, job describe.DescribeJob, config map[str
 		}
 	}
 
-	var msgs []kafka.Doc
-
 	for _, resources := range output.Resources {
 		for _, resource := range resources {
 			if resource.Description == nil {
 				continue
 			}
 
-			awsMetadata := model.Metadata{
-				Name:         resource.Name,
-				AccountID:    resource.Account,
-				SourceID:     job.SourceID,
-				Region:       resource.Region,
-				Partition:    resource.Name,
-				ResourceType: strings.ToLower(resource.Type),
-			}
-			awsMetadataBytes, err := json.Marshal(awsMetadata)
-			if err != nil {
-				errs = append(errs, fmt.Sprintf("marshal metadata: %v", err.Error()))
-				continue
-			}
-			metadata := make(map[string]string)
-			err = json.Unmarshal(awsMetadataBytes, &metadata)
-			if err != nil {
-				errs = append(errs, fmt.Sprintf("unmarshal metadata: %v", err.Error()))
-				continue
-			}
-
-			kafkaResource := es.Resource{
-				ID:            resource.UniqueID(),
-				Name:          resource.Name,
-				SourceType:    source.CloudAWS,
-				ResourceType:  strings.ToLower(job.ResourceType),
-				ResourceGroup: "",
-				Location:      resource.Region,
-				SourceID:      job.SourceID,
-				ResourceJobID: job.JobID,
-				SourceJobID:   job.ParentJobID,
-				ScheduleJobID: job.ScheduleJobID,
-				CreatedAt:     job.DescribedAt,
-				Description:   resource.Description,
-				Metadata:      metadata,
-			}
-			lookupResource := es.LookupResource{
-				ResourceID:    resource.UniqueID(),
-				Name:          resource.Name,
-				SourceType:    source.CloudAWS,
-				ResourceType:  strings.ToLower(job.ResourceType),
-				ResourceGroup: "",
-				Location:      resource.Region,
-				SourceID:      job.SourceID,
-				ResourceJobID: job.JobID,
-				SourceJobID:   job.ParentJobID,
-				ScheduleJobID: job.ScheduleJobID,
-				CreatedAt:     job.DescribedAt,
-			}
 			resourceIDs = append(resourceIDs, resource.UniqueID())
-			pluginTableName := steampipe.ExtractTableName(job.ResourceType)
-			desc, err := steampipe.ConvertToDescription(job.ResourceType, kafkaResource)
-			if err != nil {
-				errs = append(errs, fmt.Sprintf("convertToDescription: %v", err.Error()))
-				continue
-			}
-			cells, err := steampipe.AWSDescriptionToRecord(desc, pluginTableName)
-			if err != nil {
-				errs = append(errs, fmt.Sprintf("awsdescriptionToRecord: %v", err.Error()))
-				continue
-			}
-			for name, v := range cells {
-				if name == "title" || name == "name" {
-					kafkaResource.Metadata["name"] = v.GetStringValue()
-				}
-			}
-
-			tags, err := steampipe.ExtractTags(job.ResourceType, kafkaResource)
-			if err != nil {
-				errs = append(errs, fmt.Sprintf("failed to build tags for service: %v", err.Error()))
-				tags = map[string]string{}
-			}
-			lookupResource.Tags = tags
-
-			msgs = append(msgs, kafkaResource)
-			msgs = append(msgs, lookupResource)
 		}
 	}
 
@@ -193,7 +112,7 @@ func doDescribeAWS(ctx context.Context, job describe.DescribeJob, config map[str
 		err = nil
 	}
 
-	return msgs, resourceIDs, err
+	return resourceIDs, err
 }
 
 func Do(ctx context.Context,
@@ -227,13 +146,13 @@ func Do(ctx context.Context,
 
 	// Assume it succeeded unless it fails somewhere
 	var (
-		status               = api.DescribeResourceJobSucceeded
+		status               = "SUCCEEDED"
 		firstErr    error    = nil
 		resourceIDs []string = nil
 	)
 
 	fail := func(err error) {
-		status = api.DescribeResourceJobFailed
+		status = "FAILED"
 		if firstErr == nil {
 			firstErr = err
 		}
@@ -247,7 +166,7 @@ func Do(ctx context.Context,
 		client := golang.NewDescribeServiceClient(conn)
 
 		if config, err := vlt.Decrypt(job.CipherText, keyARN); err == nil {
-			_, resourceIDs, err = doDescribeAWS(ctx, job, config, logger, &client)
+			resourceIDs, err = doDescribeAWS(ctx, job, config, logger, &client)
 			if err != nil {
 				// Don't return here. In certain cases, such as AWS, resources might be
 				// available for some regions while there was failures in other regions.

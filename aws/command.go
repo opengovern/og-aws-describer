@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 
+	describe2 "github.com/kaytu-io/kaytu-aws-describer/pkg/describe/enums"
 	"github.com/spf13/cobra"
-	describe2 "gitlab.com/keibiengine/keibi-engine/pkg/describe/enums"
 )
 
 func Command() *cobra.Command {
