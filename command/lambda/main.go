@@ -2,10 +2,8 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 
-	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	kaytu_aws_describer "github.com/kaytu-io/kaytu-aws-describer"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/describe"
@@ -13,20 +11,13 @@ import (
 	"go.uber.org/zap"
 )
 
-func DescribeHandler(ctx context.Context, req events.APIGatewayProxyRequest) error {
+func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInput) error {
 	logger, err := zap.NewProduction()
 	if err != nil {
 		return err
 	}
 
-	logger.Info(req.Body)
-
-	var input describe.LambdaDescribeWorkerInput
-	err = json.Unmarshal([]byte(req.Body), &input)
-	if err != nil {
-		logger.Error("Failed to unmarshal input", zap.Error(err))
-		return err
-	}
+	logger.Info(fmt.Sprintf("%v", input))
 
 	kmsVault, err := vault.NewKMSVaultSourceConfig(ctx)
 	if err != nil {
