@@ -15,7 +15,7 @@ import (
 	"github.com/kaytu-io/kaytu-aws-describer/proto/src/golang"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/credentials"
 )
 
 func doDescribeAWS(ctx context.Context, job describe.DescribeJob, config map[string]any,
@@ -162,7 +162,7 @@ func Do(ctx context.Context,
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	if conn, err := grpc.Dial(*describeDeliverEndpoint, grpc.WithTransportCredentials(insecure.NewCredentials())); err == nil {
+	if conn, err := grpc.Dial(*describeDeliverEndpoint, grpc.WithTransportCredentials(credentials.NewTLS(nil))); err == nil {
 		defer conn.Close()
 		client := golang.NewDescribeServiceClient(conn)
 
