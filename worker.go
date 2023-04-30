@@ -22,7 +22,8 @@ func Do(ctx context.Context,
 	job describe.DescribeJob,
 	keyARN string,
 	describeDeliverEndpoint string,
-	describeDeliverToken string) (resourceIDs []string, err error) {
+	describeDeliverToken string,
+	workspaceName string) (resourceIDs []string, err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			err = fmt.Errorf("paniced with error: %v", r)
@@ -42,11 +43,11 @@ func Do(ctx context.Context,
 		return nil, fmt.Errorf("decrypt error: %w", err)
 	}
 
-	return doDescribeAWS(ctx, logger, job, config, describeDeliverEndpoint, describeDeliverToken)
+	return doDescribeAWS(ctx, logger, job, config, workspaceName, describeDeliverEndpoint, describeDeliverToken)
 }
 
-func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.DescribeJob, config map[string]any, describeEndpoint string, describeToken string) ([]string, error) {
-	rs, err := NewResourceSender(describeEndpoint, describeToken, job.JobID, logger)
+func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.DescribeJob, config map[string]any, workspaceName string, describeEndpoint string, describeToken string) ([]string, error) {
+	rs, err := NewResourceSender(workspaceName, describeEndpoint, describeToken, job.JobID, logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to resource sender: %w", err)
 	}

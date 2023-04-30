@@ -9,8 +9,10 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/kaytu-io/kaytu-aws-describer/proto/src/golang"
+	"golang.org/x/oauth2"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/credentials/oauth"
 
 	"github.com/aws/aws-lambda-go/lambda"
 	kaytu_aws_describer "github.com/kaytu-io/kaytu-aws-describer"
@@ -77,6 +79,7 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		input.KeyARN,
 		input.DescribeEndpoint,
 		token,
+		input.WorkspaceName,
 	)
 
 	errMsg := ""
@@ -87,7 +90,15 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 	}
 
 	for retry := 0; retry < 5; retry++ {
-		conn, err := grpc.Dial(input.DescribeEndpoint, grpc.WithTransportCredentials(credentials.NewTLS(nil)))
+		conn, err := grpc.Dial(
+			input.DescribeEndpoint,
+			grpc.WithTransportCredentials(credentials.NewTLS(nil)),
+			grpc.WithPerRPCCredentials(oauth.TokenSource{
+				TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
+					AccessToken: token,
+				}),
+			}),
+		)
 		if err != nil {
 			logger.Error("[result delivery] connection failure:", zap.Error(err))
 			time.Sleep(1 * time.Second)
@@ -95,7 +106,9 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		}
 		client := golang.NewDescribeServiceClient(conn)
 
-		_, err = client.DeliverResult(ctx, &golang.DeliverResultRequest{
+		grpcCtx := context.Background()
+		grpcCtx = context.WithValue(grpcCtx, "workspace-name", input.WorkspaceName)
+		_, err = client.DeliverResult(grpcCtx, &golang.DeliverResultRequest{
 			JobId:       uint32(input.DescribeJob.JobID),
 			ParentJobId: uint32(input.DescribeJob.ParentJobID),
 			Status:      status,

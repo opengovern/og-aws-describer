@@ -15,6 +15,7 @@ import (
 
 type ResourceSender struct {
 	authToken        string
+	workspaceName    string
 	logger           *zap.Logger
 	resourceChannel  chan *golang.AWSResource
 	resourceIDs      []string
@@ -25,9 +26,10 @@ type ResourceSender struct {
 	jobID            uint
 }
 
-func NewResourceSender(describeEndpoint string, describeToken string, jobID uint, logger *zap.Logger) (*ResourceSender, error) {
+func NewResourceSender(workspaceName string, describeEndpoint string, describeToken string, jobID uint, logger *zap.Logger) (*ResourceSender, error) {
 	rs := ResourceSender{
 		authToken:        describeToken,
+		workspaceName:    workspaceName,
 		logger:           logger,
 		resourceChannel:  make(chan *golang.AWSResource, 1000),
 		resourceIDs:      nil,
@@ -64,6 +66,7 @@ func (s *ResourceSender) Connect() error {
 
 	grpcCtx := context.Background()
 	grpcCtx = context.WithValue(grpcCtx, "resourceJobID", s.jobID)
+	grpcCtx = context.WithValue(grpcCtx, "workspace-name", s.workspaceName)
 	stream, err := client.DeliverAWSResources(grpcCtx)
 	if err != nil {
 		return err
