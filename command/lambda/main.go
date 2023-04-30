@@ -19,7 +19,7 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 
 	logger.Info(fmt.Sprintf("%v", input))
 
-	kmsVault, err := vault.NewKMSVaultSourceConfig(ctx)
+	kmsVault, err := vault.NewKMSVaultSourceConfig(ctx, "", "", input.KeyRegion)
 	if err != nil {
 		return fmt.Errorf("failed to initialize KMS vault: %w", err)
 	}
@@ -29,7 +29,6 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		kmsVault,
 		input.DescribeJob,
 		input.KeyARN,
-		logger,
 		&input.DescribeEndpoint,
 	)
 }

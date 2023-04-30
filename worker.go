@@ -13,14 +13,16 @@ import (
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/source"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/vault"
 	"github.com/kaytu-io/kaytu-aws-describer/proto/src/golang"
-	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )
 
-func doDescribeAWS(ctx context.Context, job describe.DescribeJob, config map[string]any,
-	logger *zap.Logger, client *golang.DescribeServiceClient) ([]string, error) {
+const (
+	DescribeResourceJobFailed    string = "FAILED"
+	DescribeResourceJobSucceeded string = "SUCCEEDED"
+)
 
+func doDescribeAWS(ctx context.Context, job describe.DescribeJob, config map[string]any, client *golang.DescribeServiceClient) ([]string, error) {
 	var resourceIDs []string
 	creds, err := aws.AccountConfigFromMap(config)
 	if err != nil {
@@ -40,6 +42,7 @@ func doDescribeAWS(ctx context.Context, job describe.DescribeJob, config map[str
 				return err
 			}
 
+			resourceIDs = append(resourceIDs, resource.UniqueID())
 			return stream.Send(&golang.AWSResource{
 				Arn:             resource.ARN,
 				Id:              resource.ID,
@@ -91,19 +94,6 @@ func doDescribeAWS(ctx context.Context, job describe.DescribeJob, config map[str
 		}
 	}
 
-	for _, resources := range output.Resources {
-		for _, resource := range resources {
-			if resource.Description == nil {
-				continue
-			}
-
-			resourceIDs = append(resourceIDs, resource.UniqueID())
-		}
-	}
-
-	logger.Info(fmt.Sprintf("job[%d] parent[%d] resourceType[%s]\n",
-		job.JobID, job.ParentJobID, job.ResourceType))
-
 	// For AWS resources, since they are queries independently per region,
 	// if there is an error in some regions, return those errors. For the regions
 	// with no error, return the list of resources.
@@ -120,20 +110,7 @@ func Do(ctx context.Context,
 	vlt *vault.KMSVaultSourceConfig,
 	job describe.DescribeJob,
 	keyARN string,
-	logger *zap.Logger,
 	describeDeliverEndpoint *string) error {
-	logger.Info("Starting DescribeJob",
-		zap.Uint("jobID", job.JobID),
-		zap.Uint("parentJobID", job.ParentJobID),
-		zap.String("resourceType", job.ResourceType),
-		zap.String("sourceID", job.SourceID),
-		zap.String("accountID", job.AccountID),
-		zap.Int64("describedAt", job.DescribedAt),
-		zap.String("sourceType", string(job.SourceType)),
-		zap.String("cipherText", job.CipherText),
-		zap.String("triggerType", string(job.TriggerType)),
-		zap.Uint("retryCounter", job.RetryCounter))
-
 	if job.SourceType != source.CloudAWS {
 		return fmt.Errorf("unsupported source type %s", job.SourceType)
 	}
@@ -147,13 +124,13 @@ func Do(ctx context.Context,
 
 	// Assume it succeeded unless it fails somewhere
 	var (
-		status               = "SUCCEEDED"
+		status               = DescribeResourceJobSucceeded
 		firstErr    error    = nil
 		resourceIDs []string = nil
 	)
 
 	fail := func(err error) {
-		status = "FAILED"
+		status = DescribeResourceJobFailed
 		if firstErr == nil {
 			firstErr = err
 		}
@@ -167,7 +144,7 @@ func Do(ctx context.Context,
 		client := golang.NewDescribeServiceClient(conn)
 
 		if config, err := vlt.Decrypt(job.CipherText, keyARN); err == nil {
-			resourceIDs, err = doDescribeAWS(ctx, job, config, logger, &client)
+			resourceIDs, err = doDescribeAWS(ctx, job, config, &client)
 			if err != nil {
 				// Don't return here. In certain cases, such as AWS, resources might be
 				// available for some regions while there was failures in other regions.

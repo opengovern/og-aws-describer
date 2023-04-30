@@ -57,7 +57,6 @@ func S3Bucket(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 	resultChan := make(chan s3bucketResult, len(output.Buckets)+1)
 
 	describer := func(bucket types.Bucket) {
-		fmt.Println("S3Bucket", "getting location", bucket.Name)
 		region, err := getBucketLocation(ctx, client, bucket)
 		if err != nil {
 			resultChan <- s3bucketResult{
@@ -77,7 +76,6 @@ func S3Bucket(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 			return
 		}
 
-		fmt.Println("S3Bucket", "describing", bucket.Name)
 		desc, err := getBucketDescription(ctx, cfg, bucket, region)
 		if err != nil {
 			resultChan <- s3bucketResult{
@@ -99,7 +97,6 @@ func S3Bucket(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 			Region: region,
 			Bucket: bucket,
 		}
-		fmt.Println("S3Bucket", "result sent", bucket.Name)
 	}
 
 	worker := func() {
@@ -147,7 +144,6 @@ func S3Bucket(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 		}
 		return map[string][]Resource{}, nil
 	}
-	fmt.Println("S3Bucket", "return", regionalValues, globalErr)
 	return regionalValues, globalErr
 }
 
