@@ -174,9 +174,7 @@ func Do(ctx context.Context,
 				// Instead, continue to write whatever you can to kafka.
 				fail(fmt.Errorf("describe resources: %w", err))
 			}
-		} else if config == nil {
-			fail(fmt.Errorf("config is null! path is: %s", job.CipherText))
-		} else {
+		} else if err != nil {
 			fail(fmt.Errorf("resource source config: %w", err))
 		}
 
