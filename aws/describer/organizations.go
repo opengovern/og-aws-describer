@@ -23,6 +23,7 @@ func OrganizationOrganization(ctx context.Context, cfg aws.Config) (*types.Organ
 }
 
 func OrganizationsOrganization(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := organizations.NewFromConfig(cfg)
 
 	req, err := client.DescribeOrganization(ctx, &organizations.DescribeOrganizationInput{})
@@ -32,8 +33,9 @@ func OrganizationsOrganization(ctx context.Context, cfg aws.Config, stream *Stre
 
 	var values []Resource
 	resource := Resource{
-		ARN:  *req.Organization.Arn,
-		Name: *req.Organization.Id,
+		Region: describeCtx.Region,
+		ARN:    *req.Organization.Arn,
+		Name:   *req.Organization.Id,
 		Description: model.OrganizationsOrganizationDescription{
 			Organization: *req.Organization,
 		},

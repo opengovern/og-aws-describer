@@ -16,6 +16,7 @@ import (
 )
 
 func ECRPublicRepository(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	// Only supported in US-EAST-1
 	if !strings.EqualFold(cfg.Region, "us-east-1") {
 		return []Resource{}, nil
@@ -70,8 +71,9 @@ func ECRPublicRepository(ctx context.Context, cfg aws.Config, stream *StreamSend
 			}
 
 			resource := Resource{
-				ARN:  *v.RepositoryArn,
-				Name: *v.RepositoryName,
+				Region: describeCtx.Region,
+				ARN:    *v.RepositoryArn,
+				Name:   *v.RepositoryName,
 				Description: model.ECRPublicRepositoryDescription{
 					PublicRepository: v,
 					ImageDetails:     imageDetails,
@@ -93,6 +95,7 @@ func ECRPublicRepository(ctx context.Context, cfg aws.Config, stream *StreamSend
 }
 
 func ECRPublicRegistry(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	// Only supported in US-EAST-1
 	if !strings.EqualFold(cfg.Region, "us-east-1") {
 		return []Resource{}, nil
@@ -116,8 +119,9 @@ func ECRPublicRegistry(ctx context.Context, cfg aws.Config, stream *StreamSender
 			}
 
 			resource := Resource{
-				ARN:  *v.RegistryArn,
-				Name: *v.RegistryId,
+				Region: describeCtx.Region,
+				ARN:    *v.RegistryArn,
+				Name:   *v.RegistryId,
 				Description: model.ECRPublicRegistryDescription{
 					PublicRegistry: v,
 					Tags:           tagsOutput.Tags,
@@ -137,6 +141,7 @@ func ECRPublicRegistry(ctx context.Context, cfg aws.Config, stream *StreamSender
 }
 
 func ECRRepository(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := ecr.NewFromConfig(cfg)
 	paginator := ecr.NewDescribeRepositoriesPaginator(client, &ecr.DescribeRepositoriesInput{})
 
@@ -196,8 +201,9 @@ func ECRRepository(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 			}
 
 			resource := Resource{
-				ARN:  *v.RepositoryArn,
-				Name: *v.RepositoryName,
+				Region: describeCtx.Region,
+				ARN:    *v.RepositoryArn,
+				Name:   *v.RepositoryName,
 				Description: model.ECRRepositoryDescription{
 					Repository:      v,
 					LifecyclePolicy: lifeCyclePolicyOutput,
@@ -220,6 +226,7 @@ func ECRRepository(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 }
 
 func ECRRegistryPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := ecr.NewFromConfig(cfg)
 	output, err := client.GetRegistryPolicy(ctx, &ecr.GetRegistryPolicyInput{})
 	if err != nil {
@@ -233,6 +240,7 @@ func ECRRegistryPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 	var values []Resource
 	resource := Resource{
+		Region:      describeCtx.Region,
 		ID:          *output.RegistryId,
 		Name:        *output.RegistryId,
 		Description: output,
@@ -249,6 +257,7 @@ func ECRRegistryPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender
 }
 
 func ECRRegistry(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := ecr.NewFromConfig(cfg)
 	output, err := client.DescribeRegistry(ctx, &ecr.DescribeRegistryInput{})
 	if err != nil {
@@ -257,6 +266,7 @@ func ECRRegistry(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 
 	var values []Resource
 	resource := Resource{
+		Region:      describeCtx.Region,
 		ID:          *output.RegistryId,
 		Name:        *output.RegistryId,
 		Description: output,
@@ -273,6 +283,7 @@ func ECRRegistry(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 }
 
 func ECRImage(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := ecr.NewFromConfig(cfg)
 	repositoryPaginator := ecr.NewDescribeRepositoriesPaginator(client, &ecr.DescribeRepositoriesInput{})
 
@@ -299,7 +310,8 @@ func ECRImage(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 				}
 				for _, image := range page.ImageDetails {
 					resource := Resource{
-						Name: fmt.Sprintf("%s:%s", *repository.RepositoryName, *image.ImageDigest),
+						Region: describeCtx.Region,
+						Name:   fmt.Sprintf("%s:%s", *repository.RepositoryName, *image.ImageDigest),
 						Description: model.ECRImageDescription{
 							Image: image,
 						},

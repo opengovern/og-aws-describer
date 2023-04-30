@@ -10,10 +10,11 @@ import (
 )
 
 func AuditManagerAssessment(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := auditmanager.NewFromConfig(cfg)
 	paginator := auditmanager.NewListAssessmentsPaginator(client, &auditmanager.ListAssessmentsInput{})
 
-	//describeCtx := GetDescribeContext(ctx)
+	//
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -32,9 +33,10 @@ func AuditManagerAssessment(ctx context.Context, cfg aws.Config, stream *StreamS
 			}
 
 			resource := Resource{
-				ARN:  *assessment.Assessment.Arn,
-				Name: *assessment.Assessment.Metadata.Name,
-				ID:   *assessment.Assessment.Metadata.Id,
+				Region: describeCtx.Region,
+				ARN:    *assessment.Assessment.Arn,
+				Name:   *assessment.Assessment.Metadata.Name,
+				ID:     *assessment.Assessment.Metadata.Id,
 				Description: model.AuditManagerAssessmentDescription{
 					Assessment: *assessment.Assessment,
 				},
@@ -53,10 +55,11 @@ func AuditManagerAssessment(ctx context.Context, cfg aws.Config, stream *StreamS
 }
 
 func AuditManagerControl(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := auditmanager.NewFromConfig(cfg)
 	paginator := auditmanager.NewListControlsPaginator(client, &auditmanager.ListControlsInput{})
 
-	//describeCtx := GetDescribeContext(ctx)
+	//
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -74,9 +77,10 @@ func AuditManagerControl(ctx context.Context, cfg aws.Config, stream *StreamSend
 			}
 
 			resource := Resource{
-				ARN:  *control.Control.Arn,
-				Name: *control.Control.Name,
-				ID:   *control.Control.Id,
+				Region: describeCtx.Region,
+				ARN:    *control.Control.Arn,
+				Name:   *control.Control.Name,
+				ID:     *control.Control.Id,
 				Description: model.AuditManagerControlDescription{
 					Control: *control.Control,
 				},
@@ -95,6 +99,7 @@ func AuditManagerControl(ctx context.Context, cfg aws.Config, stream *StreamSend
 }
 
 func GetAuditManagerControl(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	controlID := fields["id"]
 	client := auditmanager.NewFromConfig(cfg)
 	control, err := client.GetControl(ctx, &auditmanager.GetControlInput{
@@ -106,9 +111,10 @@ func GetAuditManagerControl(ctx context.Context, cfg aws.Config, fields map[stri
 
 	var values []Resource
 	values = append(values, Resource{
-		ARN:  *control.Control.Arn,
-		Name: *control.Control.Name,
-		ID:   *control.Control.Id,
+		Region: describeCtx.Region,
+		ARN:    *control.Control.Arn,
+		Name:   *control.Control.Name,
+		ID:     *control.Control.Id,
 		Description: model.AuditManagerControlDescription{
 			Control: *control.Control,
 		},
@@ -118,10 +124,9 @@ func GetAuditManagerControl(ctx context.Context, cfg aws.Config, fields map[stri
 }
 
 func AuditManagerEvidence(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := auditmanager.NewFromConfig(cfg)
 	paginator := auditmanager.NewListAssessmentsPaginator(client, &auditmanager.ListAssessmentsInput{})
-
-	describeCtx := GetDescribeContext(ctx)
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -155,8 +160,9 @@ func AuditManagerEvidence(ctx context.Context, cfg aws.Config, stream *StreamSen
 						for _, evidence := range evidencePage.Evidence {
 							arn := fmt.Sprintf("arn:%s:auditmanager:%s:%s:evidence/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *evidence.Id)
 							resource := Resource{
-								ARN: arn,
-								ID:  *evidence.Id,
+								Region: describeCtx.Region,
+								ARN:    arn,
+								ID:     *evidence.Id,
 								Description: model.AuditManagerEvidenceDescription{
 									Evidence:     evidence,
 									ControlSetID: *evidenceFolder.ControlSetId,
@@ -181,10 +187,9 @@ func AuditManagerEvidence(ctx context.Context, cfg aws.Config, stream *StreamSen
 }
 
 func AuditManagerEvidenceFolder(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := auditmanager.NewFromConfig(cfg)
 	paginator := auditmanager.NewListAssessmentsPaginator(client, &auditmanager.ListAssessmentsInput{})
-
-	describeCtx := GetDescribeContext(ctx)
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -207,9 +212,10 @@ func AuditManagerEvidenceFolder(ctx context.Context, cfg aws.Config, stream *Str
 				for _, evidenceFolder := range evidenceFolderPage.EvidenceFolders {
 					arn := fmt.Sprintf("arn:%s:auditmanager:%s:%s:evidence-folder/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *evidenceFolder.Id)
 					resource := Resource{
-						ARN:  arn,
-						Name: *evidenceFolder.Name,
-						ID:   *evidenceFolder.Id,
+						Region: describeCtx.Region,
+						ARN:    arn,
+						Name:   *evidenceFolder.Name,
+						ID:     *evidenceFolder.Id,
 						Description: model.AuditManagerEvidenceFolderDescription{
 							EvidenceFolder: evidenceFolder,
 							AssessmentID:   *assessmentMetadataItem.Id,
@@ -231,10 +237,11 @@ func AuditManagerEvidenceFolder(ctx context.Context, cfg aws.Config, stream *Str
 }
 
 func AuditManagerFramework(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := auditmanager.NewFromConfig(cfg)
 	paginator := auditmanager.NewListAssessmentFrameworksPaginator(client, &auditmanager.ListAssessmentFrameworksInput{})
 
-	//describeCtx := GetDescribeContext(ctx)
+	//
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -252,9 +259,10 @@ func AuditManagerFramework(ctx context.Context, cfg aws.Config, stream *StreamSe
 			}
 
 			resource := Resource{
-				ARN:  *framework.Framework.Arn,
-				Name: *framework.Framework.Name,
-				ID:   *framework.Framework.Id,
+				Region: describeCtx.Region,
+				ARN:    *framework.Framework.Arn,
+				Name:   *framework.Framework.Name,
+				ID:     *framework.Framework.Id,
 				Description: model.AuditManagerFrameworkDescription{
 					Framework: *framework.Framework,
 				},

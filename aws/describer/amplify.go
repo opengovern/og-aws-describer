@@ -9,7 +9,8 @@ import (
 )
 
 func AmplifyApp(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	//describeCtx := GetDescribeContext(ctx)
+	describeCtx := GetDescribeContext(ctx)
+	//
 	client := amplify.NewFromConfig(cfg)
 
 	var values []Resource
@@ -24,9 +25,10 @@ func AmplifyApp(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 
 		for _, item := range output.Apps {
 			resource := Resource{
-				Name: *item.Name,
-				ARN:  *item.AppArn,
-				ID:   *item.AppId,
+				Region: describeCtx.Region,
+				Name:   *item.Name,
+				ARN:    *item.AppArn,
+				ID:     *item.AppId,
 				Description: model.AmplifyAppDescription{
 					App: item,
 				},

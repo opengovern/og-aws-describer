@@ -64,8 +64,9 @@ func GlacierVault(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 			}
 
 			resource := Resource{
-				ARN:  *vault.VaultARN,
-				Name: *vault.VaultName,
+				Region: describeCtx.Region,
+				ARN:    *vault.VaultARN,
+				Name:   *vault.VaultName,
 				Description: model.GlacierVaultDescription{
 					Vault:        vault,
 					AccessPolicy: *accessPolicy.Policy,
@@ -89,8 +90,8 @@ func GlacierVault(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 }
 
 func GetGlacierVault(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
-	vaultName := fields["name"]
 	describeCtx := GetDescribeContext(ctx)
+	vaultName := fields["name"]
 
 	client := glacier.NewFromConfig(cfg)
 	vault, err := client.DescribeVault(ctx, &glacier.DescribeVaultInput{
@@ -141,8 +142,9 @@ func GetGlacierVault(ctx context.Context, cfg aws.Config, fields map[string]stri
 	}
 
 	values = append(values, Resource{
-		ARN:  *vault.VaultARN,
-		Name: *vault.VaultName,
+		Region: describeCtx.Region,
+		ARN:    *vault.VaultARN,
+		Name:   *vault.VaultName,
 		Description: model.GlacierVaultDescription{
 			Vault: types.DescribeVaultOutput{
 				CreationDate:      vault.CreationDate,

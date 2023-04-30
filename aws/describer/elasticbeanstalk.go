@@ -9,6 +9,7 @@ import (
 )
 
 func ElasticBeanstalkEnvironment(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := elasticbeanstalk.NewFromConfig(cfg)
 	out, err := client.DescribeEnvironments(ctx, &elasticbeanstalk.DescribeEnvironmentsInput{})
 	if err != nil {
@@ -25,8 +26,9 @@ func ElasticBeanstalkEnvironment(ctx context.Context, cfg aws.Config, stream *St
 		}
 
 		resource := Resource{
-			ARN:  *item.EnvironmentArn,
-			Name: *item.EnvironmentName,
+			Region: describeCtx.Region,
+			ARN:    *item.EnvironmentArn,
+			Name:   *item.EnvironmentName,
 			Description: model.ElasticBeanstalkEnvironmentDescription{
 				EnvironmentDescription: item,
 				Tags:                   tags.ResourceTags,
@@ -45,6 +47,7 @@ func ElasticBeanstalkEnvironment(ctx context.Context, cfg aws.Config, stream *St
 }
 
 func ElasticBeanstalkApplication(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := elasticbeanstalk.NewFromConfig(cfg)
 	out, err := client.DescribeApplications(ctx, &elasticbeanstalk.DescribeApplicationsInput{})
 	if err != nil {
@@ -67,8 +70,9 @@ func ElasticBeanstalkApplication(ctx context.Context, cfg aws.Config, stream *St
 		}
 
 		resource := Resource{
-			ARN:  *item.ApplicationArn,
-			Name: *item.ApplicationName,
+			Region: describeCtx.Region,
+			ARN:    *item.ApplicationArn,
+			Name:   *item.ApplicationName,
 			Description: model.ElasticBeanstalkApplicationDescription{
 				Application: item,
 				Tags:        tags.ResourceTags,
@@ -87,6 +91,7 @@ func ElasticBeanstalkApplication(ctx context.Context, cfg aws.Config, stream *St
 }
 
 func ElasticBeanstalkPlatform(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := elasticbeanstalk.NewFromConfig(cfg)
 	paginator := elasticbeanstalk.NewListPlatformVersionsPaginator(client, &elasticbeanstalk.ListPlatformVersionsInput{})
 
@@ -106,8 +111,9 @@ func ElasticBeanstalkPlatform(ctx context.Context, cfg aws.Config, stream *Strea
 			}
 
 			resource := Resource{
-				ARN:  *platform.PlatformDescription.PlatformArn,
-				Name: *platform.PlatformDescription.PlatformName,
+				Region: describeCtx.Region,
+				ARN:    *platform.PlatformDescription.PlatformArn,
+				Name:   *platform.PlatformDescription.PlatformName,
 				Description: model.ElasticBeanstalkPlatformDescription{
 					Platform: *platform.PlatformDescription,
 				},

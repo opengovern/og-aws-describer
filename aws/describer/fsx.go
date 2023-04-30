@@ -9,6 +9,7 @@ import (
 )
 
 func FSXFileSystem(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := fsx.NewFromConfig(cfg)
 	paginator := fsx.NewDescribeFileSystemsPaginator(client, &fsx.DescribeFileSystemsInput{})
 
@@ -21,8 +22,9 @@ func FSXFileSystem(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 
 		for _, item := range page.FileSystems {
 			resource := Resource{
-				ARN:  *item.ResourceARN,
-				Name: *item.FileSystemId,
+				Region: describeCtx.Region,
+				ARN:    *item.ResourceARN,
+				Name:   *item.FileSystemId,
 				Description: model.FSXFileSystemDescription{
 					FileSystem: item,
 				},
@@ -41,6 +43,7 @@ func FSXFileSystem(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 }
 
 func FSXStorageVirtualMachine(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := fsx.NewFromConfig(cfg)
 	paginator := fsx.NewDescribeStorageVirtualMachinesPaginator(client, &fsx.DescribeStorageVirtualMachinesInput{})
 
@@ -53,8 +56,9 @@ func FSXStorageVirtualMachine(ctx context.Context, cfg aws.Config, stream *Strea
 
 		for _, item := range page.StorageVirtualMachines {
 			resource := Resource{
-				ARN:  *item.ResourceARN,
-				Name: *item.Name,
+				Region: describeCtx.Region,
+				ARN:    *item.ResourceARN,
+				Name:   *item.Name,
 				Description: model.FSXStorageVirtualMachineDescription{
 					StorageVirtualMachine: item,
 				},
@@ -73,6 +77,7 @@ func FSXStorageVirtualMachine(ctx context.Context, cfg aws.Config, stream *Strea
 }
 
 func FSXTask(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := fsx.NewFromConfig(cfg)
 	paginator := fsx.NewDescribeDataRepositoryTasksPaginator(client, &fsx.DescribeDataRepositoryTasksInput{})
 
@@ -85,8 +90,9 @@ func FSXTask(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 
 		for _, item := range page.DataRepositoryTasks {
 			resource := Resource{
-				ARN:  *item.ResourceARN,
-				Name: *item.TaskId,
+				Region: describeCtx.Region,
+				ARN:    *item.ResourceARN,
+				Name:   *item.TaskId,
 				Description: model.FSXTaskDescription{
 					Task: item,
 				},
@@ -105,6 +111,7 @@ func FSXTask(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 }
 
 func FSXVolume(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := fsx.NewFromConfig(cfg)
 	paginator := fsx.NewDescribeVolumesPaginator(client, &fsx.DescribeVolumesInput{})
 
@@ -117,8 +124,9 @@ func FSXVolume(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Res
 
 		for _, item := range page.Volumes {
 			resource := Resource{
-				ARN:  *item.ResourceARN,
-				Name: *item.Name,
+				Region: describeCtx.Region,
+				ARN:    *item.ResourceARN,
+				Name:   *item.Name,
 				Description: model.FSXVolumeDescription{
 					Volume: item,
 				},
@@ -137,6 +145,7 @@ func FSXVolume(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Res
 }
 
 func FSXSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := fsx.NewFromConfig(cfg)
 	paginator := fsx.NewDescribeSnapshotsPaginator(client, &fsx.DescribeSnapshotsInput{})
 
@@ -149,8 +158,9 @@ func FSXSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 
 		for _, item := range page.Snapshots {
 			resource := Resource{
-				ARN:  *item.ResourceARN,
-				Name: *item.Name,
+				Region: describeCtx.Region,
+				ARN:    *item.ResourceARN,
+				Name:   *item.Name,
 				Description: model.FSXSnapshotDescription{
 					Snapshot: item,
 				},

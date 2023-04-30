@@ -9,6 +9,7 @@ import (
 )
 
 func KeyspacesKeyspace(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := keyspaces.NewFromConfig(cfg)
 	paginator := keyspaces.NewListKeyspacesPaginator(client, &keyspaces.ListKeyspacesInput{})
 
@@ -28,8 +29,9 @@ func KeyspacesKeyspace(ctx context.Context, cfg aws.Config, stream *StreamSender
 			}
 
 			resource := Resource{
-				ARN:  *v.ResourceArn,
-				Name: *v.KeyspaceName,
+				Region: describeCtx.Region,
+				ARN:    *v.ResourceArn,
+				Name:   *v.KeyspaceName,
 				Description: model.KeyspacesKeyspaceDescription{
 					Keyspace: v,
 					Tags:     tags.Tags,
@@ -49,6 +51,7 @@ func KeyspacesKeyspace(ctx context.Context, cfg aws.Config, stream *StreamSender
 }
 
 func KeyspacesTable(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 
 	client := keyspaces.NewFromConfig(cfg)
 	keyspacePaginator := keyspaces.NewListKeyspacesPaginator(client, &keyspaces.ListKeyspacesInput{})
@@ -80,8 +83,9 @@ func KeyspacesTable(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 					}
 
 					resource := Resource{
-						ID:   *v.ResourceArn,
-						Name: *v.KeyspaceName,
+						Region: describeCtx.Region,
+						ID:     *v.ResourceArn,
+						Name:   *v.KeyspaceName,
 						Description: model.KeyspacesTableDescription{
 							Table: v,
 							Tags:  tags.Tags,

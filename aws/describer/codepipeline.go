@@ -9,6 +9,7 @@ import (
 )
 
 func CodePipelinePipeline(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := codepipeline.NewFromConfig(cfg)
 	paginator := codepipeline.NewListPipelinesPaginator(client, &codepipeline.ListPipelinesInput{})
 
@@ -44,8 +45,9 @@ func CodePipelinePipeline(ctx context.Context, cfg aws.Config, stream *StreamSen
 			}
 
 			resource := Resource{
-				ARN:  *pipeline.Metadata.PipelineArn,
-				Name: *pipeline.Pipeline.Name,
+				Region: describeCtx.Region,
+				ARN:    *pipeline.Metadata.PipelineArn,
+				Name:   *pipeline.Pipeline.Name,
 				Description: model.CodePipelinePipelineDescription{
 					Pipeline: *pipeline.Pipeline,
 					Metadata: *pipeline.Metadata,

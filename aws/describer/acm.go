@@ -10,19 +10,23 @@ import (
 )
 
 func CertificateManagerAccount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := acm.NewFromConfig(cfg)
 	output, err := client.GetAccountConfiguration(ctx, &acm.GetAccountConfigurationInput{})
 	if err != nil {
 		return nil, err
 	}
 
-	return []Resource{{
-		// No ID or ARN. Per Account Configuration
-		Description: output,
-	}}, nil
+	return []Resource{
+		{
+			Region: describeCtx.Region,
+			// No ID or ARN. Per Account Configuration
+			Description: output,
+		}}, nil
 }
 
 func CertificateManagerCertificate(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := acm.NewFromConfig(cfg)
 	paginator := acm.NewListCertificatesPaginator(client, &acm.ListCertificatesInput{})
 
@@ -56,8 +60,9 @@ func CertificateManagerCertificate(ctx context.Context, cfg aws.Config, stream *
 			}
 
 			resource := Resource{
-				ARN:  *v.CertificateArn,
-				Name: nameFromArn(*v.CertificateArn),
+				Region: describeCtx.Region,
+				ARN:    *v.CertificateArn,
+				Name:   nameFromArn(*v.CertificateArn),
 				Description: model.CertificateManagerCertificateDescription{
 					Certificate: *describeOutput.Certificate,
 					Attributes: struct {
@@ -86,6 +91,7 @@ func CertificateManagerCertificate(ctx context.Context, cfg aws.Config, stream *
 }
 
 func ACMPCACertificateAuthority(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := acmpca.NewFromConfig(cfg)
 	paginator := acmpca.NewListCertificateAuthoritiesPaginator(client, &acmpca.ListCertificateAuthoritiesInput{})
 
@@ -104,8 +110,9 @@ func ACMPCACertificateAuthority(ctx context.Context, cfg aws.Config, stream *Str
 				return nil, err
 			}
 			resource := Resource{
-				ARN:  *v.Arn,
-				Name: nameFromArn(*v.Arn),
+				Region: describeCtx.Region,
+				ARN:    *v.Arn,
+				Name:   nameFromArn(*v.Arn),
 				Description: model.ACMPCACertificateAuthorityDescription{
 					CertificateAuthority: v,
 					Tags:                 tags.Tags,

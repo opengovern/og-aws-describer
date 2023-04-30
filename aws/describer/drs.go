@@ -9,6 +9,7 @@ import (
 )
 
 func DRSSourceServer(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := drs.NewFromConfig(cfg)
 	paginator := drs.NewDescribeSourceServersPaginator(client, &drs.DescribeSourceServersInput{
 		MaxResults: 100,
@@ -28,8 +29,9 @@ func DRSSourceServer(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 
 		for _, v := range page.Items {
 			resource := Resource{
-				ARN:  *v.Arn,
-				Name: *v.SourceServerID,
+				Region: describeCtx.Region,
+				ARN:    *v.Arn,
+				Name:   *v.SourceServerID,
 				Description: model.DRSSourceServerDescription{
 					SourceServer: v,
 				},
@@ -48,6 +50,7 @@ func DRSSourceServer(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 }
 
 func DRSRecoveryInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := drs.NewFromConfig(cfg)
 	paginator := drs.NewDescribeRecoveryInstancesPaginator(client, &drs.DescribeRecoveryInstancesInput{
 		MaxResults: 100,
@@ -67,8 +70,9 @@ func DRSRecoveryInstance(ctx context.Context, cfg aws.Config, stream *StreamSend
 
 		for _, v := range page.Items {
 			resource := Resource{
-				ARN:  *v.Arn,
-				Name: *v.RecoveryInstanceID,
+				Region: describeCtx.Region,
+				ARN:    *v.Arn,
+				Name:   *v.RecoveryInstanceID,
 				Description: model.DRSRecoveryInstanceDescription{
 					RecoveryInstance: v,
 				},
@@ -87,6 +91,7 @@ func DRSRecoveryInstance(ctx context.Context, cfg aws.Config, stream *StreamSend
 }
 
 func DRSJob(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := drs.NewFromConfig(cfg)
 	paginator := drs.NewDescribeJobsPaginator(client, &drs.DescribeJobsInput{
 		MaxResults: 100,
@@ -106,8 +111,9 @@ func DRSJob(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resour
 
 		for _, v := range page.Items {
 			resource := Resource{
-				ARN: *v.Arn,
-				ID:  *v.JobID,
+				Region: describeCtx.Region,
+				ARN:    *v.Arn,
+				ID:     *v.JobID,
 				Description: model.DRSJobDescription{
 					Job: v,
 				},
@@ -126,6 +132,7 @@ func DRSJob(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resour
 }
 
 func DRSRecoverySnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := drs.NewFromConfig(cfg)
 	paginator := drs.NewDescribeSourceServersPaginator(client, &drs.DescribeSourceServersInput{
 		MaxResults: 100,
@@ -159,7 +166,8 @@ func DRSRecoverySnapshot(ctx context.Context, cfg aws.Config, stream *StreamSend
 
 				for _, recoverySnapshot := range recoverySnapshotPage.Items {
 					resource := Resource{
-						ID: *recoverySnapshot.SnapshotID,
+						Region: describeCtx.Region,
+						ID:     *recoverySnapshot.SnapshotID,
 						Description: model.DRSRecoverySnapshotDescription{
 							RecoverySnapshot: recoverySnapshot,
 						},

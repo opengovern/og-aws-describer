@@ -10,6 +10,7 @@ import (
 )
 
 func GuardDutyFinding(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	var values []Resource
 
 	client := guardduty.NewFromConfig(cfg)
@@ -45,8 +46,9 @@ func GuardDutyFinding(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 				for _, item := range findings.Findings {
 					resource := Resource{
-						ARN:  *item.Arn,
-						Name: *item.Id,
+						Region: describeCtx.Region,
+						ARN:    *item.Arn,
+						Name:   *item.Id,
 						Description: model.GuardDutyFindingDescription{
 							Finding: item,
 						},
@@ -66,11 +68,10 @@ func GuardDutyFinding(ctx context.Context, cfg aws.Config, stream *StreamSender)
 }
 
 func GuardDutyDetector(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	var values []Resource
 
 	client := guardduty.NewFromConfig(cfg)
-
-	describeCtx := GetDescribeContext(ctx)
 
 	paginator := guardduty.NewListDetectorsPaginator(client, &guardduty.ListDetectorsInput{})
 	for paginator.HasMorePages() {
@@ -90,8 +91,9 @@ func GuardDutyDetector(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 			arn := "arn:" + describeCtx.Partition + ":guardduty:" + describeCtx.Region + ":" + describeCtx.AccountID + ":detector/" + id
 			resource := Resource{
-				ARN:  arn,
-				Name: id,
+				Region: describeCtx.Region,
+				ARN:    arn,
+				Name:   id,
 				Description: model.GuardDutyDetectorDescription{
 					DetectorId: id,
 					Detector:   out,
@@ -111,6 +113,7 @@ func GuardDutyDetector(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 func GuardDutyFilter(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := guardduty.NewFromConfig(cfg)
 	paginator := guardduty.NewListDetectorsPaginator(client, &guardduty.ListDetectorsInput{})
 
@@ -143,8 +146,9 @@ func GuardDutyFilter(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 					}
 
 					resource := Resource{
-						ARN:  arn,
-						Name: *filterOutput.Name,
+						Region: describeCtx.Region,
+						ARN:    arn,
+						Name:   *filterOutput.Name,
 						Description: model.GuardDutyFilterDescription{
 							Filter:     *filterOutput,
 							DetectorId: detectorId,
@@ -166,6 +170,7 @@ func GuardDutyFilter(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 
 func GuardDutyIPSet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := guardduty.NewFromConfig(cfg)
 	paginator := guardduty.NewListDetectorsPaginator(client, &guardduty.ListDetectorsInput{})
 
@@ -198,8 +203,9 @@ func GuardDutyIPSet(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 					}
 
 					resource := Resource{
-						ARN:  arn,
-						Name: *ipSetOutput.Name,
+						Region: describeCtx.Region,
+						ARN:    arn,
+						Name:   *ipSetOutput.Name,
 						Description: model.GuardDutyIPSetDescription{
 							IPSet:      *ipSetOutput,
 							DetectorId: detectorId,
@@ -221,7 +227,8 @@ func GuardDutyIPSet(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 }
 
 func GuardDutyMember(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	//describeCtx := GetDescribeContext(ctx)
+	describeCtx := GetDescribeContext(ctx)
+	//
 	client := guardduty.NewFromConfig(cfg)
 	paginator := guardduty.NewListDetectorsPaginator(client, &guardduty.ListDetectorsInput{})
 
@@ -244,7 +251,8 @@ func GuardDutyMember(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 				}
 				for _, member := range membersPage.Members {
 					resource := Resource{
-						Name: *member.AccountId,
+						Region: describeCtx.Region,
+						Name:   *member.AccountId,
 						Description: model.GuardDutyMemberDescription{
 							Member: member,
 						},
@@ -265,6 +273,7 @@ func GuardDutyMember(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 
 func GuardDutyPublishingDestination(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := guardduty.NewFromConfig(cfg)
 	paginator := guardduty.NewListDetectorsPaginator(client, &guardduty.ListDetectorsInput{})
 
@@ -297,8 +306,9 @@ func GuardDutyPublishingDestination(ctx context.Context, cfg aws.Config, stream 
 					}
 
 					resource := Resource{
-						ARN: arn,
-						ID:  *destinationOutput.DestinationId,
+						Region: describeCtx.Region,
+						ARN:    arn,
+						ID:     *destinationOutput.DestinationId,
 						Description: model.GuardDutyPublishingDestinationDescription{
 							PublishingDestination: *destinationOutput,
 							DetectorId:            detectorId,
@@ -320,6 +330,7 @@ func GuardDutyPublishingDestination(ctx context.Context, cfg aws.Config, stream 
 
 func GuardDutyThreatIntelSet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := guardduty.NewFromConfig(cfg)
 	paginator := guardduty.NewListDetectorsPaginator(client, &guardduty.ListDetectorsInput{})
 
@@ -352,11 +363,12 @@ func GuardDutyThreatIntelSet(ctx context.Context, cfg aws.Config, stream *Stream
 					}
 
 					resource := Resource{
-						ARN:  arn,
-						Name: *threatIntelSetOutput.Name,
+						Region: describeCtx.Region,
+						ARN:    arn,
+						Name:   *threatIntelSetOutput.Name,
 						Description: model.GuardDutyThreatIntelSetDescription{
-							ThreatIntelSet:   *threatIntelSetOutput,
-							DetectorId:       detectorId,
+							ThreatIntelSet: *threatIntelSetOutput,
+							DetectorId:     detectorId,
 							ThreatIntelSetID: threatIntelSetId,
 						},
 					}

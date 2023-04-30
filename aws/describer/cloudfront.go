@@ -10,6 +10,7 @@ import (
 )
 
 func CloudFrontDistribution(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := cloudfront.NewFromConfig(cfg)
 	paginator := cloudfront.NewListDistributionsPaginator(client, &cloudfront.ListDistributionsInput{})
 
@@ -36,8 +37,9 @@ func CloudFrontDistribution(ctx context.Context, cfg aws.Config, stream *StreamS
 			}
 
 			resource := Resource{
-				ARN:  *item.ARN,
-				Name: *item.Id,
+				Region: describeCtx.Region,
+				ARN:    *item.ARN,
+				Name:   *item.Id,
 				Description: model.CloudFrontDistributionDescription{
 					Distribution: distribution.Distribution,
 					ETag:         distribution.ETag,
@@ -58,6 +60,7 @@ func CloudFrontDistribution(ctx context.Context, cfg aws.Config, stream *StreamS
 }
 
 func GetCloudFrontDistribution(ctx context.Context, cfg aws.Config, id string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := cloudfront.NewFromConfig(cfg)
 
 	out, err := client.GetDistribution(ctx, &cloudfront.GetDistributionInput{Id: &id})
@@ -82,8 +85,9 @@ func GetCloudFrontDistribution(ctx context.Context, cfg aws.Config, id string) (
 	}
 
 	values = append(values, Resource{
-		ARN:  *item.ARN,
-		Name: *item.Id,
+		Region: describeCtx.Region,
+		ARN:    *item.ARN,
+		Name:   *item.Id,
 		Description: model.CloudFrontDistributionDescription{
 			Distribution: distribution.Distribution,
 			ETag:         distribution.ETag,
@@ -96,6 +100,7 @@ func GetCloudFrontDistribution(ctx context.Context, cfg aws.Config, id string) (
 
 func CloudFrontOriginAccessControl(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := cloudfront.NewFromConfig(cfg)
 
 	var values []Resource
@@ -118,8 +123,9 @@ func CloudFrontOriginAccessControl(ctx context.Context, cfg aws.Config, stream *
 			}
 
 			resource := Resource{
-				ARN:  arn,
-				Name: *v.Id,
+				Region: describeCtx.Region,
+				ARN:    arn,
+				Name:   *v.Id,
 				Description: model.CloudFrontOriginAccessControlDescription{
 					OriginAccessControl: v,
 					Tags:                tags.Tags.Items,
@@ -145,6 +151,7 @@ func CloudFrontOriginAccessControl(ctx context.Context, cfg aws.Config, stream *
 
 func CloudFrontCachePolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := cloudfront.NewFromConfig(cfg)
 
 	var values []Resource
@@ -168,8 +175,9 @@ func CloudFrontCachePolicy(ctx context.Context, cfg aws.Config, stream *StreamSe
 			}
 
 			resource := Resource{
-				ARN: arn,
-				ID:  *v.CachePolicy.Id,
+				Region: describeCtx.Region,
+				ARN:    arn,
+				ID:     *v.CachePolicy.Id,
 				Description: model.CloudFrontCachePolicyDescription{
 					CachePolicy: *cachePolicy,
 				},
@@ -193,7 +201,8 @@ func CloudFrontCachePolicy(ctx context.Context, cfg aws.Config, stream *StreamSe
 }
 
 func CloudFrontFunction(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	//describeCtx := GetDescribeContext(ctx)
+	describeCtx := GetDescribeContext(ctx)
+	//
 	client := cloudfront.NewFromConfig(cfg)
 
 	var values []Resource
@@ -216,8 +225,9 @@ func CloudFrontFunction(ctx context.Context, cfg aws.Config, stream *StreamSende
 			}
 
 			resource := Resource{
-				ARN:  *function.FunctionSummary.FunctionMetadata.FunctionARN,
-				Name: *function.FunctionSummary.Name,
+				Region: describeCtx.Region,
+				ARN:    *function.FunctionSummary.FunctionMetadata.FunctionARN,
+				Name:   *function.FunctionSummary.Name,
 				Description: model.CloudFrontFunctionDescription{
 					Function: *function,
 				},
@@ -242,6 +252,7 @@ func CloudFrontFunction(ctx context.Context, cfg aws.Config, stream *StreamSende
 
 func CloudFrontOriginAccessIdentity(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := cloudfront.NewFromConfig(cfg)
 	var values []Resource
 	paginator := cloudfront.NewListCloudFrontOriginAccessIdentitiesPaginator(client, &cloudfront.ListCloudFrontOriginAccessIdentitiesInput{})
@@ -262,8 +273,9 @@ func CloudFrontOriginAccessIdentity(ctx context.Context, cfg aws.Config, stream 
 			}
 
 			resource := Resource{
-				ARN:  arn,
-				Name: *item.Id,
+				Region: describeCtx.Region,
+				ARN:    arn,
+				Name:   *item.Id,
 				Description: model.CloudFrontOriginAccessIdentityDescription{
 					OriginAccessIdentity: *originAccessIdentity,
 				},
@@ -283,6 +295,7 @@ func CloudFrontOriginAccessIdentity(ctx context.Context, cfg aws.Config, stream 
 
 func GetCloudFrontOriginAccessIdentity(ctx context.Context, cfg aws.Config, id string) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := cloudfront.NewFromConfig(cfg)
 	var values []Resource
 
@@ -304,8 +317,9 @@ func GetCloudFrontOriginAccessIdentity(ctx context.Context, cfg aws.Config, id s
 	}
 
 	values = append(values, Resource{
-		ARN:  arn,
-		Name: *item.Id,
+		Region: describeCtx.Region,
+		ARN:    arn,
+		Name:   *item.Id,
 		Description: model.CloudFrontOriginAccessIdentityDescription{
 			OriginAccessIdentity: *originAccessIdentity,
 		},
@@ -316,6 +330,7 @@ func GetCloudFrontOriginAccessIdentity(ctx context.Context, cfg aws.Config, id s
 
 func CloudFrontOriginRequestPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := cloudfront.NewFromConfig(cfg)
 	var values []Resource
 	err := PaginateRetrieveAll(func(prevToken *string) (nextToken *string, err error) {
@@ -338,8 +353,9 @@ func CloudFrontOriginRequestPolicy(ctx context.Context, cfg aws.Config, stream *
 			}
 
 			resource := Resource{
-				ARN: arn,
-				ID:  *policy.OriginRequestPolicy.Id,
+				Region: describeCtx.Region,
+				ARN:    arn,
+				ID:     *policy.OriginRequestPolicy.Id,
 				Description: model.CloudFrontOriginRequestPolicyDescription{
 					OriginRequestPolicy: *policy,
 				},
@@ -364,6 +380,7 @@ func CloudFrontOriginRequestPolicy(ctx context.Context, cfg aws.Config, stream *
 
 func CloudFrontResponseHeadersPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := cloudfront.NewFromConfig(cfg)
 	var values []Resource
 	err := PaginateRetrieveAll(func(prevToken *string) (nextToken *string, err error) {
@@ -386,8 +403,9 @@ func CloudFrontResponseHeadersPolicy(ctx context.Context, cfg aws.Config, stream
 			}
 
 			resource := Resource{
-				ARN: arn,
-				ID:  *policy.ResponseHeadersPolicy.Id,
+				Region: describeCtx.Region,
+				ARN:    arn,
+				ID:     *policy.ResponseHeadersPolicy.Id,
 				Description: model.CloudFrontResponseHeadersPolicyDescription{
 					ResponseHeadersPolicy: *policy,
 				},

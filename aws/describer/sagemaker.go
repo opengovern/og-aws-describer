@@ -9,6 +9,7 @@ import (
 )
 
 func SageMakerEndpointConfiguration(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := sagemaker.NewFromConfig(cfg)
 	paginator := sagemaker.NewListEndpointConfigsPaginator(client, &sagemaker.ListEndpointConfigsInput{})
 
@@ -35,8 +36,9 @@ func SageMakerEndpointConfiguration(ctx context.Context, cfg aws.Config, stream 
 			}
 
 			resource := Resource{
-				ARN:  *out.EndpointConfigArn,
-				Name: *out.EndpointConfigName,
+				Region: describeCtx.Region,
+				ARN:    *out.EndpointConfigArn,
+				Name:   *out.EndpointConfigName,
 				Description: model.SageMakerEndpointConfigurationDescription{
 					EndpointConfig: out,
 					Tags:           tags.Tags,
@@ -55,6 +57,7 @@ func SageMakerEndpointConfiguration(ctx context.Context, cfg aws.Config, stream 
 }
 
 func SageMakerNotebookInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := sagemaker.NewFromConfig(cfg)
 	paginator := sagemaker.NewListNotebookInstancesPaginator(client, &sagemaker.ListNotebookInstancesInput{})
 
@@ -81,8 +84,9 @@ func SageMakerNotebookInstance(ctx context.Context, cfg aws.Config, stream *Stre
 			}
 
 			resource := Resource{
-				ARN:  *out.NotebookInstanceArn,
-				Name: *out.NotebookInstanceName,
+				Region: describeCtx.Region,
+				ARN:    *out.NotebookInstanceArn,
+				Name:   *out.NotebookInstanceName,
 				Description: model.SageMakerNotebookInstanceDescription{
 					NotebookInstance: out,
 					Tags:             tags.Tags,

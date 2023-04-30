@@ -10,6 +10,7 @@ import (
 )
 
 func KinesisStream(ctx context.Context, cfg aws.Config, streamS *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := kinesis.NewFromConfig(cfg)
 
 	var values []Resource
@@ -57,8 +58,9 @@ func KinesisStream(ctx context.Context, cfg aws.Config, streamS *StreamSender) (
 			}
 
 			resource := Resource{
-				ARN:  *stream.StreamDescription.StreamARN,
-				Name: *stream.StreamDescription.StreamName,
+				Region: describeCtx.Region,
+				ARN:    *stream.StreamDescription.StreamARN,
+				Name:   *stream.StreamDescription.StreamName,
 				Description: model.KinesisStreamDescription{
 					Stream:             *stream.StreamDescription,
 					DescriptionSummary: *streamSummery.StreamDescriptionSummary,
@@ -85,6 +87,7 @@ func KinesisStream(ctx context.Context, cfg aws.Config, streamS *StreamSender) (
 }
 
 func KinesisAnalyticsV2Application(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := kinesisanalyticsv2.NewFromConfig(cfg)
 	var values []Resource
 
@@ -112,8 +115,9 @@ func KinesisAnalyticsV2Application(ctx context.Context, cfg aws.Config, stream *
 			})
 
 			resource := Resource{
-				ARN:  *description.ApplicationDetail.ApplicationARN,
-				Name: *description.ApplicationDetail.ApplicationName,
+				Region: describeCtx.Region,
+				ARN:    *description.ApplicationDetail.ApplicationARN,
+				Name:   *description.ApplicationDetail.ApplicationName,
 				Description: model.KinesisAnalyticsV2ApplicationDescription{
 					Application: *description.ApplicationDetail,
 					Tags:        tags.Tags,

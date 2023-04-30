@@ -9,6 +9,7 @@ import (
 )
 
 func CodeBuildProject(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := codebuild.NewFromConfig(cfg)
 	paginator := codebuild.NewListProjectsPaginator(client, &codebuild.ListProjectsInput{})
 
@@ -32,8 +33,9 @@ func CodeBuildProject(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 		for _, project := range projects.Projects {
 			resource := Resource{
-				ARN:  *project.Arn,
-				Name: *project.Name,
+				Region: describeCtx.Region,
+				ARN:    *project.Arn,
+				Name:   *project.Name,
 				Description: model.CodeBuildProjectDescription{
 					Project: project,
 				},
@@ -52,6 +54,7 @@ func CodeBuildProject(ctx context.Context, cfg aws.Config, stream *StreamSender)
 }
 
 func CodeBuildSourceCredential(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := codebuild.NewFromConfig(cfg)
 	out, err := client.ListSourceCredentials(ctx, &codebuild.ListSourceCredentialsInput{})
 	if err != nil {
@@ -61,8 +64,9 @@ func CodeBuildSourceCredential(ctx context.Context, cfg aws.Config, stream *Stre
 	var values []Resource
 	for _, item := range out.SourceCredentialsInfos {
 		resource := Resource{
-			ARN:  *item.Arn,
-			Name: nameFromArn(*item.Arn),
+			Region: describeCtx.Region,
+			ARN:    *item.Arn,
+			Name:   nameFromArn(*item.Arn),
 			Description: model.CodeBuildSourceCredentialDescription{
 				SourceCredentialsInfo: item,
 			},

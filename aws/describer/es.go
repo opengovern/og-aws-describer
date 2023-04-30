@@ -9,6 +9,7 @@ import (
 )
 
 func ESDomain(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	var values []Resource
 
 	client := es.NewFromConfig(cfg)
@@ -42,8 +43,9 @@ func ESDomain(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 		}
 
 		resource := Resource{
-			ARN:  *v.ARN,
-			Name: *v.DomainName,
+			Region: describeCtx.Region,
+			ARN:    *v.ARN,
+			Name:   *v.DomainName,
 			Description: model.ESDomainDescription{
 				Domain: v,
 				Tags:   out.TagList,

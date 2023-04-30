@@ -14,6 +14,7 @@ const (
 )
 
 func EFSAccessPoint(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := efs.NewFromConfig(cfg)
 	paginator := efs.NewDescribeAccessPointsPaginator(client, &efs.DescribeAccessPointsInput{})
 
@@ -31,8 +32,9 @@ func EFSAccessPoint(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			}
 
 			resource := Resource{
-				ARN:  *v.AccessPointArn,
-				Name: name,
+				Region: describeCtx.Region,
+				ARN:    *v.AccessPointArn,
+				Name:   name,
 				Description: model.EFSAccessPointDescription{
 					AccessPoint: v,
 				},
@@ -51,6 +53,7 @@ func EFSAccessPoint(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 }
 
 func EFSFileSystem(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := efs.NewFromConfig(cfg)
 	paginator := efs.NewDescribeFileSystemsPaginator(client, &efs.DescribeFileSystemsInput{})
 
@@ -82,8 +85,9 @@ func EFSFileSystem(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 			}
 
 			resource := Resource{
-				ARN:  *v.FileSystemArn,
-				Name: name,
+				Region: describeCtx.Region,
+				ARN:    *v.FileSystemArn,
+				Name:   name,
 				Description: model.EFSFileSystemDescription{
 					FileSystem: v,
 					Policy:     output.Policy,
@@ -103,8 +107,8 @@ func EFSFileSystem(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 }
 
 func EFSMountTarget(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	client := efs.NewFromConfig(cfg)
 	describeCtx := GetDescribeContext(ctx)
+	client := efs.NewFromConfig(cfg)
 
 	var values []Resource
 
@@ -134,8 +138,9 @@ func EFSMountTarget(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 				}
 
 				resource := Resource{
-					ARN: arn,
-					ID:  *v.MountTargetId,
+					Region: describeCtx.Region,
+					ARN:    arn,
+					ID:     *v.MountTargetId,
 					Description: model.EFSMountTargetDescription{
 						MountTarget:    v,
 						SecurityGroups: securityGroups.SecurityGroups,

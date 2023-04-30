@@ -9,6 +9,7 @@ import (
 )
 
 func DMSReplicationInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := dms.NewFromConfig(cfg)
 
 	paginator := dms.NewDescribeReplicationInstancesPaginator(client,
@@ -30,8 +31,9 @@ func DMSReplicationInstance(ctx context.Context, cfg aws.Config, stream *StreamS
 			}
 
 			resource := Resource{
-				ARN:  *item.ReplicationInstanceArn,
-				Name: *item.ReplicationInstanceIdentifier,
+				Region: describeCtx.Region,
+				ARN:    *item.ReplicationInstanceArn,
+				Name:   *item.ReplicationInstanceIdentifier,
 				Description: model.DMSReplicationInstanceDescription{
 					ReplicationInstance: item,
 					Tags:                tags.TagList,

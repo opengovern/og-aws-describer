@@ -34,6 +34,7 @@ type EKSIdentityProviderConfigDescription struct {
 }
 
 func EKSCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	clusters, err := listEksClusters(ctx, cfg)
 	if err != nil {
 		return nil, err
@@ -51,8 +52,9 @@ func EKSCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 		}
 
 		resource := Resource{
-			ARN:  *output.Cluster.Arn,
-			Name: *output.Cluster.Name,
+			Region: describeCtx.Region,
+			ARN:    *output.Cluster.Arn,
+			Name:   *output.Cluster.Name,
 			Description: model.EKSClusterDescription{
 				Cluster: *output.Cluster,
 			},
@@ -70,6 +72,7 @@ func EKSCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 }
 
 func EKSAddon(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	clusters, err := listEksClusters(ctx, cfg)
 	if err != nil {
 		return nil, err
@@ -101,8 +104,9 @@ func EKSAddon(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 			}
 
 			resource := Resource{
-				ARN:  *output.Addon.AddonArn,
-				Name: *output.Addon.AddonName,
+				Region: describeCtx.Region,
+				ARN:    *output.Addon.AddonArn,
+				Name:   *output.Addon.AddonName,
 				Description: model.EKSAddonDescription{
 					Addon: *output.Addon,
 				},
@@ -121,6 +125,7 @@ func EKSAddon(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 }
 
 func EKSFargateProfile(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	clusters, err := listEksClusters(ctx, cfg)
 	if err != nil {
 		return nil, err
@@ -152,8 +157,9 @@ func EKSFargateProfile(ctx context.Context, cfg aws.Config, stream *StreamSender
 			}
 
 			resource := Resource{
-				ARN:  *output.FargateProfile.FargateProfileArn,
-				Name: *output.FargateProfile.FargateProfileName,
+				Region: describeCtx.Region,
+				ARN:    *output.FargateProfile.FargateProfileArn,
+				Name:   *output.FargateProfile.FargateProfileName,
 				Description: model.EKSFargateProfileDescription{
 					FargateProfile: *output.FargateProfile,
 				},
@@ -172,6 +178,7 @@ func EKSFargateProfile(ctx context.Context, cfg aws.Config, stream *StreamSender
 }
 
 func EKSNodegroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	clusters, err := listEksClusters(ctx, cfg)
 	if err != nil {
 		return nil, err
@@ -204,8 +211,9 @@ func EKSNodegroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 			}
 
 			resource := Resource{
-				ARN:  *output.Nodegroup.NodegroupArn,
-				Name: *output.Nodegroup.NodegroupName,
+				Region: describeCtx.Region,
+				ARN:    *output.Nodegroup.NodegroupArn,
+				Name:   *output.Nodegroup.NodegroupName,
 				Description: model.EKSNodegroupDescription{
 					Nodegroup: *output.Nodegroup,
 				},
@@ -224,6 +232,7 @@ func EKSNodegroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 }
 
 func EKSIdentityProviderConfig(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	clusters, err := listEksClusters(ctx, cfg)
 	if err != nil {
 		return nil, err
@@ -254,8 +263,9 @@ func EKSIdentityProviderConfig(ctx context.Context, cfg aws.Config, stream *Stre
 				}
 
 				resource := Resource{
-					ARN:  *output.IdentityProviderConfig.Oidc.IdentityProviderConfigArn,
-					Name: *config.Name,
+					Region: describeCtx.Region,
+					ARN:    *output.IdentityProviderConfig.Oidc.IdentityProviderConfigArn,
+					Name:   *config.Name,
 					Description: EKSIdentityProviderConfigDescription{
 						ConfigName:             *config.Name,
 						ConfigType:             *config.Type,
@@ -279,6 +289,7 @@ func EKSIdentityProviderConfig(ctx context.Context, cfg aws.Config, stream *Stre
 
 func EKSAddonVersion(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := eks.NewFromConfig(cfg)
 	paginator := eks.NewDescribeAddonVersionsPaginator(client, &eks.DescribeAddonVersionsInput{})
 
@@ -302,8 +313,9 @@ func EKSAddonVersion(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 				}
 
 				resource := Resource{
-					ARN:  arn,
-					Name: *version.AddonVersion,
+					Region: describeCtx.Region,
+					ARN:    arn,
+					Name:   *version.AddonVersion,
 					Description: model.EKSAddonVersionDescription{
 						AddonVersion:       version,
 						AddonConfiguration: *configuration.ConfigurationSchema,

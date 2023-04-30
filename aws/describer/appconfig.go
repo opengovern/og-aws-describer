@@ -10,10 +10,9 @@ import (
 )
 
 func AppConfigApplication(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := appconfig.NewFromConfig(cfg)
 	paginator := appconfig.NewListApplicationsPaginator(client, &appconfig.ListApplicationsInput{})
-
-	describeCtx := GetDescribeContext(ctx)
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -33,9 +32,10 @@ func AppConfigApplication(ctx context.Context, cfg aws.Config, stream *StreamSen
 			}
 
 			resource := Resource{
-				ID:   *application.Id,
-				Name: *application.Name,
-				ARN:  arn,
+				Region: describeCtx.Region,
+				ID:     *application.Id,
+				Name:   *application.Name,
+				ARN:    arn,
 				Description: model.AppConfigApplicationDescription{
 					Application: application,
 					Tags:        tags.Tags,

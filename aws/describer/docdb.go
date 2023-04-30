@@ -9,7 +9,8 @@ import (
 )
 
 func DocDBCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	//describeCtx := GetDescribeContext(ctx)
+	describeCtx := GetDescribeContext(ctx)
+	//
 	client := docdb.NewFromConfig(cfg)
 	paginator := docdb.NewDescribeDBClustersPaginator(client, &docdb.DescribeDBClustersInput{})
 
@@ -28,8 +29,9 @@ func DocDBCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 			}
 
 			resource := Resource{
-				ID:  *cluster.DBClusterIdentifier,
-				ARN: *cluster.DBClusterArn,
+				Region: describeCtx.Region,
+				ID:     *cluster.DBClusterIdentifier,
+				ARN:    *cluster.DBClusterArn,
 				Description: model.DocDBClusterDescription{
 					DBCluster: cluster,
 					Tags:      tags.TagList,

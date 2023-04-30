@@ -9,6 +9,7 @@ import (
 )
 
 func InspectorAssessmentRun(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := inspector.NewFromConfig(cfg)
 	paginator := inspector.NewListAssessmentRunsPaginator(client, &inspector.ListAssessmentRunsInput{})
 
@@ -28,8 +29,9 @@ func InspectorAssessmentRun(ctx context.Context, cfg aws.Config, stream *StreamS
 
 		for _, assessmentRun := range assessmentRuns.AssessmentRuns {
 			resource := Resource{
-				Name: *assessmentRun.Name,
-				ARN:  *assessmentRun.Arn,
+				Region: describeCtx.Region,
+				Name:   *assessmentRun.Name,
+				ARN:    *assessmentRun.Arn,
 				Description: model.InspectorAssessmentRunDescription{
 					AssessmentRun: assessmentRun,
 				},
@@ -48,6 +50,7 @@ func InspectorAssessmentRun(ctx context.Context, cfg aws.Config, stream *StreamS
 }
 
 func InspectorAssessmentTarget(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := inspector.NewFromConfig(cfg)
 	paginator := inspector.NewListAssessmentTargetsPaginator(client, &inspector.ListAssessmentTargetsInput{})
 
@@ -67,8 +70,9 @@ func InspectorAssessmentTarget(ctx context.Context, cfg aws.Config, stream *Stre
 
 		for _, assessmentTarget := range assessmentTargets.AssessmentTargets {
 			resource := Resource{
-				Name: *assessmentTarget.Name,
-				ARN:  *assessmentTarget.Arn,
+				Region: describeCtx.Region,
+				Name:   *assessmentTarget.Name,
+				ARN:    *assessmentTarget.Arn,
 				Description: model.InspectorAssessmentTargetDescription{
 					AssessmentTarget: assessmentTarget,
 				},
@@ -87,6 +91,7 @@ func InspectorAssessmentTarget(ctx context.Context, cfg aws.Config, stream *Stre
 }
 
 func InspectorAssessmentTemplate(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := inspector.NewFromConfig(cfg)
 	paginator := inspector.NewListAssessmentTemplatesPaginator(client, &inspector.ListAssessmentTemplatesInput{})
 
@@ -120,8 +125,9 @@ func InspectorAssessmentTemplate(ctx context.Context, cfg aws.Config, stream *St
 			}
 
 			resource := Resource{
-				Name: *assessmentTemplate.Name,
-				ARN:  *assessmentTemplate.Arn,
+				Region: describeCtx.Region,
+				Name:   *assessmentTemplate.Name,
+				ARN:    *assessmentTemplate.Arn,
 				Description: model.InspectorAssessmentTemplateDescription{
 					AssessmentTemplate: assessmentTemplate,
 					EventSubscriptions: eventSubscriptions.Subscriptions,
@@ -142,6 +148,7 @@ func InspectorAssessmentTemplate(ctx context.Context, cfg aws.Config, stream *St
 }
 
 func GetInspectorAssessmentTemplate(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	arn := fields["arn"]
 	client := inspector.NewFromConfig(cfg)
 
@@ -169,8 +176,9 @@ func GetInspectorAssessmentTemplate(ctx context.Context, cfg aws.Config, fields 
 		}
 
 		values = append(values, Resource{
-			Name: *assessmentTemplate.Name,
-			ARN:  *assessmentTemplate.Arn,
+			Region: describeCtx.Region,
+			Name:   *assessmentTemplate.Name,
+			ARN:    *assessmentTemplate.Arn,
 			Description: model.InspectorAssessmentTemplateDescription{
 				AssessmentTemplate: assessmentTemplate,
 				EventSubscriptions: eventSubscriptions.Subscriptions,
@@ -183,6 +191,7 @@ func GetInspectorAssessmentTemplate(ctx context.Context, cfg aws.Config, fields 
 }
 
 func InspectorExclusion(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := inspector.NewFromConfig(cfg)
 	paginator := inspector.NewListAssessmentRunsPaginator(client, &inspector.ListAssessmentRunsInput{})
 
@@ -213,8 +222,9 @@ func InspectorExclusion(ctx context.Context, cfg aws.Config, stream *StreamSende
 
 				for _, exclusion := range exclusions.Exclusions {
 					resource := Resource{
-						Name: *exclusion.Title,
-						ARN:  *exclusion.Arn,
+						Region: describeCtx.Region,
+						Name:   *exclusion.Title,
+						ARN:    *exclusion.Arn,
 						Description: model.InspectorExclusionDescription{
 							Exclusion: exclusion,
 						},
@@ -234,6 +244,7 @@ func InspectorExclusion(ctx context.Context, cfg aws.Config, stream *StreamSende
 }
 
 func InspectorFinding(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := inspector.NewFromConfig(cfg)
 	paginator := inspector.NewListFindingsPaginator(client, &inspector.ListFindingsInput{})
 
@@ -253,11 +264,12 @@ func InspectorFinding(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 		for _, finding := range findings.Findings {
 			resource := Resource{
-				Name: *finding.Title,
-				ID:   *finding.Id,
-				ARN:  *finding.Arn,
+				Region: describeCtx.Region,
+				Name:   *finding.Title,
+				ID:     *finding.Id,
+				ARN:    *finding.Arn,
 				Description: model.InspectorFindingDescription{
-					Finding:     finding,
+					Finding: finding,
 					FailedItems: findings.FailedItems,
 				},
 			}

@@ -9,6 +9,7 @@ import (
 )
 
 func KafkaCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := kafka.NewFromConfig(cfg)
 	paginator := kafka.NewListClustersV2Paginator(client, &kafka.ListClustersV2Input{})
 
@@ -21,8 +22,9 @@ func KafkaCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 
 		for _, v := range page.ClusterInfoList {
 			resource := Resource{
-				ARN:  *v.ClusterArn,
-				Name: *v.ClusterName,
+				Region: describeCtx.Region,
+				ARN:    *v.ClusterArn,
+				Name:   *v.ClusterName,
 				Description: model.KafkaClusterDescription{
 					Cluster: v,
 				},

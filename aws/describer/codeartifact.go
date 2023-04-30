@@ -9,6 +9,7 @@ import (
 )
 
 func CodeArtifactRepository(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := codeartifact.NewFromConfig(cfg)
 	paginator := codeartifact.NewListRepositoriesPaginator(client, &codeartifact.ListRepositoriesInput{})
 
@@ -28,8 +29,9 @@ func CodeArtifactRepository(ctx context.Context, cfg aws.Config, stream *StreamS
 			}
 
 			resource := Resource{
-				ARN:  *v.Arn,
-				Name: *v.Name,
+				Region: describeCtx.Region,
+				ARN:    *v.Arn,
+				Name:   *v.Name,
 				Description: model.CodeArtifactRepositoryDescription{
 					Repository: v,
 					Tags:       tags.Tags,
@@ -49,6 +51,7 @@ func CodeArtifactRepository(ctx context.Context, cfg aws.Config, stream *StreamS
 }
 
 func CodeArtifactDomain(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := codeartifact.NewFromConfig(cfg)
 	paginator := codeartifact.NewListDomainsPaginator(client, &codeartifact.ListDomainsInput{})
 
@@ -84,8 +87,9 @@ func CodeArtifactDomain(ctx context.Context, cfg aws.Config, stream *StreamSende
 			}
 
 			resource := Resource{
-				ARN:  *v.Arn,
-				Name: *v.Name,
+				Region: describeCtx.Region,
+				ARN:    *v.Arn,
+				Name:   *v.Name,
 				Description: model.CodeArtifactDomainDescription{
 					Domain: *domain.Domain,
 					Policy: *policy.Policy,

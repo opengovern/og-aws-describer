@@ -11,6 +11,7 @@ import (
 )
 
 func StorageGatewayStorageGateway(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := storagegateway.NewFromConfig(cfg)
 	paginator := storagegateway.NewListGatewaysPaginator(client, &storagegateway.ListGatewaysInput{})
 
@@ -30,8 +31,9 @@ func StorageGatewayStorageGateway(ctx context.Context, cfg aws.Config, stream *S
 			}
 
 			resource := Resource{
-				ARN:  *v.GatewayARN,
-				Name: *v.GatewayId,
+				Region: describeCtx.Region,
+				ARN:    *v.GatewayARN,
+				Name:   *v.GatewayId,
 				Description: model.StorageGatewayStorageGatewayDescription{
 					StorageGateway: v,
 					Tags:           tags.Tags,
@@ -51,6 +53,7 @@ func StorageGatewayStorageGateway(ctx context.Context, cfg aws.Config, stream *S
 }
 
 func GetStorageGatewayStorageGateway(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := storagegateway.NewFromConfig(cfg)
 	out, err := client.DescribeGatewayInformation(ctx, &storagegateway.DescribeGatewayInformationInput{
 		GatewayARN: nil,
@@ -68,8 +71,9 @@ func GetStorageGatewayStorageGateway(ctx context.Context, cfg aws.Config, stream
 	}
 
 	resource := Resource{
-		ARN:  *out.GatewayARN,
-		Name: *out.GatewayId,
+		Region: describeCtx.Region,
+		ARN:    *out.GatewayARN,
+		Name:   *out.GatewayId,
 		Description: model.StorageGatewayStorageGatewayDescription{
 			StorageGateway: types.GatewayInfo{
 				Ec2InstanceId:     out.Ec2InstanceId,

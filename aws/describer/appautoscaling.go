@@ -10,9 +10,8 @@ import (
 )
 
 func ApplicationAutoScalingTarget(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	client := applicationautoscaling.NewFromConfig(cfg)
-
 	describeCtx := GetDescribeContext(ctx)
+	client := applicationautoscaling.NewFromConfig(cfg)
 
 	var values []Resource
 	for _, serviceNameSpace := range types.ServiceNamespaceEcs.Values() {
@@ -30,8 +29,9 @@ func ApplicationAutoScalingTarget(ctx context.Context, cfg aws.Config, stream *S
 				arn := "arn:" + describeCtx.Partition + ":application-autoscaling:" + describeCtx.Region + ":" + describeCtx.AccountID + ":service-namespace:" + string(item.ServiceNamespace) + "/target/" + *item.ResourceId
 
 				resource := Resource{
-					ARN:  arn,
-					Name: *item.ResourceId,
+					Region: describeCtx.Region,
+					ARN:    arn,
+					Name:   *item.ResourceId,
 					Description: model.ApplicationAutoScalingTargetDescription{
 						ScalableTarget: item,
 					},

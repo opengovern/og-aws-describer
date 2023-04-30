@@ -9,6 +9,7 @@ import (
 )
 
 func HealthEvent(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := health.NewFromConfig(cfg)
 	paginator := health.NewDescribeEventsPaginator(client, &health.DescribeEventsInput{})
 
@@ -21,7 +22,8 @@ func HealthEvent(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 
 		for _, event := range page.Events {
 			resource := Resource{
-				ARN: *event.Arn,
+				Region: describeCtx.Region,
+				ARN:    *event.Arn,
 				Description: model.HealthEventDescription{
 					Event: event,
 				},

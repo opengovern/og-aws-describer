@@ -9,7 +9,8 @@ import (
 )
 
 func DLMLifecyclePolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	//describeCtx := GetDescribeContext(ctx)
+	describeCtx := GetDescribeContext(ctx)
+	//
 	client := dlm.NewFromConfig(cfg)
 
 	lifecyclePolicies, err := client.GetLifecyclePolicies(ctx, &dlm.GetLifecyclePoliciesInput{})
@@ -26,8 +27,9 @@ func DLMLifecyclePolicy(ctx context.Context, cfg aws.Config, stream *StreamSende
 			return nil, err
 		}
 		resource := Resource{
-			ID:  *policy.Policy.PolicyId,
-			ARN: *policy.Policy.PolicyArn,
+			Region: describeCtx.Region,
+			ID:     *policy.Policy.PolicyId,
+			ARN:    *policy.Policy.PolicyArn,
 			Description: model.DLMLifecyclePolicyDescription{
 				LifecyclePolicy: *policy.Policy,
 			},

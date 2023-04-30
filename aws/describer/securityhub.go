@@ -9,6 +9,7 @@ import (
 )
 
 func SecurityHubHub(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := securityhub.NewFromConfig(cfg)
 	out, err := client.DescribeHub(ctx, &securityhub.DescribeHubInput{})
 	if err != nil {
@@ -26,8 +27,9 @@ func SecurityHubHub(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 	}
 
 	resource := Resource{
-		ARN:  *out.HubArn,
-		Name: nameFromArn(*out.HubArn),
+		Region: describeCtx.Region,
+		ARN:    *out.HubArn,
+		Name:   nameFromArn(*out.HubArn),
 		Description: model.SecurityHubHubDescription{
 			Hub:  out,
 			Tags: tags.Tags,

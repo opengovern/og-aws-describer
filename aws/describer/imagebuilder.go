@@ -9,6 +9,7 @@ import (
 )
 
 func ImageBuilderImage(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := imagebuilder.NewFromConfig(cfg)
 	paginator := imagebuilder.NewListImagesPaginator(client, &imagebuilder.ListImagesInput{})
 
@@ -28,8 +29,9 @@ func ImageBuilderImage(ctx context.Context, cfg aws.Config, stream *StreamSender
 			}
 
 			resource := Resource{
-				ARN:  *image.Image.Arn,
-				Name: *image.Image.Name,
+				Region: describeCtx.Region,
+				ARN:    *image.Image.Arn,
+				Name:   *image.Image.Name,
 				Description: model.ImageBuilderImageDescription{
 					Image: *image.Image,
 				},

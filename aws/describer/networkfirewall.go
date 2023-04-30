@@ -9,6 +9,7 @@ import (
 )
 
 func NetworkFirewallFirewall(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := networkfirewall.NewFromConfig(cfg)
 	paginator := networkfirewall.NewListFirewallsPaginator(client, &networkfirewall.ListFirewallsInput{})
 
@@ -28,8 +29,9 @@ func NetworkFirewallFirewall(ctx context.Context, cfg aws.Config, stream *Stream
 			}
 
 			resource := Resource{
-				ARN:  *v.FirewallArn,
-				Name: *v.FirewallName,
+				Region: describeCtx.Region,
+				ARN:    *v.FirewallArn,
+				Name:   *v.FirewallName,
 				Description: model.NetworkFirewallFirewallDescription{
 					Firewall: *firewall.Firewall,
 				},

@@ -13,6 +13,7 @@ import (
 )
 
 func CloudTrailTrail(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := cloudtrail.NewFromConfig(cfg)
 	paginator := cloudtrail.NewListTrailsPaginator(client, &cloudtrail.ListTrailsInput{})
 
@@ -85,8 +86,9 @@ func CloudTrailTrail(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			}
 
 			resource := Resource{
-				ARN:  *v.TrailARN,
-				Name: *v.Name,
+				Region: describeCtx.Region,
+				ARN:    *v.TrailARN,
+				Name:   *v.Name,
 				Description: model.CloudTrailTrailDescription{
 					Trail:                  v,
 					TrailStatus:            *statusOutput,
@@ -109,6 +111,7 @@ func CloudTrailTrail(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 }
 
 func CloudTrailChannel(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := cloudtrail.NewFromConfig(cfg)
 	paginator := cloudtrail.NewListChannelsPaginator(client, &cloudtrail.ListChannelsInput{})
 
@@ -128,8 +131,9 @@ func CloudTrailChannel(ctx context.Context, cfg aws.Config, stream *StreamSender
 			}
 
 			resource := Resource{
-				ARN:  *channel.ChannelArn,
-				Name: *channel.Name,
+				Region: describeCtx.Region,
+				ARN:    *channel.ChannelArn,
+				Name:   *channel.Name,
 				Description: model.CloudTrailChannelDescription{
 					Channel: *output,
 				},
@@ -148,6 +152,7 @@ func CloudTrailChannel(ctx context.Context, cfg aws.Config, stream *StreamSender
 }
 
 func CloudTrailEventDataStore(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := cloudtrail.NewFromConfig(cfg)
 	paginator := cloudtrail.NewListEventDataStoresPaginator(client, &cloudtrail.ListEventDataStoresInput{})
 
@@ -167,8 +172,9 @@ func CloudTrailEventDataStore(ctx context.Context, cfg aws.Config, stream *Strea
 			}
 
 			resource := Resource{
-				ARN:  *eventDataStore.EventDataStoreArn,
-				Name: *eventDataStore.Name,
+				Region: describeCtx.Region,
+				ARN:    *eventDataStore.EventDataStoreArn,
+				Name:   *eventDataStore.Name,
 				Description: model.CloudTrailEventDataStoreDescription{
 					EventDataStore: *output,
 				},
@@ -187,6 +193,7 @@ func CloudTrailEventDataStore(ctx context.Context, cfg aws.Config, stream *Strea
 }
 
 func CloudTrailImport(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := cloudtrail.NewFromConfig(cfg)
 	paginator := cloudtrail.NewListImportsPaginator(client, &cloudtrail.ListImportsInput{})
 
@@ -212,7 +219,8 @@ func CloudTrailImport(ctx context.Context, cfg aws.Config, stream *StreamSender)
 			}
 
 			resource := Resource{
-				Name: *trailImport.ImportId,
+				Region: describeCtx.Region,
+				Name:   *trailImport.ImportId,
 				Description: model.CloudTrailImportDescription{
 					Import: *output,
 				},
@@ -231,6 +239,7 @@ func CloudTrailImport(ctx context.Context, cfg aws.Config, stream *StreamSender)
 }
 
 func CloudTrailQuery(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := cloudtrail.NewFromConfig(cfg)
 	paginator := cloudtrail.NewListEventDataStoresPaginator(client, &cloudtrail.ListEventDataStoresInput{})
 
@@ -259,7 +268,8 @@ func CloudTrailQuery(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 					}
 
 					resource := Resource{
-						Name: *query.QueryId,
+						Region: describeCtx.Region,
+						Name:   *query.QueryId,
 						Description: model.CloudTrailQueryDescription{
 							Query:             *output,
 							EventDataStoreARN: *eventDataStore.EventDataStoreArn,
@@ -281,6 +291,7 @@ func CloudTrailQuery(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 }
 
 func CloudTrailTrailEvent(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := cloudwatchlogs.NewFromConfig(cfg)
 
 	logGroups, err := CloudWatchLogsLogGroup(ctx, cfg, nil)
@@ -306,7 +317,8 @@ func CloudTrailTrailEvent(ctx context.Context, cfg aws.Config, stream *StreamSen
 
 			for _, event := range page.Events {
 				resource := Resource{
-					ID: *event.EventId,
+					Region: describeCtx.Region,
+					ID:     *event.EventId,
 					Description: model.CloudTrailTrailEventDescription{
 						TrailEvent:   event,
 						LogGroupName: logGroup.Name,

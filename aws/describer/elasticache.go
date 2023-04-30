@@ -9,6 +9,7 @@ import (
 )
 
 func ElastiCacheReplicationGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := elasticache.NewFromConfig(cfg)
 	paginator := elasticache.NewDescribeReplicationGroupsPaginator(client, &elasticache.DescribeReplicationGroupsInput{})
 
@@ -21,8 +22,9 @@ func ElastiCacheReplicationGroup(ctx context.Context, cfg aws.Config, stream *St
 
 		for _, item := range page.ReplicationGroups {
 			resource := Resource{
-				ARN:  *item.ARN,
-				Name: *item.ARN,
+				Region: describeCtx.Region,
+				ARN:    *item.ARN,
+				Name:   *item.ARN,
 				Description: model.ElastiCacheReplicationGroupDescription{
 					ReplicationGroup: item,
 				},
@@ -40,6 +42,7 @@ func ElastiCacheReplicationGroup(ctx context.Context, cfg aws.Config, stream *St
 }
 
 func ElastiCacheCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := elasticache.NewFromConfig(cfg)
 	paginator := elasticache.NewDescribeCacheClustersPaginator(client, &elasticache.DescribeCacheClustersInput{})
 
@@ -66,8 +69,9 @@ func ElastiCacheCluster(ctx context.Context, cfg aws.Config, stream *StreamSende
 			}
 
 			resource := Resource{
-				ARN:  *cluster.ARN,
-				Name: *cluster.ARN,
+				Region: describeCtx.Region,
+				ARN:    *cluster.ARN,
+				Name:   *cluster.ARN,
 				Description: model.ElastiCacheClusterDescription{
 					Cluster: cluster,
 					TagList: tagsOutput.TagList,
@@ -86,6 +90,7 @@ func ElastiCacheCluster(ctx context.Context, cfg aws.Config, stream *StreamSende
 }
 
 func GetElastiCacheCluster(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	clusterID := fields["id"]
 	client := elasticache.NewFromConfig(cfg)
 	out, err := client.DescribeCacheClusters(ctx, &elasticache.DescribeCacheClustersInput{
@@ -112,8 +117,9 @@ func GetElastiCacheCluster(ctx context.Context, cfg aws.Config, fields map[strin
 		}
 
 		values = append(values, Resource{
-			ARN:  *cluster.ARN,
-			Name: *cluster.ARN,
+			Region: describeCtx.Region,
+			ARN:    *cluster.ARN,
+			Name:   *cluster.ARN,
 			Description: model.ElastiCacheClusterDescription{
 				Cluster: cluster,
 				TagList: tagsOutput.TagList,
@@ -124,6 +130,7 @@ func GetElastiCacheCluster(ctx context.Context, cfg aws.Config, fields map[strin
 }
 
 func ElastiCacheParameterGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := elasticache.NewFromConfig(cfg)
 	paginator := elasticache.NewDescribeCacheParameterGroupsPaginator(client, &elasticache.DescribeCacheParameterGroupsInput{})
 
@@ -136,8 +143,9 @@ func ElastiCacheParameterGroup(ctx context.Context, cfg aws.Config, stream *Stre
 
 		for _, cacheParameterGroup := range page.CacheParameterGroups {
 			resource := Resource{
-				ARN:  *cacheParameterGroup.ARN,
-				Name: *cacheParameterGroup.CacheParameterGroupName,
+				Region: describeCtx.Region,
+				ARN:    *cacheParameterGroup.ARN,
+				Name:   *cacheParameterGroup.CacheParameterGroupName,
 				Description: model.ElastiCacheParameterGroupDescription{
 					ParameterGroup: cacheParameterGroup,
 				},
@@ -156,6 +164,7 @@ func ElastiCacheParameterGroup(ctx context.Context, cfg aws.Config, stream *Stre
 }
 
 func ElastiCacheReservedCacheNode(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := elasticache.NewFromConfig(cfg)
 	paginator := elasticache.NewDescribeReservedCacheNodesPaginator(client, &elasticache.DescribeReservedCacheNodesInput{})
 
@@ -168,8 +177,9 @@ func ElastiCacheReservedCacheNode(ctx context.Context, cfg aws.Config, stream *S
 
 		for _, reservedCacheNode := range page.ReservedCacheNodes {
 			resource := Resource{
-				ARN: *reservedCacheNode.ReservationARN,
-				ID:  *reservedCacheNode.ReservedCacheNodeId,
+				Region: describeCtx.Region,
+				ARN:    *reservedCacheNode.ReservationARN,
+				ID:     *reservedCacheNode.ReservedCacheNodeId,
 				Description: model.ElastiCacheReservedCacheNodeDescription{
 					ReservedCacheNode: reservedCacheNode,
 				},
@@ -188,6 +198,7 @@ func ElastiCacheReservedCacheNode(ctx context.Context, cfg aws.Config, stream *S
 }
 
 func ElastiCacheSubnetGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := elasticache.NewFromConfig(cfg)
 	paginator := elasticache.NewDescribeCacheSubnetGroupsPaginator(client, &elasticache.DescribeCacheSubnetGroupsInput{})
 
@@ -200,8 +211,9 @@ func ElastiCacheSubnetGroup(ctx context.Context, cfg aws.Config, stream *StreamS
 
 		for _, cacheSubnetGroup := range page.CacheSubnetGroups {
 			resource := Resource{
-				ARN:  *cacheSubnetGroup.ARN,
-				Name: *cacheSubnetGroup.CacheSubnetGroupName,
+				Region: describeCtx.Region,
+				ARN:    *cacheSubnetGroup.ARN,
+				Name:   *cacheSubnetGroup.CacheSubnetGroupName,
 				Description: model.ElastiCacheSubnetGroupDescription{
 					SubnetGroup: cacheSubnetGroup,
 				},

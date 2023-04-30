@@ -9,6 +9,7 @@ import (
 )
 
 func CodeStarProject(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := codestar.NewFromConfig(cfg)
 
 	var values []Resource
@@ -37,8 +38,9 @@ func CodeStarProject(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			}
 
 			resource := Resource{
-				ARN:  *project.Arn,
-				Name: *project.Id,
+				Region: describeCtx.Region,
+				ARN:    *project.Arn,
+				Name:   *project.Id,
 				Description: model.CodeStarProjectDescription{
 					Project: *project,
 					Tags:    tags.Tags,

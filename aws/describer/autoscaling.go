@@ -10,6 +10,7 @@ import (
 )
 
 func AutoScalingAutoScalingGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := autoscaling.NewFromConfig(cfg)
 	paginator := autoscaling.NewDescribeAutoScalingGroupsPaginator(client, &autoscaling.DescribeAutoScalingGroupsInput{})
 
@@ -32,6 +33,7 @@ func AutoScalingAutoScalingGroup(ctx context.Context, cfg aws.Config, stream *St
 			}
 
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ARN:         *v.AutoScalingGroupARN,
 				Name:        *v.AutoScalingGroupName,
 				Description: desc,
@@ -50,6 +52,7 @@ func AutoScalingAutoScalingGroup(ctx context.Context, cfg aws.Config, stream *St
 }
 
 func GetAutoScalingAutoScalingGroup(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	autoScalingGroupName := fields["name"]
 	client := autoscaling.NewFromConfig(cfg)
 
@@ -74,6 +77,7 @@ func GetAutoScalingAutoScalingGroup(ctx context.Context, cfg aws.Config, fields 
 		}
 
 		values = append(values, Resource{
+			Region:      describeCtx.Region,
 			ARN:         *v.AutoScalingGroupARN,
 			Name:        *v.AutoScalingGroupName,
 			Description: desc,
@@ -103,6 +107,7 @@ func getAutoScalingPolicies(ctx context.Context, cfg aws.Config, asgName *string
 }
 
 func AutoScalingLaunchConfiguration(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := autoscaling.NewFromConfig(cfg)
 	paginator := autoscaling.NewDescribeLaunchConfigurationsPaginator(client, &autoscaling.DescribeLaunchConfigurationsInput{})
 
@@ -115,8 +120,9 @@ func AutoScalingLaunchConfiguration(ctx context.Context, cfg aws.Config, stream 
 
 		for _, v := range page.LaunchConfigurations {
 			resource := Resource{
-				ARN:  *v.LaunchConfigurationARN,
-				Name: *v.LaunchConfigurationName,
+				Region: describeCtx.Region,
+				ARN:    *v.LaunchConfigurationARN,
+				Name:   *v.LaunchConfigurationName,
 				Description: model.AutoScalingLaunchConfigurationDescription{
 					LaunchConfiguration: v,
 				},
@@ -135,6 +141,7 @@ func AutoScalingLaunchConfiguration(ctx context.Context, cfg aws.Config, stream 
 }
 
 func GetAutoScalingLaunchConfiguration(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	launchConfigurationName := fields["name"]
 	client := autoscaling.NewFromConfig(cfg)
 	out, err := client.DescribeLaunchConfigurations(ctx, &autoscaling.DescribeLaunchConfigurationsInput{
@@ -147,8 +154,9 @@ func GetAutoScalingLaunchConfiguration(ctx context.Context, cfg aws.Config, fiel
 	var values []Resource
 	for _, v := range out.LaunchConfigurations {
 		values = append(values, Resource{
-			ARN:  *v.LaunchConfigurationARN,
-			Name: *v.LaunchConfigurationName,
+			Region: describeCtx.Region,
+			ARN:    *v.LaunchConfigurationARN,
+			Name:   *v.LaunchConfigurationName,
 			Description: model.AutoScalingLaunchConfigurationDescription{
 				LaunchConfiguration: v,
 			},
@@ -159,6 +167,7 @@ func GetAutoScalingLaunchConfiguration(ctx context.Context, cfg aws.Config, fiel
 }
 
 func AutoScalingLifecycleHook(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	groups, err := AutoScalingAutoScalingGroup(ctx, cfg, nil)
 	if groups != nil {
 		return nil, err
@@ -178,6 +187,7 @@ func AutoScalingLifecycleHook(ctx context.Context, cfg aws.Config, stream *Strea
 
 		for _, v := range output.LifecycleHooks {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ID:          CompositeID(*v.AutoScalingGroupName, *v.LifecycleHookName),
 				Name:        *v.AutoScalingGroupName,
 				Description: v,
@@ -196,6 +206,7 @@ func AutoScalingLifecycleHook(ctx context.Context, cfg aws.Config, stream *Strea
 }
 
 func AutoScalingScalingPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := autoscaling.NewFromConfig(cfg)
 	paginator := autoscaling.NewDescribePoliciesPaginator(client, &autoscaling.DescribePoliciesInput{})
 
@@ -208,6 +219,7 @@ func AutoScalingScalingPolicy(ctx context.Context, cfg aws.Config, stream *Strea
 
 		for _, v := range page.ScalingPolicies {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ARN:         *v.PolicyARN,
 				Name:        *v.PolicyName,
 				Description: v,
@@ -226,6 +238,7 @@ func AutoScalingScalingPolicy(ctx context.Context, cfg aws.Config, stream *Strea
 }
 
 func AutoScalingScheduledAction(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := autoscaling.NewFromConfig(cfg)
 	paginator := autoscaling.NewDescribeScheduledActionsPaginator(client, &autoscaling.DescribeScheduledActionsInput{})
 
@@ -238,6 +251,7 @@ func AutoScalingScheduledAction(ctx context.Context, cfg aws.Config, stream *Str
 
 		for _, v := range page.ScheduledUpdateGroupActions {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ARN:         *v.ScheduledActionARN,
 				Name:        *v.ScheduledActionName,
 				Description: v,
@@ -256,6 +270,7 @@ func AutoScalingScheduledAction(ctx context.Context, cfg aws.Config, stream *Str
 }
 
 func AutoScalingWarmPool(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	groups, err := AutoScalingAutoScalingGroup(ctx, cfg, nil)
 	if groups != nil {
 		return nil, err
@@ -278,8 +293,9 @@ func AutoScalingWarmPool(ctx context.Context, cfg aws.Config, stream *StreamSend
 
 			for _, v := range output.Instances {
 				resource := Resource{
-					ID:          CompositeID(*group.AutoScalingGroupName, *v.InstanceId), // TODO
-					Name:        *v.LaunchConfigurationName,
+					Region: describeCtx.Region,
+					ID:     CompositeID(*group.AutoScalingGroupName, *v.InstanceId), // TODO
+					Name:   *v.LaunchConfigurationName,
 					Description: v,
 				}
 				if stream != nil {

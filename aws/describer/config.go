@@ -29,8 +29,9 @@ func ConfigConfigurationRecorder(ctx context.Context, cfg aws.Config, stream *St
 
 		arn := "arn:" + describeCtx.Partition + ":config:" + describeCtx.Region + ":" + describeCtx.AccountID + ":config-recorder" + "/" + *item.Name
 		resource := Resource{
-			ARN:  arn,
-			Name: *item.Name,
+			Region: describeCtx.Region,
+			ARN:    arn,
+			Name:   *item.Name,
 			Description: model.ConfigConfigurationRecorderDescription{
 				ConfigurationRecorder:        item,
 				ConfigurationRecordersStatus: status.ConfigurationRecordersStatus[0],
@@ -50,6 +51,7 @@ func ConfigConfigurationRecorder(ctx context.Context, cfg aws.Config, stream *St
 }
 
 func ConfigAggregateAuthorization(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := configservice.NewFromConfig(cfg)
 	paginator := configservice.NewDescribeAggregationAuthorizationsPaginator(client, &configservice.DescribeAggregationAuthorizationsInput{})
 
@@ -68,8 +70,9 @@ func ConfigAggregateAuthorization(ctx context.Context, cfg aws.Config, stream *S
 			}
 
 			resource := Resource{
-				ARN: *item.AggregationAuthorizationArn,
-				ID:  *item.AuthorizedAccountId,
+				Region: describeCtx.Region,
+				ARN:    *item.AggregationAuthorizationArn,
+				ID:     *item.AuthorizedAccountId,
 				Description: model.ConfigAggregationAuthorizationDescription{
 					AggregationAuthorization: item,
 					Tags:                     tags.Tags,
@@ -89,6 +92,7 @@ func ConfigAggregateAuthorization(ctx context.Context, cfg aws.Config, stream *S
 }
 
 func ConfigConformancePack(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := configservice.NewFromConfig(cfg)
 	paginator := configservice.NewDescribeConformancePacksPaginator(client, &configservice.DescribeConformancePacksInput{})
 
@@ -100,9 +104,10 @@ func ConfigConformancePack(ctx context.Context, cfg aws.Config, stream *StreamSe
 		}
 		for _, item := range page.ConformancePackDetails {
 			resource := Resource{
-				ARN:  *item.ConformancePackArn,
-				ID:   *item.ConformancePackId,
-				Name: *item.ConformancePackName,
+				Region: describeCtx.Region,
+				ARN:    *item.ConformancePackArn,
+				ID:     *item.ConformancePackId,
+				Name:   *item.ConformancePackName,
 				Description: model.ConfigConformancePackDescription{
 					ConformancePack: item,
 				},
@@ -121,6 +126,7 @@ func ConfigConformancePack(ctx context.Context, cfg aws.Config, stream *StreamSe
 }
 
 func ConfigRule(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := configservice.NewFromConfig(cfg)
 	paginator := configservice.NewDescribeConfigRulesPaginator(client, &configservice.DescribeConfigRulesInput{})
 
@@ -156,9 +162,10 @@ func ConfigRule(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 			}
 
 			resource := Resource{
-				ARN:  *item.ConfigRuleArn,
-				ID:   *item.ConfigRuleId,
-				Name: *item.ConfigRuleName,
+				Region: describeCtx.Region,
+				ARN:    *item.ConfigRuleArn,
+				ID:     *item.ConfigRuleId,
+				Name:   *item.ConfigRuleName,
 				Description: model.ConfigRuleDescription{
 					Rule:       item,
 					Compliance: complianceMap[*item.ConfigRuleName],

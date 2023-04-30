@@ -9,6 +9,7 @@ import (
 )
 
 func SSOAdminInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := ssoadmin.NewFromConfig(cfg)
 	paginator := ssoadmin.NewListInstancesPaginator(client, &ssoadmin.ListInstancesInput{})
 
@@ -20,8 +21,9 @@ func SSOAdminInstance(ctx context.Context, cfg aws.Config, stream *StreamSender)
 		}
 		for _, v := range page.Instances {
 			resource := Resource{
-				ARN:  *v.InstanceArn,
-				Name: *v.InstanceArn,
+				Region: describeCtx.Region,
+				ARN:    *v.InstanceArn,
+				Name:   *v.InstanceArn,
 				Description: model.SSOAdminInstanceDescription{
 					Instance: v,
 				},

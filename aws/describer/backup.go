@@ -9,6 +9,7 @@ import (
 )
 
 func BackupPlan(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := backup.NewFromConfig(cfg)
 	paginator := backup.NewListBackupPlansPaginator(client, &backup.ListBackupPlansInput{})
 
@@ -21,8 +22,9 @@ func BackupPlan(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 
 		for _, v := range page.BackupPlansList {
 			resource := Resource{
-				ARN:  *v.BackupPlanArn,
-				Name: *v.BackupPlanName,
+				Region: describeCtx.Region,
+				ARN:    *v.BackupPlanArn,
+				Name:   *v.BackupPlanName,
 				Description: model.BackupPlanDescription{
 					BackupPlan: v,
 				},
@@ -41,6 +43,7 @@ func BackupPlan(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 }
 
 func BackupRecoveryPoint(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := backup.NewFromConfig(cfg)
 	paginator := backup.NewListBackupVaultsPaginator(client, &backup.ListBackupVaultsInput{})
 
@@ -73,8 +76,9 @@ func BackupRecoveryPoint(ctx context.Context, cfg aws.Config, stream *StreamSend
 					}
 
 					resource := Resource{
-						ARN:  *recoveryPoint.RecoveryPointArn,
-						Name: nameFromArn(*out.RecoveryPointArn),
+						Region: describeCtx.Region,
+						ARN:    *recoveryPoint.RecoveryPointArn,
+						Name:   nameFromArn(*out.RecoveryPointArn),
 						Description: model.BackupRecoveryPointDescription{
 							RecoveryPoint: out,
 						},
@@ -95,6 +99,7 @@ func BackupRecoveryPoint(ctx context.Context, cfg aws.Config, stream *StreamSend
 }
 
 func BackupProtectedResource(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := backup.NewFromConfig(cfg)
 	paginator := backup.NewListProtectedResourcesPaginator(client, &backup.ListProtectedResourcesInput{})
 
@@ -107,8 +112,9 @@ func BackupProtectedResource(ctx context.Context, cfg aws.Config, stream *Stream
 
 		for _, resource := range page.Results {
 			resource := Resource{
-				ARN:  *resource.ResourceArn,
-				Name: nameFromArn(*resource.ResourceArn),
+				Region: describeCtx.Region,
+				ARN:    *resource.ResourceArn,
+				Name:   nameFromArn(*resource.ResourceArn),
 				Description: model.BackupProtectedResourceDescription{
 					ProtectedResource: resource,
 				},
@@ -159,8 +165,9 @@ func BackupSelection(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 
 				name := "arn:" + describeCtx.Partition + ":backup:" + describeCtx.Region + ":" + describeCtx.AccountID + ":backup-plan:" + *v.BackupPlanId + "/selection/" + *v.SelectionId
 				resource := Resource{
-					ARN:  name,
-					Name: *v.SelectionName,
+					Region: describeCtx.Region,
+					ARN:    name,
+					Name:   *v.SelectionName,
 					Description: model.BackupSelectionDescription{
 						BackupSelection: v,
 						ListOfTags:      out.BackupSelection.ListOfTags,
@@ -182,6 +189,7 @@ func BackupSelection(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 }
 
 func BackupVault(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := backup.NewFromConfig(cfg)
 	paginator := backup.NewListBackupVaultsPaginator(client, &backup.ListBackupVaultsInput{})
 
@@ -218,8 +226,9 @@ func BackupVault(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 			}
 
 			resource := Resource{
-				ARN:  *v.BackupVaultArn,
-				Name: *v.BackupVaultName,
+				Region: describeCtx.Region,
+				ARN:    *v.BackupVaultArn,
+				Name:   *v.BackupVaultName,
 				Description: model.BackupVaultDescription{
 					BackupVault:       v,
 					Policy:            accessPolicy.Policy,
@@ -241,6 +250,7 @@ func BackupVault(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 }
 
 func BackupFramework(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := backup.NewFromConfig(cfg)
 	paginator := backup.NewListFrameworksPaginator(client, &backup.ListFrameworksInput{})
 
@@ -264,8 +274,9 @@ func BackupFramework(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			})
 
 			resource := Resource{
-				ARN:  *v.FrameworkArn,
-				Name: *v.FrameworkName,
+				Region: describeCtx.Region,
+				ARN:    *v.FrameworkArn,
+				Name:   *v.FrameworkName,
 				Description: model.BackupFrameworkDescription{
 					Framework: *framework,
 					Tags:      tags.Tags,
@@ -285,6 +296,7 @@ func BackupFramework(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 }
 
 func BackupLegalHold(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := backup.NewFromConfig(cfg)
 	paginator := backup.NewListLegalHoldsPaginator(client, &backup.ListLegalHoldsInput{})
 
@@ -304,9 +316,10 @@ func BackupLegalHold(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			}
 
 			resource := Resource{
-				Name: *v.Title,
-				ARN:  *v.LegalHoldArn,
-				ID:   *v.LegalHoldId,
+				Region: describeCtx.Region,
+				Name:   *v.Title,
+				ARN:    *v.LegalHoldArn,
+				ID:     *v.LegalHoldId,
 				Description: model.BackupLegalHoldDescription{
 					LegalHold: *legalHold,
 				},

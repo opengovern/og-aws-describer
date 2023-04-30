@@ -14,10 +14,9 @@ import (
 )
 
 func ApiGatewayStage(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := apigateway.NewFromConfig(cfg)
 	paginator := apigateway.NewGetRestApisPaginator(client, &apigateway.GetRestApisInput{})
-
-	describeCtx := GetDescribeContext(ctx)
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -37,8 +36,9 @@ func ApiGatewayStage(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			for _, stageItem := range out.Item {
 				arn := "arn:" + describeCtx.Partition + ":apigateway:" + describeCtx.Region + "::/restapis/" + *restItem.Id + "/stages/" + *stageItem.StageName
 				resource := Resource{
-					ARN:  arn,
-					Name: *restItem.Name,
+					Region: describeCtx.Region,
+					ARN:    arn,
+					Name:   *restItem.Name,
 					Description: model.ApiGatewayStageDescription{
 						RestApiId: restItem.Id,
 						Stage:     stageItem,
@@ -60,10 +60,10 @@ func ApiGatewayStage(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 }
 
 func GetApiGatewayStage(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	restAPIID := fields["id"]
 	client := apigateway.NewFromConfig(cfg)
 
-	describeCtx := GetDescribeContext(ctx)
 	out, err := client.GetStages(ctx, &apigateway.GetStagesInput{
 		RestApiId: &restAPIID,
 	})
@@ -75,8 +75,9 @@ func GetApiGatewayStage(ctx context.Context, cfg aws.Config, fields map[string]s
 	for _, stageItem := range out.Item {
 		arn := "arn:" + describeCtx.Partition + ":apigateway:" + describeCtx.Region + "::/restapis/" + restAPIID + "/stages/" + *stageItem.StageName
 		values = append(values, Resource{
-			ARN:  arn,
-			Name: *stageItem.StageName,
+			Region: describeCtx.Region,
+			ARN:    arn,
+			Name:   *stageItem.StageName,
 			Description: model.ApiGatewayStageDescription{
 				RestApiId: &restAPIID,
 				Stage:     stageItem,
@@ -87,6 +88,7 @@ func GetApiGatewayStage(ctx context.Context, cfg aws.Config, fields map[string]s
 }
 
 func ApiGatewayV2Stage(ctx context.Context, cfg aws.Config) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := apigatewayv2.NewFromConfig(cfg)
 
 	var apis []typesv2.Api
@@ -126,8 +128,9 @@ func ApiGatewayV2Stage(ctx context.Context, cfg aws.Config) ([]Resource, error) 
 
 		for _, stage := range stages {
 			values = append(values, Resource{
-				ID:   CompositeID(*api.ApiId, *stage.StageName),
-				Name: *api.Name,
+				Region: describeCtx.Region,
+				ID:     CompositeID(*api.ApiId, *stage.StageName),
+				Name:   *api.Name,
 				Description: model.ApiGatewayV2StageDescription{
 					ApiId: api.ApiId,
 					Stage: stage,
@@ -140,10 +143,9 @@ func ApiGatewayV2Stage(ctx context.Context, cfg aws.Config) ([]Resource, error) 
 }
 
 func ApiGatewayRestAPI(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := apigateway.NewFromConfig(cfg)
 	paginator := apigateway.NewGetRestApisPaginator(client, &apigateway.GetRestApisInput{})
-
-	describeCtx := GetDescribeContext(ctx)
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -158,8 +160,9 @@ func ApiGatewayRestAPI(ctx context.Context, cfg aws.Config, stream *StreamSender
 		for _, restItem := range page.Items {
 			arn := fmt.Sprintf("arn:%s:apigateway:%s::/restapis/%s", describeCtx.Partition, describeCtx.Region, *restItem.Id)
 			resource := Resource{
-				ARN:  arn,
-				Name: *restItem.Name,
+				Region: describeCtx.Region,
+				ARN:    arn,
+				Name:   *restItem.Name,
 				Description: model.ApiGatewayRestAPIDescription{
 					RestAPI: restItem,
 				},
@@ -179,9 +182,9 @@ func ApiGatewayRestAPI(ctx context.Context, cfg aws.Config, stream *StreamSender
 }
 
 func GetApiGatewayRestAPI(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	id := fields["id"]
 	client := apigateway.NewFromConfig(cfg)
-	describeCtx := GetDescribeContext(ctx)
 
 	out, err := client.GetRestApi(ctx, &apigateway.GetRestApiInput{
 		RestApiId: &id,
@@ -196,8 +199,9 @@ func GetApiGatewayRestAPI(ctx context.Context, cfg aws.Config, fields map[string
 	var values []Resource
 	arn := fmt.Sprintf("arn:%s:apigateway:%s::/restapis/%s", describeCtx.Partition, describeCtx.Region, *out.Id)
 	values = append(values, Resource{
-		ARN:  arn,
-		Name: *out.Name,
+		Region: describeCtx.Region,
+		ARN:    arn,
+		Name:   *out.Name,
 		Description: model.ApiGatewayRestAPIDescription{
 			RestAPI: types.RestApi{
 				ApiKeySource:              out.ApiKeySource,
@@ -220,10 +224,9 @@ func GetApiGatewayRestAPI(ctx context.Context, cfg aws.Config, fields map[string
 }
 
 func ApiGatewayApiKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := apigateway.NewFromConfig(cfg)
 	paginator := apigateway.NewGetApiKeysPaginator(client, &apigateway.GetApiKeysInput{})
-
-	describeCtx := GetDescribeContext(ctx)
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -238,9 +241,10 @@ func ApiGatewayApiKey(ctx context.Context, cfg aws.Config, stream *StreamSender)
 		for _, apiKey := range page.Items {
 			arn := fmt.Sprintf("arn:%s:apigateway:%s::/apikeys/%s", describeCtx.Partition, describeCtx.Region, *apiKey.Id)
 			resource := Resource{
-				ID:   *apiKey.Id,
-				ARN:  arn,
-				Name: *apiKey.Name,
+				Region: describeCtx.Region,
+				ID:     *apiKey.Id,
+				ARN:    arn,
+				Name:   *apiKey.Name,
 				Description: model.ApiGatewayApiKeyDescription{
 					ApiKey: apiKey,
 				},
@@ -260,10 +264,9 @@ func ApiGatewayApiKey(ctx context.Context, cfg aws.Config, stream *StreamSender)
 }
 
 func ApiGatewayUsagePlan(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := apigateway.NewFromConfig(cfg)
 	paginator := apigateway.NewGetUsagePlansPaginator(client, &apigateway.GetUsagePlansInput{})
-
-	describeCtx := GetDescribeContext(ctx)
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -278,9 +281,10 @@ func ApiGatewayUsagePlan(ctx context.Context, cfg aws.Config, stream *StreamSend
 		for _, usagePlan := range page.Items {
 			arn := fmt.Sprintf("arn:%s:apigateway:%s::/usageplans/%s", describeCtx.Partition, describeCtx.Region, *usagePlan.Id)
 			resource := Resource{
-				ID:   *usagePlan.Id,
-				ARN:  arn,
-				Name: *usagePlan.Name,
+				Region: describeCtx.Region,
+				ID:     *usagePlan.Id,
+				ARN:    arn,
+				Name:   *usagePlan.Name,
 				Description: model.ApiGatewayUsagePlanDescription{
 					UsagePlan: usagePlan,
 				},
@@ -300,10 +304,9 @@ func ApiGatewayUsagePlan(ctx context.Context, cfg aws.Config, stream *StreamSend
 }
 
 func ApiGatewayAuthorizer(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := apigateway.NewFromConfig(cfg)
 	paginator := apigateway.NewGetRestApisPaginator(client, &apigateway.GetRestApisInput{})
-
-	describeCtx := GetDescribeContext(ctx)
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -325,9 +328,10 @@ func ApiGatewayAuthorizer(ctx context.Context, cfg aws.Config, stream *StreamSen
 			for _, authorizer := range authorizers.Items {
 				arn := fmt.Sprintf("arn:%s:apigateway:%s::/restapis/%s/authorizer/%s", describeCtx.Partition, describeCtx.Region, *api.Id, *authorizer.Id)
 				resource := Resource{
-					ID:   *authorizer.Id,
-					ARN:  arn,
-					Name: *api.Name,
+					Region: describeCtx.Region,
+					ID:     *authorizer.Id,
+					ARN:    arn,
+					Name:   *api.Name,
 					Description: model.ApiGatewayAuthorizerDescription{
 						Authorizer: authorizer,
 						RestApiId:  *api.Id,
@@ -350,6 +354,7 @@ func ApiGatewayAuthorizer(ctx context.Context, cfg aws.Config, stream *StreamSen
 
 func ApiGatewayV2API(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := apigatewayv2.NewFromConfig(cfg)
 
 	var values []Resource
@@ -367,8 +372,9 @@ func ApiGatewayV2API(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		for _, api := range output.Items {
 			arn := fmt.Sprintf("arn:%s:apigateway:%s::/apis/%s", describeCtx.Partition, describeCtx.Region, *api.ApiId)
 			resource := Resource{
-				ARN:  arn,
-				Name: *api.Name,
+				Region: describeCtx.Region,
+				ARN:    arn,
+				Name:   *api.Name,
 				Description: model.ApiGatewayV2APIDescription{
 					API: api,
 				},
@@ -394,8 +400,9 @@ func ApiGatewayV2API(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 }
 
 func GetApiGatewayV2API(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
-	apiID := fields["id"]
 	describeCtx := GetDescribeContext(ctx)
+	apiID := fields["id"]
+
 	client := apigatewayv2.NewFromConfig(cfg)
 
 	var values []Resource
@@ -411,8 +418,9 @@ func GetApiGatewayV2API(ctx context.Context, cfg aws.Config, fields map[string]s
 
 	arn := fmt.Sprintf("arn:%s:apigateway:%s::/apis/%s", describeCtx.Partition, describeCtx.Region, apiID)
 	values = append(values, Resource{
-		ARN:  arn,
-		Name: *out.Name,
+		Region: describeCtx.Region,
+		ARN:    arn,
+		Name:   *out.Name,
 		Description: model.ApiGatewayV2APIDescription{
 			API: typesv2.Api{
 				Name:                      out.Name,
@@ -440,6 +448,7 @@ func GetApiGatewayV2API(ctx context.Context, cfg aws.Config, fields map[string]s
 
 func ApiGatewayV2DomainName(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := apigatewayv2.NewFromConfig(cfg)
 	var values []Resource
 	err := PaginateRetrieveAll(func(prevToken *string) (nextToken *string, err error) {
@@ -456,8 +465,9 @@ func ApiGatewayV2DomainName(ctx context.Context, cfg aws.Config, stream *StreamS
 		for _, domainName := range output.Items {
 			arn := fmt.Sprintf("arn:%s:apigateway:%s::/domainnames/%s", describeCtx.Partition, describeCtx.Region, *domainName.DomainName)
 			resource := Resource{
-				ARN:  arn,
-				Name: *domainName.DomainName,
+				Region: describeCtx.Region,
+				ARN:    arn,
+				Name:   *domainName.DomainName,
 				Description: model.ApiGatewayV2DomainNameDescription{
 					DomainName: domainName,
 				},
@@ -483,8 +493,9 @@ func ApiGatewayV2DomainName(ctx context.Context, cfg aws.Config, stream *StreamS
 }
 
 func GetApiGatewayV2DomainName(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
-	domainName := fields["domain_name"]
 	describeCtx := GetDescribeContext(ctx)
+	domainName := fields["domain_name"]
+
 	client := apigatewayv2.NewFromConfig(cfg)
 	var values []Resource
 	out, err := client.GetDomainName(ctx, &apigatewayv2.GetDomainNameInput{
@@ -498,8 +509,9 @@ func GetApiGatewayV2DomainName(ctx context.Context, cfg aws.Config, fields map[s
 	}
 	arn := fmt.Sprintf("arn:%s:apigateway:%s::/domainnames/%s", describeCtx.Partition, describeCtx.Region, domainName)
 	values = append(values, Resource{
-		ARN:  arn,
-		Name: *out.DomainName,
+		Region: describeCtx.Region,
+		ARN:    arn,
+		Name:   *out.DomainName,
 		Description: model.ApiGatewayV2DomainNameDescription{
 			DomainName: typesv2.DomainName{
 				DomainName:                    out.DomainName,
@@ -515,6 +527,7 @@ func GetApiGatewayV2DomainName(ctx context.Context, cfg aws.Config, fields map[s
 
 func ApiGatewayV2Integration(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := apigatewayv2.NewFromConfig(cfg)
 
 	var values []Resource
@@ -543,8 +556,9 @@ func ApiGatewayV2Integration(ctx context.Context, cfg aws.Config, stream *Stream
 				for _, integration := range output.Items {
 					arn := fmt.Sprintf("arn:%s:apigateway:%s::/apis/%s/integrations/%s", describeCtx.Partition, describeCtx.Region, *api.ApiId, *integration.IntegrationId)
 					resource := Resource{
-						ARN: arn,
-						ID:  *integration.IntegrationId,
+						Region: describeCtx.Region,
+						ARN:    arn,
+						ID:     *integration.IntegrationId,
 						Description: model.ApiGatewayV2IntegrationDescription{
 							Integration: integration,
 							ApiId:       *api.ApiId,
@@ -585,10 +599,10 @@ func ApiGatewayV2Integration(ctx context.Context, cfg aws.Config, stream *Stream
 }
 
 func GetApiGatewayV2Integration(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	apiId := fields["api_id"]
 	integrationID := fields["id"]
 
-	describeCtx := GetDescribeContext(ctx)
 	client := apigatewayv2.NewFromConfig(cfg)
 
 	var values []Resource
@@ -613,8 +627,9 @@ func GetApiGatewayV2Integration(ctx context.Context, cfg aws.Config, fields map[
 
 	arn := fmt.Sprintf("arn:%s:apigateway:%s::/apis/%s/integrations/%s", describeCtx.Partition, describeCtx.Region, *api.ApiId, *integration.IntegrationId)
 	values = append(values, Resource{
-		ARN: arn,
-		ID:  *integration.IntegrationId,
+		Region: describeCtx.Region,
+		ARN:    arn,
+		ID:     *integration.IntegrationId,
 		Description: model.ApiGatewayV2IntegrationDescription{
 			Integration: typesv2.Integration{
 				ApiGatewayManaged:                      integration.ApiGatewayManaged,

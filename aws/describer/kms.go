@@ -16,6 +16,7 @@ import (
 )
 
 func KMSAlias(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := kms.NewFromConfig(cfg)
 	paginator := kms.NewListAliasesPaginator(client, &kms.ListAliasesInput{})
 
@@ -28,6 +29,7 @@ func KMSAlias(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 
 		for _, v := range page.Aliases {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ARN:         *v.AliasArn,
 				Name:        *v.AliasName,
 				Description: v,
@@ -46,6 +48,7 @@ func KMSAlias(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 }
 
 func KMSKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := kms.NewFromConfig(cfg)
 	paginator := kms.NewListKeysPaginator(client, &kms.ListKeysInput{})
 
@@ -123,8 +126,9 @@ func KMSKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resour
 			}
 
 			resource := Resource{
-				ARN:  *v.KeyArn,
-				Name: *v.KeyId,
+				Region: describeCtx.Region,
+				ARN:    *v.KeyArn,
+				Name:   *v.KeyId,
 				Description: model.KMSKeyDescription{
 					Metadata:           key.KeyMetadata,
 					Aliases:            keyAlias,
@@ -147,6 +151,7 @@ func KMSKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resour
 }
 
 func GetKMSKey(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	id := fields["id"]
 	client := kms.NewFromConfig(cfg)
 
@@ -218,8 +223,9 @@ func GetKMSKey(ctx context.Context, cfg aws.Config, fields map[string]string) ([
 	}
 
 	values = append(values, Resource{
-		ARN:  *key.KeyMetadata.Arn,
-		Name: *v.KeyId,
+		Region: describeCtx.Region,
+		ARN:    *key.KeyMetadata.Arn,
+		Name:   *v.KeyId,
 		Description: model.KMSKeyDescription{
 			Metadata:           key.KeyMetadata,
 			Aliases:            keyAlias,

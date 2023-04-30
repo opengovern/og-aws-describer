@@ -9,6 +9,7 @@ import (
 )
 
 func MemoryDbCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := memorydb.NewFromConfig(cfg)
 
 	var values []Resource
@@ -29,8 +30,9 @@ func MemoryDbCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			}
 
 			resource := Resource{
-				ARN:  *cluster.ARN,
-				Name: *cluster.Name,
+				Region: describeCtx.Region,
+				ARN:    *cluster.ARN,
+				Name:   *cluster.Name,
 				Description: model.MemoryDbClusterDescription{
 					Cluster: cluster,
 					Tags:    tags.TagList,

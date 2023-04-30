@@ -34,8 +34,9 @@ func SESConfigurationSet(ctx context.Context, cfg aws.Config, stream *StreamSend
 			arn := fmt.Sprintf("arn:%s:ses:%s:%s:configuration-set/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *output.ConfigurationSet.Name)
 
 			resource := Resource{
-				ARN:  arn,
-				Name: *output.ConfigurationSet.Name,
+				Region: describeCtx.Region,
+				ARN:    arn,
+				Name:   *output.ConfigurationSet.Name,
 				Description: model.SESConfigurationSetDescription{
 					ConfigurationSet: *output.ConfigurationSet,
 				},
@@ -77,8 +78,9 @@ func SESIdentity(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 			}
 
 			resource := Resource{
-				ARN:  arn,
-				Name: *v.IdentityName,
+				Region: describeCtx.Region,
+				ARN:    arn,
+				Name:   *v.IdentityName,
 				Description: model.SESIdentityDescription{
 					Identity: v,
 					Tags:     tags.Tags,
@@ -98,6 +100,7 @@ func SESIdentity(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 }
 
 func SESContactList(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := sesv2.NewFromConfig(cfg)
 	paginator := sesv2.NewListContactListsPaginator(client, &sesv2.ListContactListsInput{})
 
@@ -110,6 +113,7 @@ func SESContactList(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 
 		for _, v := range page.ContactLists {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ID:          *v.ContactListName,
 				Name:        *v.ContactListName,
 				Description: v,
@@ -128,6 +132,7 @@ func SESContactList(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 }
 
 func SESReceiptFilter(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := ses.NewFromConfig(cfg)
 
 	output, err := client.ListReceiptFilters(ctx, &ses.ListReceiptFiltersInput{})
@@ -138,6 +143,7 @@ func SESReceiptFilter(ctx context.Context, cfg aws.Config, stream *StreamSender)
 	var values []Resource
 	for _, v := range output.Filters {
 		resource := Resource{
+			Region:      describeCtx.Region,
 			ID:          *v.Name,
 			Name:        *v.Name,
 			Description: v,
@@ -155,6 +161,7 @@ func SESReceiptFilter(ctx context.Context, cfg aws.Config, stream *StreamSender)
 }
 
 func SESReceiptRuleSet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := ses.NewFromConfig(cfg)
 
 	var values []Resource
@@ -171,6 +178,7 @@ func SESReceiptRuleSet(ctx context.Context, cfg aws.Config, stream *StreamSender
 			}
 
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ID:          *output.Metadata.Name,
 				Name:        *output.Metadata.Name,
 				Description: output,
@@ -195,6 +203,7 @@ func SESReceiptRuleSet(ctx context.Context, cfg aws.Config, stream *StreamSender
 }
 
 func SESTemplate(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := ses.NewFromConfig(cfg)
 
 	var values []Resource
@@ -206,6 +215,7 @@ func SESTemplate(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 
 		for _, v := range output.TemplatesMetadata {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ID:          *v.Name,
 				Name:        *v.Name,
 				Description: v,

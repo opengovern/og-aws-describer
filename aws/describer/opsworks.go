@@ -9,6 +9,7 @@ import (
 )
 
 func OpsWorksCMServer(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := opsworkscm.NewFromConfig(cfg)
 	paginator := opsworkscm.NewDescribeServersPaginator(client, &opsworkscm.DescribeServersInput{})
 
@@ -28,8 +29,9 @@ func OpsWorksCMServer(ctx context.Context, cfg aws.Config, stream *StreamSender)
 			}
 
 			resource := Resource{
-				ARN:  *v.ServerArn,
-				Name: *v.ServerName,
+				Region: describeCtx.Region,
+				ARN:    *v.ServerArn,
+				Name:   *v.ServerName,
 				Description: model.OpsWorksCMServerDescription{
 					Server: v,
 					Tags:   tags.Tags,

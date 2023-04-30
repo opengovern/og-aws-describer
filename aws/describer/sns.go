@@ -9,6 +9,7 @@ import (
 )
 
 func SNSSubscription(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := sns.NewFromConfig(cfg)
 	paginator := sns.NewListSubscriptionsPaginator(client, &sns.ListSubscriptionsInput{})
 
@@ -32,8 +33,9 @@ func SNSSubscription(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			}
 
 			resource := Resource{
-				ARN:  *v.SubscriptionArn,
-				Name: nameFromArn(*v.SubscriptionArn),
+				Region: describeCtx.Region,
+				ARN:    *v.SubscriptionArn,
+				Name:   nameFromArn(*v.SubscriptionArn),
 				Description: model.SNSSubscriptionDescription{
 					Subscription: v,
 					Attributes:   output.Attributes,
@@ -53,6 +55,7 @@ func SNSSubscription(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 }
 
 func SNSTopic(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := sns.NewFromConfig(cfg)
 	paginator := sns.NewListTopicsPaginator(client, &sns.ListTopicsInput{})
 
@@ -79,8 +82,9 @@ func SNSTopic(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 			}
 
 			resource := Resource{
-				ARN:  *v.TopicArn,
-				Name: nameFromArn(*v.TopicArn),
+				Region: describeCtx.Region,
+				ARN:    *v.TopicArn,
+				Name:   nameFromArn(*v.TopicArn),
 				Description: model.SNSTopicDescription{
 					Attributes: output.Attributes,
 					Tags:       tOutput.Tags,

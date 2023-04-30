@@ -9,6 +9,7 @@ import (
 )
 
 func SecretsManagerSecret(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := secretsmanager.NewFromConfig(cfg)
 	paginator := secretsmanager.NewListSecretsPaginator(client, &secretsmanager.ListSecretsInput{})
 
@@ -35,8 +36,9 @@ func SecretsManagerSecret(ctx context.Context, cfg aws.Config, stream *StreamSen
 			}
 
 			resource := Resource{
-				ARN:  *item.ARN,
-				Name: *item.Name,
+				Region: describeCtx.Region,
+				ARN:    *item.ARN,
+				Name:   *item.Name,
 				Description: model.SecretsManagerSecretDescription{
 					Secret:         out,
 					ResourcePolicy: policy.ResourcePolicy,

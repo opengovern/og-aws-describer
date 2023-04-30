@@ -10,6 +10,7 @@ import (
 )
 
 func EMRCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := emr.NewFromConfig(cfg)
 	paginator := emr.NewListClustersPaginator(client, &emr.ListClustersInput{})
 
@@ -29,8 +30,9 @@ func EMRCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 			}
 
 			resource := Resource{
-				ARN:  *out.Cluster.ClusterArn,
-				Name: *out.Cluster.Name,
+				Region: describeCtx.Region,
+				ARN:    *out.Cluster.ClusterArn,
+				Name:   *out.Cluster.Name,
 				Description: model.EMRClusterDescription{
 					Cluster: out.Cluster,
 				},
@@ -49,6 +51,7 @@ func EMRCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 
 func EMRInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := emr.NewFromConfig(cfg)
 	clusterPaginator := emr.NewListClustersPaginator(client, &emr.ListClustersInput{})
 
@@ -73,8 +76,9 @@ func EMRInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 				for _, instance := range instancePage.Instances {
 					arn := fmt.Sprintf("arn:%s:emr:%s:%s:instance/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *instance.Id)
 					resource := Resource{
-						ID:  *instance.Id,
-						ARN: arn,
+						Region: describeCtx.Region,
+						ID:     *instance.Id,
+						ARN:    arn,
 						Description: model.EMRInstanceDescription{
 							Instance:  instance,
 							ClusterID: *cluster.Id,
@@ -96,6 +100,7 @@ func EMRInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 
 func EMRInstanceFleet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := emr.NewFromConfig(cfg)
 	clusterPaginator := emr.NewListClustersPaginator(client, &emr.ListClustersInput{})
 
@@ -120,9 +125,10 @@ func EMRInstanceFleet(ctx context.Context, cfg aws.Config, stream *StreamSender)
 				for _, instanceFleet := range instancePage.InstanceFleets {
 					arn := fmt.Sprintf("arn:%s:emr:%s:%s:instance-fleet/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *instanceFleet.Id)
 					resource := Resource{
-						ID:   *instanceFleet.Id,
-						Name: *instanceFleet.Name,
-						ARN:  arn,
+						Region: describeCtx.Region,
+						ID:     *instanceFleet.Id,
+						Name:   *instanceFleet.Name,
+						ARN:    arn,
 						Description: model.EMRInstanceFleetDescription{
 							InstanceFleet: instanceFleet,
 							ClusterID:     *cluster.Id,
@@ -144,6 +150,7 @@ func EMRInstanceFleet(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 func EMRInstanceGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := emr.NewFromConfig(cfg)
 	clusterPaginator := emr.NewListClustersPaginator(client, &emr.ListClustersInput{})
 
@@ -168,9 +175,10 @@ func EMRInstanceGroup(ctx context.Context, cfg aws.Config, stream *StreamSender)
 				for _, instanceGroup := range instancePage.InstanceGroups {
 					arn := fmt.Sprintf("arn:%s:emr:%s:%s:instance-group/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *instanceGroup.Id)
 					resource := Resource{
-						ID:   *instanceGroup.Id,
-						Name: *instanceGroup.Name,
-						ARN:  arn,
+						Region: describeCtx.Region,
+						ID:     *instanceGroup.Id,
+						Name:   *instanceGroup.Name,
+						ARN:    arn,
 						Description: model.EMRInstanceGroupDescription{
 							InstanceGroup: instanceGroup,
 							ClusterID:     *cluster.Id,

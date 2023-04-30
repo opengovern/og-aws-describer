@@ -9,6 +9,7 @@ import (
 )
 
 func IdentityStoreGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := identitystore.NewFromConfig(cfg)
 	paginator := identitystore.NewListGroupsPaginator(client, &identitystore.ListGroupsInput{})
 
@@ -21,8 +22,9 @@ func IdentityStoreGroup(ctx context.Context, cfg aws.Config, stream *StreamSende
 
 		for _, group := range page.Groups {
 			resource := Resource{
-				ID:   *group.GroupId,
-				Name: *group.DisplayName,
+				Region: describeCtx.Region,
+				ID:     *group.GroupId,
+				Name:   *group.DisplayName,
 				Description: model.IdentityStoreGroupDescription{
 					Group: group,
 				},
@@ -41,6 +43,7 @@ func IdentityStoreGroup(ctx context.Context, cfg aws.Config, stream *StreamSende
 }
 
 func IdentityStoreUser(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := identitystore.NewFromConfig(cfg)
 	paginator := identitystore.NewListUsersPaginator(client, &identitystore.ListUsersInput{})
 
@@ -53,8 +56,9 @@ func IdentityStoreUser(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 		for _, user := range page.Users {
 			resource := Resource{
-				ID:   *user.UserId,
-				Name: *user.UserName,
+				Region: describeCtx.Region,
+				ID:     *user.UserId,
+				Name:   *user.UserName,
 				Description: model.IdentityStoreUserDescription{
 					User: user,
 				},

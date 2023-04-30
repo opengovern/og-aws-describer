@@ -10,6 +10,7 @@ import (
 )
 
 func SQSQueue(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := sqs.NewFromConfig(cfg)
 	paginator := sqs.NewListQueuesPaginator(client, &sqs.ListQueuesInput{})
 
@@ -46,8 +47,9 @@ func SQSQueue(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 			output.Attributes["QueueUrl"] = url
 
 			resource := Resource{
-				ARN:  url,
-				Name: nameFromArn(url),
+				Region: describeCtx.Region,
+				ARN:    url,
+				Name:   nameFromArn(url),
 				Description: model.SQSQueueDescription{
 					Attributes: output.Attributes,
 					Tags:       tOutput.Tags,

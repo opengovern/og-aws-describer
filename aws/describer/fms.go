@@ -11,6 +11,7 @@ import (
 )
 
 func FMSPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := fms.NewFromConfig(cfg)
 	paginator := fms.NewListPoliciesPaginator(client, &fms.ListPoliciesInput{})
 
@@ -29,8 +30,9 @@ func FMSPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Res
 				return nil, err
 			}
 			resource := Resource{
-				ARN:  *v.PolicyArn,
-				Name: *v.PolicyName,
+				Region: describeCtx.Region,
+				ARN:    *v.PolicyArn,
+				Name:   *v.PolicyName,
 				Description: model.FMSPolicyDescription{
 					Policy: v,
 					Tags:   tags.TagList,
@@ -50,6 +52,7 @@ func FMSPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Res
 }
 
 func GetFMSPolicy(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	policyID := fields["id"]
 	client := fms.NewFromConfig(cfg)
 
@@ -66,8 +69,9 @@ func GetFMSPolicy(ctx context.Context, cfg aws.Config, fields map[string]string)
 		return nil, err
 	}
 	values = append(values, Resource{
-		ARN:  *out.PolicyArn,
-		Name: *out.Policy.PolicyName,
+		Region: describeCtx.Region,
+		ARN:    *out.PolicyArn,
+		Name:   *out.Policy.PolicyName,
 		Description: model.FMSPolicyDescription{
 			Policy: types.PolicySummary{
 				DeleteUnusedFMManagedResources: out.Policy.DeleteUnusedFMManagedResources,

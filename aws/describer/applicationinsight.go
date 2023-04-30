@@ -8,6 +8,7 @@ import (
 )
 
 func ApplicationInsightsApplication(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := applicationinsights.NewFromConfig(cfg)
 	paginator := applicationinsights.NewListApplicationsPaginator(client, &applicationinsights.ListApplicationsInput{})
 
@@ -20,6 +21,7 @@ func ApplicationInsightsApplication(ctx context.Context, cfg aws.Config, stream 
 
 		for _, v := range page.ApplicationInfoList {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ID:          *v.ResourceGroupName,
 				Name:        *v.ResourceGroupName,
 				Description: v,

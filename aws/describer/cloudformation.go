@@ -9,6 +9,7 @@ import (
 )
 
 func CloudFormationStack(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := cloudformation.NewFromConfig(cfg)
 	paginator := cloudformation.NewDescribeStacksPaginator(client, &cloudformation.DescribeStacksInput{})
 
@@ -44,8 +45,9 @@ func CloudFormationStack(ctx context.Context, cfg aws.Config, stream *StreamSend
 			}
 
 			resource := Resource{
-				ARN:  *v.StackId,
-				Name: *v.StackName,
+				Region: describeCtx.Region,
+				ARN:    *v.StackId,
+				Name:   *v.StackName,
 				Description: model.CloudFormationStackDescription{
 					Stack:          v,
 					StackTemplate:  *template,
@@ -66,6 +68,7 @@ func CloudFormationStack(ctx context.Context, cfg aws.Config, stream *StreamSend
 }
 
 func CloudFormationStackSet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := cloudformation.NewFromConfig(cfg)
 	paginator := cloudformation.NewListStackSetsPaginator(client, &cloudformation.ListStackSetsInput{})
 
@@ -84,8 +87,9 @@ func CloudFormationStackSet(ctx context.Context, cfg aws.Config, stream *StreamS
 				return nil, err
 			}
 			resource := Resource{
-				ARN:  *stackSet.StackSet.StackSetARN,
-				Name: *stackSet.StackSet.StackSetName,
+				Region: describeCtx.Region,
+				ARN:    *stackSet.StackSet.StackSetARN,
+				Name:   *stackSet.StackSet.StackSetName,
 				Description: model.CloudFormationStackSetDescription{
 					StackSet: *stackSet.StackSet,
 				},

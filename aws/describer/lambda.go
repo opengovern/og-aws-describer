@@ -15,6 +15,7 @@ import (
 )
 
 func LambdaFunction(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := lambda.NewFromConfig(cfg)
 	paginator := lambda.NewListFunctionsPaginator(client, &lambda.ListFunctionsInput{
 		FunctionVersion: types.FunctionVersionAll,
@@ -59,8 +60,9 @@ func LambdaFunction(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			}
 
 			resource := Resource{
-				ARN:  *v.FunctionArn,
-				Name: *v.FunctionName,
+				Region: describeCtx.Region,
+				ARN:    *v.FunctionArn,
+				Name:   *v.FunctionName,
 				Description: model.LambdaFunctionDescription{
 					Function: function,
 					Policy:   policy,
@@ -80,6 +82,7 @@ func LambdaFunction(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 }
 
 func GetLambdaFunction(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	functionName := fields["name"]
 	client := lambda.NewFromConfig(cfg)
 	out, err := client.GetFunction(ctx, &lambda.GetFunctionInput{
@@ -123,8 +126,9 @@ func GetLambdaFunction(ctx context.Context, cfg aws.Config, fields map[string]st
 	}
 
 	values = append(values, Resource{
-		ARN:  *v.FunctionArn,
-		Name: *v.FunctionName,
+		Region: describeCtx.Region,
+		ARN:    *v.FunctionArn,
+		Name:   *v.FunctionName,
 		Description: model.LambdaFunctionDescription{
 			Function: function,
 			Policy:   policy,
@@ -135,6 +139,7 @@ func GetLambdaFunction(ctx context.Context, cfg aws.Config, fields map[string]st
 }
 
 func LambdaFunctionVersion(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := lambda.NewFromConfig(cfg)
 	paginator := lambda.NewListFunctionsPaginator(client, &lambda.ListFunctionsInput{
 		FunctionVersion: types.FunctionVersionAll,
@@ -151,8 +156,9 @@ func LambdaFunctionVersion(ctx context.Context, cfg aws.Config, stream *StreamSe
 			arn := fmt.Sprintf("%s:%s", *v.FunctionArn, *v.Version)
 			id := fmt.Sprintf("%s:%s", *v.FunctionName, *v.Version)
 			resource := Resource{
-				ARN:  arn,
-				Name: id,
+				Region: describeCtx.Region,
+				ARN:    arn,
+				Name:   id,
 				Description: model.LambdaFunctionVersionDescription{
 					ID:              id,
 					FunctionVersion: v,
@@ -171,6 +177,7 @@ func LambdaFunctionVersion(ctx context.Context, cfg aws.Config, stream *StreamSe
 }
 
 func LambdaAlias(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	fns, err := LambdaFunction(ctx, cfg, nil)
 	if err != nil {
 		return nil, err
@@ -194,6 +201,7 @@ func LambdaAlias(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 
 			for _, v := range page.Aliases {
 				resource := Resource{
+					Region:      describeCtx.Region,
 					ARN:         *v.AliasArn,
 					Name:        *v.Name,
 					Description: v,
@@ -213,6 +221,7 @@ func LambdaAlias(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 }
 
 func LambdaPermission(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	fns, err := LambdaFunction(ctx, cfg, nil)
 	if err != nil {
 		return nil, err
@@ -236,6 +245,7 @@ func LambdaPermission(ctx context.Context, cfg aws.Config, stream *StreamSender)
 		}
 
 		resource := Resource{
+			Region:      describeCtx.Region,
 			ID:          CompositeID(*fn.FunctionArn, *v.Policy),
 			Name:        *v.Policy,
 			Description: v,
@@ -253,6 +263,7 @@ func LambdaPermission(ctx context.Context, cfg aws.Config, stream *StreamSender)
 }
 
 func LambdaEventInvokeConfig(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	fns, err := LambdaFunction(ctx, cfg, nil)
 	if err != nil {
 		return nil, err
@@ -275,6 +286,7 @@ func LambdaEventInvokeConfig(ctx context.Context, cfg aws.Config, stream *Stream
 
 			for _, v := range page.FunctionEventInvokeConfigs {
 				resource := Resource{
+					Region:      describeCtx.Region,
 					ID:          *fn.FunctionName, // Invoke Config is unique per function
 					Name:        *fn.FunctionName,
 					Description: v,
@@ -295,6 +307,7 @@ func LambdaEventInvokeConfig(ctx context.Context, cfg aws.Config, stream *Stream
 }
 
 func LambdaCodeSigningConfig(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := lambda.NewFromConfig(cfg)
 	paginator := lambda.NewListCodeSigningConfigsPaginator(client, &lambda.ListCodeSigningConfigsInput{})
 
@@ -307,6 +320,7 @@ func LambdaCodeSigningConfig(ctx context.Context, cfg aws.Config, stream *Stream
 
 		for _, v := range page.CodeSigningConfigs {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ARN:         *v.CodeSigningConfigArn,
 				Name:        *v.CodeSigningConfigArn,
 				Description: v,
@@ -325,6 +339,7 @@ func LambdaCodeSigningConfig(ctx context.Context, cfg aws.Config, stream *Stream
 }
 
 func LambdaEventSourceMapping(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := lambda.NewFromConfig(cfg)
 	paginator := lambda.NewListEventSourceMappingsPaginator(client, &lambda.ListEventSourceMappingsInput{})
 
@@ -337,6 +352,7 @@ func LambdaEventSourceMapping(ctx context.Context, cfg aws.Config, stream *Strea
 
 		for _, v := range page.EventSourceMappings {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ARN:         *v.EventSourceArn,
 				Name:        *v.UUID,
 				Description: v,
@@ -355,6 +371,7 @@ func LambdaEventSourceMapping(ctx context.Context, cfg aws.Config, stream *Strea
 }
 
 func LambdaLayerVersion(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	layers, err := listLayers(ctx, cfg)
 	if err != nil {
 		return nil, err
@@ -376,6 +393,7 @@ func LambdaLayerVersion(ctx context.Context, cfg aws.Config, stream *StreamSende
 
 			for _, v := range page.LayerVersions {
 				resource := Resource{
+					Region:      describeCtx.Region,
 					ARN:         *v.LayerVersionArn,
 					Name:        *v.LayerVersionArn,
 					Description: v,
@@ -395,6 +413,7 @@ func LambdaLayerVersion(ctx context.Context, cfg aws.Config, stream *StreamSende
 }
 
 func LambdaLayerVersionPermission(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	lvs, err := LambdaLayerVersion(ctx, cfg, nil)
 	if err != nil {
 		return nil, err
@@ -415,6 +434,7 @@ func LambdaLayerVersionPermission(ctx context.Context, cfg aws.Config, stream *S
 		}
 
 		resource := Resource{
+			Region:      describeCtx.Region,
 			ID:          CompositeID(*arn, fmt.Sprintf("%d", version)),
 			Name:        *arn,
 			Description: v,

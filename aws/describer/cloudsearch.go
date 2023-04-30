@@ -9,6 +9,7 @@ import (
 )
 
 func CloudSearchDomain(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := cloudsearch.NewFromConfig(cfg)
 
 	var values []Resource
@@ -32,9 +33,10 @@ func CloudSearchDomain(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 	for _, domain := range domains.DomainStatusList {
 		resource := Resource{
-			ARN:  *domain.ARN,
-			Name: *domain.DomainName,
-			ID:   *domain.DomainId,
+			Region: describeCtx.Region,
+			ARN:    *domain.ARN,
+			Name:   *domain.DomainName,
+			ID:     *domain.DomainId,
 			Description: model.CloudSearchDomainDescription{
 				DomainStatus: domain,
 			},
@@ -51,6 +53,7 @@ func CloudSearchDomain(ctx context.Context, cfg aws.Config, stream *StreamSender
 }
 
 func GetCloudSearchDomain(ctx context.Context, cfg aws.Config, domainList []string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := cloudsearch.NewFromConfig(cfg)
 
 	var values []Resource
@@ -63,9 +66,10 @@ func GetCloudSearchDomain(ctx context.Context, cfg aws.Config, domainList []stri
 
 	for _, domain := range domains.DomainStatusList {
 		values = append(values, Resource{
-			ARN:  *domain.ARN,
-			Name: *domain.DomainName,
-			ID:   *domain.DomainId,
+			Region: describeCtx.Region,
+			ARN:    *domain.ARN,
+			Name:   *domain.DomainName,
+			ID:     *domain.DomainId,
 			Description: model.CloudSearchDomainDescription{
 				DomainStatus: domain,
 			},

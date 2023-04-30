@@ -12,6 +12,7 @@ import (
 )
 
 func DynamoDbTable(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := dynamodb.NewFromConfig(cfg)
 	paginator := dynamodb.NewListTablesPaginator(client, &dynamodb.ListTablesInput{})
 
@@ -47,8 +48,9 @@ func DynamoDbTable(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 			}
 
 			resource := Resource{
-				ARN:  *v.Table.TableArn,
-				Name: *v.Table.TableName,
+				Region: describeCtx.Region,
+				ARN:    *v.Table.TableArn,
+				Name:   *v.Table.TableName,
 				Description: model.DynamoDbTableDescription{
 					Table:            v.Table,
 					ContinuousBackup: continuousBackup.ContinuousBackupsDescription,
@@ -69,6 +71,7 @@ func DynamoDbTable(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 }
 
 func DynamoDbGlobalSecondaryIndex(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := dynamodb.NewFromConfig(cfg)
 	paginator := dynamodb.NewListTablesPaginator(client, &dynamodb.ListTablesInput{})
 
@@ -91,8 +94,9 @@ func DynamoDbGlobalSecondaryIndex(ctx context.Context, cfg aws.Config, stream *S
 
 			for _, v := range tableOutput.Table.GlobalSecondaryIndexes {
 				resource := Resource{
-					ARN:  *v.IndexArn,
-					Name: *v.IndexName,
+					Region: describeCtx.Region,
+					ARN:    *v.IndexArn,
+					Name:   *v.IndexName,
 					Description: model.DynamoDbGlobalSecondaryIndexDescription{
 						GlobalSecondaryIndex: v,
 					},
@@ -112,6 +116,7 @@ func DynamoDbGlobalSecondaryIndex(ctx context.Context, cfg aws.Config, stream *S
 }
 
 func GetDynamoDbGlobalSecondaryIndex(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	tableName := fields["name"]
 
 	client := dynamodb.NewFromConfig(cfg)
@@ -126,8 +131,9 @@ func GetDynamoDbGlobalSecondaryIndex(ctx context.Context, cfg aws.Config, fields
 
 	for _, v := range tableOutput.Table.GlobalSecondaryIndexes {
 		values = append(values, Resource{
-			ARN:  *v.IndexArn,
-			Name: *v.IndexName,
+			Region: describeCtx.Region,
+			ARN:    *v.IndexArn,
+			Name:   *v.IndexName,
 			Description: model.DynamoDbGlobalSecondaryIndexDescription{
 				GlobalSecondaryIndex: v,
 			},
@@ -138,6 +144,7 @@ func GetDynamoDbGlobalSecondaryIndex(ctx context.Context, cfg aws.Config, fields
 }
 
 func DynamoDbLocalSecondaryIndex(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := dynamodb.NewFromConfig(cfg)
 	paginator := dynamodb.NewListTablesPaginator(client, &dynamodb.ListTablesInput{})
 
@@ -160,8 +167,9 @@ func DynamoDbLocalSecondaryIndex(ctx context.Context, cfg aws.Config, stream *St
 
 			for _, v := range tableOutput.Table.LocalSecondaryIndexes {
 				resource := Resource{
-					ARN:  *v.IndexArn,
-					Name: *v.IndexName,
+					Region: describeCtx.Region,
+					ARN:    *v.IndexArn,
+					Name:   *v.IndexName,
 					Description: model.DynamoDbLocalSecondaryIndexDescription{
 						LocalSecondaryIndex: v,
 					},
@@ -181,6 +189,7 @@ func DynamoDbLocalSecondaryIndex(ctx context.Context, cfg aws.Config, stream *St
 }
 
 func DynamoDbStream(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := dynamodbstreams.NewFromConfig(cfg)
 	var values []Resource
 	var lastArn *string = nil
@@ -199,8 +208,9 @@ func DynamoDbStream(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 
 		for _, v := range streams.Streams {
 			resource := Resource{
-				ARN:  *v.StreamArn,
-				Name: *v.StreamLabel,
+				Region: describeCtx.Region,
+				ARN:    *v.StreamArn,
+				Name:   *v.StreamLabel,
 				Description: model.DynamoDbStreamDescription{
 					Stream: v,
 				},
@@ -223,6 +233,7 @@ func DynamoDbStream(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 }
 
 func DynamoDbBackUp(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := dynamodb.NewFromConfig(cfg)
 	var values []Resource
 	var lastArn *string = nil
@@ -243,8 +254,9 @@ func DynamoDbBackUp(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 
 		for _, v := range backups.BackupSummaries {
 			resource := Resource{
-				ARN:  *v.BackupArn,
-				Name: *v.BackupName,
+				Region: describeCtx.Region,
+				ARN:    *v.BackupArn,
+				Name:   *v.BackupName,
 				Description: model.DynamoDbBackupDescription{
 					Backup: v,
 				},
@@ -268,6 +280,7 @@ func DynamoDbBackUp(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 }
 
 func DynamoDbGlobalTable(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := dynamodb.NewFromConfig(cfg)
 
 	var values []Resource
@@ -298,8 +311,9 @@ func DynamoDbGlobalTable(ctx context.Context, cfg aws.Config, stream *StreamSend
 				return nil, err
 			}
 			resource := Resource{
-				ARN:  *globalTable.GlobalTableDescription.GlobalTableArn,
-				Name: *globalTable.GlobalTableDescription.GlobalTableName,
+				Region: describeCtx.Region,
+				ARN:    *globalTable.GlobalTableDescription.GlobalTableArn,
+				Name:   *globalTable.GlobalTableDescription.GlobalTableName,
 				Description: model.DynamoDbGlobalTableDescription{
 					GlobalTable: *globalTable.GlobalTableDescription,
 				},
@@ -323,6 +337,7 @@ func DynamoDbGlobalTable(ctx context.Context, cfg aws.Config, stream *StreamSend
 }
 
 func DynamoDbTableExport(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := dynamodb.NewFromConfig(cfg)
 	paginator := dynamodb.NewListExportsPaginator(client, &dynamodb.ListExportsInput{})
 
@@ -342,7 +357,8 @@ func DynamoDbTableExport(ctx context.Context, cfg aws.Config, stream *StreamSend
 			}
 
 			resource := Resource{
-				ARN: *export.ExportDescription.ExportArn,
+				Region: describeCtx.Region,
+				ARN:    *export.ExportDescription.ExportArn,
 				Description: model.DynamoDbTableExportDescription{
 					Export: *export.ExportDescription,
 				},
@@ -361,6 +377,7 @@ func DynamoDbTableExport(ctx context.Context, cfg aws.Config, stream *StreamSend
 }
 
 func DynamoDBMetricAccountProvisionedReadCapacityUtilization(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	metrics, err := listCloudWatchMetricStatistics(ctx, cfg, "5_MIN", "AWS/DynamoDB", "AccountProvisionedWriteCapacityUtilization", "", "")
 	if err != nil {
 		return nil, err
@@ -369,7 +386,8 @@ func DynamoDBMetricAccountProvisionedReadCapacityUtilization(ctx context.Context
 	var values []Resource
 	for _, metric := range metrics {
 		resource := Resource{
-			ID: fmt.Sprintf("dynamodb-metric-account-provisioned-read-capacity-utilization-%s-%s-%s", *metric.DimensionName, *metric.DimensionValue, metric.Timestamp.Format(time.RFC3339)),
+			Region: describeCtx.Region,
+			ID:     fmt.Sprintf("dynamodb-metric-account-provisioned-read-capacity-utilization-%s-%s-%s", *metric.DimensionName, *metric.DimensionValue, metric.Timestamp.Format(time.RFC3339)),
 			Description: model.DynamoDBMetricAccountProvisionedReadCapacityUtilizationDescription{
 				CloudWatchMetricRow: metric,
 			},
@@ -388,6 +406,7 @@ func DynamoDBMetricAccountProvisionedReadCapacityUtilization(ctx context.Context
 }
 
 func DynamoDBMetricAccountProvisionedWriteCapacityUtilization(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	metrics, err := listCloudWatchMetricStatistics(ctx, cfg, "5_MIN", "AWS/DynamoDB", "AccountProvisionedWriteCapacityUtilization", "", "")
 	if err != nil {
 		return nil, err
@@ -396,7 +415,8 @@ func DynamoDBMetricAccountProvisionedWriteCapacityUtilization(ctx context.Contex
 	var values []Resource
 	for _, metric := range metrics {
 		resource := Resource{
-			ID: fmt.Sprintf("dynamodb-metric-account-provisioned-write-capacity-utilization-%s-%s-%s", *metric.DimensionName, *metric.DimensionValue, metric.Timestamp.Format(time.RFC3339)),
+			Region: describeCtx.Region,
+			ID:     fmt.Sprintf("dynamodb-metric-account-provisioned-write-capacity-utilization-%s-%s-%s", *metric.DimensionName, *metric.DimensionValue, metric.Timestamp.Format(time.RFC3339)),
 			Description: model.DynamoDBMetricAccountProvisionedWriteCapacityUtilizationDescription{
 				CloudWatchMetricRow: metric,
 			},

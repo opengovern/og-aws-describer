@@ -9,6 +9,7 @@ import (
 )
 
 func NeptuneDatabase(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := neptune.NewFromConfig(cfg)
 	paginator := neptune.NewDescribeDBInstancesPaginator(client, &neptune.DescribeDBInstancesInput{})
 
@@ -28,8 +29,9 @@ func NeptuneDatabase(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			}
 
 			resource := Resource{
-				ARN:  *v.DBInstanceArn,
-				Name: *v.DBClusterIdentifier,
+				Region: describeCtx.Region,
+				ARN:    *v.DBInstanceArn,
+				Name:   *v.DBClusterIdentifier,
 				Description: model.NeptuneDatabaseDescription{
 					Database: v,
 					Tags:     tags.TagList,

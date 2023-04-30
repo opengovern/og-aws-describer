@@ -9,6 +9,7 @@ import (
 )
 
 func CloudControlResource(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := cloudcontrol.NewFromConfig(cfg)
 	paginator := cloudcontrol.NewListResourcesPaginator(client, &cloudcontrol.ListResourcesInput{})
 
@@ -21,7 +22,8 @@ func CloudControlResource(ctx context.Context, cfg aws.Config, stream *StreamSen
 
 		for _, v := range page.ResourceDescriptions {
 			resource := Resource{
-				ID: *v.Identifier,
+				Region: describeCtx.Region,
+				ID:     *v.Identifier,
 				Description: model.CloudControlResourceDescription{
 					Resource: v,
 				},

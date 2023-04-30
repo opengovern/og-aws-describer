@@ -9,6 +9,7 @@ import (
 )
 
 func EventBridgeBus(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := eventbridge.NewFromConfig(cfg)
 
 	input := eventbridge.ListEventBusesInput{Limit: aws.Int32(100)}
@@ -34,8 +35,9 @@ func EventBridgeBus(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			}
 
 			resource := Resource{
-				ARN:  *bus.Arn,
-				Name: *bus.Name,
+				Region: describeCtx.Region,
+				ARN:    *bus.Arn,
+				Name:   *bus.Name,
 				Description: model.EventBridgeBusDescription{
 					Bus:  bus,
 					Tags: tagsOutput.Tags,
@@ -59,6 +61,7 @@ func EventBridgeBus(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 }
 
 func EventBridgeRule(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := eventbridge.NewFromConfig(cfg)
 
 	var values []Resource
@@ -98,8 +101,9 @@ func EventBridgeRule(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			}
 
 			resource := Resource{
-				ARN:  *rule.Arn,
-				Name: *rule.Name,
+				Region: describeCtx.Region,
+				ARN:    *rule.Arn,
+				Name:   *rule.Name,
 				Description: model.EventBridgeRuleDescription{
 					Rule:    *rule,
 					Tags:    tagsOutput.Tags,

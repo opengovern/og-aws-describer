@@ -9,6 +9,7 @@ import (
 )
 
 func CodeCommitRepository(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := codecommit.NewFromConfig(cfg)
 	paginator := codecommit.NewListRepositoriesPaginator(client, &codecommit.ListRepositoriesInput{})
 
@@ -49,8 +50,9 @@ func CodeCommitRepository(ctx context.Context, cfg aws.Config, stream *StreamSen
 			}
 
 			resource := Resource{
-				ARN:  *v.Arn,
-				Name: *v.RepositoryName,
+				Region: describeCtx.Region,
+				ARN:    *v.Arn,
+				Name:   *v.RepositoryName,
 				Description: model.CodeCommitRepositoryDescription{
 					Repository: v,
 					Tags:       tags.Tags,

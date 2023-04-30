@@ -15,6 +15,7 @@ import (
 )
 
 func RedshiftCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := redshift.NewFromConfig(cfg)
 	paginator := redshift.NewDescribeClustersPaginator(client, &redshift.DescribeClustersInput{})
 
@@ -46,8 +47,9 @@ func RedshiftCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			}
 
 			resource := Resource{
-				ARN:  *v.ClusterNamespaceArn,
-				Name: *v.ClusterIdentifier,
+				Region: describeCtx.Region,
+				ARN:    *v.ClusterNamespaceArn,
+				Name:   *v.ClusterIdentifier,
 				Description: model.RedshiftClusterDescription{
 					Cluster:          v,
 					LoggingStatus:    logStatus,
@@ -68,10 +70,9 @@ func RedshiftCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 }
 
 func RedshiftClusterParameterGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := redshift.NewFromConfig(cfg)
 	paginator := redshift.NewDescribeClusterParameterGroupsPaginator(client, &redshift.DescribeClusterParameterGroupsInput{})
-
-	describeCtx := GetDescribeContext(ctx)
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -95,8 +96,9 @@ func RedshiftClusterParameterGroup(ctx context.Context, cfg aws.Config, stream *
 				arn = arn + ":" + *v.ParameterGroupName
 			}
 			resource := Resource{
-				ARN:  arn,
-				Name: *v.ParameterGroupName,
+				Region: describeCtx.Region,
+				ARN:    arn,
+				Name:   *v.ParameterGroupName,
 				Description: model.RedshiftClusterParameterGroupDescription{
 					ClusterParameterGroup: v,
 					Parameters:            param.Parameters,
@@ -116,6 +118,7 @@ func RedshiftClusterParameterGroup(ctx context.Context, cfg aws.Config, stream *
 }
 
 func RedshiftClusterSecurityGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := redshift.NewFromConfig(cfg)
 	paginator := redshift.NewDescribeClusterSecurityGroupsPaginator(client, &redshift.DescribeClusterSecurityGroupsInput{})
 
@@ -133,6 +136,7 @@ func RedshiftClusterSecurityGroup(ctx context.Context, cfg aws.Config, stream *S
 
 		for _, v := range page.ClusterSecurityGroups {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ID:          *v.ClusterSecurityGroupName,
 				Name:        *v.ClusterSecurityGroupName,
 				Description: v,
@@ -151,6 +155,7 @@ func RedshiftClusterSecurityGroup(ctx context.Context, cfg aws.Config, stream *S
 }
 
 func RedshiftClusterSubnetGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := redshift.NewFromConfig(cfg)
 	paginator := redshift.NewDescribeClusterSubnetGroupsPaginator(client, &redshift.DescribeClusterSubnetGroupsInput{})
 
@@ -163,6 +168,7 @@ func RedshiftClusterSubnetGroup(ctx context.Context, cfg aws.Config, stream *Str
 
 		for _, v := range page.ClusterSubnetGroups {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ID:          *v.ClusterSubnetGroupName,
 				Name:        *v.ClusterSubnetGroupName,
 				Description: v,
@@ -199,8 +205,9 @@ func RedshiftSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender)
 		for _, v := range page.Snapshots {
 			arn := fmt.Sprintf("arn:%s:redshift:%s:%s:snapshot:%s/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.ClusterIdentifier, *v.SnapshotIdentifier)
 			resource := Resource{
-				ARN:  arn,
-				Name: *v.SnapshotIdentifier,
+				Region: describeCtx.Region,
+				ARN:    arn,
+				Name:   *v.SnapshotIdentifier,
 				Description: model.RedshiftSnapshotDescription{
 					Snapshot: v,
 				},
@@ -219,8 +226,8 @@ func RedshiftSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender)
 }
 
 func GetRedshiftSnapshot(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
-	clusterIdentifier := fields["id"]
 	describeCtx := GetDescribeContext(ctx)
+	clusterIdentifier := fields["id"]
 
 	client := redshift.NewFromConfig(cfg)
 
@@ -238,8 +245,9 @@ func GetRedshiftSnapshot(ctx context.Context, cfg aws.Config, fields map[string]
 	for _, v := range out.Snapshots {
 		arn := fmt.Sprintf("arn:%s:redshift:%s:%s:snapshot:%s/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.ClusterIdentifier, *v.SnapshotIdentifier)
 		values = append(values, Resource{
-			ARN:  arn,
-			Name: *v.SnapshotIdentifier,
+			Region: describeCtx.Region,
+			ARN:    arn,
+			Name:   *v.SnapshotIdentifier,
 			Description: model.RedshiftSnapshotDescription{
 				Snapshot: v,
 			},
@@ -250,6 +258,7 @@ func GetRedshiftSnapshot(ctx context.Context, cfg aws.Config, fields map[string]
 }
 
 func RedshiftServerlessNamespace(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := redshiftserverless.NewFromConfig(cfg)
 	paginator := redshiftserverless.NewListNamespacesPaginator(client, &redshiftserverless.ListNamespacesInput{})
 
@@ -269,8 +278,9 @@ func RedshiftServerlessNamespace(ctx context.Context, cfg aws.Config, stream *St
 			}
 
 			resource := Resource{
-				ARN:  *v.NamespaceArn,
-				Name: *v.NamespaceName,
+				Region: describeCtx.Region,
+				ARN:    *v.NamespaceArn,
+				Name:   *v.NamespaceName,
 				Description: model.RedshiftServerlessNamespaceDescription{
 					Namespace: v,
 					Tags:      tags.Tags,
@@ -290,6 +300,7 @@ func RedshiftServerlessNamespace(ctx context.Context, cfg aws.Config, stream *St
 }
 
 func RedshiftServerlessSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := redshiftserverless.NewFromConfig(cfg)
 	paginator := redshiftserverless.NewListSnapshotsPaginator(client, &redshiftserverless.ListSnapshotsInput{})
 
@@ -309,8 +320,9 @@ func RedshiftServerlessSnapshot(ctx context.Context, cfg aws.Config, stream *Str
 			}
 
 			resource := Resource{
-				ARN:  *v.NamespaceArn,
-				Name: *v.NamespaceName,
+				Region: describeCtx.Region,
+				ARN:    *v.NamespaceArn,
+				Name:   *v.NamespaceName,
 				Description: model.RedshiftServerlessSnapshotDescription{
 					Snapshot: v,
 					Tags:     tags.Tags,

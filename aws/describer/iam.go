@@ -17,6 +17,7 @@ const (
 )
 
 func IAMAccount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	orgClient := organizations.NewFromConfig(cfg)
 
 	accountId, err := STSAccount(ctx, cfg)
@@ -48,6 +49,7 @@ func IAMAccount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 
 	var values []Resource
 	resource := Resource{
+		Region: describeCtx.Region,
 		// No ID or ARN. Per Account Configuration
 		Name: accountId,
 		Description: model.IAMAccountDescription{
@@ -67,6 +69,7 @@ func IAMAccount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 }
 
 func IAMAccountSummary(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	output, err := client.GetAccountSummary(ctx, &iam.GetAccountSummaryInput{})
 	if err != nil {
@@ -118,6 +121,7 @@ func IAMAccountSummary(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 	var values []Resource
 	resource := Resource{
+		Region: describeCtx.Region,
 		// No ID or ARN. Per Account Configuration
 		Name:        accountId + " Account Summary",
 		Description: desc,
@@ -135,6 +139,7 @@ func IAMAccountSummary(ctx context.Context, cfg aws.Config, stream *StreamSender
 }
 
 func IAMAccountPasswordPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	output, err := client.GetAccountPasswordPolicy(ctx, &iam.GetAccountPasswordPolicyInput{})
 	if err != nil {
@@ -156,6 +161,7 @@ func IAMAccountPasswordPolicy(ctx context.Context, cfg aws.Config, stream *Strea
 
 	var values []Resource
 	resource := Resource{
+		Region: describeCtx.Region,
 		// No ID or ARN. Per Account Configuration
 		Name: accountId + " IAM Password Policy",
 		Description: model.IAMAccountPasswordPolicyDescription{
@@ -173,10 +179,9 @@ func IAMAccountPasswordPolicy(ctx context.Context, cfg aws.Config, stream *Strea
 }
 
 func IAMAccessKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	paginator := iam.NewListAccessKeysPaginator(client, &iam.ListAccessKeysInput{})
-
-	describeCtx := GetDescribeContext(ctx)
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -188,8 +193,9 @@ func IAMAccessKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 		for _, v := range page.AccessKeyMetadata {
 			arn := "arn:" + describeCtx.Partition + ":iam::" + describeCtx.AccountID + ":user/" + *v.UserName + "/accesskey/" + *v.AccessKeyId
 			resource := Resource{
-				ARN:  arn,
-				Name: *v.UserName,
+				Region: describeCtx.Region,
+				ARN:    arn,
+				Name:   *v.UserName,
 				Description: model.IAMAccessKeyDescription{
 					AccessKey: v,
 				},
@@ -208,6 +214,7 @@ func IAMAccessKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 }
 
 func IAMCredentialReport(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	output, err := client.GetCredentialReport(ctx, &iam.GetCredentialReportInput{})
 	if err != nil {
@@ -228,8 +235,9 @@ func IAMCredentialReport(ctx context.Context, cfg aws.Config, stream *StreamSend
 	for _, report := range reports {
 		report.GeneratedTime = output.GeneratedTime
 		resource := Resource{
-			ID:   report.UserName, // Unique report entry per user
-			Name: report.UserName + " Credential Report",
+			Region: describeCtx.Region,
+			ID:     report.UserName, // Unique report entry per user
+			Name:   report.UserName + " Credential Report",
 			Description: model.IAMCredentialReportDescription{
 				CredentialReport: report,
 			},
@@ -248,6 +256,7 @@ func IAMCredentialReport(ctx context.Context, cfg aws.Config, stream *StreamSend
 }
 
 func IAMPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	paginator := iam.NewListPoliciesPaginator(client, &iam.ListPoliciesInput{
 		OnlyAttached: false,
@@ -271,8 +280,9 @@ func IAMPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Res
 			}
 
 			resource := Resource{
-				ARN:  *v.Arn,
-				Name: *v.PolicyName,
+				Region: describeCtx.Region,
+				ARN:    *v.Arn,
+				Name:   *v.PolicyName,
 				Description: model.IAMPolicyDescription{
 					Policy:        v,
 					PolicyVersion: *version.PolicyVersion,
@@ -292,6 +302,7 @@ func IAMPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Res
 }
 
 func GetIAMPolicy(ctx context.Context, cfg aws.Config, arn string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	out, err := client.GetPolicy(ctx, &iam.GetPolicyInput{PolicyArn: &arn})
 	if err != nil {
@@ -309,8 +320,9 @@ func GetIAMPolicy(ctx context.Context, cfg aws.Config, arn string) ([]Resource, 
 	}
 
 	values = append(values, Resource{
-		ARN:  *v.Arn,
-		Name: *v.PolicyName,
+		Region: describeCtx.Region,
+		ARN:    *v.Arn,
+		Name:   *v.PolicyName,
 		Description: model.IAMPolicyDescription{
 			Policy:        *v,
 			PolicyVersion: *version.PolicyVersion,
@@ -321,6 +333,7 @@ func GetIAMPolicy(ctx context.Context, cfg aws.Config, arn string) ([]Resource, 
 }
 
 func IAMGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	paginator := iam.NewListGroupsPaginator(client, &iam.ListGroupsInput{})
 
@@ -348,8 +361,9 @@ func IAMGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 			}
 
 			resource := Resource{
-				ARN:  *v.Arn,
-				Name: *v.GroupName,
+				Region: describeCtx.Region,
+				ARN:    *v.Arn,
+				Name:   *v.GroupName,
 				Description: model.IAMGroupDescription{
 					Group:              v,
 					Users:              users,
@@ -441,6 +455,7 @@ func getGroupAttachedPolicyArns(ctx context.Context, client *iam.Client, groupna
 }
 
 func IAMInstanceProfile(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	paginator := iam.NewListInstanceProfilesPaginator(client, &iam.ListInstanceProfilesInput{})
 
@@ -453,6 +468,7 @@ func IAMInstanceProfile(ctx context.Context, cfg aws.Config, stream *StreamSende
 
 		for _, v := range page.InstanceProfiles {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ARN:         *v.Arn,
 				Name:        *v.InstanceProfileName,
 				Description: v,
@@ -471,6 +487,7 @@ func IAMInstanceProfile(ctx context.Context, cfg aws.Config, stream *StreamSende
 }
 
 func IAMManagedPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	paginator := iam.NewListPoliciesPaginator(client, &iam.ListPoliciesInput{
 		OnlyAttached: true,
@@ -485,6 +502,7 @@ func IAMManagedPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 		for _, v := range page.Policies {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ARN:         *v.Arn,
 				Name:        *v.PolicyName,
 				Description: v,
@@ -503,6 +521,7 @@ func IAMManagedPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender)
 }
 
 func IAMOIDCProvider(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	output, err := client.ListOpenIDConnectProviders(ctx, &iam.ListOpenIDConnectProvidersInput{})
 	if err != nil {
@@ -512,6 +531,7 @@ func IAMOIDCProvider(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 	var values []Resource
 	for _, v := range output.OpenIDConnectProviderList {
 		resource := Resource{
+			Region:      describeCtx.Region,
 			ARN:         *v.Arn,
 			Name:        *v.Arn,
 			Description: v,
@@ -529,6 +549,7 @@ func IAMOIDCProvider(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 }
 
 func IAMGroupPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	groups, err := IAMGroup(ctx, cfg, nil)
 	if err != nil {
 		return nil, err
@@ -558,6 +579,7 @@ func IAMGroupPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 				}
 
 				resource := Resource{
+					Region:      describeCtx.Region,
 					ID:          CompositeID(*v.GroupName, *v.PolicyName),
 					Name:        *v.GroupName,
 					Description: v,
@@ -583,6 +605,7 @@ func IAMGroupPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 }
 
 func IAMUserPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	users, err := IAMUser(ctx, cfg, nil)
 	if err != nil {
 		return nil, err
@@ -612,6 +635,7 @@ func IAMUserPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 				}
 
 				resource := Resource{
+					Region:      describeCtx.Region,
 					ID:          CompositeID(*v.UserName, *v.PolicyName),
 					Name:        *v.UserName,
 					Description: v,
@@ -636,6 +660,7 @@ func IAMUserPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 }
 
 func IAMRolePolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	roles, err := IAMRole(ctx, cfg, nil)
 	if err != nil {
 		return nil, err
@@ -666,6 +691,7 @@ func IAMRolePolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 				}
 
 				resource := Resource{
+					Region:      describeCtx.Region,
 					ID:          CompositeID(*v.RoleName, *v.PolicyName),
 					Name:        *v.RoleName,
 					Description: v,
@@ -690,6 +716,7 @@ func IAMRolePolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 }
 
 func IAMRole(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	paginator := iam.NewListRolesPaginator(client, &iam.ListRolesInput{})
 
@@ -717,8 +744,9 @@ func IAMRole(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 			}
 
 			resource := Resource{
-				ARN:  *v.Arn,
-				Name: *v.RoleName,
+				Region: describeCtx.Region,
+				ARN:    *v.Arn,
+				Name:   *v.RoleName,
 				Description: model.IAMRoleDescription{
 					Role:                v,
 					InstanceProfileArns: profiles,
@@ -740,6 +768,7 @@ func IAMRole(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 }
 
 func GetIAMRole(ctx context.Context, cfg aws.Config, pathPrefix string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 
 	out, err := client.ListRoles(ctx, &iam.ListRolesInput{
@@ -769,8 +798,9 @@ func GetIAMRole(ctx context.Context, cfg aws.Config, pathPrefix string) ([]Resou
 		}
 
 		values = append(values, Resource{
-			ARN:  *v.Arn,
-			Name: *v.RoleName,
+			Region: describeCtx.Region,
+			ARN:    *v.Arn,
+			Name:   *v.RoleName,
 			Description: model.IAMRoleDescription{
 				Role:                v,
 				InstanceProfileArns: profiles,
@@ -857,6 +887,7 @@ func getRoleAttachedPolicyArns(ctx context.Context, client *iam.Client, rolename
 }
 
 func IAMSAMLProvider(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	output, err := client.ListSAMLProviders(ctx, &iam.ListSAMLProvidersInput{})
 	if err != nil {
@@ -866,6 +897,7 @@ func IAMSAMLProvider(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 	var values []Resource
 	for _, v := range output.SAMLProviderList {
 		resource := Resource{
+			Region:      describeCtx.Region,
 			ARN:         *v.Arn,
 			Name:        *v.Arn,
 			Description: v,
@@ -883,6 +915,7 @@ func IAMSAMLProvider(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 }
 
 func IAMServerCertificate(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	paginator := iam.NewListServerCertificatesPaginator(client, &iam.ListServerCertificatesInput{})
 
@@ -902,8 +935,9 @@ func IAMServerCertificate(ctx context.Context, cfg aws.Config, stream *StreamSen
 			}
 
 			resource := Resource{
-				ARN:  *v.Arn,
-				Name: *v.ServerCertificateName,
+				Region: describeCtx.Region,
+				ARN:    *v.Arn,
+				Name:   *v.ServerCertificateName,
 				Description: model.IAMServerCertificateDescription{
 					ServerCertificate: *output.ServerCertificate,
 				},
@@ -922,6 +956,7 @@ func IAMServerCertificate(ctx context.Context, cfg aws.Config, stream *StreamSen
 }
 
 func IAMUser(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	paginator := iam.NewListUsersPaginator(client, &iam.ListUsersInput{})
 
@@ -954,8 +989,9 @@ func IAMUser(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 			}
 
 			resource := Resource{
-				ARN:  *v.Arn,
-				Name: *v.UserName,
+				Region: describeCtx.Region,
+				ARN:    *v.Arn,
+				Name:   *v.UserName,
 				Description: model.IAMUserDescription{
 					User:               v,
 					Groups:             groups,
@@ -978,6 +1014,7 @@ func IAMUser(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 }
 
 func GetIAMUser(ctx context.Context, cfg aws.Config, userName string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	out, err := client.GetUser(ctx, &iam.GetUserInput{
 		UserName: &userName,
@@ -1009,8 +1046,9 @@ func GetIAMUser(ctx context.Context, cfg aws.Config, userName string) ([]Resourc
 	}
 
 	values = append(values, Resource{
-		ARN:  *v.Arn,
-		Name: *v.UserName,
+		Region: describeCtx.Region,
+		ARN:    *v.Arn,
+		Name:   *v.UserName,
 		Description: model.IAMUserDescription{
 			User:               *v,
 			Groups:             groups,
@@ -1024,6 +1062,7 @@ func GetIAMUser(ctx context.Context, cfg aws.Config, userName string) ([]Resourc
 }
 
 func IAMPolicyAttachment(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	paginator := iam.NewListPoliciesPaginator(client, &iam.ListPoliciesInput{
 		OnlyAttached: false,
@@ -1056,7 +1095,8 @@ func IAMPolicyAttachment(ctx context.Context, cfg aws.Config, stream *StreamSend
 				policyUsers = append(policyUsers, attachmentPage.PolicyUsers...)
 			}
 			resource := Resource{
-				Name: fmt.Sprintf("%s - Attachments", *policy.Arn),
+				Region: describeCtx.Region,
+				Name:   fmt.Sprintf("%s - Attachments", *policy.Arn),
 				Description: model.IAMPolicyAttachmentDescription{
 					PolicyArn:             *policy.Arn,
 					PolicyAttachmentCount: *policy.AttachmentCount,
@@ -1081,6 +1121,7 @@ func IAMPolicyAttachment(ctx context.Context, cfg aws.Config, stream *StreamSend
 }
 
 func GetIAMPolicyAttachment(ctx context.Context, cfg aws.Config, policyARN string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	policy, err := client.GetPolicy(ctx, &iam.GetPolicyInput{PolicyArn: &policyARN})
 	if err != nil {
@@ -1106,7 +1147,8 @@ func GetIAMPolicyAttachment(ctx context.Context, cfg aws.Config, policyARN strin
 		policyUsers = append(policyUsers, attachmentPage.PolicyUsers...)
 	}
 	values = append(values, Resource{
-		Name: fmt.Sprintf("%s - Attachments", policyARN),
+		Region: describeCtx.Region,
+		Name:   fmt.Sprintf("%s - Attachments", policyARN),
 		Description: model.IAMPolicyAttachmentDescription{
 			PolicyArn:             policyARN,
 			PolicyAttachmentCount: *policy.Policy.AttachmentCount,
@@ -1121,6 +1163,7 @@ func GetIAMPolicyAttachment(ctx context.Context, cfg aws.Config, policyARN strin
 }
 
 func IAMSamlProvider(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	output, err := client.ListSAMLProviders(ctx, &iam.ListSAMLProvidersInput{})
 	if err != nil {
@@ -1136,7 +1179,8 @@ func IAMSamlProvider(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			return nil, err
 		}
 		resource := Resource{
-			ARN: *v.Arn,
+			Region: describeCtx.Region,
+			ARN:    *v.Arn,
 			Description: model.IAMSamlProviderDescription{
 				SamlProvider: *samlProvider,
 			},
@@ -1154,6 +1198,7 @@ func IAMSamlProvider(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 }
 
 func IAMServiceSpecificCredential(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	paginator := iam.NewListUsersPaginator(client, &iam.ListUsersInput{})
 
@@ -1174,7 +1219,8 @@ func IAMServiceSpecificCredential(ctx context.Context, cfg aws.Config, stream *S
 
 			for _, credential := range serviceSpecificCredentials.ServiceSpecificCredentials {
 				resource := Resource{
-					ID: *credential.ServiceSpecificCredentialId,
+					Region: describeCtx.Region,
+					ID:     *credential.ServiceSpecificCredentialId,
 					Description: model.IAMServiceSpecificCredentialDescription{
 						ServiceSpecificCredential: credential,
 					},
@@ -1282,6 +1328,7 @@ func getUserMFADevices(ctx context.Context, client *iam.Client, username *string
 }
 
 func IAMVirtualMFADevice(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	output, err := client.ListVirtualMFADevices(ctx, &iam.ListVirtualMFADevicesInput{})
 	if err != nil {
@@ -1298,8 +1345,9 @@ func IAMVirtualMFADevice(ctx context.Context, cfg aws.Config, stream *StreamSend
 		}
 
 		resource := Resource{
-			ARN:  *v.SerialNumber,
-			Name: *v.SerialNumber,
+			Region: describeCtx.Region,
+			ARN:    *v.SerialNumber,
+			Name:   *v.SerialNumber,
 			Description: model.IAMVirtualMFADeviceDescription{
 				VirtualMFADevice: v,
 				Tags:             output.Tags,

@@ -39,8 +39,9 @@ func DirectoryServiceDirectory(ctx context.Context, cfg aws.Config, stream *Stre
 			}
 
 			resource := Resource{
-				ARN:  arn,
-				Name: *v.Name,
+				Region: describeCtx.Region,
+				ARN:    arn,
+				Name:   *v.Name,
 				Description: model.DirectoryServiceDirectoryDescription{
 					Directory: v,
 					Tags:      tags.Tags,

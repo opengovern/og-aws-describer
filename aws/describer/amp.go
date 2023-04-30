@@ -9,6 +9,7 @@ import (
 )
 
 func AMPWorkspace(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := amp.NewFromConfig(cfg)
 	paginator := amp.NewListWorkspacesPaginator(client, &amp.ListWorkspacesInput{})
 
@@ -21,8 +22,9 @@ func AMPWorkspace(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 
 		for _, v := range page.Workspaces {
 			resource := Resource{
-				ARN:  *v.Arn,
-				Name: *v.WorkspaceId,
+				Region: describeCtx.Region,
+				ARN:    *v.Arn,
+				Name:   *v.WorkspaceId,
 				Description: model.AMPWorkspaceDescription{
 					Workspace: v,
 				},

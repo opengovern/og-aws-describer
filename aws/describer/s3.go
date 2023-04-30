@@ -90,6 +90,7 @@ func S3Bucket(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 		arn := "arn:" + describeCtx.Partition + ":s3:::" + *bucket.Name
 		resultChan <- s3bucketResult{
 			Resource: Resource{
+				Region:      describeCtx.Region,
 				ARN:         arn,
 				Name:        *bucket.Name,
 				Description: desc,
@@ -184,6 +185,7 @@ func GetS3Bucket(ctx context.Context, cfg aws.Config, regions []string, bucketNa
 		arn := "arn:" + describeCtx.Partition + ":s3:::" + *bucket.Name
 
 		regionalValues[region] = append(regionalValues[region], Resource{
+			Region:      describeCtx.Region,
 			ARN:         arn,
 			Name:        *bucket.Name,
 			Description: desc,
@@ -482,6 +484,7 @@ func isErr(err error, code string) bool {
 }
 
 func S3AccessPoint(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	stsClient := sts.NewFromConfig(cfg)
 	output, err := stsClient.GetCallerIdentity(ctx, &sts.GetCallerIdentityInput{})
 	if err != nil {
@@ -535,8 +538,9 @@ func S3AccessPoint(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 			}
 
 			resource := Resource{
-				ARN:  *v.AccessPointArn,
-				Name: *v.Name,
+				Region: describeCtx.Region,
+				ARN:    *v.AccessPointArn,
+				Name:   *v.Name,
 				Description: model.S3AccessPointDescription{
 					AccessPoint:  ap,
 					Policy:       app.Policy,
@@ -556,6 +560,7 @@ func S3AccessPoint(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 }
 
 func S3StorageLens(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	stsClient := sts.NewFromConfig(cfg)
 	output, err := stsClient.GetCallerIdentity(ctx, &sts.GetCallerIdentityInput{})
 	if err != nil {
@@ -576,6 +581,7 @@ func S3StorageLens(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 
 		for _, v := range page.StorageLensConfigurationList {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ARN:         *v.StorageLensArn,
 				Name:        *v.Id,
 				Description: v,
@@ -594,6 +600,7 @@ func S3StorageLens(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 }
 
 func S3AccountSetting(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	accountId, err := STSAccount(ctx, cfg)
 	if err != nil {
 		return nil, err
@@ -620,6 +627,7 @@ func S3AccountSetting(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 	var values []Resource
 	resource := Resource{
+		Region: describeCtx.Region,
 		// No ARN or ID. Account level setting
 		Name: accountId + " S3 Account Setting",
 		Description: model.S3AccountSettingDescription{

@@ -9,6 +9,7 @@ import (
 )
 
 func MQBroker(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := mq.NewFromConfig(cfg)
 	paginator := mq.NewListBrokersPaginator(client, &mq.ListBrokersInput{})
 
@@ -28,8 +29,9 @@ func MQBroker(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 			}
 
 			resource := Resource{
-				ARN:  *v.BrokerArn,
-				Name: *v.BrokerName,
+				Region: describeCtx.Region,
+				ARN:    *v.BrokerArn,
+				Name:   *v.BrokerName,
 				Description: model.MQBrokerDescription{
 					Broker: v,
 					Tags:   tags.Tags,

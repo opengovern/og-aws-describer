@@ -25,8 +25,9 @@ func GrafanaWorkspace(ctx context.Context, cfg aws.Config, stream *StreamSender)
 		for _, v := range page.Workspaces {
 			arn := fmt.Sprintf("arn:%s:grafana:%s:%s:/workspaces/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.Id)
 			resource := Resource{
-				ARN:  arn,
-				Name: *v.Id,
+				Region: describeCtx.Region,
+				ARN:    arn,
+				Name:   *v.Id,
 				Description: model.GrafanaWorkspaceDescription{
 					Workspace: v,
 				},

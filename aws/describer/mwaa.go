@@ -9,6 +9,7 @@ import (
 )
 
 func MWAAEnvironment(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := mwaa.NewFromConfig(cfg)
 	paginator := mwaa.NewListEnvironmentsPaginator(client, &mwaa.ListEnvironmentsInput{})
 
@@ -28,8 +29,9 @@ func MWAAEnvironment(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			}
 
 			resource := Resource{
-				ARN:  *environment.Environment.Arn,
-				Name: *environment.Environment.Name,
+				Region: describeCtx.Region,
+				ARN:    *environment.Environment.Arn,
+				Name:   *environment.Environment.Name,
 				Description: model.MWAAEnvironmentDescription{
 					Environment: *environment.Environment,
 				},

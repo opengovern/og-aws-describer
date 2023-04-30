@@ -11,6 +11,7 @@ import (
 
 func AccountAlternateContact(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := account.NewFromConfig(cfg)
 
 	var values []Resource
@@ -30,7 +31,8 @@ func AccountAlternateContact(ctx context.Context, cfg aws.Config, stream *Stream
 		}
 
 		resource := Resource{
-			Name: *op.AlternateContact.Name,
+			Region: describeCtx.Region,
+			Name:   *op.AlternateContact.Name,
 			Description: model.AccountAlternateContactDescription{
 				AlternateContact: *op.AlternateContact,
 				LinkedAccountID:  describeCtx.AccountID,
@@ -52,6 +54,7 @@ func AccountAlternateContact(ctx context.Context, cfg aws.Config, stream *Stream
 
 func AccountContact(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := account.NewFromConfig(cfg)
 
 	var values []Resource
@@ -63,7 +66,8 @@ func AccountContact(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 	}
 
 	resource := Resource{
-		Name: *op.ContactInformation.FullName,
+		Region: describeCtx.Region,
+		Name:   *op.ContactInformation.FullName,
 		Description: model.AccountContactDescription{
 			AlternateContact: *op.ContactInformation,
 			LinkedAccountID:  describeCtx.AccountID,

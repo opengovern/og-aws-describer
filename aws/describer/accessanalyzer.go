@@ -10,6 +10,7 @@ import (
 )
 
 func GetAccessAnalyzerAnalyzer(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	analyzerName := fields["name"]
 	client := accessanalyzer.NewFromConfig(cfg)
 	v, err := client.GetAnalyzer(ctx, &accessanalyzer.GetAnalyzerInput{
@@ -24,17 +25,20 @@ func GetAccessAnalyzerAnalyzer(ctx context.Context, cfg aws.Config, fields map[s
 		return nil, err
 	}
 
-	return []Resource{{
-		ARN:  *v.Analyzer.Arn,
-		Name: *v.Analyzer.Name,
-		Description: model.AccessAnalyzerAnalyzerDescription{
-			Analyzer: *v.Analyzer,
-			Findings: findings,
-		},
-	}}, nil
+	return []Resource{
+		{
+			Region: describeCtx.Region,
+			ARN:    *v.Analyzer.Arn,
+			Name:   *v.Analyzer.Name,
+			Description: model.AccessAnalyzerAnalyzerDescription{
+				Analyzer: *v.Analyzer,
+				Findings: findings,
+			},
+		}}, nil
 }
 
 func AccessAnalyzerAnalyzer(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := accessanalyzer.NewFromConfig(cfg)
 	paginator := accessanalyzer.NewListAnalyzersPaginator(client, &accessanalyzer.ListAnalyzersInput{})
 
@@ -51,8 +55,9 @@ func AccessAnalyzerAnalyzer(ctx context.Context, cfg aws.Config, stream *StreamS
 				return nil, err
 			}
 			resource := Resource{
-				ARN:  *v.Arn,
-				Name: *v.Name,
+				Region: describeCtx.Region,
+				ARN:    *v.Arn,
+				Name:   *v.Name,
 				Description: model.AccessAnalyzerAnalyzerDescription{
 					Analyzer: v,
 					Findings: findings,

@@ -9,6 +9,7 @@ import (
 )
 
 func ShieldProtectionGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := shield.NewFromConfig(cfg)
 	paginator := shield.NewListProtectionGroupsPaginator(client, &shield.ListProtectionGroupsInput{})
 
@@ -31,8 +32,9 @@ func ShieldProtectionGroup(ctx context.Context, cfg aws.Config, stream *StreamSe
 			}
 
 			resource := Resource{
-				ARN:  *v.ProtectionGroupArn,
-				Name: *v.ProtectionGroupId,
+				Region: describeCtx.Region,
+				ARN:    *v.ProtectionGroupArn,
+				Name:   *v.ProtectionGroupId,
 				Description: model.ShieldProtectionGroupDescription{
 					ProtectionGroup: v,
 					Tags:            tags.Tags,

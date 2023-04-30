@@ -8,6 +8,7 @@ import (
 )
 
 func SyntheticsCanary(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := synthetics.NewFromConfig(cfg)
 	paginator := synthetics.NewDescribeCanariesPaginator(client, &synthetics.DescribeCanariesInput{})
 
@@ -20,6 +21,7 @@ func SyntheticsCanary(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 		for _, v := range page.Canaries {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ID:          *v.Id,
 				Name:        *v.Name,
 				Description: v,

@@ -9,6 +9,7 @@ import (
 )
 
 func AppStreamApplication(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := appstream.NewFromConfig(cfg)
 
 	var values []Resource
@@ -28,8 +29,9 @@ func AppStreamApplication(ctx context.Context, cfg aws.Config, stream *StreamSen
 				return nil, err
 			}
 			resource := Resource{
-				ARN:  *item.Arn,
-				Name: *item.Name,
+				Region: describeCtx.Region,
+				ARN:    *item.Arn,
+				Name:   *item.Name,
 				Description: model.AppStreamApplicationDescription{
 					Application: item,
 					Tags:        tags.Tags,
@@ -54,6 +56,7 @@ func AppStreamApplication(ctx context.Context, cfg aws.Config, stream *StreamSen
 }
 
 func AppStreamStack(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := appstream.NewFromConfig(cfg)
 
 	var values []Resource
@@ -73,8 +76,9 @@ func AppStreamStack(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 				return nil, err
 			}
 			resource := Resource{
-				ARN:  *item.Arn,
-				Name: *item.Name,
+				Region: describeCtx.Region,
+				ARN:    *item.Arn,
+				Name:   *item.Name,
 				Description: model.AppStreamStackDescription{
 					Stack: item,
 					Tags:  tags.Tags,
@@ -99,6 +103,7 @@ func AppStreamStack(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 }
 
 func AppStreamFleet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := appstream.NewFromConfig(cfg)
 
 	var values []Resource
@@ -118,8 +123,9 @@ func AppStreamFleet(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 				return nil, err
 			}
 			resource := Resource{
-				ARN:  *item.Arn,
-				Name: *item.Name,
+				Region: describeCtx.Region,
+				ARN:    *item.Arn,
+				Name:   *item.Name,
 				Description: model.AppStreamFleetDescription{
 					Fleet: item,
 					Tags:  tags.Tags,

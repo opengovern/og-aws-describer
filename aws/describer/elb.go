@@ -14,6 +14,7 @@ import (
 )
 
 func ElasticLoadBalancingV2LoadBalancer(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := elasticloadbalancingv2.NewFromConfig(cfg)
 	paginator := elasticloadbalancingv2.NewDescribeLoadBalancersPaginator(client, &elasticloadbalancingv2.DescribeLoadBalancersInput{})
 
@@ -49,6 +50,7 @@ func ElasticLoadBalancingV2LoadBalancer(ctx context.Context, cfg aws.Config, str
 			}
 
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ARN:         *v.LoadBalancerArn,
 				Name:        *v.LoadBalancerName,
 				Description: description,
@@ -67,6 +69,7 @@ func ElasticLoadBalancingV2LoadBalancer(ctx context.Context, cfg aws.Config, str
 }
 
 func GetElasticLoadBalancingV2LoadBalancer(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	lbARN := fields["arn"]
 	client := elasticloadbalancingv2.NewFromConfig(cfg)
 	out, err := client.DescribeLoadBalancers(ctx, &elasticloadbalancingv2.DescribeLoadBalancersInput{
@@ -102,6 +105,7 @@ func GetElasticLoadBalancingV2LoadBalancer(ctx context.Context, cfg aws.Config, 
 		}
 
 		values = append(values, Resource{
+			Region:      describeCtx.Region,
 			ARN:         *v.LoadBalancerArn,
 			Name:        *v.LoadBalancerName,
 			Description: description,
@@ -112,6 +116,7 @@ func GetElasticLoadBalancingV2LoadBalancer(ctx context.Context, cfg aws.Config, 
 }
 
 func ElasticLoadBalancingV2Listener(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	lbs, err := ElasticLoadBalancingV2LoadBalancer(ctx, cfg, nil)
 	if err != nil {
 		return nil, err
@@ -133,8 +138,9 @@ func ElasticLoadBalancingV2Listener(ctx context.Context, cfg aws.Config, stream 
 
 			for _, v := range page.Listeners {
 				resource := Resource{
-					ARN:  *v.ListenerArn,
-					Name: nameFromArn(*v.ListenerArn),
+					Region: describeCtx.Region,
+					ARN:    *v.ListenerArn,
+					Name:   nameFromArn(*v.ListenerArn),
 					Description: model.ElasticLoadBalancingV2ListenerDescription{
 						Listener: v,
 					},
@@ -155,6 +161,7 @@ func ElasticLoadBalancingV2Listener(ctx context.Context, cfg aws.Config, stream 
 }
 
 func GetElasticLoadBalancingV2Listener(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	lbArn := fields["load_balancer_arn"]
 	listenerARN := fields["arn"]
 	client := elasticloadbalancingv2.NewFromConfig(cfg)
@@ -169,8 +176,9 @@ func GetElasticLoadBalancingV2Listener(ctx context.Context, cfg aws.Config, fiel
 	var values []Resource
 	for _, v := range out.Listeners {
 		values = append(values, Resource{
-			ARN:  *v.ListenerArn,
-			Name: nameFromArn(*v.ListenerArn),
+			Region: describeCtx.Region,
+			ARN:    *v.ListenerArn,
+			Name:   nameFromArn(*v.ListenerArn),
 			Description: model.ElasticLoadBalancingV2ListenerDescription{
 				Listener: v,
 			},
@@ -181,6 +189,7 @@ func GetElasticLoadBalancingV2Listener(ctx context.Context, cfg aws.Config, fiel
 }
 
 func ElasticLoadBalancingV2ListenerRule(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	listeners, err := ElasticLoadBalancingV2Listener(ctx, cfg, nil)
 	if err != nil {
 		return nil, err
@@ -201,8 +210,9 @@ func ElasticLoadBalancingV2ListenerRule(ctx context.Context, cfg aws.Config, str
 
 			for _, v := range output.Rules {
 				resource := Resource{
-					ARN:  *v.RuleArn,
-					Name: *v.RuleArn,
+					Region: describeCtx.Region,
+					ARN:    *v.RuleArn,
+					Name:   *v.RuleArn,
 					Description: model.ElasticLoadBalancingV2RuleDescription{
 						Rule: v,
 					},
@@ -228,6 +238,7 @@ func ElasticLoadBalancingV2ListenerRule(ctx context.Context, cfg aws.Config, str
 }
 
 func GetElasticLoadBalancingV2ListenerRule(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	listeners, err := ElasticLoadBalancingV2Listener(ctx, cfg, nil)
 	if err != nil {
 		return nil, err
@@ -248,8 +259,9 @@ func GetElasticLoadBalancingV2ListenerRule(ctx context.Context, cfg aws.Config, 
 
 			for _, v := range output.Rules {
 				resource := Resource{
-					ARN:  *v.RuleArn,
-					Name: *v.RuleArn,
+					Region: describeCtx.Region,
+					ARN:    *v.RuleArn,
+					Name:   *v.RuleArn,
 					Description: model.ElasticLoadBalancingV2RuleDescription{
 						Rule: v,
 					},
@@ -275,10 +287,9 @@ func GetElasticLoadBalancingV2ListenerRule(ctx context.Context, cfg aws.Config, 
 }
 
 func ElasticLoadBalancingLoadBalancer(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := elasticloadbalancing.NewFromConfig(cfg)
 	paginator := elasticloadbalancing.NewDescribeLoadBalancersPaginator(client, &elasticloadbalancing.DescribeLoadBalancersInput{})
-
-	describeCtx := GetDescribeContext(ctx)
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -313,6 +324,7 @@ func ElasticLoadBalancingLoadBalancer(ctx context.Context, cfg aws.Config, strea
 
 			arn := "arn:" + describeCtx.Partition + ":elasticloadbalancing:" + describeCtx.Region + ":" + describeCtx.AccountID + ":loadbalancer/" + *v.LoadBalancerName
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ARN:         arn,
 				Name:        *v.LoadBalancerName,
 				Description: description,
@@ -332,6 +344,7 @@ func ElasticLoadBalancingLoadBalancer(ctx context.Context, cfg aws.Config, strea
 
 func ElasticLoadBalancingV2SslPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
 	client := elasticloadbalancingv2.NewFromConfig(cfg)
 
 	var values []Resource
@@ -346,8 +359,9 @@ func ElasticLoadBalancingV2SslPolicy(ctx context.Context, cfg aws.Config, stream
 		for _, v := range output.SslPolicies {
 			arn := fmt.Sprintf("arn:%s:elbv2:%s:%s:ssl-policy/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.Name)
 			resource := Resource{
-				Name: *v.Name,
-				ARN:  arn,
+				Region: describeCtx.Region,
+				Name:   *v.Name,
+				ARN:    arn,
 				Description: model.ElasticLoadBalancingV2SslPolicyDescription{
 					SslPolicy: v,
 				},
@@ -372,6 +386,7 @@ func ElasticLoadBalancingV2SslPolicy(ctx context.Context, cfg aws.Config, stream
 }
 
 func ElasticLoadBalancingV2TargetGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := elasticloadbalancingv2.NewFromConfig(cfg)
 	paginator := elasticloadbalancingv2.NewDescribeTargetGroupsPaginator(client, &elasticloadbalancingv2.DescribeTargetGroupsInput{})
 
@@ -403,8 +418,9 @@ func ElasticLoadBalancingV2TargetGroup(ctx context.Context, cfg aws.Config, stre
 			}
 
 			resource := Resource{
-				ARN:  *v.TargetGroupArn,
-				Name: *v.TargetGroupName,
+				Region: describeCtx.Region,
+				ARN:    *v.TargetGroupArn,
+				Name:   *v.TargetGroupName,
 				Description: model.ElasticLoadBalancingV2TargetGroupDescription{
 					TargetGroup: v,
 					Health:      healthDescriptions.TargetHealthDescriptions,
@@ -425,6 +441,7 @@ func ElasticLoadBalancingV2TargetGroup(ctx context.Context, cfg aws.Config, stre
 }
 
 func ApplicationLoadBalancerMetricRequestCount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := elasticloadbalancingv2.NewFromConfig(cfg)
 	paginator := elasticloadbalancingv2.NewDescribeLoadBalancersPaginator(client, &elasticloadbalancingv2.DescribeLoadBalancersInput{})
 
@@ -446,7 +463,8 @@ func ApplicationLoadBalancerMetricRequestCount(ctx context.Context, cfg aws.Conf
 			}
 			for _, metric := range metrics {
 				resource := Resource{
-					ID: fmt.Sprintf("%s:%s:%s:%s", arn, metric.Timestamp.Format(time.RFC3339), *metric.DimensionName, *metric.DimensionValue),
+					Region: describeCtx.Region,
+					ID:     fmt.Sprintf("%s:%s:%s:%s", arn, metric.Timestamp.Format(time.RFC3339), *metric.DimensionName, *metric.DimensionValue),
 					Description: model.ApplicationLoadBalancerMetricRequestCountDescription{
 						CloudWatchMetricRow: metric,
 					},
@@ -466,6 +484,7 @@ func ApplicationLoadBalancerMetricRequestCount(ctx context.Context, cfg aws.Conf
 }
 
 func GetApplicationLoadBalancerMetricRequestCount(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	loadBalancerARN := fields["arn"]
 	client := elasticloadbalancingv2.NewFromConfig(cfg)
 	out, err := client.DescribeLoadBalancers(ctx, &elasticloadbalancingv2.DescribeLoadBalancersInput{
@@ -487,7 +506,8 @@ func GetApplicationLoadBalancerMetricRequestCount(ctx context.Context, cfg aws.C
 		}
 		for _, metric := range metrics {
 			values = append(values, Resource{
-				ID: fmt.Sprintf("%s:%s:%s:%s", arn, metric.Timestamp.Format(time.RFC3339), *metric.DimensionName, *metric.DimensionValue),
+				Region: describeCtx.Region,
+				ID:     fmt.Sprintf("%s:%s:%s:%s", arn, metric.Timestamp.Format(time.RFC3339), *metric.DimensionName, *metric.DimensionValue),
 				Description: model.ApplicationLoadBalancerMetricRequestCountDescription{
 					CloudWatchMetricRow: metric,
 				},
@@ -499,6 +519,7 @@ func GetApplicationLoadBalancerMetricRequestCount(ctx context.Context, cfg aws.C
 }
 
 func ApplicationLoadBalancerMetricRequestCountDaily(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := elasticloadbalancingv2.NewFromConfig(cfg)
 	paginator := elasticloadbalancingv2.NewDescribeLoadBalancersPaginator(client, &elasticloadbalancingv2.DescribeLoadBalancersInput{})
 
@@ -520,7 +541,8 @@ func ApplicationLoadBalancerMetricRequestCountDaily(ctx context.Context, cfg aws
 			}
 			for _, metric := range metrics {
 				resource := Resource{
-					ID: fmt.Sprintf("%s:%s:%s:%s", arn, metric.Timestamp.Format(time.RFC3339), *metric.DimensionName, *metric.DimensionValue),
+					Region: describeCtx.Region,
+					ID:     fmt.Sprintf("%s:%s:%s:%s", arn, metric.Timestamp.Format(time.RFC3339), *metric.DimensionName, *metric.DimensionValue),
 					Description: model.ApplicationLoadBalancerMetricRequestCountDailyDescription{
 						CloudWatchMetricRow: metric,
 					},
@@ -540,6 +562,7 @@ func ApplicationLoadBalancerMetricRequestCountDaily(ctx context.Context, cfg aws
 }
 
 func GetApplicationLoadBalancerMetricRequestCountDaily(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	loadBalancerARN := fields["arn"]
 
 	client := elasticloadbalancingv2.NewFromConfig(cfg)
@@ -560,7 +583,8 @@ func GetApplicationLoadBalancerMetricRequestCountDaily(ctx context.Context, cfg 
 		}
 		for _, metric := range metrics {
 			values = append(values, Resource{
-				ID: fmt.Sprintf("%s:%s:%s:%s", arn, metric.Timestamp.Format(time.RFC3339), *metric.DimensionName, *metric.DimensionValue),
+				Region: describeCtx.Region,
+				ID:     fmt.Sprintf("%s:%s:%s:%s", arn, metric.Timestamp.Format(time.RFC3339), *metric.DimensionName, *metric.DimensionValue),
 				Description: model.ApplicationLoadBalancerMetricRequestCountDailyDescription{
 					CloudWatchMetricRow: metric,
 				},
@@ -572,6 +596,7 @@ func GetApplicationLoadBalancerMetricRequestCountDaily(ctx context.Context, cfg 
 }
 
 func NetworkLoadBalancerMetricNetFlowCount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := elasticloadbalancingv2.NewFromConfig(cfg)
 	paginator := elasticloadbalancingv2.NewDescribeLoadBalancersPaginator(client, &elasticloadbalancingv2.DescribeLoadBalancersInput{})
 
@@ -593,7 +618,8 @@ func NetworkLoadBalancerMetricNetFlowCount(ctx context.Context, cfg aws.Config, 
 			}
 			for _, metric := range metrics {
 				resource := Resource{
-					ID: fmt.Sprintf("%s:%s:%s:%s", arn, metric.Timestamp.Format(time.RFC3339), *metric.DimensionName, *metric.DimensionValue),
+					Region: describeCtx.Region,
+					ID:     fmt.Sprintf("%s:%s:%s:%s", arn, metric.Timestamp.Format(time.RFC3339), *metric.DimensionName, *metric.DimensionValue),
 					Description: model.NetworkLoadBalancerMetricNetFlowCountDescription{
 						CloudWatchMetricRow: metric,
 					},
@@ -613,6 +639,7 @@ func NetworkLoadBalancerMetricNetFlowCount(ctx context.Context, cfg aws.Config, 
 }
 
 func NetworkLoadBalancerMetricNetFlowCountDaily(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := elasticloadbalancingv2.NewFromConfig(cfg)
 	paginator := elasticloadbalancingv2.NewDescribeLoadBalancersPaginator(client, &elasticloadbalancingv2.DescribeLoadBalancersInput{})
 
@@ -634,7 +661,8 @@ func NetworkLoadBalancerMetricNetFlowCountDaily(ctx context.Context, cfg aws.Con
 			}
 			for _, metric := range metrics {
 				resource := Resource{
-					ID: fmt.Sprintf("%s:%s:%s:%s", arn, metric.Timestamp.Format(time.RFC3339), *metric.DimensionName, *metric.DimensionValue),
+					Region: describeCtx.Region,
+					ID:     fmt.Sprintf("%s:%s:%s:%s", arn, metric.Timestamp.Format(time.RFC3339), *metric.DimensionName, *metric.DimensionValue),
 					Description: model.NetworkLoadBalancerMetricNetFlowCountDailyDescription{
 						CloudWatchMetricRow: metric,
 					},

@@ -9,6 +9,7 @@ import (
 )
 
 func OpenSearchDomain(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := opensearch.NewFromConfig(cfg)
 
 	domainNamesOutput, err := client.ListDomainNames(ctx, &opensearch.ListDomainNamesInput{})
@@ -37,8 +38,9 @@ func OpenSearchDomain(ctx context.Context, cfg aws.Config, stream *StreamSender)
 		}
 
 		resource := Resource{
-			ARN:  *domain.ARN,
-			Name: *domain.DomainName,
+			Region: describeCtx.Region,
+			ARN:    *domain.ARN,
+			Name:   *domain.DomainName,
 			Description: model.OpenSearchDomainDescription{
 				Domain: domain,
 				Tags:   tags.TagList,

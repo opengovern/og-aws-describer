@@ -9,6 +9,7 @@ import (
 )
 
 func GlobalAcceleratorAccelerator(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := globalaccelerator.NewFromConfig(cfg)
 	paginator := globalaccelerator.NewListAcceleratorsPaginator(client, &globalaccelerator.ListAcceleratorsInput{})
 
@@ -34,8 +35,9 @@ func GlobalAcceleratorAccelerator(ctx context.Context, cfg aws.Config, stream *S
 			}
 
 			resource := Resource{
-				ARN:  *accelerator.AcceleratorArn,
-				Name: *accelerator.Name,
+				Region: describeCtx.Region,
+				ARN:    *accelerator.AcceleratorArn,
+				Name:   *accelerator.Name,
 				Description: model.GlobalAcceleratorAcceleratorDescription{
 					Accelerator:           accelerator,
 					AcceleratorAttributes: attribute.AcceleratorAttributes,
@@ -56,6 +58,7 @@ func GlobalAcceleratorAccelerator(ctx context.Context, cfg aws.Config, stream *S
 }
 
 func GlobalAcceleratorListener(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := globalaccelerator.NewFromConfig(cfg)
 	paginator := globalaccelerator.NewListAcceleratorsPaginator(client, &globalaccelerator.ListAcceleratorsInput{})
 
@@ -76,8 +79,9 @@ func GlobalAcceleratorListener(ctx context.Context, cfg aws.Config, stream *Stre
 				}
 				for _, listener := range listenerPage.Listeners {
 					resource := Resource{
-						ARN:  *listener.ListenerArn,
-						Name: *listener.ListenerArn,
+						Region: describeCtx.Region,
+						ARN:    *listener.ListenerArn,
+						Name:   *listener.ListenerArn,
 						Description: model.GlobalAcceleratorListenerDescription{
 							Listener:       listener,
 							AcceleratorArn: *accelerator.AcceleratorArn,
@@ -99,6 +103,7 @@ func GlobalAcceleratorListener(ctx context.Context, cfg aws.Config, stream *Stre
 }
 
 func GlobalAcceleratorEndpointGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := globalaccelerator.NewFromConfig(cfg)
 	paginator := globalaccelerator.NewListAcceleratorsPaginator(client, &globalaccelerator.ListAcceleratorsInput{})
 
@@ -128,8 +133,9 @@ func GlobalAcceleratorEndpointGroup(ctx context.Context, cfg aws.Config, stream 
 						}
 						for _, endpointGroup := range endpointGroupPage.EndpointGroups {
 							resource := Resource{
-								ARN:  *endpointGroup.EndpointGroupArn,
-								Name: *endpointGroup.EndpointGroupArn,
+								Region: describeCtx.Region,
+								ARN:    *endpointGroup.EndpointGroupArn,
+								Name:   *endpointGroup.EndpointGroupArn,
 								Description: model.GlobalAcceleratorEndpointGroupDescription{
 									EndpointGroup:  endpointGroup,
 									ListenerArn:    *listener.ListenerArn,

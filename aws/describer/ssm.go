@@ -10,10 +10,9 @@ import (
 )
 
 func SSMManagedInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := ssm.NewFromConfig(cfg)
 	paginator := ssm.NewDescribeInstanceInformationPaginator(client, &ssm.DescribeInstanceInformationInput{})
-
-	describeCtx := GetDescribeContext(ctx)
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -31,8 +30,9 @@ func SSMManagedInstance(ctx context.Context, cfg aws.Config, stream *StreamSende
 				name = *item.InstanceId
 			}
 			resource := Resource{
-				ARN:  arn,
-				Name: name,
+				Region: describeCtx.Region,
+				ARN:    arn,
+				Name:   name,
 				Description: model.SSMManagedInstanceDescription{
 					InstanceInformation: item,
 				},
@@ -50,10 +50,9 @@ func SSMManagedInstance(ctx context.Context, cfg aws.Config, stream *StreamSende
 }
 
 func SSMManagedInstanceCompliance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := ssm.NewFromConfig(cfg)
 	paginator := ssm.NewDescribeInstanceInformationPaginator(client, &ssm.DescribeInstanceInformationInput{})
-
-	describeCtx := GetDescribeContext(ctx)
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -76,8 +75,9 @@ func SSMManagedInstanceCompliance(ctx context.Context, cfg aws.Config, stream *S
 				for _, item := range cpage.ComplianceItems {
 					arn := "arn:" + describeCtx.Partition + ":ssm:" + describeCtx.Region + ":" + describeCtx.AccountID + ":managed-instance/" + *item.ResourceId + "/compliance-item/" + *item.Id + ":" + *item.ComplianceType
 					resource := Resource{
-						ARN:  arn,
-						Name: *item.Title,
+						Region: describeCtx.Region,
+						ARN:    arn,
+						Name:   *item.Title,
 						Description: model.SSMManagedInstanceComplianceDescription{
 							ComplianceItem: item,
 						},
@@ -98,6 +98,7 @@ func SSMManagedInstanceCompliance(ctx context.Context, cfg aws.Config, stream *S
 }
 
 func SSMAssociation(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := ssm.NewFromConfig(cfg)
 	paginator := ssm.NewListAssociationsPaginator(client, &ssm.ListAssociationsInput{})
 
@@ -110,6 +111,7 @@ func SSMAssociation(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 
 		for _, v := range page.Associations {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ID:          *v.AssociationId,
 				Name:        *v.Name,
 				Description: v,
@@ -128,6 +130,7 @@ func SSMAssociation(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 }
 
 func SSMDocument(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := ssm.NewFromConfig(cfg)
 	paginator := ssm.NewListDocumentsPaginator(client, &ssm.ListDocumentsInput{})
 
@@ -140,6 +143,7 @@ func SSMDocument(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 
 		for _, v := range page.DocumentIdentifiers {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ID:          *v.Name,
 				Name:        *v.Name,
 				Description: v,
@@ -158,6 +162,7 @@ func SSMDocument(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 }
 
 func SSMMaintenanceWindow(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := ssm.NewFromConfig(cfg)
 	paginator := ssm.NewDescribeMaintenanceWindowsPaginator(client, &ssm.DescribeMaintenanceWindowsInput{})
 
@@ -170,6 +175,7 @@ func SSMMaintenanceWindow(ctx context.Context, cfg aws.Config, stream *StreamSen
 
 		for _, v := range page.WindowIdentities {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ID:          *v.WindowId,
 				Name:        *v.Name,
 				Description: v,
@@ -188,6 +194,7 @@ func SSMMaintenanceWindow(ctx context.Context, cfg aws.Config, stream *StreamSen
 }
 
 func SSMMaintenanceWindowTarget(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	windows, err := SSMMaintenanceWindow(ctx, cfg, nil)
 	if err != nil {
 		return nil, err
@@ -210,6 +217,7 @@ func SSMMaintenanceWindowTarget(ctx context.Context, cfg aws.Config, stream *Str
 
 			for _, v := range page.Targets {
 				resource := Resource{
+					Region:      describeCtx.Region,
 					ID:          *v.WindowTargetId,
 					Name:        *v.Name,
 					Description: v,
@@ -229,6 +237,7 @@ func SSMMaintenanceWindowTarget(ctx context.Context, cfg aws.Config, stream *Str
 }
 
 func SSMMaintenanceWindowTask(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	windows, err := SSMMaintenanceWindow(ctx, cfg, nil)
 	if err != nil {
 		return nil, err
@@ -251,6 +260,7 @@ func SSMMaintenanceWindowTask(ctx context.Context, cfg aws.Config, stream *Strea
 
 			for _, v := range page.Tasks {
 				resource := Resource{
+					Region:      describeCtx.Region,
 					ARN:         *v.TaskArn,
 					Name:        *v.Name,
 					Description: v,
@@ -270,6 +280,7 @@ func SSMMaintenanceWindowTask(ctx context.Context, cfg aws.Config, stream *Strea
 }
 
 func SSMParameter(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := ssm.NewFromConfig(cfg)
 	paginator := ssm.NewDescribeParametersPaginator(client, &ssm.DescribeParametersInput{})
 
@@ -282,6 +293,7 @@ func SSMParameter(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 
 		for _, v := range page.Parameters {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ID:          *v.Name,
 				Name:        *v.Name,
 				Description: v,
@@ -300,6 +312,7 @@ func SSMParameter(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 }
 
 func SSMPatchBaseline(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := ssm.NewFromConfig(cfg)
 	paginator := ssm.NewDescribePatchBaselinesPaginator(client, &ssm.DescribePatchBaselinesInput{})
 
@@ -312,6 +325,7 @@ func SSMPatchBaseline(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 		for _, v := range page.BaselineIdentities {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ID:          *v.BaselineId,
 				Name:        *v.BaselineName,
 				Description: v,
@@ -330,6 +344,7 @@ func SSMPatchBaseline(ctx context.Context, cfg aws.Config, stream *StreamSender)
 }
 
 func SSMResourceDataSync(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := ssm.NewFromConfig(cfg)
 	paginator := ssm.NewListResourceDataSyncPaginator(client, &ssm.ListResourceDataSyncInput{})
 
@@ -342,6 +357,7 @@ func SSMResourceDataSync(ctx context.Context, cfg aws.Config, stream *StreamSend
 
 		for _, v := range page.ResourceDataSyncItems {
 			resource := Resource{
+				Region:      describeCtx.Region,
 				ID:          *v.SyncName,
 				Name:        *v.SyncName,
 				Description: v,

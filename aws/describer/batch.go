@@ -9,6 +9,7 @@ import (
 )
 
 func BatchComputeEnvironment(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := batch.NewFromConfig(cfg)
 	paginator := batch.NewDescribeComputeEnvironmentsPaginator(client, &batch.DescribeComputeEnvironmentsInput{})
 
@@ -21,8 +22,9 @@ func BatchComputeEnvironment(ctx context.Context, cfg aws.Config, stream *Stream
 
 		for _, v := range page.ComputeEnvironments {
 			resource := Resource{
-				ARN:  *v.ComputeEnvironmentArn,
-				Name: *v.ComputeEnvironmentName,
+				Region: describeCtx.Region,
+				ARN:    *v.ComputeEnvironmentArn,
+				Name:   *v.ComputeEnvironmentName,
 				Description: model.BatchComputeEnvironmentDescription{
 					ComputeEnvironment: v,
 				},
@@ -41,6 +43,7 @@ func BatchComputeEnvironment(ctx context.Context, cfg aws.Config, stream *Stream
 }
 
 func BatchJob(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	client := batch.NewFromConfig(cfg)
 	paginator := batch.NewDescribeJobQueuesPaginator(client, &batch.DescribeJobQueuesInput{})
 
@@ -62,8 +65,9 @@ func BatchJob(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 
 				for _, v := range page.JobSummaryList {
 					resource := Resource{
-						ARN:  *v.JobArn,
-						Name: *v.JobName,
+						Region: describeCtx.Region,
+						ARN:    *v.JobArn,
+						Name:   *v.JobName,
 						Description: model.BatchJobDescription{
 							Job: v,
 						},
