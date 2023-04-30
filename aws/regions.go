@@ -118,7 +118,7 @@ func getAllRegions(ctx context.Context, cfg aws.Config, includeDisabledRegions b
 	return output.Regions, nil
 }
 
-func partitionOf(region string) (string, bool) {
+func PartitionOf(region string) (string, bool) {
 	resolver := endpoints.DefaultResolver()
 	partitions := resolver.(endpoints.EnumPartitions).Partitions()
 

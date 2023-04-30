@@ -3072,7 +3072,7 @@ func ParallelDescribeRegionalSingleResource(describe func(context.Context, aws.C
 				rCfg := cfg.Copy()
 				rCfg.Region = r
 
-				partition, _ := partitionOf(r)
+				partition, _ := PartitionOf(r)
 				ctx = describer.WithDescribeContext(ctx, describer.DescribeContext{
 					AccountID: account,
 					Region:    r,
@@ -3101,7 +3101,7 @@ func ParallelDescribeRegionalSingleResource(describe func(context.Context, aws.C
 				resp.resources = []describer.Resource{}
 			}
 
-			partition, _ := partitionOf(resp.region)
+			partition, _ := PartitionOf(resp.region)
 			for i := range resp.resources {
 				resp.resources[i].Account = account
 				resp.resources[i].Region = resp.region
@@ -3137,7 +3137,7 @@ func ParallelDescribeRegional(describe func(context.Context, aws.Config, *descri
 				rCfg := cfg.Copy()
 				rCfg.Region = r
 
-				partition, _ := partitionOf(r)
+				partition, _ := PartitionOf(r)
 				ctx = describer.WithDescribeContext(ctx, describer.DescribeContext{
 					AccountID: account,
 					Region:    r,
@@ -3166,7 +3166,7 @@ func ParallelDescribeRegional(describe func(context.Context, aws.Config, *descri
 				resp.resources = []describer.Resource{}
 			}
 
-			partition, _ := partitionOf(resp.region)
+			partition, _ := PartitionOf(resp.region)
 			for i := range resp.resources {
 				resp.resources[i].Account = account
 				resp.resources[i].Region = resp.region
@@ -3194,7 +3194,7 @@ func SequentialDescribeGlobal(describe func(context.Context, aws.Config, *descri
 			rCfg := cfg.Copy()
 			rCfg.Region = region
 
-			partition, _ := partitionOf(region)
+			partition, _ := PartitionOf(region)
 			ctx = describer.WithDescribeContext(ctx, describer.DescribeContext{
 				AccountID: account,
 				Region:    region,
@@ -3244,7 +3244,7 @@ func SequentialDescribeS3(describe func(context.Context, aws.Config, []string, *
 			rCfg := cfg.Copy()
 			rCfg.Region = region
 
-			partition, _ := partitionOf(region)
+			partition, _ := PartitionOf(region)
 			ctx = describer.WithDescribeContext(ctx, describer.DescribeContext{
 				AccountID: account,
 				Region:    region,
@@ -3269,7 +3269,7 @@ func SequentialDescribeS3(describe func(context.Context, aws.Config, []string, *
 		}
 
 		for region, resources := range output.Resources {
-			partition, _ := partitionOf(region)
+			partition, _ := PartitionOf(region)
 
 			for j, resource := range resources {
 				resource.Account = account

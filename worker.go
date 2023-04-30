@@ -62,14 +62,15 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 			return err
 		}
 
+		partition, _ := aws.PartitionOf(resource.Region)
 		rs.Send(&golang.AWSResource{
 			Arn:             resource.ARN,
 			Id:              resource.ID,
 			Name:            resource.Name,
-			Account:         resource.Account,
+			Account:         job.AccountID,
 			Region:          resource.Region,
-			Partition:       resource.Partition,
-			Type:            resource.Type,
+			Partition:       partition,
+			Type:            job.ResourceType,
 			DescriptionJson: string(descriptionJSON),
 			Job: &golang.DescribeJob{
 				JobId:         uint32(job.JobID),
