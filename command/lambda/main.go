@@ -13,6 +13,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/oauth"
+	"google.golang.org/grpc/metadata"
 
 	"github.com/aws/aws-lambda-go/lambda"
 	kaytu_aws_describer "github.com/kaytu-io/kaytu-aws-describer"
@@ -61,6 +62,10 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 	}
 	logger.Info(fmt.Sprintf("%v", input))
 
+	if input.WorkspaceName == "" {
+		return fmt.Errorf("workspace name is required")
+	}
+
 	kmsVault, err := vault.NewKMSVaultSourceConfig(ctx, "", "", input.KeyRegion)
 	if err != nil {
 		return fmt.Errorf("failed to initialize KMS vault: %w", err)
@@ -106,8 +111,9 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		}
 		client := golang.NewDescribeServiceClient(conn)
 
-		grpcCtx := context.Background()
-		grpcCtx = context.WithValue(grpcCtx, "workspace-name", input.WorkspaceName)
+		grpcCtx := metadata.NewOutgoingContext(context.Background(), metadata.New(map[string]string{
+			"workspace-name": input.WorkspaceName,
+		}))
 		_, err = client.DeliverResult(grpcCtx, &golang.DeliverResultRequest{
 			JobId:       uint32(input.DescribeJob.JobID),
 			ParentJobId: uint32(input.DescribeJob.ParentJobID),

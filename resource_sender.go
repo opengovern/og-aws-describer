@@ -3,6 +3,7 @@ package kaytu_aws_describer
 import (
 	"context"
 	"errors"
+	"fmt"
 	"io"
 
 	"github.com/kaytu-io/kaytu-aws-describer/proto/src/golang"
@@ -11,6 +12,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/oauth"
+	"google.golang.org/grpc/metadata"
 )
 
 type ResourceSender struct {
@@ -64,9 +66,10 @@ func (s *ResourceSender) Connect() error {
 
 	client := golang.NewDescribeServiceClient(conn)
 
-	grpcCtx := context.Background()
-	grpcCtx = context.WithValue(grpcCtx, "resourceJobID", s.jobID)
-	grpcCtx = context.WithValue(grpcCtx, "workspace-name", s.workspaceName)
+	grpcCtx := metadata.NewOutgoingContext(context.Background(), metadata.New(map[string]string{
+		"workspace-name":  s.workspaceName,
+		"resource-job-id": fmt.Sprintf("%d", s.jobID),
+	}))
 	stream, err := client.DeliverAWSResources(grpcCtx)
 	if err != nil {
 		return err
