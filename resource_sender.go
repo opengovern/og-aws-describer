@@ -3,14 +3,18 @@ package kaytu_aws_describer
 import (
 	"context"
 	"errors"
+	"io"
+
 	"github.com/kaytu-io/kaytu-aws-describer/proto/src/golang"
 	"go.uber.org/zap"
+	"golang.org/x/oauth2"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
-	"io"
+	"google.golang.org/grpc/credentials/oauth"
 )
 
 type ResourceSender struct {
+	authToken        string
 	logger           *zap.Logger
 	resourceChannel  chan *golang.AWSResource
 	resourceIDs      []string
@@ -21,8 +25,9 @@ type ResourceSender struct {
 	jobID            uint
 }
 
-func NewResourceSender(describeEndpoint string, jobID uint, logger *zap.Logger) (*ResourceSender, error) {
+func NewResourceSender(describeEndpoint string, describeToken string, jobID uint, logger *zap.Logger) (*ResourceSender, error) {
 	rs := ResourceSender{
+		authToken:        describeToken,
 		logger:           logger,
 		resourceChannel:  make(chan *golang.AWSResource, 1000),
 		resourceIDs:      nil,
@@ -41,7 +46,15 @@ func NewResourceSender(describeEndpoint string, jobID uint, logger *zap.Logger) 
 }
 
 func (s *ResourceSender) Connect() error {
-	conn, err := grpc.Dial(s.describeEndpoint, grpc.WithTransportCredentials(credentials.NewTLS(nil)))
+	conn, err := grpc.Dial(
+		s.describeEndpoint,
+		grpc.WithTransportCredentials(credentials.NewTLS(nil)),
+		grpc.WithPerRPCCredentials(oauth.TokenSource{
+			TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
+				AccessToken: s.authToken,
+			}),
+		}),
+	)
 	if err != nil {
 		return err
 	}

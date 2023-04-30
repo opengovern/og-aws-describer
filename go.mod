@@ -115,14 +115,17 @@ require (
 	github.com/aws/smithy-go v1.13.5
 	github.com/go-errors/errors v1.4.2
 	github.com/gocarina/gocsv v0.0.0-20211203214250-4735fba0c1d9
+	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/spf13/cobra v1.6.1
 	github.com/turbot/go-kit v0.4.0
 	go.uber.org/zap v1.21.0
+	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	google.golang.org/grpc v1.48.0
 	google.golang.org/protobuf v1.28.0
 )
 
 require (
+	cloud.google.com/go v0.34.0 // indirect
 	github.com/acarl005/stripansi v0.0.0-20180116102854-5a71ef0e047d // indirect
 	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.4.9 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.12.17 // indirect
@@ -151,6 +154,7 @@ require (
 	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/sys v0.6.0 // indirect
 	golang.org/x/text v0.7.0 // indirect
+	google.golang.org/appengine v1.4.0 // indirect
 	google.golang.org/genproto v0.0.0-20220407144326-9054f6ed7bac // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
