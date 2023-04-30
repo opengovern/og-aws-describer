@@ -31,7 +31,9 @@ func doDescribeAWS(ctx context.Context, job describe.DescribeJob, config map[str
 
 	var clientStream *describer.StreamSender
 	if client != nil {
-		stream, err := (*client).DeliverAWSResources(context.Background())
+		grpcCtx := context.Background()
+		grpcCtx = context.WithValue(grpcCtx, "resourceJobID", job.JobID)
+		stream, err := (*client).DeliverAWSResources(grpcCtx)
 		if err != nil {
 			return nil, err
 		}
@@ -68,6 +70,7 @@ func doDescribeAWS(ctx context.Context, job describe.DescribeJob, config map[str
 			})
 		}
 		clientStream = (*describer.StreamSender)(&f)
+		defer stream.CloseAndRecv()
 	}
 
 	output, err := aws.GetResources(
