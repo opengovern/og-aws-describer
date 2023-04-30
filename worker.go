@@ -4,8 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"strings"
-
 	"github.com/go-errors/errors"
 	"github.com/kaytu-io/kaytu-aws-describer/aws"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/describer"
@@ -13,65 +11,81 @@ import (
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/source"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/vault"
 	"github.com/kaytu-io/kaytu-aws-describer/proto/src/golang"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
+	"go.uber.org/zap"
+	"strings"
 )
 
-const (
-	DescribeResourceJobFailed    string = "FAILED"
-	DescribeResourceJobSucceeded string = "SUCCEEDED"
-)
+func Do(ctx context.Context,
+	vlt *vault.KMSVaultSourceConfig,
+	logger *zap.Logger,
+	job describe.DescribeJob,
+	keyARN string,
+	describeDeliverEndpoint string) (resourceIDs []string, err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			err = fmt.Errorf("paniced with error: %v", r)
+			logger.Error("paniced with error", zap.Error(err), zap.String("stackTrace", errors.Wrap(r, 2).ErrorStack()))
+		}
+	}()
 
-func doDescribeAWS(ctx context.Context, job describe.DescribeJob, config map[string]any, client *golang.DescribeServiceClient) ([]string, error) {
-	var resourceIDs []string
+	if job.SourceType != source.CloudAWS {
+		return nil, fmt.Errorf("unsupported source type %s", job.SourceType)
+	}
+
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	config, err := vlt.Decrypt(job.CipherText, keyARN)
+	if err != nil {
+		return nil, fmt.Errorf("decrypt error: %w", err)
+	}
+
+	return doDescribeAWS(ctx, logger, job, config, describeDeliverEndpoint)
+}
+
+func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.DescribeJob, config map[string]any, describeEndpoint string) ([]string, error) {
+	rs, err := NewResourceSender(describeEndpoint, job.JobID, logger)
+	if err != nil {
+		return nil, fmt.Errorf("failed to connect to resource sender: %w", err)
+	}
+
 	creds, err := aws.AccountConfigFromMap(config)
 	if err != nil {
 		return nil, fmt.Errorf("aws account credentials: %w", err)
 	}
 
-	var clientStream *describer.StreamSender
-	if client != nil {
-		grpcCtx := context.Background()
-		grpcCtx = context.WithValue(grpcCtx, "resourceJobID", job.JobID)
-		stream, err := (*client).DeliverAWSResources(grpcCtx)
+	f := func(resource describer.Resource) error {
+		descriptionJSON, err := json.Marshal(resource.Description)
 		if err != nil {
-			return nil, err
+			return err
 		}
 
-		f := func(resource describer.Resource) error {
-			descriptionJSON, err := json.Marshal(resource.Description)
-			if err != nil {
-				return err
-			}
-
-			resourceIDs = append(resourceIDs, resource.UniqueID())
-			return stream.Send(&golang.AWSResource{
-				Arn:             resource.ARN,
-				Id:              resource.ID,
-				Name:            resource.Name,
-				Account:         resource.Account,
-				Region:          resource.Region,
-				Partition:       resource.Partition,
-				Type:            resource.Type,
-				DescriptionJson: string(descriptionJSON),
-				Job: &golang.DescribeJob{
-					JobId:         uint32(job.JobID),
-					ScheduleJobId: uint32(job.ScheduleJobID),
-					ParentJobId:   uint32(job.ParentJobID),
-					ResourceType:  job.ResourceType,
-					SourceId:      job.SourceID,
-					AccountId:     job.AccountID,
-					DescribedAt:   job.DescribedAt,
-					SourceType:    string(job.SourceType),
-					ConfigReg:     job.CipherText,
-					TriggerType:   string(job.TriggerType),
-					RetryCounter:  uint32(job.RetryCounter),
-				},
-			})
-		}
-		clientStream = (*describer.StreamSender)(&f)
-		defer stream.CloseAndRecv()
+		rs.Send(&golang.AWSResource{
+			Arn:             resource.ARN,
+			Id:              resource.ID,
+			Name:            resource.Name,
+			Account:         resource.Account,
+			Region:          resource.Region,
+			Partition:       resource.Partition,
+			Type:            resource.Type,
+			DescriptionJson: string(descriptionJSON),
+			Job: &golang.DescribeJob{
+				JobId:         uint32(job.JobID),
+				ScheduleJobId: uint32(job.ScheduleJobID),
+				ParentJobId:   uint32(job.ParentJobID),
+				ResourceType:  job.ResourceType,
+				SourceId:      job.SourceID,
+				AccountId:     job.AccountID,
+				DescribedAt:   job.DescribedAt,
+				SourceType:    string(job.SourceType),
+				ConfigReg:     job.CipherText,
+				TriggerType:   string(job.TriggerType),
+				RetryCounter:  uint32(job.RetryCounter),
+			},
+		})
+		return nil
 	}
+	clientStream := (*describer.StreamSender)(&f)
 
 	output, err := aws.GetResources(
 		ctx,
@@ -90,6 +104,8 @@ func doDescribeAWS(ctx context.Context, job describe.DescribeJob, config map[str
 		return nil, fmt.Errorf("AWS: %w", err)
 	}
 
+	rs.Finish()
+
 	var errs []string
 	for region, err := range output.Errors {
 		if err != "" {
@@ -106,88 +122,5 @@ func doDescribeAWS(ctx context.Context, job describe.DescribeJob, config map[str
 		err = nil
 	}
 
-	return resourceIDs, err
-}
-
-func Do(ctx context.Context,
-	vlt *vault.KMSVaultSourceConfig,
-	job describe.DescribeJob,
-	keyARN string,
-	describeDeliverEndpoint *string) error {
-	if job.SourceType != source.CloudAWS {
-		return fmt.Errorf("unsupported source type %s", job.SourceType)
-	}
-
-	defer func() {
-		if err := recover(); err != nil {
-			fmt.Println("paniced with error:", err)
-			fmt.Println(errors.Wrap(err, 2).ErrorStack())
-		}
-	}()
-
-	// Assume it succeeded unless it fails somewhere
-	var (
-		status               = DescribeResourceJobSucceeded
-		firstErr    error    = nil
-		resourceIDs []string = nil
-	)
-
-	fail := func(err error) {
-		status = DescribeResourceJobFailed
-		if firstErr == nil {
-			firstErr = err
-		}
-	}
-
-	ctx, cancel := context.WithCancel(ctx)
-	defer cancel()
-
-	if conn, err := grpc.Dial(*describeDeliverEndpoint, grpc.WithTransportCredentials(credentials.NewTLS(nil))); err == nil {
-		defer conn.Close()
-		client := golang.NewDescribeServiceClient(conn)
-
-		if config, err := vlt.Decrypt(job.CipherText, keyARN); err == nil {
-			resourceIDs, err = doDescribeAWS(ctx, job, config, &client)
-			if err != nil {
-				// Don't return here. In certain cases, such as AWS, resources might be
-				// available for some regions while there was failures in other regions.
-				// Instead, continue to write whatever you can to kafka.
-				fail(fmt.Errorf("describe resources: %w", err))
-			}
-		} else if err != nil {
-			fail(fmt.Errorf("resource source config: %w", err))
-		}
-
-		errMsg := ""
-		if firstErr != nil {
-			errMsg = firstErr.Error()
-		}
-
-		_, err := client.DeliverResult(ctx, &golang.DeliverResultRequest{
-			JobId:       uint32(job.JobID),
-			ParentJobId: uint32(job.ParentJobID),
-			Status:      string(status),
-			Error:       errMsg,
-			DescribeJob: &golang.DescribeJob{
-				JobId:         uint32(job.JobID),
-				ScheduleJobId: uint32(job.ScheduleJobID),
-				ParentJobId:   uint32(job.ParentJobID),
-				ResourceType:  job.ResourceType,
-				SourceId:      job.SourceID,
-				AccountId:     job.AccountID,
-				DescribedAt:   job.DescribedAt,
-				SourceType:    string(job.SourceType),
-				ConfigReg:     job.CipherText,
-				TriggerType:   string(job.TriggerType),
-				RetryCounter:  uint32(job.RetryCounter),
-			},
-			DescribedResourceIds: resourceIDs,
-		})
-		if err != nil {
-			return fmt.Errorf("DeliverResult: %v", err)
-		}
-		return nil
-	} else {
-		return fmt.Errorf("grpc: %v", err)
-	}
+	return rs.GetResourceIDs(), err
 }
