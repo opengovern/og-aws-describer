@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
+
 	"github.com/go-errors/errors"
 	"github.com/kaytu-io/kaytu-aws-describer/aws"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/describer"
@@ -12,7 +14,6 @@ import (
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/vault"
 	"github.com/kaytu-io/kaytu-aws-describer/proto/src/golang"
 	"go.uber.org/zap"
-	"strings"
 )
 
 func Do(ctx context.Context,
@@ -20,7 +21,8 @@ func Do(ctx context.Context,
 	logger *zap.Logger,
 	job describe.DescribeJob,
 	keyARN string,
-	describeDeliverEndpoint string) (resourceIDs []string, err error) {
+	describeDeliverEndpoint string,
+	describeDeliverToken string) (resourceIDs []string, err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			err = fmt.Errorf("paniced with error: %v", r)
@@ -40,11 +42,11 @@ func Do(ctx context.Context,
 		return nil, fmt.Errorf("decrypt error: %w", err)
 	}
 
-	return doDescribeAWS(ctx, logger, job, config, describeDeliverEndpoint)
+	return doDescribeAWS(ctx, logger, job, config, describeDeliverEndpoint, describeDeliverToken)
 }
 
-func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.DescribeJob, config map[string]any, describeEndpoint string) ([]string, error) {
-	rs, err := NewResourceSender(describeEndpoint, job.JobID, logger)
+func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.DescribeJob, config map[string]any, describeEndpoint string, describeToken string) ([]string, error) {
+	rs, err := NewResourceSender(describeEndpoint, describeToken, job.JobID, logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to resource sender: %w", err)
 	}

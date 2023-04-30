@@ -2,11 +2,15 @@ package main
 
 import (
 	"context"
+	"encoding/base64"
 	"fmt"
+	"os"
+	"time"
+
+	"github.com/golang-jwt/jwt"
 	"github.com/kaytu-io/kaytu-aws-describer/proto/src/golang"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
-	"time"
 
 	"github.com/aws/aws-lambda-go/lambda"
 	kaytu_aws_describer "github.com/kaytu-io/kaytu-aws-describer"
@@ -20,6 +24,29 @@ const (
 	DescribeResourceJobSucceeded string = "SUCCEEDED"
 )
 
+func getJWTAuthToken(workspaceId string) (string, error) {
+	privateKey, ok := os.LookupEnv("JWT_PRIVATE_KEY")
+	if !ok {
+		return "", fmt.Errorf("JWT_PRIVATE_KEY not set")
+	}
+
+	privateKeyBytes, err := base64.StdEncoding.DecodeString(privateKey)
+	if err != nil {
+		return "", fmt.Errorf("JWT_PRIVATE_KEY not base64 encoded")
+	}
+
+	token, err := jwt.NewWithClaims(jwt.SigningMethodRS256, jwt.MapClaims{
+		"https://app.keibi.io/workspaceAccess": map[string]string{
+			workspaceId: "admin",
+		},
+		"https://app.keibi.io/email": "lambda-worker@kaytu.io",
+	}).SignedString(privateKeyBytes)
+	if err != nil {
+		return "", fmt.Errorf("JWT token generation failed %v", err)
+	}
+	return token, nil
+}
+
 func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInput) error {
 	logger, err := zap.NewProduction()
 	if err != nil {
@@ -32,6 +59,11 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		return fmt.Errorf("failed to initialize KMS vault: %w", err)
 	}
 
+	token, err := getJWTAuthToken(input.WorkspaceId)
+	if err != nil {
+		return fmt.Errorf("failed to get JWT token: %w", err)
+	}
+
 	resourceIds, err := kaytu_aws_describer.Do(
 		ctx,
 		kmsVault,
@@ -39,6 +71,7 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		input.DescribeJob,
 		input.KeyARN,
 		input.DescribeEndpoint,
+		token,
 	)
 
 	errMsg := ""
