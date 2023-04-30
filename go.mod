@@ -115,7 +115,7 @@ require (
 	github.com/aws/smithy-go v1.13.5
 	github.com/go-errors/errors v1.4.2
 	github.com/gocarina/gocsv v0.0.0-20211203214250-4735fba0c1d9
-	github.com/golang-jwt/jwt v3.2.2+incompatible
+	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/spf13/cobra v1.6.1
 	github.com/turbot/go-kit v0.4.0
 	go.uber.org/zap v1.21.0

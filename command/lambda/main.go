@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/kaytu-io/kaytu-aws-describer/proto/src/golang"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -35,12 +35,17 @@ func getJWTAuthToken(workspaceId string) (string, error) {
 		return "", fmt.Errorf("JWT_PRIVATE_KEY not base64 encoded")
 	}
 
+	pk, err := jwt.ParseRSAPrivateKeyFromPEM(privateKeyBytes)
+	if err != nil {
+		return "", fmt.Errorf("JWT_PRIVATE_KEY not valid")
+	}
+
 	token, err := jwt.NewWithClaims(jwt.SigningMethodRS256, jwt.MapClaims{
 		"https://app.keibi.io/workspaceAccess": map[string]string{
 			workspaceId: "admin",
 		},
 		"https://app.keibi.io/email": "lambda-worker@kaytu.io",
-	}).SignedString(privateKeyBytes)
+	}).SignedString(pk)
 	if err != nil {
 		return "", fmt.Errorf("JWT token generation failed %v", err)
 	}
