@@ -116,7 +116,7 @@ require (
 	github.com/go-errors/errors v1.4.2
 	github.com/gocarina/gocsv v0.0.0-20211203214250-4735fba0c1d9
 	github.com/golang-jwt/jwt/v5 v5.0.0
-	github.com/spf13/cobra v1.6.1
+	github.com/spf13/cobra v1.7.0
 	github.com/turbot/go-kit v0.4.0
 	go.uber.org/zap v1.21.0
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d

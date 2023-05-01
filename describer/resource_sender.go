@@ -1,4 +1,4 @@
-package kaytu_aws_describer
+package describer
 
 import (
 	"context"

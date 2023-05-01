@@ -2980,6 +2980,17 @@ func GetResources(
 		}
 	}
 
+	sort.Slice(regions, func(i, j int) bool {
+		if regions[i] == "us-east-1" {
+			return true
+		}
+		if regions[j] == "us-east-1" {
+			return false
+		}
+
+		return regions[i] < regions[j]
+	})
+
 	resources, err := describe(ctx, cfg, accountId, regions, resourceType, triggerType, stream)
 	if err != nil {
 		return nil, err

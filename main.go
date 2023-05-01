@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
+	"github.com/kaytu-io/kaytu-aws-describer/describer"
 	"os"
 	"time"
 
@@ -16,7 +17,6 @@ import (
 	"google.golang.org/grpc/metadata"
 
 	"github.com/aws/aws-lambda-go/lambda"
-	kaytu_aws_describer "github.com/kaytu-io/kaytu-aws-describer"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/describe"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/vault"
 	"go.uber.org/zap"
@@ -82,7 +82,7 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		return fmt.Errorf("failed to get JWT token: %w", err)
 	}
 
-	resourceIds, err := kaytu_aws_describer.Do(
+	resourceIds, err := describer.Do(
 		ctx,
 		kmsVault,
 		logger,
