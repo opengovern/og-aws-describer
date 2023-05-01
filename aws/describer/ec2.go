@@ -2893,7 +2893,13 @@ func EC2ManagedPrefixList(ctx context.Context, cfg aws.Config, stream *StreamSen
 func EC2SpotPrice(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := ec2.NewFromConfig(cfg)
-	paginator := ec2.NewDescribeSpotPriceHistoryPaginator(client, &ec2.DescribeSpotPriceHistoryInput{})
+
+	endTime := time.Now()
+	startTime := endTime.AddDate(0, 0, -1)
+	paginator := ec2.NewDescribeSpotPriceHistoryPaginator(client, &ec2.DescribeSpotPriceHistoryInput{
+		StartTime: &startTime,
+		EndTime:   &endTime,
+	})
 
 	var values []Resource
 	for paginator.HasMorePages() {
