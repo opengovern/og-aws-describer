@@ -48,8 +48,7 @@ func S3Bucket(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 	client := s3.NewFromConfig(cfg)
 	output, err := client.ListBuckets(ctx, &s3.ListBucketsInput{})
 	if err != nil {
-		fmt.Println("Error listing buckets")
-		return nil, err
+		return nil, fmt.Errorf("error listing buckets: %w", err)
 	}
 
 	done := make(chan interface{})
@@ -63,8 +62,6 @@ func S3Bucket(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 				Err:    err,
 				Bucket: bucket,
 			}
-			fmt.Println("S3Bucket Error", "get location error", bucket.Name)
-			fmt.Println(err)
 			return
 		}
 
@@ -72,7 +69,6 @@ func S3Bucket(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 			resultChan <- s3bucketResult{
 				Bucket: bucket,
 			}
-			fmt.Println("S3Bucket Error", "not included in regions", bucket.Name)
 			return
 		}
 
@@ -82,8 +78,6 @@ func S3Bucket(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 				Bucket: bucket,
 				Err:    err,
 			}
-			fmt.Println("S3Bucket Error", "describing error", bucket.Name)
-			fmt.Println(err)
 			return
 		}
 
@@ -124,7 +118,6 @@ func S3Bucket(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 		res := <-resultChan
 		if res.Err != nil {
 			globalErr = res.Err
-			fmt.Println("S3Bucket Error", "global", res)
 		} else if res.Region != "" {
 			if _, ok := regionalValues[res.Region]; ok {
 				regionalValues[res.Region] = append(regionalValues[res.Region], res.Resource)
@@ -159,8 +152,7 @@ func GetS3Bucket(ctx context.Context, cfg aws.Config, regions []string, bucketNa
 	client := s3.NewFromConfig(cfg)
 	output, err := client.ListBuckets(ctx, &s3.ListBucketsInput{})
 	if err != nil {
-		fmt.Println("Error listing buckets")
-		return nil, err
+		return nil, fmt.Errorf("error listing buckets: %w", err)
 	}
 
 	for _, bucket := range output.Buckets {

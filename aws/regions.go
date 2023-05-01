@@ -23,7 +23,7 @@ func CheckAttachedPolicy(accessKey, secretKey, expectedPolicyARN string) (bool, 
 	cfg, err := GetConfig(ctx, accessKey, secretKey, "", "")
 	if err != nil {
 		fmt.Printf("failed to get config: %v", err)
-		return false, err
+		return false, fmt.Errorf("failed to get config: %w", err)
 	}
 
 	cfgClone := cfg.Copy()

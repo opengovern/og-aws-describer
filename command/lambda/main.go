@@ -56,11 +56,17 @@ func getJWTAuthToken(workspaceId string) (string, error) {
 }
 
 func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInput) error {
-	logger, err := zap.NewProduction()
-	if err != nil {
-		return err
+	fmt.Printf("Input: %v", input)
+
+	var err error
+	logger := zap.NewNop()
+
+	if debug := os.Getenv("DEBUG"); debug == "true" {
+		logger, err = zap.NewProduction()
+		if err != nil {
+			return err
+		}
 	}
-	logger.Info(fmt.Sprintf("%v", input))
 
 	if input.WorkspaceName == "" {
 		return fmt.Errorf("workspace name is required")
