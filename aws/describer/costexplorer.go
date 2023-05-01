@@ -2,7 +2,6 @@ package describer
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/service/costexplorer"
@@ -138,7 +137,6 @@ func CostByServiceLastMonth(ctx context.Context, cfg aws.Config, stream *StreamS
 	var values []Resource
 	for _, cost := range costs {
 		if cost.Dimension1 == nil {
-			fmt.Println("Dimention is null")
 			continue
 		}
 		resource := Resource{
@@ -173,7 +171,6 @@ func CostByAccountLastMonth(ctx context.Context, cfg aws.Config, stream *StreamS
 	var values []Resource
 	for _, cost := range costs {
 		if cost.Dimension1 == nil {
-			fmt.Println("Dimention is null")
 			continue
 		}
 		resource := Resource{
@@ -287,7 +284,6 @@ func CostByServiceLastDay(ctx context.Context, cfg aws.Config, stream *StreamSen
 	var values []Resource
 	for _, cost := range costs {
 		if cost.Dimension1 == nil {
-			fmt.Println("Dimention is null")
 			continue
 		}
 		resource := Resource{
@@ -322,7 +318,6 @@ func CostByAccountLastDay(ctx context.Context, cfg aws.Config, stream *StreamSen
 	var values []Resource
 	for _, cost := range costs {
 		if cost.Dimension1 == nil {
-			fmt.Println("Dimention is null")
 			continue
 		}
 		resource := Resource{
