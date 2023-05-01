@@ -85,7 +85,7 @@ func (s *ResourceSender) ResourceHandler() {
 			return
 		}
 
-		s.resourceIDs = append(s.resourceIDs, resource.Id)
+		s.resourceIDs = append(s.resourceIDs, resource.UniqueId)
 		err := s.stream.Send(resource)
 		if err != nil {
 			s.logger.Error("failed to send resource", zap.Error(err))

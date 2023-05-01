@@ -65,6 +65,7 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 
 		partition, _ := aws.PartitionOf(resource.Region)
 		rs.Send(&golang.AWSResource{
+			UniqueId:        resource.UniqueID(),
 			Arn:             resource.ARN,
 			Id:              resource.ID,
 			Name:            resource.Name,
