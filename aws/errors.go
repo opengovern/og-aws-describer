@@ -26,6 +26,41 @@ func IsUnsupportedOrInvalidError(resource, region string, err error) bool {
 	// in the corresponding regions. The error message is usually
 	// not very clear about the error. For now just ignoring them.
 	switch resource {
+	case "AWS::DAX::ParameterGroup",
+		"AWS::DAX::Parameter",
+		"AWS::DAX::SubnetGroup":
+		if isInRegion(region, "ap-northeast-3", "eu-north-1") {
+			return true
+		}
+	case "AWS::MemoryDb::Cluster":
+		if isInRegion(region, "ap-northeast-3") {
+			return true
+		}
+	case "AWS::CloudSearch::Domain":
+		if isInRegion(region, "ap-northeast-3", "ca-central-1", "eu-west-2", "eu-north-1", "eu-west-3", "us-east-2", "ap-south-1") {
+			return true
+		}
+	case "AWS::Amplify::App":
+		if isInRegion(region, "ap-northeast-3") {
+			return true
+		}
+	case "AWS::CodeArtifact::Domain":
+		if isInRegion(region, "ap-northeast-3", "us-west-1", "ap-northeast-2", "sa-east-1", "ca-central-1") {
+			return true
+		}
+	case "AWS::Inspector::AssessmentTemplate",
+		"AWS::Inspector::Exclusion",
+		"AWS::Inspector::Finding",
+		"AWS::Inspector::AssessmentTarget":
+		if isInRegion(region, "eu-west-3", "ca-central-1", "ap-southeast-1", "sa-east-1", "ap-northeast-3") {
+			return true
+		}
+	case "AWS::GlobalAccelerator::EndpointGroup",
+		"AWS::GlobalAccelerator::Listener",
+		"AWS::GlobalAccelerator::Accelerator":
+		if isInRegion(region, "eu-west-1", "ap-northeast-3", "ap-northeast-2", "eu-north-1", "ca-central-1", "eu-west-2", "sa-east-1", "ap-northeast-1", "eu-west-3", "eu-central-1", "us-west-1", "ap-south-1", "ap-southeast-1", "us-east-2", "ap-southeast-2", "us-east-1") {
+			return true
+		}
 	case "AWS::Route53Resolver::ResolverDNSSECConfig",
 		"AWS::Route53Resolver::ResolverQueryLoggingConfigAssociation",
 		"AWS::Route53Resolver::ResolverQueryLoggingConfig":
