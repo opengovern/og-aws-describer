@@ -16,12 +16,12 @@ func AccountAlternateContact(ctx context.Context, cfg aws.Config, stream *Stream
 
 	var values []Resource
 
-	contactTypes := []string{"BILLING", "OPERATIONS", "SECURITY"}
+	contactTypes := []types.AlternateContactType{types.AlternateContactTypeBilling, types.AlternateContactTypeOperations, types.AlternateContactTypeSecurity}
 	input := &account.GetAlternateContactInput{
 		AccountId: &describeCtx.AccountID,
 	}
 	for _, contactType := range contactTypes {
-		input.AlternateContactType = types.AlternateContactType(contactType)
+		input.AlternateContactType = contactType
 		op, err := client.GetAlternateContact(ctx, input)
 		if err != nil {
 			if isErr(err, "ResourceNotFoundException") {

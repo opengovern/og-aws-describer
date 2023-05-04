@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	resourceType, accessKey, secretKey string
+	resourceType, accessKey, accountID, secretKey string
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -26,7 +26,7 @@ var rootCmd = &cobra.Command{
 			context.Background(),
 			resourceType,
 			enums.DescribeTriggerTypeManual,
-			"",
+			accountID,
 			nil,
 			accessKey,
 			secretKey,
@@ -49,6 +49,7 @@ var rootCmd = &cobra.Command{
 
 func init() {
 	rootCmd.Flags().StringVarP(&resourceType, "resourceType", "t", "", "Resource type")
+	rootCmd.Flags().StringVarP(&accountID, "accountID", "", "", "AccountID")
 	rootCmd.Flags().StringVarP(&accessKey, "accessKey", "a", "", "Access key")
 	rootCmd.Flags().StringVarP(&secretKey, "secretKey", "s", "", "Secret key")
 }
