@@ -234,7 +234,7 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::CloudFront::OriginAccessControl",
 		ResourceLabel:        "Origin Access Control",
 		ServiceName:          "CloudFront",
-		ListDescriber:        ParallelDescribeRegional(describer.CloudFrontOriginAccessControl),
+		ListDescriber:        ParallelDescribeRegional(describer.CloudFrontOriginAccessControl), //TODO-ARN
 		GetDescriber:         nil,
 		TerraformName:        "aws_cloudfront_origin_access_control",
 		TerraformServiceName: "cloudfront",
@@ -284,7 +284,7 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::DirectConnect::Gateway",
 		ResourceLabel:        "Gateway",
 		ServiceName:          "DirectConnect",
-		ListDescriber:        ParallelDescribeRegional(describer.DirectConnectGateway),
+		ListDescriber:        ParallelDescribeRegional(describer.DirectConnectGateway), //TODO-ARN
 		GetDescriber:         nil,
 		TerraformName:        "aws_dx_gateway",
 		TerraformServiceName: "directconnect",
@@ -524,7 +524,7 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::IdentityStore::User",
 		ResourceLabel:        "",
 		ServiceName:          "IdentityStore",
-		ListDescriber:        ParallelDescribeRegional(describer.IdentityStoreUser),
+		ListDescriber:        ParallelDescribeRegional(describer.IdentityStoreUser), //TODO-Saleh ??
 		GetDescriber:         nil,
 		TerraformName:        "aws_identitystore_user",
 		TerraformServiceName: "identitystore",
@@ -1204,7 +1204,7 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::CloudControl::Resource",
 		ResourceLabel:        "",
 		ServiceName:          "CloudControl",
-		ListDescriber:        ParallelDescribeRegional(describer.CloudControlResource),
+		ListDescriber:        ParallelDescribeRegional(describer.CloudControlResource), //TODO-Saleh ??
 		GetDescriber:         nil,
 		TerraformName:        "aws_cloudcontrolapi_resource",
 		TerraformServiceName: "cloudcontrol",
@@ -1504,7 +1504,7 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::IdentityStore::Group",
 		ResourceLabel:        "",
 		ServiceName:          "IdentityStore",
-		ListDescriber:        ParallelDescribeRegional(describer.IdentityStoreGroup),
+		ListDescriber:        ParallelDescribeRegional(describer.IdentityStoreGroup), //TODO-Saleh ??
 		GetDescriber:         nil,
 		TerraformName:        "aws_identitystore_group",
 		TerraformServiceName: "identitystore",

@@ -3,6 +3,7 @@ package describer
 import (
 	"context"
 	"fmt"
+	"github.com/aws/aws-sdk-go-v2/service/auditmanager/types"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/auditmanager"
@@ -57,40 +58,43 @@ func AuditManagerAssessment(ctx context.Context, cfg aws.Config, stream *StreamS
 func AuditManagerControl(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := auditmanager.NewFromConfig(cfg)
-	paginator := auditmanager.NewListControlsPaginator(client, &auditmanager.ListControlsInput{})
-
-	//
 
 	var values []Resource
-	for paginator.HasMorePages() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
+	for _, ctype := range []types.ControlType{types.ControlTypeStandard, types.ControlTypeCustom} {
+		paginator := auditmanager.NewListControlsPaginator(client, &auditmanager.ListControlsInput{
+			ControlType: ctype,
+		})
 
-		for _, controlMetadata := range page.ControlMetadataList {
-			control, err := client.GetControl(ctx, &auditmanager.GetControlInput{
-				ControlId: controlMetadata.Id,
-			})
+		for paginator.HasMorePages() {
+			page, err := paginator.NextPage(ctx)
 			if err != nil {
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *control.Control.Arn,
-				Name:   *control.Control.Name,
-				ID:     *control.Control.Id,
-				Description: model.AuditManagerControlDescription{
-					Control: *control.Control,
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+			for _, controlMetadata := range page.ControlMetadataList {
+				control, err := client.GetControl(ctx, &auditmanager.GetControlInput{
+					ControlId: controlMetadata.Id,
+				})
+				if err != nil {
 					return nil, err
 				}
-			} else {
-				values = append(values, resource)
+
+				resource := Resource{
+					Region: describeCtx.KaytuRegion,
+					ARN:    *control.Control.Arn,
+					Name:   *control.Control.Name,
+					ID:     *control.Control.Id,
+					Description: model.AuditManagerControlDescription{
+						Control: *control.Control,
+					},
+				}
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
 			}
 		}
 	}
@@ -239,40 +243,42 @@ func AuditManagerEvidenceFolder(ctx context.Context, cfg aws.Config, stream *Str
 func AuditManagerFramework(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := auditmanager.NewFromConfig(cfg)
-	paginator := auditmanager.NewListAssessmentFrameworksPaginator(client, &auditmanager.ListAssessmentFrameworksInput{})
-
-	//
 
 	var values []Resource
-	for paginator.HasMorePages() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, frameworkMetadata := range page.FrameworkMetadataList {
-			framework, err := client.GetAssessmentFramework(ctx, &auditmanager.GetAssessmentFrameworkInput{
-				FrameworkId: frameworkMetadata.Id,
-			})
+	for _, ftype := range []types.FrameworkType{types.FrameworkTypeStandard, types.FrameworkTypeCustom} {
+		paginator := auditmanager.NewListAssessmentFrameworksPaginator(client, &auditmanager.ListAssessmentFrameworksInput{
+			FrameworkType: ftype,
+		})
+		for paginator.HasMorePages() {
+			page, err := paginator.NextPage(ctx)
 			if err != nil {
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *framework.Framework.Arn,
-				Name:   *framework.Framework.Name,
-				ID:     *framework.Framework.Id,
-				Description: model.AuditManagerFrameworkDescription{
-					Framework: *framework.Framework,
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+			for _, frameworkMetadata := range page.FrameworkMetadataList {
+				framework, err := client.GetAssessmentFramework(ctx, &auditmanager.GetAssessmentFrameworkInput{
+					FrameworkId: frameworkMetadata.Id,
+				})
+				if err != nil {
 					return nil, err
 				}
-			} else {
-				values = append(values, resource)
+
+				resource := Resource{
+					Region: describeCtx.KaytuRegion,
+					ARN:    *framework.Framework.Arn,
+					Name:   *framework.Framework.Name,
+					ID:     *framework.Framework.Id,
+					Description: model.AuditManagerFrameworkDescription{
+						Framework: *framework.Framework,
+					},
+				}
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
 			}
 		}
 	}

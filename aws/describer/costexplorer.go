@@ -600,13 +600,13 @@ func buildCostForecastInput(granularity string) *costexplorer.GetCostForecastInp
 	metric := "UNBLENDED_COST"
 
 	timeFormat := "2006-01-02"
-	startTime := time.Now().UTC().Format(timeFormat)
-	endTime := time.Now().AddDate(0, -1, 0).Format(timeFormat)
+	endTime := time.Now().UTC()
+	startTime := endTime.AddDate(0, -1, 0)
 
 	params := &costexplorer.GetCostForecastInput{
 		TimePeriod: &types.DateInterval{
-			Start: aws.String(startTime),
-			End:   aws.String(endTime),
+			Start: aws.String(startTime.Format(timeFormat)),
+			End:   aws.String(endTime.Format(timeFormat)),
 		},
 		Granularity: types.Granularity(granularity),
 		Metric:      types.Metric(metric),

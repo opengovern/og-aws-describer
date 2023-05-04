@@ -21,6 +21,9 @@ func NeptuneDatabase(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		}
 
 		for _, v := range page.DBInstances {
+			if v.DBInstanceArn == nil {
+				continue
+			}
 			tags, err := client.ListTagsForResource(ctx, &neptune.ListTagsForResourceInput{
 				ResourceName: v.DBInstanceArn,
 			})
@@ -28,10 +31,15 @@ func NeptuneDatabase(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 				return nil, err
 			}
 
+			var name string
+			if v.DBClusterIdentifier != nil {
+				name = *v.DBClusterIdentifier
+			}
+
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ARN:    *v.DBInstanceArn,
-				Name:   *v.DBClusterIdentifier,
+				Name:   name,
 				Description: model.NeptuneDatabaseDescription{
 					Database: v,
 					Tags:     tags.TagList,

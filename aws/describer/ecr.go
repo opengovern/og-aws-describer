@@ -111,11 +111,12 @@ func ECRPublicRegistry(ctx context.Context, cfg aws.Config, stream *StreamSender
 		}
 
 		for _, v := range page.Registries {
+			var tags []public_types.Tag
 			tagsOutput, err := client.ListTagsForResource(ctx, &ecrpublic.ListTagsForResourceInput{
 				ResourceArn: v.RegistryArn,
 			})
-			if err != nil {
-				return nil, err
+			if err == nil {
+				tags = tagsOutput.Tags
 			}
 
 			resource := Resource{
@@ -124,7 +125,7 @@ func ECRPublicRegistry(ctx context.Context, cfg aws.Config, stream *StreamSender
 				Name:   *v.RegistryId,
 				Description: model.ECRPublicRegistryDescription{
 					PublicRegistry: v,
-					Tags:           tagsOutput.Tags,
+					Tags:           tags,
 				},
 			}
 			if stream != nil {

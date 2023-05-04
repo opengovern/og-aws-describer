@@ -20,6 +20,10 @@ func InspectorAssessmentRun(ctx context.Context, cfg aws.Config, stream *StreamS
 			return nil, err
 		}
 
+		if len(page.AssessmentRunArns) == 0 {
+			continue
+		}
+
 		assessmentRuns, err := client.DescribeAssessmentRuns(ctx, &inspector.DescribeAssessmentRunsInput{
 			AssessmentRunArns: page.AssessmentRunArns,
 		})
@@ -253,6 +257,10 @@ func InspectorFinding(ctx context.Context, cfg aws.Config, stream *StreamSender)
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
 			return nil, err
+		}
+
+		if len(page.FindingArns) == 0 {
+			continue
 		}
 
 		findings, err := client.DescribeFindings(ctx, &inspector.DescribeFindingsInput{
