@@ -96,7 +96,7 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 		ctx,
 		job.ResourceType,
 		job.TriggerType,
-		creds.AccountID,
+		job.AccountID,
 		creds.Regions,
 		creds.AccessKey,
 		creds.SecretKey,
