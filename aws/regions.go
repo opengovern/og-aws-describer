@@ -37,11 +37,11 @@ func CheckAttachedPolicy(accessKey, secretKey, expectedPolicyARN string) (bool, 
 		fmt.Printf("failed to get user: %v", err)
 		return false, err
 	}
+	policyARNs := make([]string, 0)
+
 	paginator := iam.NewListAttachedUserPoliciesPaginator(iamClient, &iam.ListAttachedUserPoliciesInput{
 		UserName: user.User.UserName,
 	})
-
-	policyARNs := make([]string, 0)
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
@@ -50,6 +50,29 @@ func CheckAttachedPolicy(accessKey, secretKey, expectedPolicyARN string) (bool, 
 		}
 		for _, policy := range page.AttachedPolicies {
 			policyARNs = append(policyARNs, *policy.PolicyArn)
+		}
+	}
+
+	groups, err := iamClient.ListGroupsForUser(ctx, &iam.ListGroupsForUserInput{
+		UserName: user.User.UserName,
+	})
+	if err != nil {
+		fmt.Printf("failed to get user: %v", err)
+		return false, err
+	}
+	for _, group := range groups.Groups {
+		paginator := iam.NewListAttachedGroupPoliciesPaginator(iamClient, &iam.ListAttachedGroupPoliciesInput{
+			GroupName: group.GroupName,
+		})
+		for paginator.HasMorePages() {
+			page, err := paginator.NextPage(ctx)
+			if err != nil {
+				fmt.Printf("failed to get policy page: %v", err)
+				return false, err
+			}
+			for _, policy := range page.AttachedPolicies {
+				policyARNs = append(policyARNs, *policy.PolicyArn)
+			}
 		}
 	}
 

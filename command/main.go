@@ -14,6 +14,7 @@ import (
 )
 
 var (
+	checkAttachedPolicies                         bool
 	resourceType, accessKey, accountID, secretKey string
 )
 
@@ -22,6 +23,13 @@ var rootCmd = &cobra.Command{
 	Use:   "kaytu-aws-describer",
 	Short: "kaytu aws describer manual",
 	RunE: func(cmd *cobra.Command, args []string) error {
+		if checkAttachedPolicies {
+			isAttached, err := aws.CheckAttachedPolicy(accessKey, secretKey, aws.SecurityAuditPolicyARN)
+			fmt.Println("IsAttached", isAttached)
+			fmt.Println("Error", err)
+			return nil
+		}
+
 		output, err := aws.GetResources(
 			context.Background(),
 			resourceType,
@@ -48,6 +56,7 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
+	rootCmd.Flags().BoolVarP(&checkAttachedPolicies, "checkAttachedPolicies", "", false, "Check attached policies")
 	rootCmd.Flags().StringVarP(&resourceType, "resourceType", "t", "", "Resource type")
 	rootCmd.Flags().StringVarP(&accountID, "accountID", "", "", "AccountID")
 	rootCmd.Flags().StringVarP(&accessKey, "accessKey", "a", "", "Access key")
