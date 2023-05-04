@@ -29,7 +29,7 @@ func OpsWorksCMServer(ctx context.Context, cfg aws.Config, stream *StreamSender)
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.ServerArn,
 				Name:   *v.ServerName,
 				Description: model.OpsWorksCMServerDescription{

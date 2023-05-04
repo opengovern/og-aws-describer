@@ -265,7 +265,7 @@ func WAFv2WebACL(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.ARN,
 				Name:   *v.Name,
 				Description: model.WAFv2WebACLDescription{
@@ -332,7 +332,7 @@ func WAFv2WebACLAssociation(ctx context.Context, cfg aws.Config, stream *StreamS
 		}
 
 		resource := Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ID:     *acl.Id, // Unique per WebACL
 			Name:   *acl.Name,
 			Description: map[string]interface{}{
@@ -368,7 +368,7 @@ func WAFv2WebACLAssociation(ctx context.Context, cfg aws.Config, stream *StreamS
 				}
 
 				resource := Resource{
-					Region: describeCtx.Region,
+					Region: describeCtx.KaytuRegion,
 					ID:     *acl.Id, // Unique per WebACL
 					Name:   *acl.Name,
 					Description: map[string]interface{}{
@@ -610,7 +610,7 @@ func WAFRegionalRule(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				ID:     *v.RuleId,
 				Name:   *v.Name,
@@ -771,7 +771,7 @@ func WAFRegionalWebACLAssociation(ctx context.Context, cfg aws.Config, stream *S
 		}
 
 		resource := Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ID:     *acl.WebACLId, // Unique per WebACL
 			Name:   *acl.Name,
 			Description: map[string]interface{}{
@@ -873,7 +873,7 @@ func WAFRule(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *rule.Rule.Name,
 				Description: model.WAFRuleDescription{

@@ -30,7 +30,7 @@ func EMRCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *out.Cluster.ClusterArn,
 				Name:   *out.Cluster.Name,
 				Description: model.EMRClusterDescription{
@@ -76,7 +76,7 @@ func EMRInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 				for _, instance := range instancePage.Instances {
 					arn := fmt.Sprintf("arn:%s:emr:%s:%s:instance/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *instance.Id)
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						ID:     *instance.Id,
 						ARN:    arn,
 						Description: model.EMRInstanceDescription{
@@ -125,7 +125,7 @@ func EMRInstanceFleet(ctx context.Context, cfg aws.Config, stream *StreamSender)
 				for _, instanceFleet := range instancePage.InstanceFleets {
 					arn := fmt.Sprintf("arn:%s:emr:%s:%s:instance-fleet/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *instanceFleet.Id)
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						ID:     *instanceFleet.Id,
 						Name:   *instanceFleet.Name,
 						ARN:    arn,
@@ -175,7 +175,7 @@ func EMRInstanceGroup(ctx context.Context, cfg aws.Config, stream *StreamSender)
 				for _, instanceGroup := range instancePage.InstanceGroups {
 					arn := fmt.Sprintf("arn:%s:emr:%s:%s:instance-group/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *instanceGroup.Id)
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						ID:     *instanceGroup.Id,
 						Name:   *instanceGroup.Name,
 						ARN:    arn,

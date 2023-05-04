@@ -14,9 +14,10 @@ var (
 type describeContextKey string
 
 type DescribeContext struct {
-	AccountID string
-	Region    string
-	Partition string
+	AccountID   string
+	Region      string
+	KaytuRegion string
+	Partition   string
 }
 
 func WithDescribeContext(ctx context.Context, describeCtx DescribeContext) context.Context {

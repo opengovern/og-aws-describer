@@ -31,7 +31,7 @@ func DMSReplicationInstance(ctx context.Context, cfg aws.Config, stream *StreamS
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *item.ReplicationInstanceArn,
 				Name:   *item.ReplicationInstanceIdentifier,
 				Description: model.DMSReplicationInstanceDescription{

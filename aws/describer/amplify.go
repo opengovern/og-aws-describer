@@ -25,7 +25,7 @@ func AmplifyApp(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 
 		for _, item := range output.Apps {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				Name:   *item.Name,
 				ARN:    *item.AppArn,
 				ID:     *item.AppId,

@@ -29,7 +29,7 @@ func KeyspacesKeyspace(ctx context.Context, cfg aws.Config, stream *StreamSender
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.ResourceArn,
 				Name:   *v.KeyspaceName,
 				Description: model.KeyspacesKeyspaceDescription{
@@ -83,7 +83,7 @@ func KeyspacesTable(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 					}
 
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						ID:     *v.ResourceArn,
 						Name:   *v.KeyspaceName,
 						Description: model.KeyspacesTableDescription{

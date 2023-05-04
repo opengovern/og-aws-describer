@@ -60,7 +60,7 @@ func LambdaFunction(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.FunctionArn,
 				Name:   *v.FunctionName,
 				Description: model.LambdaFunctionDescription{
@@ -126,7 +126,7 @@ func GetLambdaFunction(ctx context.Context, cfg aws.Config, fields map[string]st
 	}
 
 	values = append(values, Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ARN:    *v.FunctionArn,
 		Name:   *v.FunctionName,
 		Description: model.LambdaFunctionDescription{
@@ -156,7 +156,7 @@ func LambdaFunctionVersion(ctx context.Context, cfg aws.Config, stream *StreamSe
 			arn := fmt.Sprintf("%s:%s", *v.FunctionArn, *v.Version)
 			id := fmt.Sprintf("%s:%s", *v.FunctionName, *v.Version)
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   id,
 				Description: model.LambdaFunctionVersionDescription{

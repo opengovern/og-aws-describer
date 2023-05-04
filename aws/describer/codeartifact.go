@@ -29,7 +29,7 @@ func CodeArtifactRepository(ctx context.Context, cfg aws.Config, stream *StreamS
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.Arn,
 				Name:   *v.Name,
 				Description: model.CodeArtifactRepositoryDescription{
@@ -87,7 +87,7 @@ func CodeArtifactDomain(ctx context.Context, cfg aws.Config, stream *StreamSende
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.Arn,
 				Name:   *v.Name,
 				Description: model.CodeArtifactDomainDescription{

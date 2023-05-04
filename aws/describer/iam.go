@@ -49,7 +49,7 @@ func IAMAccount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 
 	var values []Resource
 	resource := Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		// No ID or ARN. Per Account Configuration
 		Name: accountId,
 		Description: model.IAMAccountDescription{
@@ -121,7 +121,7 @@ func IAMAccountSummary(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 	var values []Resource
 	resource := Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		// No ID or ARN. Per Account Configuration
 		Name:        accountId + " Account Summary",
 		Description: desc,
@@ -161,7 +161,7 @@ func IAMAccountPasswordPolicy(ctx context.Context, cfg aws.Config, stream *Strea
 
 	var values []Resource
 	resource := Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		// No ID or ARN. Per Account Configuration
 		Name: accountId + " IAM Password Policy",
 		Description: model.IAMAccountPasswordPolicyDescription{
@@ -193,7 +193,7 @@ func IAMAccessKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 		for _, v := range page.AccessKeyMetadata {
 			arn := "arn:" + describeCtx.Partition + ":iam::" + describeCtx.AccountID + ":user/" + *v.UserName + "/accesskey/" + *v.AccessKeyId
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *v.UserName,
 				Description: model.IAMAccessKeyDescription{
@@ -235,7 +235,7 @@ func IAMCredentialReport(ctx context.Context, cfg aws.Config, stream *StreamSend
 	for _, report := range reports {
 		report.GeneratedTime = output.GeneratedTime
 		resource := Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ID:     report.UserName, // Unique report entry per user
 			Name:   report.UserName + " Credential Report",
 			Description: model.IAMCredentialReportDescription{
@@ -280,7 +280,7 @@ func IAMPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Res
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.Arn,
 				Name:   *v.PolicyName,
 				Description: model.IAMPolicyDescription{
@@ -320,7 +320,7 @@ func GetIAMPolicy(ctx context.Context, cfg aws.Config, arn string) ([]Resource, 
 	}
 
 	values = append(values, Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ARN:    *v.Arn,
 		Name:   *v.PolicyName,
 		Description: model.IAMPolicyDescription{
@@ -361,7 +361,7 @@ func IAMGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.Arn,
 				Name:   *v.GroupName,
 				Description: model.IAMGroupDescription{
@@ -744,7 +744,7 @@ func IAMRole(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.Arn,
 				Name:   *v.RoleName,
 				Description: model.IAMRoleDescription{
@@ -798,7 +798,7 @@ func GetIAMRole(ctx context.Context, cfg aws.Config, pathPrefix string) ([]Resou
 		}
 
 		values = append(values, Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    *v.Arn,
 			Name:   *v.RoleName,
 			Description: model.IAMRoleDescription{
@@ -935,7 +935,7 @@ func IAMServerCertificate(ctx context.Context, cfg aws.Config, stream *StreamSen
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.Arn,
 				Name:   *v.ServerCertificateName,
 				Description: model.IAMServerCertificateDescription{
@@ -989,7 +989,7 @@ func IAMUser(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.Arn,
 				Name:   *v.UserName,
 				Description: model.IAMUserDescription{
@@ -1046,7 +1046,7 @@ func GetIAMUser(ctx context.Context, cfg aws.Config, userName string) ([]Resourc
 	}
 
 	values = append(values, Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ARN:    *v.Arn,
 		Name:   *v.UserName,
 		Description: model.IAMUserDescription{
@@ -1095,7 +1095,7 @@ func IAMPolicyAttachment(ctx context.Context, cfg aws.Config, stream *StreamSend
 				policyUsers = append(policyUsers, attachmentPage.PolicyUsers...)
 			}
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				Name:   fmt.Sprintf("%s - Attachments", *policy.Arn),
 				Description: model.IAMPolicyAttachmentDescription{
 					PolicyArn:             *policy.Arn,
@@ -1147,7 +1147,7 @@ func GetIAMPolicyAttachment(ctx context.Context, cfg aws.Config, policyARN strin
 		policyUsers = append(policyUsers, attachmentPage.PolicyUsers...)
 	}
 	values = append(values, Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		Name:   fmt.Sprintf("%s - Attachments", policyARN),
 		Description: model.IAMPolicyAttachmentDescription{
 			PolicyArn:             policyARN,
@@ -1179,7 +1179,7 @@ func IAMSamlProvider(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			return nil, err
 		}
 		resource := Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    *v.Arn,
 			Description: model.IAMSamlProviderDescription{
 				SamlProvider: *samlProvider,
@@ -1219,7 +1219,7 @@ func IAMServiceSpecificCredential(ctx context.Context, cfg aws.Config, stream *S
 
 			for _, credential := range serviceSpecificCredentials.ServiceSpecificCredentials {
 				resource := Resource{
-					Region: describeCtx.Region,
+					Region: describeCtx.KaytuRegion,
 					ID:     *credential.ServiceSpecificCredentialId,
 					Description: model.IAMServiceSpecificCredentialDescription{
 						ServiceSpecificCredential: credential,
@@ -1345,7 +1345,7 @@ func IAMVirtualMFADevice(ctx context.Context, cfg aws.Config, stream *StreamSend
 		}
 
 		resource := Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    *v.SerialNumber,
 			Name:   *v.SerialNumber,
 			Description: model.IAMVirtualMFADeviceDescription{

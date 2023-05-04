@@ -29,7 +29,7 @@ func NetworkFirewallFirewall(ctx context.Context, cfg aws.Config, stream *Stream
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.FirewallArn,
 				Name:   *v.FirewallName,
 				Description: model.NetworkFirewallFirewallDescription{

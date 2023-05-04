@@ -33,7 +33,7 @@ func CodeBuildProject(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 		for _, project := range projects.Projects {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *project.Arn,
 				Name:   *project.Name,
 				Description: model.CodeBuildProjectDescription{
@@ -64,7 +64,7 @@ func CodeBuildSourceCredential(ctx context.Context, cfg aws.Config, stream *Stre
 	var values []Resource
 	for _, item := range out.SourceCredentialsInfos {
 		resource := Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    *item.Arn,
 			Name:   nameFromArn(*item.Arn),
 			Description: model.CodeBuildSourceCredentialDescription{

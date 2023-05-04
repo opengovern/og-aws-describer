@@ -26,7 +26,7 @@ func ElasticBeanstalkEnvironment(ctx context.Context, cfg aws.Config, stream *St
 		}
 
 		resource := Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    *item.EnvironmentArn,
 			Name:   *item.EnvironmentName,
 			Description: model.ElasticBeanstalkEnvironmentDescription{
@@ -70,7 +70,7 @@ func ElasticBeanstalkApplication(ctx context.Context, cfg aws.Config, stream *St
 		}
 
 		resource := Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    *item.ApplicationArn,
 			Name:   *item.ApplicationName,
 			Description: model.ElasticBeanstalkApplicationDescription{
@@ -111,7 +111,7 @@ func ElasticBeanstalkPlatform(ctx context.Context, cfg aws.Config, stream *Strea
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *platform.PlatformDescription.PlatformArn,
 				Name:   *platform.PlatformDescription.PlatformName,
 				Description: model.ElasticBeanstalkPlatformDescription{

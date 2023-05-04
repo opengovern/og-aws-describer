@@ -35,7 +35,7 @@ func EventBridgeBus(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *bus.Arn,
 				Name:   *bus.Name,
 				Description: model.EventBridgeBusDescription{
@@ -101,7 +101,7 @@ func EventBridgeRule(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *rule.Arn,
 				Name:   *rule.Name,
 				Description: model.EventBridgeRuleDescription{

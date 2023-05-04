@@ -530,7 +530,7 @@ func S3AccessPoint(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.AccessPointArn,
 				Name:   *v.Name,
 				Description: model.S3AccessPointDescription{
@@ -619,7 +619,7 @@ func S3AccountSetting(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 	var values []Resource
 	resource := Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		// No ARN or ID. Account level setting
 		Name: accountId + " S3 Account Setting",
 		Description: model.S3AccountSettingDescription{

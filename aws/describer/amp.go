@@ -22,7 +22,7 @@ func AMPWorkspace(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 
 		for _, v := range page.Workspaces {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.Arn,
 				Name:   *v.WorkspaceId,
 				Description: model.AMPWorkspaceDescription{

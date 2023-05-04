@@ -80,7 +80,7 @@ func ECSCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 
 		for _, v := range output.Clusters {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.ClusterArn,
 				Name:   *v.ClusterName,
 				Description: model.ECSClusterDescription{
@@ -119,7 +119,7 @@ func GetECSCluster(ctx context.Context, cfg aws.Config, fields map[string]string
 
 	for _, v := range output.Clusters {
 		values = append(values, Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    *v.ClusterArn,
 			Name:   *v.ClusterName,
 			Description: model.ECSClusterDescription{
@@ -169,7 +169,7 @@ func ECSService(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 
 			for _, v := range output.Services {
 				resource := Resource{
-					Region: describeCtx.Region,
+					Region: describeCtx.KaytuRegion,
 					ARN:    *v.ServiceArn,
 					Name:   *v.ServiceName,
 					Description: model.ECSServiceDescription{
@@ -210,7 +210,7 @@ func GetECSService(ctx context.Context, cfg aws.Config, fields map[string]string
 
 	for _, v := range output.Services {
 		values = append(values, Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    *v.ServiceArn,
 			Name:   *v.ServiceName,
 			Description: model.ECSServiceDescription{
@@ -250,7 +250,7 @@ func ECSTaskDefinition(ctx context.Context, cfg aws.Config, stream *StreamSender
 			name := splitArn[len(splitArn)-1]
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   name,
 				Description: model.ECSTaskDefinitionDescription{
@@ -292,7 +292,7 @@ func GetECSTaskDefinition(ctx context.Context, cfg aws.Config, fields map[string
 	name := splitArn[len(splitArn)-1]
 
 	values = append(values, Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ARN:    taskDefinitionARN,
 		Name:   name,
 		Description: model.ECSTaskDefinitionDescription{
@@ -345,7 +345,7 @@ func ECSTaskSet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 				}
 				for _, v := range service.TaskSets {
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						ARN:    *v.TaskSetArn,
 						Name:   *v.Id,
 						Description: model.ECSTaskSetDescription{
@@ -440,7 +440,7 @@ func ECSContainerInstance(ctx context.Context, cfg aws.Config, stream *StreamSen
 
 			for _, v := range output.ContainerInstances {
 				resource := Resource{
-					Region: describeCtx.Region,
+					Region: describeCtx.KaytuRegion,
 					ARN:    *v.ContainerInstanceArn,
 					Name:   *v.ContainerInstanceArn,
 					Description: model.ECSContainerInstanceDescription{

@@ -19,7 +19,7 @@ func CertificateManagerAccount(ctx context.Context, cfg aws.Config, stream *Stre
 
 	return []Resource{
 		{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			// No ID or ARN. Per Account Configuration
 			Description: output,
 		}}, nil
@@ -60,7 +60,7 @@ func CertificateManagerCertificate(ctx context.Context, cfg aws.Config, stream *
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.CertificateArn,
 				Name:   nameFromArn(*v.CertificateArn),
 				Description: model.CertificateManagerCertificateDescription{
@@ -110,7 +110,7 @@ func ACMPCACertificateAuthority(ctx context.Context, cfg aws.Config, stream *Str
 				return nil, err
 			}
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.Arn,
 				Name:   nameFromArn(*v.Arn),
 				Description: model.ACMPCACertificateAuthorityDescription{

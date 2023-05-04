@@ -105,7 +105,7 @@ func Route53HostedZone(ctx context.Context, cfg aws.Config, stream *StreamSender
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *v.Name,
 				Description: model.Route53HostedZoneDescription{
@@ -187,7 +187,7 @@ func GetRoute53HostedZone(ctx context.Context, cfg aws.Config, hostedZoneID stri
 	}
 
 	values = append(values, Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ARN:    arn,
 		Name:   *v.Name,
 		Description: model.Route53HostedZoneDescription{

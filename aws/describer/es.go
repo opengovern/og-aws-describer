@@ -43,7 +43,7 @@ func ESDomain(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 		}
 
 		resource := Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    *v.ARN,
 			Name:   *v.DomainName,
 			Description: model.ESDomainDescription{

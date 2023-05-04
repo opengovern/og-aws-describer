@@ -36,7 +36,7 @@ func ApiGatewayStage(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			for _, stageItem := range out.Item {
 				arn := "arn:" + describeCtx.Partition + ":apigateway:" + describeCtx.Region + "::/restapis/" + *restItem.Id + "/stages/" + *stageItem.StageName
 				resource := Resource{
-					Region: describeCtx.Region,
+					Region: describeCtx.KaytuRegion,
 					ARN:    arn,
 					Name:   *restItem.Name,
 					Description: model.ApiGatewayStageDescription{
@@ -75,7 +75,7 @@ func GetApiGatewayStage(ctx context.Context, cfg aws.Config, fields map[string]s
 	for _, stageItem := range out.Item {
 		arn := "arn:" + describeCtx.Partition + ":apigateway:" + describeCtx.Region + "::/restapis/" + restAPIID + "/stages/" + *stageItem.StageName
 		values = append(values, Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    arn,
 			Name:   *stageItem.StageName,
 			Description: model.ApiGatewayStageDescription{
@@ -128,7 +128,7 @@ func ApiGatewayV2Stage(ctx context.Context, cfg aws.Config) ([]Resource, error) 
 
 		for _, stage := range stages {
 			values = append(values, Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ID:     CompositeID(*api.ApiId, *stage.StageName),
 				Name:   *api.Name,
 				Description: model.ApiGatewayV2StageDescription{
@@ -160,7 +160,7 @@ func ApiGatewayRestAPI(ctx context.Context, cfg aws.Config, stream *StreamSender
 		for _, restItem := range page.Items {
 			arn := fmt.Sprintf("arn:%s:apigateway:%s::/restapis/%s", describeCtx.Partition, describeCtx.Region, *restItem.Id)
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *restItem.Name,
 				Description: model.ApiGatewayRestAPIDescription{
@@ -199,7 +199,7 @@ func GetApiGatewayRestAPI(ctx context.Context, cfg aws.Config, fields map[string
 	var values []Resource
 	arn := fmt.Sprintf("arn:%s:apigateway:%s::/restapis/%s", describeCtx.Partition, describeCtx.Region, *out.Id)
 	values = append(values, Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ARN:    arn,
 		Name:   *out.Name,
 		Description: model.ApiGatewayRestAPIDescription{
@@ -241,7 +241,7 @@ func ApiGatewayApiKey(ctx context.Context, cfg aws.Config, stream *StreamSender)
 		for _, apiKey := range page.Items {
 			arn := fmt.Sprintf("arn:%s:apigateway:%s::/apikeys/%s", describeCtx.Partition, describeCtx.Region, *apiKey.Id)
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ID:     *apiKey.Id,
 				ARN:    arn,
 				Name:   *apiKey.Name,
@@ -281,7 +281,7 @@ func ApiGatewayUsagePlan(ctx context.Context, cfg aws.Config, stream *StreamSend
 		for _, usagePlan := range page.Items {
 			arn := fmt.Sprintf("arn:%s:apigateway:%s::/usageplans/%s", describeCtx.Partition, describeCtx.Region, *usagePlan.Id)
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ID:     *usagePlan.Id,
 				ARN:    arn,
 				Name:   *usagePlan.Name,
@@ -328,7 +328,7 @@ func ApiGatewayAuthorizer(ctx context.Context, cfg aws.Config, stream *StreamSen
 			for _, authorizer := range authorizers.Items {
 				arn := fmt.Sprintf("arn:%s:apigateway:%s::/restapis/%s/authorizer/%s", describeCtx.Partition, describeCtx.Region, *api.Id, *authorizer.Id)
 				resource := Resource{
-					Region: describeCtx.Region,
+					Region: describeCtx.KaytuRegion,
 					ID:     *authorizer.Id,
 					ARN:    arn,
 					Name:   *api.Name,
@@ -372,7 +372,7 @@ func ApiGatewayV2API(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		for _, api := range output.Items {
 			arn := fmt.Sprintf("arn:%s:apigateway:%s::/apis/%s", describeCtx.Partition, describeCtx.Region, *api.ApiId)
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *api.Name,
 				Description: model.ApiGatewayV2APIDescription{
@@ -418,7 +418,7 @@ func GetApiGatewayV2API(ctx context.Context, cfg aws.Config, fields map[string]s
 
 	arn := fmt.Sprintf("arn:%s:apigateway:%s::/apis/%s", describeCtx.Partition, describeCtx.Region, apiID)
 	values = append(values, Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ARN:    arn,
 		Name:   *out.Name,
 		Description: model.ApiGatewayV2APIDescription{
@@ -465,7 +465,7 @@ func ApiGatewayV2DomainName(ctx context.Context, cfg aws.Config, stream *StreamS
 		for _, domainName := range output.Items {
 			arn := fmt.Sprintf("arn:%s:apigateway:%s::/domainnames/%s", describeCtx.Partition, describeCtx.Region, *domainName.DomainName)
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *domainName.DomainName,
 				Description: model.ApiGatewayV2DomainNameDescription{
@@ -509,7 +509,7 @@ func GetApiGatewayV2DomainName(ctx context.Context, cfg aws.Config, fields map[s
 	}
 	arn := fmt.Sprintf("arn:%s:apigateway:%s::/domainnames/%s", describeCtx.Partition, describeCtx.Region, domainName)
 	values = append(values, Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ARN:    arn,
 		Name:   *out.DomainName,
 		Description: model.ApiGatewayV2DomainNameDescription{
@@ -556,7 +556,7 @@ func ApiGatewayV2Integration(ctx context.Context, cfg aws.Config, stream *Stream
 				for _, integration := range output.Items {
 					arn := fmt.Sprintf("arn:%s:apigateway:%s::/apis/%s/integrations/%s", describeCtx.Partition, describeCtx.Region, *api.ApiId, *integration.IntegrationId)
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						ARN:    arn,
 						ID:     *integration.IntegrationId,
 						Description: model.ApiGatewayV2IntegrationDescription{
@@ -627,7 +627,7 @@ func GetApiGatewayV2Integration(ctx context.Context, cfg aws.Config, fields map[
 
 	arn := fmt.Sprintf("arn:%s:apigateway:%s::/apis/%s/integrations/%s", describeCtx.Partition, describeCtx.Region, *api.ApiId, *integration.IntegrationId)
 	values = append(values, Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ARN:    arn,
 		ID:     *integration.IntegrationId,
 		Description: model.ApiGatewayV2IntegrationDescription{

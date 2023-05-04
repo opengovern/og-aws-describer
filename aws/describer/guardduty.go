@@ -46,7 +46,7 @@ func GuardDutyFinding(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 				for _, item := range findings.Findings {
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						ARN:    *item.Arn,
 						Name:   *item.Id,
 						Description: model.GuardDutyFindingDescription{
@@ -91,7 +91,7 @@ func GuardDutyDetector(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 			arn := "arn:" + describeCtx.Partition + ":guardduty:" + describeCtx.Region + ":" + describeCtx.AccountID + ":detector/" + id
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   id,
 				Description: model.GuardDutyDetectorDescription{
@@ -146,7 +146,7 @@ func GuardDutyFilter(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 					}
 
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						ARN:    arn,
 						Name:   *filterOutput.Name,
 						Description: model.GuardDutyFilterDescription{
@@ -203,7 +203,7 @@ func GuardDutyIPSet(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 					}
 
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						ARN:    arn,
 						Name:   *ipSetOutput.Name,
 						Description: model.GuardDutyIPSetDescription{
@@ -251,7 +251,7 @@ func GuardDutyMember(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 				}
 				for _, member := range membersPage.Members {
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						Name:   *member.AccountId,
 						Description: model.GuardDutyMemberDescription{
 							Member: member,
@@ -306,7 +306,7 @@ func GuardDutyPublishingDestination(ctx context.Context, cfg aws.Config, stream 
 					}
 
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						ARN:    arn,
 						ID:     *destinationOutput.DestinationId,
 						Description: model.GuardDutyPublishingDestinationDescription{
@@ -363,12 +363,12 @@ func GuardDutyThreatIntelSet(ctx context.Context, cfg aws.Config, stream *Stream
 					}
 
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						ARN:    arn,
 						Name:   *threatIntelSetOutput.Name,
 						Description: model.GuardDutyThreatIntelSetDescription{
-							ThreatIntelSet: *threatIntelSetOutput,
-							DetectorId:     detectorId,
+							ThreatIntelSet:   *threatIntelSetOutput,
+							DetectorId:       detectorId,
 							ThreatIntelSetID: threatIntelSetId,
 						},
 					}

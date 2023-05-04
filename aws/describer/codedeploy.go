@@ -53,7 +53,7 @@ func CodeDeployDeploymentGroup(ctx context.Context, cfg aws.Config, stream *Stre
 					}
 
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						ARN:    arn,
 						Name:   *deploymentGroup.DeploymentGroupInfo.DeploymentGroupName,
 						Description: model.CodeDeployDeploymentGroupDescription{
@@ -107,7 +107,7 @@ func CodeDeployApplication(ctx context.Context, cfg aws.Config, stream *StreamSe
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *application.Application.ApplicationName,
 				Description: model.CodeDeployApplicationDescription{

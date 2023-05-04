@@ -29,7 +29,7 @@ func ApplicationAutoScalingTarget(ctx context.Context, cfg aws.Config, stream *S
 				arn := "arn:" + describeCtx.Partition + ":application-autoscaling:" + describeCtx.Region + ":" + describeCtx.AccountID + ":service-namespace:" + string(item.ServiceNamespace) + "/target/" + *item.ResourceId
 
 				resource := Resource{
-					Region: describeCtx.Region,
+					Region: describeCtx.KaytuRegion,
 					ARN:    arn,
 					Name:   *item.ResourceId,
 					Description: model.ApplicationAutoScalingTargetDescription{

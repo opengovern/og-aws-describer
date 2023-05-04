@@ -37,7 +37,7 @@ func CloudFrontDistribution(ctx context.Context, cfg aws.Config, stream *StreamS
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *item.ARN,
 				Name:   *item.Id,
 				Description: model.CloudFrontDistributionDescription{
@@ -85,7 +85,7 @@ func GetCloudFrontDistribution(ctx context.Context, cfg aws.Config, id string) (
 	}
 
 	values = append(values, Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ARN:    *item.ARN,
 		Name:   *item.Id,
 		Description: model.CloudFrontDistributionDescription{
@@ -123,7 +123,7 @@ func CloudFrontOriginAccessControl(ctx context.Context, cfg aws.Config, stream *
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *v.Id,
 				Description: model.CloudFrontOriginAccessControlDescription{
@@ -175,7 +175,7 @@ func CloudFrontCachePolicy(ctx context.Context, cfg aws.Config, stream *StreamSe
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				ID:     *v.CachePolicy.Id,
 				Description: model.CloudFrontCachePolicyDescription{
@@ -225,7 +225,7 @@ func CloudFrontFunction(ctx context.Context, cfg aws.Config, stream *StreamSende
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *function.FunctionSummary.FunctionMetadata.FunctionARN,
 				Name:   *function.FunctionSummary.Name,
 				Description: model.CloudFrontFunctionDescription{
@@ -273,7 +273,7 @@ func CloudFrontOriginAccessIdentity(ctx context.Context, cfg aws.Config, stream 
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *item.Id,
 				Description: model.CloudFrontOriginAccessIdentityDescription{
@@ -317,7 +317,7 @@ func GetCloudFrontOriginAccessIdentity(ctx context.Context, cfg aws.Config, id s
 	}
 
 	values = append(values, Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ARN:    arn,
 		Name:   *item.Id,
 		Description: model.CloudFrontOriginAccessIdentityDescription{
@@ -353,7 +353,7 @@ func CloudFrontOriginRequestPolicy(ctx context.Context, cfg aws.Config, stream *
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				ID:     *policy.OriginRequestPolicy.Id,
 				Description: model.CloudFrontOriginRequestPolicyDescription{
@@ -403,7 +403,7 @@ func CloudFrontResponseHeadersPolicy(ctx context.Context, cfg aws.Config, stream
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				ID:     *policy.ResponseHeadersPolicy.Id,
 				Description: model.CloudFrontResponseHeadersPolicyDescription{

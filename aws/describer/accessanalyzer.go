@@ -27,7 +27,7 @@ func GetAccessAnalyzerAnalyzer(ctx context.Context, cfg aws.Config, fields map[s
 
 	return []Resource{
 		{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    *v.Analyzer.Arn,
 			Name:   *v.Analyzer.Name,
 			Description: model.AccessAnalyzerAnalyzerDescription{
@@ -55,7 +55,7 @@ func AccessAnalyzerAnalyzer(ctx context.Context, cfg aws.Config, stream *StreamS
 				return nil, err
 			}
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.Arn,
 				Name:   *v.Name,
 				Description: model.AccessAnalyzerAnalyzerDescription{

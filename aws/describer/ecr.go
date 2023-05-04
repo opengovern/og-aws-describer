@@ -71,7 +71,7 @@ func ECRPublicRepository(ctx context.Context, cfg aws.Config, stream *StreamSend
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.RepositoryArn,
 				Name:   *v.RepositoryName,
 				Description: model.ECRPublicRepositoryDescription{
@@ -119,7 +119,7 @@ func ECRPublicRegistry(ctx context.Context, cfg aws.Config, stream *StreamSender
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.RegistryArn,
 				Name:   *v.RegistryId,
 				Description: model.ECRPublicRegistryDescription{
@@ -201,7 +201,7 @@ func ECRRepository(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.RepositoryArn,
 				Name:   *v.RepositoryName,
 				Description: model.ECRRepositoryDescription{
@@ -310,7 +310,7 @@ func ECRImage(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 				}
 				for _, image := range page.ImageDetails {
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						Name:   fmt.Sprintf("%s:%s", *repository.RepositoryName, *image.ImageDigest),
 						Description: model.ECRImageDescription{
 							Image: image,

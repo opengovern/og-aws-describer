@@ -50,7 +50,7 @@ func CodeCommitRepository(ctx context.Context, cfg aws.Config, stream *StreamSen
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.Arn,
 				Name:   *v.RepositoryName,
 				Description: model.CodeCommitRepositoryDescription{

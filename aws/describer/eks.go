@@ -52,7 +52,7 @@ func EKSCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 		}
 
 		resource := Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    *output.Cluster.Arn,
 			Name:   *output.Cluster.Name,
 			Description: model.EKSClusterDescription{
@@ -104,7 +104,7 @@ func EKSAddon(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *output.Addon.AddonArn,
 				Name:   *output.Addon.AddonName,
 				Description: model.EKSAddonDescription{
@@ -157,7 +157,7 @@ func EKSFargateProfile(ctx context.Context, cfg aws.Config, stream *StreamSender
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *output.FargateProfile.FargateProfileArn,
 				Name:   *output.FargateProfile.FargateProfileName,
 				Description: model.EKSFargateProfileDescription{
@@ -211,7 +211,7 @@ func EKSNodegroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *output.Nodegroup.NodegroupArn,
 				Name:   *output.Nodegroup.NodegroupName,
 				Description: model.EKSNodegroupDescription{
@@ -263,7 +263,7 @@ func EKSIdentityProviderConfig(ctx context.Context, cfg aws.Config, stream *Stre
 				}
 
 				resource := Resource{
-					Region: describeCtx.Region,
+					Region: describeCtx.KaytuRegion,
 					ARN:    *output.IdentityProviderConfig.Oidc.IdentityProviderConfigArn,
 					Name:   *config.Name,
 					Description: EKSIdentityProviderConfigDescription{
@@ -313,7 +313,7 @@ func EKSAddonVersion(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 				}
 
 				resource := Resource{
-					Region: describeCtx.Region,
+					Region: describeCtx.KaytuRegion,
 					ARN:    arn,
 					Name:   *version.AddonVersion,
 					Description: model.EKSAddonVersionDescription{

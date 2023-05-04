@@ -77,7 +77,7 @@ func WorkspacesWorkspace(ctx context.Context, cfg aws.Config, stream *StreamSend
 
 			arn := fmt.Sprintf("arn:%s:workspaces:%s:%s:workspace/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.WorkspaceId)
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *v.WorkspaceId,
 				Description: model.WorkspacesWorkspaceDescription{
@@ -121,7 +121,7 @@ func WorkspacesBundle(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 			arn := fmt.Sprintf("arn:%s:workspaces:%s:%s:workspacebundle/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.BundleId)
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *v.BundleId,
 				Description: model.WorkspacesBundleDescription{

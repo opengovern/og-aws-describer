@@ -30,7 +30,7 @@ func SSMManagedInstance(ctx context.Context, cfg aws.Config, stream *StreamSende
 				name = *item.InstanceId
 			}
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   name,
 				Description: model.SSMManagedInstanceDescription{
@@ -75,7 +75,7 @@ func SSMManagedInstanceCompliance(ctx context.Context, cfg aws.Config, stream *S
 				for _, item := range cpage.ComplianceItems {
 					arn := "arn:" + describeCtx.Partition + ":ssm:" + describeCtx.Region + ":" + describeCtx.AccountID + ":managed-instance/" + *item.ResourceId + "/compliance-item/" + *item.Id + ":" + *item.ComplianceType
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						ARN:    arn,
 						Name:   *item.Title,
 						Description: model.SSMManagedInstanceComplianceDescription{

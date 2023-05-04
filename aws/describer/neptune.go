@@ -29,7 +29,7 @@ func NeptuneDatabase(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.DBInstanceArn,
 				Name:   *v.DBClusterIdentifier,
 				Description: model.NeptuneDatabaseDescription{

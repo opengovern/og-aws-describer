@@ -38,7 +38,7 @@ func OpenSearchDomain(ctx context.Context, cfg aws.Config, stream *StreamSender)
 		}
 
 		resource := Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    *domain.ARN,
 			Name:   *domain.DomainName,
 			Description: model.OpenSearchDomainDescription{

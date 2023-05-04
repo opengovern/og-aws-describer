@@ -32,7 +32,7 @@ func AppConfigApplication(ctx context.Context, cfg aws.Config, stream *StreamSen
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ID:     *application.Id,
 				Name:   *application.Name,
 				ARN:    arn,

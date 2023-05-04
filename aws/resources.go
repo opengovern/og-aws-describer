@@ -3085,9 +3085,10 @@ func ParallelDescribeRegionalSingleResource(describe func(context.Context, aws.C
 
 				partition, _ := PartitionOf(r)
 				ctx = describer.WithDescribeContext(ctx, describer.DescribeContext{
-					AccountID: account,
-					Region:    r,
-					Partition: partition,
+					AccountID:   account,
+					Region:      r,
+					KaytuRegion: r,
+					Partition:   partition,
 				})
 				ctx = describer.WithTriggerType(ctx, triggerType)
 				resources, err := describe(ctx, rCfg, fields)
@@ -3150,9 +3151,10 @@ func ParallelDescribeRegional(describe func(context.Context, aws.Config, *descri
 
 				partition, _ := PartitionOf(r)
 				ctx = describer.WithDescribeContext(ctx, describer.DescribeContext{
-					AccountID: account,
-					Region:    r,
-					Partition: partition,
+					AccountID:   account,
+					Region:      r,
+					KaytuRegion: r,
+					Partition:   partition,
 				})
 				ctx = describer.WithTriggerType(ctx, triggerType)
 				resources, err := describe(ctx, rCfg, stream)
@@ -3207,9 +3209,10 @@ func SequentialDescribeGlobal(describe func(context.Context, aws.Config, *descri
 
 			partition, _ := PartitionOf(region)
 			ctx = describer.WithDescribeContext(ctx, describer.DescribeContext{
-				AccountID: account,
-				Region:    region,
-				Partition: partition,
+				AccountID:   account,
+				Region:      region,
+				KaytuRegion: "global",
+				Partition:   partition,
 			})
 			ctx = describer.WithTriggerType(ctx, triggerType)
 			resources, err := describe(ctx, rCfg, stream)
@@ -3254,9 +3257,10 @@ func SequentialDescribeS3(describe func(context.Context, aws.Config, []string, *
 
 			partition, _ := PartitionOf(region)
 			ctx = describer.WithDescribeContext(ctx, describer.DescribeContext{
-				AccountID: account,
-				Region:    region,
-				Partition: partition,
+				AccountID:   account,
+				Region:      region,
+				KaytuRegion: region,
+				Partition:   partition,
 			})
 			ctx = describer.WithTriggerType(ctx, triggerType)
 			resources, err := describe(ctx, rCfg, regions, stream)

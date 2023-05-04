@@ -31,7 +31,7 @@ func AccountAlternateContact(ctx context.Context, cfg aws.Config, stream *Stream
 		}
 
 		resource := Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			Name:   *op.AlternateContact.Name,
 			Description: model.AccountAlternateContactDescription{
 				AlternateContact: *op.AlternateContact,
@@ -66,7 +66,7 @@ func AccountContact(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 	}
 
 	resource := Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		Name:   *op.ContactInformation.FullName,
 		Description: model.AccountContactDescription{
 			AlternateContact: *op.ContactInformation,

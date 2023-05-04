@@ -29,7 +29,7 @@ func MQBroker(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.BrokerArn,
 				Name:   *v.BrokerName,
 				Description: model.MQBrokerDescription{

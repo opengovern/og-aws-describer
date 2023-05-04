@@ -64,7 +64,7 @@ func GlacierVault(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *vault.VaultARN,
 				Name:   *vault.VaultName,
 				Description: model.GlacierVaultDescription{
@@ -142,7 +142,7 @@ func GetGlacierVault(ctx context.Context, cfg aws.Config, fields map[string]stri
 	}
 
 	values = append(values, Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ARN:    *vault.VaultARN,
 		Name:   *vault.VaultName,
 		Description: model.GlacierVaultDescription{

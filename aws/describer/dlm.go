@@ -27,7 +27,7 @@ func DLMLifecyclePolicy(ctx context.Context, cfg aws.Config, stream *StreamSende
 			return nil, err
 		}
 		resource := Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ID:     *policy.Policy.PolicyId,
 			ARN:    *policy.Policy.PolicyArn,
 			Description: model.DLMLifecyclePolicyDescription{

@@ -27,7 +27,7 @@ func SecurityHubHub(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 	}
 
 	resource := Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ARN:    *out.HubArn,
 		Name:   nameFromArn(*out.HubArn),
 		Description: model.SecurityHubHubDescription{

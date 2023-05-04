@@ -22,7 +22,7 @@ func HealthEvent(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 
 		for _, event := range page.Events {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *event.Arn,
 				Description: model.HealthEventDescription{
 					Event: event,

@@ -30,7 +30,7 @@ func FMSPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Res
 				return nil, err
 			}
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.PolicyArn,
 				Name:   *v.PolicyName,
 				Description: model.FMSPolicyDescription{
@@ -69,7 +69,7 @@ func GetFMSPolicy(ctx context.Context, cfg aws.Config, fields map[string]string)
 		return nil, err
 	}
 	values = append(values, Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ARN:    *out.PolicyArn,
 		Name:   *out.Policy.PolicyName,
 		Description: model.FMSPolicyDescription{

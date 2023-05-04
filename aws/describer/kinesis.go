@@ -58,7 +58,7 @@ func KinesisStream(ctx context.Context, cfg aws.Config, streamS *StreamSender) (
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *stream.StreamDescription.StreamARN,
 				Name:   *stream.StreamDescription.StreamName,
 				Description: model.KinesisStreamDescription{
@@ -115,7 +115,7 @@ func KinesisAnalyticsV2Application(ctx context.Context, cfg aws.Config, stream *
 			})
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *description.ApplicationDetail.ApplicationARN,
 				Name:   *description.ApplicationDetail.ApplicationName,
 				Description: model.KinesisAnalyticsV2ApplicationDescription{

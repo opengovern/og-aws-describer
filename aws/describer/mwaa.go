@@ -29,7 +29,7 @@ func MWAAEnvironment(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *environment.Environment.Arn,
 				Name:   *environment.Environment.Name,
 				Description: model.MWAAEnvironmentDescription{

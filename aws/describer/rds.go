@@ -23,7 +23,7 @@ func RDSDBCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 
 		for _, v := range page.DBClusters {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.DBClusterArn,
 				Name:   *v.DBClusterIdentifier,
 				Description: model.RDSDBClusterDescription{
@@ -58,7 +58,7 @@ func GetRDSDBCluster(ctx context.Context, cfg aws.Config, fields map[string]stri
 	var values []Resource
 	for _, v := range out.DBClusters {
 		values = append(values, Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    *v.DBClusterArn,
 			Name:   *v.DBClusterIdentifier,
 			Description: model.RDSDBClusterDescription{
@@ -91,7 +91,7 @@ func RDSDBClusterSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSen
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.DBClusterSnapshotArn,
 				Name:   *v.DBClusterSnapshotIdentifier,
 				Description: model.RDSDBClusterSnapshotDescription{
@@ -158,7 +158,7 @@ func RDSDBInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 
 		for _, v := range page.DBInstances {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.DBInstanceArn,
 				Name:   *v.DBInstanceIdentifier,
 				Description: model.RDSDBInstanceDescription{
@@ -192,7 +192,7 @@ func GetRDSDBInstance(ctx context.Context, cfg aws.Config, fields map[string]str
 	var values []Resource
 	for _, v := range out.DBInstances {
 		values = append(values, Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    *v.DBInstanceArn,
 			Name:   *v.DBInstanceIdentifier,
 			Description: model.RDSDBInstanceDescription{
@@ -421,7 +421,7 @@ func RDSDBEventSubscription(ctx context.Context, cfg aws.Config, stream *StreamS
 
 		for _, v := range page.EventSubscriptionsList {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.EventSubscriptionArn,
 				Name:   *v.CustSubscriptionId,
 				Description: model.RDSDBEventSubscriptionDescription{
@@ -462,7 +462,7 @@ func RDSGlobalCluster(ctx context.Context, cfg aws.Config, stream *StreamSender)
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.GlobalClusterArn,
 				Name:   *v.GlobalClusterIdentifier,
 				Description: model.RDSGlobalClusterDescription{
@@ -536,7 +536,7 @@ func RDSDBSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.DBSnapshotArn,
 				Name:   *v.DBSnapshotIdentifier,
 				Description: model.RDSDBSnapshotDescription{

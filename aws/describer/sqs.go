@@ -47,7 +47,7 @@ func SQSQueue(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 			output.Attributes["QueueUrl"] = url
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    url,
 				Name:   nameFromArn(url),
 				Description: model.SQSQueueDescription{

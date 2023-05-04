@@ -29,7 +29,7 @@ func DocDBCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ID:     *cluster.DBClusterIdentifier,
 				ARN:    *cluster.DBClusterArn,
 				Description: model.DocDBClusterDescription{

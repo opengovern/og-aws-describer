@@ -33,7 +33,7 @@ func AuditManagerAssessment(ctx context.Context, cfg aws.Config, stream *StreamS
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *assessment.Assessment.Arn,
 				Name:   *assessment.Assessment.Metadata.Name,
 				ID:     *assessment.Assessment.Metadata.Id,
@@ -77,7 +77,7 @@ func AuditManagerControl(ctx context.Context, cfg aws.Config, stream *StreamSend
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *control.Control.Arn,
 				Name:   *control.Control.Name,
 				ID:     *control.Control.Id,
@@ -111,7 +111,7 @@ func GetAuditManagerControl(ctx context.Context, cfg aws.Config, fields map[stri
 
 	var values []Resource
 	values = append(values, Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ARN:    *control.Control.Arn,
 		Name:   *control.Control.Name,
 		ID:     *control.Control.Id,
@@ -160,7 +160,7 @@ func AuditManagerEvidence(ctx context.Context, cfg aws.Config, stream *StreamSen
 						for _, evidence := range evidencePage.Evidence {
 							arn := fmt.Sprintf("arn:%s:auditmanager:%s:%s:evidence/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *evidence.Id)
 							resource := Resource{
-								Region: describeCtx.Region,
+								Region: describeCtx.KaytuRegion,
 								ARN:    arn,
 								ID:     *evidence.Id,
 								Description: model.AuditManagerEvidenceDescription{
@@ -212,7 +212,7 @@ func AuditManagerEvidenceFolder(ctx context.Context, cfg aws.Config, stream *Str
 				for _, evidenceFolder := range evidenceFolderPage.EvidenceFolders {
 					arn := fmt.Sprintf("arn:%s:auditmanager:%s:%s:evidence-folder/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *evidenceFolder.Id)
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						ARN:    arn,
 						Name:   *evidenceFolder.Name,
 						ID:     *evidenceFolder.Id,
@@ -259,7 +259,7 @@ func AuditManagerFramework(ctx context.Context, cfg aws.Config, stream *StreamSe
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *framework.Framework.Arn,
 				Name:   *framework.Framework.Name,
 				ID:     *framework.Framework.Id,

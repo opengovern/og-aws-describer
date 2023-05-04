@@ -21,7 +21,7 @@ func SSOAdminInstance(ctx context.Context, cfg aws.Config, stream *StreamSender)
 		}
 		for _, v := range page.Instances {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.InstanceArn,
 				Name:   *v.InstanceArn,
 				Description: model.SSOAdminInstanceDescription{

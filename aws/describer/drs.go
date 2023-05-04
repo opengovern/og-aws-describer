@@ -29,7 +29,7 @@ func DRSSourceServer(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 
 		for _, v := range page.Items {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.Arn,
 				Name:   *v.SourceServerID,
 				Description: model.DRSSourceServerDescription{
@@ -70,7 +70,7 @@ func DRSRecoveryInstance(ctx context.Context, cfg aws.Config, stream *StreamSend
 
 		for _, v := range page.Items {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.Arn,
 				Name:   *v.RecoveryInstanceID,
 				Description: model.DRSRecoveryInstanceDescription{
@@ -111,7 +111,7 @@ func DRSJob(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resour
 
 		for _, v := range page.Items {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.Arn,
 				ID:     *v.JobID,
 				Description: model.DRSJobDescription{
@@ -166,7 +166,7 @@ func DRSRecoverySnapshot(ctx context.Context, cfg aws.Config, stream *StreamSend
 
 				for _, recoverySnapshot := range recoverySnapshotPage.Items {
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						ID:     *recoverySnapshot.SnapshotID,
 						Description: model.DRSRecoverySnapshotDescription{
 							RecoverySnapshot: recoverySnapshot,

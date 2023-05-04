@@ -126,7 +126,7 @@ func KMSKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resour
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.KeyArn,
 				Name:   *v.KeyId,
 				Description: model.KMSKeyDescription{
@@ -223,7 +223,7 @@ func GetKMSKey(ctx context.Context, cfg aws.Config, fields map[string]string) ([
 	}
 
 	values = append(values, Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ARN:    *key.KeyMetadata.Arn,
 		Name:   *v.KeyId,
 		Description: model.KMSKeyDescription{

@@ -36,7 +36,7 @@ func SecretsManagerSecret(ctx context.Context, cfg aws.Config, stream *StreamSen
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *item.ARN,
 				Name:   *item.Name,
 				Description: model.SecretsManagerSecretDescription{

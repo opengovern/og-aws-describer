@@ -29,7 +29,7 @@ func InspectorAssessmentRun(ctx context.Context, cfg aws.Config, stream *StreamS
 
 		for _, assessmentRun := range assessmentRuns.AssessmentRuns {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				Name:   *assessmentRun.Name,
 				ARN:    *assessmentRun.Arn,
 				Description: model.InspectorAssessmentRunDescription{
@@ -70,7 +70,7 @@ func InspectorAssessmentTarget(ctx context.Context, cfg aws.Config, stream *Stre
 
 		for _, assessmentTarget := range assessmentTargets.AssessmentTargets {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				Name:   *assessmentTarget.Name,
 				ARN:    *assessmentTarget.Arn,
 				Description: model.InspectorAssessmentTargetDescription{
@@ -125,7 +125,7 @@ func InspectorAssessmentTemplate(ctx context.Context, cfg aws.Config, stream *St
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				Name:   *assessmentTemplate.Name,
 				ARN:    *assessmentTemplate.Arn,
 				Description: model.InspectorAssessmentTemplateDescription{
@@ -176,7 +176,7 @@ func GetInspectorAssessmentTemplate(ctx context.Context, cfg aws.Config, fields 
 		}
 
 		values = append(values, Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			Name:   *assessmentTemplate.Name,
 			ARN:    *assessmentTemplate.Arn,
 			Description: model.InspectorAssessmentTemplateDescription{
@@ -222,7 +222,7 @@ func InspectorExclusion(ctx context.Context, cfg aws.Config, stream *StreamSende
 
 				for _, exclusion := range exclusions.Exclusions {
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						Name:   *exclusion.Title,
 						ARN:    *exclusion.Arn,
 						Description: model.InspectorExclusionDescription{
@@ -264,12 +264,12 @@ func InspectorFinding(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 		for _, finding := range findings.Findings {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				Name:   *finding.Title,
 				ID:     *finding.Id,
 				ARN:    *finding.Arn,
 				Description: model.InspectorFindingDescription{
-					Finding: finding,
+					Finding:     finding,
 					FailedItems: findings.FailedItems,
 				},
 			}

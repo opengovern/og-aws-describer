@@ -32,7 +32,7 @@ func ShieldProtectionGroup(ctx context.Context, cfg aws.Config, stream *StreamSe
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.ProtectionGroupArn,
 				Name:   *v.ProtectionGroupId,
 				Description: model.ShieldProtectionGroupDescription{

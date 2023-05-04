@@ -32,7 +32,7 @@ func EFSAccessPoint(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.AccessPointArn,
 				Name:   name,
 				Description: model.EFSAccessPointDescription{
@@ -85,7 +85,7 @@ func EFSFileSystem(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.FileSystemArn,
 				Name:   name,
 				Description: model.EFSFileSystemDescription{
@@ -138,7 +138,7 @@ func EFSMountTarget(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 				}
 
 				resource := Resource{
-					Region: describeCtx.Region,
+					Region: describeCtx.KaytuRegion,
 					ARN:    arn,
 					ID:     *v.MountTargetId,
 					Description: model.EFSMountTargetDescription{

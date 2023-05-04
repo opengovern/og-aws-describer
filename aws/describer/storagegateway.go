@@ -31,7 +31,7 @@ func StorageGatewayStorageGateway(ctx context.Context, cfg aws.Config, stream *S
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.GatewayARN,
 				Name:   *v.GatewayId,
 				Description: model.StorageGatewayStorageGatewayDescription{
@@ -71,7 +71,7 @@ func GetStorageGatewayStorageGateway(ctx context.Context, cfg aws.Config, stream
 	}
 
 	resource := Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ARN:    *out.GatewayARN,
 		Name:   *out.GatewayId,
 		Description: model.StorageGatewayStorageGatewayDescription{

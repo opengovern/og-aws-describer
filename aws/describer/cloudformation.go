@@ -45,7 +45,7 @@ func CloudFormationStack(ctx context.Context, cfg aws.Config, stream *StreamSend
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.StackId,
 				Name:   *v.StackName,
 				Description: model.CloudFormationStackDescription{
@@ -87,7 +87,7 @@ func CloudFormationStackSet(ctx context.Context, cfg aws.Config, stream *StreamS
 				return nil, err
 			}
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *stackSet.StackSet.StackSetARN,
 				Name:   *stackSet.StackSet.StackSetName,
 				Description: model.CloudFormationStackSetDescription{

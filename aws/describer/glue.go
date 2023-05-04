@@ -24,7 +24,7 @@ func GlueCatalogDatabase(ctx context.Context, cfg aws.Config, stream *StreamSend
 		for _, database := range page.DatabaseList {
 			arn := fmt.Sprintf("arn:aws:glue:%s:%s:database/%s", describeCtx.Region, describeCtx.AccountID, *database.Name)
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				Name:   *database.Name,
 				ARN:    arn,
 				Description: model.GlueCatalogDatabaseDescription{
@@ -69,7 +69,7 @@ func GlueCatalogTable(ctx context.Context, cfg aws.Config, stream *StreamSender)
 				for _, table := range tablePage.TableList {
 					arn := fmt.Sprintf("arn:aws:glue:%s:%s:table/%s/%s", describeCtx.Region, describeCtx.AccountID, *database.Name, *table.Name)
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						Name:   *table.Name,
 						ARN:    arn,
 						Description: model.GlueCatalogTableDescription{
@@ -106,7 +106,7 @@ func GlueConnection(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 		for _, connection := range page.ConnectionList {
 			arn := fmt.Sprintf("arn:aws:glue:%s:%s:connection/%s", describeCtx.Region, describeCtx.AccountID, *connection.Name)
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				Name:   *connection.Name,
 				ARN:    arn,
 				Description: model.GlueConnectionDescription{
@@ -141,7 +141,7 @@ func GlueCrawler(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 		for _, crawler := range page.Crawlers {
 			arn := fmt.Sprintf("arn:aws:glue:%s:%s:crawler/%s", describeCtx.Region, describeCtx.AccountID, *crawler.Name)
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				Name:   *crawler.Name,
 				ARN:    arn,
 				Description: model.GlueCrawlerDescription{
@@ -178,7 +178,7 @@ func GetGlueCrawler(ctx context.Context, cfg aws.Config, fields map[string]strin
 	var values []Resource
 	arn := fmt.Sprintf("arn:aws:glue:%s:%s:crawler/%s", describeCtx.Region, describeCtx.AccountID, *crawler.Name)
 	values = append(values, Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		Name:   *crawler.Name,
 		ARN:    arn,
 		Description: model.GlueCrawlerDescription{
@@ -200,7 +200,7 @@ func GlueDataCatalogEncryptionSettings(ctx context.Context, cfg aws.Config, stre
 
 	var values []Resource
 	resource := Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		Description: model.GlueDataCatalogEncryptionSettingsDescription{
 			DataCatalogEncryptionSettings: *settings.DataCatalogEncryptionSettings,
 		},
@@ -237,7 +237,7 @@ func GlueDataQualityRuleset(ctx context.Context, cfg aws.Config, stream *StreamS
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				Name:   *listRuleset.Name,
 				Description: model.GlueDataQualityRulesetDescription{
 					DataQualityRuleset: *ruleset,
@@ -271,7 +271,7 @@ func GlueDevEndpoint(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		for _, devEndpoint := range page.DevEndpoints {
 			arn := fmt.Sprintf("arn:aws:glue:%s:%s:devEndpoint/%s", describeCtx.Region, describeCtx.AccountID, *devEndpoint.EndpointName)
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				Name:   *devEndpoint.EndpointName,
 				ARN:    arn,
 				Description: model.GlueDevEndpointDescription{
@@ -314,7 +314,7 @@ func GlueJob(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				Name:   *job.Name,
 				ARN:    arn,
 				Description: model.GlueJobDescription{
@@ -360,7 +360,7 @@ func GetGlueJob(ctx context.Context, cfg aws.Config, fields map[string]string) (
 	}
 
 	values = append(values, Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		Name:   *job.Name,
 		ARN:    arn,
 		Description: model.GlueJobDescription{
@@ -387,7 +387,7 @@ func GlueSecurityConfiguration(ctx context.Context, cfg aws.Config, stream *Stre
 		for _, securityConfiguration := range page.SecurityConfigurations {
 			arn := fmt.Sprintf("arn:aws:glue:%s:%s:security-configuration/%s", describeCtx.Region, describeCtx.AccountID, *securityConfiguration.Name)
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				Name:   *securityConfiguration.Name,
 				ARN:    arn,
 				Description: model.GlueSecurityConfigurationDescription{

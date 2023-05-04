@@ -34,7 +34,7 @@ func SESConfigurationSet(ctx context.Context, cfg aws.Config, stream *StreamSend
 			arn := fmt.Sprintf("arn:%s:ses:%s:%s:configuration-set/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *output.ConfigurationSet.Name)
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *output.ConfigurationSet.Name,
 				Description: model.SESConfigurationSetDescription{
@@ -78,7 +78,7 @@ func SESIdentity(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *v.IdentityName,
 				Description: model.SESIdentityDescription{

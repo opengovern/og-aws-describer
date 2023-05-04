@@ -120,7 +120,7 @@ func AutoScalingLaunchConfiguration(ctx context.Context, cfg aws.Config, stream 
 
 		for _, v := range page.LaunchConfigurations {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.LaunchConfigurationARN,
 				Name:   *v.LaunchConfigurationName,
 				Description: model.AutoScalingLaunchConfigurationDescription{
@@ -154,7 +154,7 @@ func GetAutoScalingLaunchConfiguration(ctx context.Context, cfg aws.Config, fiel
 	var values []Resource
 	for _, v := range out.LaunchConfigurations {
 		values = append(values, Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    *v.LaunchConfigurationARN,
 			Name:   *v.LaunchConfigurationName,
 			Description: model.AutoScalingLaunchConfigurationDescription{
@@ -293,9 +293,9 @@ func AutoScalingWarmPool(ctx context.Context, cfg aws.Config, stream *StreamSend
 
 			for _, v := range output.Instances {
 				resource := Resource{
-					Region: describeCtx.Region,
-					ID:     CompositeID(*group.AutoScalingGroupName, *v.InstanceId), // TODO
-					Name:   *v.LaunchConfigurationName,
+					Region:      describeCtx.KaytuRegion,
+					ID:          CompositeID(*group.AutoScalingGroupName, *v.InstanceId), // TODO
+					Name:        *v.LaunchConfigurationName,
 					Description: v,
 				}
 				if stream != nil {

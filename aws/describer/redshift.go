@@ -47,7 +47,7 @@ func RedshiftCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.ClusterNamespaceArn,
 				Name:   *v.ClusterIdentifier,
 				Description: model.RedshiftClusterDescription{
@@ -96,7 +96,7 @@ func RedshiftClusterParameterGroup(ctx context.Context, cfg aws.Config, stream *
 				arn = arn + ":" + *v.ParameterGroupName
 			}
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *v.ParameterGroupName,
 				Description: model.RedshiftClusterParameterGroupDescription{
@@ -205,7 +205,7 @@ func RedshiftSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender)
 		for _, v := range page.Snapshots {
 			arn := fmt.Sprintf("arn:%s:redshift:%s:%s:snapshot:%s/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.ClusterIdentifier, *v.SnapshotIdentifier)
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *v.SnapshotIdentifier,
 				Description: model.RedshiftSnapshotDescription{
@@ -245,7 +245,7 @@ func GetRedshiftSnapshot(ctx context.Context, cfg aws.Config, fields map[string]
 	for _, v := range out.Snapshots {
 		arn := fmt.Sprintf("arn:%s:redshift:%s:%s:snapshot:%s/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.ClusterIdentifier, *v.SnapshotIdentifier)
 		values = append(values, Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    arn,
 			Name:   *v.SnapshotIdentifier,
 			Description: model.RedshiftSnapshotDescription{
@@ -278,7 +278,7 @@ func RedshiftServerlessNamespace(ctx context.Context, cfg aws.Config, stream *St
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.NamespaceArn,
 				Name:   *v.NamespaceName,
 				Description: model.RedshiftServerlessNamespaceDescription{
@@ -320,7 +320,7 @@ func RedshiftServerlessSnapshot(ctx context.Context, cfg aws.Config, stream *Str
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.NamespaceArn,
 				Name:   *v.NamespaceName,
 				Description: model.RedshiftServerlessSnapshotDescription{

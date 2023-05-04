@@ -22,7 +22,7 @@ func KafkaCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 
 		for _, v := range page.ClusterInfoList {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.ClusterArn,
 				Name:   *v.ClusterName,
 				Description: model.KafkaClusterDescription{

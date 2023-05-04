@@ -29,7 +29,7 @@ func ImageBuilderImage(ctx context.Context, cfg aws.Config, stream *StreamSender
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *image.Image.Arn,
 				Name:   *image.Image.Name,
 				Description: model.ImageBuilderImageDescription{

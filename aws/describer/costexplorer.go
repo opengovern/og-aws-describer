@@ -627,7 +627,7 @@ func CostForecastMonthly(ctx context.Context, cfg aws.Config, stream *StreamSend
 	var values []Resource
 	for _, forecast := range output.ForecastResultsByTime {
 		resource := Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ID:     "forecast-monthly",
 			Description: model.CostExplorerForcastMonthlyDescription{CostExplorerRow: model.CostExplorerRow{
 				Estimated:   true,
@@ -659,7 +659,7 @@ func CostForecastDaily(ctx context.Context, cfg aws.Config, stream *StreamSender
 	var values []Resource
 	for _, forecast := range output.ForecastResultsByTime {
 		resource := Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ID:     "forecast-daily",
 			Description: model.CostExplorerForcastDailyDescription{CostExplorerRow: model.CostExplorerRow{
 				Estimated:   true,

@@ -33,7 +33,7 @@ func CloudSearchDomain(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 	for _, domain := range domains.DomainStatusList {
 		resource := Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    *domain.ARN,
 			Name:   *domain.DomainName,
 			ID:     *domain.DomainId,
@@ -66,7 +66,7 @@ func GetCloudSearchDomain(ctx context.Context, cfg aws.Config, domainList []stri
 
 	for _, domain := range domains.DomainStatusList {
 		values = append(values, Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    *domain.ARN,
 			Name:   *domain.DomainName,
 			ID:     *domain.DomainId,

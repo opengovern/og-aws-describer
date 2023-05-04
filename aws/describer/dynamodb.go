@@ -48,7 +48,7 @@ func DynamoDbTable(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.Table.TableArn,
 				Name:   *v.Table.TableName,
 				Description: model.DynamoDbTableDescription{
@@ -94,7 +94,7 @@ func DynamoDbGlobalSecondaryIndex(ctx context.Context, cfg aws.Config, stream *S
 
 			for _, v := range tableOutput.Table.GlobalSecondaryIndexes {
 				resource := Resource{
-					Region: describeCtx.Region,
+					Region: describeCtx.KaytuRegion,
 					ARN:    *v.IndexArn,
 					Name:   *v.IndexName,
 					Description: model.DynamoDbGlobalSecondaryIndexDescription{
@@ -131,7 +131,7 @@ func GetDynamoDbGlobalSecondaryIndex(ctx context.Context, cfg aws.Config, fields
 
 	for _, v := range tableOutput.Table.GlobalSecondaryIndexes {
 		values = append(values, Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    *v.IndexArn,
 			Name:   *v.IndexName,
 			Description: model.DynamoDbGlobalSecondaryIndexDescription{
@@ -167,7 +167,7 @@ func DynamoDbLocalSecondaryIndex(ctx context.Context, cfg aws.Config, stream *St
 
 			for _, v := range tableOutput.Table.LocalSecondaryIndexes {
 				resource := Resource{
-					Region: describeCtx.Region,
+					Region: describeCtx.KaytuRegion,
 					ARN:    *v.IndexArn,
 					Name:   *v.IndexName,
 					Description: model.DynamoDbLocalSecondaryIndexDescription{
@@ -208,7 +208,7 @@ func DynamoDbStream(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 
 		for _, v := range streams.Streams {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.StreamArn,
 				Name:   *v.StreamLabel,
 				Description: model.DynamoDbStreamDescription{
@@ -254,7 +254,7 @@ func DynamoDbBackUp(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 
 		for _, v := range backups.BackupSummaries {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.BackupArn,
 				Name:   *v.BackupName,
 				Description: model.DynamoDbBackupDescription{
@@ -311,7 +311,7 @@ func DynamoDbGlobalTable(ctx context.Context, cfg aws.Config, stream *StreamSend
 				return nil, err
 			}
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *globalTable.GlobalTableDescription.GlobalTableArn,
 				Name:   *globalTable.GlobalTableDescription.GlobalTableName,
 				Description: model.DynamoDbGlobalTableDescription{
@@ -357,7 +357,7 @@ func DynamoDbTableExport(ctx context.Context, cfg aws.Config, stream *StreamSend
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *export.ExportDescription.ExportArn,
 				Description: model.DynamoDbTableExportDescription{
 					Export: *export.ExportDescription,
@@ -386,7 +386,7 @@ func DynamoDBMetricAccountProvisionedReadCapacityUtilization(ctx context.Context
 	var values []Resource
 	for _, metric := range metrics {
 		resource := Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ID:     fmt.Sprintf("dynamodb-metric-account-provisioned-read-capacity-utilization-%s-%s-%s", *metric.DimensionName, *metric.DimensionValue, metric.Timestamp.Format(time.RFC3339)),
 			Description: model.DynamoDBMetricAccountProvisionedReadCapacityUtilizationDescription{
 				CloudWatchMetricRow: metric,
@@ -415,7 +415,7 @@ func DynamoDBMetricAccountProvisionedWriteCapacityUtilization(ctx context.Contex
 	var values []Resource
 	for _, metric := range metrics {
 		resource := Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ID:     fmt.Sprintf("dynamodb-metric-account-provisioned-write-capacity-utilization-%s-%s-%s", *metric.DimensionName, *metric.DimensionValue, metric.Timestamp.Format(time.RFC3339)),
 			Description: model.DynamoDBMetricAccountProvisionedWriteCapacityUtilizationDescription{
 				CloudWatchMetricRow: metric,

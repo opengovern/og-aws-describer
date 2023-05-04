@@ -25,7 +25,7 @@ func DirectConnectConnection(ctx context.Context, cfg aws.Config, stream *Stream
 		arn := fmt.Sprintf("arn:%s:directconnect:%s:%s:dxcon/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.ConnectionId)
 
 		resource := Resource{
-			Region: describeCtx.Region,
+			Region: describeCtx.KaytuRegion,
 			ARN:    arn,
 			Name:   *v.ConnectionId,
 			Description: model.DirectConnectConnectionDescription{
@@ -90,7 +90,7 @@ func DirectConnectGateway(ctx context.Context, cfg aws.Config, stream *StreamSen
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *v.DirectConnectGatewayName,
 				Description: model.DirectConnectGatewayDescription{

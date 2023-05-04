@@ -45,7 +45,7 @@ func CodePipelinePipeline(ctx context.Context, cfg aws.Config, stream *StreamSen
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *pipeline.Metadata.PipelineArn,
 				Name:   *pipeline.Pipeline.Name,
 				Description: model.CodePipelinePipelineDescription{

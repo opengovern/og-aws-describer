@@ -33,7 +33,7 @@ func OrganizationsOrganization(ctx context.Context, cfg aws.Config, stream *Stre
 
 	var values []Resource
 	resource := Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ARN:    *req.Organization.Arn,
 		Name:   *req.Organization.Id,
 		Description: model.OrganizationsOrganizationDescription{

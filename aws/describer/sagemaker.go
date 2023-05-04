@@ -36,7 +36,7 @@ func SageMakerEndpointConfiguration(ctx context.Context, cfg aws.Config, stream 
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *out.EndpointConfigArn,
 				Name:   *out.EndpointConfigName,
 				Description: model.SageMakerEndpointConfigurationDescription{
@@ -84,7 +84,7 @@ func SageMakerNotebookInstance(ctx context.Context, cfg aws.Config, stream *Stre
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *out.NotebookInstanceArn,
 				Name:   *out.NotebookInstanceName,
 				Description: model.SageMakerNotebookInstanceDescription{

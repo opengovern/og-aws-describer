@@ -22,7 +22,7 @@ func IdentityStoreGroup(ctx context.Context, cfg aws.Config, stream *StreamSende
 
 		for _, group := range page.Groups {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ID:     *group.GroupId,
 				Name:   *group.DisplayName,
 				Description: model.IdentityStoreGroupDescription{
@@ -56,7 +56,7 @@ func IdentityStoreUser(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 		for _, user := range page.Users {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ID:     *user.UserId,
 				Name:   *user.UserName,
 				Description: model.IdentityStoreUserDescription{
