@@ -51,6 +51,7 @@ func IsUnsupportedOrInvalidError(resource, region string, err error) bool {
 	case "AWS::Inspector::AssessmentTemplate",
 		"AWS::Inspector::Exclusion",
 		"AWS::Inspector::Finding",
+		"AWS::Inspector::AssessmentRun",
 		"AWS::Inspector::AssessmentTarget":
 		if isInRegion(region, "eu-west-3", "ca-central-1", "ap-southeast-1", "sa-east-1", "ap-northeast-3") {
 			return true
