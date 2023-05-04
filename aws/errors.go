@@ -32,6 +32,10 @@ func IsUnsupportedOrInvalidError(resource, region string, err error) bool {
 		if isInRegion(region, "ap-northeast-3") {
 			return true
 		}
+	case "AWS::RedshiftServerless::Namespace", "AWS::RedshiftServerless::Snapshot":
+		if isInRegion(region, "ap-northeast-3", "sa-east-1") {
+			return true
+		}
 	case "AWS::RDS::DBProxy",
 		"AWS::RDS::DBProxyTargetGroup",
 		"AWS::RDS::DBProxyEndpoint",
