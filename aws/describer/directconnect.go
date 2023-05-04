@@ -45,7 +45,7 @@ func DirectConnectConnection(ctx context.Context, cfg aws.Config, stream *Stream
 }
 
 func getDirectConnectGatewayArn(describeCtx DescribeContext, directConnectGatewayId string) string {
-	return fmt.Sprintf("arn:%s:directconnect:%s:%s:dx-gateway/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, directConnectGatewayId)
+	return fmt.Sprintf("arn:%s:directconnect::%s:dx-gateway/%s", describeCtx.Partition, describeCtx.AccountID, directConnectGatewayId)
 }
 
 func DirectConnectGateway(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

@@ -234,7 +234,7 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::CloudFront::OriginAccessControl",
 		ResourceLabel:        "Origin Access Control",
 		ServiceName:          "CloudFront",
-		ListDescriber:        SequentialDescribeGlobal(describer.CloudFrontOriginAccessControl), //TODO-ARN
+		ListDescriber:        SequentialDescribeGlobal(describer.CloudFrontOriginAccessControl),
 		GetDescriber:         nil,
 		TerraformName:        "aws_cloudfront_origin_access_control",
 		TerraformServiceName: "cloudfront",
@@ -284,7 +284,7 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::DirectConnect::Gateway",
 		ResourceLabel:        "Gateway",
 		ServiceName:          "DirectConnect",
-		ListDescriber:        ParallelDescribeRegional(describer.DirectConnectGateway), //TODO-ARN
+		ListDescriber:        ParallelDescribeRegional(describer.DirectConnectGateway),
 		GetDescriber:         nil,
 		TerraformName:        "aws_dx_gateway",
 		TerraformServiceName: "directconnect",
@@ -1189,26 +1189,6 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        "aws_amplify_app",
 		TerraformServiceName: "amplify",
 	},
-	//"AWS::AuditManager::Evidence": {
-	//	Connector:            source.CloudAWS,
-	//	ResourceName:         "AWS::AuditManager::Evidence",
-	//	ResourceLabel:        "",
-	//	ServiceName:          "AuditManager",
-	//	ListDescriber:        ParallelDescribeRegional(describer.AuditManagerEvidence),
-	//	GetDescriber:         nil,
-	//	TerraformName:        "",
-	//	TerraformServiceName: "",
-	//},
-	//"AWS::CloudControl::Resource": {
-	//	Connector:            source.CloudAWS,
-	//	ResourceName:         "AWS::CloudControl::Resource",
-	//	ResourceLabel:        "",
-	//	ServiceName:          "CloudControl",
-	//	ListDescriber:        ParallelDescribeRegional(describer.CloudControlResource), //TODO-Saleh ??
-	//	GetDescriber:         nil,
-	//	TerraformName:        "aws_cloudcontrolapi_resource",
-	//	TerraformServiceName: "cloudcontrol",
-	//},
 	"AWS::CloudTrail::Query": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudTrail::Query",

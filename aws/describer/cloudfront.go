@@ -6,6 +6,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/cloudfront"
+	"github.com/aws/aws-sdk-go-v2/service/cloudfront/types"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 )
 
@@ -114,12 +115,13 @@ func CloudFrontOriginAccessControl(ctx context.Context, cfg aws.Config, stream *
 		}
 
 		for _, v := range output.OriginAccessControlList.Items {
-			arn := fmt.Sprintf("arn:%s:cloudfront::%s:origin-access-control/%s", describeCtx.Partition, describeCtx.AccountID, *v.Id) //TODO: this is fake ARN, find out the real one's format
-			tags, err := client.ListTagsForResource(ctx, &cloudfront.ListTagsForResourceInput{
+			var tags []types.Tag
+			arn := fmt.Sprintf("arn:%s:cloudfront::%s:origin-access-control/%s", describeCtx.Partition, describeCtx.AccountID, *v.Id)
+			tagsOutput, err := client.ListTagsForResource(ctx, &cloudfront.ListTagsForResourceInput{
 				Resource: &arn,
 			})
-			if err != nil {
-				return nil, err
+			if err == nil {
+				tags = tagsOutput.Tags.Items
 			}
 
 			resource := Resource{
@@ -128,7 +130,7 @@ func CloudFrontOriginAccessControl(ctx context.Context, cfg aws.Config, stream *
 				Name:   *v.Id,
 				Description: model.CloudFrontOriginAccessControlDescription{
 					OriginAccessControl: v,
-					Tags:                tags.Tags.Items,
+					Tags:                tags,
 				},
 			}
 			if stream != nil {
