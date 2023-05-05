@@ -519,16 +519,16 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        "aws_guardduty_member",
 		TerraformServiceName: "guardduty",
 	},
-	"AWS::IdentityStore::User": {
-		Connector:            source.CloudAWS,
-		ResourceName:         "AWS::IdentityStore::User",
-		ResourceLabel:        "",
-		ServiceName:          "IdentityStore",
-		ListDescriber:        ParallelDescribeRegional(describer.IdentityStoreUser), //TODO-Saleh ??
-		GetDescriber:         nil,
-		TerraformName:        "aws_identitystore_user",
-		TerraformServiceName: "identitystore",
-	},
+	//"AWS::IdentityStore::User": {
+	//	Connector:            source.CloudAWS,
+	//	ResourceName:         "AWS::IdentityStore::User",
+	//	ResourceLabel:        "",
+	//	ServiceName:          "IdentityStore",
+	//	ListDescriber:        ParallelDescribeRegional(describer.IdentityStoreUser), //TODO-Saleh ??
+	//	GetDescriber:         nil,
+	//	TerraformName:        "aws_identitystore_user",
+	//	TerraformServiceName: "identitystore",
+	//},
 	"AWS::Inspector::Exclusion": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Inspector::Exclusion",
@@ -1489,16 +1489,16 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        "aws_eks_addon",
 		TerraformServiceName: "eks",
 	},
-	"AWS::IdentityStore::Group": {
-		Connector:            source.CloudAWS,
-		ResourceName:         "AWS::IdentityStore::Group",
-		ResourceLabel:        "",
-		ServiceName:          "IdentityStore",
-		ListDescriber:        ParallelDescribeRegional(describer.IdentityStoreGroup), //TODO-Saleh ??
-		GetDescriber:         nil,
-		TerraformName:        "aws_identitystore_group",
-		TerraformServiceName: "identitystore",
-	},
+	//"AWS::IdentityStore::Group": {
+	//	Connector:            source.CloudAWS,
+	//	ResourceName:         "AWS::IdentityStore::Group",
+	//	ResourceLabel:        "",
+	//	ServiceName:          "IdentityStore",
+	//	ListDescriber:        ParallelDescribeRegional(describer.IdentityStoreGroup), //TODO-Saleh ??
+	//	GetDescriber:         nil,
+	//	TerraformName:        "aws_identitystore_group",
+	//	TerraformServiceName: "identitystore",
+	//},
 	"AWS::CostExplorer::ByServiceMonthly": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CostExplorer::ByServiceMonthly",
@@ -3280,6 +3280,8 @@ func SequentialDescribeGlobal(describe func(context.Context, aws.Config, *descri
 			}
 
 			output.Resources[region] = resources
+
+			break
 		}
 
 		m := map[string]interface{}{}
