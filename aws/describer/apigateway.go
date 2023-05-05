@@ -87,7 +87,7 @@ func GetApiGatewayStage(ctx context.Context, cfg aws.Config, fields map[string]s
 	return values, nil
 }
 
-func ApiGatewayV2Stage(ctx context.Context, cfg aws.Config) ([]Resource, error) {
+func ApiGatewayV2Stage(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := apigatewayv2.NewFromConfig(cfg)
 
@@ -127,7 +127,7 @@ func ApiGatewayV2Stage(ctx context.Context, cfg aws.Config) ([]Resource, error) 
 		}
 
 		for _, stage := range stages {
-			values = append(values, Resource{
+			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ID:     CompositeID(*api.ApiId, *stage.StageName),
 				Name:   *api.Name,
@@ -135,7 +135,16 @@ func ApiGatewayV2Stage(ctx context.Context, cfg aws.Config) ([]Resource, error) 
 					ApiId: api.ApiId,
 					Stage: stage,
 				},
-			})
+			}
+			if stream != nil {
+				m := *stream
+				err := m(resource)
+				if err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
 		}
 	}
 

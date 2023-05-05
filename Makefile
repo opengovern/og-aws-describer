@@ -14,3 +14,6 @@ build-cli:
 	export GOOS=linux
 	export GOARCH=amd64
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -ldflags "-w -extldflags -static" -o ./build/kaytu-aws-cli ./command/main.go
+	cd build && zip ./kaytu-aws-cli.zip ./kaytu-aws-cli
+	scp ./build/kaytu-aws-cli.zip steampipe:
+	ssh steampipe unzip -o kaytu-aws-cli.zip

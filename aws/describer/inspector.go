@@ -65,6 +65,10 @@ func InspectorAssessmentTarget(ctx context.Context, cfg aws.Config, stream *Stre
 			return nil, err
 		}
 
+		if len(page.AssessmentTargetArns) == 0 {
+			continue
+		}
+
 		assessmentTargets, err := client.DescribeAssessmentTargets(ctx, &inspector.DescribeAssessmentTargetsInput{
 			AssessmentTargetArns: page.AssessmentTargetArns,
 		})
@@ -104,6 +108,10 @@ func InspectorAssessmentTemplate(ctx context.Context, cfg aws.Config, stream *St
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
 			return nil, err
+		}
+
+		if len(page.AssessmentTemplateArns) == 0 {
+			continue
 		}
 
 		assessmentTemplates, err := client.DescribeAssessmentTemplates(ctx, &inspector.DescribeAssessmentTemplatesInput{

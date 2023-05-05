@@ -2199,6 +2199,16 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        "aws_api_gateway_stage",
 		TerraformServiceName: "apigateway",
 	},
+	"AWS::ApiGatewayV2::Stage": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::ApiGatewayV2::Stage",
+		ResourceLabel:        "API Gateway V2 Stage",
+		ServiceName:          "ApiGateway",
+		ListDescriber:        ParallelDescribeRegional(describer.ApiGatewayV2Stage),
+		GetDescriber:         nil,
+		TerraformName:        "",
+		TerraformServiceName: "",
+	},
 	//"AWS::AuditManager::Framework": {
 	//	Connector:            source.CloudAWS,
 	//	ResourceName:         "AWS::AuditManager::Framework",
@@ -3215,6 +3225,20 @@ func SequentialDescribeGlobal(describe func(context.Context, aws.Config, *descri
 			}
 
 			output.Resources[region] = resources
+		}
+
+		m := map[string]interface{}{}
+		for k, v := range output.Resources {
+			var newV []describer.Resource
+			for _, r := range v {
+				if _, ok := m[r.UniqueID()]; ok {
+					continue
+				}
+
+				m[r.UniqueID()] = struct{}{}
+				newV = append(newV, r)
+			}
+			output.Resources[k] = newV
 		}
 
 		return &output, nil
