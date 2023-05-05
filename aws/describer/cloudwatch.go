@@ -533,42 +533,46 @@ func CloudWatchLogsSubscriptionFilter(ctx context.Context, cfg aws.Config, strea
 	describeCtx := GetDescribeContext(ctx)
 
 	client := cloudwatchlogs.NewFromConfig(cfg)
-	logGroups, err := CloudWatchLogsLogGroup(ctx, cfg, nil)
-	if err != nil {
-		return nil, err
-	}
+	logGroupPaginator := cloudwatchlogs.NewDescribeLogGroupsPaginator(client, &cloudwatchlogs.DescribeLogGroupsInput{})
 
 	var values []Resource
-	for _, logGroup := range logGroups {
-		logGroupName := logGroup.Description.(model.CloudWatchLogsLogGroupDescription).LogGroup.LogGroupName
-		paginator := cloudwatchlogs.NewDescribeSubscriptionFiltersPaginator(client, &cloudwatchlogs.DescribeSubscriptionFiltersInput{
-			LogGroupName: logGroupName,
-		})
+	for logGroupPaginator.HasMorePages() {
+		logGroupPage, err := logGroupPaginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
 
-		for paginator.HasMorePages() {
-			page, err := paginator.NextPage(ctx)
-			if err != nil {
-				return nil, err
-			}
+		for _, logGroup := range logGroupPage.LogGroups {
+			logGroupName := logGroup.LogGroupName
+			paginator := cloudwatchlogs.NewDescribeSubscriptionFiltersPaginator(client, &cloudwatchlogs.DescribeSubscriptionFiltersInput{
+				LogGroupName: logGroupName,
+			})
 
-			for _, v := range page.SubscriptionFilters {
-				arn := fmt.Sprintf("arn:%s:logs:%s:%s:log-group:%s:subscription-filter:%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *logGroupName, *v.FilterName)
-				resource := Resource{
-					Region: describeCtx.KaytuRegion,
-					ID:     CompositeID(*v.LogGroupName, *v.FilterName),
-					ARN:    arn,
-					Name:   *v.LogGroupName,
-					Description: model.CloudWatchLogSubscriptionFilterDescription{
-						SubscriptionFilter: v,
-						LogGroupName:       *logGroupName,
-					},
+			for paginator.HasMorePages() {
+				page, err := paginator.NextPage(ctx)
+				if err != nil {
+					return nil, err
 				}
-				if stream != nil {
-					if err := (*stream)(resource); err != nil {
-						return nil, err
+
+				for _, v := range page.SubscriptionFilters {
+					arn := fmt.Sprintf("arn:%s:logs:%s:%s:log-group:%s:subscription-filter:%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *logGroupName, *v.FilterName)
+					resource := Resource{
+						Region: describeCtx.KaytuRegion,
+						ID:     CompositeID(*v.LogGroupName, *v.FilterName),
+						ARN:    arn,
+						Name:   *v.LogGroupName,
+						Description: model.CloudWatchLogSubscriptionFilterDescription{
+							SubscriptionFilter: v,
+							LogGroupName:       *logGroupName,
+						},
 					}
-				} else {
-					values = append(values, resource)
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
 				}
 			}
 		}

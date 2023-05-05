@@ -1294,7 +1294,7 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::CloudWatch::LogSubscriptionFilter",
 		ResourceLabel:        "",
 		ServiceName:          "CloudWatch",
-		ListDescriber:        ParallelDescribeRegional(describer.CloudWatchLogsSubscriptionFilter),
+		ListDescriber:        SequentialDescribeRegional(describer.CloudWatchLogsSubscriptionFilter),
 		GetDescriber:         nil,
 		TerraformName:        "",
 		TerraformServiceName: "",
@@ -3124,6 +3124,51 @@ func ParallelDescribeRegionalSingleResource(describe func(context.Context, aws.C
 			output.Resources[resp.region] = resp.resources
 		}
 
+		return &output, nil
+	}
+}
+
+func SequentialDescribeRegional(describe func(context.Context, aws.Config, *describer.StreamSender) ([]describer.Resource, error)) ResourceDescriber {
+	return func(ctx context.Context, cfg aws.Config, account string, regions []string, rType string, triggerType enums.DescribeTriggerType, stream *describer.StreamSender) (*Resources, error) {
+		output := Resources{
+			Resources: make(map[string][]describer.Resource, len(regions)),
+			Errors:    make(map[string]string, len(regions)),
+		}
+
+		for _, region := range regions {
+			// Make a shallow copy and override the default region
+			rCfg := cfg.Copy()
+			rCfg.Region = region
+
+			partition, _ := PartitionOf(region)
+			ctx = describer.WithDescribeContext(ctx, describer.DescribeContext{
+				AccountID:   account,
+				Region:      region,
+				KaytuRegion: region,
+				Partition:   partition,
+			})
+			ctx = describer.WithTriggerType(ctx, triggerType)
+			resources, err := describe(ctx, rCfg, stream)
+			if err != nil {
+				if !IsUnsupportedOrInvalidError(rType, region, err) {
+					output.Errors[region] = err.Error()
+				}
+				continue
+			}
+
+			if resources == nil {
+				resources = []describer.Resource{}
+			}
+
+			for i := range resources {
+				resources[i].Account = account
+				resources[i].Region = region
+				resources[i].Partition = partition
+				resources[i].Type = rType
+			}
+
+			output.Resources[region] = resources
+		}
 		return &output, nil
 	}
 }
