@@ -2289,6 +2289,16 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        "aws_kinesis_stream",
 		TerraformServiceName: "kinesis",
 	},
+	"AWS::Kinesis::Consumer": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::Kinesis::Consumer",
+		ResourceLabel:        "Kinesis Stream Consumers",
+		ServiceName:          "Kinesis",
+		ListDescriber:        ParallelDescribeRegional(describer.KinesisConsumer),
+		GetDescriber:         nil,
+		TerraformName:        "aws_kinesis_stream_consumer",
+		TerraformServiceName: "kinesis",
+	},
 	"AWS::DocDB::Cluster": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DocDB::Cluster",
@@ -2918,6 +2928,26 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_shield_protection_group",
 		TerraformServiceName: "shield",
+	},
+	"AWS::Firehose::DeliveryStream": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::Firehose::DeliveryStream",
+		ResourceLabel:        "",
+		ServiceName:          "Firehose",
+		ListDescriber:        ParallelDescribeRegional(describer.FirehoseDeliveryStream),
+		GetDescriber:         nil,
+		TerraformName:        "aws_kinesis_firehose_delivery_stream",
+		TerraformServiceName: "firehose",
+	},
+	"AWS::KinesisVideo::Stream": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::KinesisVideo::Stream",
+		ResourceLabel:        "",
+		ServiceName:          "KinesisVideo",
+		ListDescriber:        ParallelDescribeRegional(describer.KinesisVideoStream),
+		GetDescriber:         nil,
+		TerraformName:        "",
+		TerraformServiceName: "",
 	},
 }
 

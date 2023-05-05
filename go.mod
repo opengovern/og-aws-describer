@@ -61,6 +61,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/elasticsearchservice v1.16.10
 	github.com/aws/aws-sdk-go-v2/service/emr v1.20.11
 	github.com/aws/aws-sdk-go-v2/service/eventbridge v1.16.17
+	github.com/aws/aws-sdk-go-v2/service/firehose v1.16.12
 	github.com/aws/aws-sdk-go-v2/service/fms v1.22.0
 	github.com/aws/aws-sdk-go-v2/service/fsx v1.24.14
 	github.com/aws/aws-sdk-go-v2/service/glacier v1.13.19
@@ -77,6 +78,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/keyspaces v1.1.0
 	github.com/aws/aws-sdk-go-v2/service/kinesis v1.15.21
 	github.com/aws/aws-sdk-go-v2/service/kinesisanalyticsv2 v1.14.18
+	github.com/aws/aws-sdk-go-v2/service/kinesisvideo v1.15.11
 	github.com/aws/aws-sdk-go-v2/service/kms v1.18.11
 	github.com/aws/aws-sdk-go-v2/service/lambda v1.26.0
 	github.com/aws/aws-sdk-go-v2/service/memorydb v1.12.0

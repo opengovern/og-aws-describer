@@ -65,6 +65,7 @@ import (
 	emr "github.com/aws/aws-sdk-go-v2/service/emr/types"
 	eventbridgeop "github.com/aws/aws-sdk-go-v2/service/eventbridge"
 	eventbridge "github.com/aws/aws-sdk-go-v2/service/eventbridge/types"
+	firehose "github.com/aws/aws-sdk-go-v2/service/firehose/types"
 	fms "github.com/aws/aws-sdk-go-v2/service/fms/types"
 	fsx "github.com/aws/aws-sdk-go-v2/service/fsx/types"
 	glacier "github.com/aws/aws-sdk-go-v2/service/glacier/types"
@@ -84,6 +85,7 @@ import (
 	keyspaces "github.com/aws/aws-sdk-go-v2/service/keyspaces/types"
 	kinesis "github.com/aws/aws-sdk-go-v2/service/kinesis/types"
 	kinesisanalyticsv2 "github.com/aws/aws-sdk-go-v2/service/kinesisanalyticsv2/types"
+	kinesisvideo "github.com/aws/aws-sdk-go-v2/service/kinesisvideo/types"
 	kms "github.com/aws/aws-sdk-go-v2/service/kms/types"
 	"github.com/aws/aws-sdk-go-v2/service/lambda"
 	lambdatypes "github.com/aws/aws-sdk-go-v2/service/lambda/types"
@@ -1934,6 +1936,20 @@ type KinesisStreamDescription struct {
 	Tags               []kinesis.Tag
 }
 
+//index:aws_kinesisvideo_stream
+//getfilter:stream_name=description.Stream.StreamName
+type KinesisVideoStreamDescription struct {
+	Stream kinesisvideo.StreamInfo
+	Tags   map[string]string
+}
+
+//index:aws_kinesis_consumer
+//getfilter:consumer_arn=description.Consumer.ConsumerARN
+type KinesisConsumerDescription struct {
+	StreamARN string
+	Consumer  kinesis.Consumer
+}
+
 //index:aws_kinesisanalyticsv2_application
 //getfilter:application_name=description.Application.ApplicationName
 type KinesisAnalyticsV2ApplicationDescription struct {
@@ -2588,4 +2604,14 @@ type InspectorExclusionDescription struct {
 type InspectorFindingDescription struct {
 	Finding     inspector.Finding
 	FailedItems map[string]inspector.FailedItemDetails
+}
+
+// ===================  Firehose  ===================
+
+//index:aws_firehose_deliverystream
+//getfilter:delivery_stream_name=description.DeliveryStream.DeliveryStreamName
+//listfilter:delivery_stream_type=description.DeliveryStream.DeliveryStreamType
+type FirehoseDeliveryStreamDescription struct {
+	DeliveryStream firehose.DeliveryStreamDescription
+	Tags           []firehose.Tag
 }
