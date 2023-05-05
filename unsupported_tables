@@ -1,0 +1,7 @@
+aws_auditmanager_assessment
+aws_auditmanager_control
+aws_auditmanager_evidence_folder
+aws_auditmanager_evidence
+aws_auditmanager_framework
+aws_identitystore_group
+aws_identitystore_user
