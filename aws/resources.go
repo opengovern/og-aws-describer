@@ -759,6 +759,16 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        "",
 		TerraformServiceName: "",
 	},
+	"AWS::Logs::LogGroup": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::Logs::LogGroup",
+		ResourceLabel:        "",
+		ServiceName:          "CloudWatch",
+		ListDescriber:        ParallelDescribeRegional(describer.CloudWatchLogsLogGroup),
+		GetDescriber:         nil,
+		TerraformName:        "",
+		TerraformServiceName: "",
+	},
 	"AWS::S3::Bucket": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::S3::Bucket",
