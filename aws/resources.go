@@ -2949,6 +2949,16 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        "",
 		TerraformServiceName: "",
 	},
+	"AWS::KMS::Alias": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::KMS::Alias",
+		ResourceLabel:        "",
+		ServiceName:          "KMS",
+		ListDescriber:        ParallelDescribeRegional(describer.KMSAlias),
+		GetDescriber:         nil,
+		TerraformName:        "aws_kms_alias",
+		TerraformServiceName: "kms",
+	},
 }
 
 func ListResourceTypes() []string {

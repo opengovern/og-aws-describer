@@ -1744,6 +1744,11 @@ type KMSKeyDescription struct {
 	Tags               []kms.Tag
 }
 
+//index:aws_kms_alias
+type KMSAliasDescription struct {
+	Alias kms.AliasListEntry
+}
+
 //  ===================  Lambda  ===================
 
 //index:aws_lambda_function
