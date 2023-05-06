@@ -89,7 +89,12 @@ import (
 	kms "github.com/aws/aws-sdk-go-v2/service/kms/types"
 	lambdaop "github.com/aws/aws-sdk-go-v2/service/lambda"
 	lambda "github.com/aws/aws-sdk-go-v2/service/lambda/types"
+	lightsail "github.com/aws/aws-sdk-go-v2/service/lightsail/types"
+	macie2op "github.com/aws/aws-sdk-go-v2/service/macie2"
+	mediastoreop "github.com/aws/aws-sdk-go-v2/service/mediastore"
+	mediastore "github.com/aws/aws-sdk-go-v2/service/mediastore/types"
 	memorydb "github.com/aws/aws-sdk-go-v2/service/memorydb/types"
+	mgn "github.com/aws/aws-sdk-go-v2/service/mgn/types"
 	mq "github.com/aws/aws-sdk-go-v2/service/mq/types"
 	mwaa "github.com/aws/aws-sdk-go-v2/service/mwaa/types"
 	neptune "github.com/aws/aws-sdk-go-v2/service/neptune/types"
@@ -2649,4 +2654,43 @@ type InspectorFindingDescription struct {
 type FirehoseDeliveryStreamDescription struct {
 	DeliveryStream firehose.DeliveryStreamDescription
 	Tags           []firehose.Tag
+}
+
+// ===================  Lightsail ===================
+
+//index:aws_lightsail_instance
+//getfilter:name=description.Instance.
+type LightsailInstanceDescription struct {
+	Instance lightsail.Instance
+}
+
+// ===================  Macie2 ===================
+
+//index:aws_macie2_classificationjob
+//getfilter:job_id=description.ClassificationJob.JobId
+//listfilter:name=description.ClassificationJob.Name
+//listfilter:job_status=description.ClassificationJob.JobStatus
+//listfilter:job_type=description.ClassificationJob.JobType
+type Macie2ClassificationJobDescription struct {
+	ClassificationJob macie2op.DescribeClassificationJobOutput
+}
+
+// ===================  MediaStore ===================
+
+//index:aws_mediastore_container
+//getfilter:name=description.Container.Name
+type MediaStoreContainerDescription struct {
+	Container mediastore.Container
+	Policy    *mediastoreop.GetContainerPolicyOutput
+	Tags      []mediastore.Tag
+}
+
+// ===================  MGN ===================
+
+//index:aws_mgn_application
+//listfilter:application_id=description.Application.ApplicationID
+//listfilter:wave_id=description.Application.WaveID
+//listfilter:is_archived=description.Application.IsArchived
+type MgnApplicationDescription struct {
+	Application mgn.Application
 }
