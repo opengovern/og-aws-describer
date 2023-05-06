@@ -43,7 +43,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/dax v1.11.15
 	github.com/aws/aws-sdk-go-v2/service/directconnect v1.18.0
 	github.com/aws/aws-sdk-go-v2/service/directoryservice v1.15.3
-	github.com/aws/aws-sdk-go-v2/service/dlm v1.12.4
+	github.com/aws/aws-sdk-go-v2/service/dlm v1.15.3
 	github.com/aws/aws-sdk-go-v2/service/docdb v1.19.11
 	github.com/aws/aws-sdk-go-v2/service/drs v1.9.0
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.15.9
