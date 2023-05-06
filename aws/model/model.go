@@ -87,8 +87,8 @@ import (
 	kinesisanalyticsv2 "github.com/aws/aws-sdk-go-v2/service/kinesisanalyticsv2/types"
 	kinesisvideo "github.com/aws/aws-sdk-go-v2/service/kinesisvideo/types"
 	kms "github.com/aws/aws-sdk-go-v2/service/kms/types"
-	"github.com/aws/aws-sdk-go-v2/service/lambda"
-	lambdatypes "github.com/aws/aws-sdk-go-v2/service/lambda/types"
+	lambdaop "github.com/aws/aws-sdk-go-v2/service/lambda"
+	lambda "github.com/aws/aws-sdk-go-v2/service/lambda/types"
 	memorydb "github.com/aws/aws-sdk-go-v2/service/memorydb/types"
 	mq "github.com/aws/aws-sdk-go-v2/service/mq/types"
 	mwaa "github.com/aws/aws-sdk-go-v2/service/mwaa/types"
@@ -1754,15 +1754,45 @@ type KMSAliasDescription struct {
 //index:aws_lambda_function
 //getfilter:name=description.Function.Configuration.FunctionName
 type LambdaFunctionDescription struct {
-	Function *lambda.GetFunctionOutput
-	Policy   *lambda.GetPolicyOutput
+	Function *lambdaop.GetFunctionOutput
+	Policy   *lambdaop.GetPolicyOutput
 }
 
-//index:aws_lambda_function_version
-//getfilter:id=description.ID
+//index:aws_lambda_functionversion
+//getfilter:version=description.FunctionVersion.Version
+//getfilter:function_name=description.FunctionVersion.FunctionName
+//listfilter:function_name=description.FunctionVersion.FunctionName
 type LambdaFunctionVersionDescription struct {
-	ID              string
-	FunctionVersion lambdatypes.FunctionConfiguration
+	FunctionVersion lambda.FunctionConfiguration
+	Policy          *lambdaop.GetPolicyOutput
+}
+
+//index:aws_lambda_alias
+//getfilter:name=description.Alias.Name
+//getfilter:function_name=description.FunctionName
+//getfilter:region=description.Alias.AliasName
+//listfilter:function_version=description.Alias.FunctionVersion
+//listfilter:function_name=description.FunctionName
+type LambdaAliasDescription struct {
+	FunctionName string
+	Alias        lambda.AliasConfiguration
+	Policy       *lambdaop.GetPolicyOutput
+	UrlConfig    lambdaop.GetFunctionUrlConfigOutput
+}
+
+//index:aws_lambda_layer
+type LambdaLayerDescription struct {
+	Layer lambda.LayersListItem
+}
+
+//index:aws_lambda_layerversion
+//getfilter:layer_name=description.LayerName
+//getfilter:version=description.LayerVersion.Version
+//listfilter:layer_name=description.LayerName
+type LambdaLayerVersionDescription struct {
+	LayerName    string
+	LayerVersion lambdaop.GetLayerVersionOutput
+	Policy       lambdaop.GetLayerVersionPolicyOutput
 }
 
 //index:aws_s3_accesspoint

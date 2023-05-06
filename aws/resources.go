@@ -2959,6 +2959,36 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        "aws_kms_alias",
 		TerraformServiceName: "kms",
 	},
+	"AWS::Lambda::Alias": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::Lambda::Alias",
+		ResourceLabel:        "",
+		ServiceName:          "Lambda",
+		ListDescriber:        ParallelDescribeRegional(describer.LambdaAlias),
+		GetDescriber:         nil,
+		TerraformName:        "aws_lambda_alias",
+		TerraformServiceName: "lambda",
+	},
+	"AWS::Lambda::Layer": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::Lambda::LambdaLayer",
+		ResourceLabel:        "",
+		ServiceName:          "Lambda",
+		ListDescriber:        ParallelDescribeRegional(describer.LambdaLayer),
+		GetDescriber:         nil,
+		TerraformName:        "",
+		TerraformServiceName: "",
+	},
+	"AWS::Lambda::LayerVersion": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::Lambda::LayerVersion",
+		ResourceLabel:        "",
+		ServiceName:          "Lambda",
+		ListDescriber:        ParallelDescribeRegional(describer.LambdaLayerVersion),
+		GetDescriber:         nil,
+		TerraformName:        "aws_lambda_layer_version",
+		TerraformServiceName: "lambda",
+	},
 }
 
 func ListResourceTypes() []string {

@@ -153,15 +153,22 @@ func LambdaFunctionVersion(ctx context.Context, cfg aws.Config, stream *StreamSe
 		}
 
 		for _, v := range page.Functions {
-			arn := fmt.Sprintf("%s:%s", *v.FunctionArn, *v.Version)
-			id := fmt.Sprintf("%s:%s", *v.FunctionName, *v.Version)
+			id := fmt.Sprintf("%s:%s", *v.FunctionArn, *v.Version)
+
+			policy, err := client.GetPolicy(ctx, &lambda.GetPolicyInput{
+				FunctionName: v.FunctionName,
+				Qualifier:    v.Version,
+			})
+			if err != nil {
+				return nil, err
+			}
+
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
-				ARN:    arn,
-				Name:   id,
+				ID:     id,
 				Description: model.LambdaFunctionVersionDescription{
-					ID:              id,
 					FunctionVersion: v,
+					Policy:          policy,
 				},
 			}
 			if stream != nil {
@@ -200,11 +207,32 @@ func LambdaAlias(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 			}
 
 			for _, v := range page.Aliases {
+				policy, err := client.GetPolicy(ctx, &lambda.GetPolicyInput{
+					FunctionName: fn.FunctionName,
+					Qualifier:    v.Name,
+				})
+				if err != nil {
+					return nil, err
+				}
+
+				urlConfig, err := client.GetFunctionUrlConfig(ctx, &lambda.GetFunctionUrlConfigInput{
+					FunctionName: fn.FunctionName,
+					Qualifier:    v.Name,
+				})
+				if err != nil {
+					return nil, err
+				}
+
 				resource := Resource{
-					Region:      describeCtx.Region,
-					ARN:         *v.AliasArn,
-					Name:        *v.Name,
-					Description: v,
+					Region: describeCtx.Region,
+					ARN:    *v.AliasArn,
+					Name:   *v.Name,
+					Description: model.LambdaAliasDescription{
+						FunctionName: *fn.FunctionName,
+						Alias:        v,
+						Policy:       policy,
+						UrlConfig:    *urlConfig,
+					},
 				}
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
@@ -392,11 +420,28 @@ func LambdaLayerVersion(ctx context.Context, cfg aws.Config, stream *StreamSende
 			}
 
 			for _, v := range page.LayerVersions {
+				layerVersion, err := client.GetLayerVersion(ctx, &lambda.GetLayerVersionInput{
+					LayerName:     layer.LayerArn,
+					VersionNumber: v.Version,
+				})
+				if err != nil {
+					return nil, err
+				}
+
+				policy, err := client.GetLayerVersionPolicy(ctx, &lambda.GetLayerVersionPolicyInput{
+					LayerName:     layer.LayerArn,
+					VersionNumber: v.Version,
+				})
+
 				resource := Resource{
-					Region:      describeCtx.Region,
-					ARN:         *v.LayerVersionArn,
-					Name:        *v.LayerVersionArn,
-					Description: v,
+					Region: describeCtx.Region,
+					ARN:    *v.LayerVersionArn,
+					Name:   *v.LayerVersionArn,
+					Description: model.LambdaLayerVersionDescription{
+						LayerName:    *layer.LayerName,
+						LayerVersion: *layerVersion,
+						Policy:       *policy,
+					},
 				}
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
@@ -406,6 +451,35 @@ func LambdaLayerVersion(ctx context.Context, cfg aws.Config, stream *StreamSende
 					values = append(values, resource)
 				}
 			}
+		}
+	}
+
+	return values, nil
+}
+
+func LambdaLayer(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	layers, err := listLayers(ctx, cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for _, layer := range layers {
+		resource := Resource{
+			Region: describeCtx.Region,
+			ARN:    *layer.LayerArn,
+			Name:   *layer.LayerName,
+			Description: model.LambdaLayerDescription{
+				Layer: layer,
+			},
+		}
+		if stream != nil {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
+			}
+		} else {
+			values = append(values, resource)
 		}
 	}
 
@@ -423,8 +497,8 @@ func LambdaLayerVersionPermission(ctx context.Context, cfg aws.Config, stream *S
 
 	var values []Resource
 	for _, lv := range lvs {
-		arn := lv.Description.(types.LayerVersionsListItem).LayerVersionArn
-		version := lv.Description.(types.LayerVersionsListItem).Version
+		arn := lv.Description.(model.LambdaLayerVersionDescription).LayerVersion.LayerVersionArn
+		version := lv.Description.(model.LambdaLayerVersionDescription).LayerVersion.Version
 		v, err := client.GetLayerVersionPolicy(ctx, &lambda.GetLayerVersionPolicyInput{
 			LayerName:     arn,
 			VersionNumber: version,
