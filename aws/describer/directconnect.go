@@ -77,7 +77,7 @@ func DirectConnectGateway(ctx context.Context, cfg aws.Config, stream *StreamSen
 				ResourceArns: arns[i:int(math.Min(float64(i+20), float64(len(arns))))],
 			})
 			if err != nil {
-				return nil, err
+				tags = &directconnect.DescribeTagsOutput{}
 			}
 
 			for _, tag := range tags.ResourceTags {
