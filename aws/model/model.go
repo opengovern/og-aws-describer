@@ -1663,13 +1663,23 @@ type SageMakerEndpointConfigurationDescription struct {
 }
 
 //index:aws_sagemaker_app
-//getfilter:name=description.
+//getfilter:name=description.DescribeAppOutput.AppName
+//getfilter:app_type=description.DescribeAppOutput.AppType
+//getfilter:domain_id=description.DescribeAppOutput.DomainId
+//getfilter:user_profile_name=description.DescribeAppOutput.UserProfileName
+//listfilter:domain_id=description.DescribeAppOutput.DomainId
+//listfilter:user_profile_name=description.DescribeAppOutput.UserProfileName
 type SageMakerAppDescription struct {
+	AppDetails        sagemakertypes.AppDetails
+	DescribeAppOutput *sagemaker.DescribeAppOutput
 }
 
 //index:aws_sagemaker_domain
-//getfilter:name=description.
+//getfilter:id=description.Domain.DomainId
 type SageMakerDomainDescription struct {
+	Domain     *sagemaker.DescribeDomainOutput
+	DomainItem sagemakertypes.DomainDetails
+	Tags       []sagemakertypes.Tag
 }
 
 //index:aws_sagemaker_notebookinstance
