@@ -21,7 +21,7 @@ func IsUnsupportedOrInvalidError(resource, region string, err error) bool {
 		case "UnsupportedOperation":
 			return true
 		case "AccessDeniedException":
-			var re awshttp.ResponseError
+			re := &awshttp.ResponseError{}
 			if errors.As(err, &re) {
 				if re.HTTPStatusCode() == 400 && strings.Contains(strings.ToLower(ae.ErrorMessage()), strings.ToLower("UnknownError")) {
 					return true
