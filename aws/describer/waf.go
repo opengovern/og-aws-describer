@@ -40,11 +40,35 @@ func WAFv2IPSet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 			}
 
 			for _, v := range output.IPSets {
+				params := &wafv2.GetIPSetInput{
+					Id:    v.Id,
+					Name:  v.Name,
+					Scope: scope,
+				}
+
+				op, err := client.GetIPSet(ctx, params)
+				if err != nil {
+					return nil, err
+				}
+
+				param := &wafv2.ListTagsForResourceInput{
+					ResourceARN: v.ARN,
+				}
+				ipSetTags, err := client.ListTagsForResource(ctx, param)
+				if err != nil {
+					return nil, err
+				}
+
 				resource := Resource{
-					Region:      describeCtx.Region,
-					ARN:         *v.ARN,
-					Name:        *v.Name,
-					Description: v,
+					Region: describeCtx.Region,
+					ARN:    *v.ARN,
+					Name:   *v.Name,
+					Description: model.WAFv2IPSetDescription{
+						IPSetSummary: v,
+						Scope:        scope,
+						IPSet:        op.IPSet,
+						Tags:         ipSetTags.TagInfoForResource.TagList,
+					},
 				}
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
@@ -184,11 +208,32 @@ func WAFv2RuleGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			}
 
 			for _, v := range output.RuleGroups {
+				params := &wafv2.GetRuleGroupInput{
+					Id:    v.Id,
+					Name:  v.Name,
+					Scope: scope,
+				}
+
+				op, err := client.GetRuleGroup(ctx, params)
+				if err != nil {
+					return nil, err
+				}
+
+				param := &wafv2.ListTagsForResourceInput{
+					ResourceARN: v.ARN,
+				}
+
+				ruleGroupTags, err := client.ListTagsForResource(ctx, param)
+
 				resource := Resource{
-					Region:      describeCtx.Region,
-					ARN:         *v.ARN,
-					Name:        *v.Name,
-					Description: v,
+					Region: describeCtx.Region,
+					ARN:    *v.ARN,
+					Name:   *v.Name,
+					Description: model.WAFv2RuleGroupDescription{
+						RuleGroupSummary: v,
+						RuleGroup:        op.RuleGroup,
+						Tags:             ruleGroupTags,
+					},
 				}
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {

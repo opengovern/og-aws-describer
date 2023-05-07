@@ -81,17 +81,25 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/kinesisvideo v1.15.11
 	github.com/aws/aws-sdk-go-v2/service/kms v1.18.11
 	github.com/aws/aws-sdk-go-v2/service/lambda v1.26.0
+	github.com/aws/aws-sdk-go-v2/service/lightsail v1.26.6
+	github.com/aws/aws-sdk-go-v2/service/macie2 v1.27.7
+	github.com/aws/aws-sdk-go-v2/service/mediastore v1.13.10
 	github.com/aws/aws-sdk-go-v2/service/memorydb v1.12.0
+	github.com/aws/aws-sdk-go-v2/service/mgn v1.18.5
 	github.com/aws/aws-sdk-go-v2/service/mq v1.13.15
 	github.com/aws/aws-sdk-go-v2/service/mwaa v1.13.12
 	github.com/aws/aws-sdk-go-v2/service/neptune v1.18.0
 	github.com/aws/aws-sdk-go-v2/service/networkfirewall v1.20.3
+	github.com/aws/aws-sdk-go-v2/service/oam v1.1.11
 	github.com/aws/aws-sdk-go-v2/service/opensearch v1.10.12
 	github.com/aws/aws-sdk-go-v2/service/opsworkscm v1.15.0
 	github.com/aws/aws-sdk-go-v2/service/organizations v1.16.8
+	github.com/aws/aws-sdk-go-v2/service/pinpoint v1.19.1
+	github.com/aws/aws-sdk-go-v2/service/pipes v1.2.6
 	github.com/aws/aws-sdk-go-v2/service/rds v1.26.1
 	github.com/aws/aws-sdk-go-v2/service/redshift v1.26.10
 	github.com/aws/aws-sdk-go-v2/service/redshiftserverless v1.2.13
+	github.com/aws/aws-sdk-go-v2/service/resourceexplorer2 v1.2.13
 	github.com/aws/aws-sdk-go-v2/service/route53 v1.24.0
 	github.com/aws/aws-sdk-go-v2/service/route53resolver v1.15.19
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.27.1
@@ -101,7 +109,9 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/securityhub v1.26.0
 	github.com/aws/aws-sdk-go-v2/service/ses v1.14.18
 	github.com/aws/aws-sdk-go-v2/service/sesv2 v1.16.0
+	github.com/aws/aws-sdk-go-v2/service/sfn v1.17.11
 	github.com/aws/aws-sdk-go-v2/service/shield v1.18.0
+	github.com/aws/aws-sdk-go-v2/service/simspaceweaver v1.2.1
 	github.com/aws/aws-sdk-go-v2/service/sns v1.17.9
 	github.com/aws/aws-sdk-go-v2/service/sqs v1.19.10
 	github.com/aws/aws-sdk-go-v2/service/ssm v1.30.0

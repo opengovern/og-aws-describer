@@ -397,10 +397,12 @@ func EC2CustomerGateway(ctx context.Context, cfg aws.Config, stream *StreamSende
 	var values []Resource
 	for _, v := range output.CustomerGateways {
 		resource := Resource{
-			Region:      describeCtx.Region,
-			ID:          *v.CustomerGatewayId,
-			Name:        *v.DeviceName,
-			Description: v,
+			Region: describeCtx.Region,
+			ID:     *v.CustomerGatewayId,
+			Name:   *v.DeviceName,
+			Description: model.EC2CustomerGatewayDescription{
+				CustomerGateway: v,
+			},
 		}
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {
@@ -408,6 +410,46 @@ func EC2CustomerGateway(ctx context.Context, cfg aws.Config, stream *StreamSende
 			}
 		} else {
 			values = append(values, resource)
+		}
+	}
+
+	return values, nil
+}
+
+func EC2VerifiedAccessInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := ec2.NewFromConfig(cfg)
+
+	input := &ec2.DescribeVerifiedAccessInstancesInput{}
+
+	var values []Resource
+	for {
+		resp, err := client.DescribeVerifiedAccessInstances(ctx, input)
+		if err != nil {
+			return nil, nil
+		}
+
+		for _, instance := range resp.VerifiedAccessInstances {
+			resource := Resource{
+				Region: describeCtx.Region,
+				ID:     *instance.VerifiedAccessInstanceId,
+				Name:   *instance.VerifiedAccessInstanceId,
+				Description: model.EC2VerifiedAccessInstanceDescription{
+					VerifiedAccountInstance: instance,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+		if resp.NextToken == nil {
+			break
+		} else {
+			input.NextToken = resp.NextToken
 		}
 	}
 
@@ -2445,10 +2487,12 @@ func EC2VPNGateway(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 	var values []Resource
 	for _, v := range output.VpnGateways {
 		resource := Resource{
-			Region:      describeCtx.Region,
-			ID:          *v.VpnGatewayId,
-			Name:        *v.VpnGatewayId,
-			Description: v,
+			Region: describeCtx.Region,
+			ID:     *v.VpnGatewayId,
+			Name:   *v.VpnGatewayId,
+			Description: model.EC2VPNGatewayDescription{
+				VPNGateway: v,
+			},
 		}
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {

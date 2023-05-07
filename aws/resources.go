@@ -2619,16 +2619,6 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        "",
 		TerraformServiceName: "",
 	},
-	"AWS::SES::EmailIdentity": {
-		Connector:            source.CloudAWS,
-		ResourceName:         "AWS::SES::EmailIdentity",
-		ResourceLabel:        "",
-		ServiceName:          "SES",
-		ListDescriber:        ParallelDescribeRegional(describer.SESEmailIdentity),
-		GetDescriber:         nil,
-		TerraformName:        "",
-		TerraformServiceName: "",
-	},
 	"AWS::StepFunctions::StateMachine": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::StepFunctions::StateMachine",

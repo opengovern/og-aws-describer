@@ -13,6 +13,12 @@ import (
 	awstypes "github.com/aws/aws-sdk-go-v2/service/resourceexplorer2/types"
 	"github.com/aws/aws-sdk-go-v2/service/route53resolver"
 	types4 "github.com/aws/aws-sdk-go-v2/service/route53resolver/types"
+	"github.com/aws/aws-sdk-go-v2/service/sfn"
+	types5 "github.com/aws/aws-sdk-go-v2/service/sfn/types"
+	"github.com/aws/aws-sdk-go-v2/service/simspaceweaver"
+	types6 "github.com/aws/aws-sdk-go-v2/service/simspaceweaver/types"
+	ssm_sdkv2 "github.com/aws/aws-sdk-go-v2/service/ssm"
+	wafv22 "github.com/aws/aws-sdk-go-v2/service/wafv2"
 	"time"
 
 	accessanalyzer "github.com/aws/aws-sdk-go-v2/service/accessanalyzer/types"
@@ -767,18 +773,29 @@ type EC2VolumeSnapshotDescription struct {
 }
 
 //index:aws_ec2_customergateway
-//getfilter:snapshot_id=description.Snapshot.SnapshotId
+//getfilter:customer_gateway_id=description.CustomerGateway.CustomerGatewayId
+//listfilter:ip_address=description.CustomerGateway.IpAddress
+//listfilter:bgp_asn=description.CustomerGateway.BgpAsn
+//listfilter:state=description.CustomerGateway.State
+//listfilter:type=description.CustomerGateway.Type
 type EC2CustomerGatewayDescription struct {
+	CustomerGateway ec2.CustomerGateway
 }
 
 //index:aws_ec2_verifiedaccessinstance
-//getfilter:snapshot_id=description.Snapshot.SnapshotId
+//listfilter:verified_access_instance_id=description.VerifiedAccountInstance.VerifiedAccessInstanceId
 type EC2VerifiedAccessInstanceDescription struct {
+	VerifiedAccountInstance ec2.VerifiedAccessInstance
 }
 
 //index:aws_ec2_vpngateway
-//getfilter:snapshot_id=description.Snapshot.SnapshotId
+//getfilter:vpn_gateway_id=description.VPNGateway.VpnGatewayId
+//listfilter:amazon_side_asn=description.VPNGateway.AmazonSideAsn
+//listfilter:availability_zone=description.VPNGateway.AvailabilityZone
+//listfilter:state=description.VPNGateway.State
+//listfilter:type=description.VPNGateway.Type
 type EC2VPNGatewayDescription struct {
+	VPNGateway ec2.VpnGateway
 }
 
 //index:aws_ec2_volume
@@ -1715,11 +1732,24 @@ type SSMManagedInstanceDescription struct {
 }
 
 //index:aws_ssm_association
+//getfilter:association_id=description.
+//listfilter:association_name=description.
+//listfilter:instance_id=description.
+//listfilter:status=description.
+//listfilter:last_execution_date=description.
 type SSMAssociationDescription struct {
+	AssociationItem ssm.Association
+	Association     *ssm_sdkv2.DescribeAssociationOutput
 }
 
 //index:aws_ssm_document
+//getfilter:name=description.DocumentIdentifier.Name
+//listfilter:document_type=description.DocumentIdentifier.DocumentType
+//listfilter:owner_type=description.DocumentIdentifier.Owner
 type SSMDocumentDescription struct {
+	DocumentIdentifier ssm.DocumentIdentifier
+	Document           *ssm_sdkv2.DescribeDocumentOutput
+	Permissions        *ssm_sdkv2.DescribeDocumentPermissionOutput
 }
 
 //index:aws_ssm_managedinstancecompliance
@@ -1858,13 +1888,24 @@ type WAFv2WebACLDescription struct {
 }
 
 //index:aws_wafv2_ipset
-//getfilter:id=description.WebACL.Id
+//getfilter:id=description.IPSetSummary.Id
+//getfilter:name=description.IPSetSummary.Name
+//getfilter:scope=description.IPSetSummary.Scope
 type WAFv2IPSetDescription struct {
+	IPSetSummary wafv2.IPSetSummary
+	Scope        wafv2.Scope
+	IPSet        *wafv2.IPSet
+	Tags         []wafv2.Tag
 }
 
 //index:aws_wafv2_rulegroup
-//getfilter:id=description.WebACL.Id
+//getfilter:id=description.RuleGroup.Id
+//getfilter:name=description.RuleGroup.Name
+//getfilter:scope=description.Tags
 type WAFv2RuleGroupDescription struct {
+	RuleGroup        *wafv2.RuleGroup
+	RuleGroupSummary wafv2.RuleGroupSummary
+	Tags             *wafv22.ListTagsForResourceOutput
 }
 
 //  ===================  KMS  ===================
@@ -2255,11 +2296,6 @@ type SESConfigurationSetDescription struct {
 	ConfigurationSet ses.ConfigurationSet
 }
 
-//index:aws_ses_emailidentity
-//getfilter:name=description.
-type SESEmailIdentityDescription struct {
-}
-
 //index:aws_ses_identity
 //getfilter:identity_name=description.Identity.IdentityName
 type SESIdentityDescription struct {
@@ -2557,15 +2593,21 @@ type ResourceExplorer2IndexDescription struct {
 // ===================  StepFunctions ===================
 
 //index:aws_stepfunctions_statemachine
-//getfilter:id=
+//getfilter:arn=description.StateMachineItem.StateMachineArn
 type StepFunctionsStateMachineDescription struct {
+	StateMachineItem types5.StateMachineListItem
+	StateMachine     *sfn.DescribeStateMachineOutput
+	Tags             []types5.Tag
 }
 
 // ===================  SimSpaceWeaver ===================
 
 //index:aws_simspaceweaversimulation
-//getfilter:id=
+//getfilter:name=description.Simulation.Name
 type SimSpaceWeaverSimulationDescription struct {
+	Simulation     types6.SimulationMetadata
+	SimulationItem *simspaceweaver.DescribeSimulationOutput
+	Tags           map[string]string
 }
 
 //  ===================  ACM ===================

@@ -110,11 +110,21 @@ func SSMAssociation(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 		}
 
 		for _, v := range page.Associations {
+			out, err := client.DescribeAssociation(ctx, &ssm.DescribeAssociationInput{
+				AssociationId: v.AssociationId,
+			})
+			if err != nil {
+				return nil, err
+			}
+
 			resource := Resource{
-				Region:      describeCtx.Region,
-				ID:          *v.AssociationId,
-				Name:        *v.Name,
-				Description: v,
+				Region: describeCtx.Region,
+				ID:     *v.AssociationId,
+				Name:   *v.Name,
+				Description: model.SSMAssociationDescription{
+					AssociationItem: v,
+					Association:     out,
+				},
 			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
@@ -142,11 +152,30 @@ func SSMDocument(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 		}
 
 		for _, v := range page.DocumentIdentifiers {
+			permissions, err := client.DescribeDocumentPermission(ctx, &ssm.DescribeDocumentPermissionInput{
+				Name:           v.Name,
+				PermissionType: "Share",
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			data, err := client.DescribeDocument(ctx, &ssm.DescribeDocumentInput{
+				Name: v.Name,
+			})
+			if err != nil {
+				return nil, err
+			}
+
 			resource := Resource{
-				Region:      describeCtx.Region,
-				ID:          *v.Name,
-				Name:        *v.Name,
-				Description: v,
+				Region: describeCtx.Region,
+				ID:     *v.Name,
+				Name:   *v.Name,
+				Description: model.SSMDocumentDescription{
+					DocumentIdentifier: v,
+					Document:           data,
+					Permissions:        permissions,
+				},
 			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
