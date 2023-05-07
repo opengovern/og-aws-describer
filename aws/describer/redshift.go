@@ -69,6 +69,40 @@ func RedshiftCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 	return values, nil
 }
 
+func RedshiftEventSubscription(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := redshift.NewFromConfig(cfg)
+	paginator := redshift.NewDescribeEventSubscriptionsPaginator(client, &redshift.DescribeEventSubscriptionsInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page.EventSubscriptionsList {
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ID:     *v.CustSubscriptionId,
+				Name:   *v.CustSubscriptionId,
+				Description: model.RedshiftEventSubscriptionDescription{
+					EventSubscription: v,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+
 func RedshiftClusterParameterGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := redshift.NewFromConfig(cfg)
@@ -326,6 +360,48 @@ func RedshiftServerlessSnapshot(ctx context.Context, cfg aws.Config, stream *Str
 				Description: model.RedshiftServerlessSnapshotDescription{
 					Snapshot: v,
 					Tags:     tags.Tags,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+
+func RedshiftServerlessWorkgroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := redshiftserverless.NewFromConfig(cfg)
+	paginator := redshiftserverless.NewListWorkgroupsPaginator(client, &redshiftserverless.ListWorkgroupsInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page.Workgroups {
+			tags, err := client.ListTagsForResource(ctx, &redshiftserverless.ListTagsForResourceInput{
+				ResourceArn: v.WorkgroupArn,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    *v.WorkgroupArn,
+				Name:   *v.WorkgroupName,
+				Description: model.RedshiftServerlessWorkgroupDescription{
+					Workgroup: v,
+					Tags:      tags.Tags,
 				},
 			}
 			if stream != nil {

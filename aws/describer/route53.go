@@ -2,13 +2,16 @@ package describer
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"github.com/aws/smithy-go"
 	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/route53"
 	"github.com/aws/aws-sdk-go-v2/service/route53/types"
 	"github.com/aws/aws-sdk-go-v2/service/route53resolver"
+	resolvertypes "github.com/aws/aws-sdk-go-v2/service/route53resolver/types"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 )
 
@@ -24,11 +27,42 @@ func Route53HealthCheck(ctx context.Context, cfg aws.Config, stream *StreamSende
 		}
 
 		for _, v := range output.HealthChecks {
+			item, err := client.GetHealthCheckStatus(ctx, &route53.GetHealthCheckStatusInput{
+				HealthCheckId: v.Id,
+			})
+			if err != nil {
+				var ae smithy.APIError
+				if errors.As(err, &ae) {
+					if ae.ErrorCode() == "InvalidInput" {
+						item = nil
+					} else {
+						return nil, err
+					}
+				} else {
+					return nil, err
+				}
+			}
+			if item == nil {
+				item = &route53.GetHealthCheckStatusOutput{}
+			}
+
+			resp, err := client.ListTagsForResource(ctx, &route53.ListTagsForResourceInput{
+				ResourceId:   v.Id,
+				ResourceType: "healthcheck",
+			})
+			if err != nil {
+				return nil, err
+			}
+
 			resource := Resource{
-				Region:      describeCtx.Region,
-				ID:          *v.Id,
-				Name:        *v.HealthCheckConfig.FullyQualifiedDomainName,
-				Description: v,
+				Region: describeCtx.Region,
+				ID:     *v.Id,
+				Name:   *v.HealthCheckConfig.FullyQualifiedDomainName,
+				Description: model.Route53HealthCheckDescription{
+					HealthCheck: v,
+					Status:      item,
+					Tags:        resp,
+				},
 			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
@@ -535,11 +569,45 @@ func Route53ResolverResolverRule(ctx context.Context, cfg aws.Config, stream *St
 		}
 
 		for _, v := range page.ResolverRules {
+			defaultID := "rslvr-autodefined-rr-internet-resolver"
+
+			var tags []resolvertypes.Tag
+			if *v.Id != defaultID {
+				tagsOut, err := client.ListTagsForResource(ctx, &route53resolver.ListTagsForResourceInput{
+					ResourceArn: v.Arn,
+				})
+				if err != nil {
+					return nil, err
+				}
+				tags = tagsOut.Tags
+			}
+
+			// Build the params
+			params := &route53resolver.ListResolverRuleAssociationsInput{
+				Filters: []resolvertypes.Filter{
+					{
+						Name: aws.String("ResolverRuleId"),
+						Values: []string{
+							*v.Id,
+						},
+					},
+				},
+			}
+
+			ruleass, err := client.ListResolverRuleAssociations(ctx, params)
+			if err != nil {
+				return nil, err
+			}
+
 			resource := Resource{
-				Region:      describeCtx.Region,
-				ARN:         *v.Arn,
-				Name:        *v.Name,
-				Description: v,
+				Region: describeCtx.Region,
+				ARN:    *v.Arn,
+				Name:   *v.Name,
+				Description: model.Route53ResolverResolverRuleDescription{
+					ResolverRole:     v,
+					Tags:             tags,
+					RuleAssociations: ruleass,
+				},
 			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {

@@ -2,7 +2,6 @@ package describer
 
 import (
 	"context"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/networkfirewall"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
@@ -34,6 +33,112 @@ func NetworkFirewallFirewall(ctx context.Context, cfg aws.Config, stream *Stream
 				Name:   *v.FirewallName,
 				Description: model.NetworkFirewallFirewallDescription{
 					Firewall: *firewall.Firewall,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+
+func NetworkFirewallPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := networkfirewall.NewFromConfig(cfg)
+	paginator := networkfirewall.NewListFirewallPoliciesPaginator(client, &networkfirewall.ListFirewallPoliciesInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page.FirewallPolicies {
+			if v.Arn == nil {
+				continue
+			}
+
+			data, err := client.DescribeFirewallPolicy(ctx, &networkfirewall.DescribeFirewallPolicyInput{
+				FirewallPolicyArn:  v.Arn,
+				FirewallPolicyName: v.Name,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			var name string
+			if v.Name != nil {
+				name = *v.Name
+			} else {
+				name = *v.Arn
+			}
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    *v.Arn,
+				Name:   name,
+				Description: model.NetworkFirewallFirewallPolicyDescription{
+					FirewallPolicy:         data.FirewallPolicy,
+					FirewallPolicyResponse: data.FirewallPolicyResponse,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+
+func NetworkFirewallRuleGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := networkfirewall.NewFromConfig(cfg)
+	paginator := networkfirewall.NewListRuleGroupsPaginator(client, &networkfirewall.ListRuleGroupsInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page.RuleGroups {
+			if v.Arn == nil {
+				continue
+			}
+
+			data, err := client.DescribeRuleGroup(ctx, &networkfirewall.DescribeRuleGroupInput{
+				RuleGroupArn:  v.Arn,
+				RuleGroupName: v.Name,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			var name string
+			if v.Name != nil {
+				name = *v.Name
+			} else {
+				name = *v.Arn
+			}
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    *v.Arn,
+				Name:   name,
+				Description: model.NetworkFirewallRuleGroupDescription{
+					RuleGroup:         data.RuleGroup,
+					RuleGroupResponse: data.RuleGroupResponse,
 				},
 			}
 			if stream != nil {

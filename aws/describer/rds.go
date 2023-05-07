@@ -125,11 +125,34 @@ func RDSDBClusterParameterGroup(ctx context.Context, cfg aws.Config, stream *Str
 		}
 
 		for _, v := range page.DBClusterParameterGroups {
+			params, err := client.DescribeDBClusterParameters(ctx, &rds.DescribeDBClusterParametersInput{
+				DBClusterParameterGroupName: v.DBClusterParameterGroupName,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			op, err := client.ListTagsForResource(ctx, &rds.ListTagsForResourceInput{
+				ResourceName: v.DBClusterParameterGroupArn,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			var tags []types.Tag
+			if len(op.TagList) > 0 {
+				tags = op.TagList
+			}
+
 			resource := Resource{
-				Region:      describeCtx.Region,
-				ARN:         *v.DBClusterParameterGroupArn,
-				Name:        *v.DBClusterParameterGroupName,
-				Description: v,
+				Region: describeCtx.Region,
+				ARN:    *v.DBClusterParameterGroupArn,
+				Name:   *v.DBClusterParameterGroupName,
+				Description: model.RDSDBClusterParameterGroupDescription{
+					DBClusterParameterGroup: v,
+					Parameters:              params.Parameters,
+					Tags:                    tags,
+				},
 			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
@@ -217,11 +240,29 @@ func RDSDBParameterGroup(ctx context.Context, cfg aws.Config, stream *StreamSend
 		}
 
 		for _, v := range page.DBParameterGroups {
+			dbParams, err := client.DescribeDBParameters(ctx, &rds.DescribeDBParametersInput{
+				DBParameterGroupName: v.DBParameterGroupName,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			op, err := client.ListTagsForResource(ctx, &rds.ListTagsForResourceInput{
+				ResourceName: v.DBParameterGroupArn,
+			})
+			if err != nil {
+				return nil, err
+			}
+
 			resource := Resource{
-				Region:      describeCtx.Region,
-				ARN:         *v.DBParameterGroupArn,
-				Name:        *v.DBParameterGroupName,
-				Description: v,
+				Region: describeCtx.Region,
+				ARN:    *v.DBParameterGroupArn,
+				Name:   *v.DBParameterGroupName,
+				Description: model.RDSDBParameterGroupDescription{
+					DBParameterGroup: v,
+					Parameters:       dbParams.Parameters,
+					Tags:             op.TagList,
+				},
 			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
@@ -249,11 +290,21 @@ func RDSDBProxy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 		}
 
 		for _, v := range page.DBProxies {
+			tags, err := client.ListTagsForResource(ctx, &rds.ListTagsForResourceInput{
+				ResourceName: v.DBProxyArn,
+			})
+			if err != nil {
+				return nil, err
+			}
+
 			resource := Resource{
-				Region:      describeCtx.Region,
-				ARN:         *v.DBProxyArn,
-				Name:        *v.DBProxyName,
-				Description: v,
+				Region: describeCtx.Region,
+				ARN:    *v.DBProxyArn,
+				Name:   *v.DBProxyName,
+				Description: model.RDSDBProxyDescription{
+					DBProxy: v,
+					Tags:    tags,
+				},
 			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
@@ -388,11 +439,21 @@ func RDSDBSubnetGroup(ctx context.Context, cfg aws.Config, stream *StreamSender)
 		}
 
 		for _, v := range page.DBSubnetGroups {
+			tags, err := client.ListTagsForResource(ctx, &rds.ListTagsForResourceInput{
+				ResourceName: v.DBSubnetGroupArn,
+			})
+			if err != nil {
+				return nil, err
+			}
+
 			resource := Resource{
-				Region:      describeCtx.Region,
-				ARN:         *v.DBSubnetGroupArn,
-				Name:        *v.DBSubnetGroupName,
-				Description: v,
+				Region: describeCtx.Region,
+				ARN:    *v.DBSubnetGroupArn,
+				Name:   *v.DBSubnetGroupName,
+				Description: model.RDSDBSubnetGroupDescription{
+					DBSubnetGroup: v,
+					Tags:          tags,
+				},
 			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
@@ -496,11 +557,21 @@ func RDSOptionGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 		}
 
 		for _, v := range page.OptionGroupsList {
+			tags, err := client.ListTagsForResource(ctx, &rds.ListTagsForResourceInput{
+				ResourceName: v.OptionGroupArn,
+			})
+			if err != nil {
+				return nil, err
+			}
+
 			resource := Resource{
-				Region:      describeCtx.Region,
-				ARN:         *v.OptionGroupArn,
-				Name:        *v.OptionGroupName,
-				Description: v,
+				Region: describeCtx.Region,
+				ARN:    *v.OptionGroupArn,
+				Name:   *v.OptionGroupName,
+				Description: model.RDSOptionGroupDescription{
+					OptionGroup: v,
+					Tags:        tags,
+				},
 			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
