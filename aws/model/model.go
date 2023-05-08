@@ -117,6 +117,8 @@ import (
 	resourceexplorer2 "github.com/aws/aws-sdk-go-v2/service/resourceexplorer2/types"
 	route53op "github.com/aws/aws-sdk-go-v2/service/route53"
 	route53 "github.com/aws/aws-sdk-go-v2/service/route53/types"
+	route53domainsop "github.com/aws/aws-sdk-go-v2/service/route53domains"
+	route53domains "github.com/aws/aws-sdk-go-v2/service/route53domains/types"
 	route53resolverop "github.com/aws/aws-sdk-go-v2/service/route53resolver"
 	route53resolver "github.com/aws/aws-sdk-go-v2/service/route53resolver/types"
 	s3 "github.com/aws/aws-sdk-go-v2/service/s3/types"
@@ -1706,6 +1708,24 @@ type SageMakerNotebookInstanceDescription struct {
 	Tags             []sagemaker.Tag
 }
 
+//index:aws_sagemaker_model
+//getfilter:name=description.Model.ModelName
+//listfilter:creation_time=description.Model.CreationTime
+type SageMakerModelDescription struct {
+	Model *sagemakerop.DescribeModelOutput
+	Tags  []sagemaker.Tag
+}
+
+//index:aws_sagemaker_trainingjob
+//getfilter:name=description.TrainingJob.Name
+//listfilter:creation_time=description.TrainingJob.CreationTime
+//listfilter:last_modified_time=description.TrainingJob.LastModifiedTime
+//listfilter:training_job_status=description.TrainingJob.TrainingJobStatus
+type SageMakerTrainingJobDescription struct {
+	TrainingJob *sagemakerop.DescribeTrainingJobOutput
+	Tags        []sagemaker.Tag
+}
+
 //  ===================  SecretsManager  ===================
 
 //index:aws_secretsmanager_secret
@@ -2415,6 +2435,51 @@ type Route53ResolverResolverRuleDescription struct {
 	ResolverRole     route53resolver.ResolverRule
 	Tags             []route53resolver.Tag
 	RuleAssociations *route53resolverop.ListResolverRuleAssociationsOutput
+}
+
+//index:aws_route53resolver_resolverendpoint
+//getfilter:id=description.ResolverEndpoint.Id
+//listfilter:creator_request_id=description.ResolverEndpoint.CreatorRequestId
+//listfilter:direction=description.ResolverEndpoint.Direction
+//listfilter:host_vpc_id=description.ResolverEndpoint.HostVPCId
+//listfilter:ip_address_count=description.ResolverEndpoint.IpAddressCount
+//listfilter:status=description.ResolverEndpoint.Status
+//listfilter:name=description.ResolverEndpoint.Name
+type Route53ResolverEndpointDescription struct {
+	ResolverEndpoint route53resolver.ResolverEndpoint
+	IpAddresses      []route53resolver.IpAddressResponse
+	Tags             []route53resolver.Tag
+}
+
+//index:aws_route53domains_domain
+//getfilter:domain_name=description.Domain.DomainName
+type Route53DomainDescription struct {
+	DomainSummary route53domains.DomainSummary
+	Domain        route53domainsop.GetDomainDetailOutput
+	Tags          []route53domains.Tag
+}
+
+//index:aws_route53_record
+//listfilter:zone_id=description.ZoneId
+//listfilter:name=description.Record.Name
+//listfilter:set_identifier=description.Record.SetIdentifier
+//listfilter:type=description.Record.Type
+type Route53RecordDescription struct {
+	ZoneID string
+	Record route53.ResourceRecordSet
+}
+
+//index:aws_route53_trafficpolicy
+//getfilter:id=description.TrafficPolicy.Id
+//getfilter:version=description.TrafficPolicy.Version
+type Route53TrafficPolicyDescription struct {
+	TrafficPolicy route53.TrafficPolicy
+}
+
+//index:aws_route53_trafficpolicyinstance
+//getfilter:id=description.TrafficPolicyInstance.Id
+type Route53TrafficPolicyInstanceDescription struct {
+	TrafficPolicyInstance route53.TrafficPolicyInstance
 }
 
 //  ===================  Batch  ===================
