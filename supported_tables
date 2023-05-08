@@ -439,3 +439,5 @@ aws_route53_domain
 aws_route53_record
 aws_route53_traffic_policy
 aws_route53_traffic_policy_instance
+aws_sagemaker_model
+aws_sagemaker_training_job
