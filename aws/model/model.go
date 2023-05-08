@@ -3,8 +3,9 @@
 package model
 
 import (
-	"github.com/aws/aws-sdk-go-v2/service/sesv2/types"
 	"time"
+
+	"github.com/aws/aws-sdk-go-v2/service/sesv2/types"
 
 	accessanalyzer "github.com/aws/aws-sdk-go-v2/service/accessanalyzer/types"
 	account "github.com/aws/aws-sdk-go-v2/service/account/types"
@@ -129,6 +130,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
 	securityhubop "github.com/aws/aws-sdk-go-v2/service/securityhub"
 	securityhub "github.com/aws/aws-sdk-go-v2/service/securityhub/types"
+	securitylake "github.com/aws/aws-sdk-go-v2/service/securitylake/types"
 	ses "github.com/aws/aws-sdk-go-v2/service/ses/types"
 	sfnop "github.com/aws/aws-sdk-go-v2/service/sfn"
 	sfn "github.com/aws/aws-sdk-go-v2/service/sfn/types"
@@ -3109,4 +3111,17 @@ type MediaStoreContainerDescription struct {
 //listfilter:is_archived=description.Application.IsArchived
 type MgnApplicationDescription struct {
 	Application mgn.Application
+}
+
+// ===================  SecurityLake ===================
+
+//index:aws_securitylake_datalake
+type SecurityLakeDataLakeDescription struct {
+	DataLake securitylake.LakeConfigurationResponse
+}
+
+//index:aws_securitylake_subscriber
+//getfilter:subscriber_id=description.Subscriber.SubscriberId
+type SecurityLakeSubscriberDescription struct {
+	Subscriber securitylake.SubscriberResource
 }

@@ -449,3 +449,5 @@ aws_securityhub_member
 aws_securityhub_product
 aws_securityhub_standards_control
 aws_securityhub_standards_subscription
+aws_securitylake_data_lake
+aws_securitylake_subscriber

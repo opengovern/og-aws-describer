@@ -3489,6 +3489,26 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        "aws_securityhub_standards_subscription",
 		TerraformServiceName: "securityhub",
 	},
+	"AWS:SecurityLake::DataLake": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS:SecurityLake::DataLake",
+		ResourceLabel:        "",
+		ServiceName:          "SecurityLake",
+		ListDescriber:        ParallelDescribeRegional(describer.SecurityLakeDataLake),
+		GetDescriber:         nil,
+		TerraformName:        "",
+		TerraformServiceName: "",
+	},
+	"AWS:SecurityLake::Subscriber": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS:SecurityLake::Subscriber",
+		ResourceLabel:        "",
+		ServiceName:          "SecurityLake",
+		ListDescriber:        ParallelDescribeRegional(describer.SecurityLakeSubscriber),
+		GetDescriber:         nil,
+		TerraformName:        "",
+		TerraformServiceName: "",
+	},
 }
 
 func ListResourceTypes() []string {
