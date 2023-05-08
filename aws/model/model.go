@@ -132,6 +132,7 @@ import (
 	securitylake "github.com/aws/aws-sdk-go-v2/service/securitylake/types"
 	serverlessapplicationrepositoryop "github.com/aws/aws-sdk-go-v2/service/serverlessapplicationrepository"
 	serverlessapplicationrepository "github.com/aws/aws-sdk-go-v2/service/serverlessapplicationrepository/types"
+	servicequotas "github.com/aws/aws-sdk-go-v2/service/servicequotas/types"
 	ses "github.com/aws/aws-sdk-go-v2/service/ses/types"
 	"github.com/aws/aws-sdk-go-v2/service/sesv2/types"
 	sfnop "github.com/aws/aws-sdk-go-v2/service/sfn"
@@ -3167,4 +3168,32 @@ type RamResourceAssociationDescription struct {
 type ServerlessApplicationRepositoryApplicationDescription struct {
 	Application serverlessapplicationrepositoryop.GetApplicationOutput
 	Statements  []serverlessapplicationrepository.ApplicationPolicyStatement
+}
+
+// ===================  Service Quotas  ===================
+
+//index:aws_servicequotas_defaultservicequota
+//getfilter:quota_code=description.DefaultServiceQuota.QuotaCode
+//getfilter:service_code=description.DefaultServiceQuota.ServiceCode
+//listfilter:service_code=description.DefaultServiceQuota.ServiceCode
+type ServiceQuotasDefaultServiceQuotaDescription struct {
+	DefaultServiceQuota servicequotas.ServiceQuota
+}
+
+//index:aws_servicequotas_servicequota
+//getfilter:quota_code=description.ServiceQuota.QuotaCode
+//getfilter:service_code=description.ServiceQuota.ServiceCode
+//listfilter:service_code=description.ServiceQuota.ServiceCode
+type ServiceQuotasServiceQuotaDescription struct {
+	ServiceQuota servicequotas.ServiceQuota
+	Tags         []servicequotas.Tag
+}
+
+//index:aws_servicequotas_servicequotachangerequest
+//getfilter:id=description.ServiceQuotaChangeRequest.Id
+//listfilter:service_code=description.ServiceQuotaChangeRequest.ServiceCode
+//listfilter:status=description.ServiceQuotaChangeRequest.Status
+type ServiceQuotasServiceQuotaChangeRequestDescription struct {
+	ServiceQuotaChangeRequest servicequotas.RequestedServiceQuotaChange
+	Tags                      []servicequotas.Tag
 }

@@ -3559,6 +3559,36 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        "aws_serverlessapplicationrepository_application",
 		TerraformServiceName: "serverlessrepo",
 	},
+	"AWS::ServiceQuotas::DefaultServiceQuota": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::ServiceQuotas::DefaultServiceQuota",
+		ResourceLabel:        "",
+		ServiceName:          "ServiceQuotas",
+		ListDescriber:        ParallelDescribeRegional(describer.ServiceQuotasDefaultServiceQuota),
+		GetDescriber:         nil,
+		TerraformName:        "",
+		TerraformServiceName: "",
+	},
+	"AWS::ServiceQuotas::ServiceQuota": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::ServiceQuotas::ServiceQuota",
+		ResourceLabel:        "",
+		ServiceName:          "ServiceQuotas",
+		ListDescriber:        ParallelDescribeRegional(describer.ServiceQuotasServiceQuota),
+		GetDescriber:         nil,
+		TerraformName:        "",
+		TerraformServiceName: "",
+	},
+	"AWS::ServiceQuotas::ServiceQuotaChangeRequest": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::ServiceQuotas::ServiceQuotaChangeRequest",
+		ResourceLabel:        "",
+		ServiceName:          "ServiceQuotas",
+		ListDescriber:        ParallelDescribeRegional(describer.ServiceQuotasServiceQuotaChangeRequest),
+		GetDescriber:         nil,
+		TerraformName:        "",
+		TerraformServiceName: "",
+	},
 }
 
 func ListResourceTypes() []string {
