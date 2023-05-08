@@ -1732,11 +1732,11 @@ type SSMManagedInstanceDescription struct {
 }
 
 //index:aws_ssm_association
-//getfilter:association_id=description.
-//listfilter:association_name=description.
-//listfilter:instance_id=description.
-//listfilter:status=description.
-//listfilter:last_execution_date=description.
+//getfilter:association_id=description.AssociationItem.AssociationId
+//listfilter:association_name=description.AssociationItem.AssociationName
+//listfilter:instance_id=description.AssociationItem.InstanceId
+//listfilter:status=description.Association.AssociationDescription.Status
+//listfilter:last_execution_date=description.Association.AssociationDescription.LastExecutionDate
 type SSMAssociationDescription struct {
 	AssociationItem ssm.Association
 	Association     *ssm_sdkv2.DescribeAssociationOutput
