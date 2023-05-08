@@ -433,3 +433,4 @@ aws_lightsail_instance
 aws_macie2_classification_job
 aws_mediastore_container
 aws_mgn_application
+aws_resource_explorer_supported_resource_type

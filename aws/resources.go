@@ -3329,6 +3329,16 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        "",
 		TerraformServiceName: "",
 	},
+	"AWS::ResourceExplorer2::SupportedResourceType": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::ResourceExplorer2::SupportedResourceType",
+		ResourceLabel:        "",
+		ServiceName:          "ResourceExplorer2",
+		ListDescriber:        ParallelDescribeRegional(describer.ResourceExplorer2SupportedResourceType),
+		GetDescriber:         nil,
+		TerraformName:        "",
+		TerraformServiceName: "",
+	},
 }
 
 func ListResourceTypes() []string {
