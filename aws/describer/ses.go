@@ -57,8 +57,9 @@ func SESConfigurationSet(ctx context.Context, cfg aws.Config, stream *StreamSend
 func SESIdentity(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 
-	client := sesv2.NewFromConfig(cfg)
-	paginator := sesv2.NewListEmailIdentitiesPaginator(client, &sesv2.ListEmailIdentitiesInput{})
+	client := ses.NewFromConfig(cfg)
+	clientv2 := sesv2.NewFromConfig(cfg)
+	paginator := ses.NewListIdentitiesPaginator(client, &ses.ListIdentitiesInput{})
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -67,11 +68,25 @@ func SESIdentity(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 			return nil, err
 		}
 
-		for _, v := range page.EmailIdentities {
-			arn := fmt.Sprintf("arn:%s:ses:%s:%s:identity/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.IdentityName)
+		for _, v := range page.Identities {
+			arn := fmt.Sprintf("arn:%s:ses:%s:%s:identity/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, v)
 
-			tags, err := client.ListTagsForResource(ctx, &sesv2.ListTagsForResourceInput{
+			tags, err := clientv2.ListTagsForResource(ctx, &sesv2.ListTagsForResourceInput{
 				ResourceArn: &arn,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			identity, err := client.GetIdentityVerificationAttributes(ctx, &ses.GetIdentityVerificationAttributesInput{
+				Identities: []string{v},
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			notif, err := client.GetIdentityNotificationAttributes(ctx, &ses.GetIdentityNotificationAttributesInput{
+				Identities: []string{v},
 			})
 			if err != nil {
 				return nil, err
@@ -80,10 +95,12 @@ func SESIdentity(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
-				Name:   *v.IdentityName,
+				Name:   v,
 				Description: model.SESIdentityDescription{
-					Identity: v,
-					Tags:     tags.Tags,
+					Identity:               v,
+					VerificationAttributes: identity.VerificationAttributes[v],
+					NotificationAttributes: notif.NotificationAttributes[v],
+					Tags:                   tags.Tags,
 				},
 			}
 			if stream != nil {

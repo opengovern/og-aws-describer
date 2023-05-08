@@ -3,6 +3,7 @@
 package model
 
 import (
+	"github.com/aws/aws-sdk-go-v2/service/sesv2/types"
 	"time"
 
 	accessanalyzer "github.com/aws/aws-sdk-go-v2/service/accessanalyzer/types"
@@ -126,7 +127,6 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
 	"github.com/aws/aws-sdk-go-v2/service/securityhub"
 	ses "github.com/aws/aws-sdk-go-v2/service/ses/types"
-	sesv2 "github.com/aws/aws-sdk-go-v2/service/sesv2/types"
 	sfnop "github.com/aws/aws-sdk-go-v2/service/sfn"
 	sfn "github.com/aws/aws-sdk-go-v2/service/sfn/types"
 	shield "github.com/aws/aws-sdk-go-v2/service/shield/types"
@@ -1898,6 +1898,17 @@ type WAFv2IPSetDescription struct {
 	Tags         []wafv2.Tag
 }
 
+//index:aws_wafv2_regexpatternset
+//getfilter:id=description.IPSetSummary.Id
+//getfilter:name=description.IPSetSummary.Name
+//getfilter:scope=description.IPSetSummary.Scope
+type WAFv2RegexPatternSetDescription struct {
+	Scope                  wafv2.Scope
+	RegexPatternSetSummary wafv2.RegexPatternSetSummary
+	RegexPatternSet        *wafv2.RegexPatternSet
+	Tags                   *wafv2op.ListTagsForResourceOutput
+}
+
 //index:aws_wafv2_rulegroup
 //getfilter:id=description.RuleGroup.Id
 //getfilter:name=description.RuleGroup.Name
@@ -2298,9 +2309,12 @@ type SESConfigurationSetDescription struct {
 
 //index:aws_ses_identity
 //getfilter:identity_name=description.Identity.IdentityName
+//listfilter:identity_type=description.Identity.IdentityType
 type SESIdentityDescription struct {
-	Identity sesv2.IdentityInfo
-	Tags     []sesv2.Tag
+	Identity               string
+	VerificationAttributes ses.IdentityVerificationAttributes
+	NotificationAttributes ses.IdentityNotificationAttributes
+	Tags                   []types.Tag
 }
 
 //  ===================  CloudFormation  ===================

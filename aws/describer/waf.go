@@ -160,11 +160,39 @@ func WAFv2RegexPatternSet(ctx context.Context, cfg aws.Config, stream *StreamSen
 			}
 
 			for _, v := range output.RegexPatternSets {
+				loc := strings.Split(strings.Split(*v.ARN, ":")[5], "/")[0]
+				var scope string
+				if loc == "regional" {
+					scope = "REGIONAL"
+				}
+				scope = "CLOUDFRONT"
+
+				op, err := client.GetRegexPatternSet(ctx, &wafv2.GetRegexPatternSetInput{
+					Id:    v.Id,
+					Name:  v.Name,
+					Scope: types.Scope(scope),
+				})
+				if err != nil {
+					return nil, err
+				}
+
+				regexPatternSetTags, err := client.ListTagsForResource(ctx, &wafv2.ListTagsForResourceInput{
+					ResourceARN: v.ARN,
+				})
+				if err != nil {
+					return nil, err
+				}
+
 				resource := Resource{
-					Region:      describeCtx.Region,
-					ARN:         *v.ARN,
-					Name:        *v.Name,
-					Description: v,
+					Region: describeCtx.Region,
+					ARN:    *v.ARN,
+					Name:   *v.Name,
+					Description: model.WAFv2RegexPatternSetDescription{
+						RegexPatternSetSummary: v,
+						Scope:                  types.Scope(scope),
+						RegexPatternSet:        op.RegexPatternSet,
+						Tags:                   regexPatternSetTags,
+					},
 				}
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
