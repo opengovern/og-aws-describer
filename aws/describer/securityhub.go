@@ -5,6 +5,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/securityhub"
+	"github.com/aws/aws-sdk-go-v2/service/securityhub/types"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 )
 
@@ -41,6 +42,309 @@ func SecurityHubHub(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 		}
 	} else {
 		values = append(values, resource)
+	}
+
+	return values, nil
+}
+
+func SecurityHubActionTarget(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := securityhub.NewFromConfig(cfg)
+
+	var values []Resource
+	paginator := securityhub.NewDescribeActionTargetsPaginator(client, &securityhub.DescribeActionTargetsInput{})
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, actionTarget := range page.ActionTargets {
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    *actionTarget.ActionTargetArn,
+				Name:   *actionTarget.Name,
+				Description: model.SecurityHubActionTargetDescription{
+					ActionTarget: actionTarget,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+
+func SecurityHubFinding(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := securityhub.NewFromConfig(cfg)
+
+	var values []Resource
+	paginator := securityhub.NewGetFindingsPaginator(client, &securityhub.GetFindingsInput{})
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, finding := range page.Findings {
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ID:     *finding.Id,
+				Name:   *finding.Title,
+				Description: model.SecurityHubFindingDescription{
+					Finding: finding,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+
+func SecurityHubFindingAggregator(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := securityhub.NewFromConfig(cfg)
+
+	var values []Resource
+	paginator := securityhub.NewListFindingAggregatorsPaginator(client, &securityhub.ListFindingAggregatorsInput{})
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, findingAggregatorSummary := range page.FindingAggregators {
+			findingAggregator, err := client.GetFindingAggregator(ctx, &securityhub.GetFindingAggregatorInput{
+				FindingAggregatorArn: findingAggregatorSummary.FindingAggregatorArn,
+			})
+			if err != nil {
+				return nil, err
+			}
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    *findingAggregator.FindingAggregatorArn,
+				Description: model.SecurityHubFindingAggregatorDescription{
+					FindingAggregator: *findingAggregator,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+
+func SecurityHubInsight(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := securityhub.NewFromConfig(cfg)
+
+	var values []Resource
+	paginator := securityhub.NewGetInsightsPaginator(client, &securityhub.GetInsightsInput{})
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, insight := range page.Insights {
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    *insight.InsightArn,
+				Name:   *insight.Name,
+				Description: model.SecurityHubInsightDescription{
+					Insight: insight,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+
+func SecurityHubMember(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := securityhub.NewFromConfig(cfg)
+
+	var values []Resource
+	paginator := securityhub.NewListMembersPaginator(client, &securityhub.ListMembersInput{})
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, member := range page.Members {
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				Name:   *member.AccountId,
+				Description: model.SecurityHubMemberDescription{
+					Member: member,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+
+func SecurityHubProduct(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := securityhub.NewFromConfig(cfg)
+
+	var values []Resource
+	paginator := securityhub.NewDescribeProductsPaginator(client, &securityhub.DescribeProductsInput{})
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, product := range page.Products {
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				Name:   *product.ProductName,
+				ARN:    *product.ProductArn,
+				Description: model.SecurityHubProductDescription{
+					Product: product,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+
+func SecurityHubStandardsControl(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := securityhub.NewFromConfig(cfg)
+
+	var values []Resource
+
+	subPaginator := securityhub.NewDescribeStandardsPaginator(client, &securityhub.DescribeStandardsInput{})
+	for subPaginator.HasMorePages() {
+		subPage, err := subPaginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, standard := range subPage.Standards {
+			paginator := securityhub.NewDescribeStandardsControlsPaginator(client, &securityhub.DescribeStandardsControlsInput{
+				StandardsSubscriptionArn: standard.StandardsArn,
+			})
+			for paginator.HasMorePages() {
+				page, err := paginator.NextPage(ctx)
+				if err != nil {
+					return nil, err
+				}
+
+				for _, standardsControl := range page.Controls {
+					resource := Resource{
+						Region: describeCtx.KaytuRegion,
+						ID:     *standardsControl.ControlId,
+						Name:   *standardsControl.Title,
+						ARN:    *standardsControl.StandardsControlArn,
+						Description: model.SecurityHubStandardsControlDescription{
+							StandardsControl: standardsControl,
+						},
+					}
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
+func SecurityHubStandardsSubscription(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := securityhub.NewFromConfig(cfg)
+
+	var values []Resource
+
+	standardsPaginator := securityhub.NewDescribeStandardsPaginator(client, &securityhub.DescribeStandardsInput{})
+	var standards map[string]types.Standard
+	for standardsPaginator.HasMorePages() {
+		standardsPage, err := standardsPaginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, standard := range standardsPage.Standards {
+			standards[*standard.StandardsArn] = standard
+		}
+	}
+
+	paginator := securityhub.NewGetEnabledStandardsPaginator(client, &securityhub.GetEnabledStandardsInput{})
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, standardSub := range page.StandardsSubscriptions {
+			standard, _ := standards[*standardSub.StandardsArn]
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    *standardSub.StandardsSubscriptionArn,
+				Description: model.SecurityHubStandardsSubscriptionDescription{
+					Standard:              standard,
+					StandardsSubscription: standardSub,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
 	}
 
 	return values, nil

@@ -127,7 +127,8 @@ import (
 	sagemakerop "github.com/aws/aws-sdk-go-v2/service/sagemaker"
 	sagemaker "github.com/aws/aws-sdk-go-v2/service/sagemaker/types"
 	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
-	"github.com/aws/aws-sdk-go-v2/service/securityhub"
+	securityhubop "github.com/aws/aws-sdk-go-v2/service/securityhub"
+	securityhub "github.com/aws/aws-sdk-go-v2/service/securityhub/types"
 	ses "github.com/aws/aws-sdk-go-v2/service/ses/types"
 	sfnop "github.com/aws/aws-sdk-go-v2/service/sfn"
 	sfn "github.com/aws/aws-sdk-go-v2/service/sfn/types"
@@ -1740,8 +1741,66 @@ type SecretsManagerSecretDescription struct {
 //index:aws_securityhub_hub
 //getfilter:hub_arn=description.Hub.HubArn
 type SecurityHubHubDescription struct {
-	Hub  *securityhub.DescribeHubOutput
+	Hub  *securityhubop.DescribeHubOutput
 	Tags map[string]string
+}
+
+//index:aws_securityhub_actiontarget
+//getfilter:arn=description.ActionTarget.ActionTargetArn
+type SecurityHubActionTargetDescription struct {
+	ActionTarget securityhub.ActionTarget
+}
+
+//index:aws_securityhub_finding
+//getfilter:id=description.Finding.Id
+//listfilter:company_name=description.Finding.CompanyName
+//listfilter:compliance_status=description.Finding.Compliance.Status
+//listfilter:confidence=description.Finding.Confidence
+//listfilter:criticality=description.Finding.Criticality
+//listfilter:generator_id=description.Finding.GeneratorId
+//listfilter:product_arn=description.Finding.ProductArn
+//listfilter:product_name=description.Finding.ProductName
+//listfilter:record_state=description.Finding.RecordState
+//listfilter:title=description.Finding.Title
+//listfilter:verification_state=description.Finding.VerificationState
+//listfilter:workflow_state=description.Finding.WorkflowState
+//listfilter:workflow_status=description.Finding.Workflow.Status
+type SecurityHubFindingDescription struct {
+	Finding securityhub.AwsSecurityFinding
+}
+
+//index:aws_securityhub_findingaggregator
+//getfilter:arn=description.FindingAggregator.FindingAggregatorArn
+type SecurityHubFindingAggregatorDescription struct {
+	FindingAggregator securityhubop.GetFindingAggregatorOutput
+}
+
+//index:aws_securityhub_insight
+//getfilter:arn=description.Insight.InsightArn
+type SecurityHubInsightDescription struct {
+	Insight securityhub.Insight
+}
+
+//index:aws_securityhub_member
+type SecurityHubMemberDescription struct {
+	Member securityhub.Member
+}
+
+//index:aws_securityhub_product
+//getfilter:product_arn=description.Product.ProductArn
+type SecurityHubProductDescription struct {
+	Product securityhub.Product
+}
+
+//index:aws_securityhub_standardscontrol
+type SecurityHubStandardsControlDescription struct {
+	StandardsControl securityhub.StandardsControl
+}
+
+//index:aws_securityhub_standardssubscription
+type SecurityHubStandardsSubscriptionDescription struct {
+	Standard              securityhub.Standard
+	StandardsSubscription securityhub.StandardsSubscription
 }
 
 //  ===================  SSM  ===================
