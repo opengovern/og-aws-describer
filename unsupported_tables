@@ -5,3 +5,5 @@ aws_auditmanager_evidence
 aws_auditmanager_framework
 aws_identitystore_group
 aws_identitystore_user
+aws_pricing_product
+aws_pricing_service_attribute

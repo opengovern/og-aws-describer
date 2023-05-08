@@ -3,22 +3,6 @@
 package model
 
 import (
-	kafka2 "github.com/aws/aws-sdk-go-v2/service/kafka"
-	"github.com/aws/aws-sdk-go-v2/service/oam"
-	"github.com/aws/aws-sdk-go-v2/service/oam/types"
-	types2 "github.com/aws/aws-sdk-go-v2/service/pinpoint/types"
-	"github.com/aws/aws-sdk-go-v2/service/pipes"
-	types3 "github.com/aws/aws-sdk-go-v2/service/pipes/types"
-	rds_sdkv2 "github.com/aws/aws-sdk-go-v2/service/rds"
-	awstypes "github.com/aws/aws-sdk-go-v2/service/resourceexplorer2/types"
-	"github.com/aws/aws-sdk-go-v2/service/route53resolver"
-	types4 "github.com/aws/aws-sdk-go-v2/service/route53resolver/types"
-	"github.com/aws/aws-sdk-go-v2/service/sfn"
-	types5 "github.com/aws/aws-sdk-go-v2/service/sfn/types"
-	"github.com/aws/aws-sdk-go-v2/service/simspaceweaver"
-	types6 "github.com/aws/aws-sdk-go-v2/service/simspaceweaver/types"
-	ssm_sdkv2 "github.com/aws/aws-sdk-go-v2/service/ssm"
-	wafv22 "github.com/aws/aws-sdk-go-v2/service/wafv2"
 	"time"
 
 	accessanalyzer "github.com/aws/aws-sdk-go-v2/service/accessanalyzer/types"
@@ -97,6 +81,7 @@ import (
 	identitystore "github.com/aws/aws-sdk-go-v2/service/identitystore/types"
 	imagebuilder "github.com/aws/aws-sdk-go-v2/service/imagebuilder/types"
 	inspector "github.com/aws/aws-sdk-go-v2/service/inspector/types"
+	kafkaop "github.com/aws/aws-sdk-go-v2/service/kafka"
 	kafka "github.com/aws/aws-sdk-go-v2/service/kafka/types"
 	keyspaces "github.com/aws/aws-sdk-go-v2/service/keyspaces/types"
 	kinesis "github.com/aws/aws-sdk-go-v2/service/kinesis/types"
@@ -115,31 +100,46 @@ import (
 	mwaa "github.com/aws/aws-sdk-go-v2/service/mwaa/types"
 	neptune "github.com/aws/aws-sdk-go-v2/service/neptune/types"
 	networkfirewall "github.com/aws/aws-sdk-go-v2/service/networkfirewall/types"
+	oamop "github.com/aws/aws-sdk-go-v2/service/oam"
+	oam "github.com/aws/aws-sdk-go-v2/service/oam/types"
 	opensearch "github.com/aws/aws-sdk-go-v2/service/opensearch/types"
 	opsworkscm "github.com/aws/aws-sdk-go-v2/service/opsworkscm/types"
 	organizations "github.com/aws/aws-sdk-go-v2/service/organizations/types"
+	pinpoint "github.com/aws/aws-sdk-go-v2/service/pinpoint/types"
+	pipesop "github.com/aws/aws-sdk-go-v2/service/pipes"
+	pipes "github.com/aws/aws-sdk-go-v2/service/pipes/types"
+	rds_sdkv2 "github.com/aws/aws-sdk-go-v2/service/rds"
 	rds "github.com/aws/aws-sdk-go-v2/service/rds/types"
-	"github.com/aws/aws-sdk-go-v2/service/redshift"
-	redshifttypes "github.com/aws/aws-sdk-go-v2/service/redshift/types"
+	redshiftop "github.com/aws/aws-sdk-go-v2/service/redshift"
+	redshift "github.com/aws/aws-sdk-go-v2/service/redshift/types"
 	redshiftserverlesstypes "github.com/aws/aws-sdk-go-v2/service/redshiftserverless/types"
+	resourceexplorer2 "github.com/aws/aws-sdk-go-v2/service/resourceexplorer2/types"
 	route53op "github.com/aws/aws-sdk-go-v2/service/route53"
 	route53 "github.com/aws/aws-sdk-go-v2/service/route53/types"
+	route53resolverop "github.com/aws/aws-sdk-go-v2/service/route53resolver"
+	route53resolver "github.com/aws/aws-sdk-go-v2/service/route53resolver/types"
 	s3 "github.com/aws/aws-sdk-go-v2/service/s3/types"
-	"github.com/aws/aws-sdk-go-v2/service/s3control"
-	s3controltypes "github.com/aws/aws-sdk-go-v2/service/s3control/types"
-	"github.com/aws/aws-sdk-go-v2/service/sagemaker"
-	sagemakertypes "github.com/aws/aws-sdk-go-v2/service/sagemaker/types"
+	s3controlop "github.com/aws/aws-sdk-go-v2/service/s3control"
+	s3control "github.com/aws/aws-sdk-go-v2/service/s3control/types"
+	sagemakerop "github.com/aws/aws-sdk-go-v2/service/sagemaker"
+	sagemaker "github.com/aws/aws-sdk-go-v2/service/sagemaker/types"
 	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
 	"github.com/aws/aws-sdk-go-v2/service/securityhub"
 	ses "github.com/aws/aws-sdk-go-v2/service/ses/types"
 	sesv2 "github.com/aws/aws-sdk-go-v2/service/sesv2/types"
+	sfnop "github.com/aws/aws-sdk-go-v2/service/sfn"
+	sfn "github.com/aws/aws-sdk-go-v2/service/sfn/types"
 	shield "github.com/aws/aws-sdk-go-v2/service/shield/types"
+	simspaceweaverop "github.com/aws/aws-sdk-go-v2/service/simspaceweaver"
+	simspaceweaver "github.com/aws/aws-sdk-go-v2/service/simspaceweaver/types"
 	sns "github.com/aws/aws-sdk-go-v2/service/sns/types"
+	ssm_sdkv2 "github.com/aws/aws-sdk-go-v2/service/ssm"
 	ssm "github.com/aws/aws-sdk-go-v2/service/ssm/types"
 	ssoadmin "github.com/aws/aws-sdk-go-v2/service/ssoadmin/types"
 	storagegateway "github.com/aws/aws-sdk-go-v2/service/storagegateway/types"
 	waf "github.com/aws/aws-sdk-go-v2/service/waf/types"
 	wafregional "github.com/aws/aws-sdk-go-v2/service/wafregional/types"
+	wafv2op "github.com/aws/aws-sdk-go-v2/service/wafv2"
 	wafv2 "github.com/aws/aws-sdk-go-v2/service/wafv2/types"
 	workspaces "github.com/aws/aws-sdk-go-v2/service/workspaces/types"
 )
@@ -744,13 +744,13 @@ type DynamoDBMetricAccountProvisionedWriteCapacityUtilizationDescription struct 
 //index:aws_oam_link
 //getfilter:arn=description.Link.Arn
 type OAMLinkDescription struct {
-	Link *oam.GetLinkOutput
+	Link *oamop.GetLinkOutput
 }
 
 //index:aws_oam_sink
 //getfilter:arn=description.Sink.Arn
 type OAMSinkDescription struct {
-	Sink types.ListSinksItem
+	Sink oam.ListSinksItem
 	Tags map[string]string
 }
 
@@ -1570,15 +1570,15 @@ type RDSGlobalClusterDescription struct {
 //index:aws_redshift_cluster
 //getfilter:cluster_identifier=description.Cluster
 type RedshiftClusterDescription struct {
-	Cluster          redshifttypes.Cluster
-	LoggingStatus    *redshift.DescribeLoggingStatusOutput
-	ScheduledActions []redshifttypes.ScheduledAction
+	Cluster          redshift.Cluster
+	LoggingStatus    *redshiftop.DescribeLoggingStatusOutput
+	ScheduledActions []redshift.ScheduledAction
 }
 
 //index:aws_redshift_eventsubscription
 //getfilter:cust_subscription_id=description.EventSubscription.CustSubscriptionId
 type RedshiftEventSubscriptionDescription struct {
-	EventSubscription redshifttypes.EventSubscription
+	EventSubscription redshift.EventSubscription
 }
 
 //index:aws_redshiftserverless_workgroup
@@ -1591,14 +1591,14 @@ type RedshiftServerlessWorkgroupDescription struct {
 //index:aws_redshift_clusterparametergroup
 //getfilter:name=description.ClusterParameterGroup.ParameterGroupName
 type RedshiftClusterParameterGroupDescription struct {
-	ClusterParameterGroup redshifttypes.ClusterParameterGroup
-	Parameters            []redshifttypes.Parameter
+	ClusterParameterGroup redshift.ClusterParameterGroup
+	Parameters            []redshift.Parameter
 }
 
 //index:aws_redshift_snapshot
 //getfilter:snapshot_identifier=description.Snapshot.SnapshotIdentifier
 type RedshiftSnapshotDescription struct {
-	Snapshot redshifttypes.Snapshot
+	Snapshot redshift.Snapshot
 }
 
 //index:aws_redshiftserverless_namespace
@@ -1667,7 +1667,7 @@ type S3BucketDescription struct {
 
 //index:aws_s3_accountsettingdescription
 type S3AccountSettingDescription struct {
-	PublicAccessBlockConfiguration s3controltypes.PublicAccessBlockConfiguration
+	PublicAccessBlockConfiguration s3control.PublicAccessBlockConfiguration
 }
 
 //  ===================  SageMaker  ===================
@@ -1675,8 +1675,8 @@ type S3AccountSettingDescription struct {
 //index:aws_sagemaker_endpointconfiguration
 //getfilter:name=description.EndpointConfig.EndpointConfigName
 type SageMakerEndpointConfigurationDescription struct {
-	EndpointConfig *sagemaker.DescribeEndpointConfigOutput
-	Tags           []sagemakertypes.Tag
+	EndpointConfig *sagemakerop.DescribeEndpointConfigOutput
+	Tags           []sagemaker.Tag
 }
 
 //index:aws_sagemaker_app
@@ -1687,23 +1687,23 @@ type SageMakerEndpointConfigurationDescription struct {
 //listfilter:domain_id=description.DescribeAppOutput.DomainId
 //listfilter:user_profile_name=description.DescribeAppOutput.UserProfileName
 type SageMakerAppDescription struct {
-	AppDetails        sagemakertypes.AppDetails
-	DescribeAppOutput *sagemaker.DescribeAppOutput
+	AppDetails        sagemaker.AppDetails
+	DescribeAppOutput *sagemakerop.DescribeAppOutput
 }
 
 //index:aws_sagemaker_domain
 //getfilter:id=description.Domain.DomainId
 type SageMakerDomainDescription struct {
-	Domain     *sagemaker.DescribeDomainOutput
-	DomainItem sagemakertypes.DomainDetails
-	Tags       []sagemakertypes.Tag
+	Domain     *sagemakerop.DescribeDomainOutput
+	DomainItem sagemaker.DomainDetails
+	Tags       []sagemaker.Tag
 }
 
 //index:aws_sagemaker_notebookinstance
 //getfilter:name=description.NotebookInstance.NotebookInstanceName
 type SageMakerNotebookInstanceDescription struct {
-	NotebookInstance *sagemaker.DescribeNotebookInstanceOutput
-	Tags             []sagemakertypes.Tag
+	NotebookInstance *sagemakerop.DescribeNotebookInstanceOutput
+	Tags             []sagemaker.Tag
 }
 
 //  ===================  SecretsManager  ===================
@@ -1905,7 +1905,7 @@ type WAFv2IPSetDescription struct {
 type WAFv2RuleGroupDescription struct {
 	RuleGroup        *wafv2.RuleGroup
 	RuleGroupSummary wafv2.RuleGroupSummary
-	Tags             *wafv22.ListTagsForResourceOutput
+	Tags             *wafv2op.ListTagsForResourceOutput
 }
 
 //  ===================  KMS  ===================
@@ -1975,9 +1975,9 @@ type LambdaLayerVersionDescription struct {
 //getfilter:name=description.AccessPoint.Name
 //getfilter:region=metadata.region
 type S3AccessPointDescription struct {
-	AccessPoint  *s3control.GetAccessPointOutput
+	AccessPoint  *s3controlop.GetAccessPointOutput
 	Policy       *string
-	PolicyStatus *s3controltypes.PolicyStatus
+	PolicyStatus *s3control.PolicyStatus
 }
 
 type CostExplorerRow struct {
@@ -2233,7 +2233,7 @@ type AMPWorkspaceDescription struct {
 //getfilter:cluster_name=description.Cluster.ClusterName
 type KafkaClusterDescription struct {
 	Cluster              kafka.Cluster
-	Configuration        *kafka2.DescribeConfigurationOutput
+	Configuration        *kafkaop.DescribeConfigurationOutput
 	ClusterOperationInfo *kafka.ClusterOperationInfo
 }
 
@@ -2398,9 +2398,9 @@ type Route53HealthCheckDescription struct {
 //listfilter:resolver_endpoint_id=description.ResolverRole.ResolverEndpointId
 //listfilter:status=description.ResolverRole.Status
 type Route53ResolverResolverRuleDescription struct {
-	ResolverRole     types4.ResolverRule
-	Tags             []types4.Tag
-	RuleAssociations *route53resolver.ListResolverRuleAssociationsOutput
+	ResolverRole     route53resolver.ResolverRule
+	Tags             []route53resolver.Tag
+	RuleAssociations *route53resolverop.ListResolverRuleAssociationsOutput
 }
 
 //  ===================  Batch  ===================
@@ -2566,8 +2566,8 @@ type OrganizationsAccountDescription struct {
 //index:aws_pinpoint_app
 //getfilter:id=description.App.Id
 type PinPointAppDescription struct {
-	App      types2.ApplicationResponse
-	Settings *types2.ApplicationSettingsResource
+	App      pinpoint.ApplicationResponse
+	Settings *pinpoint.ApplicationSettingsResource
 }
 
 // ===================  Pipes ===================
@@ -2577,8 +2577,8 @@ type PinPointAppDescription struct {
 //listfilter:current_state=description.PipeOutput.CurrentState
 //listfilter:desired_state=description.PipeOutput.DesiredState
 type PipesPipeDescription struct {
-	PipeOutput *pipes.DescribePipeOutput
-	Pipe       types3.Pipe
+	PipeOutput *pipesop.DescribePipeOutput
+	Pipe       pipes.Pipe
 }
 
 // ===================  ResourceExplorer2 ===================
@@ -2587,7 +2587,12 @@ type PipesPipeDescription struct {
 //listfilter:type=description.Index.Type
 //listfilter:region=description.Index.Region
 type ResourceExplorer2IndexDescription struct {
-	Index awstypes.Index
+	Index resourceexplorer2.Index
+}
+
+//index:aws_resourceexplorer2_supportedresourcetype
+type ResourceExplorer2SupportedResourceTypeDescription struct {
+	SupportedResourceType resourceexplorer2.SupportedResourceType
 }
 
 // ===================  StepFunctions ===================
@@ -2595,9 +2600,9 @@ type ResourceExplorer2IndexDescription struct {
 //index:aws_stepfunctions_statemachine
 //getfilter:arn=description.StateMachineItem.StateMachineArn
 type StepFunctionsStateMachineDescription struct {
-	StateMachineItem types5.StateMachineListItem
-	StateMachine     *sfn.DescribeStateMachineOutput
-	Tags             []types5.Tag
+	StateMachineItem sfn.StateMachineListItem
+	StateMachine     *sfnop.DescribeStateMachineOutput
+	Tags             []sfn.Tag
 }
 
 // ===================  SimSpaceWeaver ===================
@@ -2605,8 +2610,8 @@ type StepFunctionsStateMachineDescription struct {
 //index:aws_simspaceweaversimulation
 //getfilter:name=description.Simulation.Name
 type SimSpaceWeaverSimulationDescription struct {
-	Simulation     types6.SimulationMetadata
-	SimulationItem *simspaceweaver.DescribeSimulationOutput
+	Simulation     simspaceweaver.SimulationMetadata
+	SimulationItem *simspaceweaverop.DescribeSimulationOutput
 	Tags           map[string]string
 }
 
