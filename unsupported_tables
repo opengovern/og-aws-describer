@@ -7,3 +7,4 @@ aws_identitystore_group
 aws_identitystore_user
 aws_pricing_product
 aws_pricing_service_attribute
+aws_resource_explorer_search

@@ -5,8 +5,6 @@ package model
 import (
 	"time"
 
-	"github.com/aws/aws-sdk-go-v2/service/sesv2/types"
-
 	accessanalyzer "github.com/aws/aws-sdk-go-v2/service/accessanalyzer/types"
 	account "github.com/aws/aws-sdk-go-v2/service/account/types"
 	acm "github.com/aws/aws-sdk-go-v2/service/acm/types"
@@ -110,6 +108,7 @@ import (
 	pinpoint "github.com/aws/aws-sdk-go-v2/service/pinpoint/types"
 	pipesop "github.com/aws/aws-sdk-go-v2/service/pipes"
 	pipes "github.com/aws/aws-sdk-go-v2/service/pipes/types"
+	ram "github.com/aws/aws-sdk-go-v2/service/ram/types"
 	rds_sdkv2 "github.com/aws/aws-sdk-go-v2/service/rds"
 	rds "github.com/aws/aws-sdk-go-v2/service/rds/types"
 	redshiftop "github.com/aws/aws-sdk-go-v2/service/redshift"
@@ -131,7 +130,10 @@ import (
 	securityhubop "github.com/aws/aws-sdk-go-v2/service/securityhub"
 	securityhub "github.com/aws/aws-sdk-go-v2/service/securityhub/types"
 	securitylake "github.com/aws/aws-sdk-go-v2/service/securitylake/types"
+	serverlessapplicationrepositoryop "github.com/aws/aws-sdk-go-v2/service/serverlessapplicationrepository"
+	serverlessapplicationrepository "github.com/aws/aws-sdk-go-v2/service/serverlessapplicationrepository/types"
 	ses "github.com/aws/aws-sdk-go-v2/service/ses/types"
+	"github.com/aws/aws-sdk-go-v2/service/sesv2/types"
 	sfnop "github.com/aws/aws-sdk-go-v2/service/sfn"
 	sfn "github.com/aws/aws-sdk-go-v2/service/sfn/types"
 	shield "github.com/aws/aws-sdk-go-v2/service/shield/types"
@@ -1570,6 +1572,18 @@ type RDSGlobalClusterDescription struct {
 	Tags          []rds.Tag
 }
 
+//index:aws_rds_reserveddbinstance
+//getfilter:reserved_db_instance_id=description.ReservedDBInstance.ReservedDBInstanceId
+//listfilter:class=description.ReservedDBInstance.DBInstanceClass
+//listfilter:duration=description.ReservedDBInstance.Duration
+//listfilter:lease_id=description.ReservedDBInstance.LeaseId
+//listfilter:multi_az=description.ReservedDBInstance.MultiAZ
+//listfilter:offering_type=description.ReservedDBInstance.OfferingType
+//listfilter:reserved_db_instances_offering_id=description.ReservedDBInstance.ReservedDBInstancesOfferingId
+type RDSReservedDBInstanceDescription struct {
+	ReservedDBInstance rds.ReservedDBInstance
+}
+
 //  ===================  Redshift  ===================
 
 //index:aws_redshift_cluster
@@ -1618,6 +1632,12 @@ type RedshiftServerlessNamespaceDescription struct {
 type RedshiftServerlessSnapshotDescription struct {
 	Snapshot redshiftserverlesstypes.Snapshot
 	Tags     []redshiftserverlesstypes.Tag
+}
+
+//index:aws_redshift_subnetgroup
+//getfilter:cluster_subnet_group_name=description.ClusterSubnetGroup.ClusterSubnetGroupName
+type RedshiftSubnetGroupDescription struct {
+	ClusterSubnetGroup redshift.ClusterSubnetGroup
 }
 
 //  ===================  SNS  ===================
@@ -3124,4 +3144,27 @@ type SecurityLakeDataLakeDescription struct {
 //getfilter:subscriber_id=description.Subscriber.SubscriberId
 type SecurityLakeSubscriberDescription struct {
 	Subscriber securitylake.SubscriberResource
+}
+
+// ===================  Ram  ===================
+
+//index:aws_ram_principalassociation
+type RamPrincipalAssociationDescription struct {
+	PrincipalAssociation    ram.ResourceShareAssociation
+	ResourceSharePermission []ram.ResourceSharePermissionSummary
+}
+
+//index:aws_ram_resourceassociation
+type RamResourceAssociationDescription struct {
+	ResourceAssociation     ram.ResourceShareAssociation
+	ResourceSharePermission []ram.ResourceSharePermissionSummary
+}
+
+// ===================  Serverless Application Repository  ===================
+
+//index:aws_serverlessapplicationrepository_application
+//getfilter:arn=description.Application.ApplicationId
+type ServerlessApplicationRepositoryApplicationDescription struct {
+	Application serverlessapplicationrepositoryop.GetApplicationOutput
+	Statements  []serverlessapplicationrepository.ApplicationPolicyStatement
 }
