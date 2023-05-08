@@ -3389,6 +3389,26 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        "aws_route53_traffic_policy_instance",
 		TerraformServiceName: "route53",
 	},
+	"AWS::SageMaker::Model": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::SageMaker::Model",
+		ResourceLabel:        "",
+		ServiceName:          "SageMaker",
+		ListDescriber:        ParallelDescribeRegional(describer.SageMakerModel),
+		GetDescriber:         nil,
+		TerraformName:        "aws_sagemaker_model",
+		TerraformServiceName: "sagemaker",
+	},
+	"AWS::SageMaker::TrainingJob": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::SageMaker::TrainingJob",
+		ResourceLabel:        "",
+		ServiceName:          "SageMaker",
+		ListDescriber:        ParallelDescribeRegional(describer.SageMakerTrainingJob),
+		GetDescriber:         nil,
+		TerraformName:        "",
+		TerraformServiceName: "",
+	},
 }
 
 func ListResourceTypes() []string {

@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/sagemaker"
 	"github.com/aws/aws-sdk-go-v2/service/sagemaker/types"
@@ -222,5 +223,101 @@ func SageMakerNotebookInstance(ctx context.Context, cfg aws.Config, stream *Stre
 		}
 	}
 
+	return values, nil
+}
+
+func SageMakerModel(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := sagemaker.NewFromConfig(cfg)
+
+	var values []Resource
+	paginator := sagemaker.NewListModelsPaginator(client, &sagemaker.ListModelsInput{})
+	for paginator.HasMorePages() {
+		output, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, modelSummary := range output.Models {
+			sageModel, err := client.DescribeModel(ctx, &sagemaker.DescribeModelInput{
+				ModelName: modelSummary.ModelName,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			tags, err := client.ListTags(ctx, &sagemaker.ListTagsInput{
+				ResourceArn: sageModel.ModelArn,
+			})
+			if err != nil {
+				tags = &sagemaker.ListTagsOutput{}
+			}
+
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    *sageModel.ModelArn,
+				Name:   *sageModel.ModelName,
+				Description: model.SageMakerModelDescription{
+					Model: sageModel,
+					Tags:  tags.Tags,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func SageMakerTrainingJob(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := sagemaker.NewFromConfig(cfg)
+
+	var values []Resource
+	paginator := sagemaker.NewListTrainingJobsPaginator(client, &sagemaker.ListTrainingJobsInput{})
+	for paginator.HasMorePages() {
+		output, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, trainingJobSummary := range output.TrainingJobSummaries {
+			trainingJob, err := client.DescribeTrainingJob(ctx, &sagemaker.DescribeTrainingJobInput{
+				TrainingJobName: trainingJobSummary.TrainingJobName,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			tags, err := client.ListTags(ctx, &sagemaker.ListTagsInput{
+				ResourceArn: trainingJob.TrainingJobArn,
+			})
+			if err != nil {
+				tags = &sagemaker.ListTagsOutput{}
+			}
+
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    *trainingJob.TrainingJobArn,
+				Name:   *trainingJob.TrainingJobName,
+				Description: model.SageMakerTrainingJobDescription{
+					TrainingJob: trainingJob,
+					Tags:        tags.Tags,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
 	return values, nil
 }

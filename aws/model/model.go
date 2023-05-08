@@ -1708,6 +1708,24 @@ type SageMakerNotebookInstanceDescription struct {
 	Tags             []sagemaker.Tag
 }
 
+//index:aws_sagemaker_model
+//getfilter:name=description.Model.ModelName
+//listfilter:creation_time=description.Model.CreationTime
+type SageMakerModelDescription struct {
+	Model *sagemakerop.DescribeModelOutput
+	Tags  []sagemaker.Tag
+}
+
+//index:aws_sagemaker_trainingjob
+//getfilter:name=description.TrainingJob.Name
+//listfilter:creation_time=description.TrainingJob.CreationTime
+//listfilter:last_modified_time=description.TrainingJob.LastModifiedTime
+//listfilter:training_job_status=description.TrainingJob.TrainingJobStatus
+type SageMakerTrainingJobDescription struct {
+	TrainingJob *sagemakerop.DescribeTrainingJobOutput
+	Tags        []sagemaker.Tag
+}
+
 //  ===================  SecretsManager  ===================
 
 //index:aws_secretsmanager_secret
