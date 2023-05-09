@@ -2262,7 +2262,13 @@ type ECRRepositoryDescription struct {
 //listfilter:repository_name=description.Image.RepositoryName
 //listfilter:registry_id=description.Image.RegistryId
 type ECRImageDescription struct {
-	Image ecr.ImageDetail
+	Image                        ecr.ImageDetail
+	ImageDigest                  *string
+	ImageScanFinding             ecr.ImageScanFinding
+	ImageScanStatus              ecr.ImageScanStatus
+	ImageTag                     *string
+	ImageScanCompletedAt         *time.Time
+	VulnerabilitySourceUpdatedAt *time.Time
 }
 
 //index:aws_ecrpublic_repository

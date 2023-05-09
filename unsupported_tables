@@ -5,6 +5,12 @@ aws_auditmanager_evidence
 aws_auditmanager_framework
 aws_identitystore_group
 aws_identitystore_user
+aws_ssoadmin_instance
+aws_ssoadmin_managed_policy_attachment
+aws_ssoadmin_permission_set
+aws_iam_access_advisor
 aws_pricing_product
 aws_pricing_service_attribute
 aws_resource_explorer_search
+aws_iam_policy_simulator
+aws_ec2_ami_shared

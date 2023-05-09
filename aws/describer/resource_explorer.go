@@ -2,7 +2,6 @@ package describer
 
 import (
 	"context"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/resourceexplorer2"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
