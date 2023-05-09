@@ -4,8 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"strings"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ecr"
 	"github.com/aws/aws-sdk-go-v2/service/ecr/types"
@@ -13,6 +11,7 @@ import (
 	public_types "github.com/aws/aws-sdk-go-v2/service/ecrpublic/types"
 	"github.com/aws/smithy-go"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
+	"strings"
 )
 
 func ECRPublicRepository(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -310,12 +309,44 @@ func ECRImage(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 					return nil, err
 				}
 				for _, image := range page.ImageDetails {
+					desc := model.ECRImageDescription{
+						Image: image,
+					}
+
+					if len(image.ImageTags) > 0 {
+						findingsPaginator := ecr.NewDescribeImageScanFindingsPaginator(client, &ecr.DescribeImageScanFindingsInput{
+							RepositoryName: repository.RepositoryName,
+							ImageId: &types.ImageIdentifier{
+								ImageTag: &image.ImageTags[0],
+							},
+						})
+
+						// List call
+						for findingsPaginator.HasMorePages() {
+							output, err := findingsPaginator.NextPage(ctx)
+							if err != nil {
+								return nil, err
+							}
+
+							for _, finding := range output.ImageScanFindings.Findings {
+								desc.ImageDigest = output.ImageId.ImageDigest
+								desc.ImageScanFinding = finding
+								desc.ImageScanStatus = *output.ImageScanStatus
+								desc.ImageTag = output.ImageId.ImageTag
+								if output.ImageScanFindings.ImageScanCompletedAt != nil {
+									desc.ImageScanCompletedAt = output.ImageScanFindings.ImageScanCompletedAt
+								}
+								if output.ImageScanFindings.VulnerabilitySourceUpdatedAt != nil {
+									desc.VulnerabilitySourceUpdatedAt = output.ImageScanFindings.VulnerabilitySourceUpdatedAt
+								}
+							}
+						}
+					}
+
 					resource := Resource{
-						Region: describeCtx.KaytuRegion,
-						Name:   fmt.Sprintf("%s:%s", *repository.RepositoryName, *image.ImageDigest),
-						Description: model.ECRImageDescription{
-							Image: image,
-						},
+						Region:      describeCtx.KaytuRegion,
+						Name:        fmt.Sprintf("%s:%s", *repository.RepositoryName, *image.ImageDigest),
+						Description: desc,
 					}
 					if stream != nil {
 						if err := (*stream)(resource); err != nil {

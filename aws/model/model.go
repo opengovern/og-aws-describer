@@ -3,6 +3,10 @@
 package model
 
 import (
+	types2 "github.com/aws/aws-sdk-go-v2/service/resourcegroupstaggingapi/types"
+	"github.com/aws/aws-sdk-go-v2/service/sesv2/types"
+	waf2 "github.com/aws/aws-sdk-go-v2/service/waf"
+	types3 "github.com/aws/aws-sdk-go-v2/service/wellarchitected/types"
 	"time"
 
 	accessanalyzer "github.com/aws/aws-sdk-go-v2/service/accessanalyzer/types"
@@ -65,6 +69,7 @@ import (
 	emr "github.com/aws/aws-sdk-go-v2/service/emr/types"
 	eventbridgeop "github.com/aws/aws-sdk-go-v2/service/eventbridge"
 	eventbridge "github.com/aws/aws-sdk-go-v2/service/eventbridge/types"
+	firehose "github.com/aws/aws-sdk-go-v2/service/firehose/types"
 	fms "github.com/aws/aws-sdk-go-v2/service/fms/types"
 	fsx "github.com/aws/aws-sdk-go-v2/service/fsx/types"
 	glacier "github.com/aws/aws-sdk-go-v2/service/glacier/types"
@@ -80,43 +85,72 @@ import (
 	identitystore "github.com/aws/aws-sdk-go-v2/service/identitystore/types"
 	imagebuilder "github.com/aws/aws-sdk-go-v2/service/imagebuilder/types"
 	inspector "github.com/aws/aws-sdk-go-v2/service/inspector/types"
+	kafkaop "github.com/aws/aws-sdk-go-v2/service/kafka"
 	kafka "github.com/aws/aws-sdk-go-v2/service/kafka/types"
 	keyspaces "github.com/aws/aws-sdk-go-v2/service/keyspaces/types"
 	kinesis "github.com/aws/aws-sdk-go-v2/service/kinesis/types"
 	kinesisanalyticsv2 "github.com/aws/aws-sdk-go-v2/service/kinesisanalyticsv2/types"
+	kinesisvideo "github.com/aws/aws-sdk-go-v2/service/kinesisvideo/types"
 	kms "github.com/aws/aws-sdk-go-v2/service/kms/types"
-	"github.com/aws/aws-sdk-go-v2/service/lambda"
-	lambdatypes "github.com/aws/aws-sdk-go-v2/service/lambda/types"
+	lambdaop "github.com/aws/aws-sdk-go-v2/service/lambda"
+	lambda "github.com/aws/aws-sdk-go-v2/service/lambda/types"
+	lightsail "github.com/aws/aws-sdk-go-v2/service/lightsail/types"
+	macie2op "github.com/aws/aws-sdk-go-v2/service/macie2"
+	mediastoreop "github.com/aws/aws-sdk-go-v2/service/mediastore"
+	mediastore "github.com/aws/aws-sdk-go-v2/service/mediastore/types"
 	memorydb "github.com/aws/aws-sdk-go-v2/service/memorydb/types"
+	mgn "github.com/aws/aws-sdk-go-v2/service/mgn/types"
 	mq "github.com/aws/aws-sdk-go-v2/service/mq/types"
 	mwaa "github.com/aws/aws-sdk-go-v2/service/mwaa/types"
 	neptune "github.com/aws/aws-sdk-go-v2/service/neptune/types"
 	networkfirewall "github.com/aws/aws-sdk-go-v2/service/networkfirewall/types"
+	oamop "github.com/aws/aws-sdk-go-v2/service/oam"
+	oam "github.com/aws/aws-sdk-go-v2/service/oam/types"
 	opensearch "github.com/aws/aws-sdk-go-v2/service/opensearch/types"
 	opsworkscm "github.com/aws/aws-sdk-go-v2/service/opsworkscm/types"
 	organizations "github.com/aws/aws-sdk-go-v2/service/organizations/types"
+	pinpoint "github.com/aws/aws-sdk-go-v2/service/pinpoint/types"
+	pipesop "github.com/aws/aws-sdk-go-v2/service/pipes"
+	pipes "github.com/aws/aws-sdk-go-v2/service/pipes/types"
+	ram "github.com/aws/aws-sdk-go-v2/service/ram/types"
+	rds_sdkv2 "github.com/aws/aws-sdk-go-v2/service/rds"
 	rds "github.com/aws/aws-sdk-go-v2/service/rds/types"
-	"github.com/aws/aws-sdk-go-v2/service/redshift"
-	redshifttypes "github.com/aws/aws-sdk-go-v2/service/redshift/types"
+	redshiftop "github.com/aws/aws-sdk-go-v2/service/redshift"
+	redshift "github.com/aws/aws-sdk-go-v2/service/redshift/types"
 	redshiftserverlesstypes "github.com/aws/aws-sdk-go-v2/service/redshiftserverless/types"
+	resourceexplorer2 "github.com/aws/aws-sdk-go-v2/service/resourceexplorer2/types"
 	route53op "github.com/aws/aws-sdk-go-v2/service/route53"
 	route53 "github.com/aws/aws-sdk-go-v2/service/route53/types"
+	route53domainsop "github.com/aws/aws-sdk-go-v2/service/route53domains"
+	route53domains "github.com/aws/aws-sdk-go-v2/service/route53domains/types"
+	route53resolverop "github.com/aws/aws-sdk-go-v2/service/route53resolver"
+	route53resolver "github.com/aws/aws-sdk-go-v2/service/route53resolver/types"
 	s3 "github.com/aws/aws-sdk-go-v2/service/s3/types"
-	"github.com/aws/aws-sdk-go-v2/service/s3control"
-	s3controltypes "github.com/aws/aws-sdk-go-v2/service/s3control/types"
-	"github.com/aws/aws-sdk-go-v2/service/sagemaker"
-	sagemakertypes "github.com/aws/aws-sdk-go-v2/service/sagemaker/types"
+	s3controlop "github.com/aws/aws-sdk-go-v2/service/s3control"
+	s3control "github.com/aws/aws-sdk-go-v2/service/s3control/types"
+	sagemakerop "github.com/aws/aws-sdk-go-v2/service/sagemaker"
+	sagemaker "github.com/aws/aws-sdk-go-v2/service/sagemaker/types"
 	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
-	"github.com/aws/aws-sdk-go-v2/service/securityhub"
+	securityhubop "github.com/aws/aws-sdk-go-v2/service/securityhub"
+	securityhub "github.com/aws/aws-sdk-go-v2/service/securityhub/types"
+	securitylake "github.com/aws/aws-sdk-go-v2/service/securitylake/types"
+	serverlessapplicationrepositoryop "github.com/aws/aws-sdk-go-v2/service/serverlessapplicationrepository"
+	serverlessapplicationrepository "github.com/aws/aws-sdk-go-v2/service/serverlessapplicationrepository/types"
+	servicequotas "github.com/aws/aws-sdk-go-v2/service/servicequotas/types"
 	ses "github.com/aws/aws-sdk-go-v2/service/ses/types"
-	sesv2 "github.com/aws/aws-sdk-go-v2/service/sesv2/types"
+	sfnop "github.com/aws/aws-sdk-go-v2/service/sfn"
+	sfn "github.com/aws/aws-sdk-go-v2/service/sfn/types"
 	shield "github.com/aws/aws-sdk-go-v2/service/shield/types"
+	simspaceweaverop "github.com/aws/aws-sdk-go-v2/service/simspaceweaver"
+	simspaceweaver "github.com/aws/aws-sdk-go-v2/service/simspaceweaver/types"
 	sns "github.com/aws/aws-sdk-go-v2/service/sns/types"
+	ssm_sdkv2 "github.com/aws/aws-sdk-go-v2/service/ssm"
 	ssm "github.com/aws/aws-sdk-go-v2/service/ssm/types"
 	ssoadmin "github.com/aws/aws-sdk-go-v2/service/ssoadmin/types"
 	storagegateway "github.com/aws/aws-sdk-go-v2/service/storagegateway/types"
 	waf "github.com/aws/aws-sdk-go-v2/service/waf/types"
 	wafregional "github.com/aws/aws-sdk-go-v2/service/wafregional/types"
+	wafv2op "github.com/aws/aws-sdk-go-v2/service/wafv2"
 	wafv2 "github.com/aws/aws-sdk-go-v2/service/wafv2/types"
 	workspaces "github.com/aws/aws-sdk-go-v2/service/workspaces/types"
 )
@@ -515,6 +549,7 @@ type CloudWatchAlarmDescription struct {
 
 //index:aws_cloudwatch_logevent
 //listfilter:log_stream_name=description.LogEvent.LogStreamName
+//listfilter:log_group_name=description.LogGroupName
 //listfilter:timestamp=description.LogEvent.Timestamp
 type CloudWatchLogEventDescription struct {
 	LogEvent     cloudwatchlogs.FilteredLogEvent
@@ -716,6 +751,21 @@ type DynamoDBMetricAccountProvisionedWriteCapacityUtilizationDescription struct 
 	CloudWatchMetricRow
 }
 
+//  ===================   OAM   ===================
+
+//index:aws_oam_link
+//getfilter:arn=description.Link.Arn
+type OAMLinkDescription struct {
+	Link *oamop.GetLinkOutput
+}
+
+//index:aws_oam_sink
+//getfilter:arn=description.Sink.Arn
+type OAMSinkDescription struct {
+	Sink oam.ListSinksItem
+	Tags map[string]string
+}
+
 //  ===================   EC2   ===================
 
 //index:aws_ec2_volumesnapshot
@@ -732,6 +782,53 @@ type DynamoDBMetricAccountProvisionedWriteCapacityUtilizationDescription struct 
 type EC2VolumeSnapshotDescription struct {
 	Snapshot                *ec2.Snapshot
 	CreateVolumePermissions []ec2.CreateVolumePermission
+}
+
+//index:aws_ec2_customergateway
+//getfilter:customer_gateway_id=description.CustomerGateway.CustomerGatewayId
+//listfilter:ip_address=description.CustomerGateway.IpAddress
+//listfilter:bgp_asn=description.CustomerGateway.BgpAsn
+//listfilter:state=description.CustomerGateway.State
+//listfilter:type=description.CustomerGateway.Type
+type EC2CustomerGatewayDescription struct {
+	CustomerGateway ec2.CustomerGateway
+}
+
+//index:aws_ec2_verifiedaccessinstance
+//listfilter:verified_access_instance_id=description.VerifiedAccountInstance.VerifiedAccessInstanceId
+type EC2VerifiedAccessInstanceDescription struct {
+	VerifiedAccountInstance ec2.VerifiedAccessInstance
+}
+
+//index:aws_ec2_verifiedaccessendpoint
+//getfilter:verified_access_endpoint_id=description.VerifiedAccountEndpoint.VerifiedAccessEndpointId
+//listfilter:verified_access_group_id=description.VerifiedAccountEndpoint.VerifiedAccessGroupId
+//listfilter:verified_access_instance_id=description.VerifiedAccountEndpoint.VerifiedAccessInstanceId
+type EC2VerifiedAccessEndpointDescription struct {
+	VerifiedAccountEndpoint ec2.VerifiedAccessEndpoint
+}
+
+//index:aws_ec2_verifiedaccessgroup
+//getfilter:verified_access_group_id=description.VerifiedAccountEndpoint.VerifiedAccessGroupId
+//listfilter:verified_access_instance_id=description.VerifiedAccountGroup.VerifiedAccessInstanceId
+type EC2VerifiedAccessGroupDescription struct {
+	VerifiedAccountGroup ec2.VerifiedAccessGroup
+}
+
+//index:aws_ec2_verifiedaccesstrustprovider
+//listfilter:verified_access_trust_provider_id=description.VerifiedAccessTrustProvider.VerifiedAccessTrustProviderId
+type EC2VerifiedAccessTrustProviderDescription struct {
+	VerifiedAccessTrustProvider ec2.VerifiedAccessTrustProvider
+}
+
+//index:aws_ec2_vpngateway
+//getfilter:vpn_gateway_id=description.VPNGateway.VpnGatewayId
+//listfilter:amazon_side_asn=description.VPNGateway.AmazonSideAsn
+//listfilter:availability_zone=description.VPNGateway.AvailabilityZone
+//listfilter:state=description.VPNGateway.State
+//listfilter:type=description.VPNGateway.Type
+type EC2VPNGatewayDescription struct {
+	VPNGateway ec2.VpnGateway
 }
 
 //index:aws_ec2_volume
@@ -1425,6 +1522,45 @@ type RDSDBClusterDescription struct {
 	DBCluster rds.DBCluster
 }
 
+//index:aws_rds_dbclusterparametergroup
+//getfilter:name=description.DBClusterParameterGroup.DBClusterParameterGroupName
+type RDSDBClusterParameterGroupDescription struct {
+	DBClusterParameterGroup rds.DBClusterParameterGroup
+	Parameters              []rds.Parameter
+	Tags                    []rds.Tag
+}
+
+//index:aws_rds_optiongroup
+//getfilter:name=description.OptionGroup.OptionGroupName
+//listfilter:engine_name=description.OptionGroup.EngineName
+//listfilter:major_engine_version=description.OptionGroup.MajorEngineVersion
+type RDSOptionGroupDescription struct {
+	OptionGroup rds.OptionGroup
+	Tags        *rds_sdkv2.ListTagsForResourceOutput
+}
+
+//index:aws_rds_dbparametergroup
+//getfilter:name=description.DBParameterGroup.DBParameterGroupName
+type RDSDBParameterGroupDescription struct {
+	DBParameterGroup rds.DBParameterGroup
+	Parameters       []rds.Parameter
+	Tags             []rds.Tag
+}
+
+//index:aws_rds_dbproxy
+//getfilter:db_proxy_name=description.DBProxy.DBProxyName
+type RDSDBProxyDescription struct {
+	DBProxy rds.DBProxy
+	Tags    *rds_sdkv2.ListTagsForResourceOutput
+}
+
+//index:aws_rds_dbsubnetgroup
+//getfilter:name=description.DBSubnetGroup.DBSubnetGroupName
+type RDSDBSubnetGroupDescription struct {
+	DBSubnetGroup rds.DBSubnetGroup
+	Tags          *rds_sdkv2.ListTagsForResourceOutput
+}
+
 //index:aws_rds_dbclustersnapshot
 //getfilter:db_cluster_snapshot_identifier=description.DBClusterSnapshot.DBClusterIdentifier
 //listfilter:db_cluster_identifier=description.DBClusterSnapshot.DBClusterIdentifier
@@ -1462,27 +1598,52 @@ type RDSGlobalClusterDescription struct {
 	Tags          []rds.Tag
 }
 
+//index:aws_rds_reserveddbinstance
+//getfilter:reserved_db_instance_id=description.ReservedDBInstance.ReservedDBInstanceId
+//listfilter:class=description.ReservedDBInstance.DBInstanceClass
+//listfilter:duration=description.ReservedDBInstance.Duration
+//listfilter:lease_id=description.ReservedDBInstance.LeaseId
+//listfilter:multi_az=description.ReservedDBInstance.MultiAZ
+//listfilter:offering_type=description.ReservedDBInstance.OfferingType
+//listfilter:reserved_db_instances_offering_id=description.ReservedDBInstance.ReservedDBInstancesOfferingId
+type RDSReservedDBInstanceDescription struct {
+	ReservedDBInstance rds.ReservedDBInstance
+}
+
 //  ===================  Redshift  ===================
 
 //index:aws_redshift_cluster
 //getfilter:cluster_identifier=description.Cluster
 type RedshiftClusterDescription struct {
-	Cluster          redshifttypes.Cluster
-	LoggingStatus    *redshift.DescribeLoggingStatusOutput
-	ScheduledActions []redshifttypes.ScheduledAction
+	Cluster          redshift.Cluster
+	LoggingStatus    *redshiftop.DescribeLoggingStatusOutput
+	ScheduledActions []redshift.ScheduledAction
+}
+
+//index:aws_redshift_eventsubscription
+//getfilter:cust_subscription_id=description.EventSubscription.CustSubscriptionId
+type RedshiftEventSubscriptionDescription struct {
+	EventSubscription redshift.EventSubscription
+}
+
+//index:aws_redshiftserverless_workgroup
+//getfilter:workgroup_name=description.Workgroup.WorkgroupName
+type RedshiftServerlessWorkgroupDescription struct {
+	Workgroup redshiftserverlesstypes.Workgroup
+	Tags      []redshiftserverlesstypes.Tag
 }
 
 //index:aws_redshift_clusterparametergroup
 //getfilter:name=description.ClusterParameterGroup.ParameterGroupName
 type RedshiftClusterParameterGroupDescription struct {
-	ClusterParameterGroup redshifttypes.ClusterParameterGroup
-	Parameters            []redshifttypes.Parameter
+	ClusterParameterGroup redshift.ClusterParameterGroup
+	Parameters            []redshift.Parameter
 }
 
 //index:aws_redshift_snapshot
 //getfilter:snapshot_identifier=description.Snapshot.SnapshotIdentifier
 type RedshiftSnapshotDescription struct {
-	Snapshot redshifttypes.Snapshot
+	Snapshot redshift.Snapshot
 }
 
 //index:aws_redshiftserverless_namespace
@@ -1497,6 +1658,12 @@ type RedshiftServerlessNamespaceDescription struct {
 type RedshiftServerlessSnapshotDescription struct {
 	Snapshot redshiftserverlesstypes.Snapshot
 	Tags     []redshiftserverlesstypes.Tag
+}
+
+//index:aws_redshift_subnetgroup
+//getfilter:cluster_subnet_group_name=description.ClusterSubnetGroup.ClusterSubnetGroupName
+type RedshiftSubnetGroupDescription struct {
+	ClusterSubnetGroup redshift.ClusterSubnetGroup
 }
 
 //  ===================  SNS  ===================
@@ -1551,7 +1718,7 @@ type S3BucketDescription struct {
 
 //index:aws_s3_accountsettingdescription
 type S3AccountSettingDescription struct {
-	PublicAccessBlockConfiguration s3controltypes.PublicAccessBlockConfiguration
+	PublicAccessBlockConfiguration s3control.PublicAccessBlockConfiguration
 }
 
 //  ===================  SageMaker  ===================
@@ -1559,15 +1726,53 @@ type S3AccountSettingDescription struct {
 //index:aws_sagemaker_endpointconfiguration
 //getfilter:name=description.EndpointConfig.EndpointConfigName
 type SageMakerEndpointConfigurationDescription struct {
-	EndpointConfig *sagemaker.DescribeEndpointConfigOutput
-	Tags           []sagemakertypes.Tag
+	EndpointConfig *sagemakerop.DescribeEndpointConfigOutput
+	Tags           []sagemaker.Tag
+}
+
+//index:aws_sagemaker_app
+//getfilter:name=description.DescribeAppOutput.AppName
+//getfilter:app_type=description.DescribeAppOutput.AppType
+//getfilter:domain_id=description.DescribeAppOutput.DomainId
+//getfilter:user_profile_name=description.DescribeAppOutput.UserProfileName
+//listfilter:domain_id=description.DescribeAppOutput.DomainId
+//listfilter:user_profile_name=description.DescribeAppOutput.UserProfileName
+type SageMakerAppDescription struct {
+	AppDetails        sagemaker.AppDetails
+	DescribeAppOutput *sagemakerop.DescribeAppOutput
+}
+
+//index:aws_sagemaker_domain
+//getfilter:id=description.Domain.DomainId
+type SageMakerDomainDescription struct {
+	Domain     *sagemakerop.DescribeDomainOutput
+	DomainItem sagemaker.DomainDetails
+	Tags       []sagemaker.Tag
 }
 
 //index:aws_sagemaker_notebookinstance
 //getfilter:name=description.NotebookInstance.NotebookInstanceName
 type SageMakerNotebookInstanceDescription struct {
-	NotebookInstance *sagemaker.DescribeNotebookInstanceOutput
-	Tags             []sagemakertypes.Tag
+	NotebookInstance *sagemakerop.DescribeNotebookInstanceOutput
+	Tags             []sagemaker.Tag
+}
+
+//index:aws_sagemaker_model
+//getfilter:name=description.Model.ModelName
+//listfilter:creation_time=description.Model.CreationTime
+type SageMakerModelDescription struct {
+	Model *sagemakerop.DescribeModelOutput
+	Tags  []sagemaker.Tag
+}
+
+//index:aws_sagemaker_trainingjob
+//getfilter:name=description.TrainingJob.Name
+//listfilter:creation_time=description.TrainingJob.CreationTime
+//listfilter:last_modified_time=description.TrainingJob.LastModifiedTime
+//listfilter:training_job_status=description.TrainingJob.TrainingJobStatus
+type SageMakerTrainingJobDescription struct {
+	TrainingJob *sagemakerop.DescribeTrainingJobOutput
+	Tags        []sagemaker.Tag
 }
 
 //  ===================  SecretsManager  ===================
@@ -1584,8 +1789,66 @@ type SecretsManagerSecretDescription struct {
 //index:aws_securityhub_hub
 //getfilter:hub_arn=description.Hub.HubArn
 type SecurityHubHubDescription struct {
-	Hub  *securityhub.DescribeHubOutput
+	Hub  *securityhubop.DescribeHubOutput
 	Tags map[string]string
+}
+
+//index:aws_securityhub_actiontarget
+//getfilter:arn=description.ActionTarget.ActionTargetArn
+type SecurityHubActionTargetDescription struct {
+	ActionTarget securityhub.ActionTarget
+}
+
+//index:aws_securityhub_finding
+//getfilter:id=description.Finding.Id
+//listfilter:company_name=description.Finding.CompanyName
+//listfilter:compliance_status=description.Finding.Compliance.Status
+//listfilter:confidence=description.Finding.Confidence
+//listfilter:criticality=description.Finding.Criticality
+//listfilter:generator_id=description.Finding.GeneratorId
+//listfilter:product_arn=description.Finding.ProductArn
+//listfilter:product_name=description.Finding.ProductName
+//listfilter:record_state=description.Finding.RecordState
+//listfilter:title=description.Finding.Title
+//listfilter:verification_state=description.Finding.VerificationState
+//listfilter:workflow_state=description.Finding.WorkflowState
+//listfilter:workflow_status=description.Finding.Workflow.Status
+type SecurityHubFindingDescription struct {
+	Finding securityhub.AwsSecurityFinding
+}
+
+//index:aws_securityhub_findingaggregator
+//getfilter:arn=description.FindingAggregator.FindingAggregatorArn
+type SecurityHubFindingAggregatorDescription struct {
+	FindingAggregator securityhubop.GetFindingAggregatorOutput
+}
+
+//index:aws_securityhub_insight
+//getfilter:arn=description.Insight.InsightArn
+type SecurityHubInsightDescription struct {
+	Insight securityhub.Insight
+}
+
+//index:aws_securityhub_member
+type SecurityHubMemberDescription struct {
+	Member securityhub.Member
+}
+
+//index:aws_securityhub_product
+//getfilter:product_arn=description.Product.ProductArn
+type SecurityHubProductDescription struct {
+	Product securityhub.Product
+}
+
+//index:aws_securityhub_standardscontrol
+type SecurityHubStandardsControlDescription struct {
+	StandardsControl securityhub.StandardsControl
+}
+
+//index:aws_securityhub_standardssubscription
+type SecurityHubStandardsSubscriptionDescription struct {
+	Standard              securityhub.Standard
+	StandardsSubscription securityhub.StandardsSubscription
 }
 
 //  ===================  SSM  ===================
@@ -1593,6 +1856,75 @@ type SecurityHubHubDescription struct {
 //index:aws_ssm_managedinstance
 type SSMManagedInstanceDescription struct {
 	InstanceInformation ssm.InstanceInformation
+}
+
+//index:aws_ssm_association
+//getfilter:association_id=description.AssociationItem.AssociationId
+//listfilter:association_name=description.AssociationItem.AssociationName
+//listfilter:instance_id=description.AssociationItem.InstanceId
+//listfilter:status=description.Association.AssociationDescription.Status
+//listfilter:last_execution_date=description.Association.AssociationDescription.LastExecutionDate
+type SSMAssociationDescription struct {
+	AssociationItem ssm.Association
+	Association     *ssm_sdkv2.DescribeAssociationOutput
+}
+
+//index:aws_ssm_document
+//getfilter:name=description.DocumentIdentifier.Name
+//listfilter:document_type=description.DocumentIdentifier.DocumentType
+//listfilter:owner_type=description.DocumentIdentifier.Owner
+type SSMDocumentDescription struct {
+	DocumentIdentifier ssm.DocumentIdentifier
+	Document           *ssm_sdkv2.DescribeDocumentOutput
+	Permissions        *ssm_sdkv2.DescribeDocumentPermissionOutput
+}
+
+//index:aws_ssm_inventory
+//listfilter:id=description.Id
+//listfilter:type_name=description.TypeName
+type SSMInventoryDescription struct {
+	CaptureTime   *string
+	Content       interface{}
+	Id            *string
+	SchemaVersion *string
+	TypeName      *string
+	Schemas       []ssm.InventoryItemSchema
+}
+
+//index:aws_ssm_maintenancewindow
+//getfilter:window_id=description.MaintenanceWindowIdentity.WindowId
+//listfilter:name=description.MaintenanceWindowIdentity.Name
+//listfilter:enabled=description.MaintenanceWindowIdentity.Enabled
+type SSMMaintenanceWindowDescription struct {
+	MaintenanceWindowIdentity ssm.MaintenanceWindowIdentity
+	MaintenanceWindow         *ssm_sdkv2.GetMaintenanceWindowOutput
+	Tags                      []ssm.Tag
+	Targets                   []ssm.MaintenanceWindowTarget
+	Tasks                     []ssm.MaintenanceWindowTask
+	ARN                       string
+}
+
+//index:aws_ssm_parameter
+//getfilter:name=description.ParameterMetadata.Name
+//listfilter:type=description.ParameterMetadata.Type
+//listfilter:key_id=description.ParameterMetadata.KeyId
+//listfilter:tier=description.ParameterMetadata.Tier
+//listfilter:data_type=description.ParameterMetadata.DataType
+type SSMParameterDescription struct {
+	ParameterMetadata ssm.ParameterMetadata
+	Parameter         *ssm.Parameter
+	Tags              []ssm.Tag
+}
+
+//index:aws_ssm_patchbaseline
+//getfilter:baseline_id=description.ParameterMetadata.Name
+//listfilter:name=description.ParameterMetadata.Type
+//listfilter:operating_system=description.ParameterMetadata.KeyId
+type SSMPatchBaselineDescription struct {
+	ARN                   string
+	PatchBaselineIdentity ssm.PatchBaselineIdentity
+	PatchBaseline         *ssm_sdkv2.GetPatchBaselineOutput
+	Tags                  []ssm.Tag
 }
 
 //index:aws_ssm_managedinstancecompliance
@@ -1730,6 +2062,38 @@ type WAFv2WebACLDescription struct {
 	LockToken            *string
 }
 
+//index:aws_wafv2_ipset
+//getfilter:id=description.IPSetSummary.Id
+//getfilter:name=description.IPSetSummary.Name
+//getfilter:scope=description.IPSetSummary.Scope
+type WAFv2IPSetDescription struct {
+	IPSetSummary wafv2.IPSetSummary
+	Scope        wafv2.Scope
+	IPSet        *wafv2.IPSet
+	Tags         []wafv2.Tag
+}
+
+//index:aws_wafv2_regexpatternset
+//getfilter:id=description.IPSetSummary.Id
+//getfilter:name=description.IPSetSummary.Name
+//getfilter:scope=description.IPSetSummary.Scope
+type WAFv2RegexPatternSetDescription struct {
+	Scope                  wafv2.Scope
+	RegexPatternSetSummary wafv2.RegexPatternSetSummary
+	RegexPatternSet        *wafv2.RegexPatternSet
+	Tags                   *wafv2op.ListTagsForResourceOutput
+}
+
+//index:aws_wafv2_rulegroup
+//getfilter:id=description.RuleGroup.Id
+//getfilter:name=description.RuleGroup.Name
+//getfilter:scope=description.Tags
+type WAFv2RuleGroupDescription struct {
+	RuleGroup        *wafv2.RuleGroup
+	RuleGroupSummary wafv2.RuleGroupSummary
+	Tags             *wafv2op.ListTagsForResourceOutput
+}
+
 //  ===================  KMS  ===================
 
 //index:aws_kms_key
@@ -1742,29 +2106,64 @@ type KMSKeyDescription struct {
 	Tags               []kms.Tag
 }
 
+//index:aws_kms_alias
+type KMSAliasDescription struct {
+	Alias kms.AliasListEntry
+}
+
 //  ===================  Lambda  ===================
 
 //index:aws_lambda_function
 //getfilter:name=description.Function.Configuration.FunctionName
 type LambdaFunctionDescription struct {
-	Function *lambda.GetFunctionOutput
-	Policy   *lambda.GetPolicyOutput
+	Function *lambdaop.GetFunctionOutput
+	Policy   *lambdaop.GetPolicyOutput
 }
 
-//index:aws_lambda_function_version
-//getfilter:id=description.ID
+//index:aws_lambda_functionversion
+//getfilter:version=description.FunctionVersion.Version
+//getfilter:function_name=description.FunctionVersion.FunctionName
+//listfilter:function_name=description.FunctionVersion.FunctionName
 type LambdaFunctionVersionDescription struct {
-	ID              string
-	FunctionVersion lambdatypes.FunctionConfiguration
+	FunctionVersion lambda.FunctionConfiguration
+	Policy          *lambdaop.GetPolicyOutput
+}
+
+//index:aws_lambda_alias
+//getfilter:name=description.Alias.Name
+//getfilter:function_name=description.FunctionName
+//getfilter:region=description.Alias.AliasName
+//listfilter:function_version=description.Alias.FunctionVersion
+//listfilter:function_name=description.FunctionName
+type LambdaAliasDescription struct {
+	FunctionName string
+	Alias        lambda.AliasConfiguration
+	Policy       *lambdaop.GetPolicyOutput
+	UrlConfig    lambdaop.GetFunctionUrlConfigOutput
+}
+
+//index:aws_lambda_layer
+type LambdaLayerDescription struct {
+	Layer lambda.LayersListItem
+}
+
+//index:aws_lambda_layerversion
+//getfilter:layer_name=description.LayerName
+//getfilter:version=description.LayerVersion.Version
+//listfilter:layer_name=description.LayerName
+type LambdaLayerVersionDescription struct {
+	LayerName    string
+	LayerVersion lambdaop.GetLayerVersionOutput
+	Policy       lambdaop.GetLayerVersionPolicyOutput
 }
 
 //index:aws_s3_accesspoint
 //getfilter:name=description.AccessPoint.Name
 //getfilter:region=metadata.region
 type S3AccessPointDescription struct {
-	AccessPoint  *s3control.GetAccessPointOutput
+	AccessPoint  *s3controlop.GetAccessPointOutput
 	Policy       *string
-	PolicyStatus *s3controltypes.PolicyStatus
+	PolicyStatus *s3control.PolicyStatus
 }
 
 type CostExplorerRow struct {
@@ -1863,7 +2262,13 @@ type ECRRepositoryDescription struct {
 //listfilter:repository_name=description.Image.RepositoryName
 //listfilter:registry_id=description.Image.RegistryId
 type ECRImageDescription struct {
-	Image ecr.ImageDetail
+	Image                        ecr.ImageDetail
+	ImageDigest                  *string
+	ImageScanFinding             ecr.ImageScanFinding
+	ImageScanStatus              ecr.ImageScanStatus
+	ImageTag                     *string
+	ImageScanCompletedAt         *time.Time
+	VulnerabilitySourceUpdatedAt *time.Time
 }
 
 //index:aws_ecrpublic_repository
@@ -1932,6 +2337,20 @@ type KinesisStreamDescription struct {
 	Stream             kinesis.StreamDescription
 	DescriptionSummary kinesis.StreamDescriptionSummary
 	Tags               []kinesis.Tag
+}
+
+//index:aws_kinesisvideo_stream
+//getfilter:stream_name=description.Stream.StreamName
+type KinesisVideoStreamDescription struct {
+	Stream kinesisvideo.StreamInfo
+	Tags   map[string]string
+}
+
+//index:aws_kinesis_consumer
+//getfilter:consumer_arn=description.Consumer.ConsumerARN
+type KinesisConsumerDescription struct {
+	StreamARN string
+	Consumer  kinesis.Consumer
 }
 
 //index:aws_kinesisanalyticsv2_application
@@ -2005,7 +2424,9 @@ type AMPWorkspaceDescription struct {
 //index:aws_kafka_cluster
 //getfilter:cluster_name=description.Cluster.ClusterName
 type KafkaClusterDescription struct {
-	Cluster kafka.Cluster
+	Cluster              kafka.Cluster
+	Configuration        *kafkaop.DescribeConfigurationOutput
+	ClusterOperationInfo *kafka.ClusterOperationInfo
 }
 
 //  ===================  MWAA (Managed Workflows for Apache Airflow) ===================
@@ -2043,6 +2464,13 @@ type NeptuneDatabaseDescription struct {
 	Tags     []neptune.Tag
 }
 
+//index:aws_neptune_databasecluster
+//getfilter:db_instance_identifier=description.Database.DBInstanceIdentifier
+type NeptuneDatabaseClusterDescription struct {
+	Cluster neptune.DBCluster
+	Tags    []neptune.Tag
+}
+
 //  ===================  OpenSearch  ===================
 
 //index:aws_opensearch_domain
@@ -2062,9 +2490,13 @@ type SESConfigurationSetDescription struct {
 
 //index:aws_ses_identity
 //getfilter:identity_name=description.Identity.IdentityName
+//listfilter:identity_type=description.Identity.IdentityType
 type SESIdentityDescription struct {
-	Identity sesv2.IdentityInfo
-	Tags     []sesv2.Tag
+	Identity               string
+	VerificationAttributes ses.IdentityVerificationAttributes
+	NotificationAttributes ses.IdentityNotificationAttributes
+	Tags                   []types.Tag
+	ARN                    string
 }
 
 //  ===================  CloudFormation  ===================
@@ -2118,6 +2550,14 @@ type SSOAdminInstanceDescription struct {
 	Instance ssoadmin.InstanceMetadata
 }
 
+//  ===================  Tagging  ===================
+
+//index:aws_tagging_resources
+//getfilter:arn=description.
+type TaggingResourcesDescription struct {
+	TagMapping types2.ResourceTagMapping
+}
+
 //  ===================  WAF  ===================
 
 //index:aws_waf_rule
@@ -2134,6 +2574,42 @@ type WAFRegionalRuleDescription struct {
 	Tags []wafregional.Tag
 }
 
+//index:aws_waf_ratebasedrule
+//getfilter:rule_id=description.Rule.RuleId
+type WAFRateBasedRuleDescription struct {
+	ARN         string
+	RuleSummary waf.RuleSummary
+	Rule        *waf.RateBasedRule
+	Tags        *waf.TagInfoForResource
+}
+
+//index:aws_waf_rulegroup
+//getfilter:rule_group_id=description.Rule.RuleId
+type WAFRuleGroupDescription struct {
+	ARN              string
+	RuleGroupSummary waf.RuleGroupSummary
+	RuleGroup        *waf2.GetRuleGroupOutput
+	ActivatedRules   *waf2.ListActivatedRulesInRuleGroupOutput
+	Tags             []waf.Tag
+}
+
+//index:aws_waf_webacl
+//getfilter:web_acl_id=description.WebACL.WebACLId
+type WAFWebAclDescription struct {
+	WebACLSummary        waf.WebACLSummary
+	WebACL               *waf.WebACL
+	LoggingConfiguration *waf.LoggingConfiguration
+	Tags                 *waf.TagInfoForResource
+}
+
+//index:aws_wellarchitected_workload
+//getfilter:workload_id=description.Workload.WorkloadId
+//listfilter:workload_name=description.Workload.WorkloadName
+type WellArchitectedWorkloadDescription struct {
+	WorkloadSummary types3.WorkloadSummary
+	Workload        *types3.Workload
+}
+
 //  ===================  Route53  ===================
 
 //index:aws_route53_hostedzone
@@ -2144,6 +2620,72 @@ type Route53HostedZoneDescription struct {
 	QueryLoggingConfigs []route53.QueryLoggingConfig
 	DNSSec              route53op.GetDNSSECOutput
 	Tags                []route53.Tag
+}
+
+//index:aws_route53_healthcheck
+//getfilter:id=description.HealthCheck.Id
+type Route53HealthCheckDescription struct {
+	HealthCheck route53.HealthCheck
+	Status      *route53op.GetHealthCheckStatusOutput
+	Tags        *route53op.ListTagsForResourceOutput
+}
+
+//index:aws_route53resolver_resolverrule
+//getfilter:id=description.ResolverRole.Id
+//listfilter:creator_request_id=description.ResolverRole.CreatorRequestId
+//listfilter:domain_name=description.ResolverRole.DomainName
+//listfilter:name=description.ResolverRole.Name
+//listfilter:resolver_endpoint_id=description.ResolverRole.ResolverEndpointId
+//listfilter:status=description.ResolverRole.Status
+type Route53ResolverResolverRuleDescription struct {
+	ResolverRole     route53resolver.ResolverRule
+	Tags             []route53resolver.Tag
+	RuleAssociations *route53resolverop.ListResolverRuleAssociationsOutput
+}
+
+//index:aws_route53resolver_resolverendpoint
+//getfilter:id=description.ResolverEndpoint.Id
+//listfilter:creator_request_id=description.ResolverEndpoint.CreatorRequestId
+//listfilter:direction=description.ResolverEndpoint.Direction
+//listfilter:host_vpc_id=description.ResolverEndpoint.HostVPCId
+//listfilter:ip_address_count=description.ResolverEndpoint.IpAddressCount
+//listfilter:status=description.ResolverEndpoint.Status
+//listfilter:name=description.ResolverEndpoint.Name
+type Route53ResolverEndpointDescription struct {
+	ResolverEndpoint route53resolver.ResolverEndpoint
+	IpAddresses      []route53resolver.IpAddressResponse
+	Tags             []route53resolver.Tag
+}
+
+//index:aws_route53domains_domain
+//getfilter:domain_name=description.Domain.DomainName
+type Route53DomainDescription struct {
+	DomainSummary route53domains.DomainSummary
+	Domain        route53domainsop.GetDomainDetailOutput
+	Tags          []route53domains.Tag
+}
+
+//index:aws_route53_record
+//listfilter:zone_id=description.ZoneId
+//listfilter:name=description.Record.Name
+//listfilter:set_identifier=description.Record.SetIdentifier
+//listfilter:type=description.Record.Type
+type Route53RecordDescription struct {
+	ZoneID string
+	Record route53.ResourceRecordSet
+}
+
+//index:aws_route53_trafficpolicy
+//getfilter:id=description.TrafficPolicy.Id
+//getfilter:version=description.TrafficPolicy.Version
+type Route53TrafficPolicyDescription struct {
+	TrafficPolicy route53.TrafficPolicy
+}
+
+//index:aws_route53_trafficpolicyinstance
+//getfilter:id=description.TrafficPolicyInstance.Id
+type Route53TrafficPolicyInstanceDescription struct {
+	TrafficPolicyInstance route53.TrafficPolicyInstance
 }
 
 //  ===================  Batch  ===================
@@ -2264,6 +2806,22 @@ type NetworkFirewallFirewallDescription struct {
 	Firewall networkfirewall.Firewall
 }
 
+//index:aws_networkfirewall_firewallpolicy
+//getfilter:arn=description.FirewallPolicyResponse.FirewallPolicyArn
+//getfilter:name=description.FirewallPolicyResponse.FirewallPolicyName
+type NetworkFirewallFirewallPolicyDescription struct {
+	FirewallPolicy         *networkfirewall.FirewallPolicy
+	FirewallPolicyResponse *networkfirewall.FirewallPolicyResponse
+}
+
+//index:aws_networkfirewall_rulegroup
+//getfilter:arn=description.RuleGroupResponse.RuleGroupArn
+//getfilter:rule_group_name=description.RuleGroupResponse.RuleGroupName
+type NetworkFirewallRuleGroupDescription struct {
+	RuleGroup         *networkfirewall.RuleGroup
+	RuleGroupResponse *networkfirewall.RuleGroupResponse
+}
+
 //  ===================  OpsWork ===================
 
 //index:aws_opsworkscm_server
@@ -2279,6 +2837,82 @@ type OpsWorksCMServerDescription struct {
 //getfilter:id=description.Organization.Id
 type OrganizationsOrganizationDescription struct {
 	Organization organizations.Organization
+}
+
+//index:aws_organizations_account
+//getfilter:id=description.Account.Id
+type OrganizationsAccountDescription struct {
+	Tags    []organizations.Tag
+	Account organizations.Account
+}
+
+// ===================  Pinpoint ===================
+
+//index:aws_pinpoint_app
+//getfilter:id=description.App.Id
+type PinPointAppDescription struct {
+	App      pinpoint.ApplicationResponse
+	Settings *pinpoint.ApplicationSettingsResource
+}
+
+// ===================  Pipes ===================
+
+//index:aws_pipes_pipe
+//getfilter:name=description.PipeOutput.Name
+//listfilter:current_state=description.PipeOutput.CurrentState
+//listfilter:desired_state=description.PipeOutput.DesiredState
+type PipesPipeDescription struct {
+	PipeOutput *pipesop.DescribePipeOutput
+	Pipe       pipes.Pipe
+}
+
+// ===================  ResourceExplorer2 ===================
+
+//index:aws_resourceexplorer2_index
+//listfilter:type=description.Index.Type
+//listfilter:region=description.Index.Region
+type ResourceExplorer2IndexDescription struct {
+	Index resourceexplorer2.Index
+}
+
+//index:aws_resourceexplorer2_supportedresourcetype
+type ResourceExplorer2SupportedResourceTypeDescription struct {
+	SupportedResourceType resourceexplorer2.SupportedResourceType
+}
+
+// ===================  StepFunctions ===================
+
+//index:aws_stepfunctions_statemachine
+//getfilter:arn=description.StateMachineItem.StateMachineArn
+type StepFunctionsStateMachineDescription struct {
+	StateMachineItem sfn.StateMachineListItem
+	StateMachine     *sfnop.DescribeStateMachineOutput
+	Tags             []sfn.Tag
+}
+
+//index:aws_stepfunctions_statemachineexecutionhistories
+type StepFunctionsStateMachineExecutionHistoriesDescription struct {
+	ExecutionHistory sfn.HistoryEvent
+	ARN              string
+}
+
+//index:aws_stepfunctions_statemachineexecution
+//getfilter:execution_arn=description.ExecutionItem.ExecutionArn
+//listfilter:status=description.ExecutionItem.Status
+//listfilter:state_machine_arn=description.ExecutionItem.StateMachineArn
+type StepFunctionsStateMachineExecutionDescription struct {
+	ExecutionItem sfn.ExecutionListItem
+	Execution     *sfnop.DescribeExecutionOutput
+}
+
+// ===================  SimSpaceWeaver ===================
+
+//index:aws_simspaceweaversimulation
+//getfilter:name=description.Simulation.Name
+type SimSpaceWeaverSimulationDescription struct {
+	Simulation     simspaceweaver.SimulationMetadata
+	SimulationItem *simspaceweaverop.DescribeSimulationOutput
+	Tags           map[string]string
 }
 
 //  ===================  ACM ===================
@@ -2588,4 +3222,117 @@ type InspectorExclusionDescription struct {
 type InspectorFindingDescription struct {
 	Finding     inspector.Finding
 	FailedItems map[string]inspector.FailedItemDetails
+}
+
+// ===================  Firehose  ===================
+
+//index:aws_firehose_deliverystream
+//getfilter:delivery_stream_name=description.DeliveryStream.DeliveryStreamName
+//listfilter:delivery_stream_type=description.DeliveryStream.DeliveryStreamType
+type FirehoseDeliveryStreamDescription struct {
+	DeliveryStream firehose.DeliveryStreamDescription
+	Tags           []firehose.Tag
+}
+
+// ===================  Lightsail ===================
+
+//index:aws_lightsail_instance
+//getfilter:name=description.Instance.
+type LightsailInstanceDescription struct {
+	Instance lightsail.Instance
+}
+
+// ===================  Macie2 ===================
+
+//index:aws_macie2_classificationjob
+//getfilter:job_id=description.ClassificationJob.JobId
+//listfilter:name=description.ClassificationJob.Name
+//listfilter:job_status=description.ClassificationJob.JobStatus
+//listfilter:job_type=description.ClassificationJob.JobType
+type Macie2ClassificationJobDescription struct {
+	ClassificationJob macie2op.DescribeClassificationJobOutput
+}
+
+// ===================  MediaStore ===================
+
+//index:aws_mediastore_container
+//getfilter:name=description.Container.Name
+type MediaStoreContainerDescription struct {
+	Container mediastore.Container
+	Policy    *mediastoreop.GetContainerPolicyOutput
+	Tags      []mediastore.Tag
+}
+
+// ===================  MGN ===================
+
+//index:aws_mgn_application
+//listfilter:application_id=description.Application.ApplicationID
+//listfilter:wave_id=description.Application.WaveID
+//listfilter:is_archived=description.Application.IsArchived
+type MgnApplicationDescription struct {
+	Application mgn.Application
+}
+
+// ===================  SecurityLake ===================
+
+//index:aws_securitylake_datalake
+type SecurityLakeDataLakeDescription struct {
+	DataLake securitylake.LakeConfigurationResponse
+}
+
+//index:aws_securitylake_subscriber
+//getfilter:subscriber_id=description.Subscriber.SubscriberId
+type SecurityLakeSubscriberDescription struct {
+	Subscriber securitylake.SubscriberResource
+}
+
+// ===================  Ram  ===================
+
+//index:aws_ram_principalassociation
+type RamPrincipalAssociationDescription struct {
+	PrincipalAssociation    ram.ResourceShareAssociation
+	ResourceSharePermission []ram.ResourceSharePermissionSummary
+}
+
+//index:aws_ram_resourceassociation
+type RamResourceAssociationDescription struct {
+	ResourceAssociation     ram.ResourceShareAssociation
+	ResourceSharePermission []ram.ResourceSharePermissionSummary
+}
+
+// ===================  Serverless Application Repository  ===================
+
+//index:aws_serverlessapplicationrepository_application
+//getfilter:arn=description.Application.ApplicationId
+type ServerlessApplicationRepositoryApplicationDescription struct {
+	Application serverlessapplicationrepositoryop.GetApplicationOutput
+	Statements  []serverlessapplicationrepository.ApplicationPolicyStatement
+}
+
+// ===================  Service Quotas  ===================
+
+//index:aws_servicequotas_defaultservicequota
+//getfilter:quota_code=description.DefaultServiceQuota.QuotaCode
+//getfilter:service_code=description.DefaultServiceQuota.ServiceCode
+//listfilter:service_code=description.DefaultServiceQuota.ServiceCode
+type ServiceQuotasDefaultServiceQuotaDescription struct {
+	DefaultServiceQuota servicequotas.ServiceQuota
+}
+
+//index:aws_servicequotas_servicequota
+//getfilter:quota_code=description.ServiceQuota.QuotaCode
+//getfilter:service_code=description.ServiceQuota.ServiceCode
+//listfilter:service_code=description.ServiceQuota.ServiceCode
+type ServiceQuotasServiceQuotaDescription struct {
+	ServiceQuota servicequotas.ServiceQuota
+	Tags         []servicequotas.Tag
+}
+
+//index:aws_servicequotas_servicequotachangerequest
+//getfilter:id=description.ServiceQuotaChangeRequest.Id
+//listfilter:service_code=description.ServiceQuotaChangeRequest.ServiceCode
+//listfilter:status=description.ServiceQuotaChangeRequest.Status
+type ServiceQuotasServiceQuotaChangeRequestDescription struct {
+	ServiceQuotaChangeRequest servicequotas.RequestedServiceQuotaChange
+	Tags                      []servicequotas.Tag
 }

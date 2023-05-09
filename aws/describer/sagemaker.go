@@ -5,6 +5,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/sagemaker"
+	"github.com/aws/aws-sdk-go-v2/service/sagemaker/types"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 )
 
@@ -42,6 +43,126 @@ func SageMakerEndpointConfiguration(ctx context.Context, cfg aws.Config, stream 
 				Description: model.SageMakerEndpointConfigurationDescription{
 					EndpointConfig: out,
 					Tags:           tags.Tags,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func SageMakerApp(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := sagemaker.NewFromConfig(cfg)
+
+	var values []Resource
+	paginator := sagemaker.NewListDomainsPaginator(client, &sagemaker.ListDomainsInput{})
+	for paginator.HasMorePages() {
+		output, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, domain := range output.Domains {
+			appPaginator := sagemaker.NewListAppsPaginator(client, &sagemaker.ListAppsInput{
+				DomainIdEquals: domain.DomainId,
+			})
+
+			for appPaginator.HasMorePages() {
+				appOutput, err := appPaginator.NextPage(ctx)
+				if err != nil {
+					return nil, err
+				}
+
+				for _, items := range appOutput.Apps {
+					params := sagemaker.DescribeAppInput{
+						AppName:         items.AppName,
+						AppType:         items.AppType,
+						DomainId:        domain.DomainId,
+						UserProfileName: items.UserProfileName,
+					}
+
+					data, err := client.DescribeApp(ctx, &params)
+					if err != nil {
+						return nil, err
+					}
+
+					resource := Resource{
+						Region: describeCtx.KaytuRegion,
+						ARN:    *data.AppArn,
+						Name:   *data.AppName,
+						Description: model.SageMakerAppDescription{
+							AppDetails:        items,
+							DescribeAppOutput: data,
+						},
+					}
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
+func SageMakerDomain(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := sagemaker.NewFromConfig(cfg)
+
+	var values []Resource
+	paginator := sagemaker.NewListDomainsPaginator(client, &sagemaker.ListDomainsInput{})
+	for paginator.HasMorePages() {
+		output, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, domain := range output.Domains {
+			data, err := client.DescribeDomain(ctx, &sagemaker.DescribeDomainInput{
+				DomainId: domain.DomainId,
+			})
+			if err != nil {
+				return nil, err
+			}
+			params := &sagemaker.ListTagsInput{
+				ResourceArn: domain.DomainArn,
+			}
+
+			pagesLeft := true
+			var tags []types.Tag
+			for pagesLeft {
+				keyTags, err := client.ListTags(ctx, params)
+				if err != nil {
+					return nil, err
+				}
+				tags = append(tags, keyTags.Tags...)
+
+				if keyTags.NextToken != nil {
+					params.NextToken = keyTags.NextToken
+				} else {
+					pagesLeft = false
+				}
+			}
+
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    *domain.DomainArn,
+				Name:   *domain.DomainName,
+				Description: model.SageMakerDomainDescription{
+					Domain:     data,
+					DomainItem: domain,
+					Tags:       tags,
 				},
 			}
 			if stream != nil {
@@ -102,5 +223,101 @@ func SageMakerNotebookInstance(ctx context.Context, cfg aws.Config, stream *Stre
 		}
 	}
 
+	return values, nil
+}
+
+func SageMakerModel(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := sagemaker.NewFromConfig(cfg)
+
+	var values []Resource
+	paginator := sagemaker.NewListModelsPaginator(client, &sagemaker.ListModelsInput{})
+	for paginator.HasMorePages() {
+		output, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, modelSummary := range output.Models {
+			sageModel, err := client.DescribeModel(ctx, &sagemaker.DescribeModelInput{
+				ModelName: modelSummary.ModelName,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			tags, err := client.ListTags(ctx, &sagemaker.ListTagsInput{
+				ResourceArn: sageModel.ModelArn,
+			})
+			if err != nil {
+				tags = &sagemaker.ListTagsOutput{}
+			}
+
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    *sageModel.ModelArn,
+				Name:   *sageModel.ModelName,
+				Description: model.SageMakerModelDescription{
+					Model: sageModel,
+					Tags:  tags.Tags,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func SageMakerTrainingJob(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := sagemaker.NewFromConfig(cfg)
+
+	var values []Resource
+	paginator := sagemaker.NewListTrainingJobsPaginator(client, &sagemaker.ListTrainingJobsInput{})
+	for paginator.HasMorePages() {
+		output, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, trainingJobSummary := range output.TrainingJobSummaries {
+			trainingJob, err := client.DescribeTrainingJob(ctx, &sagemaker.DescribeTrainingJobInput{
+				TrainingJobName: trainingJobSummary.TrainingJobName,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			tags, err := client.ListTags(ctx, &sagemaker.ListTagsInput{
+				ResourceArn: trainingJob.TrainingJobArn,
+			})
+			if err != nil {
+				tags = &sagemaker.ListTagsOutput{}
+			}
+
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    *trainingJob.TrainingJobArn,
+				Name:   *trainingJob.TrainingJobName,
+				Description: model.SageMakerTrainingJobDescription{
+					TrainingJob: trainingJob,
+					Tags:        tags.Tags,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
 	return values, nil
 }

@@ -32,8 +32,8 @@ func NeptuneDatabase(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			}
 
 			var name string
-			if v.DBClusterIdentifier != nil {
-				name = *v.DBClusterIdentifier
+			if v.DBName != nil {
+				name = *v.DBName
 			}
 
 			resource := Resource{
@@ -43,6 +43,56 @@ func NeptuneDatabase(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 				Description: model.NeptuneDatabaseDescription{
 					Database: v,
 					Tags:     tags.TagList,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+
+func NeptuneDatabaseCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := neptune.NewFromConfig(cfg)
+	paginator := neptune.NewDescribeDBClustersPaginator(client, &neptune.DescribeDBClustersInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page.DBClusters {
+			if v.DBClusterArn == nil {
+				continue
+			}
+			tags, err := client.ListTagsForResource(ctx, &neptune.ListTagsForResourceInput{
+				ResourceName: v.DBClusterArn,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			var name string
+			if v.DBClusterIdentifier != nil {
+				name = *v.DBClusterIdentifier
+			}
+
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    *v.DBClusterArn,
+				Name:   name,
+				Description: model.NeptuneDatabaseClusterDescription{
+					Cluster: v,
+					Tags:    tags.TagList,
 				},
 			}
 			if stream != nil {
