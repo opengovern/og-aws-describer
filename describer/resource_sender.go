@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"google.golang.org/grpc/metadata"
 	"io"
+	"time"
 
 	"github.com/kaytu-io/kaytu-aws-describer/proto/src/golang"
 	"go.uber.org/zap"
@@ -13,6 +13,14 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/oauth"
+	"google.golang.org/grpc/metadata"
+)
+
+const (
+	MinBufferSize   int           = 10
+	MaxBufferSize   int           = 100
+	ChannelSize     int           = 1000
+	BufferEmptyRate time.Duration = 5 * time.Second
 )
 
 type ResourceSender struct {
@@ -26,6 +34,8 @@ type ResourceSender struct {
 	describeEndpoint string
 	jobID            uint
 	client           golang.DescribeServiceClient
+
+	sendBuffer []*golang.AWSResource
 }
 
 func NewResourceSender(workspaceName string, describeEndpoint string, describeToken string, jobID uint, logger *zap.Logger) (*ResourceSender, error) {
@@ -33,7 +43,7 @@ func NewResourceSender(workspaceName string, describeEndpoint string, describeTo
 		authToken:        describeToken,
 		workspaceName:    workspaceName,
 		logger:           logger,
-		resourceChannel:  make(chan *golang.AWSResource, 1000),
+		resourceChannel:  make(chan *golang.AWSResource, ChannelSize),
 		resourceIDs:      nil,
 		doneChannel:      make(chan interface{}),
 		conn:             nil,
@@ -69,32 +79,56 @@ func (s *ResourceSender) Connect() error {
 }
 
 func (s *ResourceSender) ResourceHandler() {
-	for resource := range s.resourceChannel {
-		if resource == nil {
-			s.doneChannel <- struct{}{}
-			return
-		}
+	t := time.NewTicker(BufferEmptyRate)
+	defer t.Stop()
 
-		s.resourceIDs = append(s.resourceIDs, resource.UniqueId)
-
-		grpcCtx := metadata.NewOutgoingContext(context.Background(), metadata.New(map[string]string{
-			"workspace-name":  s.workspaceName,
-			"resource-job-id": fmt.Sprintf("%d", s.jobID),
-		}))
-		_, err := s.client.DeliverAWSResources(grpcCtx, resource)
-		if err != nil {
-			s.logger.Error("failed to send resource", zap.Error(err))
-			if errors.Is(err, io.EOF) {
-				err = s.Connect()
-				if err != nil {
-					s.logger.Error("failed to reconnect", zap.Error(err))
-				} else {
-					s.resourceChannel <- resource
-				}
+	for {
+		select {
+		case resource := <-s.resourceChannel:
+			if resource == nil {
+				s.flushBuffer(true)
+				s.doneChannel <- struct{}{}
+				return
 			}
-			continue
+
+			s.resourceIDs = append(s.resourceIDs, resource.UniqueId)
+			s.sendBuffer = append(s.sendBuffer, resource)
+
+			if len(s.sendBuffer) > MaxBufferSize {
+				s.flushBuffer(true)
+			}
+		case <-t.C:
+			s.flushBuffer(false)
 		}
 	}
+}
+
+func (s *ResourceSender) flushBuffer(force bool) {
+	if len(s.sendBuffer) == 0 {
+		return
+	}
+
+	if !force && len(s.sendBuffer) < MinBufferSize {
+		return
+	}
+
+	grpcCtx := metadata.NewOutgoingContext(context.Background(), metadata.New(map[string]string{
+		"workspace-name":  s.workspaceName,
+		"resource-job-id": fmt.Sprintf("%d", s.jobID),
+	}))
+
+	_, err := s.client.DeliverAWSResources(grpcCtx, &golang.AWSResources{Resources: s.sendBuffer})
+	if err != nil {
+		s.logger.Error("failed to send resource", zap.Error(err))
+		if errors.Is(err, io.EOF) {
+			err = s.Connect()
+			if err != nil {
+				s.logger.Error("failed to reconnect", zap.Error(err))
+			}
+		}
+		return
+	}
+	s.sendBuffer = nil
 }
 
 func (s *ResourceSender) Finish() {
