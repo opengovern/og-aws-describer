@@ -627,3 +627,37 @@ func RDSDBSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 
 	return values, nil
 }
+
+func RDSReservedDBInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := rds.NewFromConfig(cfg)
+	paginator := rds.NewDescribeReservedDBInstancesPaginator(client, &rds.DescribeReservedDBInstancesInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, reservedDBInstance := range page.ReservedDBInstances {
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    *reservedDBInstance.ReservedDBInstanceArn,
+				ID:     *reservedDBInstance.ReservedDBInstanceId,
+				Description: model.RDSReservedDBInstanceDescription{
+					ReservedDBInstance: reservedDBInstance,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}

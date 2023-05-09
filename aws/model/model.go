@@ -112,6 +112,7 @@ import (
 	pinpoint "github.com/aws/aws-sdk-go-v2/service/pinpoint/types"
 	pipesop "github.com/aws/aws-sdk-go-v2/service/pipes"
 	pipes "github.com/aws/aws-sdk-go-v2/service/pipes/types"
+	ram "github.com/aws/aws-sdk-go-v2/service/ram/types"
 	rds_sdkv2 "github.com/aws/aws-sdk-go-v2/service/rds"
 	rds "github.com/aws/aws-sdk-go-v2/service/rds/types"
 	redshiftop "github.com/aws/aws-sdk-go-v2/service/redshift"
@@ -130,8 +131,14 @@ import (
 	sagemakerop "github.com/aws/aws-sdk-go-v2/service/sagemaker"
 	sagemaker "github.com/aws/aws-sdk-go-v2/service/sagemaker/types"
 	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
-	"github.com/aws/aws-sdk-go-v2/service/securityhub"
+	securityhubop "github.com/aws/aws-sdk-go-v2/service/securityhub"
+	securityhub "github.com/aws/aws-sdk-go-v2/service/securityhub/types"
+	securitylake "github.com/aws/aws-sdk-go-v2/service/securitylake/types"
+	serverlessapplicationrepositoryop "github.com/aws/aws-sdk-go-v2/service/serverlessapplicationrepository"
+	serverlessapplicationrepository "github.com/aws/aws-sdk-go-v2/service/serverlessapplicationrepository/types"
+	servicequotas "github.com/aws/aws-sdk-go-v2/service/servicequotas/types"
 	ses "github.com/aws/aws-sdk-go-v2/service/ses/types"
+	"github.com/aws/aws-sdk-go-v2/service/sesv2/types"
 	sfnop "github.com/aws/aws-sdk-go-v2/service/sfn"
 	sfn "github.com/aws/aws-sdk-go-v2/service/sfn/types"
 	shield "github.com/aws/aws-sdk-go-v2/service/shield/types"
@@ -1592,6 +1599,18 @@ type RDSGlobalClusterDescription struct {
 	Tags          []rds.Tag
 }
 
+//index:aws_rds_reserveddbinstance
+//getfilter:reserved_db_instance_id=description.ReservedDBInstance.ReservedDBInstanceId
+//listfilter:class=description.ReservedDBInstance.DBInstanceClass
+//listfilter:duration=description.ReservedDBInstance.Duration
+//listfilter:lease_id=description.ReservedDBInstance.LeaseId
+//listfilter:multi_az=description.ReservedDBInstance.MultiAZ
+//listfilter:offering_type=description.ReservedDBInstance.OfferingType
+//listfilter:reserved_db_instances_offering_id=description.ReservedDBInstance.ReservedDBInstancesOfferingId
+type RDSReservedDBInstanceDescription struct {
+	ReservedDBInstance rds.ReservedDBInstance
+}
+
 //  ===================  Redshift  ===================
 
 //index:aws_redshift_cluster
@@ -1640,6 +1659,12 @@ type RedshiftServerlessNamespaceDescription struct {
 type RedshiftServerlessSnapshotDescription struct {
 	Snapshot redshiftserverlesstypes.Snapshot
 	Tags     []redshiftserverlesstypes.Tag
+}
+
+//index:aws_redshift_subnetgroup
+//getfilter:cluster_subnet_group_name=description.ClusterSubnetGroup.ClusterSubnetGroupName
+type RedshiftSubnetGroupDescription struct {
+	ClusterSubnetGroup redshift.ClusterSubnetGroup
 }
 
 //  ===================  SNS  ===================
@@ -1765,8 +1790,66 @@ type SecretsManagerSecretDescription struct {
 //index:aws_securityhub_hub
 //getfilter:hub_arn=description.Hub.HubArn
 type SecurityHubHubDescription struct {
-	Hub  *securityhub.DescribeHubOutput
+	Hub  *securityhubop.DescribeHubOutput
 	Tags map[string]string
+}
+
+//index:aws_securityhub_actiontarget
+//getfilter:arn=description.ActionTarget.ActionTargetArn
+type SecurityHubActionTargetDescription struct {
+	ActionTarget securityhub.ActionTarget
+}
+
+//index:aws_securityhub_finding
+//getfilter:id=description.Finding.Id
+//listfilter:company_name=description.Finding.CompanyName
+//listfilter:compliance_status=description.Finding.Compliance.Status
+//listfilter:confidence=description.Finding.Confidence
+//listfilter:criticality=description.Finding.Criticality
+//listfilter:generator_id=description.Finding.GeneratorId
+//listfilter:product_arn=description.Finding.ProductArn
+//listfilter:product_name=description.Finding.ProductName
+//listfilter:record_state=description.Finding.RecordState
+//listfilter:title=description.Finding.Title
+//listfilter:verification_state=description.Finding.VerificationState
+//listfilter:workflow_state=description.Finding.WorkflowState
+//listfilter:workflow_status=description.Finding.Workflow.Status
+type SecurityHubFindingDescription struct {
+	Finding securityhub.AwsSecurityFinding
+}
+
+//index:aws_securityhub_findingaggregator
+//getfilter:arn=description.FindingAggregator.FindingAggregatorArn
+type SecurityHubFindingAggregatorDescription struct {
+	FindingAggregator securityhubop.GetFindingAggregatorOutput
+}
+
+//index:aws_securityhub_insight
+//getfilter:arn=description.Insight.InsightArn
+type SecurityHubInsightDescription struct {
+	Insight securityhub.Insight
+}
+
+//index:aws_securityhub_member
+type SecurityHubMemberDescription struct {
+	Member securityhub.Member
+}
+
+//index:aws_securityhub_product
+//getfilter:product_arn=description.Product.ProductArn
+type SecurityHubProductDescription struct {
+	Product securityhub.Product
+}
+
+//index:aws_securityhub_standardscontrol
+type SecurityHubStandardsControlDescription struct {
+	StandardsControl securityhub.StandardsControl
+}
+
+//index:aws_securityhub_standardssubscription
+type SecurityHubStandardsSubscriptionDescription struct {
+	Standard              securityhub.Standard
+	StandardsSubscription securityhub.StandardsSubscription
 }
 
 //  ===================  SSM  ===================
@@ -3183,4 +3266,68 @@ type MediaStoreContainerDescription struct {
 //listfilter:is_archived=description.Application.IsArchived
 type MgnApplicationDescription struct {
 	Application mgn.Application
+}
+
+// ===================  SecurityLake ===================
+
+//index:aws_securitylake_datalake
+type SecurityLakeDataLakeDescription struct {
+	DataLake securitylake.LakeConfigurationResponse
+}
+
+//index:aws_securitylake_subscriber
+//getfilter:subscriber_id=description.Subscriber.SubscriberId
+type SecurityLakeSubscriberDescription struct {
+	Subscriber securitylake.SubscriberResource
+}
+
+// ===================  Ram  ===================
+
+//index:aws_ram_principalassociation
+type RamPrincipalAssociationDescription struct {
+	PrincipalAssociation    ram.ResourceShareAssociation
+	ResourceSharePermission []ram.ResourceSharePermissionSummary
+}
+
+//index:aws_ram_resourceassociation
+type RamResourceAssociationDescription struct {
+	ResourceAssociation     ram.ResourceShareAssociation
+	ResourceSharePermission []ram.ResourceSharePermissionSummary
+}
+
+// ===================  Serverless Application Repository  ===================
+
+//index:aws_serverlessapplicationrepository_application
+//getfilter:arn=description.Application.ApplicationId
+type ServerlessApplicationRepositoryApplicationDescription struct {
+	Application serverlessapplicationrepositoryop.GetApplicationOutput
+	Statements  []serverlessapplicationrepository.ApplicationPolicyStatement
+}
+
+// ===================  Service Quotas  ===================
+
+//index:aws_servicequotas_defaultservicequota
+//getfilter:quota_code=description.DefaultServiceQuota.QuotaCode
+//getfilter:service_code=description.DefaultServiceQuota.ServiceCode
+//listfilter:service_code=description.DefaultServiceQuota.ServiceCode
+type ServiceQuotasDefaultServiceQuotaDescription struct {
+	DefaultServiceQuota servicequotas.ServiceQuota
+}
+
+//index:aws_servicequotas_servicequota
+//getfilter:quota_code=description.ServiceQuota.QuotaCode
+//getfilter:service_code=description.ServiceQuota.ServiceCode
+//listfilter:service_code=description.ServiceQuota.ServiceCode
+type ServiceQuotasServiceQuotaDescription struct {
+	ServiceQuota servicequotas.ServiceQuota
+	Tags         []servicequotas.Tag
+}
+
+//index:aws_servicequotas_servicequotachangerequest
+//getfilter:id=description.ServiceQuotaChangeRequest.Id
+//listfilter:service_code=description.ServiceQuotaChangeRequest.ServiceCode
+//listfilter:status=description.ServiceQuotaChangeRequest.Status
+type ServiceQuotasServiceQuotaChangeRequestDescription struct {
+	ServiceQuotaChangeRequest servicequotas.RequestedServiceQuotaChange
+	Tags                      []servicequotas.Tag
 }

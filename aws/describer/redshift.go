@@ -416,3 +416,38 @@ func RedshiftServerlessWorkgroup(ctx context.Context, cfg aws.Config, stream *St
 
 	return values, nil
 }
+
+func RedshiftSubnetGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := redshift.NewFromConfig(cfg)
+	paginator := redshift.NewDescribeClusterSubnetGroupsPaginator(client, &redshift.DescribeClusterSubnetGroupsInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, clusterSubnetGroup := range page.ClusterSubnetGroups {
+			arn := fmt.Sprintf("arn:%s:redshift:%s:%s:subnetgroup:%s", describeCtx.Partition, describeCtx.KaytuRegion, describeCtx.AccountID, *clusterSubnetGroup.ClusterSubnetGroupName)
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				Name:   *clusterSubnetGroup.ClusterSubnetGroupName,
+				ARN:    arn,
+				Description: model.RedshiftSubnetGroupDescription{
+					ClusterSubnetGroup: clusterSubnetGroup,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
