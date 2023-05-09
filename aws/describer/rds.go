@@ -519,7 +519,7 @@ func RDSGlobalCluster(ctx context.Context, cfg aws.Config, stream *StreamSender)
 				ResourceName: v.GlobalClusterArn,
 			})
 			if err != nil {
-				return nil, err
+				tags = &rds.ListTagsForResourceOutput{}
 			}
 
 			resource := Resource{

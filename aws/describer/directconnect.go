@@ -3,6 +3,7 @@ package describer
 import (
 	"context"
 	"fmt"
+	"math"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/directconnect"
@@ -69,16 +70,19 @@ func DirectConnectGateway(ctx context.Context, cfg aws.Config, stream *StreamSen
 		for _, v := range connections.DirectConnectGateways {
 			arns = append(arns, getDirectConnectGatewayArn(describeCtx, *v.DirectConnectGatewayId))
 		}
-		tags, err := client.DescribeTags(ctx, &directconnect.DescribeTagsInput{
-			ResourceArns: arns,
-		})
-		if err != nil {
-			return nil, err
-		}
-
+		// DescribeTags can only handle 20 ARNs at a time
 		arnToTagMap := make(map[string][]types.Tag)
-		for _, tag := range tags.ResourceTags {
-			arnToTagMap[*tag.ResourceArn] = tag.Tags
+		for i := 0; i < len(arns); i += 20 {
+			tags, err := client.DescribeTags(ctx, &directconnect.DescribeTagsInput{
+				ResourceArns: arns[i:int(math.Min(float64(i+20), float64(len(arns))))],
+			})
+			if err != nil {
+				tags = &directconnect.DescribeTagsOutput{}
+			}
+
+			for _, tag := range tags.ResourceTags {
+				arnToTagMap[*tag.ResourceArn] = tag.Tags
+			}
 		}
 
 		for _, v := range connections.DirectConnectGateways {

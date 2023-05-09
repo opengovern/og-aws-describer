@@ -33,7 +33,9 @@ func SQSQueue(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 				},
 			})
 			if err != nil {
-				return nil, err
+				if isErr(err, "AWS.SimpleQueueService.NonExistentQueue") {
+					return nil, err
+				}
 			}
 
 			tOutput, err := client.ListQueueTags(ctx, &sqs.ListQueueTagsInput{

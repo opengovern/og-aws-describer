@@ -4,6 +4,7 @@ import (
 	"errors"
 	"strings"
 
+	awshttp "github.com/aws/aws-sdk-go-v2/aws/transport/http"
 	"github.com/aws/smithy-go"
 )
 
@@ -19,6 +20,14 @@ func IsUnsupportedOrInvalidError(resource, region string, err error) bool {
 			return true
 		case "UnsupportedOperation":
 			return true
+		case "AccessDeniedException":
+			re := &awshttp.ResponseError{}
+			if errors.As(err, &re) {
+				if re.HTTPStatusCode() == 400 && strings.Contains(strings.ToLower(ae.ErrorMessage()), strings.ToLower("UnknownError")) {
+					return true
+				}
+			}
+			return false
 		}
 	}
 
@@ -26,12 +35,6 @@ func IsUnsupportedOrInvalidError(resource, region string, err error) bool {
 	// in the corresponding regions. The error message is usually
 	// not very clear about the error. For now just ignoring them.
 	switch resource {
-	case "AWS::DAX::ParameterGroup",
-		"AWS::DAX::Parameter",
-		"AWS::DAX::SubnetGroup":
-		if isInRegion(region, "ap-northeast-3", "eu-north-1") {
-			return true
-		}
 	case "AWS::MemoryDb::Cluster":
 		if isInRegion(region, "ap-northeast-3") {
 			return true
@@ -86,9 +89,14 @@ func IsUnsupportedOrInvalidError(resource, region string, err error) bool {
 		if isInRegion(region, "ap-northeast-3", "eu-north-1", "eu-west-3", "us-east-2", "us-west-1") {
 			return true
 		}
-	case "AWS::DAX::Cluster":
-		if isInRegion(region, "us-east-1", "us-east-2", "us-west-1", "us-west-2", "sa-east-1", "eu-west-1",
-			"ap-southeast-1", "ap-northeast-1", "ap-southeast-2", "ap-south-1") {
+	case "AWS::DAX::Cluster",
+		"AWS::DAX::ParameterGroup",
+		"AWS::DAX::Parameter",
+		"AWS::DAX::SubnetGroup":
+		// Region whitelist https://docs.aws.amazon.com/general/latest/gr/ddb.html
+		if !isInRegion(region, "cn-north-1", "cn-northwest-1", "eu-west-2", "eu-west-3", "ap-northeast-1",
+			"ap-south-1", "ap-southeast-1", "ap-southeast-2", "eu-central-1", "eu-west-1",
+			"sa-east-1", "us-east-1", "us-east-2", "us-west-1", "us-west-2") {
 			return true
 		}
 	case "AWS::AppStream::Application",

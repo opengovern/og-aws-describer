@@ -3138,7 +3138,7 @@ type GlueDevEndpointDescription struct {
 //getfilter:name=description.Job.Name
 type GlueJobDescription struct {
 	Job      glue.Job
-	Bookmark glue.JobBookmarkEntry
+	Bookmark *glue.JobBookmarkEntry
 }
 
 //index:aws_glue_securityconfiguration

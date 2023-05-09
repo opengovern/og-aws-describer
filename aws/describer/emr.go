@@ -119,6 +119,9 @@ func EMRInstanceFleet(ctx context.Context, cfg aws.Config, stream *StreamSender)
 			for instancePaginator.HasMorePages() {
 				instancePage, err := instancePaginator.NextPage(ctx)
 				if err != nil {
+					if isErr(err, "InvalidRequestException") {
+						break
+					}
 					return nil, err
 				}
 
@@ -169,6 +172,9 @@ func EMRInstanceGroup(ctx context.Context, cfg aws.Config, stream *StreamSender)
 			for instancePaginator.HasMorePages() {
 				instancePage, err := instancePaginator.NextPage(ctx)
 				if err != nil {
+					if isErr(err, "InvalidRequestException") {
+						break
+					}
 					return nil, err
 				}
 
@@ -177,13 +183,16 @@ func EMRInstanceGroup(ctx context.Context, cfg aws.Config, stream *StreamSender)
 					resource := Resource{
 						Region: describeCtx.KaytuRegion,
 						ID:     *instanceGroup.Id,
-						Name:   *instanceGroup.Name,
 						ARN:    arn,
 						Description: model.EMRInstanceGroupDescription{
 							InstanceGroup: instanceGroup,
 							ClusterID:     *cluster.Id,
 						},
 					}
+					if instanceGroup.Name != nil {
+						resource.Name = *instanceGroup.Name
+					}
+
 					if stream != nil {
 						if err := (*stream)(resource); err != nil {
 							return nil, err

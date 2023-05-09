@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"math"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/codecommit"
@@ -29,41 +30,44 @@ func CodeCommitRepository(ctx context.Context, cfg aws.Config, stream *StreamSen
 		if len(repositoryNames) == 0 {
 			continue
 		}
-		repos, err := client.BatchGetRepositories(ctx, &codecommit.BatchGetRepositoriesInput{
-			RepositoryNames: repositoryNames,
-		})
-		if err != nil {
-			if !isErr(err, "InvalidParameter") {
-				return nil, err
-			}
-			continue
-		}
-		for _, v := range repos.Repositories {
-			tags, err := client.ListTagsForResource(ctx, &codecommit.ListTagsForResourceInput{
-				ResourceArn: v.Arn,
+		// BatchGetRepositories can only get 25 repositories at a time
+		for i := 0; i < len(repositoryNames); i += 25 {
+			repos, err := client.BatchGetRepositories(ctx, &codecommit.BatchGetRepositoriesInput{
+				RepositoryNames: repositoryNames[i:int(math.Min(float64(i+25), float64(len(repositoryNames))))],
 			})
 			if err != nil {
 				if !isErr(err, "InvalidParameter") {
 					return nil, err
 				}
-				tags = &codecommit.ListTagsForResourceOutput{}
+				continue
 			}
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.Arn,
-				Name:   *v.RepositoryName,
-				Description: model.CodeCommitRepositoryDescription{
-					Repository: v,
-					Tags:       tags.Tags,
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
+			for _, v := range repos.Repositories {
+				tags, err := client.ListTagsForResource(ctx, &codecommit.ListTagsForResourceInput{
+					ResourceArn: v.Arn,
+				})
+				if err != nil {
+					if !isErr(err, "InvalidParameter") {
+						return nil, err
+					}
+					tags = &codecommit.ListTagsForResourceOutput{}
 				}
-			} else {
-				values = append(values, resource)
+
+				resource := Resource{
+					Region: describeCtx.KaytuRegion,
+					ARN:    *v.Arn,
+					Name:   *v.RepositoryName,
+					Description: model.CodeCommitRepositoryDescription{
+						Repository: v,
+						Tags:       tags.Tags,
+					},
+				}
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
 			}
 		}
 	}

@@ -310,7 +310,7 @@ func GlueJob(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 				JobName: job.Name,
 			})
 			if err != nil {
-				return nil, err
+				bookmark = &glue.GetJobBookmarkOutput{}
 			}
 
 			resource := Resource{
@@ -319,7 +319,7 @@ func GlueJob(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 				ARN:    arn,
 				Description: model.GlueJobDescription{
 					Job:      job,
-					Bookmark: *bookmark.JobBookmarkEntry,
+					Bookmark: bookmark.JobBookmarkEntry,
 				},
 			}
 			if stream != nil {
@@ -356,7 +356,7 @@ func GetGlueJob(ctx context.Context, cfg aws.Config, fields map[string]string) (
 		JobName: job.Name,
 	})
 	if err != nil {
-		return nil, err
+		bookmark = &glue.GetJobBookmarkOutput{}
 	}
 
 	values = append(values, Resource{
@@ -365,7 +365,7 @@ func GetGlueJob(ctx context.Context, cfg aws.Config, fields map[string]string) (
 		ARN:    arn,
 		Description: model.GlueJobDescription{
 			Job:      *job,
-			Bookmark: *bookmark.JobBookmarkEntry,
+			Bookmark: bookmark.JobBookmarkEntry,
 		},
 	})
 
