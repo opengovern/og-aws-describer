@@ -18,7 +18,7 @@ import (
 
 const (
 	MinBufferSize   int           = 10
-	MaxBufferSize   int           = 500
+	MaxBufferSize   int           = 100
 	ChannelSize     int           = 1000
 	BufferEmptyRate time.Duration = 5 * time.Second
 )

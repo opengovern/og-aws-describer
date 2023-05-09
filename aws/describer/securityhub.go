@@ -2,7 +2,6 @@ package describer
 
 import (
 	"context"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/securityhub"
 	"github.com/aws/aws-sdk-go-v2/service/securityhub/types"
@@ -163,6 +162,9 @@ func SecurityHubInsight(ctx context.Context, cfg aws.Config, stream *StreamSende
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			if isErr(err, "InvalidAccessException") {
+				return nil, nil
+			}
 			return nil, err
 		}
 
