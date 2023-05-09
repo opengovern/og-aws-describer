@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	awsmodel "github.com/kaytu-io/kaytu-aws-describer/aws/model"
+	"github.com/kaytu-io/kaytu-aws-describer/pkg/steampipe"
 	"strings"
 
 	"github.com/go-errors/errors"
@@ -58,9 +60,72 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 	}
 
 	f := func(resource describer.Resource) error {
+		if resource.Description == nil {
+			return nil
+		}
+
 		descriptionJSON, err := json.Marshal(resource.Description)
 		if err != nil {
 			return err
+		}
+
+		awsMetadata := awsmodel.Metadata{
+			Name:         resource.Name,
+			AccountID:    resource.Account,
+			SourceID:     job.SourceID,
+			Region:       resource.Region,
+			Partition:    resource.Name,
+			ResourceType: strings.ToLower(resource.Type),
+		}
+
+		awsMetadataBytes, err := json.Marshal(awsMetadata)
+		if err != nil {
+			return fmt.Errorf("marshal metadata: %v", err.Error())
+		}
+
+		metadata := make(map[string]string)
+		err = json.Unmarshal(awsMetadataBytes, &metadata)
+		if err != nil {
+			return fmt.Errorf("unmarshal metadata: %v", err.Error())
+		}
+
+		kafkaResource := Resource{
+			ID:            resource.UniqueID(),
+			ARN:           resource.ARN,
+			Name:          resource.Name,
+			SourceType:    source.CloudAWS,
+			ResourceType:  strings.ToLower(job.ResourceType),
+			ResourceGroup: "",
+			Location:      resource.Region,
+			SourceID:      job.SourceID,
+			ResourceJobID: job.JobID,
+			SourceJobID:   job.ParentJobID,
+			ScheduleJobID: job.ScheduleJobID,
+			CreatedAt:     job.DescribedAt,
+			Description:   resource.Description,
+			Metadata:      metadata,
+		}
+
+		pluginTableName := steampipe.ExtractTableName(job.ResourceType)
+		desc, err := steampipe.ConvertToDescription(job.ResourceType, kafkaResource)
+		if err != nil {
+			return fmt.Errorf("convertToDescription: %v", err.Error())
+		}
+
+		cells, err := steampipe.AWSDescriptionToRecord(desc, pluginTableName)
+		if err != nil {
+			return fmt.Errorf("awsdescriptionToRecord: %v", err.Error())
+		}
+
+		for name, v := range cells {
+			if name == "title" || name == "name" {
+				kafkaResource.Metadata["name"] = v.GetStringValue()
+			}
+		}
+
+		tags, err := steampipe.ExtractTags(job.ResourceType, kafkaResource)
+		if err != nil {
+			return fmt.Errorf("failed to build tags for service: %v", err.Error())
 		}
 
 		partition, _ := aws.PartitionOf(resource.Region)
@@ -74,6 +139,8 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 			Partition:       partition,
 			Type:            job.ResourceType,
 			DescriptionJson: string(descriptionJSON),
+			Metadata:        metadata,
+			Tags:            tags,
 			Job: &golang.DescribeJob{
 				JobId:         uint32(job.JobID),
 				ScheduleJobId: uint32(job.ScheduleJobID),
