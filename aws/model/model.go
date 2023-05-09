@@ -138,7 +138,6 @@ import (
 	serverlessapplicationrepository "github.com/aws/aws-sdk-go-v2/service/serverlessapplicationrepository/types"
 	servicequotas "github.com/aws/aws-sdk-go-v2/service/servicequotas/types"
 	ses "github.com/aws/aws-sdk-go-v2/service/ses/types"
-	"github.com/aws/aws-sdk-go-v2/service/sesv2/types"
 	sfnop "github.com/aws/aws-sdk-go-v2/service/sfn"
 	sfn "github.com/aws/aws-sdk-go-v2/service/sfn/types"
 	shield "github.com/aws/aws-sdk-go-v2/service/shield/types"
