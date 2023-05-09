@@ -97,6 +97,7 @@ func SESIdentity(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 				ARN:    arn,
 				Name:   v,
 				Description: model.SESIdentityDescription{
+					ARN:                    arn,
 					Identity:               v,
 					VerificationAttributes: identity.VerificationAttributes[v],
 					NotificationAttributes: notif.NotificationAttributes[v],

@@ -3,7 +3,10 @@
 package model
 
 import (
+	types2 "github.com/aws/aws-sdk-go-v2/service/resourcegroupstaggingapi/types"
 	"github.com/aws/aws-sdk-go-v2/service/sesv2/types"
+	waf2 "github.com/aws/aws-sdk-go-v2/service/waf"
+	types3 "github.com/aws/aws-sdk-go-v2/service/wellarchitected/types"
 	"time"
 
 	accessanalyzer "github.com/aws/aws-sdk-go-v2/service/accessanalyzer/types"
@@ -540,6 +543,7 @@ type CloudWatchAlarmDescription struct {
 
 //index:aws_cloudwatch_logevent
 //listfilter:log_stream_name=description.LogEvent.LogStreamName
+//listfilter:log_group_name=description.LogGroupName
 //listfilter:timestamp=description.LogEvent.Timestamp
 type CloudWatchLogEventDescription struct {
 	LogEvent     cloudwatchlogs.FilteredLogEvent
@@ -788,6 +792,27 @@ type EC2CustomerGatewayDescription struct {
 //listfilter:verified_access_instance_id=description.VerifiedAccountInstance.VerifiedAccessInstanceId
 type EC2VerifiedAccessInstanceDescription struct {
 	VerifiedAccountInstance ec2.VerifiedAccessInstance
+}
+
+//index:aws_ec2_verifiedaccessendpoint
+//getfilter:verified_access_endpoint_id=description.VerifiedAccountEndpoint.VerifiedAccessEndpointId
+//listfilter:verified_access_group_id=description.VerifiedAccountEndpoint.VerifiedAccessGroupId
+//listfilter:verified_access_instance_id=description.VerifiedAccountEndpoint.VerifiedAccessInstanceId
+type EC2VerifiedAccessEndpointDescription struct {
+	VerifiedAccountEndpoint ec2.VerifiedAccessEndpoint
+}
+
+//index:aws_ec2_verifiedaccessgroup
+//getfilter:verified_access_group_id=description.VerifiedAccountEndpoint.VerifiedAccessGroupId
+//listfilter:verified_access_instance_id=description.VerifiedAccountGroup.VerifiedAccessInstanceId
+type EC2VerifiedAccessGroupDescription struct {
+	VerifiedAccountGroup ec2.VerifiedAccessGroup
+}
+
+//index:aws_ec2_verifiedaccesstrustprovider
+//listfilter:verified_access_trust_provider_id=description.VerifiedAccessTrustProvider.VerifiedAccessTrustProviderId
+type EC2VerifiedAccessTrustProviderDescription struct {
+	VerifiedAccessTrustProvider ec2.VerifiedAccessTrustProvider
 }
 
 //index:aws_ec2_vpngateway
@@ -1772,6 +1797,54 @@ type SSMDocumentDescription struct {
 	Permissions        *ssm_sdkv2.DescribeDocumentPermissionOutput
 }
 
+//index:aws_ssm_inventory
+//listfilter:id=description.Id
+//listfilter:type_name=description.TypeName
+type SSMInventoryDescription struct {
+	CaptureTime   *string
+	Content       interface{}
+	Id            *string
+	SchemaVersion *string
+	TypeName      *string
+	Schemas       []ssm.InventoryItemSchema
+}
+
+//index:aws_ssm_maintenancewindow
+//getfilter:window_id=description.MaintenanceWindowIdentity.WindowId
+//listfilter:name=description.MaintenanceWindowIdentity.Name
+//listfilter:enabled=description.MaintenanceWindowIdentity.Enabled
+type SSMMaintenanceWindowDescription struct {
+	MaintenanceWindowIdentity ssm.MaintenanceWindowIdentity
+	MaintenanceWindow         *ssm_sdkv2.GetMaintenanceWindowOutput
+	Tags                      []ssm.Tag
+	Targets                   []ssm.MaintenanceWindowTarget
+	Tasks                     []ssm.MaintenanceWindowTask
+	ARN                       string
+}
+
+//index:aws_ssm_parameter
+//getfilter:name=description.ParameterMetadata.Name
+//listfilter:type=description.ParameterMetadata.Type
+//listfilter:key_id=description.ParameterMetadata.KeyId
+//listfilter:tier=description.ParameterMetadata.Tier
+//listfilter:data_type=description.ParameterMetadata.DataType
+type SSMParameterDescription struct {
+	ParameterMetadata ssm.ParameterMetadata
+	Parameter         *ssm.Parameter
+	Tags              []ssm.Tag
+}
+
+//index:aws_ssm_patchbaseline
+//getfilter:baseline_id=description.ParameterMetadata.Name
+//listfilter:name=description.ParameterMetadata.Type
+//listfilter:operating_system=description.ParameterMetadata.KeyId
+type SSMPatchBaselineDescription struct {
+	ARN                   string
+	PatchBaselineIdentity ssm.PatchBaselineIdentity
+	PatchBaseline         *ssm_sdkv2.GetPatchBaselineOutput
+	Tags                  []ssm.Tag
+}
+
 //index:aws_ssm_managedinstancecompliance
 //listfilter:resource_id=description.ComplianceItem.ResourceId
 type SSMManagedInstanceComplianceDescription struct {
@@ -2335,6 +2408,7 @@ type SESIdentityDescription struct {
 	VerificationAttributes ses.IdentityVerificationAttributes
 	NotificationAttributes ses.IdentityNotificationAttributes
 	Tags                   []types.Tag
+	ARN                    string
 }
 
 //  ===================  CloudFormation  ===================
@@ -2388,6 +2462,14 @@ type SSOAdminInstanceDescription struct {
 	Instance ssoadmin.InstanceMetadata
 }
 
+//  ===================  Tagging  ===================
+
+//index:aws_tagging_resources
+//getfilter:arn=description.
+type TaggingResourcesDescription struct {
+	TagMapping types2.ResourceTagMapping
+}
+
 //  ===================  WAF  ===================
 
 //index:aws_waf_rule
@@ -2402,6 +2484,42 @@ type WAFRuleDescription struct {
 type WAFRegionalRuleDescription struct {
 	Rule wafregional.RuleSummary
 	Tags []wafregional.Tag
+}
+
+//index:aws_waf_ratebasedrule
+//getfilter:rule_id=description.Rule.RuleId
+type WAFRateBasedRuleDescription struct {
+	ARN         string
+	RuleSummary waf.RuleSummary
+	Rule        *waf.RateBasedRule
+	Tags        *waf.TagInfoForResource
+}
+
+//index:aws_waf_rulegroup
+//getfilter:rule_group_id=description.Rule.RuleId
+type WAFRuleGroupDescription struct {
+	ARN              string
+	RuleGroupSummary waf.RuleGroupSummary
+	RuleGroup        *waf2.GetRuleGroupOutput
+	ActivatedRules   *waf2.ListActivatedRulesInRuleGroupOutput
+	Tags             []waf.Tag
+}
+
+//index:aws_waf_webacl
+//getfilter:web_acl_id=description.WebACL.WebACLId
+type WAFWebAclDescription struct {
+	WebACLSummary        waf.WebACLSummary
+	WebACL               *waf.WebACL
+	LoggingConfiguration *waf.LoggingConfiguration
+	Tags                 *waf.TagInfoForResource
+}
+
+//index:aws_wellarchitected_workload
+//getfilter:workload_id=description.Workload.WorkloadId
+//listfilter:workload_name=description.Workload.WorkloadName
+type WellArchitectedWorkloadDescription struct {
+	WorkloadSummary types3.WorkloadSummary
+	Workload        *types3.Workload
 }
 
 //  ===================  Route53  ===================
@@ -2682,6 +2800,21 @@ type StepFunctionsStateMachineDescription struct {
 	StateMachineItem sfn.StateMachineListItem
 	StateMachine     *sfnop.DescribeStateMachineOutput
 	Tags             []sfn.Tag
+}
+
+//index:aws_stepfunctions_statemachineexecutionhistories
+type StepFunctionsStateMachineExecutionHistoriesDescription struct {
+	ExecutionHistory sfn.HistoryEvent
+	ARN              string
+}
+
+//index:aws_stepfunctions_statemachineexecution
+//getfilter:execution_arn=description.ExecutionItem.ExecutionArn
+//listfilter:status=description.ExecutionItem.Status
+//listfilter:state_machine_arn=description.ExecutionItem.StateMachineArn
+type StepFunctionsStateMachineExecutionDescription struct {
+	ExecutionItem sfn.ExecutionListItem
+	Execution     *sfnop.DescribeExecutionOutput
 }
 
 // ===================  SimSpaceWeaver ===================

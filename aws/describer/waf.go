@@ -2,7 +2,9 @@ package describer
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"github.com/aws/smithy-go"
 	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -582,13 +584,13 @@ func WAFRegionalIPSet(ctx context.Context, cfg aws.Config, stream *StreamSender)
 	return values, nil
 }
 
-func WAFRegionalRateBasedRule(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+func WAFRateBasedRule(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
-	client := wafregional.NewFromConfig(cfg)
+	client := waf.NewFromConfig(cfg)
 
 	var values []Resource
 	err := PaginateRetrieveAll(func(prevToken *string) (nextToken *string, err error) {
-		output, err := client.ListRateBasedRules(ctx, &wafregional.ListRateBasedRulesInput{
+		output, err := client.ListRateBasedRules(ctx, &waf.ListRateBasedRulesInput{
 			NextMarker: prevToken,
 		})
 		if err != nil {
@@ -596,11 +598,32 @@ func WAFRegionalRateBasedRule(ctx context.Context, cfg aws.Config, stream *Strea
 		}
 
 		for _, v := range output.Rules {
+			arn := "arn:" + describeCtx.Partition + ":waf::" + describeCtx.AccountID + ":ratebasedrule" + "/" + *v.RuleId
+
+			data, err := client.GetRateBasedRule(ctx, &waf.GetRateBasedRuleInput{
+				RuleId: v.RuleId,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			op, err := client.ListTagsForResource(ctx, &waf.ListTagsForResourceInput{
+				ResourceARN: &arn,
+			})
+			if err != nil {
+				return nil, err
+			}
+
 			resource := Resource{
-				Region:      describeCtx.Region,
-				ID:          *v.RuleId,
-				Name:        *v.Name,
-				Description: v,
+				Region: describeCtx.Region,
+				ARN:    arn,
+				Name:   *v.Name,
+				Description: model.WAFRateBasedRuleDescription{
+					ARN:         arn,
+					RuleSummary: v,
+					Rule:        data.Rule,
+					Tags:        op.TagInfoForResource,
+				},
 			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
@@ -824,6 +847,79 @@ func WAFRegionalWebACL(ctx context.Context, cfg aws.Config, stream *StreamSender
 	return values, nil
 }
 
+func WAFWebACL(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := waf.NewFromConfig(cfg)
+
+	var values []Resource
+	err := PaginateRetrieveAll(func(prevToken *string) (nextToken *string, err error) {
+		output, err := client.ListWebACLs(ctx, &waf.ListWebACLsInput{
+			NextMarker: prevToken,
+		})
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range output.WebACLs {
+			op, err := client.GetWebACL(ctx, &waf.GetWebACLInput{
+				WebACLId: v.WebACLId,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			op2, err := client.GetLoggingConfiguration(ctx, &waf.GetLoggingConfigurationInput{
+				ResourceArn: op.WebACL.WebACLArn,
+			})
+			if err != nil {
+				var ae smithy.APIError
+				if errors.As(err, &ae) {
+					if ae.ErrorCode() == "WAFNonexistentItemException" {
+						op2 = &waf.GetLoggingConfigurationOutput{}
+					} else {
+						return nil, err
+					}
+				} else {
+					return nil, err
+				}
+			}
+
+			webAclTags, err := client.ListTagsForResource(ctx, &waf.ListTagsForResourceInput{
+				ResourceARN: op.WebACL.WebACLArn,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			resource := Resource{
+				Region: describeCtx.Region,
+				ID:     *v.WebACLId,
+				Name:   *v.Name,
+				Description: model.WAFWebAclDescription{
+					WebACLSummary:        v,
+					WebACL:               op.WebACL,
+					LoggingConfiguration: op2.LoggingConfiguration,
+					Tags:                 webAclTags.TagInfoForResource,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+
+		}
+		return output.NextMarker, nil
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return values, nil
+}
+
 func WAFRegionalWebACLAssociation(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	acls, err := WAFRegionalWebACL(ctx, cfg, nil)
@@ -952,6 +1048,74 @@ func WAFRule(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 				Description: model.WAFRuleDescription{
 					Rule: *rule.Rule,
 					Tags: tags.TagInfoForResource.TagList,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+
+		}
+		return output.NextMarker, nil
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return values, nil
+}
+
+func WAFRuleGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+
+	client := waf.NewFromConfig(cfg)
+
+	var values []Resource
+	err := PaginateRetrieveAll(func(prevToken *string) (nextToken *string, err error) {
+		output, err := client.ListRuleGroups(ctx, &waf.ListRuleGroupsInput{
+			NextMarker: prevToken,
+		})
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range output.RuleGroups {
+			rule, err := client.GetRuleGroup(ctx, &waf.GetRuleGroupInput{
+				RuleGroupId: v.RuleGroupId,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			arn := fmt.Sprintf("arn:%s:waf::%s:rulegroup/%s", describeCtx.Partition, describeCtx.AccountID, *v.RuleGroupId)
+
+			ac, err := client.ListActivatedRulesInRuleGroup(ctx, &waf.ListActivatedRulesInRuleGroupInput{
+				RuleGroupId: v.RuleGroupId,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			tags, err := client.ListTagsForResource(ctx, &waf.ListTagsForResourceInput{
+				ResourceARN: &arn,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    arn,
+				Name:   *rule.RuleGroup.Name,
+				Description: model.WAFRuleGroupDescription{
+					ARN:              arn,
+					RuleGroupSummary: v,
+					RuleGroup:        rule,
+					ActivatedRules:   ac,
+					Tags:             tags.TagInfoForResource.TagList,
 				},
 			}
 			if stream != nil {

@@ -456,6 +456,126 @@ func EC2VerifiedAccessInstance(ctx context.Context, cfg aws.Config, stream *Stre
 	return values, nil
 }
 
+func EC2VerifiedAccessEndpoint(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := ec2.NewFromConfig(cfg)
+
+	input := &ec2.DescribeVerifiedAccessEndpointsInput{}
+
+	var values []Resource
+	for {
+		resp, err := client.DescribeVerifiedAccessEndpoints(ctx, input)
+		if err != nil {
+			return nil, nil
+		}
+
+		for _, instance := range resp.VerifiedAccessEndpoints {
+			resource := Resource{
+				Region: describeCtx.Region,
+				ID:     *instance.VerifiedAccessEndpointId,
+				Name:   *instance.VerifiedAccessEndpointId,
+				Description: model.EC2VerifiedAccessEndpointDescription{
+					VerifiedAccountEndpoint: instance,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+		if resp.NextToken == nil {
+			break
+		} else {
+			input.NextToken = resp.NextToken
+		}
+	}
+
+	return values, nil
+}
+
+func EC2VerifiedAccessGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := ec2.NewFromConfig(cfg)
+
+	input := &ec2.DescribeVerifiedAccessGroupsInput{}
+
+	var values []Resource
+	for {
+		resp, err := client.DescribeVerifiedAccessGroups(ctx, input)
+		if err != nil {
+			return nil, nil
+		}
+
+		for _, instance := range resp.VerifiedAccessGroups {
+			resource := Resource{
+				Region: describeCtx.Region,
+				ID:     *instance.VerifiedAccessGroupId,
+				Name:   *instance.VerifiedAccessGroupId,
+				Description: model.EC2VerifiedAccessGroupDescription{
+					VerifiedAccountGroup: instance,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+		if resp.NextToken == nil {
+			break
+		} else {
+			input.NextToken = resp.NextToken
+		}
+	}
+
+	return values, nil
+}
+
+func EC2VerifiedAccessTrustProvider(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := ec2.NewFromConfig(cfg)
+
+	input := &ec2.DescribeVerifiedAccessTrustProvidersInput{}
+
+	var values []Resource
+	for {
+		resp, err := client.DescribeVerifiedAccessTrustProviders(ctx, input)
+		if err != nil {
+			return nil, nil
+		}
+
+		for _, instance := range resp.VerifiedAccessTrustProviders {
+			resource := Resource{
+				Region: describeCtx.Region,
+				ID:     *instance.VerifiedAccessTrustProviderId,
+				Name:   *instance.VerifiedAccessTrustProviderId,
+				Description: model.EC2VerifiedAccessTrustProviderDescription{
+					VerifiedAccessTrustProvider: instance,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+		if resp.NextToken == nil {
+			break
+		} else {
+			input.NextToken = resp.NextToken
+		}
+	}
+
+	return values, nil
+}
+
 func EC2DHCPOptions(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 
