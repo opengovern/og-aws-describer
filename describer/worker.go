@@ -54,6 +54,7 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 		return nil, fmt.Errorf("failed to connect to resource sender: %w", err)
 	}
 
+	plg := steampipe.Plugin()
 	creds, err := aws.AccountConfigFromMap(config)
 	if err != nil {
 		return nil, fmt.Errorf("aws account credentials: %w", err)
@@ -106,7 +107,7 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 			Metadata:      metadata,
 		}
 
-		tags, name, err := steampipe.ExtractTagsAndNames(job.ResourceType, kafkaResource)
+		tags, name, err := steampipe.ExtractTagsAndNames(plg, job.ResourceType, kafkaResource)
 		if err != nil {
 			return fmt.Errorf("failed to build tags for service: %v", err.Error())
 		}

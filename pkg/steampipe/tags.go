@@ -3,12 +3,17 @@ package steampipe
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
+	"gitlab.com/keibiengine/steampipe-plugin-aws/aws"
 	"reflect"
 
 	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
 )
 
-func ExtractTagsAndNames(resourceType string, source interface{}) (map[string]string, string, error) {
+func Plugin() *plugin.Plugin {
+	return aws.Plugin(buildContext())
+}
+func ExtractTagsAndNames(plg *plugin.Plugin, resourceType string, source interface{}) (map[string]string, string, error) {
 	var cells map[string]*proto.Column
 	pluginProvider := ExtractPlugin(resourceType)
 	pluginTableName := ExtractTableName(resourceType)
@@ -21,7 +26,8 @@ func ExtractTagsAndNames(resourceType string, source interface{}) (map[string]st
 			return nil, "", err
 		}
 
-		cells, err = AWSDescriptionToRecord(desc, pluginTableName)
+		cells, err = DescriptionToRecord(plg, desc, pluginTableName)
+		//cells, err = AWSDescriptionToRecord(desc, pluginTableName)
 		if err != nil {
 			return nil, "", err
 		}
@@ -30,7 +36,6 @@ func ExtractTagsAndNames(resourceType string, source interface{}) (map[string]st
 	}
 
 	tags := map[string]string{}
-
 	var name string
 	for k, v := range cells {
 		if k == "title" || k == "name" {
