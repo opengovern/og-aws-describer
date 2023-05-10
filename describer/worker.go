@@ -106,26 +106,12 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 			Metadata:      metadata,
 		}
 
-		pluginTableName := steampipe.ExtractTableName(job.ResourceType)
-		desc, err := steampipe.ConvertToDescription(job.ResourceType, kafkaResource)
-		if err != nil {
-			return fmt.Errorf("convertToDescription: %v", err.Error())
-		}
-
-		cells, err := steampipe.AWSDescriptionToRecord(desc, pluginTableName)
-		if err != nil {
-			return fmt.Errorf("awsdescriptionToRecord: %v", err.Error())
-		}
-
-		for name, v := range cells {
-			if name == "title" || name == "name" {
-				kafkaResource.Metadata["name"] = v.GetStringValue()
-			}
-		}
-
-		tags, err := steampipe.ExtractTags(job.ResourceType, kafkaResource)
+		tags, name, err := steampipe.ExtractTagsAndNames(job.ResourceType, kafkaResource)
 		if err != nil {
 			return fmt.Errorf("failed to build tags for service: %v", err.Error())
+		}
+		if len(name) > 0 {
+			kafkaResource.Metadata["name"] = name
 		}
 
 		partition, _ := aws.PartitionOf(resource.Region)
