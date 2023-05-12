@@ -2,9 +2,10 @@ package describer
 
 import (
 	"context"
+	"sync"
+
 	"github.com/aws/aws-sdk-go-v2/service/sfn"
 	"github.com/aws/aws-sdk-go-v2/service/sfn/types"
-	"sync"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
@@ -193,6 +194,9 @@ func StepFunctionsStateMachineExecution(ctx context.Context, cfg aws.Config, str
 						ExecutionArn: execution.ExecutionArn,
 					})
 					if err != nil {
+						if isErr(err, "ExecutionDoesNotExist") {
+							continue
+						}
 						return nil, err
 					}
 

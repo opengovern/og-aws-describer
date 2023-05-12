@@ -311,35 +311,38 @@ func ECRImage(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 				}
 				for _, image := range page.ImageDetails {
 					desc := model.ECRImageDescription{
-						Image: image,
+						Image:       image,
+						ImageDigest: image.ImageDigest,
+					}
+					if len(image.ImageTags) > 0 {
+						desc.ImageTag = &image.ImageTags[0]
 					}
 
-					if len(image.ImageTags) > 0 {
-						findingsPaginator := ecr.NewDescribeImageScanFindingsPaginator(client, &ecr.DescribeImageScanFindingsInput{
-							RepositoryName: repository.RepositoryName,
-							ImageId: &types.ImageIdentifier{
-								ImageDigest: image.ImageDigest,
-							},
-						})
+					findingsPaginator := ecr.NewDescribeImageScanFindingsPaginator(client, &ecr.DescribeImageScanFindingsInput{
+						RepositoryName: repository.RepositoryName,
+						ImageId: &types.ImageIdentifier{
+							ImageDigest: image.ImageDigest,
+						},
+					})
 
-						// List call
-						for findingsPaginator.HasMorePages() {
-							output, err := findingsPaginator.NextPage(ctx)
-							if err != nil {
-								return nil, err
+					// List call
+					for findingsPaginator.HasMorePages() {
+						output, err := findingsPaginator.NextPage(ctx)
+						if err != nil {
+							if isErr(err, "ScanNotFoundException") {
+								break
 							}
+							return nil, err
+						}
 
-							for _, finding := range output.ImageScanFindings.Findings {
-								desc.ImageDigest = output.ImageId.ImageDigest
-								desc.ImageScanFinding = finding
-								desc.ImageScanStatus = *output.ImageScanStatus
-								desc.ImageTag = output.ImageId.ImageTag
-								if output.ImageScanFindings.ImageScanCompletedAt != nil {
-									desc.ImageScanCompletedAt = output.ImageScanFindings.ImageScanCompletedAt
-								}
-								if output.ImageScanFindings.VulnerabilitySourceUpdatedAt != nil {
-									desc.VulnerabilitySourceUpdatedAt = output.ImageScanFindings.VulnerabilitySourceUpdatedAt
-								}
+						for _, finding := range output.ImageScanFindings.Findings {
+							desc.ImageScanFinding = finding
+							desc.ImageScanStatus = *output.ImageScanStatus
+							if output.ImageScanFindings.ImageScanCompletedAt != nil {
+								desc.ImageScanCompletedAt = output.ImageScanFindings.ImageScanCompletedAt
+							}
+							if output.ImageScanFindings.VulnerabilitySourceUpdatedAt != nil {
+								desc.VulnerabilitySourceUpdatedAt = output.ImageScanFindings.VulnerabilitySourceUpdatedAt
 							}
 						}
 					}

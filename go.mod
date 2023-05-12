@@ -72,7 +72,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/health v1.15.22
 	github.com/aws/aws-sdk-go-v2/service/iam v1.18.9
 	github.com/aws/aws-sdk-go-v2/service/identitystore v1.15.5
-	github.com/aws/aws-sdk-go-v2/service/imagebuilder v1.20.3
+	github.com/aws/aws-sdk-go-v2/service/imagebuilder v1.23.4
 	github.com/aws/aws-sdk-go-v2/service/inspector v1.12.15
 	github.com/aws/aws-sdk-go-v2/service/kafka v1.18.0
 	github.com/aws/aws-sdk-go-v2/service/keyspaces v1.1.0
@@ -141,7 +141,7 @@ require (
 	github.com/spf13/cobra v1.7.0
 	github.com/turbot/go-kit v0.4.0
 	github.com/turbot/steampipe-plugin-sdk/v4 v4.1.13
-	gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230512172935-46d43c9a9909
+	gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230512181409-c9e9d5c4e85a
 	go.uber.org/zap v1.21.0
 	golang.org/x/oauth2 v0.0.0-20220223155221-ee480838109b
 	google.golang.org/grpc v1.48.0
