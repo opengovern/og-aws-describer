@@ -141,7 +141,7 @@ require (
 	github.com/spf13/cobra v1.7.0
 	github.com/turbot/go-kit v0.4.0
 	github.com/turbot/steampipe-plugin-sdk/v4 v4.1.13
-	gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230509191550-e4dbf0b50f62
+	gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230512131447-3858f5122293
 	go.uber.org/zap v1.21.0
 	golang.org/x/oauth2 v0.0.0-20220223155221-ee480838109b
 	google.golang.org/grpc v1.48.0

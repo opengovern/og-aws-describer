@@ -33,7 +33,7 @@ func CloudWatchAlarm(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 				ResourceARN: v.AlarmArn,
 			})
 			if err != nil {
-				return nil, err
+				tags = &cloudwatch.ListTagsForResourceOutput{}
 			}
 
 			resource := Resource{
@@ -75,7 +75,7 @@ func GetCloudWatchAlarm(ctx context.Context, cfg aws.Config, fields map[string]s
 			ResourceARN: v.AlarmArn,
 		})
 		if err != nil {
-			return nil, err
+			tags = &cloudwatch.ListTagsForResourceOutput{}
 		}
 
 		values = append(values, Resource{
