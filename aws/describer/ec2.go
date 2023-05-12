@@ -399,7 +399,6 @@ func EC2CustomerGateway(ctx context.Context, cfg aws.Config, stream *StreamSende
 		resource := Resource{
 			Region: describeCtx.Region,
 			ID:     *v.CustomerGatewayId,
-			Name:   *v.DeviceName,
 			Description: model.EC2CustomerGatewayDescription{
 				CustomerGateway: v,
 			},
