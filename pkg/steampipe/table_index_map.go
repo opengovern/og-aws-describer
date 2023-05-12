@@ -274,7 +274,7 @@ var awsMap = map[string]string{
 	"AWS::CloudWatch::LogSubscriptionFilter":                                 "aws_cloudwatch_log_subscription_filter",
 	"AWS::CloudWatch::Metric":                                                "aws_cloudwatch_metric",
 	"AWS::CodeArtifact::Domain":                                              "aws_codeartifact_domain",
-	"AWS::Config::AggregationAuthorization":                                  "aws_config_aggregation_authorization",
+	"AWS::Config::AggregationAuthorization":                                  "aws_config_aggregate_authorization",
 	"AWS::Config::ConformancePack":                                           "aws_config_conformance_pack",
 	"AWS::Config::Rule":                                                      "aws_config_rule",
 	"AWS::CostExplorer::ByRecordTypeMonthly":                                 "aws_cost_by_record_type_monthly",

@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"strings"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/service/costexplorer"
@@ -12,34 +13,41 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 )
 
+func getTrimmedStringPointer(str *string) *string {
+	if str == nil {
+		return nil
+	}
+	return aws.String(strings.Trim(strings.TrimSpace(*str), "\x00"))
+}
+
 func setRowMetrics(row *model.CostExplorerRow, metrics map[string]types.MetricValue) {
 	if _, ok := metrics["BlendedCost"]; ok {
-		row.BlendedCostAmount = metrics["BlendedCost"].Amount
-		row.BlendedCostUnit = metrics["BlendedCost"].Unit
+		row.BlendedCostAmount = getTrimmedStringPointer(metrics["BlendedCost"].Amount)
+		row.BlendedCostUnit = getTrimmedStringPointer(metrics["BlendedCost"].Unit)
 	}
 	if _, ok := metrics["UnblendedCost"]; ok {
-		row.UnblendedCostAmount = metrics["UnblendedCost"].Amount
-		row.UnblendedCostUnit = metrics["UnblendedCost"].Unit
+		row.UnblendedCostAmount = getTrimmedStringPointer(metrics["UnblendedCost"].Amount)
+		row.UnblendedCostUnit = getTrimmedStringPointer(metrics["UnblendedCost"].Unit)
 	}
 	if _, ok := metrics["NetUnblendedCost"]; ok {
-		row.NetUnblendedCostAmount = metrics["NetUnblendedCost"].Amount
-		row.NetUnblendedCostUnit = metrics["NetUnblendedCost"].Unit
+		row.NetUnblendedCostAmount = getTrimmedStringPointer(metrics["NetUnblendedCost"].Amount)
+		row.NetUnblendedCostUnit = getTrimmedStringPointer(metrics["NetUnblendedCost"].Unit)
 	}
 	if _, ok := metrics["AmortizedCost"]; ok {
-		row.AmortizedCostAmount = metrics["AmortizedCost"].Amount
-		row.AmortizedCostUnit = metrics["AmortizedCost"].Unit
+		row.AmortizedCostAmount = getTrimmedStringPointer(metrics["AmortizedCost"].Amount)
+		row.AmortizedCostUnit = getTrimmedStringPointer(metrics["AmortizedCost"].Unit)
 	}
 	if _, ok := metrics["NetAmortizedCost"]; ok {
-		row.NetAmortizedCostAmount = metrics["NetAmortizedCost"].Amount
-		row.NetAmortizedCostUnit = metrics["NetAmortizedCost"].Unit
+		row.NetAmortizedCostAmount = getTrimmedStringPointer(metrics["NetAmortizedCost"].Amount)
+		row.NetAmortizedCostUnit = getTrimmedStringPointer(metrics["NetAmortizedCost"].Unit)
 	}
 	if _, ok := metrics["UsageQuantity"]; ok {
-		row.UsageQuantityAmount = metrics["UsageQuantity"].Amount
-		row.UsageQuantityUnit = metrics["UsageQuantity"].Unit
+		row.UsageQuantityAmount = getTrimmedStringPointer(metrics["UsageQuantity"].Amount)
+		row.UsageQuantityUnit = getTrimmedStringPointer(metrics["UsageQuantity"].Unit)
 	}
 	if _, ok := metrics["NormalizedUsageAmount"]; ok {
-		row.NormalizedUsageAmount = metrics["NormalizedUsageAmount"].Amount
-		row.NormalizedUsageUnit = metrics["NormalizedUsageAmount"].Unit
+		row.NormalizedUsageAmount = getTrimmedStringPointer(metrics["NormalizedUsageAmount"].Amount)
+		row.NormalizedUsageUnit = getTrimmedStringPointer(metrics["NormalizedUsageAmount"].Unit)
 	}
 }
 
@@ -601,7 +609,7 @@ func buildCostForecastInput(granularity string) *costexplorer.GetCostForecastInp
 
 	timeFormat := "2006-01-02"
 	endTime := time.Now().UTC()
-	startTime := endTime.AddDate(0, -1, 0)
+	startTime := endTime.AddDate(0, 1, 0)
 
 	params := &costexplorer.GetCostForecastInput{
 		TimePeriod: &types.DateInterval{
