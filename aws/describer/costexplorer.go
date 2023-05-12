@@ -621,8 +621,8 @@ func buildCostForecastInput(granularity string) *costexplorer.GetCostForecastInp
 	metric := "UNBLENDED_COST"
 
 	timeFormat := "2006-01-02"
-	endTime := time.Now().UTC()
-	startTime := endTime.AddDate(0, 1, 0)
+	startTime := time.Now().UTC()
+	endTime := startTime.AddDate(0, 1, 0)
 
 	params := &costexplorer.GetCostForecastInput{
 		TimePeriod: &types.DateInterval{
