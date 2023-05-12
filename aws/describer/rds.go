@@ -294,7 +294,7 @@ func RDSDBProxy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 				ResourceName: v.DBProxyArn,
 			})
 			if err != nil {
-				return nil, err
+				tags = &rds.ListTagsForResourceOutput{}
 			}
 
 			resource := Resource{
@@ -303,7 +303,7 @@ func RDSDBProxy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 				Name:   *v.DBProxyName,
 				Description: model.RDSDBProxyDescription{
 					DBProxy: v,
-					Tags:    tags,
+					Tags:    tags.TagList,
 				},
 			}
 			if stream != nil {

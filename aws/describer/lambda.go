@@ -160,7 +160,11 @@ func LambdaFunctionVersion(ctx context.Context, cfg aws.Config, stream *StreamSe
 				Qualifier:    v.Version,
 			})
 			if err != nil {
-				return nil, err
+				if isErr(err, "ResourceNotFoundException") {
+					policy = &lambda.GetPolicyOutput{}
+				} else {
+					return nil, err
+				}
 			}
 
 			resource := Resource{
@@ -220,7 +224,11 @@ func LambdaAlias(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 					Qualifier:    v.Name,
 				})
 				if err != nil {
-					return nil, err
+					if isErr(err, "ResourceNotFoundException") {
+						urlConfig = &lambda.GetFunctionUrlConfigOutput{}
+					} else {
+						return nil, err
+					}
 				}
 
 				resource := Resource{
@@ -432,6 +440,13 @@ func LambdaLayerVersion(ctx context.Context, cfg aws.Config, stream *StreamSende
 					LayerName:     layer.LayerArn,
 					VersionNumber: v.Version,
 				})
+				if err != nil {
+					if isErr(err, "ResourceNotFoundException") {
+						policy = &lambda.GetLayerVersionPolicyOutput{}
+					} else {
+						return nil, err
+					}
+				}
 
 				resource := Resource{
 					Region: describeCtx.Region,

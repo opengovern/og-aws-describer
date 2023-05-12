@@ -4,8 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/aws/smithy-go"
 	"strings"
+
+	"github.com/aws/smithy-go"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/cloudfront"
@@ -158,6 +159,9 @@ func WAFv2RegexPatternSet(ctx context.Context, cfg aws.Config, stream *StreamSen
 				NextMarker: prevToken,
 			})
 			if err != nil {
+				if isErr(err, "WAFNonexistentItemException") {
+					return nil, nil
+				}
 				return nil, err
 			}
 
@@ -175,6 +179,9 @@ func WAFv2RegexPatternSet(ctx context.Context, cfg aws.Config, stream *StreamSen
 					Scope: types.Scope(scope),
 				})
 				if err != nil {
+					if isErr(err, "WAFNonexistentItemException") {
+						continue
+					}
 					return nil, err
 				}
 
@@ -182,7 +189,11 @@ func WAFv2RegexPatternSet(ctx context.Context, cfg aws.Config, stream *StreamSen
 					ResourceARN: v.ARN,
 				})
 				if err != nil {
-					return nil, err
+					if isErr(err, "WAFNonexistentItemException") {
+						regexPatternSetTags = &wafv2.ListTagsForResourceOutput{}
+					} else {
+						return nil, err
+					}
 				}
 
 				resource := Resource{

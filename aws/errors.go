@@ -2,6 +2,7 @@ package aws
 
 import (
 	"errors"
+	"regexp"
 	"strings"
 
 	awshttp "github.com/aws/aws-sdk-go-v2/aws/transport/http"
@@ -28,6 +29,13 @@ func IsUnsupportedOrInvalidError(resource, region string, err error) bool {
 				}
 			}
 			return false
+		}
+	}
+	var responseError *awshttp.ResponseError
+	regex := regexp.MustCompile(`dial tcp: lookup .* on .*: no such host`)
+	if errors.As(err, &responseError) {
+		if responseError.HTTPStatusCode() == 0 && regex.MatchString(responseError.Error()) {
+			return true
 		}
 	}
 

@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
+
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ecr"
 	"github.com/aws/aws-sdk-go-v2/service/ecr/types"
@@ -11,7 +13,6 @@ import (
 	public_types "github.com/aws/aws-sdk-go-v2/service/ecrpublic/types"
 	"github.com/aws/smithy-go"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
-	"strings"
 )
 
 func ECRPublicRepository(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -317,7 +318,7 @@ func ECRImage(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 						findingsPaginator := ecr.NewDescribeImageScanFindingsPaginator(client, &ecr.DescribeImageScanFindingsInput{
 							RepositoryName: repository.RepositoryName,
 							ImageId: &types.ImageIdentifier{
-								ImageTag: &image.ImageTags[0],
+								ImageDigest: image.ImageDigest,
 							},
 						})
 

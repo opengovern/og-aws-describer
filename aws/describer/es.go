@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"math"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	es "github.com/aws/aws-sdk-go-v2/service/elasticsearchservice"
@@ -27,36 +28,38 @@ func ESDomain(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 		return values, nil
 	}
 
-	out, err := client.DescribeElasticsearchDomains(ctx, &es.DescribeElasticsearchDomainsInput{
-		DomainNames: domainNamesList,
-	})
-	if err != nil {
-		return nil, err
-	}
-
-	for _, v := range out.DomainStatusList {
-		out, err := client.ListTags(ctx, &es.ListTagsInput{
-			ARN: v.ARN,
+	for i := 0; i < len(domainNamesList); i += 5 {
+		out, err := client.DescribeElasticsearchDomains(ctx, &es.DescribeElasticsearchDomainsInput{
+			DomainNames: domainNamesList[i:int(math.Min(float64(i+5), float64(len(domainNamesList))))],
 		})
 		if err != nil {
 			return nil, err
 		}
 
-		resource := Resource{
-			Region: describeCtx.KaytuRegion,
-			ARN:    *v.ARN,
-			Name:   *v.DomainName,
-			Description: model.ESDomainDescription{
-				Domain: v,
-				Tags:   out.TagList,
-			},
-		}
-		if stream != nil {
-			if err := (*stream)(resource); err != nil {
+		for _, v := range out.DomainStatusList {
+			out, err := client.ListTags(ctx, &es.ListTagsInput{
+				ARN: v.ARN,
+			})
+			if err != nil {
 				return nil, err
 			}
-		} else {
-			values = append(values, resource)
+
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    *v.ARN,
+				Name:   *v.DomainName,
+				Description: model.ESDomainDescription{
+					Domain: v,
+					Tags:   out.TagList,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
 		}
 	}
 

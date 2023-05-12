@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/securityhub"
 	"github.com/aws/aws-sdk-go-v2/service/securityhub/types"
@@ -23,6 +24,9 @@ func SecurityHubHub(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 
 	tags, err := client.ListTagsForResource(ctx, &securityhub.ListTagsForResourceInput{ResourceArn: out.HubArn})
 	if err != nil {
+		if isErr(err, "InvalidAccessException") {
+			return nil, nil
+		}
 		return nil, err
 	}
 
@@ -55,6 +59,9 @@ func SecurityHubActionTarget(ctx context.Context, cfg aws.Config, stream *Stream
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			if isErr(err, "InvalidAccessException") {
+				return nil, nil
+			}
 			return nil, err
 		}
 
@@ -89,6 +96,9 @@ func SecurityHubFinding(ctx context.Context, cfg aws.Config, stream *StreamSende
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			if isErr(err, "InvalidAccessException") {
+				return nil, nil
+			}
 			return nil, err
 		}
 
@@ -123,6 +133,9 @@ func SecurityHubFindingAggregator(ctx context.Context, cfg aws.Config, stream *S
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			if isErr(err, "InvalidAccessException") {
+				return nil, nil
+			}
 			return nil, err
 		}
 
@@ -131,6 +144,9 @@ func SecurityHubFindingAggregator(ctx context.Context, cfg aws.Config, stream *S
 				FindingAggregatorArn: findingAggregatorSummary.FindingAggregatorArn,
 			})
 			if err != nil {
+				if isErr(err, "InvalidAccessException") {
+					return nil, nil
+				}
 				return nil, err
 			}
 			resource := Resource{
@@ -199,6 +215,9 @@ func SecurityHubMember(ctx context.Context, cfg aws.Config, stream *StreamSender
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			if isErr(err, "InvalidAccessException") {
+				return nil, nil
+			}
 			return nil, err
 		}
 
@@ -232,6 +251,9 @@ func SecurityHubProduct(ctx context.Context, cfg aws.Config, stream *StreamSende
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			if isErr(err, "InvalidAccessException") {
+				return nil, nil
+			}
 			return nil, err
 		}
 
@@ -267,6 +289,9 @@ func SecurityHubStandardsControl(ctx context.Context, cfg aws.Config, stream *St
 	for subPaginator.HasMorePages() {
 		subPage, err := subPaginator.NextPage(ctx)
 		if err != nil {
+			if isErr(err, "InvalidAccessException") {
+				return nil, nil
+			}
 			return nil, err
 		}
 
@@ -277,6 +302,9 @@ func SecurityHubStandardsControl(ctx context.Context, cfg aws.Config, stream *St
 			for paginator.HasMorePages() {
 				page, err := paginator.NextPage(ctx)
 				if err != nil {
+					if isErr(err, "InvalidAccessException") {
+						return nil, nil
+					}
 					return nil, err
 				}
 
@@ -315,6 +343,9 @@ func SecurityHubStandardsSubscription(ctx context.Context, cfg aws.Config, strea
 	for standardsPaginator.HasMorePages() {
 		standardsPage, err := standardsPaginator.NextPage(ctx)
 		if err != nil {
+			if isErr(err, "InvalidAccessException") {
+				return nil, nil
+			}
 			return nil, err
 		}
 		for _, standard := range standardsPage.Standards {
