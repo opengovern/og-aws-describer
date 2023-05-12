@@ -822,6 +822,8 @@ github.com/zclconf/go-cty v1.10.0 h1:mp9ZXQeIcN8kAwuqorjH+Q+njbJKjLrvB2yIh4q7U+0
 github.com/zclconf/go-cty v1.10.0/go.mod h1:vVKLxnk3puL4qRAv72AO+W99LUD4da90g3uUAzyuvAk=
 gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230512181409-c9e9d5c4e85a h1:/6iJkA6PjCxfTWX+VsnLBLc+SpDvvotv0heU3Y6lnds=
 gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230512181409-c9e9d5c4e85a/go.mod h1:I55UNYOEOYsKFkJad1fEhKuVFFTukiDdGJyDMV8kUAY=
+gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230512181711-a47d8b38f37e h1:rYIWaP0vSiLTi6a4LTQ0bwHYx6dPBbEHV/80hl0pHiA=
+gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230512181711-a47d8b38f37e/go.mod h1:H2Hk5gW4lLsooZzks55j1Kb6bmPI+X69jIbK21w5wdg=
 go.opencensus.io v0.21.0/go.mod h1:mSImk1erAIZhrmZN+AvHh14ztQfjbGwt4TtuofqLduU=
 go.opencensus.io v0.22.0/go.mod h1:+kGneAE2xo2IficOXnaByMWTGM9T73dGwxeWcUqIpI8=
 go.opencensus.io v0.22.2/go.mod h1:yxeiOL68Rb0Xd1ddK5vPZ/oVn4vY4Ynel7k9FzqtOIw=
