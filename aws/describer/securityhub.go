@@ -285,7 +285,7 @@ func SecurityHubStandardsControl(ctx context.Context, cfg aws.Config, stream *St
 
 	var values []Resource
 
-	subPaginator := securityhub.NewDescribeStandardsPaginator(client, &securityhub.DescribeStandardsInput{})
+	subPaginator := securityhub.NewGetEnabledStandardsPaginator(client, &securityhub.GetEnabledStandardsInput{})
 	for subPaginator.HasMorePages() {
 		subPage, err := subPaginator.NextPage(ctx)
 		if err != nil {
@@ -295,7 +295,7 @@ func SecurityHubStandardsControl(ctx context.Context, cfg aws.Config, stream *St
 			return nil, err
 		}
 
-		for _, standard := range subPage.Standards {
+		for _, standard := range subPage.StandardsSubscriptions {
 			paginator := securityhub.NewDescribeStandardsControlsPaginator(client, &securityhub.DescribeStandardsControlsInput{
 				StandardsSubscriptionArn: standard.StandardsArn,
 			})
@@ -339,7 +339,7 @@ func SecurityHubStandardsSubscription(ctx context.Context, cfg aws.Config, strea
 	var values []Resource
 
 	standardsPaginator := securityhub.NewDescribeStandardsPaginator(client, &securityhub.DescribeStandardsInput{})
-	var standards map[string]types.Standard
+	standards := make(map[string]types.Standard)
 	for standardsPaginator.HasMorePages() {
 		standardsPage, err := standardsPaginator.NextPage(ctx)
 		if err != nil {

@@ -207,6 +207,9 @@ func LambdaAlias(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 		for paginator.HasMorePages() {
 			page, err := paginator.NextPage(ctx)
 			if err != nil {
+				if isErr(err, "ResourceNotFoundException") {
+					continue
+				}
 				return nil, err
 			}
 
@@ -216,7 +219,11 @@ func LambdaAlias(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 					Qualifier:    v.Name,
 				})
 				if err != nil {
-					return nil, err
+					if isErr(err, "ResourceNotFoundException") {
+						policy = &lambda.GetPolicyOutput{}
+					} else {
+						return nil, err
+					}
 				}
 
 				urlConfig, err := client.GetFunctionUrlConfig(ctx, &lambda.GetFunctionUrlConfigInput{

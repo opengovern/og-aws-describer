@@ -258,8 +258,8 @@ github.com/aws/aws-sdk-go-v2/service/iam v1.18.9 h1:pVHvEz+KIsTwRKufwvGZr90X/YJ7
 github.com/aws/aws-sdk-go-v2/service/iam v1.18.9/go.mod h1:ARVuo+lYC2ibYxny/PKC3maaWKLAg25KSq0dkSkE2WE=
 github.com/aws/aws-sdk-go-v2/service/identitystore v1.15.5 h1:FjeDPNsb1ihheLCMVBnTk69lPzfsmkNB9UxVNeCkTGY=
 github.com/aws/aws-sdk-go-v2/service/identitystore v1.15.5/go.mod h1:MyA+RETJsENr1HnRLuaaPtOiubiSHtHtoHNHPeaX/k0=
-github.com/aws/aws-sdk-go-v2/service/imagebuilder v1.20.3 h1:D+6riwL75CNKPirkL3OqjuI2sQQCCQ/Jbwzr/LiOWjs=
-github.com/aws/aws-sdk-go-v2/service/imagebuilder v1.20.3/go.mod h1:zHfGdwADssonzql/7EYBhqgvqELXIAWHt/eeGoj02JA=
+github.com/aws/aws-sdk-go-v2/service/imagebuilder v1.23.4 h1:lM5X3ituBefJFZXxT3nM7d6TX66sa/tdiNOEZ/HyOG0=
+github.com/aws/aws-sdk-go-v2/service/imagebuilder v1.23.4/go.mod h1:3iXR2y5mnnj4mxJlMC0vqKnT4MlnmW3jnrh0HyffAWE=
 github.com/aws/aws-sdk-go-v2/service/inspector v1.12.15 h1:gKxgS8oV6+Bo1AQiyIBepmGQoqvU8o4Ys/C71qSHUr0=
 github.com/aws/aws-sdk-go-v2/service/inspector v1.12.15/go.mod h1:XgCB+HTKD7s+beHujnMeyWnNkMV2c3H6Wf3zSjFiPJ8=
 github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.9.3 h1:4n4KCtv5SUoT5Er5XV41huuzrCqepxlW3SDI9qHQebc=
@@ -820,8 +820,8 @@ github.com/yuin/goldmark v1.3.5/go.mod h1:mwnBkeHKe2W/ZEtQ+71ViKU8L12m81fl3OWwC1
 github.com/yuin/goldmark v1.4.13/go.mod h1:6yULJ656Px+3vBD8DxQVa3kxgyrAnzto9xy5taEt/CY=
 github.com/zclconf/go-cty v1.10.0 h1:mp9ZXQeIcN8kAwuqorjH+Q+njbJKjLrvB2yIh4q7U+0=
 github.com/zclconf/go-cty v1.10.0/go.mod h1:vVKLxnk3puL4qRAv72AO+W99LUD4da90g3uUAzyuvAk=
-gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230512172935-46d43c9a9909 h1:VwKz6n21Mwa9fGKRZxEbR6FV/+Tacbqh5gkrLfiIu/8=
-gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230512172935-46d43c9a9909/go.mod h1:I55UNYOEOYsKFkJad1fEhKuVFFTukiDdGJyDMV8kUAY=
+gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230512181409-c9e9d5c4e85a h1:/6iJkA6PjCxfTWX+VsnLBLc+SpDvvotv0heU3Y6lnds=
+gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230512181409-c9e9d5c4e85a/go.mod h1:I55UNYOEOYsKFkJad1fEhKuVFFTukiDdGJyDMV8kUAY=
 go.opencensus.io v0.21.0/go.mod h1:mSImk1erAIZhrmZN+AvHh14ztQfjbGwt4TtuofqLduU=
 go.opencensus.io v0.22.0/go.mod h1:+kGneAE2xo2IficOXnaByMWTGM9T73dGwxeWcUqIpI8=
 go.opencensus.io v0.22.2/go.mod h1:yxeiOL68Rb0Xd1ddK5vPZ/oVn4vY4Ynel7k9FzqtOIw=
