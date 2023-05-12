@@ -2178,13 +2178,13 @@ type CostExplorerRow struct {
 	Dimension2 *string
 	//Tag *string
 
-	BlendedCostAmount      *string
-	UnblendedCostAmount    *string
-	NetUnblendedCostAmount *string
-	AmortizedCostAmount    *string
-	NetAmortizedCostAmount *string
-	UsageQuantityAmount    *string
-	NormalizedUsageAmount  *string
+	BlendedCostAmount      *float64
+	UnblendedCostAmount    *float64
+	NetUnblendedCostAmount *float64
+	AmortizedCostAmount    *float64
+	NetAmortizedCostAmount *float64
+	UsageQuantityAmount    *float64
+	NormalizedUsageAmount  *float64
 
 	BlendedCostUnit      *string
 	UnblendedCostUnit    *string

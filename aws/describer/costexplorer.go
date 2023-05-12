@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"strconv"
 	"strings"
 	"time"
 
@@ -20,33 +21,45 @@ func getTrimmedStringPointer(str *string) *string {
 	return aws.String(strings.Trim(strings.TrimSpace(*str), "\x00"))
 }
 
+func getParsedFloat64Pointer(str *string) *float64 {
+	str = getTrimmedStringPointer(str)
+	if str == nil {
+		return nil
+	}
+	amount, err := strconv.ParseFloat(*str, 64)
+	if err != nil {
+		return nil
+	}
+	return aws.Float64(amount)
+}
+
 func setRowMetrics(row *model.CostExplorerRow, metrics map[string]types.MetricValue) {
 	if _, ok := metrics["BlendedCost"]; ok {
-		row.BlendedCostAmount = getTrimmedStringPointer(metrics["BlendedCost"].Amount)
+		row.BlendedCostAmount = getParsedFloat64Pointer(metrics["BlendedCost"].Amount)
 		row.BlendedCostUnit = getTrimmedStringPointer(metrics["BlendedCost"].Unit)
 	}
 	if _, ok := metrics["UnblendedCost"]; ok {
-		row.UnblendedCostAmount = getTrimmedStringPointer(metrics["UnblendedCost"].Amount)
+		row.UnblendedCostAmount = getParsedFloat64Pointer(metrics["UnblendedCost"].Amount)
 		row.UnblendedCostUnit = getTrimmedStringPointer(metrics["UnblendedCost"].Unit)
 	}
 	if _, ok := metrics["NetUnblendedCost"]; ok {
-		row.NetUnblendedCostAmount = getTrimmedStringPointer(metrics["NetUnblendedCost"].Amount)
+		row.NetUnblendedCostAmount = getParsedFloat64Pointer(metrics["NetUnblendedCost"].Amount)
 		row.NetUnblendedCostUnit = getTrimmedStringPointer(metrics["NetUnblendedCost"].Unit)
 	}
 	if _, ok := metrics["AmortizedCost"]; ok {
-		row.AmortizedCostAmount = getTrimmedStringPointer(metrics["AmortizedCost"].Amount)
+		row.AmortizedCostAmount = getParsedFloat64Pointer(metrics["AmortizedCost"].Amount)
 		row.AmortizedCostUnit = getTrimmedStringPointer(metrics["AmortizedCost"].Unit)
 	}
 	if _, ok := metrics["NetAmortizedCost"]; ok {
-		row.NetAmortizedCostAmount = getTrimmedStringPointer(metrics["NetAmortizedCost"].Amount)
+		row.NetAmortizedCostAmount = getParsedFloat64Pointer(metrics["NetAmortizedCost"].Amount)
 		row.NetAmortizedCostUnit = getTrimmedStringPointer(metrics["NetAmortizedCost"].Unit)
 	}
 	if _, ok := metrics["UsageQuantity"]; ok {
-		row.UsageQuantityAmount = getTrimmedStringPointer(metrics["UsageQuantity"].Amount)
+		row.UsageQuantityAmount = getParsedFloat64Pointer(metrics["UsageQuantity"].Amount)
 		row.UsageQuantityUnit = getTrimmedStringPointer(metrics["UsageQuantity"].Unit)
 	}
 	if _, ok := metrics["NormalizedUsageAmount"]; ok {
-		row.NormalizedUsageAmount = getTrimmedStringPointer(metrics["NormalizedUsageAmount"].Amount)
+		row.NormalizedUsageAmount = getParsedFloat64Pointer(metrics["NormalizedUsageAmount"].Amount)
 		row.NormalizedUsageUnit = getTrimmedStringPointer(metrics["NormalizedUsageAmount"].Unit)
 	}
 }
