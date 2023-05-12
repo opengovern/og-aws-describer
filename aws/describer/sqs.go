@@ -18,6 +18,9 @@ func SQSQueue(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			if isErr(err, "AWS.SimpleQueueService.NonExistentQueue") {
+				return nil, nil
+			}
 			return nil, err
 		}
 
@@ -34,15 +37,20 @@ func SQSQueue(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 			})
 			if err != nil {
 				if isErr(err, "AWS.SimpleQueueService.NonExistentQueue") {
-					return nil, err
+					continue
 				}
+				return nil, err
 			}
 
 			tOutput, err := client.ListQueueTags(ctx, &sqs.ListQueueTagsInput{
 				QueueUrl: &url,
 			})
 			if err != nil {
-				return nil, err
+				if isErr(err, "AWS.SimpleQueueService.NonExistentQueue") {
+					tOutput = &sqs.ListQueueTagsOutput{}
+				} else {
+					return nil, err
+				}
 			}
 
 			// Add Queue URL since it doesn't exists in the description

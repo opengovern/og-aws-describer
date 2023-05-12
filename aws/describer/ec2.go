@@ -2605,8 +2605,11 @@ func EC2VPNGateway(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 
 	var values []Resource
 	for _, v := range output.VpnGateways {
+		arn := fmt.Sprintf("arn:%s:ec2:%s:%s:vpn-gateway/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.VpnGatewayId)
+
 		resource := Resource{
 			Region: describeCtx.Region,
+			ARN:    arn,
 			ID:     *v.VpnGatewayId,
 			Name:   *v.VpnGatewayId,
 			Description: model.EC2VPNGatewayDescription{

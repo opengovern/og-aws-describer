@@ -17,6 +17,9 @@ func MGNApplication(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			NextToken: prevToken,
 		})
 		if err != nil {
+			if isErr(err, "UninitializedAccountException") {
+				return nil, nil
+			}
 			return nil, err
 		}
 

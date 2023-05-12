@@ -3,11 +3,12 @@
 package model
 
 import (
+	"time"
+
 	types2 "github.com/aws/aws-sdk-go-v2/service/resourcegroupstaggingapi/types"
 	"github.com/aws/aws-sdk-go-v2/service/sesv2/types"
 	waf2 "github.com/aws/aws-sdk-go-v2/service/waf"
 	types3 "github.com/aws/aws-sdk-go-v2/service/wellarchitected/types"
-	"time"
 
 	accessanalyzer "github.com/aws/aws-sdk-go-v2/service/accessanalyzer/types"
 	account "github.com/aws/aws-sdk-go-v2/service/account/types"
@@ -1551,7 +1552,7 @@ type RDSDBParameterGroupDescription struct {
 //getfilter:db_proxy_name=description.DBProxy.DBProxyName
 type RDSDBProxyDescription struct {
 	DBProxy rds.DBProxy
-	Tags    *rds_sdkv2.ListTagsForResourceOutput
+	Tags    []rds.Tag
 }
 
 //index:aws_rds_dbsubnetgroup
@@ -2035,9 +2036,9 @@ type EKSNodegroupDescription struct {
 //listfilter:addon_name=description.AddonName
 type EKSAddonVersionDescription struct {
 	AddonVersion       eks.AddonVersionInfo
-	AddonConfiguration string
-	AddonName          string
-	AddonType          string
+	AddonConfiguration *string
+	AddonName          *string
+	AddonType          *string
 }
 
 //index:aws_eks_fargateprofile

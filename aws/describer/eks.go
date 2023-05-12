@@ -315,14 +315,17 @@ func EKSAddonVersion(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 				resource := Resource{
 					Region: describeCtx.KaytuRegion,
 					ARN:    arn,
-					Name:   *version.AddonVersion,
 					Description: model.EKSAddonVersionDescription{
 						AddonVersion:       version,
-						AddonConfiguration: *configuration.ConfigurationSchema,
-						AddonName:          *addon.AddonName,
-						AddonType:          *addon.Type,
+						AddonConfiguration: configuration.ConfigurationSchema,
+						AddonName:          addon.AddonName,
+						AddonType:          addon.Type,
 					},
 				}
+				if version.AddonVersion != nil {
+					resource.Name = *version.AddonVersion
+				}
+
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err

@@ -59,12 +59,14 @@ func Route53HealthCheck(ctx context.Context, cfg aws.Config, stream *StreamSende
 			resource := Resource{
 				Region: describeCtx.Region,
 				ID:     *v.Id,
-				Name:   *v.HealthCheckConfig.FullyQualifiedDomainName,
 				Description: model.Route53HealthCheckDescription{
 					HealthCheck: v,
 					Status:      item,
 					Tags:        resp,
 				},
+			}
+			if v.HealthCheckConfig != nil && v.HealthCheckConfig.FullyQualifiedDomainName != nil {
+				resource.Name = *v.HealthCheckConfig.FullyQualifiedDomainName
 			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {

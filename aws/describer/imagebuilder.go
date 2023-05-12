@@ -21,27 +21,39 @@ func ImageBuilderImage(ctx context.Context, cfg aws.Config, stream *StreamSender
 		}
 
 		for _, v := range page.ImageVersionList {
-			image, err := client.GetImage(ctx, &imagebuilder.GetImageInput{
-				ImageBuildVersionArn: v.Arn,
+			buildVersionPaginator := imagebuilder.NewListImageBuildVersionsPaginator(client, &imagebuilder.ListImageBuildVersionsInput{
+				ImageVersionArn: v.Arn,
 			})
-			if err != nil {
-				return nil, err
-			}
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *image.Image.Arn,
-				Name:   *image.Image.Name,
-				Description: model.ImageBuilderImageDescription{
-					Image: *image.Image,
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+			for buildVersionPaginator.HasMorePages() {
+				buildVersionPage, err := buildVersionPaginator.NextPage(ctx)
+				if err != nil {
 					return nil, err
 				}
-			} else {
-				values = append(values, resource)
+
+				for _, imageSummary := range buildVersionPage.ImageSummaryList {
+					image, err := client.GetImage(ctx, &imagebuilder.GetImageInput{
+						ImageBuildVersionArn: imageSummary.Arn,
+					})
+					if err != nil {
+						return nil, err
+					}
+
+					resource := Resource{
+						Region: describeCtx.KaytuRegion,
+						ARN:    *image.Image.Arn,
+						Name:   *image.Image.Name,
+						Description: model.ImageBuilderImageDescription{
+							Image: *image.Image,
+						},
+					}
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
+				}
 			}
 		}
 	}
