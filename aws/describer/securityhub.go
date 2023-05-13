@@ -215,7 +215,7 @@ func SecurityHubMember(ctx context.Context, cfg aws.Config, stream *StreamSender
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
-			if isErr(err, "InvalidAccessException") {
+			if isErr(err, "InvalidAccessException") || isErr(err, "InvalidInputException") {
 				return nil, nil
 			}
 			return nil, err
@@ -357,6 +357,9 @@ func SecurityHubStandardsSubscription(ctx context.Context, cfg aws.Config, strea
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			if isErr(err, "InvalidAccessException") {
+				return nil, nil
+			}
 			return nil, err
 		}
 
