@@ -11,10 +11,10 @@ import (
 	"github.com/go-errors/errors"
 	"github.com/kaytu-io/kaytu-aws-describer/aws"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/describer"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/describe"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/source"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/vault"
-	"github.com/kaytu-io/kaytu-aws-describer/proto/src/golang"
+	"github.com/kaytu-io/kaytu-util/pkg/describe"
+	"github.com/kaytu-io/kaytu-util/pkg/source"
+	"github.com/kaytu-io/kaytu-util/pkg/vault"
+	"github.com/kaytu-io/kaytu-util/proto/src/golang"
 	"go.uber.org/zap"
 )
 

@@ -59,7 +59,7 @@ type {{ .Name }}Hit struct {
 }
 
 type {{ .Name }}Hits struct {
-	Total SearchTotal       ` + "`json:\"total\"`" + `
+	Total essdk.SearchTotal       ` + "`json:\"total\"`" + `
 	Hits  []{{ .Name }}Hit ` + "`json:\"hits\"`" + `
 }
 
@@ -69,11 +69,11 @@ type {{ .Name }}SearchResponse struct {
 }
 
 type {{ .Name }}Paginator struct {
-	paginator *baseESPaginator
+	paginator *essdk.BaseESPaginator
 }
 
-func (k Client) New{{ .Name }}Paginator(filters []BoolFilter, limit *int64) ({{ .Name }}Paginator, error) {
-	paginator, err := newPaginator(k.es, "{{ .Index }}", filters, limit)
+func (k Client) New{{ .Name }}Paginator(filters []essdk.BoolFilter, limit *int64) ({{ .Name }}Paginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "{{ .Index }}", filters, limit)
 	if err != nil {
 		return {{ .Name }}Paginator{}, err
 	}
@@ -86,12 +86,12 @@ func (k Client) New{{ .Name }}Paginator(filters []BoolFilter, limit *int64) ({{ 
 }
 
 func (p {{ .Name }}Paginator) HasNext() bool {
-	return !p.paginator.done
+	return !p.paginator.Done()
 }
 
 func (p {{ .Name }}Paginator) NextPage(ctx context.Context) ([]{{ .Name }}, error) {
 	var response {{ .Name }}SearchResponse
-	err := p.paginator.search(ctx, &response)
+	err := p.paginator.Search(ctx, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -103,9 +103,9 @@ func (p {{ .Name }}Paginator) NextPage(ctx context.Context) ([]{{ .Name }}, erro
 
 	hits := int64(len(response.Hits.Hits))
 	if hits > 0 {
-		p.paginator.updateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
 	} else {
-		p.paginator.updateState(hits, nil, "")
+		p.paginator.UpdateState(hits, nil, "")
 	}
 
 	return values, nil
@@ -120,13 +120,14 @@ func List{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	plugin.Logger(ctx).Trace("List{{ .Name }}")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
-	paginator, err := k.New{{ .Name }}Paginator(buildFilter(d.KeyColumnQuals, list{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.New{{ .Name }}Paginator(essdk.BuildFilter(d.KeyColumnQuals, list{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -155,14 +156,15 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	plugin.Logger(ctx).Trace("Get{{ .Name }}")
 
 	// create service
-	cfg := GetConfig(d.Connection)
-	k, err := NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
+	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.New{{ .Name }}Paginator(buildFilter(d.KeyColumnQuals, get{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID), &limit)
+	paginator, err := k.New{{ .Name }}Paginator(essdk.BuildFilter(d.KeyColumnQuals, get{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -269,8 +271,13 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		import (
 			"context"
 			"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
+			essdk "github.com/kaytu-io/kaytu-util/pkg/keibi-es-sdk"
 			`+*sourceType+` "github.com/kaytu-io/kaytu-`+*sourceType+`-describer/`+*sourceType+`/model"
 		)
+
+		type Client struct {
+			essdk.Client
+		}
 		`)
 	}
 

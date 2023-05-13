@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/kaytu-io/kaytu-aws-describer/proto/src/golang"
+	"github.com/kaytu-io/kaytu-util/proto/src/golang"
 	"golang.org/x/oauth2"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -17,8 +17,8 @@ import (
 	"google.golang.org/grpc/metadata"
 
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/describe"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/vault"
+	"github.com/kaytu-io/kaytu-util/pkg/describe"
+	"github.com/kaytu-io/kaytu-util/pkg/vault"
 	"go.uber.org/zap"
 )
 

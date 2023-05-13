@@ -3,7 +3,7 @@ package describer
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/describe/enums"
+	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 )
 
 var (

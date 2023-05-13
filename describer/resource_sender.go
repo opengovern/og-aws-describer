@@ -7,7 +7,7 @@ import (
 	"io"
 	"time"
 
-	"github.com/kaytu-io/kaytu-aws-describer/proto/src/golang"
+	"github.com/kaytu-io/kaytu-util/proto/src/golang"
 	"go.uber.org/zap"
 	"golang.org/x/oauth2"
 	"google.golang.org/grpc"

@@ -7,8 +7,8 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/describer"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/describe/enums"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/source"
+	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
+	"github.com/kaytu-io/kaytu-util/pkg/source"
 )
 
 type ResourceDescriber func(context.Context, aws.Config, string, []string, string, enums.DescribeTriggerType, *describer.StreamSender) (*Resources, error)

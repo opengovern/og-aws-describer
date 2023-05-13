@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	describe2 "github.com/kaytu-io/kaytu-aws-describer/pkg/describe/enums"
+	describe2 "github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 	"github.com/spf13/cobra"
 )
 

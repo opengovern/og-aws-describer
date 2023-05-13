@@ -1,6 +1,6 @@
 package describer
 
-import "github.com/kaytu-io/kaytu-aws-describer/pkg/source"
+import "github.com/kaytu-io/kaytu-util/pkg/source"
 
 type Resource struct {
 	// ID is the globally unique ID of the resource.

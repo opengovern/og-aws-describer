@@ -8,7 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/kaytu-io/kaytu-aws-describer/aws"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/describe/enums"
+	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 	"github.com/spf13/cobra"
 	"os"
 )

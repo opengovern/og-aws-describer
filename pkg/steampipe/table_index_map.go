@@ -1,8 +1,6 @@
 package steampipe
 
 import (
-	"strings"
-
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/keibi-es-sdk"
 )
 
@@ -774,53 +772,4 @@ var AWSDescriptionMap = map[string]interface{}{
 	"AWS::ServiceQuotas::DefaultServiceQuota":                                     &keibi.ServiceQuotasDefaultServiceQuota{},
 	"AWS::ServiceQuotas::ServiceQuota":                                            &keibi.ServiceQuotasServiceQuota{},
 	"AWS::ServiceQuotas::ServiceQuotaChangeRequest":                               &keibi.ServiceQuotasServiceQuotaChangeRequest{},
-}
-
-var AzureADKeys = map[string]struct{}{
-	strings.ToLower("Microsoft.Resources/users"):             {},
-	strings.ToLower("Microsoft.Resources/groups"):            {},
-	strings.ToLower("Microsoft.Resources/serviceprincipals"): {},
-}
-
-type SteampipePlugin string
-
-const (
-	SteampipePluginAWS     = "aws"
-	SteampipePluginAzure   = "azure"
-	SteampipePluginAzureAD = "azuread"
-	SteampipePluginUnknown = ""
-)
-
-func ExtractPlugin(resourceType string) SteampipePlugin {
-	resourceType = strings.ToLower(resourceType)
-	if strings.HasPrefix(resourceType, "aws::") {
-		return SteampipePluginAWS
-	} else if strings.HasPrefix(resourceType, "microsoft") {
-		if _, ok := AzureADKeys[strings.ToLower(resourceType)]; ok {
-			return SteampipePluginAzureAD
-		}
-		return SteampipePluginAzure
-	}
-	return SteampipePluginUnknown
-}
-
-func ExtractTableName(resourceType string) string {
-	resourceType = strings.ToLower(resourceType)
-	for k, v := range awsMap {
-		if resourceType == strings.ToLower(k) {
-			return v
-		}
-	}
-	return ""
-}
-
-func GetResourceTypeByTableName(tableName string) string {
-	tableName = strings.ToLower(tableName)
-	for k, v := range awsMap {
-		if tableName == strings.ToLower(v) {
-			return k
-		}
-	}
-
-	return ""
 }
