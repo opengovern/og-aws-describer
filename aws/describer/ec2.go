@@ -36,6 +36,9 @@ func EC2VolumeSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender
 				SnapshotId: snapshot.SnapshotId,
 			})
 			if err != nil {
+				if isErr(err, "InvalidSnapshot.NotFound") {
+					continue
+				}
 				return nil, err
 			}
 
