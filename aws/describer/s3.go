@@ -522,11 +522,11 @@ func S3AccessPoint(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 			}
 			apps, err := client.GetAccessPointPolicyStatus(ctx, appsParams)
 			if err != nil {
-				if !isErr(err, "NoSuchAccessPointPolicy") {
+				if isErr(err, "NoSuchAccessPointPolicy") {
+					apps = &s3control.GetAccessPointPolicyStatusOutput{}
+				} else {
 					return nil, err
 				}
-				apps = &s3control.GetAccessPointPolicyStatusOutput{}
-				return nil, err
 			}
 
 			resource := Resource{
