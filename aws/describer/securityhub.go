@@ -302,7 +302,7 @@ func SecurityHubStandardsControl(ctx context.Context, cfg aws.Config, stream *St
 			for paginator.HasMorePages() {
 				page, err := paginator.NextPage(ctx)
 				if err != nil {
-					if isErr(err, "InvalidAccessException") {
+					if isErr(err, "InvalidAccessException") || isErr(err, "InvalidInputException") {
 						return nil, nil
 					}
 					return nil, err
