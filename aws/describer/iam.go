@@ -1341,7 +1341,7 @@ func IAMVirtualMFADevice(ctx context.Context, cfg aws.Config, stream *StreamSend
 			SerialNumber: v.SerialNumber,
 		})
 		if err != nil {
-			return nil, err
+			output = &iam.ListMFADeviceTagsOutput{}
 		}
 
 		resource := Resource{

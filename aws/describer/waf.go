@@ -167,16 +167,17 @@ func WAFv2RegexPatternSet(ctx context.Context, cfg aws.Config, stream *StreamSen
 
 			for _, v := range output.RegexPatternSets {
 				loc := strings.Split(strings.Split(*v.ARN, ":")[5], "/")[0]
-				var scope string
+				var scope types.Scope
 				if loc == "regional" {
-					scope = "REGIONAL"
+					scope = types.ScopeRegional
+				} else {
+					scope = types.ScopeCloudfront
 				}
-				scope = "CLOUDFRONT"
 
 				op, err := client.GetRegexPatternSet(ctx, &wafv2.GetRegexPatternSetInput{
 					Id:    v.Id,
 					Name:  v.Name,
-					Scope: types.Scope(scope),
+					Scope: scope,
 				})
 				if err != nil {
 					if isErr(err, "WAFNonexistentItemException") {
