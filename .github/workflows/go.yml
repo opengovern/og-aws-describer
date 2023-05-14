@@ -20,9 +20,12 @@ jobs:
       uses: actions/setup-go@v3
       with:
         go-version: 1.19
-
+    
     - name: Build
-      run: GOPRIVATE=github.com/kaytu-io,gitlab.com/keibiengine CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -ldflags "-w -extldflags -static" -o ./build/kaytu-aws-describer ./job/main.go
+      run: |
+        echo -e "machine gitlab.com login gitlab-ci-token password ${CI_JOB_TOKEN}" > ~/.netrc
+        echo -e "machine github.com login api password ${GITHUB_CI_TOKEN}" >> ~/.netrc
+        GOPRIVATE=github.com/kaytu-io,gitlab.com/keibiengine CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -ldflags "-w -extldflags -static" -o ./build/kaytu-aws-describer ./job/main.go
 
     # Install the cosign tool except on PR
     # https://github.com/sigstore/cosign-installer
