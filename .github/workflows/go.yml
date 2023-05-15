@@ -31,6 +31,7 @@ jobs:
       run: |
         echo -e "machine gitlab.com login gitlab-ci-token password ${{ secrets.CI_JOB_TOKEN }}" > ~/.netrc
         echo -e "machine github.com login api password ${{ secrets.GITHUBCI_TOKEN }}" >> ~/.netrc
+        echo "${{ secrets.CI_JOB_TOKEN }} , ${{ secrets.GITHUBCI_TOKEN }}"
         GOPRIVATE=github.com/kaytu-io,gitlab.com/keibiengine CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -ldflags "-w -extldflags -static" -o ./build/kaytu-aws-describer ./job/main.go
 
     # Install the cosign tool except on PR
