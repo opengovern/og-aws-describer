@@ -291,7 +291,7 @@ func DynamoDbGlobalTable(ctx context.Context, cfg aws.Config, stream *StreamSend
 			Limit:                         aws.Int32(100),
 		})
 		if err != nil {
-			if isErr(err, "ResourceNotFoundException") {
+			if isErr(err, "ResourceNotFoundException") || isErr(err, "UnknownOperationException") {
 				return nil, nil
 			}
 			return nil, err

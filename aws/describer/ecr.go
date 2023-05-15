@@ -337,7 +337,9 @@ func ECRImage(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 
 						for _, finding := range output.ImageScanFindings.Findings {
 							desc.ImageScanFinding = finding
-							desc.ImageScanStatus = *output.ImageScanStatus
+							if output.ImageScanStatus != nil {
+								desc.ImageScanStatus = *output.ImageScanStatus
+							}
 							if output.ImageScanFindings.ImageScanCompletedAt != nil {
 								desc.ImageScanCompletedAt = output.ImageScanFindings.ImageScanCompletedAt
 							}
@@ -349,7 +351,7 @@ func ECRImage(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 
 					resource := Resource{
 						Region:      describeCtx.KaytuRegion,
-						Name:        fmt.Sprintf("%s:%s", *repository.RepositoryName, *image.ImageDigest),
+						Name:        fmt.Sprintf("%s:%s", *repository.RepositoryArn, *image.ImageDigest),
 						Description: desc,
 					}
 					if stream != nil {
