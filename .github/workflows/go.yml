@@ -9,6 +9,12 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: registry.digitalocean.com
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: keibi/kaytu-aws-describer
+
 jobs:
 
   build:
@@ -23,8 +29,8 @@ jobs:
     
     - name: Build
       run: |
-        echo -e "machine gitlab.com login gitlab-ci-token password ${CI_JOB_TOKEN}" > ~/.netrc
-        echo -e "machine github.com login api password ${GITHUB_CI_TOKEN}" >> ~/.netrc
+        echo -e "machine gitlab.com login gitlab-ci-token password ${{ secrets.CI_JOB_TOKEN }}" > ~/.netrc
+        echo -e "machine github.com login api password ${{ secrets.GITHUBCI_TOKEN }}" >> ~/.netrc
         GOPRIVATE=github.com/kaytu-io,gitlab.com/keibiengine CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -ldflags "-w -extldflags -static" -o ./build/kaytu-aws-describer ./job/main.go
 
     # Install the cosign tool except on PR
@@ -47,8 +53,8 @@ jobs:
       uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
       with:
         registry: ${{ env.REGISTRY }}
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        username: ${{ secrets.DO_API_TOKEN }}
+        password: ${{ secrets.DO_API_TOKEN }}
 
     # Extract metadata (tags, labels) for Docker
     # https://github.com/docker/metadata-action
