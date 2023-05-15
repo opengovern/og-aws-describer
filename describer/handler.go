@@ -25,18 +25,10 @@ const (
 	DescribeResourceJobSucceeded string = "SUCCEEDED"
 )
 
-func getJWTAuthToken(workspaceId string, vault *vault.KMSVaultSourceConfig) (string, error) {
+func getJWTAuthToken(workspaceId string) (string, error) {
 	privateKey, ok := os.LookupEnv("JWT_PRIVATE_KEY")
 	if !ok {
 		return "", fmt.Errorf("JWT_PRIVATE_KEY not set")
-	}
-
-	if jwtKmsKeyArn, ok := os.LookupEnv("JWT_KMS_KEY_ARN"); ok {
-		result, err := vault.Decrypt(privateKey, jwtKmsKeyArn)
-		if err != nil {
-			return "", fmt.Errorf("failed to decrypt ciphertext privatekey: %v", err)
-		}
-		privateKey = result["private_key"].(string)
 	}
 
 	privateKeyBytes, err := base64.StdEncoding.DecodeString(privateKey)
@@ -83,7 +75,7 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		return fmt.Errorf("failed to initialize KMS vault: %w", err)
 	}
 
-	token, err := getJWTAuthToken(input.WorkspaceId, kmsVault)
+	token, err := getJWTAuthToken(input.WorkspaceId)
 	if err != nil {
 		return fmt.Errorf("failed to get JWT token: %w", err)
 	}
