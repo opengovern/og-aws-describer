@@ -796,7 +796,8 @@ func Route53TrafficPolicy(ctx context.Context, cfg aws.Config, stream *StreamSen
 		}
 		for _, policySummary := range policies.TrafficPolicySummaries {
 			policy, err := client.GetTrafficPolicy(ctx, &route53.GetTrafficPolicyInput{
-				Id: policySummary.Id,
+				Id:      policySummary.Id,
+				Version: policySummary.LatestVersion,
 			})
 			if err != nil {
 				return nil, err

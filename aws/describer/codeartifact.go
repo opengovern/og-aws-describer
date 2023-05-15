@@ -83,7 +83,11 @@ func CodeArtifactDomain(ctx context.Context, cfg aws.Config, stream *StreamSende
 				DomainOwner: v.Owner,
 			})
 			if err != nil {
-				return nil, err
+				if isErr(err, "ResourceNotFoundException") {
+					policy = &codeartifact.GetDomainPermissionsPolicyOutput{}
+				} else {
+					return nil, err
+				}
 			}
 
 			resource := Resource{

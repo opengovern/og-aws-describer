@@ -120,7 +120,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/simspaceweaver v1.2.1
 	github.com/aws/aws-sdk-go-v2/service/sns v1.17.9
 	github.com/aws/aws-sdk-go-v2/service/sqs v1.19.10
-	github.com/aws/aws-sdk-go-v2/service/ssm v1.30.0
+	github.com/aws/aws-sdk-go-v2/service/ssm v1.36.4
 	github.com/aws/aws-sdk-go-v2/service/ssoadmin v1.15.13
 	github.com/aws/aws-sdk-go-v2/service/storagegateway v1.18.0
 	github.com/aws/aws-sdk-go-v2/service/sts v1.19.0
@@ -223,6 +223,7 @@ require (
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stevenle/topsort v0.0.0-20130922064739-8130c1d7596b // indirect
+	github.com/streadway/amqp v1.0.0 // indirect
 	github.com/tkrajina/go-reflector v0.5.4 // indirect
 	github.com/zclconf/go-cty v1.10.0 // indirect
 	go.opentelemetry.io/otel v1.8.0 // indirect

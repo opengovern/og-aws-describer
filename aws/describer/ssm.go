@@ -3,8 +3,9 @@ package describer
 import (
 	"context"
 	"errors"
-	"github.com/aws/smithy-go"
 	"strings"
+
+	"github.com/aws/smithy-go"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ssm"
