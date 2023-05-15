@@ -21,7 +21,7 @@ type DescriberJob struct {
 }
 
 func (h *DescriberJob) Run() error {
-	config2.ReadFromEnv(h.config, nil)
+	config2.ReadFromEnv(&h.config, nil)
 
 	logger, err := zap.NewProduction()
 	if err != nil {
