@@ -36,7 +36,7 @@ jobs:
         major_regexp_flags: ""
         minor_pattern: "(MINOR)"
         minor_regexp_flags: ""
-        version_format: "${major}.${minor}.${patch}"
+        version_format: "${major}.${minor}.${patch}-prerelease${increment}"
         namespace: aws-describer
         bump_each_commit: true
         search_commit_body: false
