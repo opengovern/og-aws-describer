@@ -63,7 +63,8 @@ func (h *DescriberJob) Run() error {
 
 		err := describer.DescribeHandler(context.Background(), job)
 		if err != nil {
-			return err
+			logger.Error("failure while handling job", zap.Uint("jobID", job.DescribeJob.JobID))
+			continue
 		}
 	}
 	return nil
