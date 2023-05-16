@@ -14,7 +14,6 @@ env:
   REGISTRY: registry.digitalocean.com
   # github.repository as <account>/<repo>
   IMAGE_NAME: keibi/kaytu-aws-describer
-  IMAGE_ID: kaytu-aws-describer
 
 jobs:
 
@@ -93,7 +92,7 @@ jobs:
       with:
         context: .
         push: ${{ github.event_name != 'pull_request' }}
-        tags: ${{ env.IMAGE_ID }}:${{ steps.versioning.outputs.version }}
+        tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.versioning.outputs.version }}
         labels: ${{ steps.meta.outputs.labels }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
