@@ -23,11 +23,25 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - uses: paulhatch/semantic-version@v5.0.2
+      with:
+        tag_prefix: ""
+        major_pattern: "(MAJOR)"
+        major_regexp_flags: ""
+        minor_pattern: "(MINOR)"
+        minor_regexp_flags: ""
+        version_format: "${major}.${minor}.${patch}"
+        namespace: aws-describer
+        bump_each_commit: true
+        search_commit_body: false
+        user_format_type: "csv"
+        enable_prerelease_mode: false
+
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
         go-version: 1.19
-    
+
     - name: Build
       env: # Or as an environment variable
         CI_ACCESS_TOKEN: ${{ secrets.CI_ACCESS_TOKEN }}
@@ -37,15 +51,6 @@ jobs:
         echo -e "machine github.com login api password ${{ secrets.GITHUBCI_TOKEN }}" >> ~/.netrc
         echo "${{ secrets.CI_ACCESS_TOKEN }} , ${{ secrets.GITHUBCI_TOKEN }}, $CI_JOB_TOKEN"
         GOPRIVATE=github.com/kaytu-io,gitlab.com/keibiengine CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -ldflags "-w -extldflags -static" -o ./build/kaytu-aws-describer ./job/main.go
-
-    # Install the cosign tool except on PR
-    # https://github.com/sigstore/cosign-installer
-    - name: Install cosign
-      if: github.event_name != 'pull_request'
-      uses: sigstore/cosign-installer@f3c664df7af409cb4873aa5068053ba9d61a57b6 #v2.6.0
-      with:
-        cosign-release: 'v1.13.1'
-
 
     # Workaround: https://github.com/docker/build-push-action/issues/461
     - name: Setup Docker buildx
@@ -81,17 +86,3 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
-
-
-    # Sign the resulting Docker image digest except on PRs.
-    # This will only write to the public Rekor transparency log when the Docker
-    # repository is public to avoid leaking data.  If you would like to publish
-    # transparency data even for private images, pass --force to cosign below.
-    # https://github.com/sigstore/cosign
-    - name: Sign the published Docker image
-      if: ${{ github.event_name != 'pull_request' }}
-      env:
-        COSIGN_EXPERIMENTAL: "true"
-      # This step uses the identity token to provision an ephemeral certificate
-      # against the sigstore community Fulcio instance.
-      run: echo "${{ steps.meta.outputs.tags }}" | xargs -I {} cosign sign {}@${{ steps.build-and-push.outputs.digest }}
