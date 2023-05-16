@@ -48,6 +48,7 @@ jobs:
         CI_ACCESS_TOKEN: ${{ secrets.CI_ACCESS_TOKEN }}
         GITHUBCI_TOKEN: ${{ secrets.GITHUBCI_TOKEN }}
       run: |
+        git tag ${{ steps.versioning.outputs.version }}
         echo -e "machine gitlab.com login gitlab-ci-token password ${{ secrets.CI_ACCESS_TOKEN }}" > ~/.netrc
         echo -e "machine github.com login api password ${{ secrets.GITHUBCI_TOKEN }}" >> ~/.netrc
         echo "${{ secrets.CI_ACCESS_TOKEN }} , ${{ secrets.GITHUBCI_TOKEN }}, $CI_JOB_TOKEN"
