@@ -18,6 +18,12 @@ import (
 	"go.uber.org/zap"
 )
 
+type KaytuError struct {
+	ErrCode string
+
+	error
+}
+
 func Do(ctx context.Context,
 	vlt *vault.KMSVaultSourceConfig,
 	logger *zap.Logger,
@@ -181,5 +187,13 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 		err = nil
 	}
 
-	return rs.GetResourceIDs(), err
+	var kerr error
+	if err != nil {
+		kerr = KaytuError{
+			ErrCode: output.ErrorCode,
+			error:   err,
+		}
+	}
+
+	return rs.GetResourceIDs(), kerr
 }

@@ -2,7 +2,9 @@ package aws
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"github.com/aws/smithy-go"
 	"sort"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -3746,6 +3748,7 @@ func GetResourceTypesMap() map[string]ResourceType {
 type Resources struct {
 	Resources map[string][]describer.Resource
 	Errors    map[string]string
+	ErrorCode string
 }
 
 func GetResources(
@@ -3869,6 +3872,7 @@ func ParallelDescribeRegionalSingleResource(describe func(context.Context, aws.C
 		region    string
 		resources []describer.Resource
 		err       error
+		errorCode string
 	}
 	return func(ctx context.Context, cfg aws.Config, account string, regions []string, rType string, fields map[string]string, triggerType enums.DescribeTriggerType) (*Resources, error) {
 		input := make(chan result, len(regions))
@@ -3892,7 +3896,14 @@ func ParallelDescribeRegionalSingleResource(describe func(context.Context, aws.C
 				})
 				ctx = describer.WithTriggerType(ctx, triggerType)
 				resources, err := describe(ctx, rCfg, fields)
-				input <- result{region: r, resources: resources, err: err}
+				errCode := ""
+				if err != nil {
+					var ae smithy.APIError
+					if errors.As(err, &ae) {
+						errCode = ae.ErrorCode()
+					}
+				}
+				input <- result{region: r, resources: resources, err: err, errorCode: errCode}
 			}(region)
 		}
 
@@ -3905,6 +3916,7 @@ func ParallelDescribeRegionalSingleResource(describe func(context.Context, aws.C
 			if resp.err != nil {
 				if !IsUnsupportedOrInvalidError(rType, resp.region, resp.err) {
 					output.Errors[resp.region] = resp.err.Error()
+					output.ErrorCode = resp.errorCode
 					continue
 				}
 			}
@@ -3951,7 +3963,15 @@ func SequentialDescribeRegional(describe func(context.Context, aws.Config, *desc
 			resources, err := describe(ctx, rCfg, stream)
 			if err != nil {
 				if !IsUnsupportedOrInvalidError(rType, region, err) {
+					errCode := ""
+					if err != nil {
+						var ae smithy.APIError
+						if errors.As(err, &ae) {
+							errCode = ae.ErrorCode()
+						}
+					}
 					output.Errors[region] = err.Error()
+					output.ErrorCode = errCode
 				}
 				continue
 			}
@@ -3980,6 +4000,7 @@ func ParallelDescribeRegional(describe func(context.Context, aws.Config, *descri
 		region    string
 		resources []describer.Resource
 		err       error
+		errorCode string
 	}
 	return func(ctx context.Context, cfg aws.Config, account string, regions []string, rType string, triggerType enums.DescribeTriggerType, stream *describer.StreamSender) (*Resources, error) {
 		input := make(chan result, len(regions))
@@ -4003,19 +4024,28 @@ func ParallelDescribeRegional(describe func(context.Context, aws.Config, *descri
 				})
 				ctx = describer.WithTriggerType(ctx, triggerType)
 				resources, err := describe(ctx, rCfg, stream)
-				input <- result{region: r, resources: resources, err: err}
+				errCode := ""
+				if err != nil {
+					var ae smithy.APIError
+					if errors.As(err, &ae) {
+						errCode = ae.ErrorCode()
+					}
+				}
+				input <- result{region: r, resources: resources, err: err, errorCode: errCode}
 			}(region)
 		}
 
 		output := Resources{
 			Resources: make(map[string][]describer.Resource, len(regions)),
 			Errors:    make(map[string]string, len(regions)),
+			ErrorCode: "",
 		}
 		for range regions {
 			resp := <-input
 			if resp.err != nil {
 				if !IsUnsupportedOrInvalidError(rType, resp.region, resp.err) {
 					output.Errors[resp.region] = resp.err.Error()
+					output.ErrorCode = resp.errorCode
 					continue
 				}
 			}
@@ -4063,7 +4093,15 @@ func SequentialDescribeGlobal(describe func(context.Context, aws.Config, *descri
 			resources, err := describe(ctx, rCfg, stream)
 			if err != nil {
 				if !IsUnsupportedOrInvalidError(rType, region, err) {
+					errCode := ""
+					if err != nil {
+						var ae smithy.APIError
+						if errors.As(err, &ae) {
+							errCode = ae.ErrorCode()
+						}
+					}
 					output.Errors[region] = err.Error()
+					output.ErrorCode = errCode
 				}
 				continue
 			}
@@ -4127,7 +4165,15 @@ func SequentialDescribeS3(describe func(context.Context, aws.Config, []string, *
 			resources, err := describe(ctx, rCfg, regions, stream)
 			if err != nil {
 				if !IsUnsupportedOrInvalidError(rType, region, err) {
+					errCode := ""
+					if err != nil {
+						var ae smithy.APIError
+						if errors.As(err, &ae) {
+							errCode = ae.ErrorCode()
+						}
+					}
 					output.Errors[region] = err.Error()
+					output.ErrorCode = errCode
 				}
 				continue
 			}

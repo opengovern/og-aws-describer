@@ -3,6 +3,7 @@ package describer
 import (
 	"context"
 	"encoding/base64"
+	"errors"
 	"fmt"
 	"os"
 	"time"
@@ -92,9 +93,14 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 	)
 
 	errMsg := ""
+	errCode := ""
 	status := DescribeResourceJobSucceeded
 	if err != nil {
 		errMsg = err.Error()
+		var kerr KaytuError
+		if errors.As(err, &kerr) {
+			errCode = kerr.ErrCode
+		}
 		status = DescribeResourceJobFailed
 	}
 
@@ -123,6 +129,7 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 			ParentJobId: uint32(input.DescribeJob.ParentJobID),
 			Status:      status,
 			Error:       errMsg,
+			ErrorCode:   errCode,
 			DescribeJob: &golang.DescribeJob{
 				JobId:         uint32(input.DescribeJob.JobID),
 				ScheduleJobId: uint32(input.DescribeJob.ScheduleJobID),
