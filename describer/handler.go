@@ -92,6 +92,9 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		)
 		if err != nil {
 			logger.Error("[result delivery] connection failure:", zap.Error(err))
+			if retry == 4 {
+				return err
+			}
 			time.Sleep(1 * time.Second)
 			continue
 		}
@@ -104,11 +107,10 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 			JobId: uint32(input.DescribeJob.JobID),
 		})
 		if err != nil {
+			logger.Error("[result delivery] set in progress failure:", zap.Error(err))
 			if retry == 4 {
-				logger.Error("[result delivery] set in progress failure:", zap.Error(err))
 				return err
 			}
-			logger.Error("[result delivery] set in progress failure:", zap.Error(err))
 			time.Sleep(1 * time.Second)
 			continue
 		}
