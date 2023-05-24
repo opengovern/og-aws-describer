@@ -78,11 +78,11 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 
 		awsMetadata := awsmodel.Metadata{
 			Name:         resource.Name,
-			AccountID:    resource.Account,
+			AccountID:    job.AccountID,
 			SourceID:     job.SourceID,
 			Region:       resource.Region,
-			Partition:    resource.Name,
-			ResourceType: strings.ToLower(resource.Type),
+			Partition:    resource.Partition,
+			ResourceType: strings.ToLower(job.ResourceType),
 		}
 
 		awsMetadataBytes, err := json.Marshal(awsMetadata)
