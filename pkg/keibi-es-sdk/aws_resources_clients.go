@@ -16071,7 +16071,7 @@ type EC2AMIPaginator struct {
 }
 
 func (k Client) NewEC2AMIPaginator(filters []essdk.BoolFilter, limit *int64) (EC2AMIPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "aws_ec2_ami", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_ec2_image", filters, limit)
 	if err != nil {
 		return EC2AMIPaginator{}, err
 	}
