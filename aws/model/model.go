@@ -1014,7 +1014,7 @@ type EC2KeyPairDescription struct {
 	KeyPair ec2.KeyPairInfo
 }
 
-//index:aws_ec2_ami
+//index:aws_ec2_image
 //getfilter:image_id=description.AMI.ImageId
 type EC2AMIDescription struct {
 	AMI               ec2.Image
