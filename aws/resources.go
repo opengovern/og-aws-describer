@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/aws/smithy-go"
-	"runtime/debug"
 	"sort"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -3881,8 +3880,9 @@ func ParallelDescribeRegionalSingleResource(describe func(context.Context, aws.C
 			go func(r string) {
 				defer func() {
 					if err := recover(); err != nil {
-						stack := debug.Stack()
-						input <- result{region: r, resources: nil, err: fmt.Errorf("paniced: %v\n%s", err, string(stack))}
+						//stack := debug.Stack()
+						//input <- result{region: r, resources: nil, err: fmt.Errorf("paniced: %v\n%s", err, string(stack))}
+						input <- result{region: r, resources: nil, err: fmt.Errorf("paniced: %v", err)}
 					}
 				}()
 				// Make a shallow copy and override the default region
@@ -4010,8 +4010,9 @@ func ParallelDescribeRegional(describe func(context.Context, aws.Config, *descri
 			go func(r string) {
 				defer func() {
 					if err := recover(); err != nil {
-						stack := debug.Stack()
-						input <- result{region: r, resources: nil, err: fmt.Errorf("paniced: %v\n%s", err, string(stack))}
+						//stack := debug.Stack()
+						//input <- result{region: r, resources: nil, err: fmt.Errorf("paniced: %v\n%s", err, string(stack))}
+						input <- result{region: r, resources: nil, err: fmt.Errorf("paniced: %v", err)}
 					}
 				}()
 				// Make a shallow copy and override the default region
