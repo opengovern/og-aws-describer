@@ -4010,7 +4010,8 @@ func ParallelDescribeRegional(describe func(context.Context, aws.Config, *descri
 			go func(r string) {
 				defer func() {
 					if err := recover(); err != nil {
-						input <- result{region: r, resources: nil, err: fmt.Errorf("paniced: %v", err)}
+						stack := debug.Stack()
+						input <- result{region: r, resources: nil, err: fmt.Errorf("paniced: %v\n%s", err, string(stack))}
 					}
 				}()
 				// Make a shallow copy and override the default region
