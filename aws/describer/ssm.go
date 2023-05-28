@@ -197,7 +197,14 @@ func SSMAssociation(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 func SSMDocument(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := ssm.NewFromConfig(cfg)
-	paginator := ssm.NewListDocumentsPaginator(client, &ssm.ListDocumentsInput{})
+	paginator := ssm.NewListDocumentsPaginator(client, &ssm.ListDocumentsInput{
+		Filters: []types.DocumentKeyValuesFilter{
+			{
+				Key:    aws.String("Owner"),
+				Values: []string{"Self"},
+			},
+		},
+	})
 
 	var values []Resource
 	for paginator.HasMorePages() {
