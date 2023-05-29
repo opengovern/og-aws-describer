@@ -1178,6 +1178,11 @@ func IAMSamlProvider(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		if err != nil {
 			return nil, err
 		}
+
+		if samlProvider.SAMLMetadataDocument != nil && len(*samlProvider.SAMLMetadataDocument) > 10000 {
+			samlProvider.SAMLMetadataDocument = nil
+		}
+
 		resource := Resource{
 			Region: describeCtx.KaytuRegion,
 			ARN:    *v.Arn,

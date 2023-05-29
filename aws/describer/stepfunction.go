@@ -44,6 +44,10 @@ func StepFunctionsStateMachine(ctx context.Context, cfg aws.Config, stream *Stre
 				return nil, err
 			}
 
+			if data.Definition != nil && len(*data.Definition) > 10000 {
+				data.Definition = nil
+			}
+
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ARN:    *v.StateMachineArn,
@@ -198,6 +202,10 @@ func StepFunctionsStateMachineExecution(ctx context.Context, cfg aws.Config, str
 							continue
 						}
 						return nil, err
+					}
+
+					if data.Input != nil && len(*data.Input) > 10000 {
+						data.Input = nil
 					}
 
 					resource := Resource{
