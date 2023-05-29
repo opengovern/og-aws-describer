@@ -44,6 +44,8 @@ func CloudFormationStack(ctx context.Context, cfg aws.Config, stream *StreamSend
 				stackResources = &cloudformation.DescribeStackResourcesOutput{}
 			}
 
+			template.TemplateBody = nil
+
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ARN:    *v.StackId,
