@@ -45,7 +45,8 @@ func StepFunctionsStateMachine(ctx context.Context, cfg aws.Config, stream *Stre
 			}
 
 			if data.Definition != nil && len(*data.Definition) > 10000 {
-				data.Definition = nil
+				v := *data.Definition
+				data.Definition = aws.String(v[:5000])
 			}
 
 			resource := Resource{
@@ -204,8 +205,14 @@ func StepFunctionsStateMachineExecution(ctx context.Context, cfg aws.Config, str
 						return nil, err
 					}
 
-					if data.Input != nil && len(*data.Input) > 10000 {
-						data.Input = nil
+					if data.Input != nil && len(*data.Input) > 5000 {
+						v := *data.Input
+						data.Input = aws.String(v[:5000])
+					}
+
+					if data.Output != nil && len(*data.Output) > 5000 {
+						v := *data.Output
+						data.Output = aws.String(v[:5000])
 					}
 
 					resource := Resource{
