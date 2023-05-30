@@ -68,6 +68,17 @@ func GlueCatalogTable(ctx context.Context, cfg aws.Config, stream *StreamSender)
 				}
 				for _, table := range tablePage.TableList {
 					arn := fmt.Sprintf("arn:aws:glue:%s:%s:table/%s/%s", describeCtx.Region, describeCtx.AccountID, *database.Name, *table.Name)
+
+					if table.ViewOriginalText != nil && len(*table.ViewOriginalText) > 5000 {
+						v := *table.ViewOriginalText
+						table.ViewOriginalText = aws.String(v[:5000])
+					}
+
+					if table.ViewExpandedText != nil && len(*table.ViewExpandedText) > 5000 {
+						v := *table.ViewExpandedText
+						table.ViewExpandedText = aws.String(v[:5000])
+					}
+
 					resource := Resource{
 						Region: describeCtx.KaytuRegion,
 						Name:   *table.Name,

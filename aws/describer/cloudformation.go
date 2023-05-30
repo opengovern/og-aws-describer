@@ -88,6 +88,11 @@ func CloudFormationStackSet(ctx context.Context, cfg aws.Config, stream *StreamS
 			if err != nil {
 				return nil, err
 			}
+
+			if stackSet.StackSet.TemplateBody != nil && len(*stackSet.StackSet.TemplateBody) > 5000 {
+				v := *stackSet.StackSet.TemplateBody
+				stackSet.StackSet.TemplateBody = aws.String(v[:5000])
+			}
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ARN:    *stackSet.StackSet.StackSetARN,
