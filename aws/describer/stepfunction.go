@@ -44,7 +44,7 @@ func StepFunctionsStateMachine(ctx context.Context, cfg aws.Config, stream *Stre
 				return nil, err
 			}
 
-			if data.Definition != nil && len(*data.Definition) > 10000 {
+			if data.Definition != nil && len(*data.Definition) > 5000 {
 				v := *data.Definition
 				data.Definition = aws.String(v[:5000])
 			}
