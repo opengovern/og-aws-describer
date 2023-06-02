@@ -28,6 +28,8 @@ type ResourceType struct {
 
 	TerraformName        string
 	TerraformServiceName string
+
+	FastDiscovery bool
 }
 
 var resourceTypes = map[string]ResourceType{
@@ -130,6 +132,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2RouteTable),
 		TerraformName:        "aws_route_table",
 		TerraformServiceName: "ec2",
+		FastDiscovery:        true,
 	},
 	"AWS::SecurityHub::Hub": {
 		Connector:            source.CloudAWS,
@@ -190,6 +193,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_iam_role",
 		TerraformServiceName: "iam",
+		FastDiscovery:        true,
 	},
 	"AWS::Backup::ProtectedResource": {
 		Connector:            source.CloudAWS,
@@ -310,6 +314,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2EIP),
 		TerraformName:        "aws_eip",
 		TerraformServiceName: "ec2",
+		FastDiscovery:        true,
 	},
 	"AWS::EC2::InternetGateway": {
 		Connector:            source.CloudAWS,
@@ -320,6 +325,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_internet_gateway",
 		TerraformServiceName: "ec2",
+		FastDiscovery:        true,
 	},
 	"AWS::GuardDuty::PublishingDestination": {
 		Connector:            source.CloudAWS,
@@ -370,6 +376,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetApiGatewayRestAPI),
 		TerraformName:        "aws_api_gateway_rest_api",
 		TerraformServiceName: "apigateway",
+		FastDiscovery:        true,
 	},
 	"AWS::ApiGatewayV2::Integration": {
 		Connector:            source.CloudAWS,
@@ -390,6 +397,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetAutoScalingAutoScalingGroup),
 		TerraformName:        "aws_autoscaling_group",
 		TerraformServiceName: "autoscaling",
+		FastDiscovery:        true,
 	},
 	"AWS::DynamoDb::TableExport": {
 		Connector:            source.CloudAWS,
@@ -420,6 +428,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_efs_file_system",
 		TerraformServiceName: "efs",
+		FastDiscovery:        true,
 	},
 	"AWS::Kafka::Cluster": {
 		Connector:            source.CloudAWS,
@@ -500,6 +509,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_sqs_queue",
 		TerraformServiceName: "sqs",
+		FastDiscovery:        true,
 	},
 	"AWS::Config::Rule": {
 		Connector:            source.CloudAWS,
@@ -590,6 +600,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_rds_global_cluster",
 		TerraformServiceName: "rds",
+		FastDiscovery:        true,
 	},
 	//"AWS::EC2::EbsVolumeMetricReadOpsHourly": {
 	//	Connector:            source.CloudAWS,
@@ -640,6 +651,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_sns_topic",
 		TerraformServiceName: "sns",
+		FastDiscovery:        true,
 	},
 	"AWS::AppConfig::Application": {
 		Connector:            source.CloudAWS,
@@ -680,6 +692,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetECSService),
 		TerraformName:        "aws_ecs_service",
 		TerraformServiceName: "ecs",
+		FastDiscovery:        true,
 	},
 	"AWS::FSX::Task": {
 		Connector:            source.CloudAWS,
@@ -780,6 +793,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_s3_bucket",
 		TerraformServiceName: "s3",
+		FastDiscovery:        true,
 	},
 	"AWS::CertificateManager::Certificate": {
 		Connector:            source.CloudAWS,
@@ -810,6 +824,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetApiGatewayV2API),
 		TerraformName:        "aws_apigatewayv2_api",
 		TerraformServiceName: "apigatewayv2",
+		FastDiscovery:        true,
 	},
 	"AWS::EC2::Volume": {
 		Connector:            source.CloudAWS,
@@ -820,6 +835,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_ebs_volume",
 		TerraformServiceName: "ec2",
+		FastDiscovery:        true,
 	},
 	"AWS::ApiGateway::ApiKey": {
 		Connector:            source.CloudAWS,
@@ -920,6 +936,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetLambdaFunction),
 		TerraformName:        "aws_lambda_function",
 		TerraformServiceName: "lambda",
+		FastDiscovery:        true,
 	},
 	"AWS::RDS::DBSnapshot": {
 		Connector:            source.CloudAWS,
@@ -990,6 +1007,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_network_acl",
 		TerraformServiceName: "ec2",
+		FastDiscovery:        true,
 	},
 	"AWS::ECS::ContainerInstance": {
 		Connector:            source.CloudAWS,
@@ -1030,6 +1048,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_cloudtrail",
 		TerraformServiceName: "cloudtrail",
+		FastDiscovery:        true,
 	},
 	"AWS::DAX::Parameter": {
 		Connector:            source.CloudAWS,
@@ -1290,6 +1309,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2NetworkInterface),
 		TerraformName:        "aws_network_interface",
 		TerraformServiceName: "ec2",
+		FastDiscovery:        true,
 	},
 	"AWS::EC2::VPNConnection": {
 		Connector:            source.CloudAWS,
@@ -1370,6 +1390,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetRDSDBCluster),
 		TerraformName:        "aws_rds_cluster",
 		TerraformServiceName: "rds",
+		FastDiscovery:        true,
 	},
 	"AWS::RDS::DBClusterSnapshot": {
 		Connector:            source.CloudAWS,
@@ -1440,6 +1461,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_networkfirewall_firewall",
 		TerraformServiceName: "networkfirewall",
+		FastDiscovery:        true,
 	},
 	"AWS::Workspaces::Workspace": {
 		Connector:            source.CloudAWS,
@@ -1470,6 +1492,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_elasticsearch_domain",
 		TerraformServiceName: "elasticsearch",
+		FastDiscovery:        true,
 	},
 	"AWS::RDS::DBInstance": {
 		Connector:            source.CloudAWS,
@@ -1480,6 +1503,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetRDSDBInstance),
 		TerraformName:        "aws_db_instance",
 		TerraformServiceName: "rds",
+		FastDiscovery:        true,
 	},
 	"AWS::EFS::MountTarget": {
 		Connector:            source.CloudAWS,
@@ -1570,6 +1594,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_iam_policy",
 		TerraformServiceName: "iam",
+		FastDiscovery:        true,
 	},
 	"AWS::Redshift::Cluster": {
 		Connector:            source.CloudAWS,
@@ -1580,6 +1605,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_redshift_cluster",
 		TerraformServiceName: "redshift",
+		FastDiscovery:        true,
 	},
 	"AWS::WAFRegional::Rule": {
 		Connector:            source.CloudAWS,
@@ -1640,6 +1666,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_route53_zone",
 		TerraformServiceName: "route53",
+		FastDiscovery:        true,
 	},
 	"AWS::EC2::PlacementGroup": {
 		Connector:            source.CloudAWS,
@@ -1670,6 +1697,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetKMSKey),
 		TerraformName:        "aws_kms_key",
 		TerraformServiceName: "kms",
+		FastDiscovery:        true,
 	},
 	"AWS::EC2::Ipam": {
 		Connector:            source.CloudAWS,
@@ -1760,6 +1788,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_cloudfront_distribution",
 		TerraformServiceName: "cloudfront",
+		FastDiscovery:        true,
 	},
 	"AWS::Glue::Job": {
 		Connector:            source.CloudAWS,
@@ -1800,6 +1829,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_ses_configuration_set",
 		TerraformServiceName: "ses",
+		FastDiscovery:        true,
 	},
 	"AWS::IAM::User": {
 		Connector:            source.CloudAWS,
@@ -1810,6 +1840,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_iam_user",
 		TerraformServiceName: "iam",
+		FastDiscovery:        true,
 	},
 	"AWS::CloudFront::OriginRequestPolicy": {
 		Connector:            source.CloudAWS,
@@ -1830,6 +1861,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2SecurityGroup),
 		TerraformName:        "aws_security_group",
 		TerraformServiceName: "ec2",
+		FastDiscovery:        true,
 	},
 	"AWS::GuardDuty::IPSet": {
 		Connector:            source.CloudAWS,
@@ -1850,6 +1882,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_eks_cluster",
 		TerraformServiceName: "eks",
+		FastDiscovery:        true,
 	},
 	"AWS::Grafana::Workspace": {
 		Connector:            source.CloudAWS,
@@ -1910,6 +1943,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_ec2_transit_gateway",
 		TerraformServiceName: "ec2",
+		FastDiscovery:        true,
 	},
 	"AWS::ApiGateway::UsagePlan": {
 		Connector:            source.CloudAWS,
@@ -1950,6 +1984,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_elastic_beanstalk_application",
 		TerraformServiceName: "elasticbeanstalk",
+		FastDiscovery:        true,
 	},
 	"AWS::ElasticLoadBalancingV2::LoadBalancer": {
 		Connector:            source.CloudAWS,
@@ -1960,6 +1995,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetElasticLoadBalancingV2LoadBalancer),
 		TerraformName:        "aws_alb",
 		TerraformServiceName: "elbv2",
+		FastDiscovery:        true,
 	},
 	"AWS::OpenSearch::Domain": {
 		Connector:            source.CloudAWS,
@@ -2160,6 +2196,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2Instance),
 		TerraformName:        "aws_instance",
 		TerraformServiceName: "ec2",
+		FastDiscovery:        true,
 	},
 	"AWS::EC2::InstanceAvailability": {
 		Connector:            source.CloudAWS,
@@ -2200,6 +2237,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_ecr_repository",
 		TerraformServiceName: "ecr",
+		FastDiscovery:        true,
 	},
 	"AWS::ElasticLoadBalancingV2::Listener": {
 		Connector:            source.CloudAWS,
@@ -2220,6 +2258,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_iam_group",
 		TerraformServiceName: "iam",
+		FastDiscovery:        true,
 	},
 	"AWS::Backup::Plan": {
 		Connector:            source.CloudAWS,
@@ -2350,6 +2389,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2Subnet),
 		TerraformName:        "aws_subnet",
 		TerraformServiceName: "ec2",
+		FastDiscovery:        true,
 	},
 	"AWS::ECS::TaskSet": {
 		Connector:            source.CloudAWS,
@@ -2370,6 +2410,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_kinesis_stream",
 		TerraformServiceName: "kinesis",
+		FastDiscovery:        true,
 	},
 	"AWS::Kinesis::Consumer": {
 		Connector:            source.CloudAWS,
@@ -2770,6 +2811,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "",
 		TerraformServiceName: "",
+		FastDiscovery:        true,
 	},
 	"AWS::EC2::VerifiedAccessInstance": {
 		Connector:            source.CloudAWS,
@@ -2940,6 +2982,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_cloudformation_stack",
 		TerraformServiceName: "cloudformation",
+		FastDiscovery:        true,
 	},
 	"AWS::DirectConnect::Connection": {
 		Connector:            source.CloudAWS,
@@ -3000,6 +3043,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_nat_gateway",
 		TerraformServiceName: "ec2",
+		FastDiscovery:        true,
 	},
 	"AWS::ECR::PublicRepository": {
 		Connector:            source.CloudAWS,
@@ -3010,6 +3054,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_ecrpublic_repository",
 		TerraformServiceName: "ecrpublic",
+		FastDiscovery:        true,
 	},
 	"AWS::ECS::Cluster": {
 		Connector:            source.CloudAWS,
@@ -3020,6 +3065,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetECSCluster),
 		TerraformName:        "aws_ecs_cluster",
 		TerraformServiceName: "ecs",
+		FastDiscovery:        true,
 	},
 	"AWS::ElasticLoadBalancingV2::TargetGroup": {
 		Connector:            source.CloudAWS,
@@ -3220,6 +3266,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2VPC),
 		TerraformName:        "aws_vpc",
 		TerraformServiceName: "ec2",
+		FastDiscovery:        true,
 	},
 	"AWS::EC2::TransitGatewayRouteTable": {
 		Connector:            source.CloudAWS,
@@ -3330,6 +3377,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_batch_compute_environment",
 		TerraformServiceName: "batch",
+		FastDiscovery:        true,
 	},
 	"AWS::DMS::ReplicationInstance": {
 		Connector:            source.CloudAWS,
@@ -3350,6 +3398,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_dynamodb_table",
 		TerraformServiceName: "dynamodb",
+		FastDiscovery:        true,
 	},
 	"AWS::Shield::ProtectionGroup": {
 		Connector:            source.CloudAWS,
@@ -3390,6 +3439,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_kms_alias",
 		TerraformServiceName: "kms",
+		FastDiscovery:        true,
 	},
 	"AWS::Lambda::Alias": {
 		Connector:            source.CloudAWS,
@@ -3727,6 +3777,18 @@ func ListResourceTypes() []string {
 	var list []string
 	for k := range resourceTypes {
 		list = append(list, k)
+	}
+
+	sort.Strings(list)
+	return list
+}
+
+func ListFastDiscoveryResourceTypes() []string {
+	var list []string
+	for k, v := range resourceTypes {
+		if v.FastDiscovery {
+			list = append(list, k)
+		}
 	}
 
 	sort.Strings(list)
