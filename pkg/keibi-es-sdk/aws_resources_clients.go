@@ -19408,27 +19408,33 @@ var listElasticLoadBalancingV2LoadBalancerFilters = map[string]string{
 }
 
 func ListElasticLoadBalancingV2LoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("ListElasticLoadBalancingV2LoadBalancer")
+	plugin.Logger(ctx).Warn("- ListElasticLoadBalancingV2LoadBalancer")
 
 	// create service
+	plugin.Logger(ctx).Warn("- GetConfig")
 	cfg := essdk.GetConfig(d.Connection)
+	plugin.Logger(ctx).Warn("- Getting connection")
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
 	k := Client{Client: ke}
 
+	plugin.Logger(ctx).Warn("- Creating paginator")
 	paginator, err := k.NewElasticLoadBalancingV2LoadBalancerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listElasticLoadBalancingV2LoadBalancerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
 
+	plugin.Logger(ctx).Warn("- Pagination")
 	for paginator.HasNext() {
+		plugin.Logger(ctx).Warn("- NextPage")
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
 
+		plugin.Logger(ctx).Warn("- Steaming page")
 		for _, v := range page {
 			d.StreamListItem(ctx, v)
 		}
@@ -19444,10 +19450,12 @@ var getElasticLoadBalancingV2LoadBalancerFilters = map[string]string{
 }
 
 func GetElasticLoadBalancingV2LoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("GetElasticLoadBalancingV2LoadBalancer")
+	plugin.Logger(ctx).Warn("+ GetElasticLoadBalancingV2LoadBalancer")
 
 	// create service
+	plugin.Logger(ctx).Warn("+ GetConfig")
 	cfg := essdk.GetConfig(d.Connection)
+	plugin.Logger(ctx).Warn("+ Getting connection")
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
@@ -19455,17 +19463,21 @@ func GetElasticLoadBalancingV2LoadBalancer(ctx context.Context, d *plugin.QueryD
 	k := Client{Client: ke}
 
 	limit := int64(1)
+	plugin.Logger(ctx).Warn("+ Creating paginator")
 	paginator, err := k.NewElasticLoadBalancingV2LoadBalancerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getElasticLoadBalancingV2LoadBalancerFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
 
+	plugin.Logger(ctx).Warn("+ Pagination")
 	for paginator.HasNext() {
+		plugin.Logger(ctx).Warn("+ NextPage")
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
 
+		plugin.Logger(ctx).Warn("+ returning item")
 		for _, v := range page {
 			return v, nil
 		}
