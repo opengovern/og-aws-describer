@@ -462,6 +462,13 @@ type CloudFrontDistributionDescription struct {
 	Tags         []cloudfront.Tag
 }
 
+//index:aws_cloudfront_streamingdistribution
+type CloudFrontStreamingDistributionDescription struct {
+	StreamingDistribution *cloudfront.StreamingDistribution
+	ETag                  *string
+	Tags                  []cloudfront.Tag
+}
+
 //index:aws_cloudfront_originaccesscontrol
 //getfilter:id=description.OriginAccessControl.Id
 type CloudFrontOriginAccessControlDescription struct {
@@ -2701,6 +2708,12 @@ type BatchComputeEnvironmentDescription struct {
 //getfilter:job_name=description.Job.JobName
 type BatchJobDescription struct {
 	Job batch.JobSummary
+}
+
+//index:aws_batch_jobqueue
+//getfilter:job_queue_name=description.JobQueue.JobQueueName
+type BatchJobQueueDescription struct {
+	JobQueue batch.JobQueueDetail
 }
 
 //  ===================  CodeArtifact  ===================

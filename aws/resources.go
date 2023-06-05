@@ -673,6 +673,17 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        "aws_batch_job_definition",
 		TerraformServiceName: "batch",
 	},
+	"AWS::Batch::JobQueue": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::Batch::JobQueue",
+		ResourceLabel:        "Batch Job Queues",
+		ServiceName:          "Batch",
+		ListDescriber:        ParallelDescribeRegional(describer.BatchJobQueue),
+		GetDescriber:         nil,
+		TerraformName:        "",
+		TerraformServiceName: "",
+		FastDiscovery:        true,
+	},
 	//"AWS::CloudTrail::TrailEvent": {
 	//	Connector:            source.CloudAWS,
 	//	ResourceName:         "AWS::CloudTrail::TrailEvent",
@@ -804,6 +815,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "",
 		TerraformServiceName: "",
+		FastDiscovery:        true,
 	},
 	"AWS::EKS::AddonVersion": {
 		Connector:            source.CloudAWS,
@@ -1788,6 +1800,17 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        "aws_cloudfront_distribution",
 		TerraformServiceName: "cloudfront",
+		FastDiscovery:        true,
+	},
+	"AWS::CloudFront::StreamingDistribution": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::CloudFront::StreamingDistribution",
+		ResourceLabel:        "CloudFront Streaming Distribution",
+		ServiceName:          "CloudFront",
+		ListDescriber:        SequentialDescribeGlobal(describer.CloudFrontStreamingDistribution),
+		GetDescriber:         nil,
+		TerraformName:        "",
+		TerraformServiceName: "",
 		FastDiscovery:        true,
 	},
 	"AWS::Glue::Job": {

@@ -60,6 +60,56 @@ func CloudFrontDistribution(ctx context.Context, cfg aws.Config, stream *StreamS
 	return values, nil
 }
 
+func CloudFrontStreamingDistribution(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := cloudfront.NewFromConfig(cfg)
+	paginator := cloudfront.NewListStreamingDistributionsPaginator(client, &cloudfront.ListStreamingDistributionsInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, item := range page.StreamingDistributionList.Items {
+			tags, err := client.ListTagsForResource(ctx, &cloudfront.ListTagsForResourceInput{
+				Resource: item.ARN,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			distribution, err := client.GetStreamingDistribution(ctx, &cloudfront.GetStreamingDistributionInput{
+				Id: item.Id,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    *item.ARN,
+				Name:   *item.Id,
+				Description: model.CloudFrontStreamingDistributionDescription{
+					StreamingDistribution: distribution.StreamingDistribution,
+					ETag:                  distribution.ETag,
+					Tags:                  tags.Tags.Items,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+
 func GetCloudFrontDistribution(ctx context.Context, cfg aws.Config, id string) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := cloudfront.NewFromConfig(cfg)

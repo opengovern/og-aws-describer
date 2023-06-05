@@ -86,3 +86,36 @@ func BatchJob(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 
 	return values, nil
 }
+
+func BatchJobQueue(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := batch.NewFromConfig(cfg)
+	paginator := batch.NewDescribeJobQueuesPaginator(client, &batch.DescribeJobQueuesInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, jq := range page.JobQueues {
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    *jq.JobQueueArn,
+				Name:   *jq.JobQueueName,
+				Description: model.BatchJobQueueDescription{
+					JobQueue: jq,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}

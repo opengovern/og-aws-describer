@@ -688,6 +688,8 @@ github.com/kaytu-io/kaytu-util v0.0.0-20230527215827-b88b54c684de h1:hKRzoLlkOMR
 github.com/kaytu-io/kaytu-util v0.0.0-20230527215827-b88b54c684de/go.mod h1:Nx5+E3p0QBP+4EV8i2YN3tKkCN4eN85cy6yDm3gTVWs=
 github.com/kaytu-io/kaytu-util v0.0.0-20230528073740-0d94e0a8148d h1:FD4YTUty96le/dfgzvwa8UUTkOWrvSyaRZ97qT0JymM=
 github.com/kaytu-io/kaytu-util v0.0.0-20230528073740-0d94e0a8148d/go.mod h1:Nx5+E3p0QBP+4EV8i2YN3tKkCN4eN85cy6yDm3gTVWs=
+github.com/kaytu-io/kaytu-util v0.0.0-20230605084433-73e3af414279 h1:PhrfP5FM323ClUSdafeoFv6qaRlp7KkiZcpzQXOjS2I=
+github.com/kaytu-io/kaytu-util v0.0.0-20230605084433-73e3af414279/go.mod h1:QULmP8Hug87ctExrOBAzZgwKJ7BXEWUcs0vIJAV1Hrs=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
@@ -863,6 +865,8 @@ gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230513131002-0e16b2f60580 h
 gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230513131002-0e16b2f60580/go.mod h1:W/WqJjR9TDxxLZ0wq/RO2ovVkVCjz3sdHt2ADqcl3Tw=
 gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230524165121-24c1fe68fc83 h1:5nkJqU9dMvp9GugI1kwYrnj5jFeoZygohDIrn/RflHA=
 gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230524165121-24c1fe68fc83/go.mod h1:6xdPRZV7tw9YFXxbp9lgf7FT0RfNtUzCkxX6jmDv+Fs=
+gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230605105809-e8089c173298 h1:peR2DAvuBV1X8tsSfFmdseXlWPn+0l2cbW9CV5Kh7Ck=
+gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230605105809-e8089c173298/go.mod h1:sNI4v+ShMgqC7tw6VPDAdd/hog0pmwZmG/wthR5+0+I=
 go.opencensus.io v0.21.0/go.mod h1:mSImk1erAIZhrmZN+AvHh14ztQfjbGwt4TtuofqLduU=
 go.opencensus.io v0.22.0/go.mod h1:+kGneAE2xo2IficOXnaByMWTGM9T73dGwxeWcUqIpI8=
 go.opencensus.io v0.22.2/go.mod h1:yxeiOL68Rb0Xd1ddK5vPZ/oVn4vY4Ynel7k9FzqtOIw=

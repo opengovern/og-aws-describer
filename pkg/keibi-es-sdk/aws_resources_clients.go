@@ -5698,6 +5698,154 @@ func GetCloudFrontDistribution(ctx context.Context, d *plugin.QueryData, _ *plug
 
 // ==========================  END: CloudFrontDistribution =============================
 
+// ==========================  START: CloudFrontStreamingDistribution =============================
+
+type CloudFrontStreamingDistribution struct {
+	Description   aws.CloudFrontStreamingDistributionDescription `json:"description"`
+	Metadata      aws.Metadata                                   `json:"metadata"`
+	ResourceJobID int                                            `json:"resource_job_id"`
+	SourceJobID   int                                            `json:"source_job_id"`
+	ResourceType  string                                         `json:"resource_type"`
+	SourceType    string                                         `json:"source_type"`
+	ID            string                                         `json:"id"`
+	ARN           string                                         `json:"arn"`
+	SourceID      string                                         `json:"source_id"`
+}
+
+type CloudFrontStreamingDistributionHit struct {
+	ID      string                          `json:"_id"`
+	Score   float64                         `json:"_score"`
+	Index   string                          `json:"_index"`
+	Type    string                          `json:"_type"`
+	Version int64                           `json:"_version,omitempty"`
+	Source  CloudFrontStreamingDistribution `json:"_source"`
+	Sort    []interface{}                   `json:"sort"`
+}
+
+type CloudFrontStreamingDistributionHits struct {
+	Total essdk.SearchTotal                    `json:"total"`
+	Hits  []CloudFrontStreamingDistributionHit `json:"hits"`
+}
+
+type CloudFrontStreamingDistributionSearchResponse struct {
+	PitID string                              `json:"pit_id"`
+	Hits  CloudFrontStreamingDistributionHits `json:"hits"`
+}
+
+type CloudFrontStreamingDistributionPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewCloudFrontStreamingDistributionPaginator(filters []essdk.BoolFilter, limit *int64) (CloudFrontStreamingDistributionPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_cloudfront_streamingdistribution", filters, limit)
+	if err != nil {
+		return CloudFrontStreamingDistributionPaginator{}, err
+	}
+
+	p := CloudFrontStreamingDistributionPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p CloudFrontStreamingDistributionPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p CloudFrontStreamingDistributionPaginator) NextPage(ctx context.Context) ([]CloudFrontStreamingDistribution, error) {
+	var response CloudFrontStreamingDistributionSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []CloudFrontStreamingDistribution
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listCloudFrontStreamingDistributionFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func ListCloudFrontStreamingDistribution(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListCloudFrontStreamingDistribution")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewCloudFrontStreamingDistributionPaginator(essdk.BuildFilter(d.KeyColumnQuals, listCloudFrontStreamingDistributionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getCloudFrontStreamingDistributionFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func GetCloudFrontStreamingDistribution(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetCloudFrontStreamingDistribution")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewCloudFrontStreamingDistributionPaginator(essdk.BuildFilter(d.KeyColumnQuals, getCloudFrontStreamingDistributionFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: CloudFrontStreamingDistribution =============================
+
 // ==========================  START: CloudFrontOriginAccessControl =============================
 
 type CloudFrontOriginAccessControl struct {
@@ -19408,33 +19556,27 @@ var listElasticLoadBalancingV2LoadBalancerFilters = map[string]string{
 }
 
 func ListElasticLoadBalancingV2LoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Warn("- ListElasticLoadBalancingV2LoadBalancer")
+	plugin.Logger(ctx).Trace("ListElasticLoadBalancingV2LoadBalancer")
 
 	// create service
-	plugin.Logger(ctx).Warn("- GetConfig")
 	cfg := essdk.GetConfig(d.Connection)
-	plugin.Logger(ctx).Warn("- Getting connection")
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
 	}
 	k := Client{Client: ke}
 
-	plugin.Logger(ctx).Warn("- Creating paginator")
 	paginator, err := k.NewElasticLoadBalancingV2LoadBalancerPaginator(essdk.BuildFilter(d.KeyColumnQuals, listElasticLoadBalancingV2LoadBalancerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
 
-	plugin.Logger(ctx).Warn("- Pagination")
 	for paginator.HasNext() {
-		plugin.Logger(ctx).Warn("- NextPage")
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
 
-		plugin.Logger(ctx).Warn("- Steaming page")
 		for _, v := range page {
 			d.StreamListItem(ctx, v)
 		}
@@ -19450,12 +19592,10 @@ var getElasticLoadBalancingV2LoadBalancerFilters = map[string]string{
 }
 
 func GetElasticLoadBalancingV2LoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Warn("+ GetElasticLoadBalancingV2LoadBalancer")
+	plugin.Logger(ctx).Trace("GetElasticLoadBalancingV2LoadBalancer")
 
 	// create service
-	plugin.Logger(ctx).Warn("+ GetConfig")
 	cfg := essdk.GetConfig(d.Connection)
-	plugin.Logger(ctx).Warn("+ Getting connection")
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
 	if err != nil {
 		return nil, err
@@ -19463,21 +19603,17 @@ func GetElasticLoadBalancingV2LoadBalancer(ctx context.Context, d *plugin.QueryD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	plugin.Logger(ctx).Warn("+ Creating paginator")
 	paginator, err := k.NewElasticLoadBalancingV2LoadBalancerPaginator(essdk.BuildFilter(d.KeyColumnQuals, getElasticLoadBalancingV2LoadBalancerFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
 
-	plugin.Logger(ctx).Warn("+ Pagination")
 	for paginator.HasNext() {
-		plugin.Logger(ctx).Warn("+ NextPage")
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
 
-		plugin.Logger(ctx).Warn("+ returning item")
 		for _, v := range page {
 			return v, nil
 		}
@@ -45495,6 +45631,155 @@ func GetBatchJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 }
 
 // ==========================  END: BatchJob =============================
+
+// ==========================  START: BatchJobQueue =============================
+
+type BatchJobQueue struct {
+	Description   aws.BatchJobQueueDescription `json:"description"`
+	Metadata      aws.Metadata                 `json:"metadata"`
+	ResourceJobID int                          `json:"resource_job_id"`
+	SourceJobID   int                          `json:"source_job_id"`
+	ResourceType  string                       `json:"resource_type"`
+	SourceType    string                       `json:"source_type"`
+	ID            string                       `json:"id"`
+	ARN           string                       `json:"arn"`
+	SourceID      string                       `json:"source_id"`
+}
+
+type BatchJobQueueHit struct {
+	ID      string        `json:"_id"`
+	Score   float64       `json:"_score"`
+	Index   string        `json:"_index"`
+	Type    string        `json:"_type"`
+	Version int64         `json:"_version,omitempty"`
+	Source  BatchJobQueue `json:"_source"`
+	Sort    []interface{} `json:"sort"`
+}
+
+type BatchJobQueueHits struct {
+	Total essdk.SearchTotal  `json:"total"`
+	Hits  []BatchJobQueueHit `json:"hits"`
+}
+
+type BatchJobQueueSearchResponse struct {
+	PitID string            `json:"pit_id"`
+	Hits  BatchJobQueueHits `json:"hits"`
+}
+
+type BatchJobQueuePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewBatchJobQueuePaginator(filters []essdk.BoolFilter, limit *int64) (BatchJobQueuePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_batch_jobqueue", filters, limit)
+	if err != nil {
+		return BatchJobQueuePaginator{}, err
+	}
+
+	p := BatchJobQueuePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p BatchJobQueuePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p BatchJobQueuePaginator) NextPage(ctx context.Context) ([]BatchJobQueue, error) {
+	var response BatchJobQueueSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []BatchJobQueue
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listBatchJobQueueFilters = map[string]string{
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func ListBatchJobQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListBatchJobQueue")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewBatchJobQueuePaginator(essdk.BuildFilter(d.KeyColumnQuals, listBatchJobQueueFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getBatchJobQueueFilters = map[string]string{
+	"job_queue_name":   "description.JobQueue.JobQueueName",
+	"keibi_account_id": "metadata.SourceID",
+}
+
+func GetBatchJobQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetBatchJobQueue")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewBatchJobQueuePaginator(essdk.BuildFilter(d.KeyColumnQuals, getBatchJobQueueFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: BatchJobQueue =============================
 
 // ==========================  START: CodeArtifactRepository =============================
 
