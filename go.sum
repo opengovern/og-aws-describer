@@ -867,6 +867,8 @@ gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230524165121-24c1fe68fc83 h
 gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230524165121-24c1fe68fc83/go.mod h1:6xdPRZV7tw9YFXxbp9lgf7FT0RfNtUzCkxX6jmDv+Fs=
 gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230605105809-e8089c173298 h1:peR2DAvuBV1X8tsSfFmdseXlWPn+0l2cbW9CV5Kh7Ck=
 gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230605105809-e8089c173298/go.mod h1:sNI4v+ShMgqC7tw6VPDAdd/hog0pmwZmG/wthR5+0+I=
+gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230605150213-6b1fd97e8240 h1:Hjahmd+iGU8d+fubsByg+yn/nerJAnjEmVv+L4j9lTo=
+gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230605150213-6b1fd97e8240/go.mod h1:I/vhDPl2xnJj1d02B39zo13dcheMCmfNb1SEO7Hj7xE=
 go.opencensus.io v0.21.0/go.mod h1:mSImk1erAIZhrmZN+AvHh14ztQfjbGwt4TtuofqLduU=
 go.opencensus.io v0.22.0/go.mod h1:+kGneAE2xo2IficOXnaByMWTGM9T73dGwxeWcUqIpI8=
 go.opencensus.io v0.22.2/go.mod h1:yxeiOL68Rb0Xd1ddK5vPZ/oVn4vY4Ynel7k9FzqtOIw=
