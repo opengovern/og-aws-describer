@@ -254,8 +254,8 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 						s.ListFilters[fparts[0]] = fparts[1]
 					}
 				}
-				s.GetFilters["keibi_account_id"] = "metadata.SourceID"
-				s.ListFilters["keibi_account_id"] = "metadata.SourceID"
+				s.GetFilters["kaytu_account_id"] = "metadata.SourceID"
+				s.ListFilters["kaytu_account_id"] = "metadata.SourceID"
 			}
 
 			if s.Index != "" {
