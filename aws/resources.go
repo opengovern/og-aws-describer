@@ -1,3 +1,5 @@
+//go:generate go run ../../keibi-deploy/keibi/inventory-data/resource_types_generator.go --provider aws --output resource_types.go && gofmt -w -s resource_types.go  && goimports -w resource_types.go
+
 package aws
 
 import (
