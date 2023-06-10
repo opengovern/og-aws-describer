@@ -2,6 +2,8 @@ package main
 
 import (
 	"bytes"
+	_ "embed"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"go/ast"
@@ -11,6 +13,7 @@ import (
 	"html/template"
 	"log"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -28,12 +31,37 @@ type SourceType struct {
 	SourceType  string
 }
 
+type ResourceType struct {
+	ResourceName         string
+	ResourceLabel        string
+	ServiceName          string
+	ListDescriber        string
+	GetDescriber         string
+	TerraformName        []string
+	TerraformNameString  string `json:"-"`
+	TerraformServiceName string
+	FastDiscovery        bool
+	SteampipeTable       string
+	Model                string
+}
+
 func main() {
+	rt := "../../../keibi-deploy/keibi/inventory-data/aws-resource-types.json"
+	b, err := os.ReadFile(rt)
+	if err != nil {
+		panic(err)
+	}
+	var resourceTypes []ResourceType
+	err = json.Unmarshal(b, &resourceTypes)
+	if err != nil {
+		panic(err)
+	}
+
 	flag.CommandLine.Init("gen", flag.ExitOnError)
 	flag.Parse()
 
 	tpl := template.New("types")
-	_, err := tpl.Parse(`
+	_, err = tpl.Parse(`
 // ==========================  START: {{ .Name }} =============================
 
 type {{ .Name }} struct {
@@ -239,11 +267,19 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 				GetFilters:  map[string]string{},
 				ListFilters: map[string]string{},
 			}
+			for _, resourceType := range resourceTypes {
+				if resourceType.Model == s.Name {
+					var stopWordsRe = regexp.MustCompile(`\W+`)
+					index := stopWordsRe.ReplaceAllString(resourceType.ResourceName, "_")
+					index = strings.ToLower(index)
+					s.Index = index
+				}
+			}
 
 			if decl.Doc != nil {
 				for _, c := range decl.Doc.List {
 					if strings.HasPrefix(c.Text, "//index:") {
-						s.Index = strings.TrimSpace(strings.TrimPrefix(c.Text, "//index:"))
+						//s.Index = strings.TrimSpace(strings.TrimPrefix(c.Text, "//index:"))
 					} else if strings.HasPrefix(c.Text, "//getfilter:") {
 						f := strings.TrimSpace(strings.TrimPrefix(c.Text, "//getfilter:"))
 						fparts := strings.Split(f, "=")
