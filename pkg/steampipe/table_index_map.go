@@ -344,6 +344,11 @@ var awsMap = map[string]string{
 	"AWS::RDS::ReservedDBInstance":                       "aws_rds_reserved_db_instance",
 	"AWS::Redshift::SubnetGroup":                         "aws_redshift_subnet_group",
 	"AWS::SeverlessApplicationRepository::Application":   "aws_serverlessapplicationrepository_application",
+	"AWS::AuditManager::Framework":                       "aws_auditmanager_framework",
+	"AWS::AuditManager::EvidenceFolder":                  "aws_auditmanager_evidence_folder",
+	"AWS::AuditManager::Evidence":                        "aws_auditmanager_evidence",
+	"AWS::AuditManager::Control":                         "aws_auditmanager_control",
+	"AWS::AuditManager::Assessment":                      "aws_auditmanager_assessment",
 	"AWS::ServiceQuotas::ServiceQuotaChangeRequest":      "aws_servicequotas_service_quota_change_request",
 }
 
@@ -687,5 +692,10 @@ var AWSDescriptionMap = map[string]interface{}{
 	"AWS::RDS::ReservedDBInstance":                       &keibi.RDSReservedDBInstance{},
 	"AWS::Redshift::SubnetGroup":                         &keibi.RedshiftSubnetGroup{},
 	"AWS::SeverlessApplicationRepository::Application":   &keibi.ServerlessApplicationRepositoryApplication{},
+	"AWS::AuditManager::Framework":                       &keibi.AuditManagerFramework{},
+	"AWS::AuditManager::EvidenceFolder":                  &keibi.AuditManagerEvidenceFolder{},
+	"AWS::AuditManager::Evidence":                        &keibi.AuditManagerEvidence{},
+	"AWS::AuditManager::Control":                         &keibi.AuditManagerControl{},
+	"AWS::AuditManager::Assessment":                      &keibi.AuditManagerAssessment{},
 	"AWS::ServiceQuotas::ServiceQuotaChangeRequest":      &keibi.ServiceQuotasServiceQuotaChangeRequest{},
 }

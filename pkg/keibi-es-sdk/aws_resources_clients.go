@@ -15453,6 +15453,7 @@ func (p EC2RouteTablePaginator) NextPage(ctx context.Context) ([]EC2RouteTable, 
 }
 
 var listEC2RouteTableFilters = map[string]string{
+	"akas":             "aRN",
 	"associations":     "description.RouteTable.Associations",
 	"kaytu_account_id": "metadata.SourceID",
 	"owner_id":         "description.RouteTable.OwnerId",
@@ -15495,6 +15496,7 @@ func ListEC2RouteTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 }
 
 var getEC2RouteTableFilters = map[string]string{
+	"akas":             "aRN",
 	"associations":     "description.RouteTable.Associations",
 	"kaytu_account_id": "metadata.SourceID",
 	"owner_id":         "description.RouteTable.OwnerId",
@@ -53622,6 +53624,937 @@ func GetAppConfigApplication(ctx context.Context, d *plugin.QueryData, _ *plugin
 }
 
 // ==========================  END: AppConfigApplication =============================
+
+// ==========================  START: AuditManagerAssessment =============================
+
+type AuditManagerAssessment struct {
+	Description   aws.AuditManagerAssessmentDescription `json:"description"`
+	Metadata      aws.Metadata                          `json:"metadata"`
+	ResourceJobID int                                   `json:"resource_job_id"`
+	SourceJobID   int                                   `json:"source_job_id"`
+	ResourceType  string                                `json:"resource_type"`
+	SourceType    string                                `json:"source_type"`
+	ID            string                                `json:"id"`
+	ARN           string                                `json:"arn"`
+	SourceID      string                                `json:"source_id"`
+}
+
+type AuditManagerAssessmentHit struct {
+	ID      string                 `json:"_id"`
+	Score   float64                `json:"_score"`
+	Index   string                 `json:"_index"`
+	Type    string                 `json:"_type"`
+	Version int64                  `json:"_version,omitempty"`
+	Source  AuditManagerAssessment `json:"_source"`
+	Sort    []interface{}          `json:"sort"`
+}
+
+type AuditManagerAssessmentHits struct {
+	Total essdk.SearchTotal           `json:"total"`
+	Hits  []AuditManagerAssessmentHit `json:"hits"`
+}
+
+type AuditManagerAssessmentSearchResponse struct {
+	PitID string                     `json:"pit_id"`
+	Hits  AuditManagerAssessmentHits `json:"hits"`
+}
+
+type AuditManagerAssessmentPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewAuditManagerAssessmentPaginator(filters []essdk.BoolFilter, limit *int64) (AuditManagerAssessmentPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_auditmanager_assessment", filters, limit)
+	if err != nil {
+		return AuditManagerAssessmentPaginator{}, err
+	}
+
+	p := AuditManagerAssessmentPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p AuditManagerAssessmentPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p AuditManagerAssessmentPaginator) NextPage(ctx context.Context) ([]AuditManagerAssessment, error) {
+	var response AuditManagerAssessmentSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []AuditManagerAssessment
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listAuditManagerAssessmentFilters = map[string]string{
+	"akas":                               "aRN",
+	"arn":                                "aRN",
+	"assessment_report_destination":      "description.Assessment.Metadata.AssessmentReportsDestination.Destination",
+	"assessment_report_destination_type": "description.Assessment.Metadata.AssessmentReportsDestination.DestinationType",
+	"aws_account":                        "description.Assessment.AwsAccount",
+	"compliance_type":                    "description.Assessment.Metadata.ComplianceType",
+	"creation_time":                      "description.Assessment.Metadata.CreationTime",
+	"delegations":                        "description.Assessment.Metadata.Delegations",
+	"description":                        "description.Assessment.Metadata.Description",
+	"framework":                          "description.Assessment.Framework",
+	"id":                                 "description.Assessment.Metadata.Id",
+	"kaytu_account_id":                   "metadata.SourceID",
+	"last_updated":                       "description.Assessment.Metadata.LastUpdated",
+	"name":                               "description.Assessment.Metadata.Name",
+	"roles":                              "description.Assessment.Metadata.Roles",
+	"scope":                              "description.Assessment.Metadata.Scope",
+	"status":                             "description.Assessment.Metadata.Status",
+	"tags":                               "description.Assessment.Tags",
+	"title":                              "description.Assessment.Metadata.Name",
+}
+
+func ListAuditManagerAssessment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListAuditManagerAssessment")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewAuditManagerAssessmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAuditManagerAssessmentFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getAuditManagerAssessmentFilters = map[string]string{
+	"akas":                               "aRN",
+	"arn":                                "aRN",
+	"assessment_id":                      "description.Assessment.Metadata.Id",
+	"assessment_report_destination":      "description.Assessment.Metadata.AssessmentReportsDestination.Destination",
+	"assessment_report_destination_type": "description.Assessment.Metadata.AssessmentReportsDestination.DestinationType",
+	"aws_account":                        "description.Assessment.AwsAccount",
+	"compliance_type":                    "description.Assessment.Metadata.ComplianceType",
+	"creation_time":                      "description.Assessment.Metadata.CreationTime",
+	"delegations":                        "description.Assessment.Metadata.Delegations",
+	"description":                        "description.Assessment.Metadata.Description",
+	"framework":                          "description.Assessment.Framework",
+	"id":                                 "description.Assessment.Metadata.Id",
+	"kaytu_account_id":                   "metadata.SourceID",
+	"last_updated":                       "description.Assessment.Metadata.LastUpdated",
+	"name":                               "description.Assessment.Metadata.Name",
+	"roles":                              "description.Assessment.Metadata.Roles",
+	"scope":                              "description.Assessment.Metadata.Scope",
+	"status":                             "description.Assessment.Metadata.Status",
+	"tags":                               "description.Assessment.Tags",
+	"title":                              "description.Assessment.Metadata.Name",
+}
+
+func GetAuditManagerAssessment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetAuditManagerAssessment")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewAuditManagerAssessmentPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAuditManagerAssessmentFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: AuditManagerAssessment =============================
+
+// ==========================  START: AuditManagerControl =============================
+
+type AuditManagerControl struct {
+	Description   aws.AuditManagerControlDescription `json:"description"`
+	Metadata      aws.Metadata                       `json:"metadata"`
+	ResourceJobID int                                `json:"resource_job_id"`
+	SourceJobID   int                                `json:"source_job_id"`
+	ResourceType  string                             `json:"resource_type"`
+	SourceType    string                             `json:"source_type"`
+	ID            string                             `json:"id"`
+	ARN           string                             `json:"arn"`
+	SourceID      string                             `json:"source_id"`
+}
+
+type AuditManagerControlHit struct {
+	ID      string              `json:"_id"`
+	Score   float64             `json:"_score"`
+	Index   string              `json:"_index"`
+	Type    string              `json:"_type"`
+	Version int64               `json:"_version,omitempty"`
+	Source  AuditManagerControl `json:"_source"`
+	Sort    []interface{}       `json:"sort"`
+}
+
+type AuditManagerControlHits struct {
+	Total essdk.SearchTotal        `json:"total"`
+	Hits  []AuditManagerControlHit `json:"hits"`
+}
+
+type AuditManagerControlSearchResponse struct {
+	PitID string                  `json:"pit_id"`
+	Hits  AuditManagerControlHits `json:"hits"`
+}
+
+type AuditManagerControlPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewAuditManagerControlPaginator(filters []essdk.BoolFilter, limit *int64) (AuditManagerControlPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_auditmanager_control", filters, limit)
+	if err != nil {
+		return AuditManagerControlPaginator{}, err
+	}
+
+	p := AuditManagerControlPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p AuditManagerControlPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p AuditManagerControlPaginator) NextPage(ctx context.Context) ([]AuditManagerControl, error) {
+	var response AuditManagerControlSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []AuditManagerControl
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listAuditManagerControlFilters = map[string]string{
+	"action_plan_instructions": "description.Control.ActionPlanInstructions",
+	"action_plan_title":        "description.Control.ActionPlanTitle",
+	"akas":                     "description.Control.Arn",
+	"arn":                      "description.Control.Arn",
+	"control_mapping_sources":  "description.Control.ControlMappingSources",
+	"control_sources":          "description.Control.ControlSources",
+	"created_at":               "description.Control.CreatedAt",
+	"created_by":               "description.Control.CreatedBy",
+	"description":              "description.Control.Description",
+	"id":                       "description.Control.Id",
+	"kaytu_account_id":         "metadata.SourceID",
+	"last_updated_at":          "description.Control.LastUpdatedAt",
+	"last_updated_by":          "description.Control.LastUpdatedBy",
+	"name":                     "description.Control.Name",
+	"tags":                     "description.Control.Tags",
+	"testing_information":      "description.Control.TestingInformation",
+	"title":                    "description.Control.Name",
+	"type":                     "description.Control.Type",
+}
+
+func ListAuditManagerControl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListAuditManagerControl")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewAuditManagerControlPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAuditManagerControlFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getAuditManagerControlFilters = map[string]string{
+	"action_plan_instructions": "description.Control.ActionPlanInstructions",
+	"action_plan_title":        "description.Control.ActionPlanTitle",
+	"akas":                     "description.Control.Arn",
+	"arn":                      "description.Control.Arn",
+	"control_id":               "description.Control.Id",
+	"control_mapping_sources":  "description.Control.ControlMappingSources",
+	"control_sources":          "description.Control.ControlSources",
+	"created_at":               "description.Control.CreatedAt",
+	"created_by":               "description.Control.CreatedBy",
+	"description":              "description.Control.Description",
+	"id":                       "description.Control.Id",
+	"kaytu_account_id":         "metadata.SourceID",
+	"last_updated_at":          "description.Control.LastUpdatedAt",
+	"last_updated_by":          "description.Control.LastUpdatedBy",
+	"name":                     "description.Control.Name",
+	"tags":                     "description.Control.Tags",
+	"testing_information":      "description.Control.TestingInformation",
+	"title":                    "description.Control.Name",
+	"type":                     "description.Control.Type",
+}
+
+func GetAuditManagerControl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetAuditManagerControl")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewAuditManagerControlPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAuditManagerControlFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: AuditManagerControl =============================
+
+// ==========================  START: AuditManagerEvidence =============================
+
+type AuditManagerEvidence struct {
+	Description   aws.AuditManagerEvidenceDescription `json:"description"`
+	Metadata      aws.Metadata                        `json:"metadata"`
+	ResourceJobID int                                 `json:"resource_job_id"`
+	SourceJobID   int                                 `json:"source_job_id"`
+	ResourceType  string                              `json:"resource_type"`
+	SourceType    string                              `json:"source_type"`
+	ID            string                              `json:"id"`
+	ARN           string                              `json:"arn"`
+	SourceID      string                              `json:"source_id"`
+}
+
+type AuditManagerEvidenceHit struct {
+	ID      string               `json:"_id"`
+	Score   float64              `json:"_score"`
+	Index   string               `json:"_index"`
+	Type    string               `json:"_type"`
+	Version int64                `json:"_version,omitempty"`
+	Source  AuditManagerEvidence `json:"_source"`
+	Sort    []interface{}        `json:"sort"`
+}
+
+type AuditManagerEvidenceHits struct {
+	Total essdk.SearchTotal         `json:"total"`
+	Hits  []AuditManagerEvidenceHit `json:"hits"`
+}
+
+type AuditManagerEvidenceSearchResponse struct {
+	PitID string                   `json:"pit_id"`
+	Hits  AuditManagerEvidenceHits `json:"hits"`
+}
+
+type AuditManagerEvidencePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewAuditManagerEvidencePaginator(filters []essdk.BoolFilter, limit *int64) (AuditManagerEvidencePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_auditmanager_evidence", filters, limit)
+	if err != nil {
+		return AuditManagerEvidencePaginator{}, err
+	}
+
+	p := AuditManagerEvidencePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p AuditManagerEvidencePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p AuditManagerEvidencePaginator) NextPage(ctx context.Context) ([]AuditManagerEvidence, error) {
+	var response AuditManagerEvidenceSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []AuditManagerEvidence
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listAuditManagerEvidenceFilters = map[string]string{
+	"akas":                        "aRN",
+	"arn":                         "aRN",
+	"assessment_id":               "description.AssessmentID",
+	"assessment_report_selection": "description.Evidence.AssessmentReportSelection",
+	"attributes":                  "description.Evidence.Attributes",
+	"aws_account_id":              "description.Evidence.AwsAccountId",
+	"aws_organization":            "description.Evidence.AwsOrganization",
+	"compliance_check":            "description.Evidence.ComplianceCheck",
+	"control_set_id":              "description.ControlSetID",
+	"data_source":                 "description.Evidence.DataSource",
+	"event_name":                  "description.Evidence.EventName",
+	"event_source":                "description.Evidence.EventSource",
+	"evidence_aws_account_id":     "description.Evidence.EvidenceAwsAccountId",
+	"evidence_by_type":            "description.Evidence.EvidenceByType",
+	"evidence_folder_id":          "description.Evidence.EvidenceFolderId",
+	"iam_id":                      "description.Evidence.IamId",
+	"id":                          "description.Evidence.Id",
+	"kaytu_account_id":            "metadata.SourceID",
+	"resources_included":          "description.Evidence.ResourcesIncluded",
+	"time":                        "description.Evidence.Time",
+	"title":                       "description.Evidence.Id",
+}
+
+func ListAuditManagerEvidence(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListAuditManagerEvidence")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewAuditManagerEvidencePaginator(essdk.BuildFilter(d.KeyColumnQuals, listAuditManagerEvidenceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getAuditManagerEvidenceFilters = map[string]string{
+	"akas":                        "aRN",
+	"arn":                         "aRN",
+	"assessment_id":               "description.AssessmentID",
+	"assessment_report_selection": "description.Evidence.AssessmentReportSelection",
+	"attributes":                  "description.Evidence.Attributes",
+	"aws_account_id":              "description.Evidence.AwsAccountId",
+	"aws_organization":            "description.Evidence.AwsOrganization",
+	"compliance_check":            "description.Evidence.ComplianceCheck",
+	"control_set_id":              "description.ControlSetID",
+	"data_source":                 "description.Evidence.DataSource",
+	"event_name":                  "description.Evidence.EventName",
+	"event_source":                "description.Evidence.EventSource",
+	"evidence_aws_account_id":     "description.Evidence.EvidenceAwsAccountId",
+	"evidence_by_type":            "description.Evidence.EvidenceByType",
+	"evidence_folder_id":          "description.Evidence.EvidenceFolderId",
+	"iam_id":                      "description.Evidence.IamId",
+	"id":                          "description.Evidence.Id",
+	"kaytu_account_id":            "metadata.SourceID",
+	"resources_included":          "description.Evidence.ResourcesIncluded",
+	"time":                        "description.Evidence.Time",
+	"title":                       "description.Evidence.Id",
+}
+
+func GetAuditManagerEvidence(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetAuditManagerEvidence")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewAuditManagerEvidencePaginator(essdk.BuildFilter(d.KeyColumnQuals, getAuditManagerEvidenceFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: AuditManagerEvidence =============================
+
+// ==========================  START: AuditManagerEvidenceFolder =============================
+
+type AuditManagerEvidenceFolder struct {
+	Description   aws.AuditManagerEvidenceFolderDescription `json:"description"`
+	Metadata      aws.Metadata                              `json:"metadata"`
+	ResourceJobID int                                       `json:"resource_job_id"`
+	SourceJobID   int                                       `json:"source_job_id"`
+	ResourceType  string                                    `json:"resource_type"`
+	SourceType    string                                    `json:"source_type"`
+	ID            string                                    `json:"id"`
+	ARN           string                                    `json:"arn"`
+	SourceID      string                                    `json:"source_id"`
+}
+
+type AuditManagerEvidenceFolderHit struct {
+	ID      string                     `json:"_id"`
+	Score   float64                    `json:"_score"`
+	Index   string                     `json:"_index"`
+	Type    string                     `json:"_type"`
+	Version int64                      `json:"_version,omitempty"`
+	Source  AuditManagerEvidenceFolder `json:"_source"`
+	Sort    []interface{}              `json:"sort"`
+}
+
+type AuditManagerEvidenceFolderHits struct {
+	Total essdk.SearchTotal               `json:"total"`
+	Hits  []AuditManagerEvidenceFolderHit `json:"hits"`
+}
+
+type AuditManagerEvidenceFolderSearchResponse struct {
+	PitID string                         `json:"pit_id"`
+	Hits  AuditManagerEvidenceFolderHits `json:"hits"`
+}
+
+type AuditManagerEvidenceFolderPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewAuditManagerEvidenceFolderPaginator(filters []essdk.BoolFilter, limit *int64) (AuditManagerEvidenceFolderPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_auditmanager_evidencefolder", filters, limit)
+	if err != nil {
+		return AuditManagerEvidenceFolderPaginator{}, err
+	}
+
+	p := AuditManagerEvidenceFolderPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p AuditManagerEvidenceFolderPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p AuditManagerEvidenceFolderPaginator) NextPage(ctx context.Context) ([]AuditManagerEvidenceFolder, error) {
+	var response AuditManagerEvidenceFolderSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []AuditManagerEvidenceFolder
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listAuditManagerEvidenceFolderFilters = map[string]string{
+	"akas":                              "aRN",
+	"arn":                               "aRN",
+	"assessment_id":                     "description.AssessmentID",
+	"assessment_report_selection_count": "description.EvidenceFolder.AssessmentReportSelectionCount",
+	"author":                            "description.EvidenceFolder.Author",
+	"control_id":                        "description.EvidenceFolder.ControlId",
+	"control_name":                      "description.EvidenceFolder.ControlName",
+	"control_set_id":                    "description.EvidenceFolder.ControlSetId",
+	"data_source":                       "description.EvidenceFolder.DataSource",
+	"date":                              "description.EvidenceFolder.Date",
+	"evidence_aws_service_source_count": "description.EvidenceFolder.EvidenceAwsServiceSourceCount",
+	"evidence_by_type_compliance_check_count":        "description.EvidenceFolder.EvidenceByTypeComplianceCheckCount",
+	"evidence_by_type_compliance_check_issues_count": "description.EvidenceFolder.EvidenceByTypeComplianceCheckIssuesCount",
+	"evidence_by_type_configuration_data_count":      "description.EvidenceFolder.EvidenceByTypeConfigurationDataCount",
+	"evidence_by_type_manual_count":                  "description.EvidenceFolder.EvidenceByTypeManualCount",
+	"evidence_by_type_user_activity_count":           "description.EvidenceFolder.EvidenceByTypeUserActivityCount",
+	"evidence_resources_included_count":              "description.EvidenceFolder.EvidenceResourcesIncludedCount",
+	"id":                                             "description.EvidenceFolder.Id",
+	"kaytu_account_id":                               "metadata.SourceID",
+	"name":                                           "description.EvidenceFolder.Name",
+	"title":                                          "description.EvidenceFolder.Name",
+	"total_evidence":                                 "description.EvidenceFolder.TotalEvidence",
+}
+
+func ListAuditManagerEvidenceFolder(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListAuditManagerEvidenceFolder")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewAuditManagerEvidenceFolderPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAuditManagerEvidenceFolderFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getAuditManagerEvidenceFolderFilters = map[string]string{
+	"akas":                              "aRN",
+	"arn":                               "aRN",
+	"assessment_id":                     "description.AssessmentID",
+	"assessment_report_selection_count": "description.EvidenceFolder.AssessmentReportSelectionCount",
+	"author":                            "description.EvidenceFolder.Author",
+	"control_id":                        "description.EvidenceFolder.ControlId",
+	"control_name":                      "description.EvidenceFolder.ControlName",
+	"control_set_id":                    "description.ControlSetID",
+	"data_source":                       "description.EvidenceFolder.DataSource",
+	"date":                              "description.EvidenceFolder.Date",
+	"evidence_aws_service_source_count": "description.EvidenceFolder.EvidenceAwsServiceSourceCount",
+	"evidence_by_type_compliance_check_count":        "description.EvidenceFolder.EvidenceByTypeComplianceCheckCount",
+	"evidence_by_type_compliance_check_issues_count": "description.EvidenceFolder.EvidenceByTypeComplianceCheckIssuesCount",
+	"evidence_by_type_configuration_data_count":      "description.EvidenceFolder.EvidenceByTypeConfigurationDataCount",
+	"evidence_by_type_manual_count":                  "description.EvidenceFolder.EvidenceByTypeManualCount",
+	"evidence_by_type_user_activity_count":           "description.EvidenceFolder.EvidenceByTypeUserActivityCount",
+	"evidence_resources_included_count":              "description.EvidenceFolder.EvidenceResourcesIncludedCount",
+	"id":                                             "description.EvidenceFolder.Id",
+	"kaytu_account_id":                               "metadata.SourceID",
+	"name":                                           "description.EvidenceFolder.Name",
+	"title":                                          "description.EvidenceFolder.Name",
+	"total_evidence":                                 "description.EvidenceFolder.TotalEvidence",
+}
+
+func GetAuditManagerEvidenceFolder(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetAuditManagerEvidenceFolder")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewAuditManagerEvidenceFolderPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAuditManagerEvidenceFolderFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: AuditManagerEvidenceFolder =============================
+
+// ==========================  START: AuditManagerFramework =============================
+
+type AuditManagerFramework struct {
+	Description   aws.AuditManagerFrameworkDescription `json:"description"`
+	Metadata      aws.Metadata                         `json:"metadata"`
+	ResourceJobID int                                  `json:"resource_job_id"`
+	SourceJobID   int                                  `json:"source_job_id"`
+	ResourceType  string                               `json:"resource_type"`
+	SourceType    string                               `json:"source_type"`
+	ID            string                               `json:"id"`
+	ARN           string                               `json:"arn"`
+	SourceID      string                               `json:"source_id"`
+}
+
+type AuditManagerFrameworkHit struct {
+	ID      string                `json:"_id"`
+	Score   float64               `json:"_score"`
+	Index   string                `json:"_index"`
+	Type    string                `json:"_type"`
+	Version int64                 `json:"_version,omitempty"`
+	Source  AuditManagerFramework `json:"_source"`
+	Sort    []interface{}         `json:"sort"`
+}
+
+type AuditManagerFrameworkHits struct {
+	Total essdk.SearchTotal          `json:"total"`
+	Hits  []AuditManagerFrameworkHit `json:"hits"`
+}
+
+type AuditManagerFrameworkSearchResponse struct {
+	PitID string                    `json:"pit_id"`
+	Hits  AuditManagerFrameworkHits `json:"hits"`
+}
+
+type AuditManagerFrameworkPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewAuditManagerFrameworkPaginator(filters []essdk.BoolFilter, limit *int64) (AuditManagerFrameworkPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_auditmanager_framework", filters, limit)
+	if err != nil {
+		return AuditManagerFrameworkPaginator{}, err
+	}
+
+	p := AuditManagerFrameworkPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p AuditManagerFrameworkPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p AuditManagerFrameworkPaginator) NextPage(ctx context.Context) ([]AuditManagerFramework, error) {
+	var response AuditManagerFrameworkSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []AuditManagerFramework
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listAuditManagerFrameworkFilters = map[string]string{
+	"akas":               "description.Framework.Arn",
+	"arn":                "description.Framework.Arn",
+	"compliance_type":    "description.Framework.ComplianceType",
+	"control_sets":       "description.Framework.ControlSets",
+	"control_sets_count": "description.Framework.ControlSources",
+	"control_sources":    "description.Framework.ControlSources",
+	"controls_count":     "description.Framework.ControlSources",
+	"created_at":         "description.Framework.CreatedAt",
+	"created_by":         "description.Framework.CreatedBy",
+	"description":        "description.Framework.Description",
+	"id":                 "description.Framework.Id",
+	"kaytu_account_id":   "metadata.SourceID",
+	"last_updated_at":    "description.Framework.LastUpdatedAt",
+	"last_updated_by":    "description.Framework.LastUpdatedBy",
+	"logo":               "description.Framework.Logo",
+	"name":               "description.Framework.Name",
+	"tags":               "description.Framework.Tags",
+	"title":              "description.Framework.Name",
+	"type":               "description.Framework.Type",
+}
+
+func ListAuditManagerFramework(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListAuditManagerFramework")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewAuditManagerFrameworkPaginator(essdk.BuildFilter(d.KeyColumnQuals, listAuditManagerFrameworkFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getAuditManagerFrameworkFilters = map[string]string{
+	"akas":               "description.Framework.Arn",
+	"arn":                "description.Framework.Arn",
+	"compliance_type":    "description.Framework.ComplianceType",
+	"control_sets":       "description.Framework.ControlSets",
+	"control_sets_count": "description.Framework.ControlSources",
+	"control_sources":    "description.Framework.ControlSources",
+	"controls_count":     "description.Framework.ControlSources",
+	"created_at":         "description.Framework.CreatedAt",
+	"created_by":         "description.Framework.CreatedBy",
+	"description":        "description.Framework.Description",
+	"id":                 "description.Framework.Id",
+	"kaytu_account_id":   "metadata.SourceID",
+	"last_updated_at":    "description.Framework.LastUpdatedAt",
+	"last_updated_by":    "description.Framework.LastUpdatedBy",
+	"logo":               "description.Framework.Logo",
+	"name":               "description.Framework.Name",
+	"region":             "metadata.Region",
+	"tags":               "description.Framework.Tags",
+	"title":              "description.Framework.Name",
+	"type":               "description.Framework.Type",
+}
+
+func GetAuditManagerFramework(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetAuditManagerFramework")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewAuditManagerFrameworkPaginator(essdk.BuildFilter(d.KeyColumnQuals, getAuditManagerFrameworkFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: AuditManagerFramework =============================
 
 // ==========================  START: CloudSearchDomain =============================
 
