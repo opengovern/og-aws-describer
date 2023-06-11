@@ -7937,6 +7937,168 @@ func GetCloudWatchAlarm(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 // ==========================  END: CloudWatchAlarm =============================
 
+// ==========================  START: CloudWatchLogEvent =============================
+
+type CloudWatchLogEvent struct {
+	Description   aws.CloudWatchLogEventDescription `json:"description"`
+	Metadata      aws.Metadata                      `json:"metadata"`
+	ResourceJobID int                               `json:"resource_job_id"`
+	SourceJobID   int                               `json:"source_job_id"`
+	ResourceType  string                            `json:"resource_type"`
+	SourceType    string                            `json:"source_type"`
+	ID            string                            `json:"id"`
+	ARN           string                            `json:"arn"`
+	SourceID      string                            `json:"source_id"`
+}
+
+type CloudWatchLogEventHit struct {
+	ID      string             `json:"_id"`
+	Score   float64            `json:"_score"`
+	Index   string             `json:"_index"`
+	Type    string             `json:"_type"`
+	Version int64              `json:"_version,omitempty"`
+	Source  CloudWatchLogEvent `json:"_source"`
+	Sort    []interface{}      `json:"sort"`
+}
+
+type CloudWatchLogEventHits struct {
+	Total essdk.SearchTotal       `json:"total"`
+	Hits  []CloudWatchLogEventHit `json:"hits"`
+}
+
+type CloudWatchLogEventSearchResponse struct {
+	PitID string                 `json:"pit_id"`
+	Hits  CloudWatchLogEventHits `json:"hits"`
+}
+
+type CloudWatchLogEventPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewCloudWatchLogEventPaginator(filters []essdk.BoolFilter, limit *int64) (CloudWatchLogEventPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_cloudwatch_logevent", filters, limit)
+	if err != nil {
+		return CloudWatchLogEventPaginator{}, err
+	}
+
+	p := CloudWatchLogEventPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p CloudWatchLogEventPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p CloudWatchLogEventPaginator) NextPage(ctx context.Context) ([]CloudWatchLogEvent, error) {
+	var response CloudWatchLogEventSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []CloudWatchLogEvent
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listCloudWatchLogEventFilters = map[string]string{
+	"event_id":         "description.LogEvent.EventId",
+	"ingestion_time":   "description.LogEvent.IngestionTime",
+	"kaytu_account_id": "metadata.SourceID",
+	"log_group_name":   "description.LogGroupName",
+	"log_stream_name":  "description.LogEvent.LogStreamName",
+	"message":          "description.LogEvent.Message",
+	"message_json":     "description.LogEvent.Message",
+	"timestamp":        "description.LogEvent.Timestamp",
+}
+
+func ListCloudWatchLogEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListCloudWatchLogEvent")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewCloudWatchLogEventPaginator(essdk.BuildFilter(d.KeyColumnQuals, listCloudWatchLogEventFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getCloudWatchLogEventFilters = map[string]string{
+	"event_id":         "description.LogEvent.EventId",
+	"ingestion_time":   "description.LogEvent.IngestionTime",
+	"kaytu_account_id": "metadata.SourceID",
+	"log_group_name":   "description.LogGroupName",
+	"log_stream_name":  "description.LogEvent.LogStreamName",
+	"message":          "description.LogEvent.Message",
+	"message_json":     "description.LogEvent.Message",
+	"timestamp":        "description.LogEvent.Timestamp",
+}
+
+func GetCloudWatchLogEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetCloudWatchLogEvent")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewCloudWatchLogEventPaginator(essdk.BuildFilter(d.KeyColumnQuals, getCloudWatchLogEventFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: CloudWatchLogEvent =============================
+
 // ==========================  START: CloudWatchLogResourcePolicy =============================
 
 type CloudWatchLogResourcePolicy struct {
@@ -8094,6 +8256,174 @@ func GetCloudWatchLogResourcePolicy(ctx context.Context, d *plugin.QueryData, _ 
 }
 
 // ==========================  END: CloudWatchLogResourcePolicy =============================
+
+// ==========================  START: CloudWatchLogStream =============================
+
+type CloudWatchLogStream struct {
+	Description   aws.CloudWatchLogStreamDescription `json:"description"`
+	Metadata      aws.Metadata                       `json:"metadata"`
+	ResourceJobID int                                `json:"resource_job_id"`
+	SourceJobID   int                                `json:"source_job_id"`
+	ResourceType  string                             `json:"resource_type"`
+	SourceType    string                             `json:"source_type"`
+	ID            string                             `json:"id"`
+	ARN           string                             `json:"arn"`
+	SourceID      string                             `json:"source_id"`
+}
+
+type CloudWatchLogStreamHit struct {
+	ID      string              `json:"_id"`
+	Score   float64             `json:"_score"`
+	Index   string              `json:"_index"`
+	Type    string              `json:"_type"`
+	Version int64               `json:"_version,omitempty"`
+	Source  CloudWatchLogStream `json:"_source"`
+	Sort    []interface{}       `json:"sort"`
+}
+
+type CloudWatchLogStreamHits struct {
+	Total essdk.SearchTotal        `json:"total"`
+	Hits  []CloudWatchLogStreamHit `json:"hits"`
+}
+
+type CloudWatchLogStreamSearchResponse struct {
+	PitID string                  `json:"pit_id"`
+	Hits  CloudWatchLogStreamHits `json:"hits"`
+}
+
+type CloudWatchLogStreamPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewCloudWatchLogStreamPaginator(filters []essdk.BoolFilter, limit *int64) (CloudWatchLogStreamPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_cloudwatch_logstream", filters, limit)
+	if err != nil {
+		return CloudWatchLogStreamPaginator{}, err
+	}
+
+	p := CloudWatchLogStreamPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p CloudWatchLogStreamPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p CloudWatchLogStreamPaginator) NextPage(ctx context.Context) ([]CloudWatchLogStream, error) {
+	var response CloudWatchLogStreamSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []CloudWatchLogStream
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listCloudWatchLogStreamFilters = map[string]string{
+	"akas":                  "description.LogStream.Arn",
+	"arn":                   "description.LogStream.Arn",
+	"creation_time":         "description.LogStream.CreationTime",
+	"first_event_timestamp": "description.LogStream.FirstEventTimestamp",
+	"kaytu_account_id":      "metadata.SourceID",
+	"last_event_timestamp":  "description.LogStream.LastEventTimestamp",
+	"last_ingestion_time":   "description.LogStream.LastIngestionTime",
+	"log_group_name":        "description.LogGroupName",
+	"name":                  "description.LogStream.LogStreamName",
+	"title":                 "description.LogStream.LogStreamName",
+	"upload_sequence_token": "description.LogStream.UploadSequenceToken",
+}
+
+func ListCloudWatchLogStream(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListCloudWatchLogStream")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewCloudWatchLogStreamPaginator(essdk.BuildFilter(d.KeyColumnQuals, listCloudWatchLogStreamFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getCloudWatchLogStreamFilters = map[string]string{
+	"akas":                  "description.LogStream.Arn",
+	"arn":                   "description.LogStream.Arn",
+	"creation_time":         "description.LogStream.CreationTime",
+	"first_event_timestamp": "description.LogStream.FirstEventTimestamp",
+	"kaytu_account_id":      "metadata.SourceID",
+	"last_event_timestamp":  "description.LogStream.LastEventTimestamp",
+	"last_ingestion_time":   "description.LogStream.LastIngestionTime",
+	"log_group_name":        "description.LogGroupName",
+	"name":                  "description.LogStream.LogStreamName",
+	"title":                 "description.LogStream.LogStreamName",
+	"upload_sequence_token": "description.LogStream.UploadSequenceToken",
+}
+
+func GetCloudWatchLogStream(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetCloudWatchLogStream")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewCloudWatchLogStreamPaginator(essdk.BuildFilter(d.KeyColumnQuals, getCloudWatchLogStreamFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: CloudWatchLogStream =============================
 
 // ==========================  START: CloudWatchLogSubscriptionFilter =============================
 
@@ -8584,6 +8914,166 @@ func GetCloudWatchLogsLogGroup(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 // ==========================  END: CloudWatchLogsLogGroup =============================
+
+// ==========================  START: CloudWatchLogsMetricFilter =============================
+
+type CloudWatchLogsMetricFilter struct {
+	Description   aws.CloudWatchLogsMetricFilterDescription `json:"description"`
+	Metadata      aws.Metadata                              `json:"metadata"`
+	ResourceJobID int                                       `json:"resource_job_id"`
+	SourceJobID   int                                       `json:"source_job_id"`
+	ResourceType  string                                    `json:"resource_type"`
+	SourceType    string                                    `json:"source_type"`
+	ID            string                                    `json:"id"`
+	ARN           string                                    `json:"arn"`
+	SourceID      string                                    `json:"source_id"`
+}
+
+type CloudWatchLogsMetricFilterHit struct {
+	ID      string                     `json:"_id"`
+	Score   float64                    `json:"_score"`
+	Index   string                     `json:"_index"`
+	Type    string                     `json:"_type"`
+	Version int64                      `json:"_version,omitempty"`
+	Source  CloudWatchLogsMetricFilter `json:"_source"`
+	Sort    []interface{}              `json:"sort"`
+}
+
+type CloudWatchLogsMetricFilterHits struct {
+	Total essdk.SearchTotal               `json:"total"`
+	Hits  []CloudWatchLogsMetricFilterHit `json:"hits"`
+}
+
+type CloudWatchLogsMetricFilterSearchResponse struct {
+	PitID string                         `json:"pit_id"`
+	Hits  CloudWatchLogsMetricFilterHits `json:"hits"`
+}
+
+type CloudWatchLogsMetricFilterPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewCloudWatchLogsMetricFilterPaginator(filters []essdk.BoolFilter, limit *int64) (CloudWatchLogsMetricFilterPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_logs_metricfilter", filters, limit)
+	if err != nil {
+		return CloudWatchLogsMetricFilterPaginator{}, err
+	}
+
+	p := CloudWatchLogsMetricFilterPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p CloudWatchLogsMetricFilterPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p CloudWatchLogsMetricFilterPaginator) NextPage(ctx context.Context) ([]CloudWatchLogsMetricFilter, error) {
+	var response CloudWatchLogsMetricFilterSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []CloudWatchLogsMetricFilter
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listCloudWatchLogsMetricFilterFilters = map[string]string{
+	"creation_time":                   "description.MetricFilter.CreationTime",
+	"filter_pattern":                  "description.MetricFilter.FilterPattern",
+	"kaytu_account_id":                "metadata.SourceID",
+	"log_group_name":                  "decsription.MetricFilter.LogGroupName",
+	"metric_transformation_name":      "decsription.MetricFilter.MetricTransformations.MetricName",
+	"metric_transformation_namespace": "decsription.MetricFilter.MetricTransformations.MetricNamespace",
+	"name":                            "decsription.MetricFilter.FilterName",
+	"title":                           "description.MetricFilter.FilterName",
+}
+
+func ListCloudWatchLogsMetricFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListCloudWatchLogsMetricFilter")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewCloudWatchLogsMetricFilterPaginator(essdk.BuildFilter(d.KeyColumnQuals, listCloudWatchLogsMetricFilterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getCloudWatchLogsMetricFilterFilters = map[string]string{
+	"creation_time":    "description.MetricFilter.CreationTime",
+	"filter_pattern":   "description.MetricFilter.FilterPattern",
+	"kaytu_account_id": "metadata.SourceID",
+	"log_group_name":   "description.MetricFilter.LogGroupName",
+	"name":             "decsription.MetricFilter.FilterName",
+	"title":            "description.MetricFilter.FilterName",
+}
+
+func GetCloudWatchLogsMetricFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetCloudWatchLogsMetricFilter")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewCloudWatchLogsMetricFilterPaginator(essdk.BuildFilter(d.KeyColumnQuals, getCloudWatchLogsMetricFilterFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: CloudWatchLogsMetricFilter =============================
 
 // ==========================  START: CodeBuildProject =============================
 
@@ -23318,6 +23808,172 @@ func GetCloudTrailQuery(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 // ==========================  END: CloudTrailQuery =============================
+
+// ==========================  START: CloudTrailTrailEvent =============================
+
+type CloudTrailTrailEvent struct {
+	Description   aws.CloudTrailTrailEventDescription `json:"description"`
+	Metadata      aws.Metadata                        `json:"metadata"`
+	ResourceJobID int                                 `json:"resource_job_id"`
+	SourceJobID   int                                 `json:"source_job_id"`
+	ResourceType  string                              `json:"resource_type"`
+	SourceType    string                              `json:"source_type"`
+	ID            string                              `json:"id"`
+	ARN           string                              `json:"arn"`
+	SourceID      string                              `json:"source_id"`
+}
+
+type CloudTrailTrailEventHit struct {
+	ID      string               `json:"_id"`
+	Score   float64              `json:"_score"`
+	Index   string               `json:"_index"`
+	Type    string               `json:"_type"`
+	Version int64                `json:"_version,omitempty"`
+	Source  CloudTrailTrailEvent `json:"_source"`
+	Sort    []interface{}        `json:"sort"`
+}
+
+type CloudTrailTrailEventHits struct {
+	Total essdk.SearchTotal         `json:"total"`
+	Hits  []CloudTrailTrailEventHit `json:"hits"`
+}
+
+type CloudTrailTrailEventSearchResponse struct {
+	PitID string                   `json:"pit_id"`
+	Hits  CloudTrailTrailEventHits `json:"hits"`
+}
+
+type CloudTrailTrailEventPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewCloudTrailTrailEventPaginator(filters []essdk.BoolFilter, limit *int64) (CloudTrailTrailEventPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_cloudtrail_trailevent", filters, limit)
+	if err != nil {
+		return CloudTrailTrailEventPaginator{}, err
+	}
+
+	p := CloudTrailTrailEventPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p CloudTrailTrailEventPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p CloudTrailTrailEventPaginator) NextPage(ctx context.Context) ([]CloudTrailTrailEvent, error) {
+	var response CloudTrailTrailEventSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []CloudTrailTrailEvent
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listCloudTrailTrailEventFilters = map[string]string{
+	"access_key_id":    "userIdentity.AccessKeyId",
+	"cloudtrail_event": "message",
+	"kaytu_account_id": "metadata.SourceID",
+	"log_group_name":   "description.LogGroupName",
+	"log_stream_name":  "description.TrailEvent.LogStreamName",
+	"timestamp":        "description.TrailEvent.Timestamp",
+	"timestamp_ms":     "description.TrailEvent.Timestamp",
+	"user_identifier":  "userIdentity.Arn",
+	"user_type":        "userIdentity.Type",
+	"username":         "userIdentity.Username",
+}
+
+func ListCloudTrailTrailEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListCloudTrailTrailEvent")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewCloudTrailTrailEventPaginator(essdk.BuildFilter(d.KeyColumnQuals, listCloudTrailTrailEventFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getCloudTrailTrailEventFilters = map[string]string{
+	"access_key_id":    "userIdentity.AccessKeyId",
+	"cloudtrail_event": "message",
+	"kaytu_account_id": "metadata.SourceID",
+	"log_group_name":   "description.LogGroupName",
+	"log_stream_name":  "description.TrailEvent.LogStreamName",
+	"timestamp":        "description.TrailEvent.Timestamp",
+	"timestamp_ms":     "description.TrailEvent.Timestamp",
+	"user_identifier":  "userIdentity.Arn",
+	"user_type":        "userIdentity.Type",
+	"username":         "userIdentity.Username",
+}
+
+func GetCloudTrailTrailEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetCloudTrailTrailEvent")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewCloudTrailTrailEventPaginator(essdk.BuildFilter(d.KeyColumnQuals, getCloudTrailTrailEventFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: CloudTrailTrailEvent =============================
 
 // ==========================  START: IAMAccount =============================
 
@@ -39421,6 +40077,158 @@ func GetCostExplorerByRecordTypeMonthly(ctx context.Context, d *plugin.QueryData
 }
 
 // ==========================  END: CostExplorerByRecordTypeMonthly =============================
+
+// ==========================  START: CostExplorerByServiceUsageTypeMonthly =============================
+
+type CostExplorerByServiceUsageTypeMonthly struct {
+	Description   aws.CostExplorerByServiceUsageTypeMonthlyDescription `json:"description"`
+	Metadata      aws.Metadata                                         `json:"metadata"`
+	ResourceJobID int                                                  `json:"resource_job_id"`
+	SourceJobID   int                                                  `json:"source_job_id"`
+	ResourceType  string                                               `json:"resource_type"`
+	SourceType    string                                               `json:"source_type"`
+	ID            string                                               `json:"id"`
+	ARN           string                                               `json:"arn"`
+	SourceID      string                                               `json:"source_id"`
+}
+
+type CostExplorerByServiceUsageTypeMonthlyHit struct {
+	ID      string                                `json:"_id"`
+	Score   float64                               `json:"_score"`
+	Index   string                                `json:"_index"`
+	Type    string                                `json:"_type"`
+	Version int64                                 `json:"_version,omitempty"`
+	Source  CostExplorerByServiceUsageTypeMonthly `json:"_source"`
+	Sort    []interface{}                         `json:"sort"`
+}
+
+type CostExplorerByServiceUsageTypeMonthlyHits struct {
+	Total essdk.SearchTotal                          `json:"total"`
+	Hits  []CostExplorerByServiceUsageTypeMonthlyHit `json:"hits"`
+}
+
+type CostExplorerByServiceUsageTypeMonthlySearchResponse struct {
+	PitID string                                    `json:"pit_id"`
+	Hits  CostExplorerByServiceUsageTypeMonthlyHits `json:"hits"`
+}
+
+type CostExplorerByServiceUsageTypeMonthlyPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewCostExplorerByServiceUsageTypeMonthlyPaginator(filters []essdk.BoolFilter, limit *int64) (CostExplorerByServiceUsageTypeMonthlyPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_costexplorer_byusagetypemonthly", filters, limit)
+	if err != nil {
+		return CostExplorerByServiceUsageTypeMonthlyPaginator{}, err
+	}
+
+	p := CostExplorerByServiceUsageTypeMonthlyPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p CostExplorerByServiceUsageTypeMonthlyPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p CostExplorerByServiceUsageTypeMonthlyPaginator) NextPage(ctx context.Context) ([]CostExplorerByServiceUsageTypeMonthly, error) {
+	var response CostExplorerByServiceUsageTypeMonthlySearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []CostExplorerByServiceUsageTypeMonthly
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listCostExplorerByServiceUsageTypeMonthlyFilters = map[string]string{
+	"kaytu_account_id": "metadata.SourceID",
+	"service":          "dimension1",
+	"usage_type":       "dimension2",
+}
+
+func ListCostExplorerByServiceUsageTypeMonthly(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListCostExplorerByServiceUsageTypeMonthly")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewCostExplorerByServiceUsageTypeMonthlyPaginator(essdk.BuildFilter(d.KeyColumnQuals, listCostExplorerByServiceUsageTypeMonthlyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getCostExplorerByServiceUsageTypeMonthlyFilters = map[string]string{
+	"kaytu_account_id": "metadata.SourceID",
+	"service":          "dimension1",
+	"usage_type":       "dimension2",
+}
+
+func GetCostExplorerByServiceUsageTypeMonthly(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetCostExplorerByServiceUsageTypeMonthly")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewCostExplorerByServiceUsageTypeMonthlyPaginator(essdk.BuildFilter(d.KeyColumnQuals, getCostExplorerByServiceUsageTypeMonthlyFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: CostExplorerByServiceUsageTypeMonthly =============================
 
 // ==========================  START: CostExplorerForcastMonthly =============================
 

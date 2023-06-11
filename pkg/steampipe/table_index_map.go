@@ -349,6 +349,11 @@ var awsMap = map[string]string{
 	"AWS::AuditManager::Evidence":                        "aws_auditmanager_evidence",
 	"AWS::AuditManager::Control":                         "aws_auditmanager_control",
 	"AWS::AuditManager::Assessment":                      "aws_auditmanager_assessment",
+	"AWS::CloudTrail::TrailEvent":                        "aws_cloudtrail_trail_event",
+	"AWS::CloudWatch::LogEvent":                          "aws_cloudwatch_log_event",
+	"AWS::Logs::MetricFilter":                            "aws_cloudwatch_log_metric_filter",
+	"AWS::CloudWatch::LogStream":                         "aws_cloudwatch_log_stream",
+	"AWS::CostExplorer::ByUsageTypeMonthly":              "aws_cost_by_service_usage_type_monthly",
 	"AWS::ServiceQuotas::ServiceQuotaChangeRequest":      "aws_servicequotas_service_quota_change_request",
 }
 
@@ -697,5 +702,10 @@ var AWSDescriptionMap = map[string]interface{}{
 	"AWS::AuditManager::Evidence":                        &keibi.AuditManagerEvidence{},
 	"AWS::AuditManager::Control":                         &keibi.AuditManagerControl{},
 	"AWS::AuditManager::Assessment":                      &keibi.AuditManagerAssessment{},
+	"AWS::CloudTrail::TrailEvent":                        &keibi.CloudTrailTrailEvent{},
+	"AWS::CloudWatch::LogEvent":                          &keibi.CloudWatchLogEvent{},
+	"AWS::Logs::MetricFilter":                            &keibi.CloudWatchLogsMetricFilter{},
+	"AWS::CloudWatch::LogStream":                         &keibi.CloudWatchLogStream{},
+	"AWS::CostExplorer::ByUsageTypeMonthly":              &keibi.CostExplorerByServiceUsageTypeMonthly{},
 	"AWS::ServiceQuotas::ServiceQuotaChangeRequest":      &keibi.ServiceQuotasServiceQuotaChangeRequest{},
 }
