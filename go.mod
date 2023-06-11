@@ -140,7 +140,7 @@ require (
 	github.com/spf13/cobra v1.7.0
 	github.com/turbot/go-kit v0.4.0
 	github.com/turbot/steampipe-plugin-sdk/v4 v4.1.13
-	gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230605173601-652bb740071b
+	gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230611082459-e4d9f794e4b2
 	go.uber.org/zap v1.24.0
 	golang.org/x/oauth2 v0.6.0
 	google.golang.org/grpc v1.54.0
