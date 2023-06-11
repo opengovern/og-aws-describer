@@ -273,6 +273,52 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 					index := stopWordsRe.ReplaceAllString(resourceType.ResourceName, "_")
 					index = strings.ToLower(index)
 					s.Index = index
+
+					tableAliasMap := map[string]string{
+						"aws_api_gateway_authorizer": "table_aws_api_gateway_api_authorizer.go",
+					}
+
+					tableFile := fmt.Sprintf("table_%s.go", resourceType.SteampipeTable)
+					if v, ok := tableAliasMap[resourceType.SteampipeTable]; ok {
+						tableFile = v
+					}
+					plugin := "steampipe-plugin-aws/aws"
+					fileName := "../../../" + plugin + "/" + tableFile
+					tableFileSet := token.NewFileSet()
+					tableNode, err := parser.ParseFile(tableFileSet, fileName, nil, parser.ParseComments)
+					if err != nil {
+						panic(err)
+					}
+
+					ast.Inspect(tableNode, func(tnode ast.Node) bool {
+						if c, ok := tnode.(*ast.CompositeLit); ok {
+
+							var columnName, transformer string
+							for _, arg := range c.Elts {
+								if kv, ok := arg.(*ast.KeyValueExpr); ok {
+									if i, ok := kv.Key.(*ast.Ident); ok {
+										if i.Name == "Name" {
+											if bl, ok := kv.Value.(*ast.BasicLit); ok {
+												columnName = strings.Trim(bl.Value, "\"")
+											}
+										} else if i.Name == "Transform" {
+											if cl, ok := kv.Value.(*ast.CallExpr); ok {
+												transformer = extractTransformer(cl)
+											}
+										}
+									}
+								}
+							}
+
+							if columnName != "" && transformer != "" {
+								transformer = strings.ToLower(transformer[:1]) + transformer[1:]
+								s.GetFilters[columnName] = transformer
+								s.ListFilters[columnName] = transformer
+							}
+							return true
+						}
+						return true
+					})
 				}
 			}
 
@@ -333,4 +379,20 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func extractTransformer(cl *ast.CallExpr) string {
+	if sl, ok := cl.Fun.(*ast.SelectorExpr); ok {
+		if call, ok := sl.X.(*ast.CallExpr); ok {
+			return extractTransformer(call)
+		}
+		if sl.Sel.Name == "FromField" {
+			for _, arg := range cl.Args {
+				if bl, ok := arg.(*ast.BasicLit); ok {
+					return strings.Trim(bl.Value, "\"")
+				}
+			}
+		}
+	}
+	return ""
 }
