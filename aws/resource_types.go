@@ -1,10 +1,9 @@
-package aws
 
+package aws
 import (
 	"github.com/kaytu-io/kaytu-aws-describer/aws/describer"
 	"github.com/kaytu-io/kaytu-util/pkg/source"
 )
-
 var resourceTypes = map[string]ResourceType{
 
 	"AWS::Redshift::Snapshot": {
@@ -17,6 +16,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_redshift_cluster_snapshot"},
 		TerraformServiceName: "redshift",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::IAM::AccountSummary": {
@@ -29,6 +29,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Glacier::Vault": {
@@ -41,6 +42,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_glacier_vault"},
 		TerraformServiceName: "glacier",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Organizations::Organization": {
@@ -53,6 +55,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_organizations_organization"},
 		TerraformServiceName: "organizations",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CloudSearch::Domain": {
@@ -65,6 +68,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_cloudsearch_domain"},
 		TerraformServiceName: "cloudsearch",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::DynamoDb::GlobalSecondaryIndex": {
@@ -77,6 +81,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::RouteTable": {
@@ -89,6 +94,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_route_table"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::SecurityHub::Hub": {
@@ -101,6 +107,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::StorageGateway::StorageGateway": {
@@ -113,6 +120,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_storagegateway_gateway"},
 		TerraformServiceName: "storagegateway",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Inspector::AssessmentTemplate": {
@@ -125,6 +133,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_inspector_assessment_template"},
 		TerraformServiceName: "inspector",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ElasticLoadBalancingV2::ListenerRule": {
@@ -137,6 +146,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_alb_listener_rule"},
 		TerraformServiceName: "elbv2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::IAM::Role": {
@@ -149,6 +159,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_iam_role"},
 		TerraformServiceName: "iam",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::Backup::ProtectedResource": {
@@ -161,6 +172,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CodeCommit::Repository": {
@@ -173,6 +185,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_codecommit_repository"},
 		TerraformServiceName: "codecommit",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::VPCEndpoint": {
@@ -185,6 +198,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EventBridge::EventRule": {
@@ -197,6 +211,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CloudFront::OriginAccessControl": {
@@ -209,6 +224,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_cloudfront_origin_access_control"},
 		TerraformServiceName: "cloudfront",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CodeBuild::Project": {
@@ -221,6 +237,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_codebuild_project"},
 		TerraformServiceName: "codebuild",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ElastiCache::ParameterGroup": {
@@ -233,6 +250,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_elasticache_parameter_group"},
 		TerraformServiceName: "elasticache",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::MemoryDb::Cluster": {
@@ -245,6 +263,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_memorydb_cluster"},
 		TerraformServiceName: "memorydb",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Glue::Crawler": {
@@ -257,6 +276,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_glue_crawler"},
 		TerraformServiceName: "glue",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::DirectConnect::Gateway": {
@@ -269,6 +289,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_dx_gateway"},
 		TerraformServiceName: "directconnect",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::DynamoDb::BackUp": {
@@ -281,6 +302,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::EIP": {
@@ -293,6 +315,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_eip"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::InternetGateway": {
@@ -305,6 +328,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_internet_gateway"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::GuardDuty::PublishingDestination": {
@@ -317,6 +341,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_guardduty_publishing_destination"},
 		TerraformServiceName: "guardduty",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::KinesisAnalyticsV2::Application": {
@@ -329,6 +354,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_kinesisanalyticsv2_application"},
 		TerraformServiceName: "kinesisanalyticsv2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EMR::Instance": {
@@ -341,6 +367,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ApiGateway::RestApi": {
@@ -353,6 +380,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_api_gateway_rest_api"},
 		TerraformServiceName: "apigateway",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::ApiGatewayV2::Integration": {
@@ -365,6 +393,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_apigatewayv2_integration"},
 		TerraformServiceName: "apigatewayv2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::AutoScaling::AutoScalingGroup": {
@@ -377,6 +406,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_autoscaling_group"},
 		TerraformServiceName: "autoscaling",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::DynamoDb::TableExport": {
@@ -389,6 +419,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::KeyPair": {
@@ -401,6 +432,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_key_pair"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EFS::FileSystem": {
@@ -413,6 +445,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_efs_file_system"},
 		TerraformServiceName: "efs",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::Kafka::Cluster": {
@@ -425,6 +458,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_msk_cluster"},
 		TerraformServiceName: "kafka",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SecretsManager::Secret": {
@@ -437,6 +471,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_secretsmanager_secret"},
 		TerraformServiceName: "secretsmanager",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Backup::LegalHold": {
@@ -449,6 +484,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CloudFront::Function": {
@@ -461,6 +497,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_cloudfront_function"},
 		TerraformServiceName: "cloudfront",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::GlobalAccelerator::EndpointGroup": {
@@ -473,6 +510,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_globalaccelerator_endpoint_group"},
 		TerraformServiceName: "globalaccelerator",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::DAX::ParameterGroup": {
@@ -485,6 +523,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_dax_parameter_group"},
 		TerraformServiceName: "dax",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SQS::Queue": {
@@ -497,6 +536,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_sqs_queue"},
 		TerraformServiceName: "sqs",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::Config::Rule": {
@@ -509,6 +549,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::GuardDuty::Member": {
@@ -521,6 +562,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_guardduty_member"},
 		TerraformServiceName: "guardduty",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Inspector::Exclusion": {
@@ -533,6 +575,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::DirectoryService::Directory": {
@@ -545,6 +588,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EFS::AccessPoint": {
@@ -557,6 +601,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_efs_access_point"},
 		TerraformServiceName: "efs",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::IAM::PolicyAttachment": {
@@ -569,6 +614,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_iam_group_policy_attachment"},
 		TerraformServiceName: "iam",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::IAM::CredentialReport": {
@@ -581,6 +627,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::RDS::GlobalCluster": {
@@ -593,6 +640,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_rds_global_cluster"},
 		TerraformServiceName: "rds",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::CostExplorer::ForcastDaily": {
@@ -605,6 +653,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::GuardDuty::Detector": {
@@ -617,6 +666,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_guardduty_detector"},
 		TerraformServiceName: "guardduty",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SNS::Topic": {
@@ -629,6 +679,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_sns_topic"},
 		TerraformServiceName: "sns",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::AppConfig::Application": {
@@ -641,6 +692,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_appconfig_application"},
 		TerraformServiceName: "appconfig",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Batch::Job": {
@@ -653,6 +705,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_batch_job_definition"},
 		TerraformServiceName: "batch",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Batch::JobQueue": {
@@ -665,6 +718,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::ECS::Service": {
@@ -677,6 +731,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ecs_service"},
 		TerraformServiceName: "ecs",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::FSX::Task": {
@@ -689,6 +744,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::IAM::VirtualMFADevice": {
@@ -701,6 +757,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_iam_virtual_mfa_device"},
 		TerraformServiceName: "iam",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::WAFv2::WebACL": {
@@ -713,6 +770,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_wafv2_web_acl"},
 		TerraformServiceName: "wafv2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ApplicationAutoScaling::Target": {
@@ -725,6 +783,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_appautoscaling_target"},
 		TerraformServiceName: "appautoscaling",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Backup::Vault": {
@@ -737,6 +796,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_backup_vault"},
 		TerraformServiceName: "backup",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ElastiCache::Cluster": {
@@ -749,6 +809,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_elasticache_cluster"},
 		TerraformServiceName: "elasticache",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Logs::LogGroup": {
@@ -761,6 +822,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::S3::Bucket": {
@@ -773,6 +835,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_s3_bucket"},
 		TerraformServiceName: "s3",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::CertificateManager::Certificate": {
@@ -785,6 +848,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::EKS::AddonVersion": {
@@ -797,6 +861,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ApiGatewayV2::Api": {
@@ -809,6 +874,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_apigatewayv2_api"},
 		TerraformServiceName: "apigatewayv2",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::Volume": {
@@ -821,6 +887,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ebs_volume"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::ApiGateway::ApiKey": {
@@ -833,6 +900,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_api_gateway_api_key"},
 		TerraformServiceName: "apigateway",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Glue::Connection": {
@@ -845,6 +913,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_glue_connection"},
 		TerraformServiceName: "glue",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ECS::Task": {
@@ -857,6 +926,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SSM::ManagedInstance": {
@@ -869,6 +939,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SSM::Inventory": {
@@ -881,6 +952,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SSM::MaintenanceWindow": {
@@ -893,6 +965,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SSM::PatchBaseline": {
@@ -905,6 +978,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SSM::Parameter": {
@@ -917,6 +991,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Lambda::Function": {
@@ -929,6 +1004,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_lambda_function"},
 		TerraformServiceName: "lambda",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::RDS::DBSnapshot": {
@@ -941,6 +1017,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_db_snapshot"},
 		TerraformServiceName: "rds",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CodeDeploy::Application": {
@@ -953,6 +1030,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EMR::Cluster": {
@@ -965,6 +1043,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_emr_cluster"},
 		TerraformServiceName: "emr",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::IAM::AccessKey": {
@@ -977,6 +1056,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_iam_access_key"},
 		TerraformServiceName: "iam",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Glue::CatalogTable": {
@@ -989,6 +1069,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_glue_catalog_table"},
 		TerraformServiceName: "glue",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CloudTrail::Channel": {
@@ -1001,6 +1082,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::NetworkAcl": {
@@ -1013,6 +1095,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_network_acl"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::ECS::ContainerInstance": {
@@ -1025,6 +1108,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::RedshiftServerless::Snapshot": {
@@ -1037,6 +1121,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_redshiftserverless_snapshot"},
 		TerraformServiceName: "redshiftserverless",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Workspaces::Bundle": {
@@ -1049,6 +1134,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_workspaces_bundle"},
 		TerraformServiceName: "workspaces",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CloudTrail::Trail": {
@@ -1061,6 +1147,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_cloudtrail"},
 		TerraformServiceName: "cloudtrail",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::DAX::Parameter": {
@@ -1073,6 +1160,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ECR::Image": {
@@ -1085,6 +1173,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ecr_image"},
 		TerraformServiceName: "ecr",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::IAM::ServerCertificate": {
@@ -1097,6 +1186,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_iam_server_certificate"},
 		TerraformServiceName: "iam",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Keyspaces::Keyspace": {
@@ -1109,6 +1199,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_keyspaces_keyspace"},
 		TerraformServiceName: "keyspaces",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::S3::AccessPoint": {
@@ -1121,6 +1212,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SageMaker::EndpointConfiguration": {
@@ -1133,6 +1225,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_sagemaker_endpoint_configuration"},
 		TerraformServiceName: "sagemaker",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ElastiCache::ReservedCacheNode": {
@@ -1145,6 +1238,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EMR::InstanceFleet": {
@@ -1157,6 +1251,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_emr_instance_fleet"},
 		TerraformServiceName: "emr",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::IAM::Account": {
@@ -1169,6 +1264,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::VPCPeeringConnection": {
@@ -1181,6 +1277,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_vpc_peering_connection"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EKS::FargateProfile": {
@@ -1193,6 +1290,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_eks_fargate_profile"},
 		TerraformServiceName: "eks",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::IAM::AccountPasswordPolicy": {
@@ -1205,6 +1303,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_iam_account_password_policy"},
 		TerraformServiceName: "iam",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CodePipeline::Pipeline": {
@@ -1217,6 +1316,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_codepipeline"},
 		TerraformServiceName: "codepipeline",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::DAX::Cluster": {
@@ -1229,6 +1329,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_dax_cluster"},
 		TerraformServiceName: "dax",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::DLM::LifecyclePolicy": {
@@ -1241,6 +1342,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_dlm_lifecycle_policy"},
 		TerraformServiceName: "dlm",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::OpsWorksCM::Server": {
@@ -1253,6 +1355,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::AccessAnalyzer::Analyzer": {
@@ -1265,6 +1368,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_accessanalyzer_analyzer"},
 		TerraformServiceName: "accessanalyzer",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ElastiCache::SubnetGroup": {
@@ -1277,6 +1381,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_elasticache_subnet_group"},
 		TerraformServiceName: "elasticache",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::FSX::Volume": {
@@ -1289,6 +1394,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_fsx_ontap_volume"},
 		TerraformServiceName: "fsx",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Amplify::App": {
@@ -1301,6 +1407,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_amplify_app"},
 		TerraformServiceName: "amplify",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CloudTrail::Query": {
@@ -1313,6 +1420,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CostExplorer::ByAccountMonthly": {
@@ -1325,6 +1433,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ECR::PublicRegistry": {
@@ -1337,6 +1446,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::NetworkInterface": {
@@ -1349,6 +1459,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_network_interface"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::VPNConnection": {
@@ -1361,6 +1472,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_vpn_connection"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::FSX::StorageVirtualMachine": {
@@ -1373,6 +1485,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_fsx_ontap_storage_virtual_machine"},
 		TerraformServiceName: "fsx",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ApiGateway::Authorizer": {
@@ -1385,6 +1498,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_api_gateway_authorizer"},
 		TerraformServiceName: "apigateway",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::AppStream::Stack": {
@@ -1397,6 +1511,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_appstream_stack"},
 		TerraformServiceName: "appstream",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CloudWatch::Alarm": {
@@ -1409,6 +1524,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CloudWatch::LogSubscriptionFilter": {
@@ -1421,6 +1537,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CostExplorer::ByRecordTypeMonthly": {
@@ -1433,6 +1550,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::RDS::DBCluster": {
@@ -1445,6 +1563,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_rds_cluster"},
 		TerraformServiceName: "rds",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::RDS::DBClusterSnapshot": {
@@ -1457,6 +1576,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_db_cluster_snapshot"},
 		TerraformServiceName: "rds",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Backup::Framework": {
@@ -1469,6 +1589,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_backup_framework"},
 		TerraformServiceName: "backup",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CodeBuild::SourceCredential": {
@@ -1481,6 +1602,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_codebuild_source_credential"},
 		TerraformServiceName: "codebuild",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::IAM::ServiceSpecificCredential": {
@@ -1493,6 +1615,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_iam_service_specific_credential"},
 		TerraformServiceName: "iam",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::CapacityReservationFleet": {
@@ -1505,6 +1628,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::NetworkFirewall::Firewall": {
@@ -1517,6 +1641,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_networkfirewall_firewall"},
 		TerraformServiceName: "networkfirewall",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::Workspaces::Workspace": {
@@ -1529,6 +1654,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_workspaces_workspace"},
 		TerraformServiceName: "workspaces",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ElasticSearch::Domain": {
@@ -1541,6 +1667,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_elasticsearch_domain"},
 		TerraformServiceName: "elasticsearch",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::RDS::DBInstance": {
@@ -1553,6 +1680,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_db_instance"},
 		TerraformServiceName: "rds",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::EFS::MountTarget": {
@@ -1565,6 +1693,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_efs_mount_target"},
 		TerraformServiceName: "efs",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::GlobalAccelerator::Listener": {
@@ -1577,6 +1706,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_globalaccelerator_listener"},
 		TerraformServiceName: "globalaccelerator",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CostExplorer::ByUsageTypeDaily": {
@@ -1589,6 +1719,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EKS::Addon": {
@@ -1601,6 +1732,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_eks_addon"},
 		TerraformServiceName: "eks",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CostExplorer::ByServiceMonthly": {
@@ -1613,6 +1745,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::IAM::Policy": {
@@ -1625,6 +1758,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_iam_policy"},
 		TerraformServiceName: "iam",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::Redshift::Cluster": {
@@ -1637,6 +1771,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_redshift_cluster"},
 		TerraformServiceName: "redshift",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::WAFRegional::Rule": {
@@ -1649,6 +1784,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_wafregional_rule"},
 		TerraformServiceName: "wafregional",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Glue::DataCatalogEncryptionSettings": {
@@ -1661,6 +1797,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_glue_data_catalog_encryption_settings"},
 		TerraformServiceName: "glue",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::FlowLog": {
@@ -1673,6 +1810,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_flow_log"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::IpamPool": {
@@ -1685,6 +1823,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_vpc_ipam_pool"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::IAM::SamlProvider": {
@@ -1697,6 +1836,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_iam_saml_provider"},
 		TerraformServiceName: "iam",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Route53::HostedZone": {
@@ -1709,6 +1849,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_route53_zone"},
 		TerraformServiceName: "route53",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::PlacementGroup": {
@@ -1721,6 +1862,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_placement_group"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::FSX::Snapshot": {
@@ -1733,6 +1875,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_fsx_openzfs_snapshot"},
 		TerraformServiceName: "fsx",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::KMS::Key": {
@@ -1745,6 +1888,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_kms_key"},
 		TerraformServiceName: "kms",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::Ipam": {
@@ -1757,6 +1901,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_vpc_ipam"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ElasticBeanstalk::Environment": {
@@ -1769,6 +1914,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_elastic_beanstalk_environment"},
 		TerraformServiceName: "elasticbeanstalk",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Lambda::FunctionVersion": {
@@ -1781,6 +1927,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Glue::DevEndpoint": {
@@ -1793,6 +1940,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_glue_dev_endpoint"},
 		TerraformServiceName: "glue",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Backup::RecoveryPoint": {
@@ -1805,6 +1953,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::DynamoDbStreams::Stream": {
@@ -1817,6 +1966,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::EgressOnlyInternetGateway": {
@@ -1829,6 +1979,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_egress_only_internet_gateway"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CloudFront::Distribution": {
@@ -1841,6 +1992,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_cloudfront_distribution"},
 		TerraformServiceName: "cloudfront",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::CloudFront::StreamingDistribution": {
@@ -1853,6 +2005,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::Glue::Job": {
@@ -1865,6 +2018,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_glue_job"},
 		TerraformServiceName: "glue",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::AppStream::Fleet": {
@@ -1877,6 +2031,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_appstream_fleet"},
 		TerraformServiceName: "appstream",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SES::ConfigurationSet": {
@@ -1889,6 +2044,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ses_configuration_set"},
 		TerraformServiceName: "ses",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::IAM::User": {
@@ -1901,6 +2057,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_iam_user"},
 		TerraformServiceName: "iam",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::CloudFront::OriginRequestPolicy": {
@@ -1913,6 +2070,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_cloudfront_origin_request_policy"},
 		TerraformServiceName: "cloudfront",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::SecurityGroup": {
@@ -1925,6 +2083,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_security_group"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::GuardDuty::IPSet": {
@@ -1937,6 +2096,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_guardduty_ipset"},
 		TerraformServiceName: "guardduty",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EKS::Cluster": {
@@ -1949,6 +2109,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_eks_cluster"},
 		TerraformServiceName: "eks",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::Grafana::Workspace": {
@@ -1961,6 +2122,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_grafana_workspace"},
 		TerraformServiceName: "grafana",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Glue::CatalogDatabase": {
@@ -1973,6 +2135,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_glue_catalog_database"},
 		TerraformServiceName: "glue",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Health::Event": {
@@ -1985,6 +2148,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CloudFormation::StackSet": {
@@ -1997,6 +2161,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_cloudformation_stack_set"},
 		TerraformServiceName: "cloudformation",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::AvailabilityZone": {
@@ -2009,6 +2174,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_availability_zone"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::TransitGateway": {
@@ -2021,6 +2187,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ec2_transit_gateway"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::ApiGateway::UsagePlan": {
@@ -2033,6 +2200,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_api_gateway_usage_plan"},
 		TerraformServiceName: "apigateway",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Inspector::Finding": {
@@ -2045,6 +2213,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::Fleet": {
@@ -2057,6 +2226,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ec2_fleet"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ElasticBeanstalk::Application": {
@@ -2069,6 +2239,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_elastic_beanstalk_application"},
 		TerraformServiceName: "elasticbeanstalk",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::ElasticLoadBalancingV2::LoadBalancer": {
@@ -2081,6 +2252,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_alb"},
 		TerraformServiceName: "elbv2",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::OpenSearch::Domain": {
@@ -2093,6 +2265,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_opensearch_domain"},
 		TerraformServiceName: "opensearch",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::RDS::DBEventSubscription": {
@@ -2105,6 +2278,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_db_event_subscription"},
 		TerraformServiceName: "rds",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::RegionalSettings": {
@@ -2117,6 +2291,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::SecurityGroupRule": {
@@ -2129,6 +2304,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_security_group_rule"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::TransitGatewayAttachment": {
@@ -2141,6 +2317,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ec2_transit_gateway_attachment"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SES::Identity": {
@@ -2153,6 +2330,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ses_email_identity"},
 		TerraformServiceName: "ses",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::WAF::Rule": {
@@ -2165,6 +2343,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_waf_rule"},
 		TerraformServiceName: "waf",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::WAF::RateBasedRule": {
@@ -2177,6 +2356,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::WAF::WebACL": {
@@ -2189,6 +2369,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::WellArchitected::Workload": {
@@ -2201,6 +2382,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::AutoScaling::LaunchConfiguration": {
@@ -2213,6 +2395,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_launch_configuration"},
 		TerraformServiceName: "autoscaling",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CloudTrail::EventDataStore": {
@@ -2225,6 +2408,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_cloudtrail_event_data_store"},
 		TerraformServiceName: "cloudtrail",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CodeDeploy::DeploymentGroup": {
@@ -2237,6 +2421,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ImageBuilder::Image": {
@@ -2249,6 +2434,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_imagebuilder_image"},
 		TerraformServiceName: "imagebuilder",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Redshift::ClusterParameterGroup": {
@@ -2261,6 +2447,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_redshift_parameter_group"},
 		TerraformServiceName: "redshift",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Account::AlternateContact": {
@@ -2273,6 +2460,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_account_alternate_contact"},
 		TerraformServiceName: "account",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Inspector::AssessmentTarget": {
@@ -2285,6 +2473,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_inspector_assessment_target"},
 		TerraformServiceName: "inspector",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CloudFront::ResponseHeadersPolicy": {
@@ -2297,6 +2486,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_cloudfront_response_headers_policy"},
 		TerraformServiceName: "cloudfront",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::Instance": {
@@ -2309,6 +2499,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_instance"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::InstanceAvailability": {
@@ -2321,6 +2512,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CostExplorer::ByRecordTypeDaily": {
@@ -2333,6 +2525,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::ReservedInstances": {
@@ -2345,6 +2538,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ECR::Repository": {
@@ -2357,6 +2551,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ecr_repository"},
 		TerraformServiceName: "ecr",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::ElasticLoadBalancingV2::Listener": {
@@ -2369,6 +2564,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_alb_listener"},
 		TerraformServiceName: "elbv2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::IAM::Group": {
@@ -2381,6 +2577,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_iam_group"},
 		TerraformServiceName: "iam",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::Backup::Plan": {
@@ -2393,6 +2590,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Config::ConformancePack": {
@@ -2405,6 +2603,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CostExplorer::ByAccountDaily": {
@@ -2417,6 +2616,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Account::Contact": {
@@ -2429,6 +2629,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Glue::DataQualityRuleset": {
@@ -2441,6 +2642,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EventBridge::EventBus": {
@@ -2453,6 +2655,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ApiGateway::Stage": {
@@ -2465,6 +2668,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_api_gateway_stage"},
 		TerraformServiceName: "apigateway",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ApiGatewayV2::Stage": {
@@ -2477,6 +2681,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::DynamoDb::LocalSecondaryIndex": {
@@ -2489,6 +2694,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::Image": {
@@ -2501,6 +2707,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ami"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::Subnet": {
@@ -2513,6 +2720,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_subnet"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::ECS::TaskSet": {
@@ -2525,6 +2733,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ecs_task_set"},
 		TerraformServiceName: "ecs",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Kinesis::Stream": {
@@ -2537,6 +2746,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_kinesis_stream"},
 		TerraformServiceName: "kinesis",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::Kinesis::Consumer": {
@@ -2549,6 +2759,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_kinesis_stream_consumer"},
 		TerraformServiceName: "kinesis",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::DocDB::Cluster": {
@@ -2561,6 +2772,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_docdb_cluster"},
 		TerraformServiceName: "docdb",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ElastiCache::ReplicationGroup": {
@@ -2573,6 +2785,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_elasticache_replication_group"},
 		TerraformServiceName: "elasticache",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::GlobalAccelerator::Accelerator": {
@@ -2585,6 +2798,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_globalaccelerator_accelerator"},
 		TerraformServiceName: "globalaccelerator",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CloudWatch::Metric": {
@@ -2597,6 +2811,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CostExplorer::ForcastMonthly": {
@@ -2609,6 +2824,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EMR::InstanceGroup": {
@@ -2621,6 +2837,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_emr_instance_group"},
 		TerraformServiceName: "emr",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::ManagedPrefixList": {
@@ -2633,6 +2850,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ec2_managed_prefix_list"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::MWAA::Environment": {
@@ -2645,6 +2863,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_mwaa_environment"},
 		TerraformServiceName: "mwaa",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CloudWatch::LogResourcePolicy": {
@@ -2657,6 +2876,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CodeArtifact::Domain": {
@@ -2669,6 +2889,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_codeartifact_domain"},
 		TerraformServiceName: "codeartifact",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CodeStar::Project": {
@@ -2681,6 +2902,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Neptune::Database": {
@@ -2693,6 +2915,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Neptune::DBCluster": {
@@ -2705,6 +2928,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::NetworkFirewall::FirewallPolicy": {
@@ -2717,6 +2941,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::NetworkFirewall::RuleGroup": {
@@ -2729,6 +2954,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Oam::Link": {
@@ -2741,6 +2967,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Oam::Sink": {
@@ -2753,6 +2980,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Organizations::Account": {
@@ -2765,6 +2993,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Pinpoint::App": {
@@ -2777,6 +3006,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Pipes::Pipe": {
@@ -2789,6 +3019,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::RDS::DBClusterParameterGroup": {
@@ -2801,6 +3032,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::RDS::OptionGroup": {
@@ -2813,6 +3045,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::RDS::DBParameterGroup": {
@@ -2825,6 +3058,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::RDS::DBProxy": {
@@ -2837,6 +3071,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::RDS::DBSubnetGroup": {
@@ -2849,6 +3084,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Redshift::EventSubscription": {
@@ -2861,6 +3097,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::RedshiftServerless::Workgroup": {
@@ -2873,6 +3110,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ResourceExplorer2::Index": {
@@ -2885,6 +3123,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Route53::HealthCheck": {
@@ -2897,6 +3136,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Route53Resolver::ResolverRule": {
@@ -2909,6 +3149,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SageMaker::App": {
@@ -2921,6 +3162,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SageMaker::Domain": {
@@ -2933,6 +3175,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::StepFunctions::StateMachine": {
@@ -2945,6 +3188,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::StepFunctions::StateMachineExecution": {
@@ -2957,6 +3201,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::StepFunctions::StateMachineExecutionHistories": {
@@ -2969,6 +3214,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SimSpaceWeaver::Simulation": {
@@ -2981,6 +3227,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SSM::Association": {
@@ -2993,6 +3240,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SSM::Document": {
@@ -3005,6 +3253,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::CustomerGateway": {
@@ -3017,6 +3266,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::VerifiedAccessInstance": {
@@ -3029,6 +3279,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::VerifiedAccessEndpoint": {
@@ -3041,6 +3292,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::VerifiedAccessGroup": {
@@ -3053,6 +3305,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::VerifiedAccessTrustProvider": {
@@ -3065,6 +3318,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::VPNGateway": {
@@ -3077,6 +3331,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::WAFv2::IPSet": {
@@ -3089,6 +3344,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::WAFv2::RegexPatternSet": {
@@ -3101,6 +3357,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::WAFv2::RuleGroup": {
@@ -3113,6 +3370,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::TransitGatewayRoute": {
@@ -3125,6 +3383,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ec2_transit_gateway_route"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::GuardDuty::Filter": {
@@ -3137,6 +3396,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_guardduty_filter"},
 		TerraformServiceName: "guardduty",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ECS::TaskDefinition": {
@@ -3149,6 +3409,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ecs_task_definition"},
 		TerraformServiceName: "ecs",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::GuardDuty::ThreatIntelSet": {
@@ -3161,6 +3422,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_guardduty_threatintelset"},
 		TerraformServiceName: "guardduty",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ApiGatewayV2::DomainName": {
@@ -3173,6 +3435,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_apigatewayv2_domain_name"},
 		TerraformServiceName: "apigatewayv2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::MQ::Broker": {
@@ -3185,6 +3448,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_mq_broker"},
 		TerraformServiceName: "mq",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ACMPCA::CertificateAuthority": {
@@ -3197,6 +3461,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_acmpca_certificate_authority"},
 		TerraformServiceName: "acmpca",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CloudFormation::Stack": {
@@ -3209,6 +3474,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_cloudformation_stack"},
 		TerraformServiceName: "cloudformation",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::DirectConnect::Connection": {
@@ -3221,6 +3487,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_dx_connection"},
 		TerraformServiceName: "directconnect",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::FSX::FileSystem": {
@@ -3233,6 +3500,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_fsx_ontap_file_system"},
 		TerraformServiceName: "fsx",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Glue::SecurityConfiguration": {
@@ -3245,6 +3513,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_glue_security_configuration"},
 		TerraformServiceName: "glue",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Inspector::AssessmentRun": {
@@ -3257,6 +3526,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Config::ConfigurationRecorder": {
@@ -3269,6 +3539,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::NatGateway": {
@@ -3281,6 +3552,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_nat_gateway"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::ECR::PublicRepository": {
@@ -3293,6 +3565,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ecrpublic_repository"},
 		TerraformServiceName: "ecrpublic",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::ECS::Cluster": {
@@ -3305,6 +3578,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ecs_cluster"},
 		TerraformServiceName: "ecs",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::ElasticLoadBalancingV2::TargetGroup": {
@@ -3317,6 +3591,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_alb_target_group"},
 		TerraformServiceName: "elbv2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CloudFront::CachePolicy": {
@@ -3329,6 +3604,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_cloudfront_cache_policy"},
 		TerraformServiceName: "cloudfront",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CodeArtifact::Repository": {
@@ -3341,6 +3617,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_codeartifact_repository"},
 		TerraformServiceName: "codeartifact",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::AMP::Workspace": {
@@ -3353,6 +3630,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_prometheus_workspace"},
 		TerraformServiceName: "amp",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::CapacityReservation": {
@@ -3365,6 +3643,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ec2_capacity_reservation"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SageMaker::NotebookInstance": {
@@ -3377,6 +3656,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_sagemaker_notebook_instance"},
 		TerraformServiceName: "sagemaker",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::VolumeSnapshot": {
@@ -3389,6 +3669,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ebs_snapshot"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::Region": {
@@ -3401,6 +3682,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Keyspaces::Table": {
@@ -3413,6 +3695,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_keyspaces_table"},
 		TerraformServiceName: "keyspaces",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Config::AggregationAuthorization": {
@@ -3425,6 +3708,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::DAX::SubnetGroup": {
@@ -3437,6 +3721,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_dax_subnet_group"},
 		TerraformServiceName: "dax",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::DynamoDb::GlobalTable": {
@@ -3449,6 +3734,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_dynamodb_global_table"},
 		TerraformServiceName: "dynamodb",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ElasticLoadBalancing::LoadBalancer": {
@@ -3461,6 +3747,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_elb"},
 		TerraformServiceName: "elb",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::AppStream::Application": {
@@ -3473,6 +3760,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::RedshiftServerless::Namespace": {
@@ -3485,6 +3773,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_redshiftserverless_namespace"},
 		TerraformServiceName: "redshiftserverless",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CloudFront::OriginAccessIdentity": {
@@ -3497,6 +3786,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_cloudfront_origin_access_identity"},
 		TerraformServiceName: "cloudfront",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::Host": {
@@ -3509,6 +3799,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ec2_host"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::VPC": {
@@ -3521,6 +3812,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_vpc"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::TransitGatewayRouteTable": {
@@ -3533,6 +3825,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ec2_transit_gateway_route_table"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EKS::Nodegroup": {
@@ -3545,6 +3838,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_eks_node_group"},
 		TerraformServiceName: "eks",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Backup::Selection": {
@@ -3557,6 +3851,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CloudTrail::Import": {
@@ -3569,6 +3864,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::CostExplorer::ByServiceDaily": {
@@ -3581,6 +3877,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ElasticLoadBalancingV2::SslPolicy": {
@@ -3593,6 +3890,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::GuardDuty::Finding": {
@@ -3605,6 +3903,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::DHCPOptions": {
@@ -3617,6 +3916,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_vpc_dhcp_options"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::EC2::InstanceType": {
@@ -3629,6 +3929,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ec2_instance_type"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Batch::ComputeEnvironment": {
@@ -3641,6 +3942,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_batch_compute_environment"},
 		TerraformServiceName: "batch",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::DMS::ReplicationInstance": {
@@ -3653,6 +3955,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_dms_replication_instance"},
 		TerraformServiceName: "dms",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::DynamoDb::Table": {
@@ -3665,6 +3968,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_dynamodb_table"},
 		TerraformServiceName: "dynamodb",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::Shield::ProtectionGroup": {
@@ -3677,6 +3981,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_shield_protection_group"},
 		TerraformServiceName: "shield",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Firehose::DeliveryStream": {
@@ -3689,6 +3994,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_kinesis_firehose_delivery_stream"},
 		TerraformServiceName: "firehose",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::KinesisVideo::Stream": {
@@ -3701,6 +4007,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::KMS::Alias": {
@@ -3713,6 +4020,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_kms_alias"},
 		TerraformServiceName: "kms",
 		FastDiscovery:        true,
+		Summarize:            true,
 	},
 
 	"AWS::Lambda::Alias": {
@@ -3725,6 +4033,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_lambda_alias"},
 		TerraformServiceName: "lambda",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Lambda::LambdaLayer": {
@@ -3737,6 +4046,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Lambda::LayerVersion": {
@@ -3749,6 +4059,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_lambda_layer_version"},
 		TerraformServiceName: "lambda",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Lightsail::Instance": {
@@ -3761,6 +4072,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_lightsail_instance"},
 		TerraformServiceName: "lightsail",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Macie2::ClassificationJob": {
@@ -3773,6 +4085,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_macie2_classification_job"},
 		TerraformServiceName: "macie2",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::MediaStore::Container": {
@@ -3785,6 +4098,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_media_store_container"},
 		TerraformServiceName: "mediastore",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Mgn::Application": {
@@ -3797,6 +4111,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ResourceExplorer2::SupportedResourceType": {
@@ -3809,6 +4124,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Route53Resolver::ResolverEndpoint": {
@@ -3821,6 +4137,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_route53_resolver_endpoint"},
 		TerraformServiceName: "route53resolver",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Route53Domains::Domain": {
@@ -3833,6 +4150,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_route53domains_registered_domain"},
 		TerraformServiceName: "route53domains",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Route53::Record": {
@@ -3845,6 +4163,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_route53_record"},
 		TerraformServiceName: "route53",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Route53::TrafficPolicy": {
@@ -3857,6 +4176,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_route53_traffic_policy"},
 		TerraformServiceName: "route53",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Route53::TrafficPolicyInstance": {
@@ -3869,6 +4189,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_route53_traffic_policy_instance"},
 		TerraformServiceName: "route53",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SageMaker::Model": {
@@ -3881,6 +4202,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_sagemaker_model"},
 		TerraformServiceName: "sagemaker",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SageMaker::TrainingJob": {
@@ -3893,6 +4215,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SecurityHub::ActionTarget": {
@@ -3905,6 +4228,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_securityhub_action_target"},
 		TerraformServiceName: "securityhub",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SecurityHub::Finding": {
@@ -3917,6 +4241,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SecurityHub::FindingAggregator": {
@@ -3929,6 +4254,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_securityhub_finding_aggregator"},
 		TerraformServiceName: "securityhub",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SecurityHub::Insight": {
@@ -3941,6 +4267,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_securityhub_insight"},
 		TerraformServiceName: "securityhub",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SecurityHub::Member": {
@@ -3953,6 +4280,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_securityhub_member"},
 		TerraformServiceName: "securityhub",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SecurityHub::Product": {
@@ -3965,6 +4293,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SecurityHub::StandardsControl": {
@@ -3977,6 +4306,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_securityhub_standards_control"},
 		TerraformServiceName: "securityhub",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SecurityHub::StandardsSubscription": {
@@ -3989,6 +4319,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_securityhub_standards_subscription"},
 		TerraformServiceName: "securityhub",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS:SecurityLake::DataLake": {
@@ -4001,6 +4332,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS:SecurityLake::Subscriber": {
@@ -4013,6 +4345,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Ram::PrincipalAssociation": {
@@ -4025,6 +4358,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ram_principal_association"},
 		TerraformServiceName: "ram",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Ram::ResourceAssociation": {
@@ -4037,6 +4371,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_ram_resource_association"},
 		TerraformServiceName: "ram",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::RDS::ReservedDBInstance": {
@@ -4049,6 +4384,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_rds_reserved_instance"},
 		TerraformServiceName: "rds",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::Redshift::SubnetGroup": {
@@ -4061,6 +4397,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_redshift_subnet_group"},
 		TerraformServiceName: "redshift",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::SeverlessApplicationRepository::Application": {
@@ -4073,6 +4410,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{"aws_serverlessapplicationrepository_application"},
 		TerraformServiceName: "serverlessrepo",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 
 	"AWS::ServiceQuotas::ServiceQuotaChangeRequest": {
@@ -4085,5 +4423,6 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
+		Summarize:            true,
 	},
 }

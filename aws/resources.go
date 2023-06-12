@@ -6,8 +6,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/aws/smithy-go"
 	"sort"
+
+	"github.com/aws/smithy-go"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/describer"
@@ -32,6 +33,7 @@ type ResourceType struct {
 	TerraformServiceName string
 
 	FastDiscovery bool
+	Summarize     bool
 }
 
 func ListResourceTypes() []string {
