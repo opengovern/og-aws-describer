@@ -58,6 +58,18 @@ func ListFastDiscoveryResourceTypes() []string {
 	return list
 }
 
+func ListSummarizeResourceTypes() []string {
+	var list []string
+	for k, v := range resourceTypes {
+		if v.Summarize {
+			list = append(list, k)
+		}
+	}
+
+	sort.Strings(list)
+	return list
+}
+
 func GetResourceType(resourceType string) (*ResourceType, error) {
 	if r, ok := resourceTypes[resourceType]; ok {
 		return &r, nil
