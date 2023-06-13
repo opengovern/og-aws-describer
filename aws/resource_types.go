@@ -1,9 +1,10 @@
-
 package aws
+
 import (
 	"github.com/kaytu-io/kaytu-aws-describer/aws/describer"
 	"github.com/kaytu-io/kaytu-util/pkg/source"
 )
+
 var resourceTypes = map[string]ResourceType{
 
 	"AWS::Redshift::Snapshot": {
@@ -3914,19 +3915,6 @@ var resourceTypes = map[string]ResourceType{
 		ListDescriber:        ParallelDescribeRegional(describer.EC2DHCPOptions),
 		GetDescriber:         nil,
 		TerraformName:        []string{"aws_vpc_dhcp_options"},
-		TerraformServiceName: "ec2",
-		FastDiscovery:        false,
-		Summarize:            true,
-	},
-
-	"AWS::EC2::InstanceType": {
-		Connector:            source.CloudAWS,
-		ResourceName:         "AWS::EC2::InstanceType",
-		ResourceLabel:        "",
-		ServiceName:          "EC2",
-		ListDescriber:        ParallelDescribeRegional(describer.EC2InstanceType),
-		GetDescriber:         nil,
-		TerraformName:        []string{"aws_ec2_instance_type"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
 		Summarize:            true,
