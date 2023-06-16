@@ -1054,38 +1054,6 @@ func EC2InternetGateway(ctx context.Context, cfg aws.Config, stream *StreamSende
 	return values, nil
 }
 
-func EC2LaunchTemplate(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-	client := ec2.NewFromConfig(cfg)
-	paginator := ec2.NewDescribeLaunchTemplatesPaginator(client, &ec2.DescribeLaunchTemplatesInput{})
-
-	var values []Resource
-	for paginator.HasMorePages() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		for _, v := range page.LaunchTemplates {
-			resource := Resource{
-				Region:      describeCtx.Region,
-				ID:          *v.LaunchTemplateId,
-				Name:        *v.LaunchTemplateName,
-				Description: v,
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-	}
-
-	return values, nil
-}
-
 func EC2NatGateway(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := ec2.NewFromConfig(cfg)
@@ -3190,6 +3158,41 @@ func EC2TransitGatewayAttachment(ctx context.Context, cfg aws.Config, stream *St
 		}
 	}
 
+	return values, nil
+}
+
+func EC2LaunchTemplate(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := ec2.NewFromConfig(cfg)
+	paginator := ec2.NewDescribeLaunchTemplatesPaginator(client, &ec2.DescribeLaunchTemplatesInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page.LaunchTemplates {
+			arn := fmt.Sprintf("arn:%s:ec2:%s:%s:launch-template/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.LaunchTemplateId)
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ID:     *v.LaunchTemplateId,
+				ARN:    arn,
+				Name:   *v.LaunchTemplateName,
+				Description: model.EC2LaunchTemplateDescription{
+					LaunchTemplate: v,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
 	return values, nil
 }
 

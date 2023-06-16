@@ -357,6 +357,7 @@ var awsMap = map[string]string{
 "AWS::CostExplorer::ByUsageTypeMonthly": "aws_cost_by_service_usage_type_monthly",
 "AWS::ServiceQuotas::ServiceQuotaChangeRequest": "aws_servicequotas_service_quota_change_request",
 "AWS::EC2::VPCEndpointService": "aws_vpc_endpoint_service",
+"AWS::EC2::LaunchTemplate": "aws_ec2_launch_template",
 }
 
 var AWSDescriptionMap = map[string]interface{}{
@@ -711,4 +712,5 @@ var AWSDescriptionMap = map[string]interface{}{
 "AWS::CostExplorer::ByUsageTypeMonthly": &keibi.CostExplorerByServiceUsageTypeMonthly{},
 "AWS::ServiceQuotas::ServiceQuotaChangeRequest": &keibi.ServiceQuotasServiceQuotaChangeRequest{},
 "AWS::EC2::VPCEndpointService": &keibi.EC2VPCEndpointService{},
+"AWS::EC2::LaunchTemplate": &keibi.EC2LaunchTemplate{},
 }

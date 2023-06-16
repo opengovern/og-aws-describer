@@ -1161,6 +1161,10 @@ type EC2TransitGatewayAttachmentDescription struct {
 	TransitGatewayAttachment ec2.TransitGatewayAttachment
 }
 
+type EC2LaunchTemplateDescription struct {
+	LaunchTemplate ec2.LaunchTemplate
+}
+
 //  ===================  Elastic Load Balancing  ===================
 
 //index:aws_elasticloadbalancingv2_sslpolicy

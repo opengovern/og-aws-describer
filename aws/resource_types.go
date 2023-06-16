@@ -4765,4 +4765,18 @@ var resourceTypes = map[string]ResourceType{
 		FastDiscovery:        false,
 		Summarize:            true,
 	},
+
+	"AWS::EC2::LaunchTemplate": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::EC2::LaunchTemplate",
+		ResourceLabel:        "",
+		Tags:                 map[string][]string{},
+		ServiceName:          "EC2",
+		ListDescriber:        ParallelDescribeRegional(describer.EC2LaunchTemplate),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_launch_template"},
+		TerraformServiceName: "ec2",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
 }

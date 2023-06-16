@@ -19488,6 +19488,7 @@ func (p EC2VPCEndpointServicePaginator) NextPage(ctx context.Context) ([]EC2VPCE
 
 var listEC2VPCEndpointServiceFilters = map[string]string{
 	"acceptance_required":                 "description.VpcEndpointService.AcceptanceRequired",
+	"akas":                                "aRN",
 	"availability_zones":                  "description.VpcEndpointService.AvailabilityZones",
 	"base_endpoint_dns_names":             "description.VpcEndpointService.BaseEndpointDnsNames",
 	"kaytu_account_id":                    "metadata.SourceID",
@@ -19535,6 +19536,7 @@ func ListEC2VPCEndpointService(ctx context.Context, d *plugin.QueryData, _ *plug
 
 var getEC2VPCEndpointServiceFilters = map[string]string{
 	"acceptance_required":                 "description.VpcEndpointService.AcceptanceRequired",
+	"akas":                                "aRN",
 	"availability_zones":                  "description.VpcEndpointService.AvailabilityZones",
 	"base_endpoint_dns_names":             "description.VpcEndpointService.BaseEndpointDnsNames",
 	"kaytu_account_id":                    "metadata.SourceID",
@@ -20440,6 +20442,162 @@ func GetEC2TransitGatewayAttachment(ctx context.Context, d *plugin.QueryData, _ 
 }
 
 // ==========================  END: EC2TransitGatewayAttachment =============================
+
+// ==========================  START: EC2LaunchTemplate =============================
+
+type EC2LaunchTemplate struct {
+	Description   aws.EC2LaunchTemplateDescription `json:"description"`
+	Metadata      aws.Metadata                     `json:"metadata"`
+	ResourceJobID int                              `json:"resource_job_id"`
+	SourceJobID   int                              `json:"source_job_id"`
+	ResourceType  string                           `json:"resource_type"`
+	SourceType    string                           `json:"source_type"`
+	ID            string                           `json:"id"`
+	ARN           string                           `json:"arn"`
+	SourceID      string                           `json:"source_id"`
+}
+
+type EC2LaunchTemplateHit struct {
+	ID      string            `json:"_id"`
+	Score   float64           `json:"_score"`
+	Index   string            `json:"_index"`
+	Type    string            `json:"_type"`
+	Version int64             `json:"_version,omitempty"`
+	Source  EC2LaunchTemplate `json:"_source"`
+	Sort    []interface{}     `json:"sort"`
+}
+
+type EC2LaunchTemplateHits struct {
+	Total essdk.SearchTotal      `json:"total"`
+	Hits  []EC2LaunchTemplateHit `json:"hits"`
+}
+
+type EC2LaunchTemplateSearchResponse struct {
+	PitID string                `json:"pit_id"`
+	Hits  EC2LaunchTemplateHits `json:"hits"`
+}
+
+type EC2LaunchTemplatePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewEC2LaunchTemplatePaginator(filters []essdk.BoolFilter, limit *int64) (EC2LaunchTemplatePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_ec2_launchtemplate", filters, limit)
+	if err != nil {
+		return EC2LaunchTemplatePaginator{}, err
+	}
+
+	p := EC2LaunchTemplatePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p EC2LaunchTemplatePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p EC2LaunchTemplatePaginator) NextPage(ctx context.Context) ([]EC2LaunchTemplate, error) {
+	var response EC2LaunchTemplateSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []EC2LaunchTemplate
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listEC2LaunchTemplateFilters = map[string]string{
+	"akas":  "aRN",
+	"arn":   "aRN",
+	"id":    "description.LaunchTemplate.LaunchTemplateId",
+	"name":  "description.LaunchTemplateName",
+	"title": "description.LaunchTemplate.Name",
+}
+
+func ListEC2LaunchTemplate(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListEC2LaunchTemplate")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewEC2LaunchTemplatePaginator(essdk.BuildFilter(d.KeyColumnQuals, listEC2LaunchTemplateFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getEC2LaunchTemplateFilters = map[string]string{
+	"akas":  "aRN",
+	"arn":   "aRN",
+	"id":    "description.LaunchTemplate.LaunchTemplateId",
+	"name":  "description.LaunchTemplateName",
+	"title": "description.LaunchTemplate.Name",
+}
+
+func GetEC2LaunchTemplate(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetEC2LaunchTemplate")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewEC2LaunchTemplatePaginator(essdk.BuildFilter(d.KeyColumnQuals, getEC2LaunchTemplateFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: EC2LaunchTemplate =============================
 
 // ==========================  START: ElasticLoadBalancingV2SslPolicy =============================
 
