@@ -19409,6 +19409,180 @@ func GetEC2Ipam(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 
 // ==========================  END: EC2Ipam =============================
 
+// ==========================  START: EC2VPCEndpointService =============================
+
+type EC2VPCEndpointService struct {
+	Description   aws.EC2VPCEndpointServiceDescription `json:"description"`
+	Metadata      aws.Metadata                         `json:"metadata"`
+	ResourceJobID int                                  `json:"resource_job_id"`
+	SourceJobID   int                                  `json:"source_job_id"`
+	ResourceType  string                               `json:"resource_type"`
+	SourceType    string                               `json:"source_type"`
+	ID            string                               `json:"id"`
+	ARN           string                               `json:"arn"`
+	SourceID      string                               `json:"source_id"`
+}
+
+type EC2VPCEndpointServiceHit struct {
+	ID      string                `json:"_id"`
+	Score   float64               `json:"_score"`
+	Index   string                `json:"_index"`
+	Type    string                `json:"_type"`
+	Version int64                 `json:"_version,omitempty"`
+	Source  EC2VPCEndpointService `json:"_source"`
+	Sort    []interface{}         `json:"sort"`
+}
+
+type EC2VPCEndpointServiceHits struct {
+	Total essdk.SearchTotal          `json:"total"`
+	Hits  []EC2VPCEndpointServiceHit `json:"hits"`
+}
+
+type EC2VPCEndpointServiceSearchResponse struct {
+	PitID string                    `json:"pit_id"`
+	Hits  EC2VPCEndpointServiceHits `json:"hits"`
+}
+
+type EC2VPCEndpointServicePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewEC2VPCEndpointServicePaginator(filters []essdk.BoolFilter, limit *int64) (EC2VPCEndpointServicePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_ec2_vpcendpointservice", filters, limit)
+	if err != nil {
+		return EC2VPCEndpointServicePaginator{}, err
+	}
+
+	p := EC2VPCEndpointServicePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p EC2VPCEndpointServicePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p EC2VPCEndpointServicePaginator) NextPage(ctx context.Context) ([]EC2VPCEndpointService, error) {
+	var response EC2VPCEndpointServiceSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []EC2VPCEndpointService
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listEC2VPCEndpointServiceFilters = map[string]string{
+	"acceptance_required":                 "description.VpcEndpointService.AcceptanceRequired",
+	"availability_zones":                  "description.VpcEndpointService.AvailabilityZones",
+	"base_endpoint_dns_names":             "description.VpcEndpointService.BaseEndpointDnsNames",
+	"kaytu_account_id":                    "metadata.SourceID",
+	"manages_vpc_endpoints":               "description.VpcEndpointService.ManagesVpcEndpoints",
+	"owner":                               "description.VpcEndpointService.Owner",
+	"private_dns_name":                    "description.VpcEndpointService.PrivateDnsName",
+	"private_dns_name_verification_state": "description.VpcEndpointService.PrivateDnsNameVerificationState",
+	"service_id":                          "description.VpcEndpointService.ServiceId",
+	"service_name":                        "description.VpcEndpointService.ServiceName",
+	"service_type":                        "description.VpcEndpointService.ServiceType",
+	"tags_src":                            "description.VpcEndpointService.Tags",
+	"title":                               "description.VpcEndpointService.ServiceName",
+	"vpc_endpoint_policy_supported":       "description.VpcEndpointService.VpcEndpointPolicySupported",
+}
+
+func ListEC2VPCEndpointService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListEC2VPCEndpointService")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewEC2VPCEndpointServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, listEC2VPCEndpointServiceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getEC2VPCEndpointServiceFilters = map[string]string{
+	"acceptance_required":                 "description.VpcEndpointService.AcceptanceRequired",
+	"availability_zones":                  "description.VpcEndpointService.AvailabilityZones",
+	"base_endpoint_dns_names":             "description.VpcEndpointService.BaseEndpointDnsNames",
+	"kaytu_account_id":                    "metadata.SourceID",
+	"manages_vpc_endpoints":               "description.VpcEndpointService.ManagesVpcEndpoints",
+	"owner":                               "description.VpcEndpointService.Owner",
+	"private_dns_name":                    "description.VpcEndpointService.PrivateDnsName",
+	"private_dns_name_verification_state": "description.VpcEndpointService.PrivateDnsNameVerificationState",
+	"service_id":                          "description.VpcEndpointService.ServiceId",
+	"service_name":                        "description.VPCEndpoint.ServiceName",
+	"service_type":                        "description.VpcEndpointService.ServiceType",
+	"tags_src":                            "description.VpcEndpointService.Tags",
+	"title":                               "description.VpcEndpointService.ServiceName",
+	"vpc_endpoint_policy_supported":       "description.VpcEndpointService.VpcEndpointPolicySupported",
+}
+
+func GetEC2VPCEndpointService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetEC2VPCEndpointService")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewEC2VPCEndpointServicePaginator(essdk.BuildFilter(d.KeyColumnQuals, getEC2VPCEndpointServiceFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: EC2VPCEndpointService =============================
+
 // ==========================  START: EC2InstanceAvailability =============================
 
 type EC2InstanceAvailability struct {

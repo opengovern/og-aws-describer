@@ -1,10 +1,9 @@
-package aws
 
+package aws
 import (
 	"github.com/kaytu-io/kaytu-aws-describer/aws/describer"
 	"github.com/kaytu-io/kaytu-util/pkg/source"
 )
-
 var resourceTypes = map[string]ResourceType{
 
 	"AWS::Redshift::Snapshot": {
@@ -4749,6 +4748,20 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
+	"AWS::EC2::VPCEndpointService": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::EC2::VPCEndpointService",
+		ResourceLabel:        "",
+		Tags:                 map[string][]string{},
+		ServiceName:          "EC2",
+		ListDescriber:        ParallelDescribeRegional(describer.EC2VPCEndpointService),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_vpc_endpoint_service"},
+		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
 		Summarize:            true,
 	},
