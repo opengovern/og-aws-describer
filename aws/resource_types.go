@@ -2816,7 +2816,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery:        false,
+		FastDiscovery:        true,
 		Summarize:            true,
 	},
 
@@ -4174,7 +4174,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
-		FastDiscovery:        false,
+		FastDiscovery:        true,
 		Summarize:            true,
 	},
 
