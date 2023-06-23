@@ -2,17 +2,19 @@ package steampipe
 
 import (
 	"context"
-	"github.com/hashicorp/go-hclog"
 	"strings"
 
+	"github.com/hashicorp/go-hclog"
+
+	"github.com/kaytu-io/steampipe-plugin-aws/aws"
 	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v4/plugin/context_key"
-	"gitlab.com/keibiengine/steampipe-plugin-aws/aws"
 )
 
 import (
 	"fmt"
+
 	"github.com/kaytu-io/kaytu-util/pkg/steampipe"
 )
 
