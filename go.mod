@@ -137,10 +137,10 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/hashicorp/go-hclog v1.2.2
 	github.com/kaytu-io/kaytu-util v0.0.0-20230612111112-f01681c34d0f
+	github.com/kaytu-io/steampipe-plugin-aws v0.0.0-20230623075628-019e01a7779e
 	github.com/spf13/cobra v1.7.0
 	github.com/turbot/go-kit v0.4.0
 	github.com/turbot/steampipe-plugin-sdk/v4 v4.1.13
-	gitlab.com/keibiengine/steampipe-plugin-aws v0.0.0-20230616112357-35c2fe7c84a7
 	go.uber.org/zap v1.24.0
 	golang.org/x/oauth2 v0.6.0
 	google.golang.org/grpc v1.54.0
