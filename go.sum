@@ -682,8 +682,8 @@ github.com/json-iterator/go v1.1.12/go.mod h1:e30LSqwooZae/UwlEbR2852Gd8hjQvJoHm
 github.com/jstemmer/go-junit-report v0.0.0-20190106144839-af01ea7f8024/go.mod h1:6v2b51hI/fHJwM22ozAgKL4VKDeJcHhJFhtBdhmNjmU=
 github.com/jstemmer/go-junit-report v0.9.1/go.mod h1:Brl9GWCQeLvo8nXZwPNNblvFj/XSXhF0NWZEnDohbsk=
 github.com/jtolds/gls v4.20.0+incompatible h1:xdiiI2gbIgH/gLH7ADydsJ1uDOEzR8yvV7C0MuV77Wo=
-github.com/kaytu-io/kaytu-util v0.0.0-20230612111112-f01681c34d0f h1:UMoJqcXtEOuceVIDmrPsiOeuUyryXPJVDFGymB3QIM0=
-github.com/kaytu-io/kaytu-util v0.0.0-20230612111112-f01681c34d0f/go.mod h1:QULmP8Hug87ctExrOBAzZgwKJ7BXEWUcs0vIJAV1Hrs=
+github.com/kaytu-io/kaytu-util v0.0.0-20230623140317-12dc853e96d0 h1:0K40vXGVqOVIc+kcz6Ov+/XbFp2by+MtmIO/qfM+wT0=
+github.com/kaytu-io/kaytu-util v0.0.0-20230623140317-12dc853e96d0/go.mod h1:QULmP8Hug87ctExrOBAzZgwKJ7BXEWUcs0vIJAV1Hrs=
 github.com/kaytu-io/steampipe-plugin-aws v0.0.0-20230623075628-019e01a7779e h1:UXRxE5vjapTmxsW61yiBbArB7yLPMODZJpXoVTaDNOQ=
 github.com/kaytu-io/steampipe-plugin-aws v0.0.0-20230623075628-019e01a7779e/go.mod h1:fb+bYdeyzGz7tVFGkNLqcrSELhEUYxoewjjqIIUiA+w=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
