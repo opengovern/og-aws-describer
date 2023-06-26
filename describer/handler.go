@@ -43,10 +43,10 @@ func getJWTAuthToken(workspaceId string) (string, error) {
 	}
 
 	token, err := jwt.NewWithClaims(jwt.SigningMethodRS256, jwt.MapClaims{
-		"https://app.keibi.io/workspaceAccess": map[string]string{
+		"https://app.kaytu.io/workspaceAccess": map[string]string{
 			workspaceId: "admin",
 		},
-		"https://app.keibi.io/email": "lambda-worker@kaytu.io",
+		"https://app.kaytu.io/email": "lambda-worker@kaytu.io",
 	}).SignedString(pk)
 	if err != nil {
 		return "", fmt.Errorf("JWT token generation failed %v", err)
