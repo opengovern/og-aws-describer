@@ -27,6 +27,9 @@ func GetConfig(ctx context.Context, awsAccessKey, awsSecretKey, awsSessionToken,
 	if err != nil {
 		return aws.Config{}, fmt.Errorf("failed to load AWS config: %w", err)
 	}
+	if cfg.Region == "" {
+		cfg.Region = "us-east-1"
+	}
 
 	if assumeRoleArn != "" {
 		cfg, err = config.LoadDefaultConfig(
