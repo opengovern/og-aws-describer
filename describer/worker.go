@@ -4,9 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
+
 	awsmodel "github.com/kaytu-io/kaytu-aws-describer/aws/model"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/steampipe"
-	"strings"
 
 	"github.com/go-errors/errors"
 	"github.com/kaytu-io/kaytu-aws-describer/aws"
@@ -31,6 +32,7 @@ func Do(ctx context.Context,
 	keyARN string,
 	describeDeliverEndpoint string,
 	describeDeliverToken string,
+	kafkaTopic string,
 	workspaceName string) (resourceIDs []string, err error) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -51,11 +53,11 @@ func Do(ctx context.Context,
 		return nil, fmt.Errorf("decrypt error: %w", err)
 	}
 
-	return doDescribeAWS(ctx, logger, job, config, workspaceName, describeDeliverEndpoint, describeDeliverToken)
+	return doDescribeAWS(ctx, logger, job, config, workspaceName, describeDeliverEndpoint, describeDeliverToken, kafkaTopic)
 }
 
-func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.DescribeJob, config map[string]any, workspaceName string, describeEndpoint string, describeToken string) ([]string, error) {
-	rs, err := NewResourceSender(workspaceName, describeEndpoint, describeToken, job.JobID, logger)
+func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.DescribeJob, config map[string]any, workspaceName string, describeEndpoint string, describeToken string, kafkaTopic string) ([]string, error) {
+	rs, err := NewResourceSender(workspaceName, describeEndpoint, describeToken, job.JobID, kafkaTopic, logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to resource sender: %w", err)
 	}

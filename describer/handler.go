@@ -131,6 +131,7 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		input.KeyARN,
 		input.DescribeEndpoint,
 		token,
+		input.KafkaTopic,
 		input.WorkspaceName,
 	)
 

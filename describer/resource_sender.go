@@ -33,12 +33,13 @@ type ResourceSender struct {
 	conn             *grpc.ClientConn
 	describeEndpoint string
 	jobID            uint
+	kafkaTopic       string
 	client           golang.DescribeServiceClient
 
 	sendBuffer []*golang.AWSResource
 }
 
-func NewResourceSender(workspaceName string, describeEndpoint string, describeToken string, jobID uint, logger *zap.Logger) (*ResourceSender, error) {
+func NewResourceSender(workspaceName string, describeEndpoint string, describeToken string, jobID uint, kafkaTopic string, logger *zap.Logger) (*ResourceSender, error) {
 	rs := ResourceSender{
 		authToken:        describeToken,
 		workspaceName:    workspaceName,
@@ -48,6 +49,7 @@ func NewResourceSender(workspaceName string, describeEndpoint string, describeTo
 		doneChannel:      make(chan interface{}),
 		conn:             nil,
 		describeEndpoint: describeEndpoint,
+		kafkaTopic:       kafkaTopic,
 		jobID:            jobID,
 	}
 	if err := rs.Connect(); err != nil {
@@ -117,7 +119,7 @@ func (s *ResourceSender) flushBuffer(force bool) {
 		"resource-job-id": fmt.Sprintf("%d", s.jobID),
 	}))
 
-	_, err := s.client.DeliverAWSResources(grpcCtx, &golang.AWSResources{Resources: s.sendBuffer})
+	_, err := s.client.DeliverAWSResources(grpcCtx, &golang.AWSResources{Resources: s.sendBuffer, KafkaTopic: s.kafkaTopic})
 	if err != nil {
 		s.logger.Error("failed to send resource", zap.Error(err))
 		if errors.Is(err, io.EOF) {
