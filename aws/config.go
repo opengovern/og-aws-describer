@@ -16,7 +16,7 @@ import (
 // If the awsAccessKey is specified, the config will be created for the combination of awsAccessKey, awsSecretKey, awsSessionToken.
 // Else it will use the default AWS SDK logic to load the configuration. See https://aws.github.io/aws-sdk-go-v2/docs/configuring-sdk/
 // If assumeRoleArn is provided, it will use the evaluated configuration to then assume the specified role.
-func GetConfig(ctx context.Context, awsAccessKey, awsSecretKey, awsSessionToken, assumeRoleArn string) (aws.Config, error) {
+func GetConfig(ctx context.Context, awsAccessKey, awsSecretKey, awsSessionToken, assumeRoleArn string, externalId *string) (aws.Config, error) {
 	opts := []func(*config.LoadOptions) error{}
 
 	if awsAccessKey != "" {
@@ -29,7 +29,18 @@ func GetConfig(ctx context.Context, awsAccessKey, awsSecretKey, awsSessionToken,
 	}
 
 	if assumeRoleArn != "" {
-		cfg, err = config.LoadDefaultConfig(context.Background(), config.WithCredentialsProvider(stscreds.NewAssumeRoleProvider(sts.NewFromConfig(cfg), assumeRoleArn)))
+		cfg, err = config.LoadDefaultConfig(
+			context.Background(),
+			config.WithCredentialsProvider(
+				stscreds.NewAssumeRoleProvider(
+					sts.NewFromConfig(cfg),
+					assumeRoleArn,
+					func(o *stscreds.AssumeRoleOptions) {
+						o.ExternalID = externalId
+					},
+				),
+			),
+		)
 		if err != nil {
 			return aws.Config{}, fmt.Errorf("failed to assume role: %w", err)
 		}
@@ -45,6 +56,7 @@ type AccountConfig struct {
 	AccessKey     string   `json:"accessKey"`
 	SessionToken  string   `json:"sessionToken"`
 	AssumeRoleARN string   `json:"assumeRoleARN"`
+	ExternalID    *string  `json:"externalID,omitempty"`
 }
 
 func AccountConfigFromMap(m map[string]any) (AccountConfig, error) {

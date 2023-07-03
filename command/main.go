@@ -7,10 +7,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"os"
+
 	"github.com/kaytu-io/kaytu-aws-describer/aws"
 	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 	"github.com/spf13/cobra"
-	"os"
 )
 
 var (
@@ -40,6 +41,7 @@ var rootCmd = &cobra.Command{
 			secretKey,
 			"",
 			"",
+			nil,
 			false,
 			nil,
 		)

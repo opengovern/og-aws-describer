@@ -164,6 +164,7 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 		creds.SecretKey,
 		creds.SessionToken,
 		creds.AssumeRoleARN,
+		creds.ExternalID,
 		false,
 		clientStream,
 	)

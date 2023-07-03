@@ -100,10 +100,11 @@ func GetResources(
 	secretKey,
 	sessionToken,
 	assumeRoleArn string,
+	externalId *string,
 	includeDisabledRegions bool,
 	stream *describer.StreamSender,
 ) (*Resources, error) {
-	cfg, err := GetConfig(ctx, accessKey, secretKey, sessionToken, assumeRoleArn)
+	cfg, err := GetConfig(ctx, accessKey, secretKey, sessionToken, assumeRoleArn, externalId)
 	if err != nil {
 		return nil, err
 	}
@@ -151,10 +152,11 @@ func GetSingleResource(
 	secretKey,
 	sessionToken,
 	assumeRoleArn string,
+	externalId *string,
 	includeDisabledRegions bool,
 	fields map[string]string,
 ) (*Resources, error) {
-	cfg, err := GetConfig(ctx, accessKey, secretKey, sessionToken, assumeRoleArn)
+	cfg, err := GetConfig(ctx, accessKey, secretKey, sessionToken, assumeRoleArn, externalId)
 	if err != nil {
 		return nil, err
 	}

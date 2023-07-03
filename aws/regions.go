@@ -20,7 +20,7 @@ func CheckAttachedPolicy(accessKey, secretKey, expectedPolicyARN string) (bool, 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	cfg, err := GetConfig(ctx, accessKey, secretKey, "", "")
+	cfg, err := GetConfig(ctx, accessKey, secretKey, "", "", nil)
 	if err != nil {
 		fmt.Printf("failed to get config: %v", err)
 		return false, fmt.Errorf("failed to get config: %w", err)
@@ -89,7 +89,7 @@ func CheckGetUserPermission(accessKey, secretKey string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	cfg, err := GetConfig(ctx, accessKey, secretKey, "", "")
+	cfg, err := GetConfig(ctx, accessKey, secretKey, "", "", nil)
 	if err != nil {
 		fmt.Printf("failed to get config: %v", err)
 		return err
@@ -107,25 +107,6 @@ func CheckGetUserPermission(accessKey, secretKey string) error {
 		return err
 	}
 
-	return nil
-}
-
-func CheckDescribeRegionsPermission(accessKey, secretKey string) error {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	cfg, err := GetConfig(ctx, accessKey, secretKey, "", "")
-	if err != nil {
-		return err
-	}
-
-	cfgClone := cfg.Copy()
-	cfgClone.Region = "us-east-1"
-
-	_, err = getAllRegions(ctx, cfgClone, false)
-	if err != nil {
-		return err
-	}
 	return nil
 }
 

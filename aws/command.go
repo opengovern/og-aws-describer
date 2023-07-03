@@ -18,6 +18,7 @@ func Command() *cobra.Command {
 	var awsSessionToken string
 	var disabledRegions bool
 	var assumeRoleArn string
+	var externalID *string
 
 	cmd := &cobra.Command{
 		Use:   "aws",
@@ -73,6 +74,7 @@ func Command() *cobra.Command {
 				awsSecretKey,
 				awsSessionToken,
 				assumeRoleArn,
+				externalID,
 				disabledRegions,
 				nil,
 			)
@@ -104,6 +106,11 @@ If provided, will assume the role with the provided credentials.
 If no credentials are provided the default AWS credentials.
 The role must have access to describe the specific resource type as
 well as 'EC2:DescribeRegions'`)
+	var externalIDStr string
+	cmd.PersistentFlags().StringVar(&externalIDStr, "external-id", "", "AWS ExternalID to use when assuming the role")
+	if externalIDStr != "" {
+		externalID = &externalIDStr
+	}
 	cmd.PersistentFlags().StringVar(&awsSessionToken, "session-token", "", "AWS SessionToken from the credentials")
 
 	cmd.AddCommand(listResourcesCommand())
