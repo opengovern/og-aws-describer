@@ -13,6 +13,9 @@ import (
 )
 
 func GetRoleArnFromName(accountId string, roleName string) string {
+	if roleName == "" {
+		return ""
+	}
 	return fmt.Sprintf("arn:aws:iam::%s:role/%s", accountId, roleName)
 }
 
