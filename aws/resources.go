@@ -99,11 +99,12 @@ func GetResources(
 	accessKey,
 	secretKey,
 	sessionToken,
-	assumeRoleArn string,
+	assumeRoleName string,
 	externalId *string,
 	includeDisabledRegions bool,
 	stream *describer.StreamSender,
 ) (*Resources, error) {
+	assumeRoleArn := GetRoleArnFromName(accountId, assumeRoleName)
 	cfg, err := GetConfig(ctx, accessKey, secretKey, sessionToken, assumeRoleArn, externalId)
 	if err != nil {
 		return nil, err
@@ -151,11 +152,12 @@ func GetSingleResource(
 	accessKey,
 	secretKey,
 	sessionToken,
-	assumeRoleArn string,
+	assumeRoleName string,
 	externalId *string,
 	includeDisabledRegions bool,
 	fields map[string]string,
 ) (*Resources, error) {
+	assumeRoleArn := GetRoleArnFromName(accountId, assumeRoleName)
 	cfg, err := GetConfig(ctx, accessKey, secretKey, sessionToken, assumeRoleArn, externalId)
 	if err != nil {
 		return nil, err

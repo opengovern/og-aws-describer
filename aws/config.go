@@ -12,6 +12,10 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/sts"
 )
 
+func GetRoleArnFromName(accountId string, roleName string) string {
+	return fmt.Sprintf("arn:aws:iam::%s:role/%s", accountId, roleName)
+}
+
 // getConfig loads the AWS credentionals and returns the configuration to be used by the AWS services client.
 // If the awsAccessKey is specified, the config will be created for the combination of awsAccessKey, awsSecretKey, awsSessionToken.
 // Else it will use the default AWS SDK logic to load the configuration. See https://aws.github.io/aws-sdk-go-v2/docs/configuring-sdk/

@@ -17,7 +17,7 @@ func Command() *cobra.Command {
 	var awsAccessKey string
 	var awsSessionToken string
 	var disabledRegions bool
-	var assumeRoleArn string
+	var assumeRoleName string
 	var externalID *string
 
 	cmd := &cobra.Command{
@@ -73,7 +73,7 @@ func Command() *cobra.Command {
 				awsAccessKey,
 				awsSecretKey,
 				awsSessionToken,
-				assumeRoleArn,
+				assumeRoleName,
 				externalID,
 				disabledRegions,
 				nil,
@@ -100,8 +100,8 @@ If no region is specified, the resource will be queries from all AWS regions`)
 	cmd.PersistentFlags().StringVar(&awsAccount, "account-id", "", "AWS Account id")
 	cmd.PersistentFlags().StringVar(&awsSecretKey, "secret-key", "", "AWS SecretKey from the credentials. If not specified, the defailt shared aws config will be used")
 	cmd.PersistentFlags().StringVar(&awsAccessKey, "access-key", "", "AWS AccessKey from the credentials. If not specified, the defailt shared aws config will be used")
-	cmd.PersistentFlags().StringVar(&assumeRoleArn, "assume-role-arn", "",
-		`AWS AssumeRoleARN, e.g. 'arn:aws:iam::123456789012:role/roleName'.
+	cmd.PersistentFlags().StringVar(&assumeRoleName, "assume-role-arn", "",
+		`AWS AssumeRoleName, e.g. 'the "roleName" in arn:aws:iam::123456789012:role/roleName'.
 If provided, will assume the role with the provided credentials.
 If no credentials are provided the default AWS credentials.
 The role must have access to describe the specific resource type as
