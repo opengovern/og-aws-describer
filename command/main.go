@@ -12,6 +12,7 @@ import (
 	"github.com/kaytu-io/kaytu-aws-describer/aws"
 	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 	"github.com/spf13/cobra"
+	"go.uber.org/zap"
 )
 
 var (
@@ -24,9 +25,10 @@ var rootCmd = &cobra.Command{
 	Use:   "kaytu-aws-describer",
 	Short: "kaytu aws describer manual",
 	RunE: func(cmd *cobra.Command, args []string) error {
+		logger, _ := zap.NewProduction()
 		cfg, err := aws.GetConfig(context.Background(), accessKey, secretKey, "", "", nil)
 		if checkAttachedPolicies {
-			isAttached, err := aws.CheckAttachedPolicy(cfg, aws.SecurityAuditPolicyARN)
+			isAttached, err := aws.CheckAttachedPolicy(logger, cfg, aws.SecurityAuditPolicyARN)
 			fmt.Println("IsAttached", isAttached)
 			fmt.Println("Error", err)
 			return nil
