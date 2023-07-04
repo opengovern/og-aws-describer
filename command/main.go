@@ -24,8 +24,9 @@ var rootCmd = &cobra.Command{
 	Use:   "kaytu-aws-describer",
 	Short: "kaytu aws describer manual",
 	RunE: func(cmd *cobra.Command, args []string) error {
+		cfg, err := aws.GetConfig(context.Background(), accessKey, secretKey, "", "", nil)
 		if checkAttachedPolicies {
-			isAttached, err := aws.CheckAttachedPolicy(accessKey, secretKey, aws.SecurityAuditPolicyARN)
+			isAttached, err := aws.CheckAttachedPolicy(cfg, aws.SecurityAuditPolicyARN)
 			fmt.Println("IsAttached", isAttached)
 			fmt.Println("Error", err)
 			return nil

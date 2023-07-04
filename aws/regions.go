@@ -16,15 +16,9 @@ const (
 	SecurityAuditPolicyARN = "arn:aws:iam::aws:policy/SecurityAudit"
 )
 
-func CheckAttachedPolicy(accessKey, secretKey, expectedPolicyARN string) (bool, error) {
+func CheckAttachedPolicy(cfg aws.Config, expectedPolicyARN string) (bool, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-
-	cfg, err := GetConfig(ctx, accessKey, secretKey, "", "", nil)
-	if err != nil {
-		fmt.Printf("failed to get config: %v", err)
-		return false, fmt.Errorf("failed to get config: %w", err)
-	}
 
 	cfgClone := cfg.Copy()
 	if cfgClone.Region == "" {
@@ -85,15 +79,9 @@ func CheckAttachedPolicy(accessKey, secretKey, expectedPolicyARN string) (bool, 
 	return false, nil
 }
 
-func CheckGetUserPermission(accessKey, secretKey string) error {
+func CheckGetUserPermission(cfg aws.Config) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-
-	cfg, err := GetConfig(ctx, accessKey, secretKey, "", "", nil)
-	if err != nil {
-		fmt.Printf("failed to get config: %v", err)
-		return err
-	}
 
 	cfgClone := cfg.Copy()
 	if cfgClone.Region == "" {
@@ -101,7 +89,7 @@ func CheckGetUserPermission(accessKey, secretKey string) error {
 	}
 
 	iamClient := iam.NewFromConfig(cfgClone)
-	_, err = iamClient.GetUser(ctx, &iam.GetUserInput{})
+	_, err := iamClient.GetUser(ctx, &iam.GetUserInput{})
 	if err != nil {
 		fmt.Printf("failed to get user: %v", err)
 		return err
