@@ -28,7 +28,7 @@ var rootCmd = &cobra.Command{
 		logger, _ := zap.NewProduction()
 		cfg, err := aws.GetConfig(context.Background(), accessKey, secretKey, "", "", nil)
 		if checkAttachedPolicies {
-			isAttached, err := aws.CheckAttachedPolicy(logger, cfg, aws.SecurityAuditPolicyARN)
+			isAttached, err := aws.CheckAttachedPolicy(logger, cfg, "", aws.SecurityAuditPolicyARN)
 			fmt.Println("IsAttached", isAttached)
 			fmt.Println("Error", err)
 			return nil
