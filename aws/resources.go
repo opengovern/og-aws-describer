@@ -6,9 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"sort"
-
 	"github.com/aws/smithy-go"
+	"sort"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/describer"
