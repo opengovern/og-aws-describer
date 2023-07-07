@@ -1,4 +1,4 @@
-//go:generate go run ../../keibi-deploy/keibi/inventory-data/resource_types_generator.go --provider aws --output resource_types.go --index-map ../pkg/steampipe/table_index_map.go && gofmt -w -s resource_types.go  && goimports -w resource_types.go
+//go:generate go run ../../kaytu-deploy/keibi/inventory-data/resource_types_generator.go --provider aws --output resource_types.go --index-map ../pkg/steampipe/table_index_map.go && gofmt -w -s resource_types.go  && goimports -w resource_types.go
 
 package aws
 
@@ -6,8 +6,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/aws/smithy-go"
 	"sort"
+
+	"github.com/aws/smithy-go"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/describer"

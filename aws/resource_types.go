@@ -1,10 +1,9 @@
-package aws
 
+package aws
 import (
 	"github.com/kaytu-io/kaytu-aws-describer/aws/describer"
 	"github.com/kaytu-io/kaytu-util/pkg/source"
 )
-
 var resourceTypes = map[string]ResourceType{
 
 	"AWS::Redshift::Snapshot": {
@@ -2352,7 +2351,7 @@ var resourceTypes = map[string]ResourceType{
 		Tags:                 map[string][]string{},
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2TransitGateway),
-		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2TransitGateway),
+		GetDescriber:          ParallelDescribeRegionalSingleResource(describer.GetEC2TransitGateway),
 		TerraformName:        []string{"aws_ec2_transit_gateway"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        true,
