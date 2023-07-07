@@ -3640,7 +3640,7 @@ var resourceTypes = map[string]ResourceType{
 		Tags:                 map[string][]string{},
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2TransitGatewayRoute),
-		GetDescriber:         nil,
+		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2TransitGatewayRoute),
 		TerraformName:        []string{"aws_ec2_transit_gateway_route"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
