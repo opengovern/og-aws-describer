@@ -74,3 +74,12 @@ func CodeCommitRepository(ctx context.Context, cfg aws.Config, stream *StreamSen
 
 	return values, nil
 }
+func GetCodeCommitRepository(ctx context.Context, cfg aws.Config,fileds map[string]string)(Resource, error){
+	describeCtx := GetDescribeContext(ctx)
+	client := codecommit.NewFromConfig(cfg)
+	var values []Resource
+	out ,err := client.BatchGetRepositories(ctx,&codecommit.BatchGetRepositoriesInput{
+		RepositoryNames:
+	})
+
+}

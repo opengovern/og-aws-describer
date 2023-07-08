@@ -11,7 +11,6 @@ import (
 func CloudSearchDomain(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := cloudsearch.NewFromConfig(cfg)
-
 	var values []Resource
 
 	output, err := client.ListDomainNames(ctx, &cloudsearch.ListDomainNamesInput{})

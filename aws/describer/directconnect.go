@@ -12,10 +12,7 @@ import (
 )
 
 func DirectConnectConnection(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-
 	client := directconnect.NewFromConfig(cfg)
-
 	connections, err := client.DescribeConnections(ctx, &directconnect.DescribeConnectionsInput{})
 	if err != nil {
 		return nil, err
@@ -23,16 +20,7 @@ func DirectConnectConnection(ctx context.Context, cfg aws.Config, stream *Stream
 
 	var values []Resource
 	for _, v := range connections.Connections {
-		arn := fmt.Sprintf("arn:%s:directconnect:%s:%s:dxcon/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.ConnectionId)
-
-		resource := Resource{
-			Region: describeCtx.KaytuRegion,
-			ARN:    arn,
-			Name:   *v.ConnectionId,
-			Description: model.DirectConnectConnectionDescription{
-				Connection: v,
-			},
-		}
+		resource := directConnectConnectionHandel(ctx, v)
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {
 				return nil, err
@@ -44,7 +32,35 @@ func DirectConnectConnection(ctx context.Context, cfg aws.Config, stream *Stream
 
 	return values, nil
 }
-
+func directConnectConnectionHandel(ctx context.Context, v types.Connection) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	arn := fmt.Sprintf("arn:%s:directconnect:%s:%s:dxcon/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.ConnectionId)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		Name:   *v.ConnectionId,
+		Description: model.DirectConnectConnectionDescription{
+			Connection: v,
+		},
+	}
+	return resource
+}
+func GetDirectConnectConnection(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	connectionId := fields["id"]
+	client := directconnect.NewFromConfig(cfg)
+	out, err := client.DescribeConnections(ctx, &directconnect.DescribeConnectionsInput{
+		ConnectionId: &connectionId,
+	})
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+	for _, v := range out.Connections {
+		resource := directConnectConnectionHandel(ctx, v)
+		values = append(values, resource)
+	}
+	return values, nil
+}
 func getDirectConnectGatewayArn(describeCtx DescribeContext, directConnectGatewayId string) string {
 	return fmt.Sprintf("arn:%s:directconnect::%s:dx-gateway/%s", describeCtx.Partition, describeCtx.AccountID, directConnectGatewayId)
 }
@@ -118,4 +134,47 @@ func DirectConnectGateway(ctx context.Context, cfg aws.Config, stream *StreamSen
 	}
 
 	return values, nil
+}
+func directConnectGatewayHandel(ctx context.Context, v types.DirectConnectGateway, arnToTagMap map[string][]types.Tag) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	arn := getDirectConnectGatewayArn(describeCtx, *v.DirectConnectGatewayId)
+
+	tagsList, ok := arnToTagMap[arn]
+	if !ok {
+		tagsList = []types.Tag{}
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		Name:   *v.DirectConnectGatewayName,
+		Description: model.DirectConnectGatewayDescription{
+			Gateway: v,
+			Tags:    tagsList,
+		},
+	}
+	return resource
+}
+func GetDirectConnectGateway(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	DirectConnectGatewayId := fields["id"]
+
+	client := directconnect.NewFromConfig(cfg)
+	out, err := client.DescribeDirectConnectGateways(ctx, &directconnect.DescribeDirectConnectGatewaysInput{
+		DirectConnectGatewayId: &DirectConnectGatewayId,
+	})
+	if err != nil {
+		if isErr(err, "DirectConnectGatewayNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var value []Resource
+	arnToTagMap := make(map[string][]types.Tag)
+
+	for _, v := range out.DirectConnectGateways {
+		resource := directConnectGatewayHandel(ctx, v, arnToTagMap)
+		value = append(value, resource)
+	}
+	return value, nil
 }

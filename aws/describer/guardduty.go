@@ -69,10 +69,9 @@ func GuardDutyFinding(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 func GuardDutyDetector(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
-	var values []Resource
-
 	client := guardduty.NewFromConfig(cfg)
 
+	var values []Resource
 	paginator := guardduty.NewListDetectorsPaginator(client, &guardduty.ListDetectorsInput{})
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
@@ -110,7 +109,19 @@ func GuardDutyDetector(ctx context.Context, cfg aws.Config, stream *StreamSender
 	}
 	return values, nil
 }
+func GetGuardDutyDetector(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	detectorId := fields["id"]
+	client := guardduty.NewFromConfig(cfg)
 
+	out , err := client.GetDetector(ctx, &guardduty.GetDetectorInput{
+		DetectorId:&detectorId,
+	})
+	if err != nil{
+		if isErr(err,"")
+	}
+
+}
 func GuardDutyFilter(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 
@@ -173,7 +184,6 @@ func GuardDutyIPSet(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 
 	client := guardduty.NewFromConfig(cfg)
 	paginator := guardduty.NewListDetectorsPaginator(client, &guardduty.ListDetectorsInput{})
-
 	var values []Resource
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)

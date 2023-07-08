@@ -110,10 +110,10 @@ func CloudFrontStreamingDistribution(ctx context.Context, cfg aws.Config, stream
 	return values, nil
 }
 
-func GetCloudFrontDistribution(ctx context.Context, cfg aws.Config, id string) ([]Resource, error) {
+func GetCloudFrontDistribution(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := cloudfront.NewFromConfig(cfg)
-
+	id := fields["id"]
 	out, err := client.GetDistribution(ctx, &cloudfront.GetDistributionInput{Id: &id})
 	if err != nil {
 		return nil, err
@@ -163,7 +163,6 @@ func CloudFrontOriginAccessControl(ctx context.Context, cfg aws.Config, stream *
 		if err != nil {
 			return nil, err
 		}
-
 		for _, v := range output.OriginAccessControlList.Items {
 			var tags []types.Tag
 			arn := fmt.Sprintf("arn:%s:cloudfront::%s:origin-access-control/%s", describeCtx.Partition, describeCtx.AccountID, *v.Id)
