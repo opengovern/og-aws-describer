@@ -685,8 +685,8 @@ github.com/jstemmer/go-junit-report v0.9.1/go.mod h1:Brl9GWCQeLvo8nXZwPNNblvFj/X
 github.com/jtolds/gls v4.20.0+incompatible h1:xdiiI2gbIgH/gLH7ADydsJ1uDOEzR8yvV7C0MuV77Wo=
 github.com/kaytu-io/kaytu-util v0.0.0-20230703125355-15bec58e8130 h1:LvcDHCu845EPIyPCRfar1y7aPGor/Y+Iir1WG1OsNPs=
 github.com/kaytu-io/kaytu-util v0.0.0-20230703125355-15bec58e8130/go.mod h1:QULmP8Hug87ctExrOBAzZgwKJ7BXEWUcs0vIJAV1Hrs=
-github.com/kaytu-io/steampipe-plugin-aws v0.0.0-20230623075628-019e01a7779e h1:UXRxE5vjapTmxsW61yiBbArB7yLPMODZJpXoVTaDNOQ=
-github.com/kaytu-io/steampipe-plugin-aws v0.0.0-20230623075628-019e01a7779e/go.mod h1:fb+bYdeyzGz7tVFGkNLqcrSELhEUYxoewjjqIIUiA+w=
+github.com/kaytu-io/steampipe-plugin-aws v0.0.0-20230713070934-2d1d29891502 h1:vDJRyGAk6MjoFawOhekpyIMfqvIFsxmuyuUra/w/zdM=
+github.com/kaytu-io/steampipe-plugin-aws v0.0.0-20230713070934-2d1d29891502/go.mod h1:XXJmFYC1bEJbBeN989tceseQ2LP/sqe9HVykT/NBGZ0=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
