@@ -718,5 +718,5 @@ var AWSDescriptionMap = map[string]interface{}{
 "AWS::EC2::LaunchTemplate": &keibi.EC2LaunchTemplate{},
 "AWS::SNS::Subscription": &keibi.SNSSubscription{},
 "AWS::S3::AccountSetting": &keibi.S3AccountSetting{},
-"AWS::SSM::ManagedInstanceCompliance": &keibi.ManagedInstanceCompliance{},
+"AWS::SSM::ManagedInstanceCompliance": &keibi.SSMManagedInstanceCompliance{},
 }

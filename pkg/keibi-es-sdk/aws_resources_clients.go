@@ -35554,6 +35554,172 @@ func GetSSMPatchBaseline(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 // ==========================  END: SSMPatchBaseline =============================
 
+// ==========================  START: SSMManagedInstanceCompliance =============================
+
+type SSMManagedInstanceCompliance struct {
+	Description   aws.SSMManagedInstanceComplianceDescription `json:"description"`
+	Metadata      aws.Metadata                                `json:"metadata"`
+	ResourceJobID int                                         `json:"resource_job_id"`
+	SourceJobID   int                                         `json:"source_job_id"`
+	ResourceType  string                                      `json:"resource_type"`
+	SourceType    string                                      `json:"source_type"`
+	ID            string                                      `json:"id"`
+	ARN           string                                      `json:"arn"`
+	SourceID      string                                      `json:"source_id"`
+}
+
+type SSMManagedInstanceComplianceHit struct {
+	ID      string                       `json:"_id"`
+	Score   float64                      `json:"_score"`
+	Index   string                       `json:"_index"`
+	Type    string                       `json:"_type"`
+	Version int64                        `json:"_version,omitempty"`
+	Source  SSMManagedInstanceCompliance `json:"_source"`
+	Sort    []interface{}                `json:"sort"`
+}
+
+type SSMManagedInstanceComplianceHits struct {
+	Total essdk.SearchTotal                 `json:"total"`
+	Hits  []SSMManagedInstanceComplianceHit `json:"hits"`
+}
+
+type SSMManagedInstanceComplianceSearchResponse struct {
+	PitID string                           `json:"pit_id"`
+	Hits  SSMManagedInstanceComplianceHits `json:"hits"`
+}
+
+type SSMManagedInstanceCompliancePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewSSMManagedInstanceCompliancePaginator(filters []essdk.BoolFilter, limit *int64) (SSMManagedInstanceCompliancePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_ssm_managedinstancecompliance", filters, limit)
+	if err != nil {
+		return SSMManagedInstanceCompliancePaginator{}, err
+	}
+
+	p := SSMManagedInstanceCompliancePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p SSMManagedInstanceCompliancePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p SSMManagedInstanceCompliancePaginator) NextPage(ctx context.Context) ([]SSMManagedInstanceCompliance, error) {
+	var response SSMManagedInstanceComplianceSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []SSMManagedInstanceCompliance
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listSSMManagedInstanceComplianceFilters = map[string]string{
+	"compliance_type":   "description.ComplianceItem.ComplianceType",
+	"details":           "description.ComplianceItem.Details",
+	"execution_summary": "description.ComplianceItem.ExecutionSummary",
+	"id":                "description.ComplianceItem.Id",
+	"kaytu_account_id":  "metadata.SourceID",
+	"name":              "description.ComplianceItem.Title",
+	"resource_id":       "description.ComplianceItem.ResourceId",
+	"resource_type":     "description.ComplianceItem.ResourceType",
+	"severity":          "description.ComplianceItem.Severity",
+	"status":            "description.ComplianceItem.Status",
+}
+
+func ListSSMManagedInstanceCompliance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListSSMManagedInstanceCompliance")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewSSMManagedInstanceCompliancePaginator(essdk.BuildFilter(d.KeyColumnQuals, listSSMManagedInstanceComplianceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getSSMManagedInstanceComplianceFilters = map[string]string{
+	"compliance_type":   "description.ComplianceItem.ComplianceType",
+	"details":           "description.ComplianceItem.Details",
+	"execution_summary": "description.ComplianceItem.ExecutionSummary",
+	"id":                "description.ComplianceItem.Id",
+	"kaytu_account_id":  "metadata.SourceID",
+	"name":              "description.ComplianceItem.Title",
+	"resource_id":       "description.ComplianceItem.ResourceId",
+	"resource_type":     "description.ComplianceItem.ResourceType",
+	"severity":          "description.ComplianceItem.Severity",
+	"status":            "description.ComplianceItem.Status",
+}
+
+func GetSSMManagedInstanceCompliance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetSSMManagedInstanceCompliance")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewSSMManagedInstanceCompliancePaginator(essdk.BuildFilter(d.KeyColumnQuals, getSSMManagedInstanceComplianceFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: SSMManagedInstanceCompliance =============================
+
 // ==========================  START: ECSTaskDefinition =============================
 
 type ECSTaskDefinition struct {
