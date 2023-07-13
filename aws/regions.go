@@ -2,21 +2,22 @@ package aws
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	"github.com/aws/aws-sdk-go-v2/service/iam"
+	"github.com/aws/aws-sdk-go-v2/service/sts"
 	"github.com/aws/aws-sdk-go/aws/endpoints"
+	"go.uber.org/zap"
 )
 
 const (
 	SecurityAuditPolicyARN = "arn:aws:iam::aws:policy/SecurityAudit"
 )
 
-func CheckAttachedPolicy(cfg aws.Config, expectedPolicyARN string) (bool, error) {
+func CheckAttachedPolicy(logger *zap.Logger, cfg aws.Config, roleName string, expectedPolicyARN string) (bool, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -26,42 +27,58 @@ func CheckAttachedPolicy(cfg aws.Config, expectedPolicyARN string) (bool, error)
 	}
 
 	iamClient := iam.NewFromConfig(cfgClone)
-	user, err := iamClient.GetUser(ctx, &iam.GetUserInput{})
-	if err != nil {
-		fmt.Printf("failed to get user: %v", err)
-		return false, err
-	}
 	policyARNs := make([]string, 0)
-
-	paginator := iam.NewListAttachedUserPoliciesPaginator(iamClient, &iam.ListAttachedUserPoliciesInput{
-		UserName: user.User.UserName,
-	})
-	for paginator.HasMorePages() {
-		page, err := paginator.NextPage(ctx)
+	if roleName == "" {
+		user, err := iamClient.GetUser(ctx, &iam.GetUserInput{})
 		if err != nil {
-			fmt.Printf("failed to get policy page: %v", err)
+			logger.Warn("failed to get user", zap.Error(err))
 			return false, err
 		}
-		for _, policy := range page.AttachedPolicies {
-			policyARNs = append(policyARNs, *policy.PolicyArn)
-		}
-	}
 
-	groups, err := iamClient.ListGroupsForUser(ctx, &iam.ListGroupsForUserInput{
-		UserName: user.User.UserName,
-	})
-	if err != nil {
-		fmt.Printf("failed to get user: %v", err)
-		return false, err
-	}
-	for _, group := range groups.Groups {
-		paginator := iam.NewListAttachedGroupPoliciesPaginator(iamClient, &iam.ListAttachedGroupPoliciesInput{
-			GroupName: group.GroupName,
+		paginator := iam.NewListAttachedUserPoliciesPaginator(iamClient, &iam.ListAttachedUserPoliciesInput{
+			UserName: user.User.UserName,
 		})
 		for paginator.HasMorePages() {
 			page, err := paginator.NextPage(ctx)
 			if err != nil {
-				fmt.Printf("failed to get policy page: %v", err)
+				logger.Warn("failed to get policy page", zap.Error(err))
+				return false, err
+			}
+			for _, policy := range page.AttachedPolicies {
+				policyARNs = append(policyARNs, *policy.PolicyArn)
+			}
+		}
+
+		groups, err := iamClient.ListGroupsForUser(ctx, &iam.ListGroupsForUserInput{
+			UserName: user.User.UserName,
+		})
+		if err != nil {
+			logger.Warn("failed to get groups", zap.Error(err))
+			return false, err
+		}
+		for _, group := range groups.Groups {
+			paginator := iam.NewListAttachedGroupPoliciesPaginator(iamClient, &iam.ListAttachedGroupPoliciesInput{
+				GroupName: group.GroupName,
+			})
+			for paginator.HasMorePages() {
+				page, err := paginator.NextPage(ctx)
+				if err != nil {
+					logger.Warn("failed to get policy page", zap.Error(err))
+					return false, err
+				}
+				for _, policy := range page.AttachedPolicies {
+					policyARNs = append(policyARNs, *policy.PolicyArn)
+				}
+			}
+		}
+	} else {
+		paginator := iam.NewListAttachedRolePoliciesPaginator(iamClient, &iam.ListAttachedRolePoliciesInput{
+			RoleName: &roleName,
+		})
+		for paginator.HasMorePages() {
+			page, err := paginator.NextPage(ctx)
+			if err != nil {
+				logger.Warn("failed to get policy page", zap.Error(err))
 				return false, err
 			}
 			for _, policy := range page.AttachedPolicies {
@@ -79,7 +96,7 @@ func CheckAttachedPolicy(cfg aws.Config, expectedPolicyARN string) (bool, error)
 	return false, nil
 }
 
-func CheckGetUserPermission(cfg aws.Config) error {
+func CheckGetUserPermission(logger *zap.Logger, cfg aws.Config) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -88,10 +105,10 @@ func CheckGetUserPermission(cfg aws.Config) error {
 		cfgClone.Region = "us-east-1"
 	}
 
-	iamClient := iam.NewFromConfig(cfgClone)
-	_, err := iamClient.GetUser(ctx, &iam.GetUserInput{})
+	stsClient := sts.NewFromConfig(cfgClone)
+	_, err := stsClient.GetCallerIdentity(ctx, &sts.GetCallerIdentityInput{})
 	if err != nil {
-		fmt.Printf("failed to get user: %v", err)
+		logger.Warn("failed to get called identity", zap.Error(err))
 		return err
 	}
 
