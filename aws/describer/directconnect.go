@@ -102,22 +102,7 @@ func DirectConnectGateway(ctx context.Context, cfg aws.Config, stream *StreamSen
 		}
 
 		for _, v := range connections.DirectConnectGateways {
-			arn := getDirectConnectGatewayArn(describeCtx, *v.DirectConnectGatewayId)
-
-			tagsList, ok := arnToTagMap[arn]
-			if !ok {
-				tagsList = []types.Tag{}
-			}
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    arn,
-				Name:   *v.DirectConnectGatewayName,
-				Description: model.DirectConnectGatewayDescription{
-					Gateway: v,
-					Tags:    tagsList,
-				},
-			}
+			resource := directConnectGatewayHandel(ctx, v, arnToTagMap)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -156,6 +141,7 @@ func directConnectGatewayHandel(ctx context.Context, v types.DirectConnectGatewa
 	return resource
 }
 func GetDirectConnectGateway(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
 	DirectConnectGatewayId := fields["id"]
 
 	client := directconnect.NewFromConfig(cfg)
@@ -168,9 +154,28 @@ func GetDirectConnectGateway(ctx context.Context, cfg aws.Config, fields map[str
 		}
 		return nil, err
 	}
-
-	var value []Resource
+	if len(out.DirectConnectGateways) == 0 {
+		return nil, nil
+	}
+	arns := make([]string, 0, len(out.DirectConnectGateways))
+	for _, v := range out.DirectConnectGateways {
+		arns = append(arns, getDirectConnectGatewayArn(describeCtx, *v.DirectConnectGatewayId))
+	}
+	// DescribeTags can only handle 20 ARNs at a time
 	arnToTagMap := make(map[string][]types.Tag)
+	for i := 0; i < len(arns); i += 20 {
+		tags, err := client.DescribeTags(ctx, &directconnect.DescribeTagsInput{
+			ResourceArns: arns[i:int(math.Min(float64(i+20), float64(len(arns))))],
+		})
+		if err != nil {
+			tags = &directconnect.DescribeTagsOutput{}
+		}
+
+		for _, tag := range tags.ResourceTags {
+			arnToTagMap[*tag.ResourceArn] = tag.Tags
+		}
+	}
+	var value []Resource
 
 	for _, v := range out.DirectConnectGateways {
 		resource := directConnectGatewayHandel(ctx, v, arnToTagMap)

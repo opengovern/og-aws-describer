@@ -144,7 +144,6 @@ func GetElastiCacheCluster(ctx context.Context, cfg aws.Config, fields map[strin
 }
 
 func ElastiCacheParameterGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := elasticache.NewFromConfig(cfg)
 	paginator := elasticache.NewDescribeCacheParameterGroupsPaginator(client, &elasticache.DescribeCacheParameterGroupsInput{})
 
@@ -156,14 +155,7 @@ func ElastiCacheParameterGroup(ctx context.Context, cfg aws.Config, stream *Stre
 		}
 
 		for _, cacheParameterGroup := range page.CacheParameterGroups {
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *cacheParameterGroup.ARN,
-				Name:   *cacheParameterGroup.CacheParameterGroupName,
-				Description: model.ElastiCacheParameterGroupDescription{
-					ParameterGroup: cacheParameterGroup,
-				},
-			}
+			resource := elastiCacheParameterGroupHandle(ctx, cacheParameterGroup)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -174,6 +166,34 @@ func ElastiCacheParameterGroup(ctx context.Context, cfg aws.Config, stream *Stre
 		}
 	}
 
+	return values, nil
+}
+func elastiCacheParameterGroupHandle(ctx context.Context, cacheParameterGroup types.CacheParameterGroup) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *cacheParameterGroup.ARN,
+		Name:   *cacheParameterGroup.CacheParameterGroupName,
+		Description: model.ElastiCacheParameterGroupDescription{
+			ParameterGroup: cacheParameterGroup,
+		},
+	}
+	return resource
+}
+func GetElastiCacheParameterGroup(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	cacheParameterGroupName := fields["name"]
+	var values []Resource
+	client := elasticache.NewFromConfig(cfg)
+	out, err := client.DescribeCacheParameterGroups(ctx, &elasticache.DescribeCacheParameterGroupsInput{
+		CacheParameterGroupName: &cacheParameterGroupName,
+	})
+	if err != nil {
+		return nil, err
+	}
+	for _, cacheParameterGroup := range out.CacheParameterGroups {
+		resource := elastiCacheParameterGroupHandle(ctx, cacheParameterGroup)
+		values = append(values, resource)
+	}
 	return values, nil
 }
 

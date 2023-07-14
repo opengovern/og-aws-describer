@@ -743,8 +743,11 @@ func WAFRegionalRule(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		}
 
 		for _, v := range output.Rules {
-			resource ,err := wAFRegionalRuleHandle(ctx , cfg , v )
-			v.
+			resource, err := wAFRegionalRuleHandle(ctx, cfg, v)
+			if err != nil {
+				return nil, err
+			}
+
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -761,7 +764,7 @@ func WAFRegionalRule(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 	}
 	return values, nil
 }
-func wAFRegionalRuleHandle(ctx context.Context, cfg aws.Config, v types.RuleSummary) (Resource, error) {
+func wAFRegionalRuleHandle(ctx context.Context, cfg aws.Config, v regionaltypes.RuleSummary) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := wafregional.NewFromConfig(cfg)
 	arn := fmt.Sprintf("arn:%s:waf-regional:%s:%s:rule/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.RuleId)
@@ -775,7 +778,7 @@ func wAFRegionalRuleHandle(ctx context.Context, cfg aws.Config, v types.RuleSumm
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    arn,
-		ID:     *v.,
+		ID:     *v.RuleId,
 		Name:   *v.Name,
 		Description: model.WAFRegionalRuleDescription{
 			Rule: v,
@@ -785,17 +788,24 @@ func wAFRegionalRuleHandle(ctx context.Context, cfg aws.Config, v types.RuleSumm
 	return resource, nil
 }
 func GetWAFRegionalRule(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	roleId := fields["id"]
 	client := wafregional.NewFromConfig(cfg)
-	role, err := client.GetRule(ctx, &wafregional.GetRuleInput{
-		RuleId: &roleId,
-	})
+	var values []Resource
+	role, err := client.ListRules(ctx, &wafregional.ListRulesInput{})
 	if err != nil {
 		return nil, err
 	}
-	v := role.Rule
-
+	for _, v := range role.Rules {
+		if v.RuleId != &roleId {
+			continue
+		}
+		resource, err := wAFRegionalRuleHandle(ctx, cfg, v)
+		if err != nil {
+			return nil, err
+		}
+		values = append(values, resource)
+	}
+	return values, nil
 }
 
 func WAFRegionalSizeConstraintSet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

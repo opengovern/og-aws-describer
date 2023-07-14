@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"github.com/aws/aws-sdk-go-v2/service/codecommit/types"
 	"math"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -10,7 +11,6 @@ import (
 )
 
 func CodeCommitRepository(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := codecommit.NewFromConfig(cfg)
 	paginator := codecommit.NewListRepositoriesPaginator(client, &codecommit.ListRepositoriesInput{})
 
@@ -42,25 +42,11 @@ func CodeCommitRepository(ctx context.Context, cfg aws.Config, stream *StreamSen
 				continue
 			}
 			for _, v := range repos.Repositories {
-				tags, err := client.ListTagsForResource(ctx, &codecommit.ListTagsForResourceInput{
-					ResourceArn: v.Arn,
-				})
+				resource, err := codeCommitRepositoryHandle(ctx, cfg, v)
 				if err != nil {
-					if !isErr(err, "InvalidParameter") {
-						return nil, err
-					}
-					tags = &codecommit.ListTagsForResourceOutput{}
+					return nil, err
 				}
 
-				resource := Resource{
-					Region: describeCtx.KaytuRegion,
-					ARN:    *v.Arn,
-					Name:   *v.RepositoryName,
-					Description: model.CodeCommitRepositoryDescription{
-						Repository: v,
-						Tags:       tags.Tags,
-					},
-				}
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -74,12 +60,52 @@ func CodeCommitRepository(ctx context.Context, cfg aws.Config, stream *StreamSen
 
 	return values, nil
 }
-func GetCodeCommitRepository(ctx context.Context, cfg aws.Config,fileds map[string]string)(Resource, error){
+func codeCommitRepositoryHandle(ctx context.Context, cfg aws.Config, v types.RepositoryMetadata) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := codecommit.NewFromConfig(cfg)
-	var values []Resource
-	out ,err := client.BatchGetRepositories(ctx,&codecommit.BatchGetRepositoriesInput{
-		RepositoryNames:
-	})
 
+	tags, err := client.ListTagsForResource(ctx, &codecommit.ListTagsForResourceInput{
+		ResourceArn: v.Arn,
+	})
+	if err != nil {
+		if !isErr(err, "InvalidParameter") {
+			return Resource{}, err
+		}
+		tags = &codecommit.ListTagsForResourceOutput{}
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.Arn,
+		Name:   *v.RepositoryName,
+		Description: model.CodeCommitRepositoryDescription{
+			Repository: v,
+			Tags:       tags.Tags,
+		},
+	}
+	return resource, nil
+}
+func GetCodeCommitRepository(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	repositoryName := fields["repositoryName"]
+	var values []Resource
+
+	client := codecommit.NewFromConfig(cfg)
+	repos, err := client.BatchGetRepositories(ctx, &codecommit.BatchGetRepositoriesInput{
+		RepositoryNames: []string{repositoryName},
+	})
+	if err != nil {
+		if !isErr(err, "InvalidParameter") {
+			return nil, err
+		}
+		return nil, nil
+	}
+
+	for _, v := range repos.Repositories {
+		resource, err := codeCommitRepositoryHandle(ctx, cfg, v)
+		if err != nil {
+			return nil, err
+		}
+		values = append(values, resource)
+	}
+	return values, nil
 }
