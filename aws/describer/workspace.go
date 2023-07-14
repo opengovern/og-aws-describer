@@ -3,9 +3,9 @@ package describer
 import (
 	"context"
 	"fmt"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/workspaces"
+	"github.com/aws/aws-sdk-go-v2/service/workspaces/types"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 )
 
@@ -49,8 +49,6 @@ func WorkSpacesConnectionAlias(ctx context.Context, cfg aws.Config, stream *Stre
 }
 
 func WorkspacesWorkspace(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-
 	client := workspaces.NewFromConfig(cfg)
 	paginator := workspaces.NewDescribeWorkspacesPaginator(client, &workspaces.DescribeWorkspacesInput{})
 
@@ -65,26 +63,11 @@ func WorkspacesWorkspace(ctx context.Context, cfg aws.Config, stream *StreamSend
 		}
 
 		for _, v := range page.Workspaces {
-			tags, err := client.DescribeTags(ctx, &workspaces.DescribeTagsInput{
-				ResourceId: v.WorkspaceId,
-			})
+			resource, err := workspacesWorkspaceHandle(ctx, cfg, v)
 			if err != nil {
-				if !isErr(err, "ValidationException") {
-					return nil, err
-				}
-				tags = &workspaces.DescribeTagsOutput{}
+				return nil, err
 			}
 
-			arn := fmt.Sprintf("arn:%s:workspaces:%s:%s:workspace/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.WorkspaceId)
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    arn,
-				Name:   *v.WorkspaceId,
-				Description: model.WorkspacesWorkspaceDescription{
-					Workspace: v,
-					Tags:      tags.TagList,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -94,13 +77,60 @@ func WorkspacesWorkspace(ctx context.Context, cfg aws.Config, stream *StreamSend
 			}
 		}
 	}
+	return values, nil
+}
+func workspacesWorkspaceHandle(ctx context.Context, cfg aws.Config, v types.Workspace) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := workspaces.NewFromConfig(cfg)
 
+	arn := fmt.Sprintf("arn:%s:workspaces:%s:%s:workspace/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.WorkspaceId)
+	tags, err := client.DescribeTags(ctx, &workspaces.DescribeTagsInput{
+		ResourceId: v.WorkspaceId,
+	})
+	if err != nil {
+		if !isErr(err, "ValidationException") {
+			return Resource{}, err
+		}
+		tags = &workspaces.DescribeTagsOutput{}
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		Name:   *v.WorkspaceId,
+		Description: model.WorkspacesWorkspaceDescription{
+			Workspace: v,
+			Tags:      tags.TagList,
+		},
+	}
+	return resource, nil
+}
+func GetWorkspacesWorkspace(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	client := workspaces.NewFromConfig(cfg)
+	workspaceId := fields["workspaceId"]
+	var values []Resource
+	workspace, err := client.DescribeWorkspaces(ctx, &workspaces.DescribeWorkspacesInput{
+		WorkspaceIds: []string{workspaceId},
+	})
+	if err != nil {
+		if isErr(err, "DescribeWorkspacesNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	for _, v := range workspace.Workspaces {
+		resource, err := workspacesWorkspaceHandle(ctx, cfg, v)
+		if err != nil {
+			return nil, err
+		}
+
+		values = append(values, resource)
+	}
 	return values, nil
 }
 
 func WorkspacesBundle(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-
 	client := workspaces.NewFromConfig(cfg)
 	paginator := workspaces.NewDescribeWorkspaceBundlesPaginator(client, &workspaces.DescribeWorkspaceBundlesInput{})
 
@@ -119,16 +149,7 @@ func WorkspacesBundle(ctx context.Context, cfg aws.Config, stream *StreamSender)
 				return nil, err
 			}
 
-			arn := fmt.Sprintf("arn:%s:workspaces:%s:%s:workspacebundle/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.BundleId)
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    arn,
-				Name:   *v.BundleId,
-				Description: model.WorkspacesBundleDescription{
-					Bundle: v,
-					Tags:   tags.TagList,
-				},
-			}
+			resource := workspacesBundleHandel(ctx, v, tags)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -139,5 +160,42 @@ func WorkspacesBundle(ctx context.Context, cfg aws.Config, stream *StreamSender)
 		}
 	}
 
+	return values, nil
+}
+func workspacesBundleHandel(ctx context.Context, v types.WorkspaceBundle, tags *workspaces.DescribeTagsOutput) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	arn := fmt.Sprintf("arn:%s:workspaces:%s:%s:workspacebundle/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.BundleId)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		Name:   *v.BundleId,
+		Description: model.WorkspacesBundleDescription{
+			Bundle: v,
+			Tags:   tags.TagList,
+		},
+	}
+	return resource
+}
+func GetWorkspacesBundle(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	var values []Resource
+	BundleId := fields["bundleId"]
+	client := workspaces.NewFromConfig(cfg)
+
+	workspace, err := client.DescribeWorkspaceBundles(ctx, &workspaces.DescribeWorkspaceBundlesInput{
+		BundleIds: []string{BundleId},
+	})
+	if err != nil {
+		return nil, err
+	}
+	for _, v := range workspace.Bundles {
+		tags, err := client.DescribeTags(ctx, &workspaces.DescribeTagsInput{
+			ResourceId: v.BundleId,
+		})
+		if err != nil {
+			return nil, err
+		}
+		resource := workspacesBundleHandel(ctx, v, tags)
+		values = append(values, resource)
+	}
 	return values, nil
 }

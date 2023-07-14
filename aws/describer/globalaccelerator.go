@@ -2,14 +2,13 @@ package describer
 
 import (
 	"context"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/globalaccelerator"
+	"github.com/aws/aws-sdk-go-v2/service/globalaccelerator/types"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 )
 
 func GlobalAcceleratorAccelerator(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := globalaccelerator.NewFromConfig(cfg)
 	paginator := globalaccelerator.NewListAcceleratorsPaginator(client, &globalaccelerator.ListAcceleratorsInput{})
 
@@ -34,16 +33,7 @@ func GlobalAcceleratorAccelerator(ctx context.Context, cfg aws.Config, stream *S
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *accelerator.AcceleratorArn,
-				Name:   *accelerator.Name,
-				Description: model.GlobalAcceleratorAcceleratorDescription{
-					Accelerator:           accelerator,
-					AcceleratorAttributes: attribute.AcceleratorAttributes,
-					Tags:                  tags.Tags,
-				},
-			}
+			resource := globalAcceleratorAcceleratorHandel(ctx, attribute, tags, accelerator)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -56,9 +46,61 @@ func GlobalAcceleratorAccelerator(ctx context.Context, cfg aws.Config, stream *S
 
 	return values, nil
 }
+func globalAcceleratorAcceleratorHandel(ctx context.Context, attribute *globalaccelerator.DescribeAcceleratorAttributesOutput, tags *globalaccelerator.ListTagsForResourceOutput, accelerator types.Accelerator) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *accelerator.AcceleratorArn,
+		Name:   *accelerator.Name,
+		Description: model.GlobalAcceleratorAcceleratorDescription{
+			Accelerator:           accelerator,
+			AcceleratorAttributes: attribute.AcceleratorAttributes,
+			Tags:                  tags.Tags,
+		},
+	}
+	return resource
+}
+func GetGlobalAcceleratorAccelerator(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	acceleratorArn := fields["arn"]
+	client := globalaccelerator.NewFromConfig(cfg)
+	var value []Resource
+
+	accelerator, err := client.DescribeAccelerator(ctx, &globalaccelerator.DescribeAcceleratorInput{
+		AcceleratorArn: &acceleratorArn,
+	})
+	if err != nil {
+		if isErr(err, "DescribeAcceleratorNotFound") || isErr(err, "invalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	attribute, err := client.DescribeAcceleratorAttributes(ctx, &globalaccelerator.DescribeAcceleratorAttributesInput{
+		AcceleratorArn: accelerator.Accelerator.AcceleratorArn,
+	})
+	if err != nil {
+		if isErr(err, "DescribeAcceleratorAttributesNotFound") || isErr(err, "invalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	tags, err := client.ListTagsForResource(ctx, &globalaccelerator.ListTagsForResourceInput{
+		ResourceArn: accelerator.Accelerator.AcceleratorArn,
+	})
+	if err != nil {
+		if isErr(err, "ListTagsForResourceNotFound") || isErr(err, "invalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	resource := globalAcceleratorAcceleratorHandel(ctx, attribute, tags, *accelerator.Accelerator)
+	value = append(value, resource)
+	return value, nil
+}
 
 func GlobalAcceleratorListener(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := globalaccelerator.NewFromConfig(cfg)
 	paginator := globalaccelerator.NewListAcceleratorsPaginator(client, &globalaccelerator.ListAcceleratorsInput{})
 
@@ -73,20 +115,15 @@ func GlobalAcceleratorListener(ctx context.Context, cfg aws.Config, stream *Stre
 				AcceleratorArn: accelerator.AcceleratorArn,
 			})
 			for listenerPaginator.HasMorePages() {
+
 				listenerPage, err := listenerPaginator.NextPage(ctx)
 				if err != nil {
 					return nil, err
 				}
+
 				for _, listener := range listenerPage.Listeners {
-					resource := Resource{
-						Region: describeCtx.KaytuRegion,
-						ARN:    *listener.ListenerArn,
-						Name:   *listener.ListenerArn,
-						Description: model.GlobalAcceleratorListenerDescription{
-							Listener:       listener,
-							AcceleratorArn: *accelerator.AcceleratorArn,
-						},
-					}
+
+					resource := globalAcceleratorListenerHandel(ctx, listener, *accelerator.AcceleratorArn)
 					if stream != nil {
 						if err := (*stream)(resource); err != nil {
 							return nil, err
@@ -101,9 +138,51 @@ func GlobalAcceleratorListener(ctx context.Context, cfg aws.Config, stream *Stre
 
 	return values, nil
 }
+func globalAcceleratorListenerHandel(ctx context.Context, listener types.Listener, ARN string) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *listener.ListenerArn,
+		Name:   *listener.ListenerArn,
+		Description: model.GlobalAcceleratorListenerDescription{
+			Listener:       listener,
+			AcceleratorArn: ARN,
+		},
+	}
+	return resource
+}
+func GetGlobalAcceleratorListenerHandel(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	var value []Resource
+	acceleratorArn := fields["arn"]
+	client := globalaccelerator.NewFromConfig(cfg)
+	accelerator, err := client.DescribeAccelerator(ctx, &globalaccelerator.DescribeAcceleratorInput{
+		AcceleratorArn: &acceleratorArn,
+	})
+	if err != nil {
+		if isErr(err, "DescribeAcceleratorNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	describeListener, err := client.ListListeners(ctx, &globalaccelerator.ListListenersInput{
+		AcceleratorArn: accelerator.Accelerator.AcceleratorArn,
+	})
+	if err != nil {
+		if isErr(err, "ListListenersNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	for _, listener := range describeListener.Listeners {
+		resource := globalAcceleratorListenerHandel(ctx, listener, acceleratorArn)
+		value = append(value, resource)
+	}
+	return value, nil
+}
 
 func GlobalAcceleratorEndpointGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := globalaccelerator.NewFromConfig(cfg)
 	paginator := globalaccelerator.NewListAcceleratorsPaginator(client, &globalaccelerator.ListAcceleratorsInput{})
 
@@ -132,16 +211,7 @@ func GlobalAcceleratorEndpointGroup(ctx context.Context, cfg aws.Config, stream 
 							return nil, err
 						}
 						for _, endpointGroup := range endpointGroupPage.EndpointGroups {
-							resource := Resource{
-								Region: describeCtx.KaytuRegion,
-								ARN:    *endpointGroup.EndpointGroupArn,
-								Name:   *endpointGroup.EndpointGroupArn,
-								Description: model.GlobalAcceleratorEndpointGroupDescription{
-									EndpointGroup:  endpointGroup,
-									ListenerArn:    *listener.ListenerArn,
-									AcceleratorArn: *accelerator.AcceleratorArn,
-								},
-							}
+							resource := globalAcceleratorEndpointGroupHandel(ctx, endpointGroup, listener, *accelerator.AcceleratorArn)
 							if stream != nil {
 								if err := (*stream)(resource); err != nil {
 									return nil, err
@@ -156,5 +226,64 @@ func GlobalAcceleratorEndpointGroup(ctx context.Context, cfg aws.Config, stream 
 		}
 	}
 
+	return values, nil
+}
+func globalAcceleratorEndpointGroupHandel(ctx context.Context, endpointGroup types.EndpointGroup, listener types.Listener, ARN string) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *endpointGroup.EndpointGroupArn,
+		Name:   *endpointGroup.EndpointGroupArn,
+		Description: model.GlobalAcceleratorEndpointGroupDescription{
+			EndpointGroup:  endpointGroup,
+			ListenerArn:    *listener.ListenerArn,
+			AcceleratorArn: ARN,
+		},
+	}
+	return resource
+}
+func GetGlobalAcceleratorEndpointGroup(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	acceleratorArn := fields["arn"]
+	client := globalaccelerator.NewFromConfig(cfg)
+	var values []Resource
+
+	accelerator, err := client.DescribeAccelerator(ctx, &globalaccelerator.DescribeAcceleratorInput{
+		AcceleratorArn: &acceleratorArn,
+	})
+	if err != nil {
+		if isErr(err, "DescribeAcceleratorNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	describeListener, err := client.ListListeners(ctx, &globalaccelerator.ListListenersInput{
+		AcceleratorArn: accelerator.Accelerator.AcceleratorArn,
+	})
+	if err != nil {
+		if isErr(err, "ListListenersNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	for _, listener := range describeListener.Listeners {
+		listEndpoint, err := client.ListEndpointGroups(ctx, &globalaccelerator.ListEndpointGroupsInput{
+			ListenerArn: listener.ListenerArn,
+		})
+		if err != nil {
+			if isErr(err, "ListEndpointGroupsNotFound") || isErr(err, "InvalidParameterValue") {
+				return nil, nil
+			}
+			return nil, err
+		}
+
+		for _, endpointGroup := range listEndpoint.EndpointGroups {
+
+			resource := globalAcceleratorEndpointGroupHandel(ctx, endpointGroup, listener, acceleratorArn)
+			values = append(values, resource)
+
+		}
+	}
 	return values, nil
 }

@@ -3,7 +3,6 @@ package describer
 import (
 	"context"
 	"fmt"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/appconfig"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
@@ -51,4 +50,47 @@ func AppConfigApplication(ctx context.Context, cfg aws.Config, stream *StreamSen
 		}
 	}
 	return values, nil
+}
+func GetAppConfigApplication(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	var value []Resource
+	applicationId := fields["id"]
+	client := appconfig.NewFromConfig(cfg)
+	applications, err := client.ListApplications(ctx, &appconfig.ListApplicationsInput{})
+	if err != nil {
+		if isErr(err, "ListApplicationsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	for _, application := range applications.Items {
+		if application.Id != &applicationId {
+			continue
+		}
+		arn := fmt.Sprintf("arn:%s:appconfig:%s:%s:application/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *application.Id)
+
+		tags, err := client.ListTagsForResource(ctx, &appconfig.ListTagsForResourceInput{
+			ResourceArn: aws.String(arn),
+		})
+		if err != nil {
+			if isErr(err, "ListTagsForResourceNotFound") || isErr(err, "InvalidParameterValue") {
+				return nil, nil
+			}
+			return nil, err
+		}
+
+		resource := Resource{
+			Region: describeCtx.KaytuRegion,
+			ID:     *application.Id,
+			Name:   *application.Name,
+			ARN:    arn,
+			Description: model.AppConfigApplicationDescription{
+				Application: application,
+				Tags:        tags.Tags,
+			},
+		}
+		value = append(value, resource)
+	}
+	return value, nil
 }

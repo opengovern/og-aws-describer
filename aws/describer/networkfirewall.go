@@ -8,7 +8,6 @@ import (
 )
 
 func NetworkFirewallFirewall(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := networkfirewall.NewFromConfig(cfg)
 	paginator := networkfirewall.NewListFirewallsPaginator(client, &networkfirewall.ListFirewallsInput{})
 
@@ -27,14 +26,7 @@ func NetworkFirewallFirewall(ctx context.Context, cfg aws.Config, stream *Stream
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.FirewallArn,
-				Name:   *v.FirewallName,
-				Description: model.NetworkFirewallFirewallDescription{
-					Firewall: *firewall.Firewall,
-				},
-			}
+			resource := NetworkFirewallFirewallHandel(ctx, firewall, *v.FirewallName, *v.FirewallArn)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -46,6 +38,35 @@ func NetworkFirewallFirewall(ctx context.Context, cfg aws.Config, stream *Stream
 	}
 
 	return values, nil
+}
+func NetworkFirewallFirewallHandel(ctx context.Context, firewall *networkfirewall.DescribeFirewallOutput, firewallName string, firewallArn string) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    firewallArn,
+		Name:   firewallName,
+		Description: model.NetworkFirewallFirewallDescription{
+			Firewall: *firewall.Firewall,
+		},
+	}
+	return resource
+}
+func GetNetworkFirewallFirewall(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	var value []Resource
+	firewallName := fields["firewallName"]
+	firewallArn := fields["firewallArn"]
+	client := networkfirewall.NewFromConfig(cfg)
+	firewall, err := client.DescribeFirewall(ctx, &networkfirewall.DescribeFirewallInput{
+		FirewallName: &firewallName,
+		FirewallArn:  &firewallArn,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	resource := NetworkFirewallFirewallHandel(ctx, firewall, firewallName, firewallArn)
+	value = append(value, resource)
+	return value, nil
 }
 
 func NetworkFirewallPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

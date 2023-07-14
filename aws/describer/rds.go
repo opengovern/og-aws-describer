@@ -2,7 +2,6 @@ package describer
 
 import (
 	"context"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/rds"
 	"github.com/aws/aws-sdk-go-v2/service/rds/types"
@@ -10,7 +9,6 @@ import (
 )
 
 func RDSDBCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := rds.NewFromConfig(cfg)
 	paginator := rds.NewDescribeDBClustersPaginator(client, &rds.DescribeDBClustersInput{})
 
@@ -22,14 +20,7 @@ func RDSDBCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 		}
 
 		for _, v := range page.DBClusters {
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.DBClusterArn,
-				Name:   *v.DBClusterIdentifier,
-				Description: model.RDSDBClusterDescription{
-					DBCluster: v,
-				},
-			}
+			resource := rDSDBClusterHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -42,9 +33,19 @@ func RDSDBCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 
 	return values, nil
 }
-
-func GetRDSDBCluster(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+func rDSDBClusterHandle(ctx context.Context, v types.DBCluster) Resource {
 	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.DBClusterArn,
+		Name:   *v.DBClusterIdentifier,
+		Description: model.RDSDBClusterDescription{
+			DBCluster: v,
+		},
+	}
+	return resource
+}
+func GetRDSDBCluster(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	arn := fields["arn"]
 	client := rds.NewFromConfig(cfg)
 
@@ -57,21 +58,14 @@ func GetRDSDBCluster(ctx context.Context, cfg aws.Config, fields map[string]stri
 
 	var values []Resource
 	for _, v := range out.DBClusters {
-		values = append(values, Resource{
-			Region: describeCtx.KaytuRegion,
-			ARN:    *v.DBClusterArn,
-			Name:   *v.DBClusterIdentifier,
-			Description: model.RDSDBClusterDescription{
-				DBCluster: v,
-			},
-		})
+		resource := rDSDBClusterHandle(ctx, v)
+		values = append(values, resource)
 	}
 
 	return values, nil
 }
 
 func RDSDBClusterSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := rds.NewFromConfig(cfg)
 	paginator := rds.NewDescribeDBClusterSnapshotsPaginator(client, &rds.DescribeDBClusterSnapshotsInput{})
 
@@ -83,22 +77,15 @@ func RDSDBClusterSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSen
 		}
 
 		for _, v := range page.DBClusterSnapshots {
-			attr, err := client.DescribeDBClusterSnapshotAttributes(ctx, &rds.DescribeDBClusterSnapshotAttributesInput{
-				DBClusterSnapshotIdentifier: v.DBClusterSnapshotIdentifier,
-			})
+			resource, err := rDSDBClusterSnapshotHandle(ctx, cfg, v)
 			if err != nil {
 				return nil, err
 			}
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.DBClusterSnapshotArn,
-				Name:   *v.DBClusterSnapshotIdentifier,
-				Description: model.RDSDBClusterSnapshotDescription{
-					DBClusterSnapshot: v,
-					Attributes:        attr.DBClusterSnapshotAttributesResult,
-				},
+			emptyReasource := Resource{}
+			if err == nil && resource == emptyReasource {
+				return nil, nil
 			}
+
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -111,7 +98,61 @@ func RDSDBClusterSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSen
 
 	return values, nil
 }
+func rDSDBClusterSnapshotHandle(ctx context.Context, cfg aws.Config, v types.DBClusterSnapshot) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := rds.NewFromConfig(cfg)
 
+	attr, err := client.DescribeDBClusterSnapshotAttributes(ctx, &rds.DescribeDBClusterSnapshotAttributesInput{
+		DBClusterSnapshotIdentifier: v.DBClusterSnapshotIdentifier,
+	})
+	if err != nil {
+		if isErr(err, "DescribeDBClusterSnapshotAttributesNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.DBClusterSnapshotArn,
+		Name:   *v.DBClusterSnapshotIdentifier,
+		Description: model.RDSDBClusterSnapshotDescription{
+			DBClusterSnapshot: v,
+			Attributes:        attr.DBClusterSnapshotAttributesResult,
+		},
+	}
+	return resource, nil
+}
+func GetRDSDBClusterSnapshot(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	DBClusterSnapshotIdentifier := fields["ClusterSnapshotId"]
+	SnapshotType := fields["snapshotType"]
+	var value []Resource
+
+	client := rds.NewFromConfig(cfg)
+	clusterSnapshot, err := client.DescribeDBClusterSnapshots(ctx, &rds.DescribeDBClusterSnapshotsInput{
+		DBClusterSnapshotIdentifier: &DBClusterSnapshotIdentifier,
+		SnapshotType:                &SnapshotType,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	for _, v := range clusterSnapshot.DBClusterSnapshots {
+		resource, err := rDSDBClusterSnapshotHandle(ctx, cfg, v)
+		if err != nil {
+			return nil, err
+		}
+		emptyReasource := Resource{}
+		if err == nil && resource == emptyReasource {
+			return nil, nil
+		}
+
+		value = append(value, resource)
+	}
+	return value, nil
+}
+
+// no need
 func RDSDBClusterParameterGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := rds.NewFromConfig(cfg)
@@ -168,7 +209,6 @@ func RDSDBClusterParameterGroup(ctx context.Context, cfg aws.Config, stream *Str
 }
 
 func RDSDBInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := rds.NewFromConfig(cfg)
 	paginator := rds.NewDescribeDBInstancesPaginator(client, &rds.DescribeDBInstancesInput{})
 
@@ -180,14 +220,7 @@ func RDSDBInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 		}
 
 		for _, v := range page.DBInstances {
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.DBInstanceArn,
-				Name:   *v.DBInstanceIdentifier,
-				Description: model.RDSDBInstanceDescription{
-					DBInstance: v,
-				},
-			}
+			resource := RDSDBInstanceHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -200,9 +233,19 @@ func RDSDBInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 
 	return values, nil
 }
-
-func GetRDSDBInstance(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+func RDSDBInstanceHandle(ctx context.Context, v types.DBInstance) Resource {
 	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.DBInstanceArn,
+		Name:   *v.DBInstanceIdentifier,
+		Description: model.RDSDBInstanceDescription{
+			DBInstance: v,
+		},
+	}
+	return resource
+}
+func GetRDSDBInstance(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	dbInstanceId := fields["id"]
 	client := rds.NewFromConfig(cfg)
 	out, err := client.DescribeDBInstances(ctx, &rds.DescribeDBInstancesInput{
@@ -214,19 +257,13 @@ func GetRDSDBInstance(ctx context.Context, cfg aws.Config, fields map[string]str
 
 	var values []Resource
 	for _, v := range out.DBInstances {
-		values = append(values, Resource{
-			Region: describeCtx.KaytuRegion,
-			ARN:    *v.DBInstanceArn,
-			Name:   *v.DBInstanceIdentifier,
-			Description: model.RDSDBInstanceDescription{
-				DBInstance: v,
-			},
-		})
+		resource := RDSDBInstanceHandle(ctx, v)
+		values = append(values, resource)
 	}
-
 	return values, nil
 }
 
+// no need
 func RDSDBParameterGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := rds.NewFromConfig(cfg)
@@ -277,6 +314,7 @@ func RDSDBParameterGroup(ctx context.Context, cfg aws.Config, stream *StreamSend
 	return values, nil
 }
 
+// no need
 func RDSDBProxy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := rds.NewFromConfig(cfg)
@@ -426,6 +464,7 @@ func RDSDBSecurityGroup(ctx context.Context, cfg aws.Config, stream *StreamSende
 	return values, nil
 }
 
+// no need
 func RDSDBSubnetGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := rds.NewFromConfig(cfg)
@@ -469,7 +508,6 @@ func RDSDBSubnetGroup(ctx context.Context, cfg aws.Config, stream *StreamSender)
 }
 
 func RDSDBEventSubscription(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := rds.NewFromConfig(cfg)
 	paginator := rds.NewDescribeEventSubscriptionsPaginator(client, &rds.DescribeEventSubscriptionsInput{})
 
@@ -481,14 +519,7 @@ func RDSDBEventSubscription(ctx context.Context, cfg aws.Config, stream *StreamS
 		}
 
 		for _, v := range page.EventSubscriptionsList {
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.EventSubscriptionArn,
-				Name:   *v.CustSubscriptionId,
-				Description: model.RDSDBEventSubscriptionDescription{
-					EventSubscription: v,
-				},
-			}
+			resource := rDSDBEventSubscriptionHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -501,9 +532,41 @@ func RDSDBEventSubscription(ctx context.Context, cfg aws.Config, stream *StreamS
 
 	return values, nil
 }
+func rDSDBEventSubscriptionHandle(ctx context.Context, v types.EventSubscription) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.EventSubscriptionArn,
+		Name:   *v.CustSubscriptionId,
+		Description: model.RDSDBEventSubscriptionDescription{
+			EventSubscription: v,
+		},
+	}
+	return resource
+}
+func GetRDSDBEventSubscription(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	subscriptionName := fields["name"]
+	var values []Resource
+
+	client := rds.NewFromConfig(cfg)
+	describes, err := client.DescribeEventSubscriptions(ctx, &rds.DescribeEventSubscriptionsInput{
+		SubscriptionName: &subscriptionName,
+	})
+	if err != nil {
+		if isErr(err, "DescribeEventSubscriptionsNotFound") || isErr(err, "invalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	for _, v := range describes.EventSubscriptionsList {
+		resource := rDSDBEventSubscriptionHandle(ctx, v)
+		values = append(values, resource)
+	}
+	return values, nil
+}
 
 func RDSGlobalCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := rds.NewFromConfig(cfg)
 	paginator := rds.NewDescribeGlobalClustersPaginator(client, &rds.DescribeGlobalClustersInput{})
 
@@ -515,22 +578,7 @@ func RDSGlobalCluster(ctx context.Context, cfg aws.Config, stream *StreamSender)
 		}
 
 		for _, v := range page.GlobalClusters {
-			tags, err := client.ListTagsForResource(ctx, &rds.ListTagsForResourceInput{
-				ResourceName: v.GlobalClusterArn,
-			})
-			if err != nil {
-				tags = &rds.ListTagsForResourceOutput{}
-			}
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.GlobalClusterArn,
-				Name:   *v.GlobalClusterIdentifier,
-				Description: model.RDSGlobalClusterDescription{
-					GlobalCluster: v,
-					Tags:          tags.TagList,
-				},
-			}
+			resource := rDSGlobalClusterHandle(ctx, cfg, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -543,9 +591,51 @@ func RDSGlobalCluster(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 	return values, nil
 }
+func rDSGlobalClusterHandle(ctx context.Context, cfg aws.Config, v types.GlobalCluster) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	client := rds.NewFromConfig(cfg)
+
+	tags, err := client.ListTagsForResource(ctx, &rds.ListTagsForResourceInput{
+		ResourceName: v.GlobalClusterArn,
+	})
+	if err != nil {
+		tags = &rds.ListTagsForResourceOutput{}
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.GlobalClusterArn,
+		Name:   *v.GlobalClusterIdentifier,
+		Description: model.RDSGlobalClusterDescription{
+			GlobalCluster: v,
+			Tags:          tags.TagList,
+		},
+	}
+	return resource
+}
+func GetRDSGlobalCluster(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	var values []Resource
+	arn := fields["arn"]
+	client := rds.NewFromConfig(cfg)
+
+	describers, err := client.DescribeGlobalClusters(ctx, &rds.DescribeGlobalClustersInput{
+		GlobalClusterIdentifier: &arn,
+	})
+	if err != nil {
+		if isErr(err, "DescribeGlobalClustersNotfound") || isErr(err, "invalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	for _, v := range describers.GlobalClusters {
+		resource := rDSGlobalClusterHandle(ctx, cfg, v)
+		values = append(values, resource)
+	}
+	return values, nil
+}
 
 func RDSOptionGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := rds.NewFromConfig(cfg)
 	paginator := rds.NewDescribeOptionGroupsPaginator(client, &rds.DescribeOptionGroupsInput{})
 
@@ -557,22 +647,15 @@ func RDSOptionGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 		}
 
 		for _, v := range page.OptionGroupsList {
-			tags, err := client.ListTagsForResource(ctx, &rds.ListTagsForResourceInput{
-				ResourceName: v.OptionGroupArn,
-			})
+			resource, err := rDSOptionGroupHandle(ctx, cfg, v)
 			if err != nil {
 				return nil, err
 			}
-
-			resource := Resource{
-				Region: describeCtx.Region,
-				ARN:    *v.OptionGroupArn,
-				Name:   *v.OptionGroupName,
-				Description: model.RDSOptionGroupDescription{
-					OptionGroup: v,
-					Tags:        tags,
-				},
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				return nil, nil
 			}
+
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -583,6 +666,59 @@ func RDSOptionGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 		}
 	}
 
+	return values, nil
+}
+func rDSOptionGroupHandle(ctx context.Context, cfg aws.Config, v types.OptionGroup) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := rds.NewFromConfig(cfg)
+
+	tags, err := client.ListTagsForResource(ctx, &rds.ListTagsForResourceInput{
+		ResourceName: v.OptionGroupArn,
+	})
+	if err != nil {
+		if isErr(err, "ListTagsForResourceNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.Region,
+		ARN:    *v.OptionGroupArn,
+		Name:   *v.OptionGroupName,
+		Description: model.RDSOptionGroupDescription{
+			OptionGroup: v,
+			Tags:        tags,
+		},
+	}
+	return resource, nil
+}
+func GetRDSOptionGroup(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	optionGroupName := fields["name"]
+	var values []Resource
+	client := rds.NewFromConfig(cfg)
+
+	describers, err := client.DescribeOptionGroups(ctx, &rds.DescribeOptionGroupsInput{
+		OptionGroupName: &optionGroupName,
+	})
+	if err != nil {
+		if isErr(err, "DescribeOptionGroupsNotFound ") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	for _, v := range describers.OptionGroupsList {
+		resource, err := rDSOptionGroupHandle(ctx, cfg, v)
+		if err != nil {
+			return nil, err
+		}
+		emptyResource := Resource{}
+		if err == nil && resource == emptyResource {
+			return nil, nil
+		}
+		values = append(values, resource)
+	}
 	return values, nil
 }
 
@@ -627,9 +763,61 @@ func RDSDBSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 
 	return values, nil
 }
+func rDSDBSnapshotHandle(ctx context.Context, cfg aws.Config, v types.DBSnapshot) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := rds.NewFromConfig(cfg)
+	attrs, err := client.DescribeDBSnapshotAttributes(ctx, &rds.DescribeDBSnapshotAttributesInput{
+		DBSnapshotIdentifier: v.DBSnapshotIdentifier,
+	})
+	if err != nil {
+		if isErr(err, "DescribeDBSnapshotAttributesNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.DBSnapshotArn,
+		Name:   *v.DBSnapshotIdentifier,
+		Description: model.RDSDBSnapshotDescription{
+			DBSnapshot:           v,
+			DBSnapshotAttributes: attrs.DBSnapshotAttributesResult.DBSnapshotAttributes,
+		},
+	}
+
+	return resource, nil
+}
+func GetRDSDBSnapshot(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	dbiResourceId := fields["id"]
+	var values []Resource
+	client := rds.NewFromConfig(cfg)
+	describers, err := client.DescribeDBSnapshots(ctx, &rds.DescribeDBSnapshotsInput{
+		DbiResourceId: &dbiResourceId,
+	})
+	if err != nil {
+		if isErr(err, "DescribeDBSnapshotsNotfound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	for _, v := range describers.DBSnapshots {
+		resource, err := rDSDBSnapshotHandle(ctx, cfg, v)
+		if err != nil {
+			return nil, err
+		}
+		emptyResource := Resource{}
+		if err == nil && resource == emptyResource {
+			return nil, nil
+		}
+
+		values = append(values, resource)
+	}
+	return values, nil
+}
 
 func RDSReservedDBInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := rds.NewFromConfig(cfg)
 	paginator := rds.NewDescribeReservedDBInstancesPaginator(client, &rds.DescribeReservedDBInstancesInput{})
 
@@ -641,14 +829,7 @@ func RDSReservedDBInstance(ctx context.Context, cfg aws.Config, stream *StreamSe
 		}
 
 		for _, reservedDBInstance := range page.ReservedDBInstances {
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *reservedDBInstance.ReservedDBInstanceArn,
-				ID:     *reservedDBInstance.ReservedDBInstanceId,
-				Description: model.RDSReservedDBInstanceDescription{
-					ReservedDBInstance: reservedDBInstance,
-				},
-			}
+			resource := rDSReservedDBInstanceHandle(ctx, reservedDBInstance)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -660,4 +841,37 @@ func RDSReservedDBInstance(ctx context.Context, cfg aws.Config, stream *StreamSe
 	}
 
 	return values, nil
+}
+func rDSReservedDBInstanceHandle(ctx context.Context, reservedDBInstance types.ReservedDBInstance) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *reservedDBInstance.ReservedDBInstanceArn,
+		ID:     *reservedDBInstance.ReservedDBInstanceId,
+		Description: model.RDSReservedDBInstanceDescription{
+			ReservedDBInstance: reservedDBInstance,
+		},
+	}
+	return resource
+}
+func GetRDSReservedDBInstance(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	reservedDBInstanceId := fields["id"]
+	var value []Resource
+
+	client := rds.NewFromConfig(cfg)
+	describers, err := client.DescribeReservedDBInstances(ctx, &rds.DescribeReservedDBInstancesInput{
+		ReservedDBInstanceId: &reservedDBInstanceId,
+	})
+	if err != nil {
+		if isErr(err, "DescribeReservedDBInstancesNotFound") || isErr(err, "invalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	for _, v := range describers.ReservedDBInstances {
+		resource := rDSReservedDBInstanceHandle(ctx, v)
+		value = append(value, resource)
+	}
+	return value, nil
 }

@@ -77,3 +77,55 @@ func SQSQueue(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 
 	return values, nil
 }
+func sQSQueueHandel(ctx context.Context, url string, queueAttributes *sqs.GetQueueAttributesOutput, tagOutput *sqs.ListQueueTagsOutput) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    url,
+		Name:   nameFromArn(url),
+		Description: model.SQSQueueDescription{
+			Attributes: queueAttributes.Attributes,
+			Tags:       tagOutput.Tags,
+		},
+	}
+	return resource
+}
+func GetSQSQueue(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	QueueName := fields["name"]
+	var value []Resource
+	client := sqs.NewFromConfig(cfg)
+	url, err := client.GetQueueUrl(ctx, &sqs.GetQueueUrlInput{
+		QueueName: &QueueName,
+	})
+	if err != nil {
+		if isErr(err, "AWS.SimpleQueueService.NonExistentQueue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	queueAttributes, err := client.GetQueueAttributes(ctx, &sqs.GetQueueAttributesInput{
+		QueueUrl: url.QueueUrl,
+	})
+	if err != nil {
+		if isErr(err, "AWS.SimpleQueueService.NonExistentQueue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	tOutput, err := client.ListQueueTags(ctx, &sqs.ListQueueTagsInput{
+		QueueUrl: url.QueueUrl,
+	})
+	if err != nil {
+		if isErr(err, "AWS.SimpleQueueService.NonExistentQueue") {
+			return nil, nil
+		} else {
+			return nil, err
+		}
+	}
+
+	resource := sQSQueueHandel(ctx, *url.QueueUrl, queueAttributes, tOutput)
+	value = append(value, resource)
+	return value, nil
+}

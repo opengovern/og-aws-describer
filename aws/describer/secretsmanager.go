@@ -9,7 +9,6 @@ import (
 )
 
 func SecretsManagerSecret(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := secretsmanager.NewFromConfig(cfg)
 	paginator := secretsmanager.NewListSecretsPaginator(client, &secretsmanager.ListSecretsInput{})
 
@@ -21,29 +20,11 @@ func SecretsManagerSecret(ctx context.Context, cfg aws.Config, stream *StreamSen
 		}
 
 		for _, item := range page.SecretList {
-			out, err := client.DescribeSecret(ctx, &secretsmanager.DescribeSecretInput{
-				SecretId: item.ARN,
-			})
+			resource, err := secretsManagerSecretHandel(ctx, cfg, item.ARN, item.Name)
 			if err != nil {
 				return nil, err
 			}
 
-			policy, err := client.GetResourcePolicy(ctx, &secretsmanager.GetResourcePolicyInput{
-				SecretId: item.ARN,
-			})
-			if err != nil {
-				return nil, err
-			}
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *item.ARN,
-				Name:   *item.Name,
-				Description: model.SecretsManagerSecretDescription{
-					Secret:         out,
-					ResourcePolicy: policy.ResourcePolicy,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -54,4 +35,52 @@ func SecretsManagerSecret(ctx context.Context, cfg aws.Config, stream *StreamSen
 		}
 	}
 	return values, nil
+}
+func secretsManagerSecretHandel(ctx context.Context, cfg aws.Config, Arn *string, Name *string) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := secretsmanager.NewFromConfig(cfg)
+	out, err := client.DescribeSecret(ctx, &secretsmanager.DescribeSecretInput{
+		SecretId: Arn,
+	})
+	if err != nil {
+		return Resource{}, err
+	}
+
+	policy, err := client.GetResourcePolicy(ctx, &secretsmanager.GetResourcePolicyInput{
+		SecretId: Arn,
+	})
+	if err != nil {
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *Arn,
+		Name:   *Name,
+		Description: model.SecretsManagerSecretDescription{
+			Secret:         out,
+			ResourcePolicy: policy.ResourcePolicy,
+		},
+	}
+	return resource, nil
+}
+func GetSecretsManagerSecret(ctx context.Context, cfg aws.Config, field map[string]string) ([]Resource, error) {
+	secretId := field["id"]
+	var value []Resource
+
+	client := secretsmanager.NewFromConfig(cfg)
+	secretValue, err := client.GetSecretValue(ctx, &secretsmanager.GetSecretValueInput{
+		SecretId: &secretId,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	resource, err := secretsManagerSecretHandel(ctx, cfg, secretValue.ARN, secretValue.Name)
+	if err != nil {
+		return nil, err
+	}
+
+	value = append(value, resource)
+	return value, nil
 }

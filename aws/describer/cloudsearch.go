@@ -50,14 +50,26 @@ func CloudSearchDomain(ctx context.Context, cfg aws.Config, stream *StreamSender
 	}
 	return values, nil
 }
-
-func GetCloudSearchDomain(ctx context.Context, cfg aws.Config, domainList []string) ([]Resource, error) {
+func CloudSearchDomainHandle(ctx context.Context) Resource {
 	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *domain.ARN,
+		Name:   *domain.DomainName,
+		ID:     *domain.DomainId,
+		Description: model.CloudSearchDomainDescription{
+			DomainStatus: domain,
+		},
+	}
+}
+func GetCloudSearchDomain(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	domainList := fields["domainList"]
 	client := cloudsearch.NewFromConfig(cfg)
 
 	var values []Resource
 	domains, err := client.DescribeDomains(ctx, &cloudsearch.DescribeDomainsInput{
-		DomainNames: domainList,
+		DomainNames: []string{domainList},
 	})
 	if err != nil {
 		return nil, err

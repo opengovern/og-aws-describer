@@ -3,7 +3,6 @@ package describer
 import (
 	"context"
 	"fmt"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/cloudfront"
 	"github.com/aws/aws-sdk-go-v2/service/cloudfront/types"
@@ -11,7 +10,6 @@ import (
 )
 
 func CloudFrontDistribution(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := cloudfront.NewFromConfig(cfg)
 	paginator := cloudfront.NewListDistributionsPaginator(client, &cloudfront.ListDistributionsInput{})
 
@@ -37,16 +35,7 @@ func CloudFrontDistribution(ctx context.Context, cfg aws.Config, stream *StreamS
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *item.ARN,
-				Name:   *item.Id,
-				Description: model.CloudFrontDistributionDescription{
-					Distribution: distribution.Distribution,
-					ETag:         distribution.ETag,
-					Tags:         tags.Tags.Items,
-				},
-			}
+			resource := cloudFrontDistributionHandel(ctx, tags, distribution, item.ARN, item.Id)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -58,6 +47,59 @@ func CloudFrontDistribution(ctx context.Context, cfg aws.Config, stream *StreamS
 	}
 
 	return values, nil
+}
+func cloudFrontDistributionHandel(ctx context.Context, tags *cloudfront.ListTagsForResourceOutput, distribution *cloudfront.GetDistributionOutput, ARN *string, Id *string) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *ARN,
+		Name:   *Id,
+		Description: model.CloudFrontDistributionDescription{
+			Distribution: distribution.Distribution,
+			ETag:         distribution.ETag,
+			Tags:         tags.Tags.Items,
+		},
+	}
+	return resource
+}
+func GetCloudFrontDistribution(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	client := cloudfront.NewFromConfig(cfg)
+	id := fields["id"]
+	var value []Resource
+
+	DistributionData, err := client.GetDistribution(ctx, &cloudfront.GetDistributionInput{
+		Id: &id,
+	})
+	if err != nil {
+		if isErr(err, "GetDistributionNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	tags, err := client.ListTagsForResource(ctx, &cloudfront.ListTagsForResourceInput{
+		Resource: DistributionData.Distribution.ARN,
+	})
+	if err != nil {
+		if isErr(err, "ListTagsForResourceNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	distribution, err := client.GetDistribution(ctx, &cloudfront.GetDistributionInput{
+		Id: DistributionData.Distribution.Id,
+	})
+	if err != nil {
+		if isErr(err, "ListTagsForResourceNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	resource := cloudFrontDistributionHandel(ctx, tags, distribution, DistributionData.Distribution.ARN, DistributionData.Distribution.Id)
+	value = append(value, resource)
+	return value, nil
 }
 
 func CloudFrontStreamingDistribution(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -110,48 +152,8 @@ func CloudFrontStreamingDistribution(ctx context.Context, cfg aws.Config, stream
 	return values, nil
 }
 
-func GetCloudFrontDistribution(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-	client := cloudfront.NewFromConfig(cfg)
-	id := fields["id"]
-	out, err := client.GetDistribution(ctx, &cloudfront.GetDistributionInput{Id: &id})
-	if err != nil {
-		return nil, err
-	}
-	item := out.Distribution
-
-	var values []Resource
-	tags, err := client.ListTagsForResource(ctx, &cloudfront.ListTagsForResourceInput{
-		Resource: item.ARN,
-	})
-	if err != nil {
-		return nil, err
-	}
-
-	distribution, err := client.GetDistribution(ctx, &cloudfront.GetDistributionInput{
-		Id: item.Id,
-	})
-	if err != nil {
-		return nil, err
-	}
-
-	values = append(values, Resource{
-		Region: describeCtx.KaytuRegion,
-		ARN:    *item.ARN,
-		Name:   *item.Id,
-		Description: model.CloudFrontDistributionDescription{
-			Distribution: distribution.Distribution,
-			ETag:         distribution.ETag,
-			Tags:         tags.Tags.Items,
-		},
-	})
-
-	return values, nil
-}
-
 func CloudFrontOriginAccessControl(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
-
 	client := cloudfront.NewFromConfig(cfg)
 
 	var values []Resource
@@ -166,6 +168,7 @@ func CloudFrontOriginAccessControl(ctx context.Context, cfg aws.Config, stream *
 		for _, v := range output.OriginAccessControlList.Items {
 			var tags []types.Tag
 			arn := fmt.Sprintf("arn:%s:cloudfront::%s:origin-access-control/%s", describeCtx.Partition, describeCtx.AccountID, *v.Id)
+
 			tagsOutput, err := client.ListTagsForResource(ctx, &cloudfront.ListTagsForResourceInput{
 				Resource: &arn,
 			})
@@ -199,10 +202,44 @@ func CloudFrontOriginAccessControl(ctx context.Context, cfg aws.Config, stream *
 
 	return values, nil
 }
+func GetCloudFrontOriginAccessControl(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := cloudfront.NewFromConfig(cfg)
+	id := fields["id"]
+	arn := fmt.Sprintf("arn:%s:cloudfront::%s:origin-access-control/%s", describeCtx.Partition, describeCtx.AccountID, id)
+
+	var value []Resource
+	originAccessControl, err := client.GetOriginAccessControl(ctx, &cloudfront.GetOriginAccessControlInput{
+		Id: &id,
+	})
+	if err != nil {
+		if isErr(err, "GetOriginAccessControlNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var tags []types.Tag
+	tagsOutput, err := client.ListTagsForResource(ctx, &cloudfront.ListTagsForResourceInput{
+		Resource: &arn,
+	})
+	if err == nil {
+		tags = tagsOutput.Tags.Items
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		Name:   *originAccessControl.OriginAccessControl.Id,
+		Description: model.CloudFrontOriginAccessControlDescription{
+			Tags: tags,
+		},
+	}
+	value = append(value, resource)
+	return value, nil
+}
 
 func CloudFrontCachePolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-
 	client := cloudfront.NewFromConfig(cfg)
 
 	var values []Resource
@@ -216,7 +253,6 @@ func CloudFrontCachePolicy(ctx context.Context, cfg aws.Config, stream *StreamSe
 		}
 
 		for _, v := range output.CachePolicyList.Items {
-			arn := fmt.Sprintf("arn:%s:cloudfront::%s:cache-policy/%s", describeCtx.Partition, describeCtx.AccountID, *v.CachePolicy.Id)
 
 			cachePolicy, err := client.GetCachePolicy(ctx, &cloudfront.GetCachePolicyInput{
 				Id: v.CachePolicy.Id,
@@ -225,14 +261,7 @@ func CloudFrontCachePolicy(ctx context.Context, cfg aws.Config, stream *StreamSe
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    arn,
-				ID:     *v.CachePolicy.Id,
-				Description: model.CloudFrontCachePolicyDescription{
-					CachePolicy: *cachePolicy,
-				},
-			}
+			resource := cloudFrontCachePolicyHandel(ctx, cachePolicy, *v.CachePolicy.Id)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -250,10 +279,39 @@ func CloudFrontCachePolicy(ctx context.Context, cfg aws.Config, stream *StreamSe
 
 	return values, nil
 }
+func cloudFrontCachePolicyHandel(ctx context.Context, cachePolicy *cloudfront.GetCachePolicyOutput, id string) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	arn := fmt.Sprintf("arn:%s:cloudfront::%s:cache-policy/%s", describeCtx.Partition, describeCtx.AccountID, id)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		ID:     id,
+		Description: model.CloudFrontCachePolicyDescription{
+			CachePolicy: *cachePolicy,
+		},
+	}
+	return resource
+}
+func GetCloudFrontCachePolicy(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	client := cloudfront.NewFromConfig(cfg)
+	id := fields["id"]
+	var value []Resource
+	cachePolicy, err := client.GetCachePolicy(ctx, &cloudfront.GetCachePolicyInput{
+		Id: &id,
+	})
+	if err != nil {
+		if isErr(err, "GetCachePolicyNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	resource := cloudFrontCachePolicyHandel(ctx, cachePolicy, id)
+	value = append(value, resource)
+	return value, nil
+}
 
 func CloudFrontFunction(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-	//
 	client := cloudfront.NewFromConfig(cfg)
 
 	var values []Resource
@@ -275,14 +333,7 @@ func CloudFrontFunction(ctx context.Context, cfg aws.Config, stream *StreamSende
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *function.FunctionSummary.FunctionMetadata.FunctionARN,
-				Name:   *function.FunctionSummary.Name,
-				Description: model.CloudFrontFunctionDescription{
-					Function: *function,
-				},
-			}
+			resource := cloudFrontFunctionHandel(ctx, function)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -290,7 +341,6 @@ func CloudFrontFunction(ctx context.Context, cfg aws.Config, stream *StreamSende
 			} else {
 				values = append(values, resource)
 			}
-
 		}
 		return output.FunctionList.NextMarker, nil
 	})
@@ -300,10 +350,40 @@ func CloudFrontFunction(ctx context.Context, cfg aws.Config, stream *StreamSende
 
 	return values, nil
 }
-
-func CloudFrontOriginAccessIdentity(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+func cloudFrontFunctionHandel(ctx context.Context, function *cloudfront.DescribeFunctionOutput) Resource {
 	describeCtx := GetDescribeContext(ctx)
 
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *function.FunctionSummary.FunctionMetadata.FunctionARN,
+		Name:   *function.FunctionSummary.Name,
+		Description: model.CloudFrontFunctionDescription{
+			Function: *function,
+		},
+	}
+	return resource
+}
+func GetCloudFrontFunction(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	client := cloudfront.NewFromConfig(cfg)
+	name := fields["name"]
+
+	var values []Resource
+	function, err := client.DescribeFunction(ctx, &cloudfront.DescribeFunctionInput{
+		Name: &name,
+	})
+	if err != nil {
+		if isErr(err, "DescribeFunctionNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	resource := cloudFrontFunctionHandel(ctx, function)
+	values = append(values, resource)
+	return values, nil
+}
+
+func CloudFrontOriginAccessIdentity(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	client := cloudfront.NewFromConfig(cfg)
 	var values []Resource
 	paginator := cloudfront.NewListCloudFrontOriginAccessIdentitiesPaginator(client, &cloudfront.ListCloudFrontOriginAccessIdentitiesInput{})
@@ -314,8 +394,6 @@ func CloudFrontOriginAccessIdentity(ctx context.Context, cfg aws.Config, stream 
 		}
 
 		for _, item := range page.CloudFrontOriginAccessIdentityList.Items {
-			arn := fmt.Sprintf("arn:%s:cloudfront::%s:origin-access-identity/%s", describeCtx.Partition, describeCtx.AccountID, *item.Id)
-
 			originAccessIdentity, err := client.GetCloudFrontOriginAccessIdentity(ctx, &cloudfront.GetCloudFrontOriginAccessIdentityInput{
 				Id: item.Id,
 			})
@@ -323,14 +401,7 @@ func CloudFrontOriginAccessIdentity(ctx context.Context, cfg aws.Config, stream 
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    arn,
-				Name:   *item.Id,
-				Description: model.CloudFrontOriginAccessIdentityDescription{
-					OriginAccessIdentity: *originAccessIdentity,
-				},
-			}
+			resource := cloudFrontOriginAccessIdentityHandel(ctx, originAccessIdentity, *item.Id)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -340,48 +411,41 @@ func CloudFrontOriginAccessIdentity(ctx context.Context, cfg aws.Config, stream 
 			}
 		}
 	}
-
 	return values, nil
 }
-
-func GetCloudFrontOriginAccessIdentity(ctx context.Context, cfg aws.Config, id string) ([]Resource, error) {
+func cloudFrontOriginAccessIdentityHandel(ctx context.Context, originAccessIdentity *cloudfront.GetCloudFrontOriginAccessIdentityOutput, id string) Resource {
 	describeCtx := GetDescribeContext(ctx)
+	arn := fmt.Sprintf("arn:%s:cloudfront::%s:origin-access-identity/%s", describeCtx.Partition, describeCtx.AccountID, id)
 
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		Name:   id,
+		Description: model.CloudFrontOriginAccessIdentityDescription{
+			OriginAccessIdentity: *originAccessIdentity,
+		},
+	}
+	return resource
+}
+func GetCloudFrontOriginAccessIdentity(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	client := cloudfront.NewFromConfig(cfg)
+	id := fields["id"]
 	var values []Resource
 
-	out, err := client.GetCloudFrontOriginAccessIdentity(ctx, &cloudfront.GetCloudFrontOriginAccessIdentityInput{
+	originAccessIdentity, err := client.GetCloudFrontOriginAccessIdentity(ctx, &cloudfront.GetCloudFrontOriginAccessIdentityInput{
 		Id: &id,
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	item := out.CloudFrontOriginAccessIdentity
-	arn := fmt.Sprintf("arn:%s:cloudfront::%s:origin-access-identity/%s", describeCtx.Partition, describeCtx.AccountID, *item.Id)
-
-	originAccessIdentity, err := client.GetCloudFrontOriginAccessIdentity(ctx, &cloudfront.GetCloudFrontOriginAccessIdentityInput{
-		Id: item.Id,
-	})
-	if err != nil {
-		return nil, err
-	}
-
-	values = append(values, Resource{
-		Region: describeCtx.KaytuRegion,
-		ARN:    arn,
-		Name:   *item.Id,
-		Description: model.CloudFrontOriginAccessIdentityDescription{
-			OriginAccessIdentity: *originAccessIdentity,
-		},
-	})
+	resource := cloudFrontOriginAccessIdentityHandel(ctx, originAccessIdentity, id)
+	values = append(values, resource)
 
 	return values, nil
 }
 
 func CloudFrontOriginRequestPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-
 	client := cloudfront.NewFromConfig(cfg)
 	var values []Resource
 	err := PaginateRetrieveAll(func(prevToken *string) (nextToken *string, err error) {
@@ -394,7 +458,6 @@ func CloudFrontOriginRequestPolicy(ctx context.Context, cfg aws.Config, stream *
 		}
 
 		for _, v := range output.OriginRequestPolicyList.Items {
-			arn := fmt.Sprintf("arn:%s:cloudfront::%s:origin-request-policy/%s", describeCtx.Partition, describeCtx.AccountID, *v.OriginRequestPolicy.Id)
 
 			policy, err := client.GetOriginRequestPolicy(ctx, &cloudfront.GetOriginRequestPolicyInput{
 				Id: v.OriginRequestPolicy.Id,
@@ -403,14 +466,8 @@ func CloudFrontOriginRequestPolicy(ctx context.Context, cfg aws.Config, stream *
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    arn,
-				ID:     *policy.OriginRequestPolicy.Id,
-				Description: model.CloudFrontOriginRequestPolicyDescription{
-					OriginRequestPolicy: *policy,
-				},
-			}
+			resource := cloudFrontOriginRequestPolicyHandle(ctx, policy, *v.OriginRequestPolicy.Id)
+
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -428,10 +485,39 @@ func CloudFrontOriginRequestPolicy(ctx context.Context, cfg aws.Config, stream *
 
 	return values, nil
 }
+func cloudFrontOriginRequestPolicyHandle(ctx context.Context, policy *cloudfront.GetOriginRequestPolicyOutput, id string) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	arn := fmt.Sprintf("arn:%s:cloudfront::%s:origin-request-policy/%s", describeCtx.Partition, describeCtx.AccountID, &id)
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		ID:     *policy.OriginRequestPolicy.Id,
+		Description: model.CloudFrontOriginRequestPolicyDescription{
+			OriginRequestPolicy: *policy,
+		},
+	}
+	return resource
+}
+func GetCloudFrontOriginRequestPolicy(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	id := fields["id"]
+	client := cloudfront.NewFromConfig(cfg)
+	var value []Resource
+	policy, err := client.GetOriginRequestPolicy(ctx, &cloudfront.GetOriginRequestPolicyInput{
+		Id: &id,
+	})
+	if err != nil {
+		return nil, err
+	}
+	resource := cloudFrontOriginRequestPolicyHandle(ctx, policy, id)
+	if err != nil {
+		return nil, err
+	}
+	value = append(value, resource)
+	return value, nil
+}
 
 func CloudFrontResponseHeadersPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-
 	client := cloudfront.NewFromConfig(cfg)
 	var values []Resource
 	err := PaginateRetrieveAll(func(prevToken *string) (nextToken *string, err error) {
@@ -444,8 +530,6 @@ func CloudFrontResponseHeadersPolicy(ctx context.Context, cfg aws.Config, stream
 		}
 
 		for _, v := range output.ResponseHeadersPolicyList.Items {
-			arn := fmt.Sprintf("arn:%s:cloudfront::%s:response-headers-policy/%s", describeCtx.Partition, describeCtx.AccountID, *v.ResponseHeadersPolicy.Id)
-
 			policy, err := client.GetResponseHeadersPolicy(ctx, &cloudfront.GetResponseHeadersPolicyInput{
 				Id: v.ResponseHeadersPolicy.Id,
 			})
@@ -453,14 +537,7 @@ func CloudFrontResponseHeadersPolicy(ctx context.Context, cfg aws.Config, stream
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    arn,
-				ID:     *policy.ResponseHeadersPolicy.Id,
-				Description: model.CloudFrontResponseHeadersPolicyDescription{
-					ResponseHeadersPolicy: *policy,
-				},
-			}
+			resource := cloudFrontResponseHeadersPolicyHandle(ctx, policy, v.ResponseHeadersPolicy.Id)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -476,5 +553,35 @@ func CloudFrontResponseHeadersPolicy(ctx context.Context, cfg aws.Config, stream
 		return nil, err
 	}
 
+	return values, nil
+}
+func cloudFrontResponseHeadersPolicyHandle(ctx context.Context, policy *cloudfront.GetResponseHeadersPolicyOutput, id *string) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	arn := fmt.Sprintf("arn:%s:cloudfront::%s:response-headers-policy/%s", describeCtx.Partition, describeCtx.AccountID, *id)
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		ID:     *policy.ResponseHeadersPolicy.Id,
+		Description: model.CloudFrontResponseHeadersPolicyDescription{
+			ResponseHeadersPolicy: *policy,
+		},
+	}
+	return resource
+}
+func GetCloudFrontResponseHeadersPolicy(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	client := cloudfront.NewFromConfig(cfg)
+	id := fields["id"]
+	var values []Resource
+
+	policy, err := client.GetResponseHeadersPolicy(ctx, &cloudfront.GetResponseHeadersPolicyInput{
+		Id: &id,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	resource := cloudFrontResponseHeadersPolicyHandle(ctx, policy, &id)
+	values = append(values, resource)
 	return values, nil
 }

@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"github.com/aws/aws-sdk-go-v2/service/sns/types"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/sns"
@@ -55,7 +56,6 @@ func SNSSubscription(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 }
 
 func SNSTopic(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := sns.NewFromConfig(cfg)
 	paginator := sns.NewListTopicsPaginator(client, &sns.ListTopicsInput{})
 
@@ -67,29 +67,15 @@ func SNSTopic(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 		}
 
 		for _, v := range page.Topics {
-			output, err := client.GetTopicAttributes(ctx, &sns.GetTopicAttributesInput{
-				TopicArn: v.TopicArn,
-			})
+			resource, err := sNSTopicHandle(ctx, cfg, v)
 			if err != nil {
 				return nil, err
 			}
-
-			tOutput, err := client.ListTagsForResource(ctx, &sns.ListTagsForResourceInput{
-				ResourceArn: v.TopicArn,
-			})
-			if err != nil {
-				return nil, err
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				return nil, nil
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.TopicArn,
-				Name:   nameFromArn(*v.TopicArn),
-				Description: model.SNSTopicDescription{
-					Attributes: output.Attributes,
-					Tags:       tOutput.Tags,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -100,5 +86,66 @@ func SNSTopic(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 		}
 	}
 
+	return values, nil
+}
+func sNSTopicHandle(ctx context.Context, cfg aws.Config, v types.Topic) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := sns.NewFromConfig(cfg)
+
+	output, err := client.GetTopicAttributes(ctx, &sns.GetTopicAttributesInput{
+		TopicArn: v.TopicArn,
+	})
+	if err != nil {
+		if isErr(err, "GetTopicAttributesNotFound") || isErr(err, "invalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	tOutput, err := client.ListTagsForResource(ctx, &sns.ListTagsForResourceInput{
+		ResourceArn: v.TopicArn,
+	})
+	if err != nil {
+		if isErr(err, "ListTagsForResourceNotFound") || isErr(err, "invalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.TopicArn,
+		Name:   nameFromArn(*v.TopicArn),
+		Description: model.SNSTopicDescription{
+			Attributes: output.Attributes,
+			Tags:       tOutput.Tags,
+		},
+	}
+	return resource, nil
+}
+func GetSNSTopic(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	arn := fields["arn"]
+	var values []Resource
+	client := sns.NewFromConfig(cfg)
+	list, err := client.ListTopics(ctx, &sns.ListTopicsInput{})
+	if err != nil {
+		return nil, err
+	}
+
+	for _, v := range list.Topics {
+		if v.TopicArn != &arn {
+			continue
+		}
+		resource, err := sNSTopicHandle(ctx, cfg, v)
+		if err != nil {
+			return nil, err
+		}
+		emptyResource := Resource{}
+		if err == nil && resource == emptyResource {
+			return nil, nil
+		}
+
+		values = append(values, resource)
+	}
 	return values, nil
 }
