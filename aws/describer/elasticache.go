@@ -56,10 +56,10 @@ func GetElastiCacheReplicationGroup(ctx context.Context, cfg aws.Config, fields 
 		}
 		return nil, err
 	}
+
 	var value []Resource
 	for _, v := range out.ReplicationGroups {
-		resource := elastiCacheReplicationGroupHandel(ctx, v)
-		value = append(value, resource)
+		value = append(value, elastiCacheReplicationGroupHandel(ctx, v))
 	}
 	return value, nil
 }
@@ -184,15 +184,16 @@ func GetElastiCacheParameterGroup(ctx context.Context, cfg aws.Config, fields ma
 	cacheParameterGroupName := fields["name"]
 	var values []Resource
 	client := elasticache.NewFromConfig(cfg)
+
 	out, err := client.DescribeCacheParameterGroups(ctx, &elasticache.DescribeCacheParameterGroupsInput{
 		CacheParameterGroupName: &cacheParameterGroupName,
 	})
 	if err != nil {
 		return nil, err
 	}
+
 	for _, cacheParameterGroup := range out.CacheParameterGroups {
-		resource := elastiCacheParameterGroupHandle(ctx, cacheParameterGroup)
-		values = append(values, resource)
+		values = append(values, elastiCacheParameterGroupHandle(ctx, cacheParameterGroup))
 	}
 	return values, nil
 }
@@ -256,7 +257,6 @@ func GetElastiCacheReservedCacheNode(ctx context.Context, cfg aws.Config, fields
 }
 
 func ElastiCacheSubnetGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := elasticache.NewFromConfig(cfg)
 	paginator := elasticache.NewDescribeCacheSubnetGroupsPaginator(client, &elasticache.DescribeCacheSubnetGroupsInput{})
 
@@ -268,14 +268,7 @@ func ElastiCacheSubnetGroup(ctx context.Context, cfg aws.Config, stream *StreamS
 		}
 
 		for _, cacheSubnetGroup := range page.CacheSubnetGroups {
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *cacheSubnetGroup.ARN,
-				Name:   *cacheSubnetGroup.CacheSubnetGroupName,
-				Description: model.ElastiCacheSubnetGroupDescription{
-					SubnetGroup: cacheSubnetGroup,
-				},
-			}
+			resource := elastiCacheSubnetGroupHandle(ctx,cacheSubnetGroup)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -287,4 +280,39 @@ func ElastiCacheSubnetGroup(ctx context.Context, cfg aws.Config, stream *StreamS
 	}
 
 	return values, nil
+}
+func elastiCacheSubnetGroupHandle(ctx context.Context,,cacheSubnetGroup types.CacheSubnetGroup)Resource{
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *cacheSubnetGroup.ARN,
+		Name:   *cacheSubnetGroup.CacheSubnetGroupName,
+		Description: model.ElastiCacheSubnetGroupDescription{
+			SubnetGroup: cacheSubnetGroup,
+		},
+	}
+	return resource
+}
+func GetElastiCacheSubnetGroup(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error ){
+	cacheSubnetGroupsName := fields["name"]
+	client := elasticache.NewFromConfig(cfg)
+
+	out,err := client.DescribeCacheSubnetGroups(ctx , &elasticache.DescribeCacheSubnetGroupsInput{
+		CacheSubnetGroupName:&cacheSubnetGroupsName,
+	})
+	if err != nil {
+		if isErr(err, "DescribeCacheSubnetGroupsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _,cacheSubnetGroup:=range out.CacheSubnetGroups{
+
+		resource := elastiCacheSubnetGroupHandle(ctx,cacheSubnetGroup)
+		values=append(values,resource)
+
+	}
+	return values ,nil
 }

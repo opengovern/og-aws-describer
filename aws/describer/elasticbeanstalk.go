@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"github.com/aws/aws-sdk-go-v2/service/elasticbeanstalk/types"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/elasticbeanstalk"
@@ -9,8 +10,8 @@ import (
 )
 
 func ElasticBeanstalkEnvironment(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := elasticbeanstalk.NewFromConfig(cfg)
+
 	out, err := client.DescribeEnvironments(ctx, &elasticbeanstalk.DescribeEnvironmentsInput{})
 	if err != nil {
 		return nil, err
@@ -18,22 +19,16 @@ func ElasticBeanstalkEnvironment(ctx context.Context, cfg aws.Config, stream *St
 
 	var values []Resource
 	for _, item := range out.Environments {
-		tags, err := client.ListTagsForResource(ctx, &elasticbeanstalk.ListTagsForResourceInput{
-			ResourceArn: item.EnvironmentArn,
-		})
+
+		resource, err := elasticBeanstalkEnvironmentHandle(ctx, cfg, item)
 		if err != nil {
 			return nil, err
 		}
-
-		resource := Resource{
-			Region: describeCtx.KaytuRegion,
-			ARN:    *item.EnvironmentArn,
-			Name:   *item.EnvironmentName,
-			Description: model.ElasticBeanstalkEnvironmentDescription{
-				EnvironmentDescription: item,
-				Tags:                   tags.ResourceTags,
-			},
+		emptyResource := Resource{}
+		if err == nil && resource == emptyResource {
+			return nil, nil
 		}
+
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {
 				return nil, err
@@ -45,9 +40,65 @@ func ElasticBeanstalkEnvironment(ctx context.Context, cfg aws.Config, stream *St
 
 	return values, nil
 }
+func elasticBeanstalkEnvironmentHandle(ctx context.Context, cfg aws.Config, item types.EnvironmentDescription) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+
+	client := elasticbeanstalk.NewFromConfig(cfg)
+
+	tags, err := client.ListTagsForResource(ctx, &elasticbeanstalk.ListTagsForResourceInput{
+		ResourceArn: item.EnvironmentArn,
+	})
+	if err != nil {
+		if isErr(err, "ListTagsForResourceNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *item.EnvironmentArn,
+		Name:   *item.EnvironmentName,
+		Description: model.ElasticBeanstalkEnvironmentDescription{
+			EnvironmentDescription: item,
+			Tags:                   tags.ResourceTags,
+		},
+	}
+	return resource, nil
+}
+func GetElasticBeanstalkEnvironment(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	client := elasticbeanstalk.NewFromConfig(cfg)
+
+	environmentName := fields["name"]
+
+	out, err := client.DescribeEnvironments(ctx, &elasticbeanstalk.DescribeEnvironmentsInput{
+		EnvironmentNames: []string{environmentName},
+	})
+	if err != nil {
+		if isErr(err, "DescribeEnvironmentsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _, item := range out.Environments {
+
+		resource, err := elasticBeanstalkEnvironmentHandle(ctx, cfg, item)
+		if err != nil {
+			return nil, err
+		}
+		emptyResource := Resource{}
+		if err == nil && resource == emptyResource {
+			return nil, nil
+		}
+		values = append(values, resource)
+
+	}
+	return values, nil
+}
 
 func ElasticBeanstalkApplication(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := elasticbeanstalk.NewFromConfig(cfg)
 	out, err := client.DescribeApplications(ctx, &elasticbeanstalk.DescribeApplicationsInput{})
 	if err != nil {
@@ -59,25 +110,11 @@ func ElasticBeanstalkApplication(ctx context.Context, cfg aws.Config, stream *St
 
 	var values []Resource
 	for _, item := range out.Applications {
-		tags, err := client.ListTagsForResource(ctx, &elasticbeanstalk.ListTagsForResourceInput{
-			ResourceArn: item.ApplicationArn,
-		})
+		resource, err := elasticBeanstalkApplicationHandle(ctx, cfg, item)
 		if err != nil {
-			if !isErr(err, "ResourceNotFoundException") {
-				return nil, err
-			}
-			tags = &elasticbeanstalk.ListTagsForResourceOutput{}
+			return nil, err
 		}
 
-		resource := Resource{
-			Region: describeCtx.KaytuRegion,
-			ARN:    *item.ApplicationArn,
-			Name:   *item.ApplicationName,
-			Description: model.ElasticBeanstalkApplicationDescription{
-				Application: item,
-				Tags:        tags.ResourceTags,
-			},
-		}
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {
 				return nil, err
@@ -87,6 +124,59 @@ func ElasticBeanstalkApplication(ctx context.Context, cfg aws.Config, stream *St
 		}
 	}
 
+	return values, nil
+}
+func elasticBeanstalkApplicationHandle(ctx context.Context, cfg aws.Config, item types.ApplicationDescription) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+
+	client := elasticbeanstalk.NewFromConfig(cfg)
+
+	tags, err := client.ListTagsForResource(ctx, &elasticbeanstalk.ListTagsForResourceInput{
+		ResourceArn: item.ApplicationArn,
+	})
+	if err != nil {
+		if !isErr(err, "ResourceNotFoundException") {
+			return Resource{}, err
+		}
+		tags = &elasticbeanstalk.ListTagsForResourceOutput{}
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *item.ApplicationArn,
+		Name:   *item.ApplicationName,
+		Description: model.ElasticBeanstalkApplicationDescription{
+			Application: item,
+			Tags:        tags.ResourceTags,
+		},
+	}
+
+	return resource, nil
+}
+func GetElasticBeanstalkApplication(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	applicationName := fields["name"]
+
+	client := elasticbeanstalk.NewFromConfig(cfg)
+
+	out, err := client.DescribeApplications(ctx, &elasticbeanstalk.DescribeApplicationsInput{
+		ApplicationNames: []string{applicationName},
+	})
+	if err != nil {
+		if isErr(err, "DescribeApplicationsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _, v := range out.Applications {
+		resource, err := elasticBeanstalkApplicationHandle(ctx, cfg, v)
+		if err != nil {
+			return nil, err
+		}
+
+		values = append(values, resource)
+	}
 	return values, nil
 }
 

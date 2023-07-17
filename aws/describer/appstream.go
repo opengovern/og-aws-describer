@@ -2,9 +2,9 @@ package describer
 
 import (
 	"context"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/appstream"
+	"github.com/aws/aws-sdk-go-v2/service/appstream/types"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 )
 
@@ -56,7 +56,6 @@ func AppStreamApplication(ctx context.Context, cfg aws.Config, stream *StreamSen
 }
 
 func AppStreamStack(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := appstream.NewFromConfig(cfg)
 
 	var values []Resource
@@ -69,21 +68,16 @@ func AppStreamStack(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 		}
 
 		for _, item := range output.Stacks {
-			tags, err := client.ListTagsForResource(ctx, &appstream.ListTagsForResourceInput{
-				ResourceArn: item.Arn,
-			})
+
+			resource, err := appStreamStackHandle(ctx, cfg, item)
 			if err != nil {
 				return nil, err
 			}
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *item.Arn,
-				Name:   *item.Name,
-				Description: model.AppStreamStackDescription{
-					Stack: item,
-					Tags:  tags.Tags,
-				},
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				return nil, nil
 			}
+
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -101,9 +95,62 @@ func AppStreamStack(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 
 	return values, nil
 }
+func appStreamStackHandle(ctx context.Context, cfg aws.Config, item types.Stack) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := appstream.NewFromConfig(cfg)
+
+	tags, err := client.ListTagsForResource(ctx, &appstream.ListTagsForResourceInput{
+		ResourceArn: item.Arn,
+	})
+	if err != nil {
+		if isErr(err, "ListTagsForResourceNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *item.Arn,
+		Name:   *item.Name,
+		Description: model.AppStreamStackDescription{
+			Stack: item,
+			Tags:  tags.Tags,
+		},
+	}
+	return resource, nil
+}
+func GetAppStreamStack(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	name := fields["name"]
+	client := appstream.NewFromConfig(cfg)
+	out, err := client.DescribeStacks(ctx, &appstream.DescribeStacksInput{
+		Names: []string{name},
+	})
+	if err != nil {
+		if isErr(err, "DescribeStacksNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _, v := range out.Stacks {
+
+		resource, err := appStreamStackHandle(ctx, cfg, v)
+		if err != nil {
+			return nil, err
+		}
+		emptyResource := Resource{}
+		if err == nil && resource == emptyResource {
+			return nil, nil
+		}
+
+		values = append(values, resource)
+	}
+	return values, nil
+}
 
 func AppStreamFleet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := appstream.NewFromConfig(cfg)
 
 	var values []Resource
@@ -116,21 +163,15 @@ func AppStreamFleet(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 		}
 
 		for _, item := range output.Fleets {
-			tags, err := client.ListTagsForResource(ctx, &appstream.ListTagsForResourceInput{
-				ResourceArn: item.Arn,
-			})
+			resource, err := appStreamFleetHandle(ctx, cfg, item)
 			if err != nil {
 				return nil, err
 			}
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *item.Arn,
-				Name:   *item.Name,
-				Description: model.AppStreamFleetDescription{
-					Fleet: item,
-					Tags:  tags.Tags,
-				},
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				return nil, nil
 			}
+
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -138,7 +179,6 @@ func AppStreamFleet(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			} else {
 				values = append(values, resource)
 			}
-
 		}
 		return output.NextToken, nil
 	})
@@ -146,5 +186,60 @@ func AppStreamFleet(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 		return nil, err
 	}
 
+	return values, nil
+}
+func appStreamFleetHandle(ctx context.Context, cfg aws.Config, item types.Fleet) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := appstream.NewFromConfig(cfg)
+	tags, err := client.ListTagsForResource(ctx, &appstream.ListTagsForResourceInput{
+		ResourceArn: item.Arn,
+	})
+	if err != nil {
+		if isErr(err, "ListTagsForResourceNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *item.Arn,
+		Name:   *item.Name,
+		Description: model.AppStreamFleetDescription{
+			Fleet: item,
+			Tags:  tags.Tags,
+		},
+	}
+
+	return resource, nil
+}
+func GetAppStreamFleet(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	name := fields["name"]
+	client := appstream.NewFromConfig(cfg)
+
+	out, err := client.DescribeFleets(ctx, &appstream.DescribeFleetsInput{
+		Names: []string{name},
+	})
+	if err != nil {
+		if isErr(err, "DescribeFleetsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _, v := range out.Fleets {
+
+		resource, err := appStreamFleetHandle(ctx, cfg, v)
+		if err != nil {
+			return nil, err
+		}
+		emptyResource := Resource{}
+		if err == nil && resource == emptyResource {
+			return nil, nil
+		}
+
+		values = append(values, resource)
+	}
 	return values, nil
 }

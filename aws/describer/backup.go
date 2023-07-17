@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"github.com/aws/aws-sdk-go-v2/service/backup/types"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/backup"
@@ -250,7 +251,6 @@ func BackupVault(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 }
 
 func BackupFramework(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := backup.NewFromConfig(cfg)
 	paginator := backup.NewListFrameworksPaginator(client, &backup.ListFrameworksInput{})
 
@@ -262,26 +262,11 @@ func BackupFramework(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		}
 
 		for _, v := range page.Frameworks {
-			framework, err := client.DescribeFramework(ctx, &backup.DescribeFrameworkInput{
-				FrameworkName: v.FrameworkName,
-			})
+			resource, err := backupFrameworkHandle(ctx, cfg, v)
 			if err != nil {
 				return nil, err
 			}
 
-			tags, err := client.ListTags(ctx, &backup.ListTagsInput{
-				ResourceArn: v.FrameworkArn,
-			})
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.FrameworkArn,
-				Name:   *v.FrameworkName,
-				Description: model.BackupFrameworkDescription{
-					Framework: *framework,
-					Tags:      tags.Tags,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -292,6 +277,61 @@ func BackupFramework(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		}
 	}
 
+	return values, nil
+}
+func backupFrameworkHandle(ctx context.Context, cfg aws.Config, v types.Framework) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := backup.NewFromConfig(cfg)
+
+	framework, err := client.DescribeFramework(ctx, &backup.DescribeFrameworkInput{
+		FrameworkName: v.FrameworkName,
+	})
+	if err != nil {
+		return Resource{}, err
+	}
+
+	tags, err := client.ListTags(ctx, &backup.ListTagsInput{
+		ResourceArn: v.FrameworkArn,
+	})
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.FrameworkArn,
+		Name:   *v.FrameworkName,
+		Description: model.BackupFrameworkDescription{
+			Framework: *framework,
+			Tags:      tags.Tags,
+		},
+	}
+	return resource, nil
+}
+func GetBackupFramework(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	var values []Resource
+	frameworkName := fields["name"]
+	client := backup.NewFromConfig(cfg)
+
+	describe, err := client.ListFrameworks(ctx, &backup.ListFrameworksInput{})
+	if err != nil {
+		if isErr(err, "ListFrameworksNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+	for _, v := range describe.Frameworks {
+		if *v.FrameworkName != frameworkName {
+			continue
+		}
+
+		resource, err := backupFrameworkHandle(ctx, cfg, v)
+		if err != nil {
+			return nil, err
+		}
+
+		values = append(values, resource)
+	}
+	if values == nil {
+		return nil, nil
+	}
 	return values, nil
 }
 

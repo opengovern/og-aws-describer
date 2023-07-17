@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	_ "github.com/aws/aws-sdk-go-v2/service/inspector/types"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/applicationautoscaling"
@@ -10,7 +11,6 @@ import (
 )
 
 func ApplicationAutoScalingTarget(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := applicationautoscaling.NewFromConfig(cfg)
 
 	var values []Resource
@@ -26,16 +26,7 @@ func ApplicationAutoScalingTarget(ctx context.Context, cfg aws.Config, stream *S
 			}
 
 			for _, item := range page.ScalableTargets {
-				arn := "arn:" + describeCtx.Partition + ":application-autoscaling:" + describeCtx.Region + ":" + describeCtx.AccountID + ":service-namespace:" + string(item.ServiceNamespace) + "/target/" + *item.ResourceId
-
-				resource := Resource{
-					Region: describeCtx.KaytuRegion,
-					ARN:    arn,
-					Name:   *item.ResourceId,
-					Description: model.ApplicationAutoScalingTargetDescription{
-						ScalableTarget: item,
-					},
-				}
+				resource := applicationAutoScalingTargetHandle(ctx, item)
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -48,4 +39,36 @@ func ApplicationAutoScalingTarget(ctx context.Context, cfg aws.Config, stream *S
 	}
 
 	return values, nil
+}
+func applicationAutoScalingTargetHandle(ctx context.Context, item types.ScalableTarget) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	arn := "arn:" + describeCtx.Partition + ":application-autoscaling:" + describeCtx.Region + ":" + describeCtx.AccountID + ":service-namespace:" + string(item.ServiceNamespace) + "/target/" + *item.ResourceId
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		Name:   *item.ResourceId,
+		Description: model.ApplicationAutoScalingTargetDescription{
+			ScalableTarget: item,
+		},
+	}
+	return resource
+}
+func GetApplicationAutoScalingTarget(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	resourceId := fields["resourceId"]
+	client := applicationautoscaling.NewFromConfig(cfg)
+	var value []Resource
+
+	describers, err := client.DescribeScalableTargets(ctx, &applicationautoscaling.DescribeScalableTargetsInput{
+		ResourceIds: []string{resourceId},
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	for _, item := range describers.ScalableTargets {
+		resource := applicationAutoScalingTargetHandle(ctx, item)
+		value = append(value, resource)
+	}
+	return value, nil
 }

@@ -151,7 +151,7 @@ func globalAcceleratorListenerHandel(ctx context.Context, listener types.Listene
 	}
 	return resource
 }
-func GetGlobalAcceleratorListenerHandel(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+func GetGlobalAcceleratorListener(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	var value []Resource
 	acceleratorArn := fields["arn"]
 	client := globalaccelerator.NewFromConfig(cfg)

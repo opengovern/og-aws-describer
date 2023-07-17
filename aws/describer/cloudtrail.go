@@ -13,13 +13,15 @@ import (
 )
 
 func CloudTrailTrail(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := cloudtrail.NewFromConfig(cfg)
 	paginator := cloudtrail.NewListTrailsPaginator(client, &cloudtrail.ListTrailsInput{})
 
 	stsClient := sts.NewFromConfig(cfg)
 	identity, err := stsClient.GetCallerIdentity(ctx, &sts.GetCallerIdentityInput{})
 	if err != nil {
+		if isErr(err, "GetCallerIdentityNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
 		return nil, err
 	}
 
@@ -60,43 +62,15 @@ func CloudTrailTrail(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		}
 
 		for _, v := range output.TrailList {
-			statusOutput, err := client.GetTrailStatus(ctx, &cloudtrail.GetTrailStatusInput{
-				Name: v.TrailARN,
-			})
+			resource, err := cloudTrailTrailHandle(ctx, cfg, v)
 			if err != nil {
 				return nil, err
 			}
-
-			selectorOutput, err := client.GetEventSelectors(ctx, &cloudtrail.GetEventSelectorsInput{
-				TrailName: v.TrailARN,
-			})
-			if err != nil {
-				return nil, err
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				return nil, nil
 			}
 
-			tagsOutput, err := client.ListTags(ctx, &cloudtrail.ListTagsInput{
-				ResourceIdList: []string{*v.TrailARN},
-			})
-			if err != nil {
-				return nil, err
-			}
-			var tags []types.Tag
-			if len(tagsOutput.ResourceTagList) > 0 {
-				tags = tagsOutput.ResourceTagList[0].TagsList
-			}
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.TrailARN,
-				Name:   *v.Name,
-				Description: model.CloudTrailTrailDescription{
-					Trail:                  v,
-					TrailStatus:            *statusOutput,
-					EventSelectors:         selectorOutput.EventSelectors,
-					AdvancedEventSelectors: selectorOutput.AdvancedEventSelectors,
-					Tags:                   tags,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -107,6 +81,123 @@ func CloudTrailTrail(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		}
 	}
 
+	return values, nil
+}
+func cloudTrailTrailHandle(ctx context.Context, cfg aws.Config, v types.Trail) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := cloudtrail.NewFromConfig(cfg)
+	statusOutput, err := client.GetTrailStatus(ctx, &cloudtrail.GetTrailStatusInput{
+		Name: v.TrailARN,
+	})
+	if err != nil {
+		if isErr(err, "GetTrailStatusNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	selectorOutput, err := client.GetEventSelectors(ctx, &cloudtrail.GetEventSelectorsInput{
+		TrailName: v.TrailARN,
+	})
+	if err != nil {
+		if isErr(err, "GetEventSelectorsNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	tagsOutput, err := client.ListTags(ctx, &cloudtrail.ListTagsInput{
+		ResourceIdList: []string{*v.TrailARN},
+	})
+	if err != nil {
+		if isErr(err, "ListTagsNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	var tags []types.Tag
+	if len(tagsOutput.ResourceTagList) > 0 {
+		tags = tagsOutput.ResourceTagList[0].TagsList
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.TrailARN,
+		Name:   *v.Name,
+		Description: model.CloudTrailTrailDescription{
+			Trail:                  v,
+			TrailStatus:            *statusOutput,
+			EventSelectors:         selectorOutput.EventSelectors,
+			AdvancedEventSelectors: selectorOutput.AdvancedEventSelectors,
+			Tags:                   tags,
+		},
+	}
+	return resource, nil
+}
+func GetCloudTrailTrail(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	name := fields["name"]
+	client := cloudtrail.NewFromConfig(cfg)
+
+	out, err := client.GetTrail(ctx, &cloudtrail.GetTrailInput{
+		Name: &name,
+	})
+	if err != nil {
+		if isErr(err, "GetTrailNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+	trail := out.Trail
+
+	stsClient := sts.NewFromConfig(cfg)
+	identity, err := stsClient.GetCallerIdentity(ctx, &sts.GetCallerIdentityInput{})
+	if err != nil {
+		if isErr(err, "GetCallerIdentityNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var trails []string
+	// Ignore trails that don't belong this region (Based on steampipe)
+	if !strings.EqualFold(*trail.HomeRegion, cfg.Region) {
+		return nil, nil
+	}
+	if trail.TrailARN != nil {
+		// Ignore trails that don't belong to this account (Based on steampipe)
+		if aws.ToString(identity.Account) != arnToAccountId(*trail.TrailARN) {
+			return nil, nil
+		}
+
+		trails = append(trails, *trail.TrailARN)
+	} else if trail.Name != nil {
+		trails = append(trails, *trail.Name)
+	}
+
+	output, err := client.DescribeTrails(ctx, &cloudtrail.DescribeTrailsInput{
+		TrailNameList: trails,
+	})
+	if err != nil {
+		if isErr(err, "DescribeTrailsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _, v := range output.TrailList {
+		resource, err := cloudTrailTrailHandle(ctx, cfg, v)
+		if err != nil {
+			return nil, err
+		}
+		emptyResource := Resource{}
+		if err == nil && resource == emptyResource {
+			return nil, nil
+		}
+
+		values = append(values, resource)
+	}
 	return values, nil
 }
 
@@ -152,7 +243,6 @@ func CloudTrailChannel(ctx context.Context, cfg aws.Config, stream *StreamSender
 }
 
 func CloudTrailEventDataStore(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := cloudtrail.NewFromConfig(cfg)
 	paginator := cloudtrail.NewListEventDataStoresPaginator(client, &cloudtrail.ListEventDataStoresInput{})
 
@@ -164,21 +254,15 @@ func CloudTrailEventDataStore(ctx context.Context, cfg aws.Config, stream *Strea
 		}
 
 		for _, eventDataStore := range page.EventDataStores {
-			output, err := client.GetEventDataStore(ctx, &cloudtrail.GetEventDataStoreInput{
-				EventDataStore: eventDataStore.EventDataStoreArn,
-			})
+			resource, err := cloudTrailEventDataStoreHandle(ctx, cfg, eventDataStore)
 			if err != nil {
 				return nil, err
 			}
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *eventDataStore.EventDataStoreArn,
-				Name:   *eventDataStore.Name,
-				Description: model.CloudTrailEventDataStoreDescription{
-					EventDataStore: *output,
-				},
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				return nil, nil
 			}
+
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -188,8 +272,62 @@ func CloudTrailEventDataStore(ctx context.Context, cfg aws.Config, stream *Strea
 			}
 		}
 	}
-
 	return values, nil
+}
+func cloudTrailEventDataStoreHandle(ctx context.Context, cfg aws.Config, eventDataStore types.EventDataStore) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := cloudtrail.NewFromConfig(cfg)
+
+	output, err := client.GetEventDataStore(ctx, &cloudtrail.GetEventDataStoreInput{
+		EventDataStore: eventDataStore.EventDataStoreArn,
+	})
+	if err != nil {
+		if isErr(err, "GetEventDataStoreNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *eventDataStore.EventDataStoreArn,
+		Name:   *eventDataStore.Name,
+		Description: model.CloudTrailEventDataStoreDescription{
+			EventDataStore: *output,
+		},
+	}
+	return resource, nil
+}
+func GetCloudTrailEventDataStore(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	eventDataStoreName := fields["name"]
+	client := cloudtrail.NewFromConfig(cfg)
+
+	out, err := client.ListEventDataStores(ctx, &cloudtrail.ListEventDataStoresInput{})
+	if err != nil {
+		if isErr(err, "ListEventDataStoresNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var value []Resource
+	for _, evenDataStore := range out.EventDataStores {
+		if !strings.EqualFold(eventDataStoreName, *evenDataStore.Name) {
+			continue
+		}
+
+		resource, err := cloudTrailEventDataStoreHandle(ctx, cfg, evenDataStore)
+		if err != nil {
+			return nil, err
+		}
+		emptyResource := Resource{}
+		if err == nil && resource == emptyResource {
+			return nil, nil
+		}
+
+		value = append(value, resource)
+	}
+	return value, nil
 }
 
 func CloudTrailImport(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

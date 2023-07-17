@@ -34,7 +34,7 @@ func DAXCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 			}
 		}
 
-		resource := DAXClusterHandel(ctx, tags, cluster)
+		resource := dAXClusterHandel(ctx, tags, cluster)
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {
 				return nil, err
@@ -45,7 +45,7 @@ func DAXCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 	}
 	return values, nil
 }
-func DAXClusterHandel(ctx context.Context, tags *dax.ListTagsOutput, cluster types.Cluster) Resource {
+func dAXClusterHandel(ctx context.Context, tags *dax.ListTagsOutput, cluster types.Cluster) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -60,8 +60,9 @@ func DAXClusterHandel(ctx context.Context, tags *dax.ListTagsOutput, cluster typ
 }
 func GetDAXCluster(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	clusterName := fields["name"]
-	client := dax.NewFromConfig(cfg)
 	var value []Resource
+	client := dax.NewFromConfig(cfg)
+
 	clusterDescribe, err := client.DescribeClusters(ctx, &dax.DescribeClustersInput{
 		ClusterNames: []string{clusterName},
 	})
@@ -83,8 +84,8 @@ func GetDAXCluster(ctx context.Context, cfg aws.Config, fields map[string]string
 				return nil, err
 			}
 		}
-		resource := DAXClusterHandel(ctx, tags, cluster)
-		value = append(value, resource)
+
+		value = append(value, dAXClusterHandel(ctx, tags, cluster))
 	}
 	return value, nil
 }
@@ -103,7 +104,8 @@ func DAXParameterGroup(ctx context.Context, cfg aws.Config, stream *StreamSender
 		}
 
 		for _, parameterGroup := range parameterGroups.ParameterGroups {
-			resource := DAXParameterGroupHandel(ctx, parameterGroup)
+
+			resource := dAXParameterGroupHandel(ctx, parameterGroup)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -111,6 +113,7 @@ func DAXParameterGroup(ctx context.Context, cfg aws.Config, stream *StreamSender
 			} else {
 				values = append(values, resource)
 			}
+
 		}
 
 		return parameterGroups.NextToken, nil
@@ -121,7 +124,7 @@ func DAXParameterGroup(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 	return values, nil
 }
-func DAXParameterGroupHandel(ctx context.Context, parameterGroup types.ParameterGroup) Resource {
+func dAXParameterGroupHandel(ctx context.Context, parameterGroup types.ParameterGroup) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -148,8 +151,7 @@ func GetDAXParameterGroup(ctx context.Context, cfg aws.Config, fields map[string
 	}
 
 	for _, parameterGroup := range parameterGroups.ParameterGroups {
-		resource := DAXParameterGroupHandel(ctx, parameterGroup)
-		value = append(value, resource)
+		value = append(value, dAXParameterGroupHandel(ctx, parameterGroup))
 	}
 	return value, nil
 }
@@ -230,6 +232,7 @@ func DAXSubnetGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 		}
 
 		for _, subnetGroup := range subnetGroups.SubnetGroups {
+
 			resource := dAXSubnetGroupHandel(ctx, subnetGroup)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
@@ -278,8 +281,7 @@ func GetDAXSubnetGroup(ctx context.Context, cfg aws.Config, fields map[string]st
 	}
 
 	for _, subnetGroup := range subnetGroups.SubnetGroups {
-		resource := dAXSubnetGroupHandel(ctx, subnetGroup)
-		value = append(value, resource)
+		value = append(value, dAXSubnetGroupHandel(ctx, subnetGroup))
 	}
 	return value, nil
 }

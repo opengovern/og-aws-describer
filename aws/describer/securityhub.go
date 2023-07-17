@@ -10,7 +10,6 @@ import (
 )
 
 func SecurityHubHub(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := securityhub.NewFromConfig(cfg)
 	out, err := client.DescribeHub(ctx, &securityhub.DescribeHubInput{})
 	if err != nil {
@@ -22,12 +21,31 @@ func SecurityHubHub(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 
 	var values []Resource
 
+	resource, err := securityHubHubHandle(ctx, cfg, out)
+	if err != nil {
+		return nil, err
+	}
+
+	if stream != nil {
+		if err := (*stream)(resource); err != nil {
+			return nil, err
+		}
+	} else {
+		values = append(values, resource)
+	}
+
+	return values, nil
+}
+func securityHubHubHandle(ctx context.Context, cfg aws.Config, out *securityhub.DescribeHubOutput) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := securityhub.NewFromConfig(cfg)
+
 	tags, err := client.ListTagsForResource(ctx, &securityhub.ListTagsForResourceInput{ResourceArn: out.HubArn})
 	if err != nil {
 		if isErr(err, "InvalidAccessException") {
-			return nil, nil
+			return Resource{}, nil
 		}
-		return nil, err
+		return Resource{}, err
 	}
 
 	resource := Resource{
@@ -39,15 +57,29 @@ func SecurityHubHub(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			Tags: tags.Tags,
 		},
 	}
-	if stream != nil {
-		if err := (*stream)(resource); err != nil {
-			return nil, err
+	return resource, nil
+}
+func GetSecurityHubHub(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	arn := fields["arn"]
+	var value []Resource
+	client := securityhub.NewFromConfig(cfg)
+
+	out, err := client.DescribeHub(ctx, &securityhub.DescribeHubInput{
+		HubArn: &arn,
+	})
+	if err != nil {
+		if isErr(err, "DescribeHubNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
 		}
-	} else {
-		values = append(values, resource)
+		return nil, err
 	}
 
-	return values, nil
+	resource, err := securityHubHubHandle(ctx, cfg, out)
+	if err != nil {
+		return nil, err
+	}
+	value = append(value, resource)
+	return value, nil
 }
 
 func SecurityHubActionTarget(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

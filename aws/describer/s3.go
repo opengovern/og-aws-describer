@@ -43,8 +43,6 @@ func S3Bucket(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 		regionalValues[r] = make([]Resource, 0)
 	}
 
-	describeCtx := GetDescribeContext(ctx)
-
 	client := s3.NewFromConfig(cfg)
 	output, err := client.ListBuckets(ctx, &s3.ListBucketsInput{})
 	if err != nil {
@@ -81,16 +79,10 @@ func S3Bucket(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 			return
 		}
 
-		arn := "arn:" + describeCtx.Partition + ":s3:::" + *bucket.Name
 		resultChan <- s3bucketResult{
-			Resource: Resource{
-				Region:      describeCtx.Region,
-				ARN:         arn,
-				Name:        *bucket.Name,
-				Description: desc,
-			},
-			Region: region,
-			Bucket: bucket,
+			Resource: s3BucketHandle(ctx, desc, bucket),
+			Region:   region,
+			Bucket:   bucket,
 		}
 	}
 
@@ -140,21 +132,29 @@ func S3Bucket(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 	}
 	return regionalValues, globalErr
 }
-
-func GetS3Bucket(ctx context.Context, cfg aws.Config, regions []string, bucketName string) (map[string][]Resource, error) {
+func s3BucketHandle(ctx context.Context, desc *model.S3BucketDescription, bucket types.Bucket) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	arn := "arn:" + describeCtx.Partition + ":s3:::" + *bucket.Name
+	resource := Resource{
+		Region:      describeCtx.Region,
+		ARN:         arn,
+		Name:        *bucket.Name,
+		Description: desc,
+	}
+	return resource
+}
+func GetS3Bucket(ctx context.Context, cfg aws.Config, regions []string, fields map[string]string) (map[string][]Resource, error) {
+	bucketName := fields["buketName"]
 	regionalValues := make(map[string][]Resource, len(regions))
 	for _, r := range regions {
 		regionalValues[r] = make([]Resource, 0)
 	}
-
-	describeCtx := GetDescribeContext(ctx)
 
 	client := s3.NewFromConfig(cfg)
 	output, err := client.ListBuckets(ctx, &s3.ListBucketsInput{})
 	if err != nil {
 		return nil, fmt.Errorf("error listing buckets: %w", err)
 	}
-
 	for _, bucket := range output.Buckets {
 		if *bucket.Name != bucketName {
 			continue
@@ -174,14 +174,8 @@ func GetS3Bucket(ctx context.Context, cfg aws.Config, regions []string, bucketNa
 			return nil, err
 		}
 
-		arn := "arn:" + describeCtx.Partition + ":s3:::" + *bucket.Name
-
-		regionalValues[region] = append(regionalValues[region], Resource{
-			Region:      describeCtx.Region,
-			ARN:         arn,
-			Name:        *bucket.Name,
-			Description: desc,
-		})
+		resource := s3BucketHandle(ctx, desc, bucket)
+		regionalValues[region] = append(regionalValues[region], resource)
 	}
 	return regionalValues, nil
 }

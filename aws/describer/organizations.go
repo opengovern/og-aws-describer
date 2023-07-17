@@ -23,7 +23,6 @@ func OrganizationOrganization(ctx context.Context, cfg aws.Config) (*types.Organ
 }
 
 func OrganizationsOrganization(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := organizations.NewFromConfig(cfg)
 
 	req, err := client.DescribeOrganization(ctx, &organizations.DescribeOrganizationInput{})
@@ -32,14 +31,7 @@ func OrganizationsOrganization(ctx context.Context, cfg aws.Config, stream *Stre
 	}
 
 	var values []Resource
-	resource := Resource{
-		Region: describeCtx.KaytuRegion,
-		ARN:    *req.Organization.Arn,
-		Name:   *req.Organization.Id,
-		Description: model.OrganizationsOrganizationDescription{
-			Organization: *req.Organization,
-		},
-	}
+	resource := organizationsOrganizationHandle(ctx, req)
 	if stream != nil {
 		if err := (*stream)(resource); err != nil {
 			return nil, err
@@ -48,6 +40,29 @@ func OrganizationsOrganization(ctx context.Context, cfg aws.Config, stream *Stre
 		values = append(values, resource)
 	}
 
+	return values, nil
+}
+func organizationsOrganizationHandle(ctx context.Context, req *organizations.DescribeOrganizationOutput) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *req.Organization.Arn,
+		Name:   *req.Organization.Id,
+		Description: model.OrganizationsOrganizationDescription{
+			Organization: *req.Organization,
+		},
+	}
+	return resource
+}
+func GetOrganizationsOrganization(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	client := organizations.NewFromConfig(cfg)
+	var values []Resource
+	describes, err := client.DescribeOrganization(ctx, &organizations.DescribeOrganizationInput{})
+	if err != nil {
+		return nil, err
+	}
+	resource := organizationsOrganizationHandle(ctx, describes)
+	values = append(values, resource)
 	return values, nil
 }
 

@@ -3,14 +3,14 @@ package describer
 import (
 	"context"
 	"fmt"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/emr"
+	"github.com/aws/aws-sdk-go-v2/service/emr/types"
+	_ "github.com/aws/aws-sdk-go/service/configservice"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 )
 
 func EMRCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := emr.NewFromConfig(cfg)
 	paginator := emr.NewListClustersPaginator(client, &emr.ListClustersInput{})
 
@@ -22,21 +22,16 @@ func EMRCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 		}
 
 		for _, item := range page.Clusters {
-			out, err := client.DescribeCluster(ctx, &emr.DescribeClusterInput{
-				ClusterId: item.Id,
-			})
+			resource, err := eMRClusterHandle(ctx, cfg, *item.Id)
 			if err != nil {
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *out.Cluster.ClusterArn,
-				Name:   *out.Cluster.Name,
-				Description: model.EMRClusterDescription{
-					Cluster: out.Cluster,
-				},
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				return nil, nil
 			}
+
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -48,10 +43,49 @@ func EMRCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 	}
 	return values, nil
 }
+func eMRClusterHandle(ctx context.Context, cfg aws.Config, clusterId string) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := emr.NewFromConfig(cfg)
+
+	out, err := client.DescribeCluster(ctx, &emr.DescribeClusterInput{
+		ClusterId: &clusterId,
+	})
+	if err != nil {
+		if isErr(err, "DescribeClusterNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *out.Cluster.ClusterArn,
+		Name:   *out.Cluster.Name,
+		Description: model.EMRClusterDescription{
+			Cluster: out.Cluster,
+		},
+	}
+	return resource, nil
+}
+func GetEMRCluster(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	clusterId := fields["id"]
+	var values []Resource
+
+	resource, err := eMRClusterHandle(ctx, cfg, clusterId)
+	if err != nil {
+		return nil, err
+	}
+
+	emptyResource := Resource{}
+	if err == nil && resource == emptyResource {
+		return nil, nil
+	}
+
+	values = append(values, resource)
+	return values, nil
+}
 
 func EMRInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-
 	client := emr.NewFromConfig(cfg)
 	clusterPaginator := emr.NewListClustersPaginator(client, &emr.ListClustersInput{})
 
@@ -74,6 +108,7 @@ func EMRInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 				}
 
 				for _, instance := range instancePage.Instances {
+					describeCtx := GetDescribeContext(ctx)
 					arn := fmt.Sprintf("arn:%s:emr:%s:%s:instance/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *instance.Id)
 					resource := Resource{
 						Region: describeCtx.KaytuRegion,
@@ -99,8 +134,6 @@ func EMRInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 }
 
 func EMRInstanceFleet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-
 	client := emr.NewFromConfig(cfg)
 	clusterPaginator := emr.NewListClustersPaginator(client, &emr.ListClustersInput{})
 
@@ -126,17 +159,7 @@ func EMRInstanceFleet(ctx context.Context, cfg aws.Config, stream *StreamSender)
 				}
 
 				for _, instanceFleet := range instancePage.InstanceFleets {
-					arn := fmt.Sprintf("arn:%s:emr:%s:%s:instance-fleet/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *instanceFleet.Id)
-					resource := Resource{
-						Region: describeCtx.KaytuRegion,
-						ID:     *instanceFleet.Id,
-						Name:   *instanceFleet.Name,
-						ARN:    arn,
-						Description: model.EMRInstanceFleetDescription{
-							InstanceFleet: instanceFleet,
-							ClusterID:     *cluster.Id,
-						},
-					}
+					resource := eMRInstanceFleetHandle(ctx, instanceFleet, *cluster.Id)
 					if stream != nil {
 						if err := (*stream)(resource); err != nil {
 							return nil, err
@@ -150,10 +173,43 @@ func EMRInstanceFleet(ctx context.Context, cfg aws.Config, stream *StreamSender)
 	}
 	return values, nil
 }
+func eMRInstanceFleetHandle(ctx context.Context, instanceFleet types.InstanceFleet, clusterId string) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	arn := fmt.Sprintf("arn:%s:emr:%s:%s:instance-fleet/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *instanceFleet.Id)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ID:     *instanceFleet.Id,
+		Name:   *instanceFleet.Name,
+		ARN:    arn,
+		Description: model.EMRInstanceFleetDescription{
+			InstanceFleet: instanceFleet,
+			ClusterID:     clusterId,
+		},
+	}
+	return resource
+}
+func GetEMRInstanceFleet(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	var values []Resource
+	clusterId := fields["clusterId"]
+	client := emr.NewFromConfig(cfg)
+
+	listInstances, err := client.ListInstanceFleets(ctx, &emr.ListInstanceFleetsInput{
+		ClusterId: &clusterId,
+	})
+	if err != nil {
+		if isErr(err, "ListInstanceFleetsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	for _, instance := range listInstances.InstanceFleets {
+		values = append(values, eMRInstanceFleetHandle(ctx, instance, clusterId))
+	}
+	return values, nil
+}
 
 func EMRInstanceGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-
 	client := emr.NewFromConfig(cfg)
 	clusterPaginator := emr.NewListClustersPaginator(client, &emr.ListClustersInput{})
 
@@ -179,16 +235,7 @@ func EMRInstanceGroup(ctx context.Context, cfg aws.Config, stream *StreamSender)
 				}
 
 				for _, instanceGroup := range instancePage.InstanceGroups {
-					arn := fmt.Sprintf("arn:%s:emr:%s:%s:instance-group/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *instanceGroup.Id)
-					resource := Resource{
-						Region: describeCtx.KaytuRegion,
-						ID:     *instanceGroup.Id,
-						ARN:    arn,
-						Description: model.EMRInstanceGroupDescription{
-							InstanceGroup: instanceGroup,
-							ClusterID:     *cluster.Id,
-						},
-					}
+					resource := eMRInstanceGroupHandle(ctx, instanceGroup, *cluster.Id)
 					if instanceGroup.Name != nil {
 						resource.Name = *instanceGroup.Name
 					}
@@ -203,6 +250,40 @@ func EMRInstanceGroup(ctx context.Context, cfg aws.Config, stream *StreamSender)
 				}
 			}
 		}
+	}
+	return values, nil
+}
+func eMRInstanceGroupHandle(ctx context.Context, instanceGroup types.InstanceGroup, clusterId string) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	arn := fmt.Sprintf("arn:%s:emr:%s:%s:instance-group/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *instanceGroup.Id)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ID:     *instanceGroup.Id,
+		ARN:    arn,
+		Description: model.EMRInstanceGroupDescription{
+			InstanceGroup: instanceGroup,
+			ClusterID:     clusterId,
+		},
+	}
+	return resource
+}
+func GetEMRInstanceGroup(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	clusterId := fields["clusterId"]
+	client := emr.NewFromConfig(cfg)
+	var values []Resource
+
+	instances, err := client.ListInstanceGroups(ctx, &emr.ListInstanceGroupsInput{
+		ClusterId: &clusterId,
+	})
+	if err != nil {
+		if isErr(err, "ListInstanceGroupsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	for _, instanceGroup := range instances.InstanceGroups {
+		values = append(values, eMRInstanceGroupHandle(ctx, instanceGroup, clusterId))
 	}
 	return values, nil
 }

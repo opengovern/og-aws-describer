@@ -67,7 +67,6 @@ func ElasticLoadBalancingV2LoadBalancer(ctx context.Context, cfg aws.Config, str
 
 	return values, nil
 }
-
 func GetElasticLoadBalancingV2LoadBalancer(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	lbARN := fields["arn"]
@@ -159,7 +158,6 @@ func ElasticLoadBalancingV2Listener(ctx context.Context, cfg aws.Config, stream 
 
 	return values, nil
 }
-
 func GetElasticLoadBalancingV2Listener(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	lbArn := fields["load_balancer_arn"]
@@ -189,7 +187,6 @@ func GetElasticLoadBalancingV2Listener(ctx context.Context, cfg aws.Config, fiel
 }
 
 func ElasticLoadBalancingV2ListenerRule(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	listeners, err := ElasticLoadBalancingV2Listener(ctx, cfg, nil)
 	if err != nil {
 		return nil, err
@@ -209,14 +206,7 @@ func ElasticLoadBalancingV2ListenerRule(ctx context.Context, cfg aws.Config, str
 			}
 
 			for _, v := range output.Rules {
-				resource := Resource{
-					Region: describeCtx.KaytuRegion,
-					ARN:    *v.RuleArn,
-					Name:   *v.RuleArn,
-					Description: model.ElasticLoadBalancingV2RuleDescription{
-						Rule: v,
-					},
-				}
+				resource := elasticLoadBalancingV2ListenerRuleHandle(ctx, v)
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -224,9 +214,7 @@ func ElasticLoadBalancingV2ListenerRule(ctx context.Context, cfg aws.Config, str
 				} else {
 					values = append(values, resource)
 				}
-
 			}
-
 			return output.NextMarker, nil
 		})
 		if err != nil {
@@ -236,53 +224,44 @@ func ElasticLoadBalancingV2ListenerRule(ctx context.Context, cfg aws.Config, str
 
 	return values, nil
 }
-
-func GetElasticLoadBalancingV2ListenerRule(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+func elasticLoadBalancingV2ListenerRuleHandle(ctx context.Context, v types.Rule) Resource {
 	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.RuleArn,
+		Name:   *v.RuleArn,
+		Description: model.ElasticLoadBalancingV2RuleDescription{
+			Rule: v,
+		},
+	}
+	return resource
+}
+func GetElasticLoadBalancingV2ListenerRule(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	arn := fields["arn"]
+	var values []Resource
+	client := elasticloadbalancingv2.NewFromConfig(cfg)
+
 	listeners, err := ElasticLoadBalancingV2Listener(ctx, cfg, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	client := elasticloadbalancingv2.NewFromConfig(cfg)
-	var values []Resource
 	for _, l := range listeners {
-		arn := l.Description.(model.ElasticLoadBalancingV2ListenerDescription).Listener.ListenerArn
-		err = PaginateRetrieveAll(func(prevToken *string) (nextToken *string, err error) {
-			output, err := client.DescribeRules(ctx, &elasticloadbalancingv2.DescribeRulesInput{
-				ListenerArn: aws.String(*arn),
-				Marker:      prevToken,
-			})
-			if err != nil {
-				return nil, err
-			}
-
-			for _, v := range output.Rules {
-				resource := Resource{
-					Region: describeCtx.KaytuRegion,
-					ARN:    *v.RuleArn,
-					Name:   *v.RuleArn,
-					Description: model.ElasticLoadBalancingV2RuleDescription{
-						Rule: v,
-					},
-				}
-				if stream != nil {
-					if err := (*stream)(resource); err != nil {
-						return nil, err
-					}
-				} else {
-					values = append(values, resource)
-				}
-
-			}
-
-			return output.NextMarker, nil
+		if l.ARN != arn {
+			continue
+		}
+		output, err := client.DescribeRules(ctx, &elasticloadbalancingv2.DescribeRulesInput{
+			ListenerArn: aws.String(arn),
 		})
 		if err != nil {
 			return nil, err
 		}
-	}
 
+		for _, v := range output.Rules {
+			resource := elasticLoadBalancingV2ListenerRuleHandle(ctx, v)
+			values = append(values, resource)
+		}
+	}
 	return values, nil
 }
 

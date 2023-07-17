@@ -53,6 +53,9 @@ func GetRDSDBCluster(ctx context.Context, cfg aws.Config, fields map[string]stri
 		DBClusterIdentifier: &arn,
 	})
 	if err != nil {
+		if isErr(err, "DescribeDBClustersNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
 		return nil, err
 	}
 
@@ -134,6 +137,9 @@ func GetRDSDBClusterSnapshot(ctx context.Context, cfg aws.Config, fields map[str
 		SnapshotType:                &SnapshotType,
 	})
 	if err != nil {
+		if isErr(err, "DescribeDBClusterSnapshotsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
 		return nil, err
 	}
 
@@ -142,8 +148,9 @@ func GetRDSDBClusterSnapshot(ctx context.Context, cfg aws.Config, fields map[str
 		if err != nil {
 			return nil, err
 		}
-		emptyReasource := Resource{}
-		if err == nil && resource == emptyReasource {
+
+		emptyResource := Resource{}
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 
@@ -152,7 +159,6 @@ func GetRDSDBClusterSnapshot(ctx context.Context, cfg aws.Config, fields map[str
 	return value, nil
 }
 
-// no need
 func RDSDBClusterParameterGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := rds.NewFromConfig(cfg)
@@ -220,7 +226,7 @@ func RDSDBInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 		}
 
 		for _, v := range page.DBInstances {
-			resource := RDSDBInstanceHandle(ctx, v)
+			resource := rDSDBInstanceHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -233,7 +239,7 @@ func RDSDBInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 
 	return values, nil
 }
-func RDSDBInstanceHandle(ctx context.Context, v types.DBInstance) Resource {
+func rDSDBInstanceHandle(ctx context.Context, v types.DBInstance) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -248,22 +254,24 @@ func RDSDBInstanceHandle(ctx context.Context, v types.DBInstance) Resource {
 func GetRDSDBInstance(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	dbInstanceId := fields["id"]
 	client := rds.NewFromConfig(cfg)
+
 	out, err := client.DescribeDBInstances(ctx, &rds.DescribeDBInstancesInput{
 		DBInstanceIdentifier: &dbInstanceId,
 	})
 	if err != nil {
+		if isErr(err, "DescribeDBInstancesNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
 		return nil, err
 	}
 
 	var values []Resource
 	for _, v := range out.DBInstances {
-		resource := RDSDBInstanceHandle(ctx, v)
-		values = append(values, resource)
+		values = append(values, rDSDBInstanceHandle(ctx, v))
 	}
 	return values, nil
 }
 
-// no need
 func RDSDBParameterGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := rds.NewFromConfig(cfg)
@@ -314,7 +322,6 @@ func RDSDBParameterGroup(ctx context.Context, cfg aws.Config, stream *StreamSend
 	return values, nil
 }
 
-// no need
 func RDSDBProxy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := rds.NewFromConfig(cfg)
@@ -464,7 +471,6 @@ func RDSDBSecurityGroup(ctx context.Context, cfg aws.Config, stream *StreamSende
 	return values, nil
 }
 
-// no need
 func RDSDBSubnetGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := rds.NewFromConfig(cfg)
@@ -560,8 +566,7 @@ func GetRDSDBEventSubscription(ctx context.Context, cfg aws.Config, fields map[s
 	}
 
 	for _, v := range describes.EventSubscriptionsList {
-		resource := rDSDBEventSubscriptionHandle(ctx, v)
-		values = append(values, resource)
+		values = append(values, rDSDBEventSubscriptionHandle(ctx, v))
 	}
 	return values, nil
 }
@@ -622,15 +627,14 @@ func GetRDSGlobalCluster(ctx context.Context, cfg aws.Config, fields map[string]
 		GlobalClusterIdentifier: &arn,
 	})
 	if err != nil {
-		if isErr(err, "DescribeGlobalClustersNotfound") || isErr(err, "invalidParameterValue") {
+		if isErr(err, "DescribeGlobalClustersNotFound") || isErr(err, "invalidParameterValue") {
 			return nil, nil
 		}
 		return nil, err
 	}
 
 	for _, v := range describers.GlobalClusters {
-		resource := rDSGlobalClusterHandle(ctx, cfg, v)
-		values = append(values, resource)
+		values = append(values, rDSGlobalClusterHandle(ctx, cfg, v))
 	}
 	return values, nil
 }
@@ -713,10 +717,12 @@ func GetRDSOptionGroup(ctx context.Context, cfg aws.Config, fields map[string]st
 		if err != nil {
 			return nil, err
 		}
+
 		emptyResource := Resource{}
 		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
+
 		values = append(values, resource)
 	}
 	return values, nil
@@ -796,7 +802,7 @@ func GetRDSDBSnapshot(ctx context.Context, cfg aws.Config, fields map[string]str
 		DbiResourceId: &dbiResourceId,
 	})
 	if err != nil {
-		if isErr(err, "DescribeDBSnapshotsNotfound") || isErr(err, "InvalidParameterValue") {
+		if isErr(err, "DescribeDBSnapshotsNotFound") || isErr(err, "InvalidParameterValue") {
 			return nil, nil
 		}
 		return nil, err
@@ -807,6 +813,7 @@ func GetRDSDBSnapshot(ctx context.Context, cfg aws.Config, fields map[string]str
 		if err != nil {
 			return nil, err
 		}
+
 		emptyResource := Resource{}
 		if err == nil && resource == emptyResource {
 			return nil, nil
@@ -870,8 +877,7 @@ func GetRDSReservedDBInstance(ctx context.Context, cfg aws.Config, fields map[st
 	}
 
 	for _, v := range describers.ReservedDBInstances {
-		resource := rDSReservedDBInstanceHandle(ctx, v)
-		value = append(value, resource)
+		value = append(value, rDSReservedDBInstanceHandle(ctx, v))
 	}
 	return value, nil
 }

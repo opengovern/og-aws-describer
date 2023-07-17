@@ -185,17 +185,24 @@ func GetWorkspacesBundle(ctx context.Context, cfg aws.Config, fields map[string]
 		BundleIds: []string{BundleId},
 	})
 	if err != nil {
+		if isErr(err, "DescribeWorkspaceBundlesNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
 		return nil, err
 	}
+
 	for _, v := range workspace.Bundles {
 		tags, err := client.DescribeTags(ctx, &workspaces.DescribeTagsInput{
 			ResourceId: v.BundleId,
 		})
 		if err != nil {
+			if isErr(err, "DescribeTagsNotFound") || isErr(err, "InvalidParameterValue") {
+				return nil, nil
+			}
 			return nil, err
 		}
-		resource := workspacesBundleHandel(ctx, v, tags)
-		values = append(values, resource)
+
+		values = append(values, workspacesBundleHandel(ctx, v, tags))
 	}
 	return values, nil
 }

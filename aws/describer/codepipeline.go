@@ -9,7 +9,6 @@ import (
 )
 
 func CodePipelinePipeline(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := codepipeline.NewFromConfig(cfg)
 	paginator := codepipeline.NewListPipelinesPaginator(client, &codepipeline.ListPipelinesInput{})
 
@@ -34,26 +33,11 @@ func CodePipelinePipeline(ctx context.Context, cfg aws.Config, stream *StreamSen
 				continue
 			}
 
-			tags, err := client.ListTagsForResource(ctx, &codepipeline.ListTagsForResourceInput{
-				ResourceArn: pipeline.Metadata.PipelineArn,
-			})
+			resource, err := codePipelinePipelineHandle(ctx, cfg, pipeline)
 			if err != nil {
-				if !isErr(err, "InvalidParameter") {
-					return nil, err
-				}
-				tags = &codepipeline.ListTagsForResourceOutput{}
+				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *pipeline.Metadata.PipelineArn,
-				Name:   *pipeline.Pipeline.Name,
-				Description: model.CodePipelinePipelineDescription{
-					Pipeline: *pipeline.Pipeline,
-					Metadata: *pipeline.Metadata,
-					Tags:     tags.Tags,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -63,6 +47,53 @@ func CodePipelinePipeline(ctx context.Context, cfg aws.Config, stream *StreamSen
 			}
 		}
 	}
+	return values, nil
+}
+func codePipelinePipelineHandle(ctx context.Context, cfg aws.Config, pipeline *codepipeline.GetPipelineOutput) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := codepipeline.NewFromConfig(cfg)
+	tags, err := client.ListTagsForResource(ctx, &codepipeline.ListTagsForResourceInput{
+		ResourceArn: pipeline.Metadata.PipelineArn,
+	})
+	if err != nil {
+		if !isErr(err, "InvalidParameter") {
+			return Resource{}, err
+		}
+		tags = &codepipeline.ListTagsForResourceOutput{}
+	}
 
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *pipeline.Metadata.PipelineArn,
+		Name:   *pipeline.Pipeline.Name,
+		Description: model.CodePipelinePipelineDescription{
+			Pipeline: *pipeline.Pipeline,
+			Metadata: *pipeline.Metadata,
+			Tags:     tags.Tags,
+		},
+	}
+	return resource, nil
+}
+func GetCodePipelinePipeline(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	name := fields["name"]
+	var values []Resource
+	client := codepipeline.NewFromConfig(cfg)
+
+	pipeline, err := client.GetPipeline(ctx, &codepipeline.GetPipelineInput{
+		Name: &name,
+	})
+	if err != nil {
+		if isErr(err, "GetPipelineNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	resource, err := codePipelinePipelineHandle(ctx, cfg, pipeline)
+	if err != nil {
+		return nil, err
+	}
+
+	values = append(values, resource)
 	return values, nil
 }
