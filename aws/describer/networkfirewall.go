@@ -52,7 +52,7 @@ func NetworkFirewallFirewallHandel(ctx context.Context, firewall *networkfirewal
 	return resource
 }
 func GetNetworkFirewallFirewall(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
-	var value []Resource
+	var values []Resource
 	firewallName := fields["firewallName"]
 	firewallArn := fields["firewallArn"]
 	client := networkfirewall.NewFromConfig(cfg)
@@ -65,8 +65,8 @@ func GetNetworkFirewallFirewall(ctx context.Context, cfg aws.Config, fields map[
 	}
 
 	resource := NetworkFirewallFirewallHandel(ctx, firewall, firewallName, firewallArn)
-	value = append(value, resource)
-	return value, nil
+	values = append(values, resource)
+	return values, nil
 }
 
 func NetworkFirewallPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

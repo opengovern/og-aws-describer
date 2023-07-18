@@ -81,12 +81,12 @@ func RDSDBClusterSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSen
 
 		for _, v := range page.DBClusterSnapshots {
 			resource, err := rDSDBClusterSnapshotHandle(ctx, cfg, v)
+			emptyResource := Resource{}
+			if err != nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
-			}
-			emptyReasource := Resource{}
-			if err == nil && resource == emptyReasource {
-				return nil, nil
 			}
 
 			if stream != nil {
@@ -129,7 +129,7 @@ func rDSDBClusterSnapshotHandle(ctx context.Context, cfg aws.Config, v types.DBC
 func GetRDSDBClusterSnapshot(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	DBClusterSnapshotIdentifier := fields["ClusterSnapshotId"]
 	SnapshotType := fields["snapshotType"]
-	var value []Resource
+	var values []Resource
 
 	client := rds.NewFromConfig(cfg)
 	clusterSnapshot, err := client.DescribeDBClusterSnapshots(ctx, &rds.DescribeDBClusterSnapshotsInput{
@@ -145,18 +145,17 @@ func GetRDSDBClusterSnapshot(ctx context.Context, cfg aws.Config, fields map[str
 
 	for _, v := range clusterSnapshot.DBClusterSnapshots {
 		resource, err := rDSDBClusterSnapshotHandle(ctx, cfg, v)
+		emptyResource := Resource{}
+		if err != nil && resource == emptyResource {
+			return nil, nil
+		}
 		if err != nil {
 			return nil, err
 		}
 
-		emptyResource := Resource{}
-		if err == nil && resource == emptyResource {
-			return nil, nil
-		}
-
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }
 
 func RDSDBClusterParameterGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -652,12 +651,12 @@ func RDSOptionGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 
 		for _, v := range page.OptionGroupsList {
 			resource, err := rDSOptionGroupHandle(ctx, cfg, v)
+			emptyResource := Resource{}
+			if err != nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
-			}
-			emptyResource := Resource{}
-			if err == nil && resource == emptyResource {
-				return nil, nil
 			}
 
 			if stream != nil {
@@ -714,13 +713,12 @@ func GetRDSOptionGroup(ctx context.Context, cfg aws.Config, fields map[string]st
 
 	for _, v := range describers.OptionGroupsList {
 		resource, err := rDSOptionGroupHandle(ctx, cfg, v)
+		emptyResource := Resource{}
+		if err != nil && resource == emptyResource {
+			return nil, nil
+		}
 		if err != nil {
 			return nil, err
-		}
-
-		emptyResource := Resource{}
-		if err == nil && resource == emptyResource {
-			return nil, nil
 		}
 
 		values = append(values, resource)
@@ -729,7 +727,6 @@ func GetRDSOptionGroup(ctx context.Context, cfg aws.Config, fields map[string]st
 }
 
 func RDSDBSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := rds.NewFromConfig(cfg)
 	paginator := rds.NewDescribeDBSnapshotsPaginator(client, &rds.DescribeDBSnapshotsInput{})
 
@@ -741,22 +738,15 @@ func RDSDBSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 		}
 
 		for _, v := range page.DBSnapshots {
-			attrs, err := client.DescribeDBSnapshotAttributes(ctx, &rds.DescribeDBSnapshotAttributesInput{
-				DBSnapshotIdentifier: v.DBSnapshotIdentifier,
-			})
+			resource, err := rDSDBSnapshotHandle(ctx, cfg, v)
+			emptyResource := Resource{}
+			if err != nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.DBSnapshotArn,
-				Name:   *v.DBSnapshotIdentifier,
-				Description: model.RDSDBSnapshotDescription{
-					DBSnapshot:           v,
-					DBSnapshotAttributes: attrs.DBSnapshotAttributesResult.DBSnapshotAttributes,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -810,13 +800,12 @@ func GetRDSDBSnapshot(ctx context.Context, cfg aws.Config, fields map[string]str
 
 	for _, v := range describers.DBSnapshots {
 		resource, err := rDSDBSnapshotHandle(ctx, cfg, v)
+		emptyResource := Resource{}
+		if err != nil && resource == emptyResource {
+			return nil, nil
+		}
 		if err != nil {
 			return nil, err
-		}
-
-		emptyResource := Resource{}
-		if err == nil && resource == emptyResource {
-			return nil, nil
 		}
 
 		values = append(values, resource)
@@ -863,7 +852,7 @@ func rDSReservedDBInstanceHandle(ctx context.Context, reservedDBInstance types.R
 }
 func GetRDSReservedDBInstance(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	reservedDBInstanceId := fields["id"]
-	var value []Resource
+	var values []Resource
 
 	client := rds.NewFromConfig(cfg)
 	describers, err := client.DescribeReservedDBInstances(ctx, &rds.DescribeReservedDBInstancesInput{
@@ -877,7 +866,7 @@ func GetRDSReservedDBInstance(ctx context.Context, cfg aws.Config, fields map[st
 	}
 
 	for _, v := range describers.ReservedDBInstances {
-		value = append(value, rDSReservedDBInstanceHandle(ctx, v))
+		values = append(values, rDSReservedDBInstanceHandle(ctx, v))
 	}
-	return value, nil
+	return values, nil
 }

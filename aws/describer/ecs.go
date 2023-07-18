@@ -52,7 +52,6 @@ func ECSCapacityProvider(ctx context.Context, cfg aws.Config, stream *StreamSend
 }
 
 func ECSCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	clusters, err := listEcsClusters(ctx, cfg, nil)
 	if err != nil {
 		return nil, err
@@ -79,14 +78,7 @@ func ECSCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 		}
 
 		for _, v := range output.Clusters {
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.ClusterArn,
-				Name:   *v.ClusterName,
-				Description: model.ECSClusterDescription{
-					Cluster: v,
-				},
-			}
+			resource := eCSClusterHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -99,9 +91,19 @@ func ECSCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 
 	return values, nil
 }
-
-func GetECSCluster(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+func eCSClusterHandle(ctx context.Context, v types.Cluster) Resource {
 	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.ClusterArn,
+		Name:   *v.ClusterName,
+		Description: model.ECSClusterDescription{
+			Cluster: v,
+		},
+	}
+	return resource
+}
+func GetECSCluster(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	client := ecs.NewFromConfig(cfg)
 
 	cluster := fields["name"]
@@ -118,21 +120,13 @@ func GetECSCluster(ctx context.Context, cfg aws.Config, fields map[string]string
 	}
 
 	for _, v := range output.Clusters {
-		values = append(values, Resource{
-			Region: describeCtx.KaytuRegion,
-			ARN:    *v.ClusterArn,
-			Name:   *v.ClusterName,
-			Description: model.ECSClusterDescription{
-				Cluster: v,
-			},
-		})
+		values = append(values, eCSClusterHandle(ctx, v))
 	}
 
 	return values, nil
 }
 
 func ECSService(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	clusters, err := listEcsClusters(ctx, cfg, nil)
 	if err != nil {
 		return nil, err
@@ -168,14 +162,7 @@ func ECSService(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 			}
 
 			for _, v := range output.Services {
-				resource := Resource{
-					Region: describeCtx.KaytuRegion,
-					ARN:    *v.ServiceArn,
-					Name:   *v.ServiceName,
-					Description: model.ECSServiceDescription{
-						Service: v,
-					},
-				}
+				resource := eCSServiceHandle(ctx, v)
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -189,9 +176,19 @@ func ECSService(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 
 	return values, nil
 }
-
-func GetECSService(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+func eCSServiceHandle(ctx context.Context, v types.Service) Resource {
 	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.ServiceArn,
+		Name:   *v.ServiceName,
+		Description: model.ECSServiceDescription{
+			Service: v,
+		},
+	}
+	return resource
+}
+func GetECSService(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	cluster := fields["cluster"]
 	service := fields["service"]
 	client := ecs.NewFromConfig(cfg)
@@ -209,21 +206,13 @@ func GetECSService(ctx context.Context, cfg aws.Config, fields map[string]string
 	}
 
 	for _, v := range output.Services {
-		values = append(values, Resource{
-			Region: describeCtx.KaytuRegion,
-			ARN:    *v.ServiceArn,
-			Name:   *v.ServiceName,
-			Description: model.ECSServiceDescription{
-				Service: v,
-			},
-		})
+		values = append(values, eCSServiceHandle(ctx, v))
 	}
 
 	return values, nil
 }
 
 func ECSTaskDefinition(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := ecs.NewFromConfig(cfg)
 	paginator := ecs.NewListTaskDefinitionsPaginator(client, &ecs.ListTaskDefinitionsInput{})
 
@@ -235,29 +224,16 @@ func ECSTaskDefinition(ctx context.Context, cfg aws.Config, stream *StreamSender
 		}
 
 		for _, arn := range page.TaskDefinitionArns {
-			output, err := client.DescribeTaskDefinition(ctx, &ecs.DescribeTaskDefinitionInput{
-				TaskDefinition: &arn,
-				Include: []types.TaskDefinitionField{
-					types.TaskDefinitionFieldTags,
-				},
-			})
+
+			resource, err := eCSTaskDefinitionHandle(ctx, cfg, arn)
 			if err != nil {
 				return nil, err
 			}
-
-			// From Steampipe
-			splitArn := strings.Split(arn, ":")
-			name := splitArn[len(splitArn)-1]
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    arn,
-				Name:   name,
-				Description: model.ECSTaskDefinitionDescription{
-					TaskDefinition: output.TaskDefinition,
-					Tags:           output.Tags,
-				},
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				continue
 			}
+
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -270,42 +246,55 @@ func ECSTaskDefinition(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 	return values, nil
 }
-
-func GetECSTaskDefinition(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+func eCSTaskDefinitionHandle(ctx context.Context, cfg aws.Config, arn string) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := ecs.NewFromConfig(cfg)
 
-	taskDefinitionARN := fields["arn"]
-	var values []Resource
 	output, err := client.DescribeTaskDefinition(ctx, &ecs.DescribeTaskDefinitionInput{
-		TaskDefinition: &taskDefinitionARN,
+		TaskDefinition: &arn,
 		Include: []types.TaskDefinitionField{
 			types.TaskDefinitionFieldTags,
 		},
 	})
 	if err != nil {
-		return nil, err
+		if isErr(err, "DescribeTaskDefinitionNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
 	}
 
 	// From Steampipe
-	splitArn := strings.Split(taskDefinitionARN, ":")
+	splitArn := strings.Split(arn, ":")
 	name := splitArn[len(splitArn)-1]
 
-	values = append(values, Resource{
+	resource := Resource{
 		Region: describeCtx.KaytuRegion,
-		ARN:    taskDefinitionARN,
+		ARN:    arn,
 		Name:   name,
 		Description: model.ECSTaskDefinitionDescription{
 			TaskDefinition: output.TaskDefinition,
 			Tags:           output.Tags,
 		},
-	})
+	}
+	return resource, nil
+}
+func GetECSTaskDefinition(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	taskDefinitionARN := fields["arn"]
+	var values []Resource
+
+	resource, err := eCSTaskDefinitionHandle(ctx, cfg, taskDefinitionARN)
+	if err != nil {
+		return nil, err
+	}
+	emptyResource := Resource{}
+	if err == nil && resource == emptyResource {
+		return nil, nil
+	}
 
 	return values, nil
 }
 
 func ECSTaskSet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	clusters, err := listEcsClusters(ctx, cfg, nil)
 	if err != nil {
 		return nil, err
@@ -344,14 +333,7 @@ func ECSTaskSet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 					return nil, err
 				}
 				for _, v := range service.TaskSets {
-					resource := Resource{
-						Region: describeCtx.KaytuRegion,
-						ARN:    *v.TaskSetArn,
-						Name:   *v.Id,
-						Description: model.ECSTaskSetDescription{
-							TaskSet: v,
-						},
-					}
+					resource := eCSTaskSetHandle(ctx, v)
 					if stream != nil {
 						if err := (*stream)(resource); err != nil {
 							return nil, err
@@ -365,6 +347,41 @@ func ECSTaskSet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 
 	}
 
+	return values, nil
+}
+func eCSTaskSetHandle(ctx context.Context, v types.TaskSet) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.TaskSetArn,
+		Name:   *v.Id,
+		Description: model.ECSTaskSetDescription{
+			TaskSet: v,
+		},
+	}
+	return resource
+}
+func GetECSTaskSet(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	cluster := fields["cluster"]
+	service := fields["service"]
+	client := ecs.NewFromConfig(cfg)
+
+	taskSets, err := client.DescribeTaskSets(ctx, &ecs.DescribeTaskSetsInput{
+		Cluster: &cluster,
+		Service: &service,
+	})
+	if err != nil {
+		if isErr(err, "DescribeTaskSetsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _, v := range taskSets.TaskSets {
+		resource := eCSTaskSetHandle(ctx, v)
+		values = append(values, resource)
+	}
 	return values, nil
 }
 

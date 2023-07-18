@@ -664,8 +664,8 @@ func listCloudWatchMetricStatistics(ctx context.Context, cfg aws.Config, granula
 	if dimensionName != "" && dimensionValue != "" {
 		params.Dimensions = []types.Dimension{
 			{
-				Name:  aws.String(dimensionName),
-				Value: aws.String(dimensionValue),
+				Name:   aws.String(dimensionName),
+				values: aws.String(dimensionValue),
 			},
 		}
 	}

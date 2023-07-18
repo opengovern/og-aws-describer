@@ -151,7 +151,7 @@ func eC2VolumeHandel(ctx context.Context, v types.Volume, client *ec2.Client) (R
 
 		switch attr {
 		case types.VolumeAttributeNameAutoEnableIO:
-			description.Attributes.AutoEnableIO = *attrs.AutoEnableIO.Value
+			description.Attributes.AutoEnableIO = *attrs.AutoEnableIO.values
 		case types.VolumeAttributeNameProductCodes:
 			description.Attributes.ProductCodes = attrs.ProductCodes
 		}
@@ -303,6 +303,7 @@ func GetEC2CapacityReservationFleet(ctx context.Context, cfg aws.Config, field m
 	}
 	return values, nil
 }
+
 func EC2CarrierGateway(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := ec2.NewFromConfig(cfg)
@@ -539,12 +540,12 @@ func GetEC2CustomerGateway(ctx context.Context, cfg aws.Config, field map[string
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, v := range out.CustomerGateways {
 		resource := eC2CustomerGatewayHandel(ctx, v)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }
 
 func EC2VerifiedAccessInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -601,13 +602,13 @@ func GetEC2VerifiedAccessInstance(ctx context.Context, cfg aws.Config, field map
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, v := range out.VerifiedAccessInstances {
 		resource := eC2VerifiedAccessInstanceHandel(ctx, v)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
 
-	return value, nil
+	return values, nil
 }
 
 func EC2VerifiedAccessEndpoint(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -665,13 +666,13 @@ func GetEC2VerifiedAccessEndpoint(ctx context.Context, cfg aws.Config, field map
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, v := range out.VerifiedAccessEndpoints {
 		resource := eC2VerifiedAccessEndpointHandel(ctx, v)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
 
-	return value, nil
+	return values, nil
 }
 
 func EC2VerifiedAccessGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -728,13 +729,13 @@ func GetEC2VerifiedAccessGroup(ctx context.Context, cfg aws.Config, field map[st
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, v := range out.VerifiedAccessGroups {
 		resource := eC2VerifiedAccessGroupHandle(ctx, v)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
 
-	return value, nil
+	return values, nil
 }
 
 func EC2VerifiedAccessTrustProvider(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -791,13 +792,13 @@ func GetEC2VerifiedAccessTrustProvider(ctx context.Context, cfg aws.Config, fiel
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, v := range out.VerifiedAccessTrustProviders {
 		resource := eC2VerifiedAccessTrustProviderHandel(ctx, v)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
 
-	return value, nil
+	return values, nil
 }
 
 func EC2DHCPOptions(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -853,13 +854,13 @@ func GetEC2DHCPOptions(ctx context.Context, cfg aws.Config, field map[string]str
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, v := range out.DhcpOptions {
 		resource := eC2DHCPOptionsHandel(ctx, v)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
 
-	return value, nil
+	return values, nil
 }
 
 func EC2Fleet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -911,12 +912,12 @@ func GetEC2Fleet(ctx context.Context, cfg aws.Config, field map[string]string) (
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, v := range out.Fleets {
 		resource := eC2FleetHandel(ctx, v)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }
 
 func EC2EgressOnlyInternetGateway(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -971,12 +972,12 @@ func GetEC2EgressOnlyInternetGateway(ctx context.Context, cfg aws.Config, field 
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, v := range out.EgressOnlyInternetGateways {
 		resource := eC2EgressOnlyInternetGatewayHandel(ctx, v)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }
 
 func EC2EIP(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -1261,11 +1262,11 @@ func eC2InstanceHandel(ctx context.Context, v types.Instance, client *ec2.Client
 
 		switch attr {
 		case types.InstanceAttributeNameUserData:
-			desc.Attributes.UserData = aws.ToString(output.UserData.Value)
+			desc.Attributes.UserData = aws.ToString(output.UserData.values)
 		case types.InstanceAttributeNameInstanceInitiatedShutdownBehavior:
-			desc.Attributes.InstanceInitiatedShutdownBehavior = aws.ToString(output.InstanceInitiatedShutdownBehavior.Value)
+			desc.Attributes.InstanceInitiatedShutdownBehavior = aws.ToString(output.InstanceInitiatedShutdownBehavior.values)
 		case types.InstanceAttributeNameDisableApiTermination:
-			desc.Attributes.DisableApiTermination = aws.ToBool(output.DisableApiTermination.Value)
+			desc.Attributes.DisableApiTermination = aws.ToBool(output.DisableApiTermination.values)
 		}
 	}
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":instance/" + *v.InstanceId
@@ -2150,8 +2151,6 @@ func getEC2SecurityGroupRuleDescriptionFromIPPermission(group types.SecurityGrou
 }
 
 func EC2SecurityGroupRule(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-
 	groups, err := EC2SecurityGroup(ctx, cfg, nil)
 	if err != nil {
 		return nil, err
@@ -2173,30 +2172,72 @@ func EC2SecurityGroupRule(ctx context.Context, cfg aws.Config, stream *StreamSen
 		}
 	}
 	for _, desc := range descArr {
-		hashCode := desc.Type + "_" + *desc.Permission.IpProtocol
-		if desc.Permission.FromPort != nil {
-			hashCode = hashCode + "_" + fmt.Sprint(desc.Permission.FromPort) + "_" + fmt.Sprint(desc.Permission.ToPort)
-		}
-
-		if desc.IPRange != nil && desc.IPRange.CidrIp != nil {
-			hashCode = hashCode + "_" + *desc.IPRange.CidrIp
-		} else if desc.Ipv6Range != nil && desc.Ipv6Range.CidrIpv6 != nil {
-			hashCode = hashCode + "_" + *desc.Ipv6Range.CidrIpv6
-		} else if desc.UserIDGroupPair != nil && *desc.UserIDGroupPair.GroupId == *desc.Group.GroupId {
-			hashCode = hashCode + "_" + *desc.Group.GroupId
-		} else if desc.PrefixListId != nil && desc.PrefixListId.PrefixListId != nil {
-			hashCode = hashCode + "_" + *desc.PrefixListId.PrefixListId
-		}
-
-		arn := fmt.Sprintf("arn:%s:ec2:%s:%s:security-group/%s:%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *desc.Group.GroupId, hashCode)
-		values = append(values, Resource{
-			Region:      describeCtx.Region,
-			ARN:         arn,
-			Name:        fmt.Sprintf("%s_%s", *desc.Group.GroupId, hashCode),
-			Description: desc,
-		})
+		resource := eC2SecurityGroupRuleHandle(ctx, desc)
+		values = append(values, resource)
 	}
 
+	return values, nil
+}
+func eC2SecurityGroupRuleHandle(ctx context.Context, desc model.EC2SecurityGroupRuleDescription) Resource {
+	describeCtx := GetDescribeContext(ctx)
+
+	hashCode := desc.Type + "_" + *desc.Permission.IpProtocol
+	if desc.Permission.FromPort != nil {
+		hashCode = hashCode + "_" + fmt.Sprint(desc.Permission.FromPort) + "_" + fmt.Sprint(desc.Permission.ToPort)
+	}
+
+	if desc.IPRange != nil && desc.IPRange.CidrIp != nil {
+		hashCode = hashCode + "_" + *desc.IPRange.CidrIp
+	} else if desc.Ipv6Range != nil && desc.Ipv6Range.CidrIpv6 != nil {
+		hashCode = hashCode + "_" + *desc.Ipv6Range.CidrIpv6
+	} else if desc.UserIDGroupPair != nil && *desc.UserIDGroupPair.GroupId == *desc.Group.GroupId {
+		hashCode = hashCode + "_" + *desc.Group.GroupId
+	} else if desc.PrefixListId != nil && desc.PrefixListId.PrefixListId != nil {
+		hashCode = hashCode + "_" + *desc.PrefixListId.PrefixListId
+	}
+
+	arn := fmt.Sprintf("arn:%s:ec2:%s:%s:security-group/%s:%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *desc.Group.GroupId, hashCode)
+	resource := Resource{
+		Region:      describeCtx.Region,
+		ARN:         arn,
+		Name:        fmt.Sprintf("%s_%s", *desc.Group.GroupId, hashCode),
+		Description: desc,
+	}
+	return resource
+}
+func GetEC2SecurityGroupRule(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	client := ec2.NewFromConfig(cfg)
+	groupName := fields["name"]
+
+	out, err := client.DescribeSecurityGroups(ctx, &ec2.DescribeSecurityGroupsInput{
+		GroupNames: []string{groupName},
+	})
+	if err != nil {
+		if isErr(err, "DescribeConfigurationSetNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	descArr := make([]model.EC2SecurityGroupRuleDescription, 0, 128)
+	for _, group := range out.SecurityGroups {
+		if group.IpPermissions != nil {
+			for _, permission := range group.IpPermissions {
+				descArr = append(descArr, getEC2SecurityGroupRuleDescriptionFromIPPermission(group, permission, "ingress")...)
+			}
+		}
+		if group.IpPermissionsEgress != nil {
+			for _, permission := range group.IpPermissionsEgress {
+				descArr = append(descArr, getEC2SecurityGroupRuleDescriptionFromIPPermission(group, permission, "egress")...)
+			}
+		}
+	}
+
+	var values []Resource
+	for _, desc := range descArr {
+		resource := eC2SecurityGroupRuleHandle(ctx, desc)
+		values = append(values, resource)
+	}
 	return values, nil
 }
 
@@ -3654,7 +3695,7 @@ func EC2ManagedPrefixList(ctx context.Context, cfg aws.Config, stream *StreamSen
 }
 func eC2ManagedPrefixListHandel(ctx context.Context, v types.ManagedPrefixList) Resource {
 	describeCtx := GetDescribeContext(ctx)
-	value := Resource{
+	values := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *v.PrefixListArn,
 		Name:   *v.PrefixListName,
@@ -3662,7 +3703,7 @@ func eC2ManagedPrefixListHandel(ctx context.Context, v types.ManagedPrefixList) 
 			ManagedPrefixList: v,
 		},
 	}
-	return value
+	return values
 }
 func GetEC2ManagedPrefixList(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	ManagedPrefixListId := fields["id"]
@@ -3794,10 +3835,10 @@ func GetEC2TransitGatewayRoute(ctx context.Context, cfg aws.Config, fields map[s
 	if len(routTable.TransitGatewayRouteTables) == 0 {
 		return nil, nil
 	}
-	var value []Resource
+	var values []Resource
 	for _, v := range routTable.TransitGatewayRouteTables {
 		arn := fmt.Sprintf("arn:%s:ec2:%s:%s:transit-gateway-route-table/%s:%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.TransitGatewayRouteTableId)
-		value = append(value, Resource{
+		values = append(values, Resource{
 			Region: describeCtx.KaytuRegion,
 			ARN:    arn,
 			Name:   *v.TransitGatewayRouteTableId,
@@ -3806,7 +3847,7 @@ func GetEC2TransitGatewayRoute(ctx context.Context, cfg aws.Config, fields map[s
 			},
 		})
 	}
-	return value, nil
+	return values, nil
 }
 
 func EC2TransitGatewayAttachment(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -3821,13 +3862,13 @@ func EC2TransitGatewayAttachment(ctx context.Context, cfg aws.Config, stream *St
 		}
 
 		for _, v := range page.TransitGatewayAttachments {
-			value := eC2TransitGatewayAttachmentHandel(ctx, v)
+			values := eC2TransitGatewayAttachmentHandel(ctx, v)
 			if stream != nil {
-				if err := (*stream)(value); err != nil {
+				if err := (*stream)(values); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, value)
+				values = append(values, values)
 			}
 		}
 	}
@@ -3860,8 +3901,8 @@ func GetEC2TransitGatewayAttachment(ctx context.Context, cfg aws.Config, fields 
 
 	var values []Resource
 	for _, v := range out.TransitGatewayAttachments {
-		value := eC2TransitGatewayAttachmentHandel(ctx, v)
-		values = append(values, value)
+		values := eC2TransitGatewayAttachmentHandel(ctx, v)
+		values = append(values, values)
 	}
 	return values, nil
 }

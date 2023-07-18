@@ -28,12 +28,12 @@ func RedshiftCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 
 		for _, v := range page.Clusters {
 			resource, err := redshiftClusterHandle(ctx, cfg, v)
+			emptyResource := Resource{}
+			if err != nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
-			}
-			emptyResource := Resource{}
-			if err == nil && resource == emptyResource {
-				return nil, nil
 			}
 
 			if stream != nil {
@@ -107,12 +107,12 @@ func GetRedshiftCluster(ctx context.Context, cfg aws.Config, fields map[string]s
 	var values []Resource
 	for _, cluster := range out.Clusters {
 		resource, err := redshiftClusterHandle(ctx, cfg, cluster)
+		emptyResource := Resource{}
+		if err != nil && resource == emptyResource {
+			return nil, nil
+		}
 		if err != nil {
 			return nil, err
-		}
-		emptyResource := Resource{}
-		if err == nil && resource == emptyResource {
-			return nil, nil
 		}
 
 		values = append(values, resource)
@@ -167,12 +167,12 @@ func RedshiftClusterParameterGroup(ctx context.Context, cfg aws.Config, stream *
 
 		for _, v := range page.ParameterGroups {
 			resource, err := redshiftClusterParameterGroupHandle(ctx, cfg, v)
+			emptyResource := Resource{}
+			if err != nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
-			}
-			emptyResource := Resource{}
-			if err == nil && resource == emptyResource {
-				return nil, nil
 			}
 
 			if stream != nil {
@@ -237,12 +237,12 @@ func GetRedshiftClusterParameterGroup(ctx context.Context, cfg aws.Config, field
 	for _, v := range out.ParameterGroups {
 
 		resource, err := redshiftClusterParameterGroupHandle(ctx, cfg, v)
+		emptyResource := Resource{}
+		if err != nil && resource == emptyResource {
+			return nil, nil
+		}
 		if err != nil {
 			return nil, err
-		}
-		emptyResource := Resource{}
-		if err == nil && resource == emptyResource {
-			return nil, nil
 		}
 
 		values = append(values, resource)
@@ -396,12 +396,12 @@ func RedshiftServerlessNamespace(ctx context.Context, cfg aws.Config, stream *St
 
 		for _, v := range page.Namespaces {
 			resource, err := redshiftServerlessNamespaceHandle(ctx, cfg, v)
+			emptyResource := Resource{}
+			if err != nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
-			}
-			emptyResource := Resource{}
-			if err == nil && resource == emptyResource {
-				return nil, nil
 			}
 
 			if stream != nil {
@@ -456,12 +456,12 @@ func GetRedshiftServerlessNamespace(ctx context.Context, cfg aws.Config, fields 
 	}
 
 	resource, err := redshiftServerlessNamespaceHandle(ctx, cfg, *namespaces.Namespace)
+	emptyResource := Resource{}
+	if err != nil && resource == emptyResource {
+		return nil, nil
+	}
 	if err != nil {
 		return nil, err
-	}
-	emptyResource := Resource{}
-	if err == nil && resource == emptyResource {
-		return nil, nil
 	}
 
 	values = append(values, resource)
@@ -481,12 +481,12 @@ func RedshiftServerlessSnapshot(ctx context.Context, cfg aws.Config, stream *Str
 
 		for _, v := range page.Snapshots {
 			resource, err := redshiftServerlessSnapshotHandle(ctx, cfg, v)
+			emptyResource := Resource{}
+			if err != nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
-			}
-			emptyResource := Resource{}
-			if err == nil && resource == emptyResource {
-				return nil, nil
 			}
 
 			if stream != nil {
@@ -541,12 +541,12 @@ func GetRedshiftServerlessSnapshot(ctx context.Context, cfg aws.Config, fields m
 	}
 
 	resource, err := redshiftServerlessSnapshotHandle(ctx, cfg, *out.Snapshot)
+	emptyResource := Resource{}
+	if err != nil && resource == emptyResource {
+		return nil, nil
+	}
 	if err != nil {
 		return nil, err
-	}
-	emptyResource := Resource{}
-	if err == nil && resource == emptyResource {
-		return nil, nil
 	}
 
 	values = append(values, resource)

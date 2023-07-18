@@ -70,12 +70,12 @@ func AppStreamStack(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 		for _, item := range output.Stacks {
 
 			resource, err := appStreamStackHandle(ctx, cfg, item)
+			emptyResource := Resource{}
+			if err != nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
-			}
-			emptyResource := Resource{}
-			if err == nil && resource == emptyResource {
-				return nil, nil
 			}
 
 			if stream != nil {
@@ -137,12 +137,12 @@ func GetAppStreamStack(ctx context.Context, cfg aws.Config, fields map[string]st
 	for _, v := range out.Stacks {
 
 		resource, err := appStreamStackHandle(ctx, cfg, v)
+		emptyResource := Resource{}
+		if err != nil && resource == emptyResource {
+			return nil, nil
+		}
 		if err != nil {
 			return nil, err
-		}
-		emptyResource := Resource{}
-		if err == nil && resource == emptyResource {
-			return nil, nil
 		}
 
 		values = append(values, resource)
@@ -164,12 +164,12 @@ func AppStreamFleet(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 
 		for _, item := range output.Fleets {
 			resource, err := appStreamFleetHandle(ctx, cfg, item)
+			emptyResource := Resource{}
+			if err != nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
-			}
-			emptyResource := Resource{}
-			if err == nil && resource == emptyResource {
-				return nil, nil
 			}
 
 			if stream != nil {
@@ -231,12 +231,12 @@ func GetAppStreamFleet(ctx context.Context, cfg aws.Config, fields map[string]st
 	for _, v := range out.Fleets {
 
 		resource, err := appStreamFleetHandle(ctx, cfg, v)
+		emptyResource := Resource{}
+		if err != nil && resource == emptyResource {
+			return nil, nil
+		}
 		if err != nil {
 			return nil, err
-		}
-		emptyResource := Resource{}
-		if err == nil && resource == emptyResource {
-			return nil, nil
 		}
 
 		values = append(values, resource)

@@ -175,11 +175,11 @@ func GetDirectConnectGateway(ctx context.Context, cfg aws.Config, fields map[str
 			arnToTagMap[*tag.ResourceArn] = tag.Tags
 		}
 	}
-	var value []Resource
+	var values []Resource
 
 	for _, v := range out.DirectConnectGateways {
 		resource := directConnectGatewayHandel(ctx, v, arnToTagMap)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }

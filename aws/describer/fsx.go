@@ -209,11 +209,11 @@ func GetFSXVolume(ctx context.Context, cfg aws.Config, fields map[string]string)
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, item := range volumes.Volumes {
-		value = append(value, fSXVolumeHandle(ctx, item))
+		values = append(values, fSXVolumeHandle(ctx, item))
 	}
-	return value, nil
+	return values, nil
 }
 
 func FSXSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

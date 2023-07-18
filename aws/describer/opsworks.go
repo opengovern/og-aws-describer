@@ -21,12 +21,12 @@ func OpsWorksCMServer(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 		for _, v := range page.Servers {
 			resource, err := opsWorksCMServerHandle(ctx, cfg, v)
+			emptyResource := Resource{}
+			if err != nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
-			}
-			emptyResource := Resource{}
-			if err == nil && resource == emptyResource {
-				return nil, nil
 			}
 
 			if stream != nil {
@@ -80,12 +80,12 @@ func GetOpsWorksCMServer(ctx context.Context, cfg aws.Config, fields map[string]
 	for _, v := range server.Servers {
 
 		resource, err := opsWorksCMServerHandle(ctx, cfg, v)
+		emptyResource := Resource{}
+		if err != nil && resource == emptyResource {
+			return nil, nil
+		}
 		if err != nil {
 			return nil, err
-		}
-		emptyResource := Resource{}
-		if err == nil && resource == emptyResource {
-			return nil, nil
 		}
 
 		values = append(values, resource)

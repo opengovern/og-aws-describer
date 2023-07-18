@@ -103,7 +103,7 @@ func inspectorAssessmentTargetHandel(ctx context.Context, assessmentTarget types
 }
 func GetInspectorAssessmentTarget(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	AssessmentTargetArn := fields["arn"]
-	var value []Resource
+	var values []Resource
 	client := inspector.NewFromConfig(cfg)
 
 	describeAssessments, err := client.DescribeAssessmentTargets(ctx, &inspector.DescribeAssessmentTargetsInput{
@@ -118,9 +118,9 @@ func GetInspectorAssessmentTarget(ctx context.Context, cfg aws.Config, fields ma
 
 	for _, assessmentTarget := range describeAssessments.AssessmentTargets {
 		resource := inspectorAssessmentTargetHandel(ctx, assessmentTarget)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }
 
 func InspectorAssessmentTemplate(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

@@ -61,7 +61,7 @@ func securityHubHubHandle(ctx context.Context, cfg aws.Config, out *securityhub.
 }
 func GetSecurityHubHub(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	arn := fields["arn"]
-	var value []Resource
+	var values []Resource
 	client := securityhub.NewFromConfig(cfg)
 
 	out, err := client.DescribeHub(ctx, &securityhub.DescribeHubInput{
@@ -78,8 +78,8 @@ func GetSecurityHubHub(ctx context.Context, cfg aws.Config, fields map[string]st
 	if err != nil {
 		return nil, err
 	}
-	value = append(value, resource)
-	return value, nil
+	values = append(values, resource)
+	return values, nil
 }
 
 func SecurityHubActionTarget(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

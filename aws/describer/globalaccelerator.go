@@ -63,7 +63,7 @@ func globalAcceleratorAcceleratorHandel(ctx context.Context, attribute *globalac
 func GetGlobalAcceleratorAccelerator(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	acceleratorArn := fields["arn"]
 	client := globalaccelerator.NewFromConfig(cfg)
-	var value []Resource
+	var values []Resource
 
 	accelerator, err := client.DescribeAccelerator(ctx, &globalaccelerator.DescribeAcceleratorInput{
 		AcceleratorArn: &acceleratorArn,
@@ -96,8 +96,8 @@ func GetGlobalAcceleratorAccelerator(ctx context.Context, cfg aws.Config, fields
 	}
 
 	resource := globalAcceleratorAcceleratorHandel(ctx, attribute, tags, *accelerator.Accelerator)
-	value = append(value, resource)
-	return value, nil
+	values = append(values, resource)
+	return values, nil
 }
 
 func GlobalAcceleratorListener(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -152,7 +152,7 @@ func globalAcceleratorListenerHandel(ctx context.Context, listener types.Listene
 	return resource
 }
 func GetGlobalAcceleratorListener(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
-	var value []Resource
+	var values []Resource
 	acceleratorArn := fields["arn"]
 	client := globalaccelerator.NewFromConfig(cfg)
 	accelerator, err := client.DescribeAccelerator(ctx, &globalaccelerator.DescribeAcceleratorInput{
@@ -177,9 +177,9 @@ func GetGlobalAcceleratorListener(ctx context.Context, cfg aws.Config, fields ma
 
 	for _, listener := range describeListener.Listeners {
 		resource := globalAcceleratorListenerHandel(ctx, listener, acceleratorArn)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }
 
 func GlobalAcceleratorEndpointGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

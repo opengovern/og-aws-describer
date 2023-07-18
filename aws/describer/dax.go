@@ -60,7 +60,7 @@ func dAXClusterHandel(ctx context.Context, tags *dax.ListTagsOutput, cluster typ
 }
 func GetDAXCluster(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	clusterName := fields["name"]
-	var value []Resource
+	var values []Resource
 	client := dax.NewFromConfig(cfg)
 
 	clusterDescribe, err := client.DescribeClusters(ctx, &dax.DescribeClustersInput{
@@ -85,9 +85,9 @@ func GetDAXCluster(ctx context.Context, cfg aws.Config, fields map[string]string
 			}
 		}
 
-		value = append(value, dAXClusterHandel(ctx, tags, cluster))
+		values = append(values, dAXClusterHandel(ctx, tags, cluster))
 	}
-	return value, nil
+	return values, nil
 }
 
 func DAXParameterGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -137,7 +137,7 @@ func dAXParameterGroupHandel(ctx context.Context, parameterGroup types.Parameter
 }
 func GetDAXParameterGroup(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	parameterGroupName := fields["name"]
-	var value []Resource
+	var values []Resource
 
 	client := dax.NewFromConfig(cfg)
 	parameterGroups, err := client.DescribeParameterGroups(ctx, &dax.DescribeParameterGroupsInput{
@@ -151,9 +151,9 @@ func GetDAXParameterGroup(ctx context.Context, cfg aws.Config, fields map[string
 	}
 
 	for _, parameterGroup := range parameterGroups.ParameterGroups {
-		value = append(value, dAXParameterGroupHandel(ctx, parameterGroup))
+		values = append(values, dAXParameterGroupHandel(ctx, parameterGroup))
 	}
-	return value, nil
+	return values, nil
 }
 
 func DAXParameter(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -267,7 +267,7 @@ func dAXSubnetGroupHandel(ctx context.Context, subnetGroup types.SubnetGroup) Re
 }
 func GetDAXSubnetGroup(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	SubnetGroupNames := fields["name"]
-	var value []Resource
+	var values []Resource
 	client := dax.NewFromConfig(cfg)
 
 	subnetGroups, err := client.DescribeSubnetGroups(ctx, &dax.DescribeSubnetGroupsInput{
@@ -281,7 +281,7 @@ func GetDAXSubnetGroup(ctx context.Context, cfg aws.Config, fields map[string]st
 	}
 
 	for _, subnetGroup := range subnetGroups.SubnetGroups {
-		value = append(value, dAXSubnetGroupHandel(ctx, subnetGroup))
+		values = append(values, dAXSubnetGroupHandel(ctx, subnetGroup))
 	}
-	return value, nil
+	return values, nil
 }

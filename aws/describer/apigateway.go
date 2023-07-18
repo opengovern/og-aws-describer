@@ -308,7 +308,7 @@ func GetApiGatewayApiKey(ctx context.Context, cfg aws.Config, fields map[string]
 		CreatedDate:     out.CreatedDate,
 		CustomerId:      out.CustomerId,
 		Enabled:         out.Enabled,
-		Value:           out.Value,
+		values:          out.values,
 	}))
 	return values, nil
 }

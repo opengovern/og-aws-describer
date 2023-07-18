@@ -65,7 +65,7 @@ func cloudFrontDistributionHandel(ctx context.Context, tags *cloudfront.ListTags
 func GetCloudFrontDistribution(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	client := cloudfront.NewFromConfig(cfg)
 	id := fields["id"]
-	var value []Resource
+	var values []Resource
 
 	DistributionData, err := client.GetDistribution(ctx, &cloudfront.GetDistributionInput{
 		Id: &id,
@@ -97,9 +97,8 @@ func GetCloudFrontDistribution(ctx context.Context, cfg aws.Config, fields map[s
 		return nil, err
 	}
 
-	resource := cloudFrontDistributionHandel(ctx, tags, distribution, DistributionData.Distribution.ARN, DistributionData.Distribution.Id)
-	value = append(value, resource)
-	return value, nil
+	values = append(values, cloudFrontDistributionHandel(ctx, tags, distribution, DistributionData.Distribution.ARN, DistributionData.Distribution.Id))
+	return values, nil
 }
 
 func CloudFrontStreamingDistribution(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -153,7 +152,6 @@ func CloudFrontStreamingDistribution(ctx context.Context, cfg aws.Config, stream
 }
 
 func CloudFrontOriginAccessControl(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := cloudfront.NewFromConfig(cfg)
 
 	var values []Resource
@@ -166,25 +164,7 @@ func CloudFrontOriginAccessControl(ctx context.Context, cfg aws.Config, stream *
 			return nil, err
 		}
 		for _, v := range output.OriginAccessControlList.Items {
-			var tags []types.Tag
-			arn := fmt.Sprintf("arn:%s:cloudfront::%s:origin-access-control/%s", describeCtx.Partition, describeCtx.AccountID, *v.Id)
-
-			tagsOutput, err := client.ListTagsForResource(ctx, &cloudfront.ListTagsForResourceInput{
-				Resource: &arn,
-			})
-			if err == nil {
-				tags = tagsOutput.Tags.Items
-			}
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    arn,
-				Name:   *v.Id,
-				Description: model.CloudFrontOriginAccessControlDescription{
-					OriginAccessControl: v,
-					Tags:                tags,
-				},
-			}
+			resource := cloudFrontOriginAccessControlHandle(ctx, cfg, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -202,24 +182,13 @@ func CloudFrontOriginAccessControl(ctx context.Context, cfg aws.Config, stream *
 
 	return values, nil
 }
-func GetCloudFrontOriginAccessControl(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+func cloudFrontOriginAccessControlHandle(ctx context.Context, cfg aws.Config, v types.OriginAccessControlSummary) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	client := cloudfront.NewFromConfig(cfg)
-	id := fields["id"]
-	arn := fmt.Sprintf("arn:%s:cloudfront::%s:origin-access-control/%s", describeCtx.Partition, describeCtx.AccountID, id)
-
-	var value []Resource
-	originAccessControl, err := client.GetOriginAccessControl(ctx, &cloudfront.GetOriginAccessControlInput{
-		Id: &id,
-	})
-	if err != nil {
-		if isErr(err, "GetOriginAccessControlNotFound") || isErr(err, "InvalidParameterValue") {
-			return nil, nil
-		}
-		return nil, err
-	}
 
 	var tags []types.Tag
+	arn := fmt.Sprintf("arn:%s:cloudfront::%s:origin-access-control/%s", describeCtx.Partition, describeCtx.AccountID, *v.Id)
+
 	tagsOutput, err := client.ListTagsForResource(ctx, &cloudfront.ListTagsForResourceInput{
 		Resource: &arn,
 	})
@@ -230,13 +199,40 @@ func GetCloudFrontOriginAccessControl(ctx context.Context, cfg aws.Config, field
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    arn,
-		Name:   *originAccessControl.OriginAccessControl.Id,
+		Name:   *v.Id,
 		Description: model.CloudFrontOriginAccessControlDescription{
-			Tags: tags,
+			OriginAccessControl: v,
+			Tags:                tags,
 		},
 	}
-	value = append(value, resource)
-	return value, nil
+	return resource
+}
+func GetCloudFrontOriginAccessControl(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	client := cloudfront.NewFromConfig(cfg)
+	id := fields["id"]
+
+	var values []Resource
+	out, err := client.GetOriginAccessControl(ctx, &cloudfront.GetOriginAccessControlInput{
+		Id: &id,
+	})
+	if err != nil {
+		if isErr(err, "GetOriginAccessControlNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	originAccessControl := types.OriginAccessControlSummary{
+		Id:                            out.OriginAccessControl.Id,
+		Name:                          out.OriginAccessControl.OriginAccessControlConfig.Name,
+		Description:                   out.OriginAccessControl.OriginAccessControlConfig.Description,
+		OriginAccessControlOriginType: out.OriginAccessControl.OriginAccessControlConfig.OriginAccessControlOriginType,
+		SigningBehavior:               out.OriginAccessControl.OriginAccessControlConfig.SigningBehavior,
+		SigningProtocol:               out.OriginAccessControl.OriginAccessControlConfig.SigningProtocol,
+	}
+
+	values = append(values, cloudFrontOriginAccessControlHandle(ctx, cfg, originAccessControl))
+	return values, nil
 }
 
 func CloudFrontCachePolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -295,7 +291,7 @@ func cloudFrontCachePolicyHandel(ctx context.Context, cachePolicy *cloudfront.Ge
 func GetCloudFrontCachePolicy(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	client := cloudfront.NewFromConfig(cfg)
 	id := fields["id"]
-	var value []Resource
+	var values []Resource
 	cachePolicy, err := client.GetCachePolicy(ctx, &cloudfront.GetCachePolicyInput{
 		Id: &id,
 	})
@@ -306,9 +302,8 @@ func GetCloudFrontCachePolicy(ctx context.Context, cfg aws.Config, fields map[st
 		return nil, err
 	}
 
-	resource := cloudFrontCachePolicyHandel(ctx, cachePolicy, id)
-	value = append(value, resource)
-	return value, nil
+	values = append(values, cloudFrontCachePolicyHandel(ctx, cachePolicy, id))
+	return values, nil
 }
 
 func CloudFrontFunction(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -378,8 +373,7 @@ func GetCloudFrontFunction(ctx context.Context, cfg aws.Config, fields map[strin
 		return nil, err
 	}
 
-	resource := cloudFrontFunctionHandel(ctx, function)
-	values = append(values, resource)
+	values = append(values, cloudFrontFunctionHandel(ctx, function))
 	return values, nil
 }
 
@@ -439,8 +433,7 @@ func GetCloudFrontOriginAccessIdentity(ctx context.Context, cfg aws.Config, fiel
 		return nil, err
 	}
 
-	resource := cloudFrontOriginAccessIdentityHandel(ctx, originAccessIdentity, id)
-	values = append(values, resource)
+	values = append(values, cloudFrontOriginAccessIdentityHandel(ctx, originAccessIdentity, id))
 
 	return values, nil
 }
@@ -501,20 +494,23 @@ func cloudFrontOriginRequestPolicyHandle(ctx context.Context, policy *cloudfront
 }
 func GetCloudFrontOriginRequestPolicy(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	id := fields["id"]
+	var values []Resource
 	client := cloudfront.NewFromConfig(cfg)
-	var value []Resource
+
 	policy, err := client.GetOriginRequestPolicy(ctx, &cloudfront.GetOriginRequestPolicyInput{
 		Id: &id,
 	})
 	if err != nil {
 		return nil, err
 	}
+
 	resource := cloudFrontOriginRequestPolicyHandle(ctx, policy, id)
 	if err != nil {
 		return nil, err
 	}
-	value = append(value, resource)
-	return value, nil
+
+	values = append(values, resource)
+	return values, nil
 }
 
 func CloudFrontResponseHeadersPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -570,9 +566,9 @@ func cloudFrontResponseHeadersPolicyHandle(ctx context.Context, policy *cloudfro
 	return resource
 }
 func GetCloudFrontResponseHeadersPolicy(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
-	client := cloudfront.NewFromConfig(cfg)
 	id := fields["id"]
 	var values []Resource
+	client := cloudfront.NewFromConfig(cfg)
 
 	policy, err := client.GetResponseHeadersPolicy(ctx, &cloudfront.GetResponseHeadersPolicyInput{
 		Id: &id,
@@ -581,7 +577,6 @@ func GetCloudFrontResponseHeadersPolicy(ctx context.Context, cfg aws.Config, fie
 		return nil, err
 	}
 
-	resource := cloudFrontResponseHeadersPolicyHandle(ctx, policy, &id)
-	values = append(values, resource)
+	values = append(values, cloudFrontResponseHeadersPolicyHandle(ctx, policy, &id))
 	return values, nil
 }

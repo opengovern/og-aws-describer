@@ -63,12 +63,12 @@ func CloudTrailTrail(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 
 		for _, v := range output.TrailList {
 			resource, err := cloudTrailTrailHandle(ctx, cfg, v)
+			emptyResource := Resource{}
+			if err != nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
-			}
-			emptyResource := Resource{}
-			if err == nil && resource == emptyResource {
-				return nil, nil
 			}
 
 			if stream != nil {
@@ -188,12 +188,12 @@ func GetCloudTrailTrail(ctx context.Context, cfg aws.Config, fields map[string]s
 	var values []Resource
 	for _, v := range output.TrailList {
 		resource, err := cloudTrailTrailHandle(ctx, cfg, v)
+		emptyResource := Resource{}
+		if err != nil && resource == emptyResource {
+			return nil, nil
+		}
 		if err != nil {
 			return nil, err
-		}
-		emptyResource := Resource{}
-		if err == nil && resource == emptyResource {
-			return nil, nil
 		}
 
 		values = append(values, resource)
@@ -255,12 +255,12 @@ func CloudTrailEventDataStore(ctx context.Context, cfg aws.Config, stream *Strea
 
 		for _, eventDataStore := range page.EventDataStores {
 			resource, err := cloudTrailEventDataStoreHandle(ctx, cfg, eventDataStore)
+			emptyResource := Resource{}
+			if err != nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
-			}
-			emptyResource := Resource{}
-			if err == nil && resource == emptyResource {
-				return nil, nil
 			}
 
 			if stream != nil {
@@ -310,24 +310,24 @@ func GetCloudTrailEventDataStore(ctx context.Context, cfg aws.Config, fields map
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, evenDataStore := range out.EventDataStores {
 		if !strings.EqualFold(eventDataStoreName, *evenDataStore.Name) {
 			continue
 		}
 
 		resource, err := cloudTrailEventDataStoreHandle(ctx, cfg, evenDataStore)
+		emptyResource := Resource{}
+		if err != nil && resource == emptyResource {
+			return nil, nil
+		}
 		if err != nil {
 			return nil, err
 		}
-		emptyResource := Resource{}
-		if err == nil && resource == emptyResource {
-			return nil, nil
-		}
 
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }
 
 func CloudTrailImport(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

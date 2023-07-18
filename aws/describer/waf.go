@@ -1095,7 +1095,7 @@ func WAFRule(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 				return nil, err
 			}
 			emptyResource := Resource{}
-			if err == nil && resource == emptyResource {
+			if err != nil && resource == emptyResource {
 				continue
 			}
 
@@ -1164,7 +1164,7 @@ func GetWAFRule(ctx context.Context, cfg aws.Config, fields map[string]string) (
 		return nil, err
 	}
 	emptyResource := Resource{}
-	if err == nil && resource == emptyResource {
+	if err != nil && resource == emptyResource {
 		return nil, nil
 	}
 	values = append(values, resource)

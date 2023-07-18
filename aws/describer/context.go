@@ -25,7 +25,7 @@ func WithDescribeContext(ctx context.Context, describeCtx DescribeContext) conte
 }
 
 func GetDescribeContext(ctx context.Context) DescribeContext {
-	describe, ok := ctx.Value(key).(DescribeContext)
+	describe, ok := ctx.values(key).(DescribeContext)
 	if !ok {
 		panic("context key not found")
 	}
@@ -37,7 +37,7 @@ func WithTriggerType(ctx context.Context, tt enums.DescribeTriggerType) context.
 }
 
 func GetTriggerTypeFromContext(ctx context.Context) enums.DescribeTriggerType {
-	tt, ok := ctx.Value(triggerTypeKey).(enums.DescribeTriggerType)
+	tt, ok := ctx.values(triggerTypeKey).(enums.DescribeTriggerType)
 	if !ok {
 		return ""
 	}

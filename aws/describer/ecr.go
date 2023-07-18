@@ -50,12 +50,12 @@ func ECRPublicRepository(ctx context.Context, cfg aws.Config, stream *StreamSend
 			}
 
 			resource, err := eCRPublicRepositoryHandle(ctx, cfg, v, imageDetails)
+			emptyResource := Resource{}
+			if err != nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
-			}
-			emptyResource := Resource{}
-			if err == nil && resource == emptyResource {
-				return nil, nil
 			}
 
 			if stream != nil {
@@ -119,7 +119,7 @@ func GetECRPublicRepository(ctx context.Context, cfg aws.Config, fields map[stri
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, v := range out.Repositories {
 
 		var imageDetails []public_types.ImageDetail
@@ -135,17 +135,17 @@ func GetECRPublicRepository(ctx context.Context, cfg aws.Config, fields map[stri
 		imageDetails = append(imageDetails, images.ImageDetails...)
 
 		resource, err := eCRPublicRepositoryHandle(ctx, cfg, v, imageDetails)
+		emptyResource := Resource{}
+		if err != nil && resource == emptyResource {
+			return nil, nil
+		}
 		if err != nil {
 			return nil, err
 		}
-		emptyResource := Resource{}
-		if err == nil && resource == emptyResource {
-			return nil, nil
-		}
 
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }
 
 func ECRPublicRegistry(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -298,15 +298,15 @@ func GetECRRepository(ctx context.Context, cfg aws.Config, fields map[string]str
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, repository := range out.Repositories {
 		resource, err := eCRRepositoryHandle(ctx, cfg, repository)
 		if err != nil {
 			return nil, err
 		}
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }
 
 func ECRRegistryPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -475,7 +475,7 @@ func GetECRImage(ctx context.Context, cfg aws.Config, fields map[string]string) 
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, repository := range out.Repositories {
 		images, err := client.DescribeImages(ctx, &ecr.DescribeImagesInput{
 			RepositoryName: repository.RepositoryName,
@@ -493,8 +493,8 @@ func GetECRImage(ctx context.Context, cfg aws.Config, fields map[string]string) 
 			if err != nil {
 				return nil, err
 			}
-			value = append(value, resource)
+			values = append(values, resource)
 		}
 	}
-	return value, nil
+	return values, nil
 }

@@ -62,7 +62,7 @@ func appConfigApplicationHandle(ctx context.Context, cfg aws.Config, application
 	return resource, nil
 }
 func GetAppConfigApplication(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
-	var value []Resource
+	var values []Resource
 	applicationId := fields["id"]
 	client := appconfig.NewFromConfig(cfg)
 	applications, err := client.ListApplications(ctx, &appconfig.ListApplicationsInput{})
@@ -81,7 +81,7 @@ func GetAppConfigApplication(ctx context.Context, cfg aws.Config, fields map[str
 		if err != nil {
 			return nil, err
 		}
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }

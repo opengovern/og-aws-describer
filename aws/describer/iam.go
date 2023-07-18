@@ -139,7 +139,7 @@ func IAMAccountSummary(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 func IAMAccountPasswordPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	var values []Resource
-	resource, err := IAMAccountPasswordPolicyHandle(ctx, cfg)
+	resource, err := iAMAccountPasswordPolicyHandle(ctx, cfg)
 	if err != nil {
 		return nil, err
 	}
@@ -152,7 +152,7 @@ func IAMAccountPasswordPolicy(ctx context.Context, cfg aws.Config, stream *Strea
 	}
 	return values, nil
 }
-func IAMAccountPasswordPolicyHandle(ctx context.Context, cfg aws.Config) (Resource, error) {
+func iAMAccountPasswordPolicyHandle(ctx context.Context, cfg aws.Config) (Resource, error) {
 	client := iam.NewFromConfig(cfg)
 	describeCtx := GetDescribeContext(ctx)
 	output, err := client.GetAccountPasswordPolicy(ctx, &iam.GetAccountPasswordPolicyInput{})
@@ -185,7 +185,7 @@ func IAMAccountPasswordPolicyHandle(ctx context.Context, cfg aws.Config) (Resour
 }
 func GetIAMAccountPasswordPolicy(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	var values []Resource
-	resource, err := IAMAccountPasswordPolicyHandle(ctx, cfg)
+	resource, err := iAMAccountPasswordPolicyHandle(ctx, cfg)
 	if err != nil {
 		return nil, err
 	}
@@ -233,7 +233,7 @@ func iAMAccessKeyHandel(ctx context.Context, v types.AccessKeyMetadata) Resource
 }
 func GetIAMAccessKey(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	userName := fields["name"]
-	var value []Resource
+	var values []Resource
 	client := iam.NewFromConfig(cfg)
 
 	accessKeys, err := client.ListAccessKeys(ctx, &iam.ListAccessKeysInput{
@@ -248,9 +248,9 @@ func GetIAMAccessKey(ctx context.Context, cfg aws.Config, fields map[string]stri
 
 	for _, v := range accessKeys.AccessKeyMetadata {
 		resource := iAMAccessKeyHandel(ctx, v)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }
 
 func IAMCredentialReport(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -423,7 +423,7 @@ func iAMGroupHandel(ctx context.Context, v types.Group, aPolicies []string, poli
 	return resource
 }
 func GetIAMGroup(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
-	var value []Resource
+	var values []Resource
 	groupName := fields["name"]
 	client := iam.NewFromConfig(cfg)
 	groupOut, err := client.GetGroup(ctx, &iam.GetGroupInput{
@@ -462,8 +462,8 @@ func GetIAMGroup(ctx context.Context, cfg aws.Config, fields map[string]string) 
 	}
 
 	resource := iAMGroupHandel(ctx, *v, aPolicies, policies, users)
-	value = append(value, resource)
-	return value, nil
+	values = append(values, resource)
+	return values, nil
 }
 
 func getGroupUsers(ctx context.Context, client *iam.Client, groupname *string) ([]types.User, error) {
@@ -1001,7 +1001,7 @@ func iAMServerCertificateHandel(ctx context.Context, v types.ServerCertificateMe
 	return resource
 }
 func GetIAMServerCertificate(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
-	var value []Resource
+	var values []Resource
 	pathPerfix := fields["path"]
 
 	client := iam.NewFromConfig(cfg)
@@ -1027,9 +1027,9 @@ func GetIAMServerCertificate(ctx context.Context, cfg aws.Config, fields map[str
 		}
 
 		resource := iAMServerCertificateHandel(ctx, v, output)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }
 
 func IAMUser(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -1281,7 +1281,7 @@ func iAMSamlProviderHandel(ctx context.Context, samlProvider *iam.GetSAMLProvide
 }
 func GetIAMSamlProvider(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	samlProviderArn := fields["samlProviderArn"]
-	var value []Resource
+	var values []Resource
 	client := iam.NewFromConfig(cfg)
 
 	samlProvider, err := client.GetSAMLProvider(ctx, &iam.GetSAMLProviderInput{
@@ -1295,8 +1295,8 @@ func GetIAMSamlProvider(ctx context.Context, cfg aws.Config, fields map[string]s
 	}
 
 	resource := iAMSamlProviderHandel(ctx, samlProvider, samlProviderArn)
-	value = append(value, resource)
-	return value, nil
+	values = append(values, resource)
+	return values, nil
 }
 
 func IAMServiceSpecificCredential(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -1346,7 +1346,7 @@ func iAMServiceSpecificCredentialHandle(ctx context.Context, credential types.Se
 }
 func GetIAMServiceSpecificCredential(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	UserName := fields["userName"]
-	var value []Resource
+	var values []Resource
 	client := iam.NewFromConfig(cfg)
 
 	serviceSpecificCredentials, err := client.ListServiceSpecificCredentials(ctx, &iam.ListServiceSpecificCredentialsInput{
@@ -1361,9 +1361,9 @@ func GetIAMServiceSpecificCredential(ctx context.Context, cfg aws.Config, fields
 
 	for _, credential := range serviceSpecificCredentials.ServiceSpecificCredentials {
 		resource := iAMServiceSpecificCredentialHandle(ctx, credential)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }
 
 func getUserPolicies(ctx context.Context, client *iam.Client, username *string) ([]model.InlinePolicy, error) {

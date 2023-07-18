@@ -94,7 +94,7 @@ func kinesisStreamHandel(ctx context.Context, stream *kinesis.DescribeStreamOutp
 func GetKinesisStream(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	streamName := fields["name"]
 
-	var value []Resource
+	var values []Resource
 	client := kinesis.NewFromConfig(cfg)
 	stream, err := client.DescribeStream(ctx, &kinesis.DescribeStreamInput{
 		StreamName: &streamName,
@@ -125,9 +125,9 @@ func GetKinesisStream(ctx context.Context, cfg aws.Config, fields map[string]str
 		}
 		tags = &kinesis.ListTagsForStreamOutput{}
 	}
-	resource := kinesisStreamHandel(ctx, stream, streamSummery, tags)
-	value = append(value, resource)
-	return value, nil
+
+	values = append(values, kinesisStreamHandel(ctx, stream, streamSummery, tags))
+	return values, nil
 }
 
 func KinesisConsumer(ctx context.Context, cfg aws.Config, streamS *StreamSender) ([]Resource, error) {
@@ -206,7 +206,7 @@ func kinesisConsumerHandel(ctx context.Context, stream *kinesis.DescribeStreamOu
 }
 func GetKinesisConsumer(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	streamName := fields["name"]
-	var value []Resource
+	var values []Resource
 	client := kinesis.NewFromConfig(cfg)
 	stream, err := client.DescribeStream(ctx, &kinesis.DescribeStreamInput{
 		StreamName: &streamName,
@@ -230,9 +230,9 @@ func GetKinesisConsumer(ctx context.Context, cfg aws.Config, fields map[string]s
 
 	for _, consumer := range consumers.Consumers {
 		resource := kinesisConsumerHandel(ctx, stream, consumer)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }
 
 func KinesisVideoStream(ctx context.Context, cfg aws.Config, streamS *StreamSender) ([]Resource, error) {
@@ -337,7 +337,7 @@ func kinesisAnalyticsV2ApplicationHandel(ctx context.Context, description *kines
 func GetKinesisAnalyticsV2Application(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	applicationName := fields["name"]
 
-	var value []Resource
+	var values []Resource
 	client := kinesisanalyticsv2.NewFromConfig(cfg)
 	description, err := client.DescribeApplication(ctx, &kinesisanalyticsv2.DescribeApplicationInput{
 		ApplicationName: &applicationName,
@@ -360,6 +360,6 @@ func GetKinesisAnalyticsV2Application(ctx context.Context, cfg aws.Config, field
 	}
 
 	resource := kinesisAnalyticsV2ApplicationHandel(ctx, description, tags)
-	value = append(value, resource)
-	return value, nil
+	values = append(values, resource)
+	return values, nil
 }

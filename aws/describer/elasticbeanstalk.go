@@ -21,12 +21,12 @@ func ElasticBeanstalkEnvironment(ctx context.Context, cfg aws.Config, stream *St
 	for _, item := range out.Environments {
 
 		resource, err := elasticBeanstalkEnvironmentHandle(ctx, cfg, item)
+		emptyResource := Resource{}
+		if err != nil && resource == emptyResource {
+			return nil, nil
+		}
 		if err != nil {
 			return nil, err
-		}
-		emptyResource := Resource{}
-		if err == nil && resource == emptyResource {
-			return nil, nil
 		}
 
 		if stream != nil {
@@ -85,15 +85,15 @@ func GetElasticBeanstalkEnvironment(ctx context.Context, cfg aws.Config, fields 
 	for _, item := range out.Environments {
 
 		resource, err := elasticBeanstalkEnvironmentHandle(ctx, cfg, item)
+		emptyResource := Resource{}
+		if err != nil && resource == emptyResource {
+			return nil, nil
+		}
 		if err != nil {
 			return nil, err
 		}
-		emptyResource := Resource{}
-		if err == nil && resource == emptyResource {
-			return nil, nil
-		}
-		values = append(values, resource)
 
+		values = append(values, resource)
 	}
 	return values, nil
 }

@@ -22,12 +22,12 @@ func KafkaCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 
 		for _, cluster := range page.ClusterInfoList {
 			resource, err := kafkaClusterHandle(ctx, cfg, cluster)
+			emptyResource := Resource{}
+			if err != nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
-			}
-			resourceEmpty := Resource{}
-			if err == nil && resource == resourceEmpty {
-				return nil, nil
 			}
 
 			if stream != nil {
@@ -92,7 +92,7 @@ func kafkaClusterHandle(ctx context.Context, cfg aws.Config, cluster types.Clust
 }
 func GetKafkaCluster(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	clusterName := fields["nameCluster"]
-	var value []Resource
+	var values []Resource
 
 	client := kafka.NewFromConfig(cfg)
 	out, err := client.ListClustersV2(ctx, &kafka.ListClustersV2Input{
@@ -111,15 +111,15 @@ func GetKafkaCluster(ctx context.Context, cfg aws.Config, fields map[string]stri
 		}
 
 		resource, err := kafkaClusterHandle(ctx, cfg, cluster)
+		emptyResource := Resource{}
+		if err != nil && resource == emptyResource {
+			return nil, nil
+		}
 		if err != nil {
 			return nil, err
 		}
-		resourceEmpty := Resource{}
-		if err == nil && resource == resourceEmpty {
-			return nil, nil
-		}
 
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }

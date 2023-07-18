@@ -57,11 +57,11 @@ func GetElastiCacheReplicationGroup(ctx context.Context, cfg aws.Config, fields 
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, v := range out.ReplicationGroups {
-		value = append(value, elastiCacheReplicationGroupHandel(ctx, v))
+		values = append(values, elastiCacheReplicationGroupHandel(ctx, v))
 	}
-	return value, nil
+	return values, nil
 }
 
 func ElastiCacheCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -248,12 +248,12 @@ func GetElastiCacheReservedCacheNode(ctx context.Context, cfg aws.Config, fields
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, v := range out.ReservedCacheNodes {
 		resource := elastiCacheReservedCacheNodeHandel(ctx, v)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }
 
 func ElastiCacheSubnetGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

@@ -45,12 +45,12 @@ func EKSCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 		// This prevents Implicit memory aliasing in for loop
 		cluster := cluster
 		resource, err := eKSClusterHandle(ctx, cfg, cluster)
+		emptyResource := Resource{}
+		if err != nil && resource == emptyResource {
+			return nil, nil
+		}
 		if err != nil {
 			return nil, err
-		}
-		emptyResource := Resource{}
-		if err == nil && resource == emptyResource {
-			return nil, nil
 		}
 
 		if stream != nil {
@@ -100,12 +100,12 @@ func GetEKSCluster(ctx context.Context, cfg aws.Config, fields map[string]string
 		}
 
 		resource, err := eKSClusterHandle(ctx, cfg, cluster)
+		emptyResource := Resource{}
+		if err != nil && resource == emptyResource {
+			return nil, nil
+		}
 		if err != nil {
 			return nil, err
-		}
-		emptyResource := Resource{}
-		if err == nil && resource == emptyResource {
-			return nil, nil
 		}
 
 		values = append(values, resource)
@@ -137,12 +137,12 @@ func EKSAddon(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 
 		for _, addon := range addons {
 			resource, err := eKSAddonHandle(ctx, cfg, addon, cluster)
+			emptyResource := Resource{}
+			if err != nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
-			}
-			emptyResource := Resource{}
-			if err == nil && resource == emptyResource {
-				return nil, nil
 			}
 
 			if stream != nil {
@@ -198,12 +198,12 @@ func GetEKSAddon(ctx context.Context, cfg aws.Config, fields map[string]string) 
 	var values []Resource
 	for _, addon := range addons.Addons {
 		resource, err := eKSAddonHandle(ctx, cfg, addon, clusterName)
+		emptyResource := Resource{}
+		if err != nil && resource == emptyResource {
+			return nil, nil
+		}
 		if err != nil {
 			return nil, err
-		}
-		emptyResource := Resource{}
-		if err == nil && resource == emptyResource {
-			return nil, nil
 		}
 
 		values = append(values, resource)
@@ -234,12 +234,12 @@ func EKSFargateProfile(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 		for _, profile := range profiles {
 			resource, err := eKSFargateProfileHandle(ctx, cfg, profile, cluster)
+			emptyResource := Resource{}
+			if err != nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
-			}
-			emptyResource := Resource{}
-			if err == nil && resource == emptyResource {
-				return nil, nil
 			}
 
 			if stream != nil {
@@ -296,12 +296,12 @@ func GetEKSFargateProfile(ctx context.Context, cfg aws.Config, fields map[string
 	for _, profile := range profiles.FargateProfileNames {
 
 		resource, err := eKSFargateProfileHandle(ctx, cfg, profile, clusterName)
+		emptyResource := Resource{}
+		if err != nil && resource == emptyResource {
+			return nil, nil
+		}
 		if err != nil {
 			return nil, err
-		}
-		emptyResource := Resource{}
-		if err == nil && resource == emptyResource {
-			return nil, nil
 		}
 
 		values = append(values, resource)
@@ -335,12 +335,12 @@ func EKSNodegroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 		for _, profile := range groups {
 
 			resource, err := eKSNodegroupHandle(ctx, cfg, profile, cluster)
+			emptyResource := Resource{}
+			if err != nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
-			}
-			emptyResource := Resource{}
-			if err == nil && resource == emptyResource {
-				return nil, nil
 			}
 
 			if stream != nil {
@@ -397,12 +397,12 @@ func GetEKSNodegroup(ctx context.Context, cfg aws.Config, fields map[string]stri
 	var values []Resource
 	for _, profile := range groups.Nodegroups {
 		resource, err := eKSNodegroupHandle(ctx, cfg, profile, clusterName)
+		emptyResource := Resource{}
+		if err != nil && resource == emptyResource {
+			return nil, nil
+		}
 		if err != nil {
 			return nil, err
-		}
-		emptyResource := Resource{}
-		if err == nil && resource == emptyResource {
-			return nil, nil
 		}
 
 		values = append(values, resource)

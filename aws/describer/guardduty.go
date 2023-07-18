@@ -116,7 +116,7 @@ func guardDutyDetectorHandel(ctx context.Context, out *guardduty.GetDetectorOutp
 func GetGuardDutyDetector(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	detectorId := fields["id"]
 	client := guardduty.NewFromConfig(cfg)
-	var value []Resource
+	var values []Resource
 
 	out, err := client.GetDetector(ctx, &guardduty.GetDetectorInput{
 		DetectorId: &detectorId,
@@ -129,8 +129,8 @@ func GetGuardDutyDetector(ctx context.Context, cfg aws.Config, fields map[string
 	}
 
 	resource := guardDutyDetectorHandel(ctx, out, detectorId)
-	value = append(value, resource)
-	return value, nil
+	values = append(values, resource)
+	return values, nil
 }
 
 func GuardDutyFilter(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -300,7 +300,7 @@ func GetGuardDutyIPSet(ctx context.Context, cfg aws.Config, fields map[string]st
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, ipSetId := range out.IpSetIds {
 		ipSetOutput, err := client.GetIPSet(ctx, &guardduty.GetIPSetInput{
 			DetectorId: &detectorId,
@@ -313,10 +313,9 @@ func GetGuardDutyIPSet(ctx context.Context, cfg aws.Config, fields map[string]st
 			return nil, err
 		}
 
-		resource := guardDutyIPSetHandel(ctx, ipSetOutput, ipSetId, detectorId)
-		value = append(value, resource)
+		values = append(values, guardDutyIPSetHandel(ctx, ipSetOutput, ipSetId, detectorId))
 	}
-	return value, nil
+	return values, nil
 }
 
 func GuardDutyMember(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -381,12 +380,12 @@ func GetGuardDutyMember(ctx context.Context, cfg aws.Config, fields map[string]s
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, member := range members.Members {
 		resource := guardDutyMemberHandel(ctx, member)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }
 
 func GuardDutyPublishingDestination(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -463,7 +462,7 @@ func GetGuardDutyPublishingDestination(ctx context.Context, cfg aws.Config, fiel
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, destination := range publishingDestinations.Destinations {
 		destinationOutput, err := client.DescribePublishingDestination(ctx, &guardduty.DescribePublishingDestinationInput{
 			DestinationId: destination.DestinationId,
@@ -477,9 +476,9 @@ func GetGuardDutyPublishingDestination(ctx context.Context, cfg aws.Config, fiel
 		}
 
 		resource := guardDutyPublishingDestinationHandel(ctx, detectorId, destinationOutput, destination)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }
 
 func GuardDutyThreatIntelSet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -557,7 +556,7 @@ func GetGuardDutyThreatIntelSet(ctx context.Context, cfg aws.Config, fields map[
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, threatIntelSetId := range threatIntelSets.ThreatIntelSetIds {
 		threatIntelSetOutput, err := client.GetThreatIntelSet(ctx, &guardduty.GetThreatIntelSetInput{
 			DetectorId:       &detectorId,
@@ -571,7 +570,7 @@ func GetGuardDutyThreatIntelSet(ctx context.Context, cfg aws.Config, fields map[
 		}
 
 		resource := guardDutyThreatIntelSetHandel(ctx, threatIntelSetOutput, detectorId, threatIntelSetId)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }

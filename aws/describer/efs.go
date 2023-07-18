@@ -67,12 +67,12 @@ func GetEFSAccessPoint(ctx context.Context, cfg aws.Config, fields map[string]st
 		return nil, err
 	}
 
-	var value []Resource
+	var values []Resource
 	for _, v := range out.AccessPoints {
 		resource := eFSAccessPointHandel(ctx, v)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }
 
 func EFSFileSystem(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -99,7 +99,7 @@ func EFSFileSystem(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 			}
 			// Doc: You can add tags to a file system, including a Name tag. For more information,
 			// see CreateFileSystem. If the file system has a Name tag, Amazon EFS returns the
-			// value in this field.
+			// values in this field.
 			resource := eFSFileSystemHandel(ctx, output, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
@@ -226,7 +226,7 @@ func eFSMountTargetHandel(ctx context.Context, securityGroups *efs.DescribeMount
 }
 func GetEFSMountTarget(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	fileSystemId := fields["id"]
-	var value []Resource
+	var values []Resource
 
 	client := efs.NewFromConfig(cfg)
 	out, err := client.DescribeMountTargets(ctx, &efs.DescribeMountTargetsInput{
@@ -251,7 +251,7 @@ func GetEFSMountTarget(ctx context.Context, cfg aws.Config, fields map[string]st
 		}
 
 		resource := eFSMountTargetHandel(ctx, securityGroups, v, &fileSystemId)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }

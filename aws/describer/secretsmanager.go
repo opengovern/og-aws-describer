@@ -66,7 +66,7 @@ func secretsManagerSecretHandel(ctx context.Context, cfg aws.Config, Arn *string
 }
 func GetSecretsManagerSecret(ctx context.Context, cfg aws.Config, field map[string]string) ([]Resource, error) {
 	secretId := field["id"]
-	var value []Resource
+	var values []Resource
 
 	client := secretsmanager.NewFromConfig(cfg)
 	secretValue, err := client.GetSecretValue(ctx, &secretsmanager.GetSecretValueInput{
@@ -81,6 +81,6 @@ func GetSecretsManagerSecret(ctx context.Context, cfg aws.Config, field map[stri
 		return nil, err
 	}
 
-	value = append(value, resource)
-	return value, nil
+	values = append(values, resource)
+	return values, nil
 }

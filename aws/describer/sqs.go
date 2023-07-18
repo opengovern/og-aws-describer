@@ -92,7 +92,7 @@ func sQSQueueHandel(ctx context.Context, url string, queueAttributes *sqs.GetQue
 }
 func GetSQSQueue(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	QueueName := fields["name"]
-	var value []Resource
+	var values []Resource
 	client := sqs.NewFromConfig(cfg)
 	url, err := client.GetQueueUrl(ctx, &sqs.GetQueueUrlInput{
 		QueueName: &QueueName,
@@ -126,6 +126,6 @@ func GetSQSQueue(ctx context.Context, cfg aws.Config, fields map[string]string) 
 	}
 
 	resource := sQSQueueHandel(ctx, *url.QueueUrl, queueAttributes, tOutput)
-	value = append(value, resource)
-	return value, nil
+	values = append(values, resource)
+	return values, nil
 }

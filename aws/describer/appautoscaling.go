@@ -57,7 +57,7 @@ func applicationAutoScalingTargetHandle(ctx context.Context, item types.Scalable
 func GetApplicationAutoScalingTarget(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	resourceId := fields["resourceId"]
 	client := applicationautoscaling.NewFromConfig(cfg)
-	var value []Resource
+	var values []Resource
 
 	describers, err := client.DescribeScalableTargets(ctx, &applicationautoscaling.DescribeScalableTargetsInput{
 		ResourceIds: []string{resourceId},
@@ -68,7 +68,7 @@ func GetApplicationAutoScalingTarget(ctx context.Context, cfg aws.Config, fields
 
 	for _, item := range describers.ScalableTargets {
 		resource := applicationAutoScalingTargetHandle(ctx, item)
-		value = append(value, resource)
+		values = append(values, resource)
 	}
-	return value, nil
+	return values, nil
 }
