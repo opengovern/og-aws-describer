@@ -77,13 +77,16 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 		if err != nil {
 			return err
 		}
-
+		partition, _ := aws.PartitionOf(resource.Region)
+		if partition == "" {
+			partition = "aws"
+		}
 		awsMetadata := awsmodel.Metadata{
 			Name:         resource.Name,
 			AccountID:    job.AccountID,
 			SourceID:     job.SourceID,
 			Region:       resource.Region,
-			Partition:    resource.Partition,
+			Partition:    partition,
 			ResourceType: strings.ToLower(job.ResourceType),
 		}
 
@@ -123,7 +126,6 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 			kafkaResource.Metadata["name"] = name
 		}
 
-		partition, _ := aws.PartitionOf(resource.Region)
 		rs.Send(&golang.AWSResource{
 			UniqueId:        resource.UniqueID(),
 			Arn:             resource.ARN,
