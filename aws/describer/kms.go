@@ -16,7 +16,6 @@ import (
 )
 
 func KMSAlias(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := kms.NewFromConfig(cfg)
 	paginator := kms.NewListAliasesPaginator(client, &kms.ListAliasesInput{})
 
@@ -28,12 +27,7 @@ func KMSAlias(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 		}
 
 		for _, v := range page.Aliases {
-			resource := Resource{
-				Region:      describeCtx.Region,
-				ARN:         *v.AliasArn,
-				Name:        *v.AliasName,
-				Description: v,
-			}
+			resource := KMSAliasHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -44,6 +38,36 @@ func KMSAlias(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 		}
 	}
 
+	return values, nil
+}
+func KMSAliasHandle(ctx context.Context, v types.AliasListEntry) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region:      describeCtx.Region,
+		ARN:         *v.AliasArn,
+		Name:        *v.AliasName,
+		Description: v,
+	}
+	return resource
+}
+func GetKMSAlias(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	keyId := fields["keyId"]
+	client := kms.NewFromConfig(cfg)
+
+	out, err := client.ListAliases(ctx, &kms.ListAliasesInput{
+		KeyId: &keyId,
+	})
+	if err != nil {
+		if isErr(err, "ListAliasesNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _, v := range out.Aliases {
+		values = append(values, KMSAliasHandle(ctx, v))
+	}
 	return values, nil
 }
 

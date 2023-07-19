@@ -2,14 +2,13 @@ package describer
 
 import (
 	"context"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	dms "github.com/aws/aws-sdk-go-v2/service/databasemigrationservice"
+	"github.com/aws/aws-sdk-go-v2/service/databasemigrationservice/types"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 )
 
 func DMSReplicationInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := dms.NewFromConfig(cfg)
 
 	paginator := dms.NewDescribeReplicationInstancesPaginator(client,
@@ -23,22 +22,15 @@ func DMSReplicationInstance(ctx context.Context, cfg aws.Config, stream *StreamS
 		}
 
 		for _, item := range page.ReplicationInstances {
-			tags, err := client.ListTagsForResource(ctx, &dms.ListTagsForResourceInput{
-				ResourceArn: item.ReplicationInstanceArn,
-			})
+			resource, err := dMSReplicationInstanceHandle(ctx, cfg, item)
 			if err != nil {
 				return nil, err
 			}
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *item.ReplicationInstanceArn,
-				Name:   *item.ReplicationInstanceIdentifier,
-				Description: model.DMSReplicationInstanceDescription{
-					ReplicationInstance: item,
-					Tags:                tags.TagList,
-				},
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				continue
 			}
+
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -49,5 +41,58 @@ func DMSReplicationInstance(ctx context.Context, cfg aws.Config, stream *StreamS
 		}
 	}
 
+	return values, nil
+}
+func dMSReplicationInstanceHandle(ctx context.Context, cfg aws.Config, item types.ReplicationInstance) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := dms.NewFromConfig(cfg)
+	tags, err := client.ListTagsForResource(ctx, &dms.ListTagsForResourceInput{
+		ResourceArn: item.ReplicationInstanceArn,
+	})
+	if err != nil {
+		if isErr(err, "ListTagsForResourceNoFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *item.ReplicationInstanceArn,
+		Name:   *item.ReplicationInstanceIdentifier,
+		Description: model.DMSReplicationInstanceDescription{
+			ReplicationInstance: item,
+			Tags:                tags.TagList,
+		},
+	}
+	return resource, nil
+}
+func GetDMSReplicationInstance(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	replicationInstanceArn := fields["arn"]
+	client := dms.NewFromConfig(cfg)
+
+	out, err := client.DescribeReplicationInstances(ctx, &dms.DescribeReplicationInstancesInput{})
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for _, item := range out.ReplicationInstances {
+
+		if *item.ReplicationInstanceArn != replicationInstanceArn {
+			continue
+		}
+
+		resource, err := dMSReplicationInstanceHandle(ctx, cfg, item)
+		if err != nil {
+			return nil, err
+		}
+		emptyResource := Resource{}
+		if err == nil && resource == emptyResource {
+			return nil, nil
+		}
+
+		values = append(values, resource)
+	}
 	return values, nil
 }

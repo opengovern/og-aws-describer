@@ -9,7 +9,6 @@ import (
 )
 
 func MWAAEnvironment(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := mwaa.NewFromConfig(cfg)
 	paginator := mwaa.NewListEnvironmentsPaginator(client, &mwaa.ListEnvironmentsInput{})
 
@@ -21,21 +20,15 @@ func MWAAEnvironment(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		}
 
 		for _, v := range page.Environments {
-			environment, err := client.GetEnvironment(ctx, &mwaa.GetEnvironmentInput{
-				Name: &v,
-			})
+			resource, err := mWAAEnvironmentHandle(ctx, cfg, v)
 			if err != nil {
 				return nil, err
 			}
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *environment.Environment.Arn,
-				Name:   *environment.Environment.Name,
-				Description: model.MWAAEnvironmentDescription{
-					Environment: *environment.Environment,
-				},
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				continue
 			}
+
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -46,5 +39,42 @@ func MWAAEnvironment(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		}
 	}
 
+	return values, nil
+}
+func mWAAEnvironmentHandle(ctx context.Context, cfg aws.Config, v string) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := mwaa.NewFromConfig(cfg)
+	environment, err := client.GetEnvironment(ctx, &mwaa.GetEnvironmentInput{
+		Name: &v,
+	})
+	if err != nil {
+		if isErr(err, "GetEnvironmentNotFound") || isErr(err, "InvalidParameterVaLue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *environment.Environment.Arn,
+		Name:   *environment.Environment.Name,
+		Description: model.MWAAEnvironmentDescription{
+			Environment: *environment.Environment,
+		},
+	}
+	return resource, nil
+}
+func GetMWAAEnvironment(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	environmentName := fields["name"]
+	var values []Resource
+	resource, err := mWAAEnvironmentHandle(ctx, cfg, environmentName)
+	if err != nil {
+		return nil, err
+	}
+	emptyResource := Resource{}
+	if err == nil && resource == emptyResource {
+		return nil, nil
+	}
+	values = append(values, resource)
 	return values, nil
 }
