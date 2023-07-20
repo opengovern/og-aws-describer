@@ -136,7 +136,7 @@ require (
 	github.com/gocarina/gocsv v0.0.0-20211203214250-4735fba0c1d9
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/hashicorp/go-hclog v1.2.2
-	github.com/kaytu-io/kaytu-util v0.0.0-20230703125355-15bec58e8130
+	github.com/kaytu-io/kaytu-util v0.0.0-20230720103850-13062d0192c7
 	github.com/kaytu-io/steampipe-plugin-aws v0.0.0-20230713070934-2d1d29891502
 	github.com/spf13/cobra v1.7.0
 	github.com/turbot/go-kit v0.4.0
