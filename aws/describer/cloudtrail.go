@@ -64,7 +64,7 @@ func CloudTrailTrail(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		for _, v := range output.TrailList {
 			resource, err := cloudTrailTrailHandle(ctx, cfg, v)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -189,7 +189,7 @@ func GetCloudTrailTrail(ctx context.Context, cfg aws.Config, fields map[string]s
 	for _, v := range output.TrailList {
 		resource, err := cloudTrailTrailHandle(ctx, cfg, v)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {
@@ -256,7 +256,7 @@ func CloudTrailEventDataStore(ctx context.Context, cfg aws.Config, stream *Strea
 		for _, eventDataStore := range page.EventDataStores {
 			resource, err := cloudTrailEventDataStoreHandle(ctx, cfg, eventDataStore)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -318,7 +318,7 @@ func GetCloudTrailEventDataStore(ctx context.Context, cfg aws.Config, fields map
 
 		resource, err := cloudTrailEventDataStoreHandle(ctx, cfg, evenDataStore)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {

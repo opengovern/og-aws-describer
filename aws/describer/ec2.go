@@ -42,7 +42,7 @@ func EC2VolumeSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender
 				return nil, err
 			}
 
-			resource := eC2VolumeSnapshotHandel(ctx, snapshot, attrs)
+			resource := eC2VolumeSnapshotHandle(ctx, snapshot, attrs)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -56,7 +56,7 @@ func EC2VolumeSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 	return values, nil
 }
-func eC2VolumeSnapshotHandel(ctx context.Context, v types.Snapshot, attrs *ec2.DescribeSnapshotAttributeOutput) Resource {
+func eC2VolumeSnapshotHandle(ctx context.Context, v types.Snapshot, attrs *ec2.DescribeSnapshotAttributeOutput) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":snapshot/" + *v.SnapshotId
 	resource := Resource{
@@ -93,7 +93,7 @@ func GetEC2VolumeSnapshot(ctx context.Context, cfg aws.Config, fields map[string
 			}
 			return nil, err
 		}
-		resource := eC2VolumeSnapshotHandel(ctx, snapshot, attrs)
+		resource := eC2VolumeSnapshotHandle(ctx, snapshot, attrs)
 		values = append(values, resource)
 	}
 
@@ -113,7 +113,7 @@ func EC2Volume(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Res
 
 		for _, volume := range page.Volumes {
 			var resource Resource
-			resource, err = eC2VolumeHandel(ctx, volume, client)
+			resource, err = eC2VolumeHandle(ctx, volume, client)
 			if err != nil {
 				return nil, err
 			}
@@ -129,7 +129,7 @@ func EC2Volume(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Res
 
 	return values, nil
 }
-func eC2VolumeHandel(ctx context.Context, v types.Volume, client *ec2.Client) (Resource, error) {
+func eC2VolumeHandle(ctx context.Context, v types.Volume, client *ec2.Client) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	volume := v
 	var description model.EC2VolumeDescription
@@ -180,7 +180,7 @@ func GetEC2Volume(ctx context.Context, cfg aws.Config, fields map[string]string)
 	var values []Resource
 	for _, volume := range out.Volumes {
 		var resource Resource
-		resource, err = eC2VolumeHandel(ctx, volume, client)
+		resource, err = eC2VolumeHandle(ctx, volume, client)
 		if err != nil {
 			return nil, err
 		}
@@ -204,7 +204,7 @@ func EC2CapacityReservation(ctx context.Context, cfg aws.Config, stream *StreamS
 		}
 
 		for _, v := range page.CapacityReservations {
-			resource := eC2CapacityReservationHandel(ctx, v)
+			resource := eC2CapacityReservationHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -217,7 +217,7 @@ func EC2CapacityReservation(ctx context.Context, cfg aws.Config, stream *StreamS
 
 	return values, nil
 }
-func eC2CapacityReservationHandel(ctx context.Context, v types.CapacityReservation) Resource {
+func eC2CapacityReservationHandle(ctx context.Context, v types.CapacityReservation) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -242,7 +242,7 @@ func GetEC2CapacityReservation(ctx context.Context, cfg aws.Config, fields map[s
 
 	var values []Resource
 	for _, v := range out.CapacityReservations {
-		resource := eC2CapacityReservationHandel(ctx, v)
+		resource := eC2CapacityReservationHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -260,7 +260,7 @@ func EC2CapacityReservationFleet(ctx context.Context, cfg aws.Config, stream *St
 		}
 
 		for _, v := range page.CapacityReservationFleets {
-			resource := eC2CapacityReservationFleetHandel(ctx, v)
+			resource := eC2CapacityReservationFleetHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -273,7 +273,7 @@ func EC2CapacityReservationFleet(ctx context.Context, cfg aws.Config, stream *St
 
 	return values, nil
 }
-func eC2CapacityReservationFleetHandel(ctx context.Context, v types.CapacityReservationFleet) Resource {
+func eC2CapacityReservationFleetHandle(ctx context.Context, v types.CapacityReservationFleet) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -298,7 +298,7 @@ func GetEC2CapacityReservationFleet(ctx context.Context, cfg aws.Config, field m
 
 	var values []Resource
 	for _, v := range out.CapacityReservationFleets {
-		resource := eC2CapacityReservationFleetHandel(ctx, v)
+		resource := eC2CapacityReservationFleetHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -506,7 +506,7 @@ func EC2CustomerGateway(ctx context.Context, cfg aws.Config, stream *StreamSende
 
 	var values []Resource
 	for _, v := range output.CustomerGateways {
-		resource := eC2CustomerGatewayHandel(ctx, v)
+		resource := eC2CustomerGatewayHandle(ctx, v)
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {
 				return nil, err
@@ -518,7 +518,7 @@ func EC2CustomerGateway(ctx context.Context, cfg aws.Config, stream *StreamSende
 
 	return values, nil
 }
-func eC2CustomerGatewayHandel(ctx context.Context, v types.CustomerGateway) Resource {
+func eC2CustomerGatewayHandle(ctx context.Context, v types.CustomerGateway) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.Region,
@@ -542,7 +542,7 @@ func GetEC2CustomerGateway(ctx context.Context, cfg aws.Config, field map[string
 
 	var values []Resource
 	for _, v := range out.CustomerGateways {
-		resource := eC2CustomerGatewayHandel(ctx, v)
+		resource := eC2CustomerGatewayHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -561,7 +561,7 @@ func EC2VerifiedAccessInstance(ctx context.Context, cfg aws.Config, stream *Stre
 		}
 
 		for _, instance := range resp.VerifiedAccessInstances {
-			resource := eC2VerifiedAccessInstanceHandel(ctx, instance)
+			resource := eC2VerifiedAccessInstanceHandle(ctx, instance)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -579,7 +579,7 @@ func EC2VerifiedAccessInstance(ctx context.Context, cfg aws.Config, stream *Stre
 
 	return values, nil
 }
-func eC2VerifiedAccessInstanceHandel(ctx context.Context, v types.VerifiedAccessInstance) Resource {
+func eC2VerifiedAccessInstanceHandle(ctx context.Context, v types.VerifiedAccessInstance) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.Region,
@@ -604,7 +604,7 @@ func GetEC2VerifiedAccessInstance(ctx context.Context, cfg aws.Config, field map
 
 	var values []Resource
 	for _, v := range out.VerifiedAccessInstances {
-		resource := eC2VerifiedAccessInstanceHandel(ctx, v)
+		resource := eC2VerifiedAccessInstanceHandle(ctx, v)
 		values = append(values, resource)
 	}
 
@@ -624,7 +624,7 @@ func EC2VerifiedAccessEndpoint(ctx context.Context, cfg aws.Config, stream *Stre
 		}
 
 		for _, instance := range resp.VerifiedAccessEndpoints {
-			resource := eC2VerifiedAccessEndpointHandel(ctx, instance)
+			resource := eC2VerifiedAccessEndpointHandle(ctx, instance)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -642,7 +642,7 @@ func EC2VerifiedAccessEndpoint(ctx context.Context, cfg aws.Config, stream *Stre
 
 	return values, nil
 }
-func eC2VerifiedAccessEndpointHandel(ctx context.Context, v types.VerifiedAccessEndpoint) Resource {
+func eC2VerifiedAccessEndpointHandle(ctx context.Context, v types.VerifiedAccessEndpoint) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.Region,
@@ -668,7 +668,7 @@ func GetEC2VerifiedAccessEndpoint(ctx context.Context, cfg aws.Config, field map
 
 	var values []Resource
 	for _, v := range out.VerifiedAccessEndpoints {
-		resource := eC2VerifiedAccessEndpointHandel(ctx, v)
+		resource := eC2VerifiedAccessEndpointHandle(ctx, v)
 		values = append(values, resource)
 	}
 
@@ -751,7 +751,7 @@ func EC2VerifiedAccessTrustProvider(ctx context.Context, cfg aws.Config, stream 
 		}
 
 		for _, instance := range resp.VerifiedAccessTrustProviders {
-			resource := eC2VerifiedAccessTrustProviderHandel(ctx, instance)
+			resource := eC2VerifiedAccessTrustProviderHandle(ctx, instance)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -769,7 +769,7 @@ func EC2VerifiedAccessTrustProvider(ctx context.Context, cfg aws.Config, stream 
 
 	return values, nil
 }
-func eC2VerifiedAccessTrustProviderHandel(ctx context.Context, v types.VerifiedAccessTrustProvider) Resource {
+func eC2VerifiedAccessTrustProviderHandle(ctx context.Context, v types.VerifiedAccessTrustProvider) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.Region,
@@ -794,7 +794,7 @@ func GetEC2VerifiedAccessTrustProvider(ctx context.Context, cfg aws.Config, fiel
 
 	var values []Resource
 	for _, v := range out.VerifiedAccessTrustProviders {
-		resource := eC2VerifiedAccessTrustProviderHandel(ctx, v)
+		resource := eC2VerifiedAccessTrustProviderHandle(ctx, v)
 		values = append(values, resource)
 	}
 
@@ -816,7 +816,7 @@ func EC2DHCPOptions(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 		}
 
 		for _, v := range page.DhcpOptions {
-			resource := eC2DHCPOptionsHandel(ctx, v)
+			resource := eC2DHCPOptionsHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -829,7 +829,7 @@ func EC2DHCPOptions(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 
 	return values, nil
 }
-func eC2DHCPOptionsHandel(ctx context.Context, v types.DhcpOptions) Resource {
+func eC2DHCPOptionsHandle(ctx context.Context, v types.DhcpOptions) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := fmt.Sprintf("arn:%s:ec2:%s:%s:dhcp-options/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.DhcpOptionsId)
 
@@ -856,7 +856,7 @@ func GetEC2DHCPOptions(ctx context.Context, cfg aws.Config, field map[string]str
 
 	var values []Resource
 	for _, v := range out.DhcpOptions {
-		resource := eC2DHCPOptionsHandel(ctx, v)
+		resource := eC2DHCPOptionsHandle(ctx, v)
 		values = append(values, resource)
 	}
 
@@ -875,7 +875,7 @@ func EC2Fleet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 		}
 
 		for _, v := range page.Fleets {
-			resource := eC2FleetHandel(ctx, v)
+			resource := eC2FleetHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -888,7 +888,7 @@ func EC2Fleet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 
 	return values, nil
 }
-func eC2FleetHandel(ctx context.Context, v types.FleetData) Resource {
+func eC2FleetHandle(ctx context.Context, v types.FleetData) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := fmt.Sprintf("arn:%s:ec2:%s:%s:fleet/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.FleetId)
 	resource := Resource{
@@ -914,7 +914,7 @@ func GetEC2Fleet(ctx context.Context, cfg aws.Config, field map[string]string) (
 
 	var values []Resource
 	for _, v := range out.Fleets {
-		resource := eC2FleetHandel(ctx, v)
+		resource := eC2FleetHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -935,7 +935,7 @@ func EC2EgressOnlyInternetGateway(ctx context.Context, cfg aws.Config, stream *S
 		}
 
 		for _, v := range page.EgressOnlyInternetGateways {
-			resource := eC2EgressOnlyInternetGatewayHandel(ctx, v)
+			resource := eC2EgressOnlyInternetGatewayHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -948,7 +948,7 @@ func EC2EgressOnlyInternetGateway(ctx context.Context, cfg aws.Config, stream *S
 
 	return values, nil
 }
-func eC2EgressOnlyInternetGatewayHandel(ctx context.Context, v types.EgressOnlyInternetGateway) Resource {
+func eC2EgressOnlyInternetGatewayHandle(ctx context.Context, v types.EgressOnlyInternetGateway) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := fmt.Sprintf("arn:%s:ec2:%s:%s:egress-only-internet-gateway/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.EgressOnlyInternetGatewayId)
 	resource := Resource{
@@ -974,7 +974,7 @@ func GetEC2EgressOnlyInternetGateway(ctx context.Context, cfg aws.Config, field 
 
 	var values []Resource
 	for _, v := range out.EgressOnlyInternetGateways {
-		resource := eC2EgressOnlyInternetGatewayHandel(ctx, v)
+		resource := eC2EgressOnlyInternetGatewayHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -992,7 +992,7 @@ func EC2EIP(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resour
 
 	var values []Resource
 	for _, v := range output.Addresses {
-		resource := eC2EIPHandel(ctx, v)
+		resource := eC2EIPHandle(ctx, v)
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {
 				return nil, err
@@ -1003,7 +1003,7 @@ func EC2EIP(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resour
 	}
 	return values, nil
 }
-func eC2EIPHandel(ctx context.Context, v types.Address) Resource {
+func eC2EIPHandle(ctx context.Context, v types.Address) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":eip/" + *v.AllocationId
 	resource := Resource{
@@ -1031,7 +1031,7 @@ func GetEC2EIP(ctx context.Context, cfg aws.Config, fields map[string]string) ([
 	}
 	var values []Resource
 	for _, v := range output.Addresses {
-		resource := eC2EIPHandel(ctx, v)
+		resource := eC2EIPHandle(ctx, v)
 		values = append(values, resource)
 	}
 
@@ -1091,7 +1091,7 @@ func EC2FlowLog(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 		}
 
 		for _, v := range page.FlowLogs {
-			resource := eC2FlowLogHandel(ctx, v)
+			resource := eC2FlowLogHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -1103,7 +1103,7 @@ func EC2FlowLog(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 	}
 	return values, nil
 }
-func eC2FlowLogHandel(ctx context.Context, v types.FlowLog) Resource {
+func eC2FlowLogHandle(ctx context.Context, v types.FlowLog) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":vpc-flow-log/" + *v.FlowLogId
 	resource := Resource{
@@ -1132,7 +1132,7 @@ func GetEC2FlowLog(ctx context.Context, cfg aws.Config, field map[string]string)
 
 	var values []Resource
 	for _, v := range output.FlowLogs {
-		resource := eC2FlowLogHandel(ctx, v)
+		resource := eC2FlowLogHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -1150,7 +1150,7 @@ func EC2Host(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 		}
 
 		for _, v := range page.Hosts {
-			resource := eC2HostHandel(ctx, v)
+			resource := eC2HostHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -1163,7 +1163,7 @@ func EC2Host(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 
 	return values, nil
 }
-func eC2HostHandel(ctx context.Context, v types.Host) Resource {
+func eC2HostHandle(ctx context.Context, v types.Host) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := fmt.Sprintf("arn:%s:ec2:%s:%s:dedicated-host/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.HostId)
 	resource := Resource{
@@ -1192,7 +1192,7 @@ func GetEC2Host(ctx context.Context, cfg aws.Config, field map[string]string) ([
 
 	var values []Resource
 	for _, v := range output.Hosts {
-		resource := eC2HostHandel(ctx, v)
+		resource := eC2HostHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -1211,7 +1211,7 @@ func EC2Instance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 
 		for _, r := range page.Reservations {
 			for _, v := range r.Instances {
-				resource, err := eC2InstanceHandel(ctx, v, client)
+				resource, err := eC2InstanceHandle(ctx, v, client)
 				if stream != nil {
 					m := *stream
 					err = m(resource)
@@ -1227,7 +1227,7 @@ func EC2Instance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 
 	return values, nil
 }
-func eC2InstanceHandel(ctx context.Context, v types.Instance, client *ec2.Client) (Resource, error) {
+func eC2InstanceHandle(ctx context.Context, v types.Instance, client *ec2.Client) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	var desc model.EC2InstanceDescription
 
@@ -1294,7 +1294,7 @@ func GetEC2Instance(ctx context.Context, cfg aws.Config, fields map[string]strin
 
 	for _, r := range out.Reservations {
 		for _, v := range r.Instances {
-			resource, err := eC2InstanceHandel(ctx, v, client)
+			resource, err := eC2InstanceHandle(ctx, v, client)
 			if err != nil {
 				return nil, err
 			}
@@ -1317,7 +1317,7 @@ func EC2InternetGateway(ctx context.Context, cfg aws.Config, stream *StreamSende
 		}
 
 		for _, v := range page.InternetGateways {
-			resource := eC2InternetGatewayHandel(ctx, v)
+			resource := eC2InternetGatewayHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -1330,7 +1330,7 @@ func EC2InternetGateway(ctx context.Context, cfg aws.Config, stream *StreamSende
 
 	return values, nil
 }
-func eC2InternetGatewayHandel(ctx context.Context, v types.InternetGateway) Resource {
+func eC2InternetGatewayHandle(ctx context.Context, v types.InternetGateway) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":internet-gateway/" + *v.InternetGatewayId
 	resource := Resource{
@@ -1359,7 +1359,7 @@ func GetEC2InternetGateway(ctx context.Context, cfg aws.Config, field map[string
 
 	var values []Resource
 	for _, v := range output.InternetGateways {
-		resource := eC2InternetGatewayHandel(ctx, v)
+		resource := eC2InternetGatewayHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -1377,7 +1377,7 @@ func EC2NatGateway(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 		}
 
 		for _, v := range page.NatGateways {
-			resource := eC2NatGatewayHandel(ctx, v)
+			resource := eC2NatGatewayHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -1389,7 +1389,7 @@ func EC2NatGateway(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 	}
 	return values, nil
 }
-func eC2NatGatewayHandel(ctx context.Context, v types.NatGateway) Resource {
+func eC2NatGatewayHandle(ctx context.Context, v types.NatGateway) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":natgateway/" + *v.NatGatewayId
 	resource := Resource{
@@ -1418,7 +1418,7 @@ func GetEC2NatGateway(ctx context.Context, cfg aws.Config, field map[string]stri
 
 	var values []Resource
 	for _, v := range output.NatGateways {
-		resource := eC2NatGatewayHandel(ctx, v)
+		resource := eC2NatGatewayHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -1436,7 +1436,7 @@ func EC2NetworkAcl(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 		}
 
 		for _, v := range page.NetworkAcls {
-			resource := eC2NetworkAclHandel(ctx, v)
+			resource := eC2NetworkAclHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -1449,7 +1449,7 @@ func EC2NetworkAcl(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 
 	return values, nil
 }
-func eC2NetworkAclHandel(ctx context.Context, v types.NetworkAcl) Resource {
+func eC2NetworkAclHandle(ctx context.Context, v types.NetworkAcl) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":network-acl/" + *v.NetworkAclId
 	resource := Resource{
@@ -1478,7 +1478,7 @@ func GetEC2NetworkAcl(ctx context.Context, cfg aws.Config, field map[string]stri
 
 	var values []Resource
 	for _, v := range output.NetworkAcls {
-		resource := eC2NetworkAclHandel(ctx, v)
+		resource := eC2NetworkAclHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -1560,7 +1560,7 @@ func EC2NetworkInterface(ctx context.Context, cfg aws.Config, stream *StreamSend
 		}
 
 		for _, v := range page.NetworkInterfaces {
-			resource := eC2NetworkInterfaceHandel(ctx, v)
+			resource := eC2NetworkInterfaceHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -1573,7 +1573,7 @@ func EC2NetworkInterface(ctx context.Context, cfg aws.Config, stream *StreamSend
 
 	return values, nil
 }
-func eC2NetworkInterfaceHandel(ctx context.Context, v types.NetworkInterface) Resource {
+func eC2NetworkInterfaceHandle(ctx context.Context, v types.NetworkInterface) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":network-interface/" + *v.NetworkInterfaceId
 	resource := Resource{
@@ -1598,7 +1598,7 @@ func GetEC2NetworkInterface(ctx context.Context, cfg aws.Config, fields map[stri
 
 	var values []Resource
 	for _, v := range out.NetworkInterfaces {
-		resource := eC2NetworkInterfaceHandel(ctx, v)
+		resource := eC2NetworkInterfaceHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -1644,7 +1644,7 @@ func EC2PlacementGroup(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 	var values []Resource
 	for _, v := range output.PlacementGroups {
-		resource := eC2PlacementGroupHandel(ctx, v)
+		resource := eC2PlacementGroupHandle(ctx, v)
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {
 				return nil, err
@@ -1656,7 +1656,7 @@ func EC2PlacementGroup(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 	return values, nil
 }
-func eC2PlacementGroupHandel(ctx context.Context, v types.PlacementGroup) Resource {
+func eC2PlacementGroupHandle(ctx context.Context, v types.PlacementGroup) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := fmt.Sprintf("arn:%s:ec2:%s:%s:placement-group/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.GroupName)
 	resource := Resource{
@@ -1685,7 +1685,7 @@ func GetEC2PlacementGroup(ctx context.Context, cfg aws.Config, field map[string]
 
 	var values []Resource
 	for _, v := range output.PlacementGroups {
-		resource := eC2PlacementGroupHandel(ctx, v)
+		resource := eC2PlacementGroupHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -1768,7 +1768,7 @@ func EC2RouteTable(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 		}
 
 		for _, v := range page.RouteTables {
-			resource := eC2RouteTableHandel(ctx, v)
+			resource := eC2RouteTableHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -1781,7 +1781,7 @@ func EC2RouteTable(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 
 	return values, nil
 }
-func eC2RouteTableHandel(ctx context.Context, v types.RouteTable) Resource {
+func eC2RouteTableHandle(ctx context.Context, v types.RouteTable) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":route-table/" + *v.RouteTableId
 
@@ -1807,7 +1807,7 @@ func GetEC2RouteTable(ctx context.Context, cfg aws.Config, fields map[string]str
 
 	var values []Resource
 	for _, v := range out.RouteTables {
-		resource := eC2RouteTableHandel(ctx, v)
+		resource := eC2RouteTableHandle(ctx, v)
 		values = append(values, resource)
 	}
 
@@ -1893,7 +1893,7 @@ func EC2TransitGatewayRouteTable(ctx context.Context, cfg aws.Config, stream *St
 		}
 
 		for _, v := range page.TransitGatewayRouteTables {
-			resource := eC2TransitGatewayRouteTableHandel(ctx, v)
+			resource := eC2TransitGatewayRouteTableHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -1906,7 +1906,7 @@ func EC2TransitGatewayRouteTable(ctx context.Context, cfg aws.Config, stream *St
 
 	return values, nil
 }
-func eC2TransitGatewayRouteTableHandel(ctx context.Context, v types.TransitGatewayRouteTable) Resource {
+func eC2TransitGatewayRouteTableHandle(ctx context.Context, v types.TransitGatewayRouteTable) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := fmt.Sprintf("arn:%s:ec2:%s:%s:transit-gateway-route-table/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.TransitGatewayRouteTableId)
 
@@ -1936,7 +1936,7 @@ func GetEC2TransitGatewayRouteTable(ctx context.Context, cfg aws.Config, field m
 
 	var values []Resource
 	for _, v := range out.TransitGatewayRouteTables {
-		resource := eC2TransitGatewayRouteTableHandel(ctx, v)
+		resource := eC2TransitGatewayRouteTableHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -2038,7 +2038,7 @@ func EC2SecurityGroup(ctx context.Context, cfg aws.Config, stream *StreamSender)
 		}
 
 		for _, v := range page.SecurityGroups {
-			resource := eC2SecurityGroupHandel(ctx, v)
+			resource := eC2SecurityGroupHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -2051,7 +2051,7 @@ func EC2SecurityGroup(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 	return values, nil
 }
-func eC2SecurityGroupHandel(ctx context.Context, v types.SecurityGroup) Resource {
+func eC2SecurityGroupHandle(ctx context.Context, v types.SecurityGroup) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":security-group/" + *v.GroupId
 	resource := Resource{
@@ -2077,7 +2077,7 @@ func GetEC2SecurityGroup(ctx context.Context, cfg aws.Config, fields map[string]
 
 	var values []Resource
 	for _, v := range out.SecurityGroups {
-		resource := eC2SecurityGroupHandel(ctx, v)
+		resource := eC2SecurityGroupHandle(ctx, v)
 		values = append(values, resource)
 	}
 
@@ -2285,7 +2285,7 @@ func EC2Subnet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Res
 		}
 
 		for _, v := range page.Subnets {
-			resource := eC2SubnetHandel(ctx, v)
+			resource := eC2SubnetHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -2298,7 +2298,7 @@ func EC2Subnet(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Res
 
 	return values, nil
 }
-func eC2SubnetHandel(ctx context.Context, v types.Subnet) Resource {
+func eC2SubnetHandle(ctx context.Context, v types.Subnet) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -2323,7 +2323,7 @@ func GetEC2Subnet(ctx context.Context, cfg aws.Config, fields map[string]string)
 	var values []Resource
 
 	for _, v := range out.Subnets {
-		resource := eC2SubnetHandel(ctx, v)
+		resource := eC2SubnetHandle(ctx, v)
 		values = append(values, resource)
 	}
 
@@ -2441,7 +2441,7 @@ func EC2TransitGateway(ctx context.Context, cfg aws.Config, stream *StreamSender
 		}
 
 		for _, v := range page.TransitGateways {
-			resource := eC2TransitGatewayHandel(ctx, v)
+			resource := eC2TransitGatewayHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -2454,7 +2454,7 @@ func EC2TransitGateway(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 	return values, nil
 }
-func eC2TransitGatewayHandel(ctx context.Context, v types.TransitGateway) Resource {
+func eC2TransitGatewayHandle(ctx context.Context, v types.TransitGateway) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	values := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -2482,7 +2482,7 @@ func GetEC2TransitGateway(ctx context.Context, cfg aws.Config, fields map[string
 
 	var values []Resource
 	for _, v := range out.TransitGateways {
-		resource := eC2TransitGatewayHandel(ctx, v)
+		resource := eC2TransitGatewayHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -2732,7 +2732,7 @@ func EC2VPC(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resour
 		}
 
 		for _, v := range page.Vpcs {
-			resource := eC2VPCHandel(ctx, v)
+			resource := eC2VPCHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -2745,7 +2745,7 @@ func EC2VPC(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resour
 
 	return values, nil
 }
-func eC2VPCHandel(ctx context.Context, v types.Vpc) Resource {
+func eC2VPCHandle(ctx context.Context, v types.Vpc) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":vpc/" + *v.VpcId
 	values := Resource{
@@ -2772,7 +2772,7 @@ func GetEC2VPC(ctx context.Context, cfg aws.Config, fields map[string]string) ([
 
 	var values []Resource
 	for _, v := range out.Vpcs {
-		resource := eC2VPCHandel(ctx, v)
+		resource := eC2VPCHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -2790,7 +2790,7 @@ func EC2VPCEndpoint(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 		}
 
 		for _, v := range page.VpcEndpoints {
-			resource := eC2VPCEndpointHandel(ctx, v)
+			resource := eC2VPCEndpointHandle(ctx, v)
 
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
@@ -2803,7 +2803,7 @@ func EC2VPCEndpoint(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 	}
 	return values, nil
 }
-func eC2VPCEndpointHandel(ctx context.Context, v types.VpcEndpoint) Resource {
+func eC2VPCEndpointHandle(ctx context.Context, v types.VpcEndpoint) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":vpc-endpoint/" + *v.VpcEndpointId
 	values := Resource{
@@ -2830,7 +2830,7 @@ func GetEC2VPCEndpoint(ctx context.Context, cfg aws.Config, fields map[string]st
 
 	var values []Resource
 	for _, v := range out.VpcEndpoints {
-		resource := eC2VPCEndpointHandel(ctx, v)
+		resource := eC2VPCEndpointHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -2972,7 +2972,7 @@ func EC2VPCPeeringConnection(ctx context.Context, cfg aws.Config, stream *Stream
 		}
 
 		for _, v := range page.VpcPeeringConnections {
-			resource := eC2VPCPeeringConnectionHandel(ctx, v)
+			resource := eC2VPCPeeringConnectionHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -2985,7 +2985,7 @@ func EC2VPCPeeringConnection(ctx context.Context, cfg aws.Config, stream *Stream
 
 	return values, nil
 }
-func eC2VPCPeeringConnectionHandel(ctx context.Context, v types.VpcPeeringConnection) Resource {
+func eC2VPCPeeringConnectionHandle(ctx context.Context, v types.VpcPeeringConnection) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := fmt.Sprintf("arn:%s:ec2:%s:%s:vpc-peering-connection/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.VpcPeeringConnectionId)
 	values := Resource{
@@ -3011,7 +3011,7 @@ func GetEC2VPCPeeringConnection(ctx context.Context, cfg aws.Config, fields map[
 
 	var values []Resource
 	for _, v := range out.VpcPeeringConnections {
-		resource := eC2VPCPeeringConnectionHandel(ctx, v)
+		resource := eC2VPCPeeringConnectionHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -3026,7 +3026,7 @@ func EC2VPNConnection(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 	var values []Resource
 	for _, v := range output.VpnConnections {
-		resource := eC2VPNConnectionHandel(ctx, v)
+		resource := eC2VPNConnectionHandle(ctx, v)
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {
 				return nil, err
@@ -3038,7 +3038,7 @@ func EC2VPNConnection(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 	return values, nil
 }
-func eC2VPNConnectionHandel(ctx context.Context, v types.VpnConnection) Resource {
+func eC2VPNConnectionHandle(ctx context.Context, v types.VpnConnection) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":vpn-connection/" + *v.VpnConnectionId
 	values := Resource{
@@ -3064,7 +3064,7 @@ func GetEC2VPNConnection(ctx context.Context, cfg aws.Config, fields map[string]
 
 	var values []Resource
 	for _, v := range out.VpnConnections {
-		resource := eC2VPNConnectionHandel(ctx, v)
+		resource := eC2VPNConnectionHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -3079,7 +3079,7 @@ func EC2VPNGateway(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 
 	var values []Resource
 	for _, v := range output.VpnGateways {
-		resource := eC2VPNGatewayHandel(ctx, v)
+		resource := eC2VPNGatewayHandle(ctx, v)
 
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {
@@ -3092,7 +3092,7 @@ func EC2VPNGateway(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 
 	return values, nil
 }
-func eC2VPNGatewayHandel(ctx context.Context, v types.VpnGateway) Resource {
+func eC2VPNGatewayHandle(ctx context.Context, v types.VpnGateway) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := fmt.Sprintf("arn:%s:ec2:%s:%s:vpn-gateway/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.VpnGatewayId)
 	values := Resource{
@@ -3119,7 +3119,7 @@ func GetEC2VPNGateway(ctx context.Context, cfg aws.Config, fields map[string]str
 
 	var values []Resource
 	for _, v := range out.VpnGateways {
-		resource := eC2VPNGatewayHandel(ctx, v)
+		resource := eC2VPNGatewayHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -3187,7 +3187,7 @@ func EC2AvailabilityZone(ctx context.Context, cfg aws.Config, stream *StreamSend
 		}
 
 		for _, v := range output.AvailabilityZones {
-			resource := eC2AvailabilityZoneHandel(ctx, v, region)
+			resource := eC2AvailabilityZoneHandle(ctx, v, region)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -3199,7 +3199,7 @@ func EC2AvailabilityZone(ctx context.Context, cfg aws.Config, stream *StreamSend
 	}
 	return values, nil
 }
-func eC2AvailabilityZoneHandel(ctx context.Context, v types.AvailabilityZone, region types.Region) Resource {
+func eC2AvailabilityZoneHandle(ctx context.Context, v types.AvailabilityZone, region types.Region) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := fmt.Sprintf("arn:%s::%s::availability-zone/%s", describeCtx.Partition, *region.RegionName, *v.ZoneName)
 	values := Resource{
@@ -3242,7 +3242,7 @@ func GetEC2AvailabilityZone(ctx context.Context, cfg aws.Config, fields map[stri
 			return nil, err
 		}
 		for _, v := range output.AvailabilityZones {
-			resource := eC2AvailabilityZoneHandel(ctx, v, region)
+			resource := eC2AvailabilityZoneHandle(ctx, v, region)
 			values = append(values, resource)
 		}
 	}
@@ -3258,7 +3258,7 @@ func EC2KeyPair(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 
 	var values []Resource
 	for _, v := range output.KeyPairs {
-		resource := eC2KeyPairHandel(ctx, v)
+		resource := eC2KeyPairHandle(ctx, v)
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {
 				return nil, err
@@ -3270,7 +3270,7 @@ func EC2KeyPair(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 
 	return values, nil
 }
-func eC2KeyPairHandel(ctx context.Context, v types.KeyPairInfo) Resource {
+func eC2KeyPairHandle(ctx context.Context, v types.KeyPairInfo) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":key-pair/" + *v.KeyName
 	resource := Resource{
@@ -3296,7 +3296,7 @@ func GetEC2KeyPair(ctx context.Context, cfg aws.Config, fields map[string]string
 
 	var values []Resource
 	for _, v := range output.KeyPairs {
-		resource := eC2KeyPairHandel(ctx, v)
+		resource := eC2KeyPairHandle(ctx, v)
 		values = append(values, resource)
 	}
 
@@ -3328,7 +3328,7 @@ func EC2AMI(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resour
 			}
 			return nil, err
 		}
-		resource := eC2AMIHandel(ctx, v, imageAttribute)
+		resource := eC2AMIHandle(ctx, v, imageAttribute)
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {
 				return nil, err
@@ -3340,7 +3340,7 @@ func EC2AMI(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resour
 
 	return values, nil
 }
-func eC2AMIHandel(ctx context.Context, v types.Image, imageAttribute *ec2.DescribeImageAttributeOutput) Resource {
+func eC2AMIHandle(ctx context.Context, v types.Image, imageAttribute *ec2.DescribeImageAttributeOutput) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":image/" + *v.ImageId
 	resource := Resource{
@@ -3381,7 +3381,7 @@ func GetEC2AMI(ctx context.Context, cfg aws.Config, fields map[string]string) ([
 			}
 			return nil, err
 		}
-		resource := eC2AMIHandel(ctx, v, imageAttribute)
+		resource := eC2AMIHandle(ctx, v, imageAttribute)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -3421,7 +3421,7 @@ func EC2ReservedInstances(ctx context.Context, cfg aws.Config, stream *StreamSen
 
 			modifications = append(modifications, page.ReservedInstancesModifications...)
 		}
-		resource := eC2ReservedInstancesHandel(ctx, v, modifications)
+		resource := eC2ReservedInstancesHandle(ctx, v, modifications)
 
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {
@@ -3434,7 +3434,7 @@ func EC2ReservedInstances(ctx context.Context, cfg aws.Config, stream *StreamSen
 
 	return values, nil
 }
-func eC2ReservedInstancesHandel(ctx context.Context, v types.ReservedInstances, modifications []types.ReservedInstancesModification) Resource {
+func eC2ReservedInstancesHandle(ctx context.Context, v types.ReservedInstances, modifications []types.ReservedInstancesModification) Resource {
 	describeCtx := GetDescribeContext(ctx)
 
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":reserved-instances/" + *v.ReservedInstancesId
@@ -3480,7 +3480,7 @@ func GetEC2ReservedInstances(ctx context.Context, cfg aws.Config, fields map[str
 			return nil, err
 		}
 		modifications = append(modifications, page.ReservedInstancesModifications...)
-		resource := eC2ReservedInstancesHandel(ctx, v, modifications)
+		resource := eC2ReservedInstancesHandle(ctx, v, modifications)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -3498,7 +3498,7 @@ func EC2IpamPool(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 		}
 
 		for _, v := range page.IpamPools {
-			resource := eC2IpamPoolHandel(ctx, v)
+			resource := eC2IpamPoolHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -3510,7 +3510,7 @@ func EC2IpamPool(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 	}
 	return values, nil
 }
-func eC2IpamPoolHandel(ctx context.Context, v types.IpamPool) Resource {
+func eC2IpamPoolHandle(ctx context.Context, v types.IpamPool) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	values := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -3535,7 +3535,7 @@ func GetEC2IpamPool(ctx context.Context, cfg aws.Config, fields map[string]strin
 
 	var values []Resource
 	for _, v := range out.IpamPools {
-		resource := eC2IpamPoolHandel(ctx, v)
+		resource := eC2IpamPoolHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -3553,7 +3553,7 @@ func EC2Ipam(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 		}
 
 		for _, v := range page.Ipams {
-			resource := eC2IpamHandel(ctx, v)
+			resource := eC2IpamHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -3565,7 +3565,7 @@ func EC2Ipam(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 	}
 	return values, nil
 }
-func eC2IpamHandel(ctx context.Context, v types.Ipam) Resource {
+func eC2IpamHandle(ctx context.Context, v types.Ipam) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	values := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -3590,7 +3590,7 @@ func GetEC2Ipam(ctx context.Context, cfg aws.Config, fields map[string]string) (
 
 	var values []Resource
 	for _, v := range out.Ipams {
-		resource := eC2IpamHandel(ctx, v)
+		resource := eC2IpamHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -3680,7 +3680,7 @@ func EC2ManagedPrefixList(ctx context.Context, cfg aws.Config, stream *StreamSen
 		}
 
 		for _, v := range page.PrefixLists {
-			resource := eC2ManagedPrefixListHandel(ctx, v)
+			resource := eC2ManagedPrefixListHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -3693,7 +3693,7 @@ func EC2ManagedPrefixList(ctx context.Context, cfg aws.Config, stream *StreamSen
 
 	return values, nil
 }
-func eC2ManagedPrefixListHandel(ctx context.Context, v types.ManagedPrefixList) Resource {
+func eC2ManagedPrefixListHandle(ctx context.Context, v types.ManagedPrefixList) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	values := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -3718,7 +3718,7 @@ func GetEC2ManagedPrefixList(ctx context.Context, cfg aws.Config, fields map[str
 
 	var values []Resource
 	for _, v := range out.PrefixLists {
-		resource := eC2ManagedPrefixListHandel(ctx, v)
+		resource := eC2ManagedPrefixListHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -3862,7 +3862,7 @@ func EC2TransitGatewayAttachment(ctx context.Context, cfg aws.Config, stream *St
 		}
 
 		for _, v := range page.TransitGatewayAttachments {
-			values := eC2TransitGatewayAttachmentHandel(ctx, v)
+			values := eC2TransitGatewayAttachmentHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(values); err != nil {
 					return nil, err
@@ -3874,7 +3874,7 @@ func EC2TransitGatewayAttachment(ctx context.Context, cfg aws.Config, stream *St
 	}
 	return values, nil
 }
-func eC2TransitGatewayAttachmentHandel(ctx context.Context, v types.TransitGatewayAttachment) Resource {
+func eC2TransitGatewayAttachmentHandle(ctx context.Context, v types.TransitGatewayAttachment) Resource {
 	var values Resource
 	describeCtx := GetDescribeContext(ctx)
 	arn := fmt.Sprintf("arn:%s:ec2:%s:%s:transit-gateway-attachment/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.TransitGatewayAttachmentId)
@@ -3901,7 +3901,7 @@ func GetEC2TransitGatewayAttachment(ctx context.Context, cfg aws.Config, fields 
 
 	var values []Resource
 	for _, v := range out.TransitGatewayAttachments {
-		values := eC2TransitGatewayAttachmentHandel(ctx, v)
+		values := eC2TransitGatewayAttachmentHandle(ctx, v)
 		values = append(values, values)
 	}
 	return values, nil
@@ -3919,7 +3919,7 @@ func EC2LaunchTemplate(ctx context.Context, cfg aws.Config, stream *StreamSender
 		}
 
 		for _, v := range page.LaunchTemplates {
-			resource := eC2LaunchTemplateHandel(ctx, v)
+			resource := eC2LaunchTemplateHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -3931,7 +3931,7 @@ func EC2LaunchTemplate(ctx context.Context, cfg aws.Config, stream *StreamSender
 	}
 	return values, nil
 }
-func eC2LaunchTemplateHandel(ctx context.Context, v types.LaunchTemplate) Resource {
+func eC2LaunchTemplateHandle(ctx context.Context, v types.LaunchTemplate) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := fmt.Sprintf("arn:%s:ec2:%s:%s:launch-template/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.LaunchTemplateId)
 	resource := Resource{
@@ -3959,7 +3959,7 @@ func GetEC2LaunchTemplate(ctx context.Context, cfg aws.Config, fields map[string
 
 	var values []Resource
 	for _, v := range out.LaunchTemplates {
-		resource := eC2LaunchTemplateHandel(ctx, v)
+		resource := eC2LaunchTemplateHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil

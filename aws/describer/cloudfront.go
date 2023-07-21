@@ -35,7 +35,7 @@ func CloudFrontDistribution(ctx context.Context, cfg aws.Config, stream *StreamS
 				return nil, err
 			}
 
-			resource := cloudFrontDistributionHandel(ctx, tags, distribution, item.ARN, item.Id)
+			resource := cloudFrontDistributionHandle(ctx, tags, distribution, item.ARN, item.Id)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -48,7 +48,7 @@ func CloudFrontDistribution(ctx context.Context, cfg aws.Config, stream *StreamS
 
 	return values, nil
 }
-func cloudFrontDistributionHandel(ctx context.Context, tags *cloudfront.ListTagsForResourceOutput, distribution *cloudfront.GetDistributionOutput, ARN *string, Id *string) Resource {
+func cloudFrontDistributionHandle(ctx context.Context, tags *cloudfront.ListTagsForResourceOutput, distribution *cloudfront.GetDistributionOutput, ARN *string, Id *string) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -97,7 +97,7 @@ func GetCloudFrontDistribution(ctx context.Context, cfg aws.Config, fields map[s
 		return nil, err
 	}
 
-	values = append(values, cloudFrontDistributionHandel(ctx, tags, distribution, DistributionData.Distribution.ARN, DistributionData.Distribution.Id))
+	values = append(values, cloudFrontDistributionHandle(ctx, tags, distribution, DistributionData.Distribution.ARN, DistributionData.Distribution.Id))
 	return values, nil
 }
 
@@ -257,7 +257,7 @@ func CloudFrontCachePolicy(ctx context.Context, cfg aws.Config, stream *StreamSe
 				return nil, err
 			}
 
-			resource := cloudFrontCachePolicyHandel(ctx, cachePolicy, *v.CachePolicy.Id)
+			resource := cloudFrontCachePolicyHandle(ctx, cachePolicy, *v.CachePolicy.Id)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -275,7 +275,7 @@ func CloudFrontCachePolicy(ctx context.Context, cfg aws.Config, stream *StreamSe
 
 	return values, nil
 }
-func cloudFrontCachePolicyHandel(ctx context.Context, cachePolicy *cloudfront.GetCachePolicyOutput, id string) Resource {
+func cloudFrontCachePolicyHandle(ctx context.Context, cachePolicy *cloudfront.GetCachePolicyOutput, id string) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := fmt.Sprintf("arn:%s:cloudfront::%s:cache-policy/%s", describeCtx.Partition, describeCtx.AccountID, id)
 	resource := Resource{
@@ -302,7 +302,7 @@ func GetCloudFrontCachePolicy(ctx context.Context, cfg aws.Config, fields map[st
 		return nil, err
 	}
 
-	values = append(values, cloudFrontCachePolicyHandel(ctx, cachePolicy, id))
+	values = append(values, cloudFrontCachePolicyHandle(ctx, cachePolicy, id))
 	return values, nil
 }
 
@@ -328,7 +328,7 @@ func CloudFrontFunction(ctx context.Context, cfg aws.Config, stream *StreamSende
 				return nil, err
 			}
 
-			resource := cloudFrontFunctionHandel(ctx, function)
+			resource := cloudFrontFunctionHandle(ctx, function)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -345,7 +345,7 @@ func CloudFrontFunction(ctx context.Context, cfg aws.Config, stream *StreamSende
 
 	return values, nil
 }
-func cloudFrontFunctionHandel(ctx context.Context, function *cloudfront.DescribeFunctionOutput) Resource {
+func cloudFrontFunctionHandle(ctx context.Context, function *cloudfront.DescribeFunctionOutput) Resource {
 	describeCtx := GetDescribeContext(ctx)
 
 	resource := Resource{
@@ -373,7 +373,7 @@ func GetCloudFrontFunction(ctx context.Context, cfg aws.Config, fields map[strin
 		return nil, err
 	}
 
-	values = append(values, cloudFrontFunctionHandel(ctx, function))
+	values = append(values, cloudFrontFunctionHandle(ctx, function))
 	return values, nil
 }
 
@@ -395,7 +395,7 @@ func CloudFrontOriginAccessIdentity(ctx context.Context, cfg aws.Config, stream 
 				return nil, err
 			}
 
-			resource := cloudFrontOriginAccessIdentityHandel(ctx, originAccessIdentity, *item.Id)
+			resource := cloudFrontOriginAccessIdentityHandle(ctx, originAccessIdentity, *item.Id)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -407,7 +407,7 @@ func CloudFrontOriginAccessIdentity(ctx context.Context, cfg aws.Config, stream 
 	}
 	return values, nil
 }
-func cloudFrontOriginAccessIdentityHandel(ctx context.Context, originAccessIdentity *cloudfront.GetCloudFrontOriginAccessIdentityOutput, id string) Resource {
+func cloudFrontOriginAccessIdentityHandle(ctx context.Context, originAccessIdentity *cloudfront.GetCloudFrontOriginAccessIdentityOutput, id string) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := fmt.Sprintf("arn:%s:cloudfront::%s:origin-access-identity/%s", describeCtx.Partition, describeCtx.AccountID, id)
 
@@ -433,7 +433,7 @@ func GetCloudFrontOriginAccessIdentity(ctx context.Context, cfg aws.Config, fiel
 		return nil, err
 	}
 
-	values = append(values, cloudFrontOriginAccessIdentityHandel(ctx, originAccessIdentity, id))
+	values = append(values, cloudFrontOriginAccessIdentityHandle(ctx, originAccessIdentity, id))
 
 	return values, nil
 }

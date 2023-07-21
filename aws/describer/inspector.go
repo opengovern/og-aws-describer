@@ -77,7 +77,7 @@ func InspectorAssessmentTarget(ctx context.Context, cfg aws.Config, stream *Stre
 		}
 
 		for _, assessmentTarget := range assessmentTargets.AssessmentTargets {
-			resource := inspectorAssessmentTargetHandel(ctx, assessmentTarget)
+			resource := inspectorAssessmentTargetHandle(ctx, assessmentTarget)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -89,7 +89,7 @@ func InspectorAssessmentTarget(ctx context.Context, cfg aws.Config, stream *Stre
 	}
 	return values, nil
 }
-func inspectorAssessmentTargetHandel(ctx context.Context, assessmentTarget types.AssessmentTarget) Resource {
+func inspectorAssessmentTargetHandle(ctx context.Context, assessmentTarget types.AssessmentTarget) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -117,7 +117,7 @@ func GetInspectorAssessmentTarget(ctx context.Context, cfg aws.Config, fields ma
 	}
 
 	for _, assessmentTarget := range describeAssessments.AssessmentTargets {
-		resource := inspectorAssessmentTargetHandel(ctx, assessmentTarget)
+		resource := inspectorAssessmentTargetHandle(ctx, assessmentTarget)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -160,7 +160,7 @@ func InspectorAssessmentTemplate(ctx context.Context, cfg aws.Config, stream *St
 				return nil, err
 			}
 
-			resource := inspectorAssessmentTemplateHandel(ctx, assessmentTemplate, eventSubscriptions, tags)
+			resource := inspectorAssessmentTemplateHandle(ctx, assessmentTemplate, eventSubscriptions, tags)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -173,7 +173,7 @@ func InspectorAssessmentTemplate(ctx context.Context, cfg aws.Config, stream *St
 
 	return values, nil
 }
-func inspectorAssessmentTemplateHandel(ctx context.Context, assessmentTemplate types.AssessmentTemplate, eventSubscriptions *inspector.ListEventSubscriptionsOutput, tags *inspector.ListTagsForResourceOutput) Resource {
+func inspectorAssessmentTemplateHandle(ctx context.Context, assessmentTemplate types.AssessmentTemplate, eventSubscriptions *inspector.ListEventSubscriptionsOutput, tags *inspector.ListTagsForResourceOutput) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -214,7 +214,7 @@ func GetInspectorAssessmentTemplate(ctx context.Context, cfg aws.Config, fields 
 			return nil, err
 		}
 
-		resource := inspectorAssessmentTemplateHandel(ctx, assessmentTemplate, eventSubscriptions, tags)
+		resource := inspectorAssessmentTemplateHandle(ctx, assessmentTemplate, eventSubscriptions, tags)
 		values = append(values, resource)
 	}
 	return values, nil

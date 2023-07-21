@@ -20,7 +20,7 @@ func SecretsManagerSecret(ctx context.Context, cfg aws.Config, stream *StreamSen
 		}
 
 		for _, item := range page.SecretList {
-			resource, err := secretsManagerSecretHandel(ctx, cfg, item.ARN, item.Name)
+			resource, err := secretsManagerSecretHandle(ctx, cfg, item.ARN, item.Name)
 			if err != nil {
 				return nil, err
 			}
@@ -36,7 +36,7 @@ func SecretsManagerSecret(ctx context.Context, cfg aws.Config, stream *StreamSen
 	}
 	return values, nil
 }
-func secretsManagerSecretHandel(ctx context.Context, cfg aws.Config, Arn *string, Name *string) (Resource, error) {
+func secretsManagerSecretHandle(ctx context.Context, cfg aws.Config, Arn *string, Name *string) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := secretsmanager.NewFromConfig(cfg)
 	out, err := client.DescribeSecret(ctx, &secretsmanager.DescribeSecretInput{
@@ -76,7 +76,7 @@ func GetSecretsManagerSecret(ctx context.Context, cfg aws.Config, field map[stri
 		return nil, err
 	}
 
-	resource, err := secretsManagerSecretHandel(ctx, cfg, secretValue.ARN, secretValue.Name)
+	resource, err := secretsManagerSecretHandle(ctx, cfg, secretValue.ARN, secretValue.Name)
 	if err != nil {
 		return nil, err
 	}

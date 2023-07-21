@@ -23,7 +23,7 @@ func KafkaCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 		for _, cluster := range page.ClusterInfoList {
 			resource, err := kafkaClusterHandle(ctx, cfg, cluster)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -112,7 +112,7 @@ func GetKafkaCluster(ctx context.Context, cfg aws.Config, fields map[string]stri
 
 		resource, err := kafkaClusterHandle(ctx, cfg, cluster)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {

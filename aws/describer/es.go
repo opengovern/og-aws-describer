@@ -37,9 +37,9 @@ func ESDomain(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 		}
 
 		for _, v := range out.DomainStatusList {
-			resource, err := ESDomainHandel(ctx, cfg, v)
+			resource, err := ESDomainHandle(ctx, cfg, v)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -57,7 +57,7 @@ func ESDomain(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 	}
 	return values, nil
 }
-func ESDomainHandel(ctx context.Context, cfg aws.Config, v types.ElasticsearchDomainStatus) (Resource, error) {
+func ESDomainHandle(ctx context.Context, cfg aws.Config, v types.ElasticsearchDomainStatus) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := es.NewFromConfig(cfg)
 
@@ -94,9 +94,9 @@ func GetESDomain(ctx context.Context, cfg aws.Config, fields map[string]string) 
 		return nil, err
 	}
 
-	resource, err := ESDomainHandel(ctx, cfg, *describeElasticSearch.DomainStatus)
+	resource, err := ESDomainHandle(ctx, cfg, *describeElasticSearch.DomainStatus)
 	emptyResource := Resource{}
-	if err != nil && resource == emptyResource {
+	if err == nil && resource == emptyResource {
 		return nil, nil
 	}
 	if err != nil {

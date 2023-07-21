@@ -25,7 +25,7 @@ func EFSAccessPoint(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 		}
 
 		for _, v := range page.AccessPoints {
-			resource := eFSAccessPointHandel(ctx, v)
+			resource := eFSAccessPointHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -37,7 +37,7 @@ func EFSAccessPoint(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 	}
 	return values, nil
 }
-func eFSAccessPointHandel(ctx context.Context, v types.AccessPointDescription) Resource {
+func eFSAccessPointHandle(ctx context.Context, v types.AccessPointDescription) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	name := aws.ToString(v.Name)
 	if name == "" {
@@ -69,7 +69,7 @@ func GetEFSAccessPoint(ctx context.Context, cfg aws.Config, fields map[string]st
 
 	var values []Resource
 	for _, v := range out.AccessPoints {
-		resource := eFSAccessPointHandel(ctx, v)
+		resource := eFSAccessPointHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -100,7 +100,7 @@ func EFSFileSystem(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 			// Doc: You can add tags to a file system, including a Name tag. For more information,
 			// see CreateFileSystem. If the file system has a Name tag, Amazon EFS returns the
 			// values in this field.
-			resource := eFSFileSystemHandel(ctx, output, v)
+			resource := eFSFileSystemHandle(ctx, output, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -113,7 +113,7 @@ func EFSFileSystem(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 
 	return values, nil
 }
-func eFSFileSystemHandel(ctx context.Context, describeFSPolicy *efs.DescribeFileSystemPolicyOutput, v types.FileSystemDescription) Resource {
+func eFSFileSystemHandle(ctx context.Context, describeFSPolicy *efs.DescribeFileSystemPolicyOutput, v types.FileSystemDescription) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	name := aws.ToString(v.Name)
 	if name == "" {
@@ -157,7 +157,7 @@ func GetEFSFileSystem(ctx context.Context, cfg aws.Config, field map[string]stri
 	}
 
 	for _, v := range output.FileSystems {
-		resource := eFSFileSystemHandel(ctx, describeFSPolicy, v)
+		resource := eFSFileSystemHandle(ctx, describeFSPolicy, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -190,7 +190,7 @@ func EFSMountTarget(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 				if err != nil {
 					return nil, err
 				}
-				resource := eFSMountTargetHandel(ctx, securityGroups, v, filesystem.FileSystem.FileSystemId)
+				resource := eFSMountTargetHandle(ctx, securityGroups, v, filesystem.FileSystem.FileSystemId)
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -209,7 +209,7 @@ func EFSMountTarget(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 
 	return values, nil
 }
-func eFSMountTargetHandel(ctx context.Context, securityGroups *efs.DescribeMountTargetSecurityGroupsOutput, v types.MountTargetDescription, FileSystemId *string) Resource {
+func eFSMountTargetHandle(ctx context.Context, securityGroups *efs.DescribeMountTargetSecurityGroupsOutput, v types.MountTargetDescription, FileSystemId *string) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := fmt.Sprintf("arn:%s:elasticfilesystem:%s:%s:file-system/%s/mount-target/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *FileSystemId, *v.MountTargetId)
 
@@ -250,7 +250,7 @@ func GetEFSMountTarget(ctx context.Context, cfg aws.Config, fields map[string]st
 			return nil, err
 		}
 
-		resource := eFSMountTargetHandel(ctx, securityGroups, v, &fileSystemId)
+		resource := eFSMountTargetHandle(ctx, securityGroups, v, &fileSystemId)
 		values = append(values, resource)
 	}
 	return values, nil

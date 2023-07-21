@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	types3 "github.com/aws/aws-sdk-go-v2/service/route53domains/types"
 	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/service/route53domains"
@@ -554,7 +555,6 @@ func Route53ResolverResolverRule(ctx context.Context, cfg aws.Config, stream *St
 }
 
 func Route53ResolverResolverEndpoint(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := route53resolver.NewFromConfig(cfg)
 	paginator := route53resolver.NewListResolverEndpointsPaginator(client, &route53resolver.ListResolverEndpointsInput{})
 
@@ -566,31 +566,7 @@ func Route53ResolverResolverEndpoint(ctx context.Context, cfg aws.Config, stream
 		}
 
 		for _, resolverEndpoint := range page.ResolverEndpoints {
-			ipAddresesses, err := client.ListResolverEndpointIpAddresses(ctx, &route53resolver.ListResolverEndpointIpAddressesInput{
-				ResolverEndpointId: resolverEndpoint.Id,
-			})
-			if err != nil {
-				ipAddresesses = &route53resolver.ListResolverEndpointIpAddressesOutput{}
-			}
-
-			tags, err := client.ListTagsForResource(ctx, &route53resolver.ListTagsForResourceInput{
-				ResourceArn: resolverEndpoint.Arn,
-			})
-			if err != nil {
-				tags = &route53resolver.ListTagsForResourceOutput{}
-			}
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *resolverEndpoint.Arn,
-				Name:   *resolverEndpoint.Name,
-				ID:     *resolverEndpoint.Id,
-				Description: model.Route53ResolverEndpointDescription{
-					ResolverEndpoint: resolverEndpoint,
-					IpAddresses:      ipAddresesses.IpAddresses,
-					Tags:             tags.Tags,
-				},
-			}
+			resource := route53ResolverResolverEndpointHandle(ctx, cfg, resolverEndpoint)
 
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
@@ -601,7 +577,53 @@ func Route53ResolverResolverEndpoint(ctx context.Context, cfg aws.Config, stream
 			}
 		}
 	}
+	return values, nil
+}
+func route53ResolverResolverEndpointHandle(ctx context.Context, cfg aws.Config, resolverEndpoint resolvertypes.ResolverEndpoint) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	client := route53resolver.NewFromConfig(cfg)
 
+	ipAddresesses, err := client.ListResolverEndpointIpAddresses(ctx, &route53resolver.ListResolverEndpointIpAddressesInput{
+		ResolverEndpointId: resolverEndpoint.Id,
+	})
+	if err != nil {
+		ipAddresesses = &route53resolver.ListResolverEndpointIpAddressesOutput{}
+	}
+
+	tags, err := client.ListTagsForResource(ctx, &route53resolver.ListTagsForResourceInput{
+		ResourceArn: resolverEndpoint.Arn,
+	})
+	if err != nil {
+		tags = &route53resolver.ListTagsForResourceOutput{}
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *resolverEndpoint.Arn,
+		Name:   *resolverEndpoint.Name,
+		ID:     *resolverEndpoint.Id,
+		Description: model.Route53ResolverEndpointDescription{
+			ResolverEndpoint: resolverEndpoint,
+			IpAddresses:      ipAddresesses.IpAddresses,
+			Tags:             tags.Tags,
+		},
+	}
+	return resource
+}
+func GetRoute53ResolverResolverEndpoint(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	resolverEndpointId := fields["id"]
+	client := route53resolver.NewFromConfig(cfg)
+	var values []Resource
+
+	out, err := client.GetResolverEndpoint(ctx, &route53resolver.GetResolverEndpointInput{
+		ResolverEndpointId: &resolverEndpointId,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	resource := route53ResolverResolverEndpointHandle(ctx, cfg, *out.ResolverEndpoint)
+	values = append(values, resource)
 	return values, nil
 }
 
@@ -638,8 +660,6 @@ func Route53ResolverResolverRuleAssociation(ctx context.Context, cfg aws.Config,
 }
 
 func Route53Domain(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-
 	client := route53domains.NewFromConfig(cfg)
 
 	paginator := route53domains.NewListDomainsPaginator(client, &route53domains.ListDomainsInput{})
@@ -650,31 +670,11 @@ func Route53Domain(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 			return nil, err
 		}
 		for _, v := range page.Domains {
-			domain, err := client.GetDomainDetail(ctx, &route53domains.GetDomainDetailInput{
-				DomainName: v.DomainName,
-			})
+			resource, err := Route53DomainHandle(ctx, cfg, v)
 			if err != nil {
 				return nil, err
 			}
 
-			tags, err := client.ListTagsForDomain(ctx, &route53domains.ListTagsForDomainInput{
-				DomainName: v.DomainName,
-			})
-			if err != nil {
-				tags = &route53domains.ListTagsForDomainOutput{}
-			}
-
-			arn := fmt.Sprintf("arn:%s:route53domains:::domain/%s", describeCtx.Partition, *v.DomainName)
-			resource := Resource{
-				Region: describeCtx.Region,
-				Name:   *domain.DomainName,
-				ARN:    arn,
-				Description: model.Route53DomainDescription{
-					DomainSummary: v,
-					Domain:        *domain,
-					Tags:          tags.TagList,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -684,13 +684,66 @@ func Route53Domain(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 			}
 		}
 	}
+	return values, nil
+}
+func Route53DomainHandle(ctx context.Context, cfg aws.Config, v types3.DomainSummary) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := route53domains.NewFromConfig(cfg)
+	domain, err := client.GetDomainDetail(ctx, &route53domains.GetDomainDetailInput{
+		DomainName: v.DomainName,
+	})
+	if err != nil {
+		return Resource{}, err
+	}
 
+	tags, err := client.ListTagsForDomain(ctx, &route53domains.ListTagsForDomainInput{
+		DomainName: v.DomainName,
+	})
+	if err != nil {
+		tags = &route53domains.ListTagsForDomainOutput{}
+	}
+
+	arn := fmt.Sprintf("arn:%s:route53domains:::domain/%s", describeCtx.Partition, *v.DomainName)
+	resource := Resource{
+		Region: describeCtx.Region,
+		Name:   *domain.DomainName,
+		ARN:    arn,
+		Description: model.Route53DomainDescription{
+			DomainSummary: v,
+			Domain:        *domain,
+			Tags:          tags.TagList,
+		},
+	}
+	return resource, nil
+}
+func GetRoute53Domain(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	domainName := fields["name"]
+	client := route53domains.NewFromConfig(cfg)
+
+	list, err := client.ListDomains(ctx, &route53domains.ListDomainsInput{})
+	if err != nil {
+		if isErr(err, "ListDomainsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _, v := range list.Domains {
+		if *v.DomainName != domainName {
+			continue
+		}
+		resource, err := Route53DomainHandle(ctx, cfg, v)
+		if err != nil {
+			return nil, err
+		}
+
+		values = append(values, resource)
+	}
 	return values, nil
 }
 
 func Route53Record(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-
 	client := route53.NewFromConfig(cfg)
 	paginator := route53.NewListHostedZonesPaginator(client, &route53.ListHostedZonesInput{})
 	var values []Resource
@@ -709,16 +762,8 @@ func Route53Record(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 					return nil, err
 				}
 				for _, record := range records.ResourceRecordSets {
-					arn := fmt.Sprintf("arn:%s:route53:::hostedzone/%s/recordset/%s/%s", describeCtx.Partition, *v.Id, *record.Name, record.Type)
-					resource := Resource{
-						Region: describeCtx.Region,
-						Name:   *record.Name,
-						ARN:    arn,
-						Description: model.Route53RecordDescription{
-							ZoneID: *v.Id,
-							Record: record,
-						},
-					}
+					resource := route53RecordHandle(ctx, record, *v.Id)
+
 					if stream != nil {
 						if err := (*stream)(resource); err != nil {
 							return nil, err
@@ -740,10 +785,55 @@ func Route53Record(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 
 	return values, nil
 }
+func route53RecordHandle(ctx context.Context, record types.ResourceRecordSet, hostedZoneId string) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	arn := fmt.Sprintf("arn:%s:route53:::hostedzone/%s/recordset/%s/%s", describeCtx.Partition, hostedZoneId, *record.Name, record.Type)
+	resource := Resource{
+		Region: describeCtx.Region,
+		Name:   *record.Name,
+		ARN:    arn,
+		Description: model.Route53RecordDescription{
+			ZoneID: hostedZoneId,
+			Record: record,
+		},
+	}
+	return resource
+}
+func GetRoute53Record(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	id := fields["id"]
+	client := route53.NewFromConfig(cfg)
+
+	hostedZone, err := client.GetHostedZone(ctx, &route53.GetHostedZoneInput{
+		Id: &id,
+	})
+	if err != nil {
+		if isErr(err, "GetHostedZoneNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	list, err := client.ListResourceRecordSets(ctx, &route53.ListResourceRecordSetsInput{
+		HostedZoneId: hostedZone.HostedZone.Id,
+	})
+	if err != nil {
+		if isErr(err, "ListResourceRecordSetsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _, record := range list.ResourceRecordSets {
+
+		resource := route53RecordHandle(ctx, record, *hostedZone.HostedZone.Id)
+		values = append(values, resource)
+
+	}
+	return values, nil
+}
 
 func Route53TrafficPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-
 	client := route53.NewFromConfig(cfg)
 	var values []Resource
 	err := PaginateRetrieveAll(func(prevToken *string) (nextToken *string, err error) {
@@ -754,24 +844,11 @@ func Route53TrafficPolicy(ctx context.Context, cfg aws.Config, stream *StreamSen
 			return nil, err
 		}
 		for _, policySummary := range policies.TrafficPolicySummaries {
-			policy, err := client.GetTrafficPolicy(ctx, &route53.GetTrafficPolicyInput{
-				Id:      policySummary.Id,
-				Version: policySummary.LatestVersion,
-			})
+			resource, err := route53TrafficPolicyHandle(ctx, cfg, policySummary)
 			if err != nil {
 				return nil, err
 			}
 
-			arn := fmt.Sprintf("arn:%s:route53::%s:trafficpolicy/%s/%s", describeCtx.Partition, describeCtx.AccountID, *policy.TrafficPolicy.Id, string(*policy.TrafficPolicy.Version))
-			resource := Resource{
-				Region: describeCtx.Region,
-				Name:   *policy.TrafficPolicy.Name,
-				ID:     *policy.TrafficPolicy.Id,
-				ARN:    arn,
-				Description: model.Route53TrafficPolicyDescription{
-					TrafficPolicy: *policy.TrafficPolicy,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -791,10 +868,58 @@ func Route53TrafficPolicy(ctx context.Context, cfg aws.Config, stream *StreamSen
 
 	return values, nil
 }
+func route53TrafficPolicyHandle(ctx context.Context, cfg aws.Config, policySummary types.TrafficPolicySummary) (Resource, error) {
 
-func Route53TrafficPolicyInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 
+	client := route53.NewFromConfig(cfg)
+	policy, err := client.GetTrafficPolicy(ctx, &route53.GetTrafficPolicyInput{
+		Id:      policySummary.Id,
+		Version: policySummary.LatestVersion,
+	})
+	if err != nil {
+		return Resource{}, err
+	}
+
+	arn := fmt.Sprintf("arn:%s:route53::%s:trafficpolicy/%s/%s", describeCtx.Partition, describeCtx.AccountID, *policy.TrafficPolicy.Id, string(*policy.TrafficPolicy.Version))
+	resource := Resource{
+		Region: describeCtx.Region,
+		Name:   *policy.TrafficPolicy.Name,
+		ID:     *policy.TrafficPolicy.Id,
+		ARN:    arn,
+		Description: model.Route53TrafficPolicyDescription{
+			TrafficPolicy: *policy.TrafficPolicy,
+		},
+	}
+	return resource, nil
+}
+func GetRoute53TrafficPolicy(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	id := fields["id"]
+	client := route53.NewFromConfig(cfg)
+
+	list, err := client.ListTrafficPolicies(ctx, &route53.ListTrafficPoliciesInput{})
+	if err != nil {
+		if isErr(err, "ListTrafficPoliciesNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _, policySummary := range list.TrafficPolicySummaries {
+		if *policySummary.Id != id {
+			continue
+		}
+		resource, err := route53TrafficPolicyHandle(ctx, cfg, policySummary)
+		if err != nil {
+			return nil, err
+		}
+		values = append(values, resource)
+	}
+	return values, nil
+}
+
+func Route53TrafficPolicyInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	client := route53.NewFromConfig(cfg)
 	var values []Resource
 	err := PaginateRetrieveAll(func(prevToken *string) (nextToken *string, err error) {
@@ -805,16 +930,8 @@ func Route53TrafficPolicyInstance(ctx context.Context, cfg aws.Config, stream *S
 			return nil, err
 		}
 		for _, policyInstance := range policies.TrafficPolicyInstances {
-			arn := fmt.Sprintf("arn:%s:route53::%s:trafficpolicyinstance/%s", describeCtx.Partition, describeCtx.AccountID, *policyInstance.Id)
-			resource := Resource{
-				Region: describeCtx.Region,
-				Name:   *policyInstance.Name,
-				ID:     *policyInstance.Id,
-				ARN:    arn,
-				Description: model.Route53TrafficPolicyInstanceDescription{
-					TrafficPolicyInstance: policyInstance,
-				},
-			}
+			resource := route53TrafficPolicyInstanceHandle(ctx, policyInstance)
+
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -832,5 +949,38 @@ func Route53TrafficPolicyInstance(ctx context.Context, cfg aws.Config, stream *S
 		return nil, err
 	}
 
+	return values, nil
+}
+func route53TrafficPolicyInstanceHandle(ctx context.Context, policyInstance types.TrafficPolicyInstance) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	arn := fmt.Sprintf("arn:%s:route53::%s:trafficpolicyinstance/%s", describeCtx.Partition, describeCtx.AccountID, *policyInstance.Id)
+	resource := Resource{
+		Region: describeCtx.Region,
+		Name:   *policyInstance.Name,
+		ID:     *policyInstance.Id,
+		ARN:    arn,
+		Description: model.Route53TrafficPolicyInstanceDescription{
+			TrafficPolicyInstance: policyInstance,
+		},
+	}
+	return resource
+}
+func GetRoute53TrafficPolicyInstance(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	id := fields["id"]
+	client := route53.NewFromConfig(cfg)
+	var values []Resource
+
+	trafficPolicy, err := client.GetTrafficPolicyInstance(ctx, &route53.GetTrafficPolicyInstanceInput{
+		Id: &id,
+	})
+	if err != nil {
+		if isErr(err, "GetTrafficPolicyInstanceNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	resource := route53TrafficPolicyInstanceHandle(ctx, *trafficPolicy.TrafficPolicyInstance)
+	values = append(values, resource)
 	return values, nil
 }

@@ -77,7 +77,7 @@ func SQSQueue(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 
 	return values, nil
 }
-func sQSQueueHandel(ctx context.Context, url string, queueAttributes *sqs.GetQueueAttributesOutput, tagOutput *sqs.ListQueueTagsOutput) Resource {
+func sQSQueueHandle(ctx context.Context, url string, queueAttributes *sqs.GetQueueAttributesOutput, tagOutput *sqs.ListQueueTagsOutput) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -125,7 +125,7 @@ func GetSQSQueue(ctx context.Context, cfg aws.Config, fields map[string]string) 
 		}
 	}
 
-	resource := sQSQueueHandel(ctx, *url.QueueUrl, queueAttributes, tOutput)
+	resource := sQSQueueHandle(ctx, *url.QueueUrl, queueAttributes, tOutput)
 	values = append(values, resource)
 	return values, nil
 }

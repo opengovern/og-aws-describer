@@ -24,7 +24,7 @@ func KeyspacesKeyspace(ctx context.Context, cfg aws.Config, stream *StreamSender
 		for _, v := range page.Keyspaces {
 			resource, err := keyspacesKeyspaceHandle(ctx, cfg, v)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -89,7 +89,7 @@ func GetKeyspacesKeyspace(ctx context.Context, cfg aws.Config, fields map[string
 
 	resource, err := keyspacesKeyspaceHandle(ctx, cfg, keyspace)
 	emptyResource := Resource{}
-	if err != nil && resource == emptyResource {
+	if err == nil && resource == emptyResource {
 		return nil, nil
 	}
 	if err != nil {
@@ -125,7 +125,7 @@ func KeyspacesTable(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 				for _, v := range page.Tables {
 					resource, err := keyspacesTableHandle(ctx, cfg, v)
 					emptyResource := Resource{}
-					if err != nil && resource == emptyResource {
+					if err == nil && resource == emptyResource {
 						return nil, nil
 					}
 					if err != nil {
@@ -189,7 +189,7 @@ func GetKeyspacesTable(ctx context.Context, cfg aws.Config, fields map[string]st
 	for _, v := range list.Tables {
 		resource, err := keyspacesTableHandle(ctx, cfg, v)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {

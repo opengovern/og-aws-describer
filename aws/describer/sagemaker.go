@@ -33,7 +33,7 @@ func SageMakerEndpointConfiguration(ctx context.Context, cfg aws.Config, stream 
 
 			resource, err := sageMakerEndpointConfigurationHandle(ctx, cfg, item.EndpointConfigArn, out)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -92,7 +92,7 @@ func GetMakerEndpointConfigurationHandle(ctx context.Context, cfg aws.Config, fi
 
 	resource, err := sageMakerEndpointConfigurationHandle(ctx, cfg, out.EndpointConfigArn, out)
 	emptyResource := Resource{}
-	if err != nil && resource == emptyResource {
+	if err == nil && resource == emptyResource {
 		return nil, nil
 	}
 	if err != nil {
@@ -247,7 +247,7 @@ func SageMakerNotebookInstance(ctx context.Context, cfg aws.Config, stream *Stre
 
 			resource, err := sageMakerNotebookInstanceHandle(ctx, cfg, out)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -308,7 +308,7 @@ func GetSageMakerNotebookInstance(ctx context.Context, cfg aws.Config, fields ma
 
 	resource, err := sageMakerNotebookInstanceHandle(ctx, cfg, out)
 	emptyResource := Resource{}
-	if err != nil && resource == emptyResource {
+	if err == nil && resource == emptyResource {
 		return nil, nil
 	}
 	if err != nil {

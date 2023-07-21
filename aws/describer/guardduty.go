@@ -86,7 +86,7 @@ func GuardDutyDetector(ctx context.Context, cfg aws.Config, stream *StreamSender
 				return nil, err
 			}
 
-			resource := guardDutyDetectorHandel(ctx, out, id)
+			resource := guardDutyDetectorHandle(ctx, out, id)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -98,7 +98,7 @@ func GuardDutyDetector(ctx context.Context, cfg aws.Config, stream *StreamSender
 	}
 	return values, nil
 }
-func guardDutyDetectorHandel(ctx context.Context, out *guardduty.GetDetectorOutput, id string) Resource {
+func guardDutyDetectorHandle(ctx context.Context, out *guardduty.GetDetectorOutput, id string) Resource {
 	describeCtx := GetDescribeContext(ctx)
 
 	arn := "arn:" + describeCtx.Partition + ":guardduty:" + describeCtx.Region + ":" + describeCtx.AccountID + ":detector/" + id
@@ -128,7 +128,7 @@ func GetGuardDutyDetector(ctx context.Context, cfg aws.Config, fields map[string
 		return nil, err
 	}
 
-	resource := guardDutyDetectorHandel(ctx, out, detectorId)
+	resource := guardDutyDetectorHandle(ctx, out, detectorId)
 	values = append(values, resource)
 	return values, nil
 }
@@ -256,7 +256,7 @@ func GuardDutyIPSet(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 						return nil, err
 					}
 
-					resource := guardDutyIPSetHandel(ctx, ipSetOutput, ipSetId, detectorId)
+					resource := guardDutyIPSetHandle(ctx, ipSetOutput, ipSetId, detectorId)
 					if stream != nil {
 						if err := (*stream)(resource); err != nil {
 							return nil, err
@@ -270,7 +270,7 @@ func GuardDutyIPSet(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 	}
 	return values, nil
 }
-func guardDutyIPSetHandel(ctx context.Context, ipSetOutput *guardduty.GetIPSetOutput, ipSetId string, detectorId string) Resource {
+func guardDutyIPSetHandle(ctx context.Context, ipSetOutput *guardduty.GetIPSetOutput, ipSetId string, detectorId string) Resource {
 	describeCtx := GetDescribeContext(ctx)
 
 	arn := fmt.Sprintf("arn:%s:guardduty:%s:%s:detector/%s/ipset/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, detectorId, ipSetId)
@@ -313,7 +313,7 @@ func GetGuardDutyIPSet(ctx context.Context, cfg aws.Config, fields map[string]st
 			return nil, err
 		}
 
-		values = append(values, guardDutyIPSetHandel(ctx, ipSetOutput, ipSetId, detectorId))
+		values = append(values, guardDutyIPSetHandle(ctx, ipSetOutput, ipSetId, detectorId))
 	}
 	return values, nil
 }
@@ -341,7 +341,7 @@ func GuardDutyMember(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 				}
 
 				for _, member := range membersPage.Members {
-					resource := guardDutyMemberHandel(ctx, member)
+					resource := guardDutyMemberHandle(ctx, member)
 					if stream != nil {
 						if err := (*stream)(resource); err != nil {
 							return nil, err
@@ -355,7 +355,7 @@ func GuardDutyMember(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 	}
 	return values, nil
 }
-func guardDutyMemberHandel(ctx context.Context, member types.Member) Resource {
+func guardDutyMemberHandle(ctx context.Context, member types.Member) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -382,7 +382,7 @@ func GetGuardDutyMember(ctx context.Context, cfg aws.Config, fields map[string]s
 
 	var values []Resource
 	for _, member := range members.Members {
-		resource := guardDutyMemberHandel(ctx, member)
+		resource := guardDutyMemberHandle(ctx, member)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -419,7 +419,7 @@ func GuardDutyPublishingDestination(ctx context.Context, cfg aws.Config, stream 
 						return nil, err
 					}
 
-					resource := guardDutyPublishingDestinationHandel(ctx, detectorId, destinationOutput, destination)
+					resource := guardDutyPublishingDestinationHandle(ctx, detectorId, destinationOutput, destination)
 					if stream != nil {
 						if err := (*stream)(resource); err != nil {
 							return nil, err
@@ -433,7 +433,7 @@ func GuardDutyPublishingDestination(ctx context.Context, cfg aws.Config, stream 
 	}
 	return values, nil
 }
-func guardDutyPublishingDestinationHandel(ctx context.Context, detectorId string, destinationOutput *guardduty.DescribePublishingDestinationOutput, destination types.Destination) Resource {
+func guardDutyPublishingDestinationHandle(ctx context.Context, detectorId string, destinationOutput *guardduty.DescribePublishingDestinationOutput, destination types.Destination) Resource {
 	describeCtx := GetDescribeContext(ctx)
 
 	arn := fmt.Sprintf("arn:%s:guardduty:%s:%s:detector/%s/publishingDestination/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, detectorId, *destination.DestinationId)
@@ -475,7 +475,7 @@ func GetGuardDutyPublishingDestination(ctx context.Context, cfg aws.Config, fiel
 			return nil, err
 		}
 
-		resource := guardDutyPublishingDestinationHandel(ctx, detectorId, destinationOutput, destination)
+		resource := guardDutyPublishingDestinationHandle(ctx, detectorId, destinationOutput, destination)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -512,7 +512,7 @@ func GuardDutyThreatIntelSet(ctx context.Context, cfg aws.Config, stream *Stream
 						return nil, err
 					}
 
-					resource := guardDutyThreatIntelSetHandel(ctx, threatIntelSetOutput, detectorId, threatIntelSetId)
+					resource := guardDutyThreatIntelSetHandle(ctx, threatIntelSetOutput, detectorId, threatIntelSetId)
 					if stream != nil {
 						if err := (*stream)(resource); err != nil {
 							return nil, err
@@ -526,7 +526,7 @@ func GuardDutyThreatIntelSet(ctx context.Context, cfg aws.Config, stream *Stream
 	}
 	return values, nil
 }
-func guardDutyThreatIntelSetHandel(ctx context.Context, threatIntelSetOutput *guardduty.GetThreatIntelSetOutput, detectorId string, threatIntelSetId string) Resource {
+func guardDutyThreatIntelSetHandle(ctx context.Context, threatIntelSetOutput *guardduty.GetThreatIntelSetOutput, detectorId string, threatIntelSetId string) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := fmt.Sprintf("arn:%s:guardduty:%s:%s:detector/%s/threatintelset/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, detectorId, threatIntelSetId)
 
@@ -569,7 +569,7 @@ func GetGuardDutyThreatIntelSet(ctx context.Context, cfg aws.Config, fields map[
 			return nil, err
 		}
 
-		resource := guardDutyThreatIntelSetHandel(ctx, threatIntelSetOutput, detectorId, threatIntelSetId)
+		resource := guardDutyThreatIntelSetHandle(ctx, threatIntelSetOutput, detectorId, threatIntelSetId)
 		values = append(values, resource)
 	}
 	return values, nil

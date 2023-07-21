@@ -20,7 +20,7 @@ func DirectConnectConnection(ctx context.Context, cfg aws.Config, stream *Stream
 
 	var values []Resource
 	for _, v := range connections.Connections {
-		resource := directConnectConnectionHandel(ctx, v)
+		resource := directConnectConnectionHandle(ctx, v)
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {
 				return nil, err
@@ -32,7 +32,7 @@ func DirectConnectConnection(ctx context.Context, cfg aws.Config, stream *Stream
 
 	return values, nil
 }
-func directConnectConnectionHandel(ctx context.Context, v types.Connection) Resource {
+func directConnectConnectionHandle(ctx context.Context, v types.Connection) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := fmt.Sprintf("arn:%s:directconnect:%s:%s:dxcon/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.ConnectionId)
 	resource := Resource{
@@ -56,7 +56,7 @@ func GetDirectConnectConnection(ctx context.Context, cfg aws.Config, fields map[
 	}
 	var values []Resource
 	for _, v := range out.Connections {
-		resource := directConnectConnectionHandel(ctx, v)
+		resource := directConnectConnectionHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -102,7 +102,7 @@ func DirectConnectGateway(ctx context.Context, cfg aws.Config, stream *StreamSen
 		}
 
 		for _, v := range connections.DirectConnectGateways {
-			resource := directConnectGatewayHandel(ctx, v, arnToTagMap)
+			resource := directConnectGatewayHandle(ctx, v, arnToTagMap)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -120,7 +120,7 @@ func DirectConnectGateway(ctx context.Context, cfg aws.Config, stream *StreamSen
 
 	return values, nil
 }
-func directConnectGatewayHandel(ctx context.Context, v types.DirectConnectGateway, arnToTagMap map[string][]types.Tag) Resource {
+func directConnectGatewayHandle(ctx context.Context, v types.DirectConnectGateway, arnToTagMap map[string][]types.Tag) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := getDirectConnectGatewayArn(describeCtx, *v.DirectConnectGatewayId)
 
@@ -178,7 +178,7 @@ func GetDirectConnectGateway(ctx context.Context, cfg aws.Config, fields map[str
 	var values []Resource
 
 	for _, v := range out.DirectConnectGateways {
-		resource := directConnectGatewayHandel(ctx, v, arnToTagMap)
+		resource := directConnectGatewayHandle(ctx, v, arnToTagMap)
 		values = append(values, resource)
 	}
 	return values, nil

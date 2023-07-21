@@ -26,7 +26,7 @@ func NetworkFirewallFirewall(ctx context.Context, cfg aws.Config, stream *Stream
 				return nil, err
 			}
 
-			resource := NetworkFirewallFirewallHandel(ctx, firewall, *v.FirewallName, *v.FirewallArn)
+			resource := NetworkFirewallFirewallHandle(ctx, firewall, *v.FirewallName, *v.FirewallArn)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -39,7 +39,7 @@ func NetworkFirewallFirewall(ctx context.Context, cfg aws.Config, stream *Stream
 
 	return values, nil
 }
-func NetworkFirewallFirewallHandel(ctx context.Context, firewall *networkfirewall.DescribeFirewallOutput, firewallName string, firewallArn string) Resource {
+func NetworkFirewallFirewallHandle(ctx context.Context, firewall *networkfirewall.DescribeFirewallOutput, firewallName string, firewallArn string) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -64,7 +64,7 @@ func GetNetworkFirewallFirewall(ctx context.Context, cfg aws.Config, fields map[
 		return nil, err
 	}
 
-	resource := NetworkFirewallFirewallHandel(ctx, firewall, firewallName, firewallArn)
+	resource := NetworkFirewallFirewallHandle(ctx, firewall, firewallName, firewallArn)
 	values = append(values, resource)
 	return values, nil
 }

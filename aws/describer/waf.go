@@ -312,7 +312,7 @@ func WAFv2WebACL(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 		}
 
 		for _, v := range acls {
-			resource, err := wAFv2WebACLHandel(ctx, cfg, v, scope)
+			resource, err := wAFv2WebACLHandle(ctx, cfg, v, scope)
 			if err != nil {
 				return nil, err
 			}
@@ -329,7 +329,7 @@ func WAFv2WebACL(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 
 	return values, nil
 }
-func wAFv2WebACLHandel(ctx context.Context, cfg aws.Config, v types.WebACLSummary, scope types.Scope) (Resource, error) {
+func wAFv2WebACLHandle(ctx context.Context, cfg aws.Config, v types.WebACLSummary, scope types.Scope) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := wafv2.NewFromConfig(cfg)
 
@@ -403,7 +403,7 @@ func GetWAFv2WebACL(ctx context.Context, cfg aws.Config, fields map[string]strin
 		}
 
 		for _, v := range acls {
-			resource, err := wAFv2WebACLHandel(ctx, cfg, v, scope)
+			resource, err := wAFv2WebACLHandle(ctx, cfg, v, scope)
 			if err != nil {
 				return nil, err
 			}
@@ -1095,7 +1095,7 @@ func WAFRule(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 				return nil, err
 			}
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				continue
 			}
 
@@ -1164,7 +1164,7 @@ func GetWAFRule(ctx context.Context, cfg aws.Config, fields map[string]string) (
 		return nil, err
 	}
 	emptyResource := Resource{}
-	if err != nil && resource == emptyResource {
+	if err == nil && resource == emptyResource {
 		return nil, nil
 	}
 	values = append(values, resource)

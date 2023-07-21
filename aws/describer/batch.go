@@ -22,7 +22,7 @@ func BatchComputeEnvironment(ctx context.Context, cfg aws.Config, stream *Stream
 		}
 
 		for _, v := range page.ComputeEnvironments {
-			resource := batchComputeEnvironmentHandel(ctx, v)
+			resource := batchComputeEnvironmentHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -35,7 +35,7 @@ func BatchComputeEnvironment(ctx context.Context, cfg aws.Config, stream *Stream
 
 	return values, nil
 }
-func batchComputeEnvironmentHandel(ctx context.Context, v types.ComputeEnvironmentDetail) Resource {
+func batchComputeEnvironmentHandle(ctx context.Context, v types.ComputeEnvironmentDetail) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -62,7 +62,7 @@ func GetBatchComputeEnvironment(ctx context.Context, cfg aws.Config, fields map[
 	}
 
 	for _, v := range deComputeEnv.ComputeEnvironments {
-		resource := batchComputeEnvironmentHandel(ctx, v)
+		resource := batchComputeEnvironmentHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil

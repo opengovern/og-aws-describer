@@ -69,7 +69,7 @@ func SNSTopic(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 		for _, v := range page.Topics {
 			resource, err := sNSTopicHandle(ctx, cfg, v)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -138,7 +138,7 @@ func GetSNSTopic(ctx context.Context, cfg aws.Config, fields map[string]string) 
 		}
 		resource, err := sNSTopicHandle(ctx, cfg, v)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {

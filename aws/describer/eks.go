@@ -46,7 +46,7 @@ func EKSCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 		cluster := cluster
 		resource, err := eKSClusterHandle(ctx, cfg, cluster)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {
@@ -101,7 +101,7 @@ func GetEKSCluster(ctx context.Context, cfg aws.Config, fields map[string]string
 
 		resource, err := eKSClusterHandle(ctx, cfg, cluster)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {
@@ -138,7 +138,7 @@ func EKSAddon(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 		for _, addon := range addons {
 			resource, err := eKSAddonHandle(ctx, cfg, addon, cluster)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -199,7 +199,7 @@ func GetEKSAddon(ctx context.Context, cfg aws.Config, fields map[string]string) 
 	for _, addon := range addons.Addons {
 		resource, err := eKSAddonHandle(ctx, cfg, addon, clusterName)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {
@@ -235,7 +235,7 @@ func EKSFargateProfile(ctx context.Context, cfg aws.Config, stream *StreamSender
 		for _, profile := range profiles {
 			resource, err := eKSFargateProfileHandle(ctx, cfg, profile, cluster)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -297,7 +297,7 @@ func GetEKSFargateProfile(ctx context.Context, cfg aws.Config, fields map[string
 
 		resource, err := eKSFargateProfileHandle(ctx, cfg, profile, clusterName)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {
@@ -336,7 +336,7 @@ func EKSNodegroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 
 			resource, err := eKSNodegroupHandle(ctx, cfg, profile, cluster)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -398,7 +398,7 @@ func GetEKSNodegroup(ctx context.Context, cfg aws.Config, fields map[string]stri
 	for _, profile := range groups.Nodegroups {
 		resource, err := eKSNodegroupHandle(ctx, cfg, profile, clusterName)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {

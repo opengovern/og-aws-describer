@@ -21,7 +21,7 @@ func DLMLifecyclePolicy(ctx context.Context, cfg aws.Config, stream *StreamSende
 
 		resource, err := dLMLifecyclePolicyHandle(ctx, cfg, policySummary)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {
@@ -79,7 +79,7 @@ func GetDLMLifecyclePolicy(ctx context.Context, cfg aws.Config, fields map[strin
 	for _, policySummary := range policies.Policies {
 		resource, err := dLMLifecyclePolicyHandle(ctx, cfg, policySummary)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {

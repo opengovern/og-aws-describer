@@ -86,7 +86,7 @@ func FirehoseDeliveryStreamHandle(ctx context.Context, cfg aws.Config, deliveryS
 	}
 	return resource, nil
 }
-func GetFirehoseDeliveryStream(ctx context.Context, cfg aws.Config,,fields map[string]string)([]Resource,error){
+func GetFirehoseDeliveryStream(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	deliveryStreamName := fields["name"]
 	var values []Resource
 
@@ -99,6 +99,6 @@ func GetFirehoseDeliveryStream(ctx context.Context, cfg aws.Config,,fields map[s
 		return nil, nil
 	}
 
-	values=append(values,resource)
-	return values,nil
+	values = append(values, resource)
+	return values, nil
 }

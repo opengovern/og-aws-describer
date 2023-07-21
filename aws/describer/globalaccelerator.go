@@ -33,7 +33,7 @@ func GlobalAcceleratorAccelerator(ctx context.Context, cfg aws.Config, stream *S
 				return nil, err
 			}
 
-			resource := globalAcceleratorAcceleratorHandel(ctx, attribute, tags, accelerator)
+			resource := globalAcceleratorAcceleratorHandle(ctx, attribute, tags, accelerator)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -46,7 +46,7 @@ func GlobalAcceleratorAccelerator(ctx context.Context, cfg aws.Config, stream *S
 
 	return values, nil
 }
-func globalAcceleratorAcceleratorHandel(ctx context.Context, attribute *globalaccelerator.DescribeAcceleratorAttributesOutput, tags *globalaccelerator.ListTagsForResourceOutput, accelerator types.Accelerator) Resource {
+func globalAcceleratorAcceleratorHandle(ctx context.Context, attribute *globalaccelerator.DescribeAcceleratorAttributesOutput, tags *globalaccelerator.ListTagsForResourceOutput, accelerator types.Accelerator) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -95,7 +95,7 @@ func GetGlobalAcceleratorAccelerator(ctx context.Context, cfg aws.Config, fields
 		return nil, err
 	}
 
-	resource := globalAcceleratorAcceleratorHandel(ctx, attribute, tags, *accelerator.Accelerator)
+	resource := globalAcceleratorAcceleratorHandle(ctx, attribute, tags, *accelerator.Accelerator)
 	values = append(values, resource)
 	return values, nil
 }
@@ -123,7 +123,7 @@ func GlobalAcceleratorListener(ctx context.Context, cfg aws.Config, stream *Stre
 
 				for _, listener := range listenerPage.Listeners {
 
-					resource := globalAcceleratorListenerHandel(ctx, listener, *accelerator.AcceleratorArn)
+					resource := globalAcceleratorListenerHandle(ctx, listener, *accelerator.AcceleratorArn)
 					if stream != nil {
 						if err := (*stream)(resource); err != nil {
 							return nil, err
@@ -138,7 +138,7 @@ func GlobalAcceleratorListener(ctx context.Context, cfg aws.Config, stream *Stre
 
 	return values, nil
 }
-func globalAcceleratorListenerHandel(ctx context.Context, listener types.Listener, ARN string) Resource {
+func globalAcceleratorListenerHandle(ctx context.Context, listener types.Listener, ARN string) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -176,7 +176,7 @@ func GetGlobalAcceleratorListener(ctx context.Context, cfg aws.Config, fields ma
 	}
 
 	for _, listener := range describeListener.Listeners {
-		resource := globalAcceleratorListenerHandel(ctx, listener, acceleratorArn)
+		resource := globalAcceleratorListenerHandle(ctx, listener, acceleratorArn)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -211,7 +211,7 @@ func GlobalAcceleratorEndpointGroup(ctx context.Context, cfg aws.Config, stream 
 							return nil, err
 						}
 						for _, endpointGroup := range endpointGroupPage.EndpointGroups {
-							resource := globalAcceleratorEndpointGroupHandel(ctx, endpointGroup, listener, *accelerator.AcceleratorArn)
+							resource := globalAcceleratorEndpointGroupHandle(ctx, endpointGroup, listener, *accelerator.AcceleratorArn)
 							if stream != nil {
 								if err := (*stream)(resource); err != nil {
 									return nil, err
@@ -228,7 +228,7 @@ func GlobalAcceleratorEndpointGroup(ctx context.Context, cfg aws.Config, stream 
 
 	return values, nil
 }
-func globalAcceleratorEndpointGroupHandel(ctx context.Context, endpointGroup types.EndpointGroup, listener types.Listener, ARN string) Resource {
+func globalAcceleratorEndpointGroupHandle(ctx context.Context, endpointGroup types.EndpointGroup, listener types.Listener, ARN string) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -280,7 +280,7 @@ func GetGlobalAcceleratorEndpointGroup(ctx context.Context, cfg aws.Config, fiel
 
 		for _, endpointGroup := range listEndpoint.EndpointGroups {
 
-			resource := globalAcceleratorEndpointGroupHandel(ctx, endpointGroup, listener, acceleratorArn)
+			resource := globalAcceleratorEndpointGroupHandle(ctx, endpointGroup, listener, acceleratorArn)
 			values = append(values, resource)
 
 		}

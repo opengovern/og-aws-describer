@@ -20,7 +20,7 @@ func ElastiCacheReplicationGroup(ctx context.Context, cfg aws.Config, stream *St
 		}
 
 		for _, item := range page.ReplicationGroups {
-			resource := elastiCacheReplicationGroupHandel(ctx, item)
+			resource := elastiCacheReplicationGroupHandle(ctx, item)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -32,7 +32,7 @@ func ElastiCacheReplicationGroup(ctx context.Context, cfg aws.Config, stream *St
 	}
 	return values, nil
 }
-func elastiCacheReplicationGroupHandel(ctx context.Context, item types.ReplicationGroup) Resource {
+func elastiCacheReplicationGroupHandle(ctx context.Context, item types.ReplicationGroup) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -59,7 +59,7 @@ func GetElastiCacheReplicationGroup(ctx context.Context, cfg aws.Config, fields 
 
 	var values []Resource
 	for _, v := range out.ReplicationGroups {
-		values = append(values, elastiCacheReplicationGroupHandel(ctx, v))
+		values = append(values, elastiCacheReplicationGroupHandle(ctx, v))
 	}
 	return values, nil
 }
@@ -79,7 +79,7 @@ func ElastiCacheCluster(ctx context.Context, cfg aws.Config, stream *StreamSende
 		}
 
 		for _, cluster := range page.CacheClusters {
-			resource, err := elastiCacheClusterHandel(ctx, cluster, client)
+			resource, err := elastiCacheClusterHandle(ctx, cluster, client)
 			if err != nil {
 				return nil, err
 			}
@@ -94,7 +94,7 @@ func ElastiCacheCluster(ctx context.Context, cfg aws.Config, stream *StreamSende
 	}
 	return values, nil
 }
-func elastiCacheClusterHandel(ctx context.Context, cluster types.CacheCluster, client *elasticache.Client) (Resource, error) {
+func elastiCacheClusterHandle(ctx context.Context, cluster types.CacheCluster, client *elasticache.Client) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 
 	tagsOutput, err := client.ListTagsForResource(ctx, &elasticache.ListTagsForResourceInput{
@@ -134,7 +134,7 @@ func GetElastiCacheCluster(ctx context.Context, cfg aws.Config, fields map[strin
 
 	var values []Resource
 	for _, cluster := range out.CacheClusters {
-		resource, err := elastiCacheClusterHandel(ctx, cluster, client)
+		resource, err := elastiCacheClusterHandle(ctx, cluster, client)
 		if err != nil {
 			return nil, err
 		}
@@ -210,7 +210,7 @@ func ElastiCacheReservedCacheNode(ctx context.Context, cfg aws.Config, stream *S
 		}
 
 		for _, reservedCacheNode := range page.ReservedCacheNodes {
-			resource := elastiCacheReservedCacheNodeHandel(ctx, reservedCacheNode)
+			resource := elastiCacheReservedCacheNodeHandle(ctx, reservedCacheNode)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -223,7 +223,7 @@ func ElastiCacheReservedCacheNode(ctx context.Context, cfg aws.Config, stream *S
 
 	return values, nil
 }
-func elastiCacheReservedCacheNodeHandel(ctx context.Context, reservedCacheNode types.ReservedCacheNode) Resource {
+func elastiCacheReservedCacheNodeHandle(ctx context.Context, reservedCacheNode types.ReservedCacheNode) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -250,7 +250,7 @@ func GetElastiCacheReservedCacheNode(ctx context.Context, cfg aws.Config, fields
 
 	var values []Resource
 	for _, v := range out.ReservedCacheNodes {
-		resource := elastiCacheReservedCacheNodeHandel(ctx, v)
+		resource := elastiCacheReservedCacheNodeHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil

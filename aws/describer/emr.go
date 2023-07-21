@@ -24,7 +24,7 @@ func EMRCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 		for _, item := range page.Clusters {
 			resource, err := eMRClusterHandle(ctx, cfg, *item.Id)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -72,7 +72,7 @@ func GetEMRCluster(ctx context.Context, cfg aws.Config, fields map[string]string
 
 	resource, err := eMRClusterHandle(ctx, cfg, clusterId)
 	emptyResource := Resource{}
-	if err != nil && resource == emptyResource {
+	if err == nil && resource == emptyResource {
 		return nil, nil
 	}
 	if err != nil {

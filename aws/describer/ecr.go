@@ -51,7 +51,7 @@ func ECRPublicRepository(ctx context.Context, cfg aws.Config, stream *StreamSend
 
 			resource, err := eCRPublicRepositoryHandle(ctx, cfg, v, imageDetails)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -136,7 +136,7 @@ func GetECRPublicRepository(ctx context.Context, cfg aws.Config, fields map[stri
 
 		resource, err := eCRPublicRepositoryHandle(ctx, cfg, v, imageDetails)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {

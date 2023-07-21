@@ -22,7 +22,7 @@ func OpsWorksCMServer(ctx context.Context, cfg aws.Config, stream *StreamSender)
 		for _, v := range page.Servers {
 			resource, err := opsWorksCMServerHandle(ctx, cfg, v)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -81,7 +81,7 @@ func GetOpsWorksCMServer(ctx context.Context, cfg aws.Config, fields map[string]
 
 		resource, err := opsWorksCMServerHandle(ctx, cfg, v)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {

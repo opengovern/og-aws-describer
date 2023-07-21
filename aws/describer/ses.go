@@ -25,7 +25,7 @@ func SESConfigurationSet(ctx context.Context, cfg aws.Config, stream *StreamSend
 
 			resource, err := sESConfigurationSetHandle(ctx, cfg, v)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -75,7 +75,7 @@ func GetSESConfigurationSet(ctx context.Context, cfg aws.Config, fields map[stri
 
 	resource, err := sESConfigurationSetHandle(ctx, cfg, configurationSetName)
 	emptyResource := Resource{}
-	if err != nil && resource == emptyResource {
+	if err == nil && resource == emptyResource {
 		return nil, nil
 	}
 	if err != nil {
@@ -102,7 +102,7 @@ func SESIdentity(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 
 			resource, err := sESIdentityHandle(ctx, cfg, v)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -191,7 +191,7 @@ func GetSESIdentity(ctx context.Context, cfg aws.Config, fields map[string]strin
 	for _, v := range out.Identities {
 		resource, err := sESIdentityHandle(ctx, cfg, v)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {

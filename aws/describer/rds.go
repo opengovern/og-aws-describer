@@ -82,7 +82,7 @@ func RDSDBClusterSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSen
 		for _, v := range page.DBClusterSnapshots {
 			resource, err := rDSDBClusterSnapshotHandle(ctx, cfg, v)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -146,7 +146,7 @@ func GetRDSDBClusterSnapshot(ctx context.Context, cfg aws.Config, fields map[str
 	for _, v := range clusterSnapshot.DBClusterSnapshots {
 		resource, err := rDSDBClusterSnapshotHandle(ctx, cfg, v)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {
@@ -652,7 +652,7 @@ func RDSOptionGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 		for _, v := range page.OptionGroupsList {
 			resource, err := rDSOptionGroupHandle(ctx, cfg, v)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -714,7 +714,7 @@ func GetRDSOptionGroup(ctx context.Context, cfg aws.Config, fields map[string]st
 	for _, v := range describers.OptionGroupsList {
 		resource, err := rDSOptionGroupHandle(ctx, cfg, v)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {
@@ -740,7 +740,7 @@ func RDSDBSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 		for _, v := range page.DBSnapshots {
 			resource, err := rDSDBSnapshotHandle(ctx, cfg, v)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -801,7 +801,7 @@ func GetRDSDBSnapshot(ctx context.Context, cfg aws.Config, fields map[string]str
 	for _, v := range describers.DBSnapshots {
 		resource, err := rDSDBSnapshotHandle(ctx, cfg, v)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {

@@ -149,7 +149,7 @@ func WorkspacesBundle(ctx context.Context, cfg aws.Config, stream *StreamSender)
 				return nil, err
 			}
 
-			resource := workspacesBundleHandel(ctx, v, tags)
+			resource := workspacesBundleHandle(ctx, v, tags)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -162,7 +162,7 @@ func WorkspacesBundle(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 	return values, nil
 }
-func workspacesBundleHandel(ctx context.Context, v types.WorkspaceBundle, tags *workspaces.DescribeTagsOutput) Resource {
+func workspacesBundleHandle(ctx context.Context, v types.WorkspaceBundle, tags *workspaces.DescribeTagsOutput) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := fmt.Sprintf("arn:%s:workspaces:%s:%s:workspacebundle/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.BundleId)
 	resource := Resource{
@@ -202,7 +202,7 @@ func GetWorkspacesBundle(ctx context.Context, cfg aws.Config, fields map[string]
 			return nil, err
 		}
 
-		values = append(values, workspacesBundleHandel(ctx, v, tags))
+		values = append(values, workspacesBundleHandle(ctx, v, tags))
 	}
 	return values, nil
 }

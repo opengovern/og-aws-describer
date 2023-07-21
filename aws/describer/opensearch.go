@@ -35,7 +35,7 @@ func OpenSearchDomain(ctx context.Context, cfg aws.Config, stream *StreamSender)
 		for _, domain := range domains.DomainStatusList {
 			resource, err := openSearchDomainHandle(ctx, cfg, domain)
 			emptyResource := Resource{}
-			if err != nil && resource == emptyResource {
+			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
 			if err != nil {
@@ -92,7 +92,7 @@ func GetOpenSearchDomain(ctx context.Context, cfg aws.Config, fields map[string]
 
 	resource, err := openSearchDomainHandle(ctx, cfg, *domain.DomainStatus)
 	emptyResource := Resource{}
-	if err != nil && resource == emptyResource {
+	if err == nil && resource == emptyResource {
 		return nil, nil
 	}
 	if err != nil {

@@ -26,12 +26,12 @@ func DynamoDbTable(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 		for _, table := range page.TableNames {
 			// This prevents Implicit memory aliasing in for loop
 			table := table
-			resource ,err := DynamoDbTableHandle(ctx,cfg,table)
-			if err !=nil{
-				return nil,err
+			resource, err := DynamoDbTableHandle(ctx, cfg, table)
+			if err != nil {
+				return nil, err
 			}
-			emptyResource :=  Resource{}
-			if err == nil && resource == emptyResource{
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
 				continue
 			}
 
@@ -47,14 +47,14 @@ func DynamoDbTable(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 
 	return values, nil
 }
-func DynamoDbTableHandle(ctx context.Context , cfg aws.Config, tableName string)(Resource,error){
+func DynamoDbTableHandle(ctx context.Context, cfg aws.Config, tableName string) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := dynamodb.NewFromConfig(cfg)
 	v, err := client.DescribeTable(ctx, &dynamodb.DescribeTableInput{
 		TableName: &tableName,
 	})
 	if err != nil {
-		if isErr(err,"ListTagsOfResourceNotFound")||isErr(err,"InvalidParameterValue"){
+		if isErr(err, "ListTagsOfResourceNotFound") || isErr(err, "InvalidParameterValue") {
 			return Resource{}, nil
 		}
 		return Resource{}, err
@@ -64,7 +64,7 @@ func DynamoDbTableHandle(ctx context.Context , cfg aws.Config, tableName string)
 		TableName: &tableName,
 	})
 	if err != nil {
-		if isErr(err,"ListTagsOfResourceNotFound")||isErr(err,"InvalidParameterValue"){
+		if isErr(err, "ListTagsOfResourceNotFound") || isErr(err, "InvalidParameterValue") {
 			return Resource{}, nil
 		}
 		return Resource{}, err
@@ -74,7 +74,7 @@ func DynamoDbTableHandle(ctx context.Context , cfg aws.Config, tableName string)
 		ResourceArn: v.Table.TableArn,
 	})
 	if err != nil {
-		if isErr(err,"ListTagsOfResourceNotFound")||isErr(err,"InvalidParameterValue"){
+		if isErr(err, "ListTagsOfResourceNotFound") || isErr(err, "InvalidParameterValue") {
 			return Resource{}, nil
 		}
 		return Resource{}, err
@@ -91,21 +91,21 @@ func DynamoDbTableHandle(ctx context.Context , cfg aws.Config, tableName string)
 		},
 	}
 
-	return resource,nil
+	return resource, nil
 }
-func GetDynamoDbTable(ctx context.Context , cfg aws.Config,fields map[string]string)([]Resource,error){
+func GetDynamoDbTable(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	tableName := fields["tableName"]
 	var values []Resource
-	resource ,err := DynamoDbTableHandle(ctx,cfg,tableName)
-	if err !=nil{
-		return nil,err
+	resource, err := DynamoDbTableHandle(ctx, cfg, tableName)
+	if err != nil {
+		return nil, err
 	}
-	emptyResource :=  Resource{}
-	if err == nil && resource == emptyResource{
+	emptyResource := Resource{}
+	if err == nil && resource == emptyResource {
 		return nil, nil
 	}
-	values = append(values ,resource)
-	return values , nil
+	values = append(values, resource)
+	return values, nil
 }
 
 func DynamoDbGlobalSecondaryIndex(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -151,7 +151,7 @@ func DynamoDbGlobalSecondaryIndex(ctx context.Context, cfg aws.Config, stream *S
 	}
 
 	return values, nil
-}\
+}
 func GetDynamoDbGlobalSecondaryIndex(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	tableName := fields["name"]
@@ -337,15 +337,14 @@ func DynamoDbGlobalTable(ctx context.Context, cfg aws.Config, stream *StreamSend
 		}
 
 		for _, table := range globalTables.GlobalTables {
-			resource , err := DynamoDbGlobalTableHandle(ctx , cfg ,*table.GlobalTableName)
-			if err!=nil{
+			resource, err := DynamoDbGlobalTableHandle(ctx, cfg, *table.GlobalTableName)
+			if err != nil {
 				return nil, err
 			}
 			emptyResource := Resource{}
-			if err == nil && resource == emptyResource{
+			if err == nil && resource == emptyResource {
 				continue
 			}
-
 
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
@@ -364,7 +363,7 @@ func DynamoDbGlobalTable(ctx context.Context, cfg aws.Config, stream *StreamSend
 
 	return values, nil
 }
-func DynamoDbGlobalTableHandle(ctx context.Context , cfg aws.Config,tableName string)(Resource,error){
+func DynamoDbGlobalTableHandle(ctx context.Context, cfg aws.Config, tableName string) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := dynamodb.NewFromConfig(cfg)
 
@@ -386,23 +385,23 @@ func DynamoDbGlobalTableHandle(ctx context.Context , cfg aws.Config,tableName st
 			GlobalTable: *globalTable.GlobalTableDescription,
 		},
 	}
-	return resource , nil
+	return resource, nil
 }
-func GetDynamoDbGlobalTable(ctx context.Context , cfg aws.Config,fields map[string]string)([]Resource,error){
+func GetDynamoDbGlobalTable(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	var values []Resource
-	globalTableName:=fields["globalTableName"]
+	globalTableName := fields["globalTableName"]
 
-	resource , err := DynamoDbGlobalTableHandle(ctx , cfg ,globalTableName)
-	if err!=nil{
+	resource, err := DynamoDbGlobalTableHandle(ctx, cfg, globalTableName)
+	if err != nil {
 		return nil, err
 	}
 	emptyResource := Resource{}
-	if err == nil && resource == emptyResource{
+	if err == nil && resource == emptyResource {
 		return nil, nil
 	}
 
-	values=append(values,resource)
-	return values ,nil
+	values = append(values, resource)
+	return values, nil
 }
 
 func DynamoDbTableExport(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

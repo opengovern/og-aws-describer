@@ -205,7 +205,7 @@ func IAMAccessKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 		}
 
 		for _, v := range page.AccessKeyMetadata {
-			resource := iAMAccessKeyHandel(ctx, v)
+			resource := iAMAccessKeyHandle(ctx, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -218,7 +218,7 @@ func IAMAccessKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 
 	return values, nil
 }
-func iAMAccessKeyHandel(ctx context.Context, v types.AccessKeyMetadata) Resource {
+func iAMAccessKeyHandle(ctx context.Context, v types.AccessKeyMetadata) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := "arn:" + describeCtx.Partition + ":iam::" + describeCtx.AccountID + ":user/" + *v.UserName + "/accesskey/" + *v.AccessKeyId
 	resource := Resource{
@@ -247,7 +247,7 @@ func GetIAMAccessKey(ctx context.Context, cfg aws.Config, fields map[string]stri
 	}
 
 	for _, v := range accessKeys.AccessKeyMetadata {
-		resource := iAMAccessKeyHandel(ctx, v)
+		resource := iAMAccessKeyHandle(ctx, v)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -318,7 +318,7 @@ func IAMPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Res
 				return nil, err
 			}
 
-			resource := iAMPolicyHandel(ctx, v, version)
+			resource := iAMPolicyHandle(ctx, v, version)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -330,7 +330,7 @@ func IAMPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Res
 	}
 	return values, nil
 }
-func iAMPolicyHandel(ctx context.Context, v types.Policy, version *iam.GetPolicyVersionOutput) Resource {
+func iAMPolicyHandle(ctx context.Context, v types.Policy, version *iam.GetPolicyVersionOutput) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -361,7 +361,7 @@ func GetIAMPolicy(ctx context.Context, cfg aws.Config, fields map[string]string)
 		return nil, err
 	}
 
-	resource := iAMPolicyHandel(ctx, *v, version)
+	resource := iAMPolicyHandle(ctx, *v, version)
 	values = append(values, resource)
 
 	return values, nil
@@ -394,7 +394,7 @@ func IAMGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 				return nil, err
 			}
 
-			resource := iAMGroupHandel(ctx, v, aPolicies, policies, users)
+			resource := iAMGroupHandle(ctx, v, aPolicies, policies, users)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -407,7 +407,7 @@ func IAMGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 
 	return values, nil
 }
-func iAMGroupHandel(ctx context.Context, v types.Group, aPolicies []string, policies []model.InlinePolicy, users []types.User) Resource {
+func iAMGroupHandle(ctx context.Context, v types.Group, aPolicies []string, policies []model.InlinePolicy, users []types.User) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -461,7 +461,7 @@ func GetIAMGroup(ctx context.Context, cfg aws.Config, fields map[string]string) 
 		return nil, err
 	}
 
-	resource := iAMGroupHandel(ctx, *v, aPolicies, policies, users)
+	resource := iAMGroupHandle(ctx, *v, aPolicies, policies, users)
 	values = append(values, resource)
 	return values, nil
 }
@@ -822,7 +822,7 @@ func IAMRole(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 				return nil, err
 			}
 
-			resource := iAMRoleHandel(ctx, v, profiles, policies, aPolicies)
+			resource := iAMRoleHandle(ctx, v, profiles, policies, aPolicies)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -834,7 +834,7 @@ func IAMRole(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 	}
 	return values, nil
 }
-func iAMRoleHandel(ctx context.Context, v types.Role, profiles []string, policies []model.InlinePolicy, aPolicies []string) Resource {
+func iAMRoleHandle(ctx context.Context, v types.Role, profiles []string, policies []model.InlinePolicy, aPolicies []string) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -879,7 +879,7 @@ func GetIAMRole(ctx context.Context, cfg aws.Config, fields map[string]string) (
 			return nil, err
 		}
 
-		resource := iAMRoleHandel(ctx, v, profiles, policies, aPolicies)
+		resource := iAMRoleHandle(ctx, v, profiles, policies, aPolicies)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -976,7 +976,7 @@ func IAMServerCertificate(ctx context.Context, cfg aws.Config, stream *StreamSen
 				return nil, err
 			}
 
-			resource := iAMServerCertificateHandel(ctx, v, output)
+			resource := iAMServerCertificateHandle(ctx, v, output)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -988,7 +988,7 @@ func IAMServerCertificate(ctx context.Context, cfg aws.Config, stream *StreamSen
 	}
 	return values, nil
 }
-func iAMServerCertificateHandel(ctx context.Context, v types.ServerCertificateMetadata, output *iam.GetServerCertificateOutput) Resource {
+func iAMServerCertificateHandle(ctx context.Context, v types.ServerCertificateMetadata, output *iam.GetServerCertificateOutput) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -1026,7 +1026,7 @@ func GetIAMServerCertificate(ctx context.Context, cfg aws.Config, fields map[str
 			return nil, err
 		}
 
-		resource := iAMServerCertificateHandel(ctx, v, output)
+		resource := iAMServerCertificateHandle(ctx, v, output)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -1064,7 +1064,7 @@ func IAMUser(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 				return nil, err
 			}
 
-			resource := iAMUserHandel(ctx, v, policies, aPolicies, groups, devices)
+			resource := iAMUserHandle(ctx, v, policies, aPolicies, groups, devices)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -1077,7 +1077,7 @@ func IAMUser(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 
 	return values, nil
 }
-func iAMUserHandel(ctx context.Context, v types.User, policies []model.InlinePolicy, aPolicies []string, groups []types.Group, devices []types.MFADevice) Resource {
+func iAMUserHandle(ctx context.Context, v types.User, policies []model.InlinePolicy, aPolicies []string, groups []types.Group, devices []types.MFADevice) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -1126,7 +1126,7 @@ func GetIAMUser(ctx context.Context, cfg aws.Config, fields map[string]string) (
 		return nil, err
 	}
 
-	resource := iAMUserHandel(ctx, *v, policies, aPolicies, groups, devices)
+	resource := iAMUserHandle(ctx, *v, policies, aPolicies, groups, devices)
 	values = append(values, resource)
 
 	return values, nil
@@ -1190,7 +1190,7 @@ func IAMPolicyAttachment(ctx context.Context, cfg aws.Config, stream *StreamSend
 
 	return values, nil
 }
-func iAMPolicyAttachmentHandel(ctx context.Context, policy types.Policy, policyGroups []types.PolicyGroup, policyRoles []types.PolicyRole, policyUsers []types.PolicyUser) Resource {
+func iAMPolicyAttachmentHandle(ctx context.Context, policy types.Policy, policyGroups []types.PolicyGroup, policyRoles []types.PolicyRole, policyUsers []types.PolicyUser) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -1232,7 +1232,7 @@ func GetIAMPolicyAttachment(ctx context.Context, cfg aws.Config, fields map[stri
 		policyRoles = append(policyRoles, attachmentPage.PolicyRoles...)
 		policyUsers = append(policyUsers, attachmentPage.PolicyUsers...)
 	}
-	resource := iAMPolicyAttachmentHandel(ctx, *policy.Policy, policyGroups, policyRoles, policyUsers)
+	resource := iAMPolicyAttachmentHandle(ctx, *policy.Policy, policyGroups, policyRoles, policyUsers)
 	values = append(values, resource)
 	return values, nil
 }
@@ -1257,7 +1257,7 @@ func IAMSamlProvider(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			samlProvider.SAMLMetadataDocument = nil
 		}
 
-		resource := iAMSamlProviderHandel(ctx, samlProvider, *v.Arn)
+		resource := iAMSamlProviderHandle(ctx, samlProvider, *v.Arn)
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {
 				return nil, err
@@ -1268,7 +1268,7 @@ func IAMSamlProvider(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 	}
 	return values, nil
 }
-func iAMSamlProviderHandel(ctx context.Context, samlProvider *iam.GetSAMLProviderOutput, Arn string) Resource {
+func iAMSamlProviderHandle(ctx context.Context, samlProvider *iam.GetSAMLProviderOutput, Arn string) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -1294,7 +1294,7 @@ func GetIAMSamlProvider(ctx context.Context, cfg aws.Config, fields map[string]s
 		return nil, err
 	}
 
-	resource := iAMSamlProviderHandel(ctx, samlProvider, samlProviderArn)
+	resource := iAMSamlProviderHandle(ctx, samlProvider, samlProviderArn)
 	values = append(values, resource)
 	return values, nil
 }

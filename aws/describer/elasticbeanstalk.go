@@ -22,7 +22,7 @@ func ElasticBeanstalkEnvironment(ctx context.Context, cfg aws.Config, stream *St
 
 		resource, err := elasticBeanstalkEnvironmentHandle(ctx, cfg, item)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {
@@ -86,7 +86,7 @@ func GetElasticBeanstalkEnvironment(ctx context.Context, cfg aws.Config, fields 
 
 		resource, err := elasticBeanstalkEnvironmentHandle(ctx, cfg, item)
 		emptyResource := Resource{}
-		if err != nil && resource == emptyResource {
+		if err == nil && resource == emptyResource {
 			return nil, nil
 		}
 		if err != nil {

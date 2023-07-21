@@ -58,7 +58,7 @@ func KinesisStream(ctx context.Context, cfg aws.Config, streamS *StreamSender) (
 				tags = &kinesis.ListTagsForStreamOutput{}
 			}
 
-			resource := kinesisStreamHandel(ctx, stream, streamSummery, tags)
+			resource := kinesisStreamHandle(ctx, stream, streamSummery, tags)
 			if streamS != nil {
 				if err := (*streamS)(resource); err != nil {
 					return nil, err
@@ -77,7 +77,7 @@ func KinesisStream(ctx context.Context, cfg aws.Config, streamS *StreamSender) (
 
 	return values, nil
 }
-func kinesisStreamHandel(ctx context.Context, stream *kinesis.DescribeStreamOutput, streamSummery *kinesis.DescribeStreamSummaryOutput, tags *kinesis.ListTagsForStreamOutput) Resource {
+func kinesisStreamHandle(ctx context.Context, stream *kinesis.DescribeStreamOutput, streamSummery *kinesis.DescribeStreamSummaryOutput, tags *kinesis.ListTagsForStreamOutput) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -126,7 +126,7 @@ func GetKinesisStream(ctx context.Context, cfg aws.Config, fields map[string]str
 		tags = &kinesis.ListTagsForStreamOutput{}
 	}
 
-	values = append(values, kinesisStreamHandel(ctx, stream, streamSummery, tags))
+	values = append(values, kinesisStreamHandle(ctx, stream, streamSummery, tags))
 	return values, nil
 }
 
@@ -167,7 +167,7 @@ func KinesisConsumer(ctx context.Context, cfg aws.Config, streamS *StreamSender)
 				}
 				for _, consumer := range consumers.Consumers {
 
-					resource := kinesisConsumerHandel(ctx, stream, consumer)
+					resource := kinesisConsumerHandle(ctx, stream, consumer)
 					if streamS != nil {
 						if err := (*streamS)(resource); err != nil {
 							return nil, err
@@ -191,7 +191,7 @@ func KinesisConsumer(ctx context.Context, cfg aws.Config, streamS *StreamSender)
 
 	return values, nil
 }
-func kinesisConsumerHandel(ctx context.Context, stream *kinesis.DescribeStreamOutput, consumer types.Consumer) Resource {
+func kinesisConsumerHandle(ctx context.Context, stream *kinesis.DescribeStreamOutput, consumer types.Consumer) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -229,7 +229,7 @@ func GetKinesisConsumer(ctx context.Context, cfg aws.Config, fields map[string]s
 	}
 
 	for _, consumer := range consumers.Consumers {
-		resource := kinesisConsumerHandel(ctx, stream, consumer)
+		resource := kinesisConsumerHandle(ctx, stream, consumer)
 		values = append(values, resource)
 	}
 	return values, nil
@@ -302,7 +302,7 @@ func KinesisAnalyticsV2Application(ctx context.Context, cfg aws.Config, stream *
 				ResourceARN: description.ApplicationDetail.ApplicationARN,
 			})
 
-			resource := kinesisAnalyticsV2ApplicationHandel(ctx, description, tags)
+			resource := kinesisAnalyticsV2ApplicationHandle(ctx, description, tags)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -321,7 +321,7 @@ func KinesisAnalyticsV2Application(ctx context.Context, cfg aws.Config, stream *
 
 	return values, nil
 }
-func kinesisAnalyticsV2ApplicationHandel(ctx context.Context, description *kinesisanalyticsv2.DescribeApplicationOutput, tags *kinesisanalyticsv2.ListTagsForResourceOutput) Resource {
+func kinesisAnalyticsV2ApplicationHandle(ctx context.Context, description *kinesisanalyticsv2.DescribeApplicationOutput, tags *kinesisanalyticsv2.ListTagsForResourceOutput) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -359,7 +359,7 @@ func GetKinesisAnalyticsV2Application(ctx context.Context, cfg aws.Config, field
 		return nil, err
 	}
 
-	resource := kinesisAnalyticsV2ApplicationHandel(ctx, description, tags)
+	resource := kinesisAnalyticsV2ApplicationHandle(ctx, description, tags)
 	values = append(values, resource)
 	return values, nil
 }
