@@ -268,7 +268,7 @@ func ElastiCacheSubnetGroup(ctx context.Context, cfg aws.Config, stream *StreamS
 		}
 
 		for _, cacheSubnetGroup := range page.CacheSubnetGroups {
-			resource := elastiCacheSubnetGroupHandle(ctx,cacheSubnetGroup)
+			resource := elastiCacheSubnetGroupHandle(ctx, cacheSubnetGroup)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -281,7 +281,7 @@ func ElastiCacheSubnetGroup(ctx context.Context, cfg aws.Config, stream *StreamS
 
 	return values, nil
 }
-func elastiCacheSubnetGroupHandle(ctx context.Context,,cacheSubnetGroup types.CacheSubnetGroup)Resource{
+func elastiCacheSubnetGroupHandle(ctx context.Context, cacheSubnetGroup types.CacheSubnetGroup) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -293,12 +293,12 @@ func elastiCacheSubnetGroupHandle(ctx context.Context,,cacheSubnetGroup types.Ca
 	}
 	return resource
 }
-func GetElastiCacheSubnetGroup(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error ){
+func GetElastiCacheSubnetGroup(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	cacheSubnetGroupsName := fields["name"]
 	client := elasticache.NewFromConfig(cfg)
 
-	out,err := client.DescribeCacheSubnetGroups(ctx , &elasticache.DescribeCacheSubnetGroupsInput{
-		CacheSubnetGroupName:&cacheSubnetGroupsName,
+	out, err := client.DescribeCacheSubnetGroups(ctx, &elasticache.DescribeCacheSubnetGroupsInput{
+		CacheSubnetGroupName: &cacheSubnetGroupsName,
 	})
 	if err != nil {
 		if isErr(err, "DescribeCacheSubnetGroupsNotFound") || isErr(err, "InvalidParameterValue") {
@@ -308,11 +308,11 @@ func GetElastiCacheSubnetGroup(ctx context.Context, cfg aws.Config, fields map[s
 	}
 
 	var values []Resource
-	for _,cacheSubnetGroup:=range out.CacheSubnetGroups{
+	for _, cacheSubnetGroup := range out.CacheSubnetGroups {
 
-		resource := elastiCacheSubnetGroupHandle(ctx,cacheSubnetGroup)
-		values=append(values,resource)
+		resource := elastiCacheSubnetGroupHandle(ctx, cacheSubnetGroup)
+		values = append(values, resource)
 
 	}
-	return values ,nil
+	return values, nil
 }

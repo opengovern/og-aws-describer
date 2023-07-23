@@ -151,7 +151,7 @@ func eC2VolumeHandle(ctx context.Context, v types.Volume, client *ec2.Client) (R
 
 		switch attr {
 		case types.VolumeAttributeNameAutoEnableIO:
-			description.Attributes.AutoEnableIO = *attrs.AutoEnableIO.values
+			description.Attributes.AutoEnableIO = *attrs.AutoEnableIO.Value
 		case types.VolumeAttributeNameProductCodes:
 			description.Attributes.ProductCodes = attrs.ProductCodes
 		}
@@ -1262,11 +1262,11 @@ func eC2InstanceHandle(ctx context.Context, v types.Instance, client *ec2.Client
 
 		switch attr {
 		case types.InstanceAttributeNameUserData:
-			desc.Attributes.UserData = aws.ToString(output.UserData.values)
+			desc.Attributes.UserData = aws.ToString(output.UserData.Value)
 		case types.InstanceAttributeNameInstanceInitiatedShutdownBehavior:
-			desc.Attributes.InstanceInitiatedShutdownBehavior = aws.ToString(output.InstanceInitiatedShutdownBehavior.values)
+			desc.Attributes.InstanceInitiatedShutdownBehavior = aws.ToString(output.InstanceInitiatedShutdownBehavior.Value)
 		case types.InstanceAttributeNameDisableApiTermination:
-			desc.Attributes.DisableApiTermination = aws.ToBool(output.DisableApiTermination.values)
+			desc.Attributes.DisableApiTermination = aws.ToBool(output.DisableApiTermination.Value)
 		}
 	}
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":instance/" + *v.InstanceId
@@ -3862,13 +3862,13 @@ func EC2TransitGatewayAttachment(ctx context.Context, cfg aws.Config, stream *St
 		}
 
 		for _, v := range page.TransitGatewayAttachments {
-			values := eC2TransitGatewayAttachmentHandle(ctx, v)
+			resource := eC2TransitGatewayAttachmentHandle(ctx, v)
 			if stream != nil {
-				if err := (*stream)(values); err != nil {
+				if err := (*stream)(resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, values)
+				values = append(values, resource)
 			}
 		}
 	}
@@ -3901,8 +3901,8 @@ func GetEC2TransitGatewayAttachment(ctx context.Context, cfg aws.Config, fields 
 
 	var values []Resource
 	for _, v := range out.TransitGatewayAttachments {
-		values := eC2TransitGatewayAttachmentHandle(ctx, v)
-		values = append(values, values)
+		resource := eC2TransitGatewayAttachmentHandle(ctx, v)
+		values = append(values, resource)
 	}
 	return values, nil
 }
