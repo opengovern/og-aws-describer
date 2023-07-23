@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"github.com/aws/aws-sdk-go-v2/service/acmpca/types"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/acm"
@@ -91,7 +92,6 @@ func CertificateManagerCertificate(ctx context.Context, cfg aws.Config, stream *
 }
 
 func ACMPCACertificateAuthority(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := acmpca.NewFromConfig(cfg)
 	paginator := acmpca.NewListCertificateAuthoritiesPaginator(client, &acmpca.ListCertificateAuthoritiesInput{})
 
@@ -103,21 +103,15 @@ func ACMPCACertificateAuthority(ctx context.Context, cfg aws.Config, stream *Str
 		}
 
 		for _, v := range page.CertificateAuthorities {
-			tags, err := client.ListTags(ctx, &acmpca.ListTagsInput{
-				CertificateAuthorityArn: v.Arn,
-			})
+			resource, err := aCMPCACertificateAuthorityHandle(ctx, cfg, v)
 			if err != nil {
 				return nil, err
 			}
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.Arn,
-				Name:   nameFromArn(*v.Arn),
-				Description: model.ACMPCACertificateAuthorityDescription{
-					CertificateAuthority: v,
-					Tags:                 tags.Tags,
-				},
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				continue
 			}
+
 			if stream != nil {
 				m := *stream
 				err := m(resource)
@@ -130,5 +124,56 @@ func ACMPCACertificateAuthority(ctx context.Context, cfg aws.Config, stream *Str
 		}
 	}
 
+	return values, nil
+}
+func aCMPCACertificateAuthorityHandle(ctx context.Context, cfg aws.Config, v types.CertificateAuthority) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := acmpca.NewFromConfig(cfg)
+	tags, err := client.ListTags(ctx, &acmpca.ListTagsInput{
+		CertificateAuthorityArn: v.Arn,
+	})
+	if err != nil {
+		if isErr(err, "ListTagsNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.Arn,
+		Name:   nameFromArn(*v.Arn),
+		Description: model.ACMPCACertificateAuthorityDescription{
+			CertificateAuthority: v,
+			Tags:                 tags.Tags,
+		},
+	}
+	return resource, nil
+}
+func GetACMPCACertificateAuthority(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	certificateAuthorityArn := fields["arn"]
+	client := acmpca.NewFromConfig(cfg)
+
+	out, err := client.DescribeCertificateAuthority(ctx, &acmpca.DescribeCertificateAuthorityInput{
+		CertificateAuthorityArn: &certificateAuthorityArn,
+	})
+	if err != nil {
+		if isErr(err, "DescribeCertificateAuthorityNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	resource, err := aCMPCACertificateAuthorityHandle(ctx, cfg, *out.CertificateAuthority)
+	if err != nil {
+		return nil, err
+	}
+	emptyResource := Resource{}
+	if err == nil && resource == emptyResource {
+		return nil, nil
+	}
+
+	values = append(values, resource)
 	return values, nil
 }
