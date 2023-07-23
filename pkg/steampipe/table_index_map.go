@@ -358,6 +358,9 @@ var awsMap = map[string]string{
 "AWS::ServiceQuotas::ServiceQuotaChangeRequest": "aws_servicequotas_service_quota_change_request",
 "AWS::EC2::VPCEndpointService": "aws_vpc_endpoint_service",
 "AWS::EC2::LaunchTemplate": "aws_ec2_launch_template",
+"AWS::SNS::Subscription": "aws_sns_topic_subscription",
+"AWS::S3::AccountSetting": "aws_s3_account_settings",
+"AWS::SSM::ManagedInstanceCompliance": "aws_ssm_managed_instance_compliance",
 }
 
 var AWSDescriptionMap = map[string]interface{}{
@@ -713,4 +716,7 @@ var AWSDescriptionMap = map[string]interface{}{
 "AWS::ServiceQuotas::ServiceQuotaChangeRequest": &keibi.ServiceQuotasServiceQuotaChangeRequest{},
 "AWS::EC2::VPCEndpointService": &keibi.EC2VPCEndpointService{},
 "AWS::EC2::LaunchTemplate": &keibi.EC2LaunchTemplate{},
+"AWS::SNS::Subscription": &keibi.SNSSubscription{},
+"AWS::S3::AccountSetting": &keibi.S3AccountSetting{},
+"AWS::SSM::ManagedInstanceCompliance": &keibi.SSMManagedInstanceCompliance{},
 }

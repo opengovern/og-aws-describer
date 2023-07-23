@@ -30689,6 +30689,182 @@ func GetSNSTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 // ==========================  END: SNSTopic =============================
 
+// ==========================  START: SNSSubscription =============================
+
+type SNSSubscription struct {
+	Description   aws.SNSSubscriptionDescription `json:"description"`
+	Metadata      aws.Metadata                   `json:"metadata"`
+	ResourceJobID int                            `json:"resource_job_id"`
+	SourceJobID   int                            `json:"source_job_id"`
+	ResourceType  string                         `json:"resource_type"`
+	SourceType    string                         `json:"source_type"`
+	ID            string                         `json:"id"`
+	ARN           string                         `json:"arn"`
+	SourceID      string                         `json:"source_id"`
+}
+
+type SNSSubscriptionHit struct {
+	ID      string          `json:"_id"`
+	Score   float64         `json:"_score"`
+	Index   string          `json:"_index"`
+	Type    string          `json:"_type"`
+	Version int64           `json:"_version,omitempty"`
+	Source  SNSSubscription `json:"_source"`
+	Sort    []interface{}   `json:"sort"`
+}
+
+type SNSSubscriptionHits struct {
+	Total essdk.SearchTotal    `json:"total"`
+	Hits  []SNSSubscriptionHit `json:"hits"`
+}
+
+type SNSSubscriptionSearchResponse struct {
+	PitID string              `json:"pit_id"`
+	Hits  SNSSubscriptionHits `json:"hits"`
+}
+
+type SNSSubscriptionPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewSNSSubscriptionPaginator(filters []essdk.BoolFilter, limit *int64) (SNSSubscriptionPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_sns_subscription", filters, limit)
+	if err != nil {
+		return SNSSubscriptionPaginator{}, err
+	}
+
+	p := SNSSubscriptionPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p SNSSubscriptionPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p SNSSubscriptionPaginator) NextPage(ctx context.Context) ([]SNSSubscription, error) {
+	var response SNSSubscriptionSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []SNSSubscription
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listSNSSubscriptionFilters = map[string]string{
+	"akas":                           "description.Subscription.SubscriptionArn",
+	"confirmation_was_authenticated": "description.Attributes.ConfirmationWasAuthenticated",
+	"delivery_policy":                "description.Attributes.DeliveryPolicy",
+	"effective_delivery_policy":      "description.Attributes.EffectiveDeliveryPolicy",
+	"endpoint":                       "description.Subscription.Endpoint",
+	"filter_policy":                  "description.Attributes.FilterPolicy",
+	"kaytu_account_id":               "metadata.SourceID",
+	"owner":                          "description.Subscription.Owner",
+	"pending_confirmation":           "description.Attributes.PendingConfirmation",
+	"protocol":                       "description.Subscription.Protocol",
+	"raw_message_delivery":           "description.Attributes.RawMessageDelivery",
+	"redrive_policy":                 "description.Attributes.RedrivePolicy",
+	"subscription_arn":               "description.Subscription.SubscriptionArn",
+	"title":                          "description.Subscription.SubscriptionArn",
+	"topic_arn":                      "description.Subscription.TopicArn",
+}
+
+func ListSNSSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListSNSSubscription")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewSNSSubscriptionPaginator(essdk.BuildFilter(d.KeyColumnQuals, listSNSSubscriptionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getSNSSubscriptionFilters = map[string]string{
+	"akas":                           "description.Subscription.SubscriptionArn",
+	"confirmation_was_authenticated": "description.Attributes.ConfirmationWasAuthenticated",
+	"delivery_policy":                "description.Attributes.DeliveryPolicy",
+	"effective_delivery_policy":      "description.Attributes.EffectiveDeliveryPolicy",
+	"endpoint":                       "description.Subscription.Endpoint",
+	"filter_policy":                  "description.Attributes.FilterPolicy",
+	"kaytu_account_id":               "metadata.SourceID",
+	"owner":                          "description.Subscription.Owner",
+	"pending_confirmation":           "description.Attributes.PendingConfirmation",
+	"protocol":                       "description.Subscription.Protocol",
+	"raw_message_delivery":           "description.Attributes.RawMessageDelivery",
+	"redrive_policy":                 "description.Attributes.RedrivePolicy",
+	"subscription_arn":               "description.Subscription.SubscriptionArn",
+	"title":                          "description.Subscription.SubscriptionArn",
+	"topic_arn":                      "description.Subscription.TopicArn",
+}
+
+func GetSNSSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetSNSSubscription")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewSNSSubscriptionPaginator(essdk.BuildFilter(d.KeyColumnQuals, getSNSSubscriptionFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: SNSSubscription =============================
+
 // ==========================  START: SQSQueue =============================
 
 type SQSQueue struct {
@@ -31054,6 +31230,162 @@ func GetS3Bucket(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 }
 
 // ==========================  END: S3Bucket =============================
+
+// ==========================  START: S3AccountSetting =============================
+
+type S3AccountSetting struct {
+	Description   aws.S3AccountSettingDescription `json:"description"`
+	Metadata      aws.Metadata                    `json:"metadata"`
+	ResourceJobID int                             `json:"resource_job_id"`
+	SourceJobID   int                             `json:"source_job_id"`
+	ResourceType  string                          `json:"resource_type"`
+	SourceType    string                          `json:"source_type"`
+	ID            string                          `json:"id"`
+	ARN           string                          `json:"arn"`
+	SourceID      string                          `json:"source_id"`
+}
+
+type S3AccountSettingHit struct {
+	ID      string           `json:"_id"`
+	Score   float64          `json:"_score"`
+	Index   string           `json:"_index"`
+	Type    string           `json:"_type"`
+	Version int64            `json:"_version,omitempty"`
+	Source  S3AccountSetting `json:"_source"`
+	Sort    []interface{}    `json:"sort"`
+}
+
+type S3AccountSettingHits struct {
+	Total essdk.SearchTotal     `json:"total"`
+	Hits  []S3AccountSettingHit `json:"hits"`
+}
+
+type S3AccountSettingSearchResponse struct {
+	PitID string               `json:"pit_id"`
+	Hits  S3AccountSettingHits `json:"hits"`
+}
+
+type S3AccountSettingPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewS3AccountSettingPaginator(filters []essdk.BoolFilter, limit *int64) (S3AccountSettingPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_s3_accountsetting", filters, limit)
+	if err != nil {
+		return S3AccountSettingPaginator{}, err
+	}
+
+	p := S3AccountSettingPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p S3AccountSettingPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p S3AccountSettingPaginator) NextPage(ctx context.Context) ([]S3AccountSetting, error) {
+	var response S3AccountSettingSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []S3AccountSetting
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listS3AccountSettingFilters = map[string]string{
+	"block_public_acls":       "description.PublicAccessBlockConfiguration.BlockPublicAcls",
+	"block_public_policy":     "description.PublicAccessBlockConfiguration.BlockPublicPolicy",
+	"ignore_public_acls":      "description.PublicAccessBlockConfiguration.IgnorePublicAcls",
+	"kaytu_account_id":        "metadata.SourceID",
+	"restrict_public_buckets": "description.PublicAccessBlockConfiguration.RestrictPublicBuckets",
+}
+
+func ListS3AccountSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListS3AccountSetting")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewS3AccountSettingPaginator(essdk.BuildFilter(d.KeyColumnQuals, listS3AccountSettingFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getS3AccountSettingFilters = map[string]string{
+	"block_public_acls":       "description.PublicAccessBlockConfiguration.BlockPublicAcls",
+	"block_public_policy":     "description.PublicAccessBlockConfiguration.BlockPublicPolicy",
+	"ignore_public_acls":      "description.PublicAccessBlockConfiguration.IgnorePublicAcls",
+	"kaytu_account_id":        "metadata.SourceID",
+	"restrict_public_buckets": "description.PublicAccessBlockConfiguration.RestrictPublicBuckets",
+}
+
+func GetS3AccountSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetS3AccountSetting")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewS3AccountSettingPaginator(essdk.BuildFilter(d.KeyColumnQuals, getS3AccountSettingFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: S3AccountSetting =============================
 
 // ==========================  START: SageMakerEndpointConfiguration =============================
 
@@ -35221,6 +35553,172 @@ func GetSSMPatchBaseline(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 // ==========================  END: SSMPatchBaseline =============================
+
+// ==========================  START: SSMManagedInstanceCompliance =============================
+
+type SSMManagedInstanceCompliance struct {
+	Description   aws.SSMManagedInstanceComplianceDescription `json:"description"`
+	Metadata      aws.Metadata                                `json:"metadata"`
+	ResourceJobID int                                         `json:"resource_job_id"`
+	SourceJobID   int                                         `json:"source_job_id"`
+	ResourceType  string                                      `json:"resource_type"`
+	SourceType    string                                      `json:"source_type"`
+	ID            string                                      `json:"id"`
+	ARN           string                                      `json:"arn"`
+	SourceID      string                                      `json:"source_id"`
+}
+
+type SSMManagedInstanceComplianceHit struct {
+	ID      string                       `json:"_id"`
+	Score   float64                      `json:"_score"`
+	Index   string                       `json:"_index"`
+	Type    string                       `json:"_type"`
+	Version int64                        `json:"_version,omitempty"`
+	Source  SSMManagedInstanceCompliance `json:"_source"`
+	Sort    []interface{}                `json:"sort"`
+}
+
+type SSMManagedInstanceComplianceHits struct {
+	Total essdk.SearchTotal                 `json:"total"`
+	Hits  []SSMManagedInstanceComplianceHit `json:"hits"`
+}
+
+type SSMManagedInstanceComplianceSearchResponse struct {
+	PitID string                           `json:"pit_id"`
+	Hits  SSMManagedInstanceComplianceHits `json:"hits"`
+}
+
+type SSMManagedInstanceCompliancePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewSSMManagedInstanceCompliancePaginator(filters []essdk.BoolFilter, limit *int64) (SSMManagedInstanceCompliancePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_ssm_managedinstancecompliance", filters, limit)
+	if err != nil {
+		return SSMManagedInstanceCompliancePaginator{}, err
+	}
+
+	p := SSMManagedInstanceCompliancePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p SSMManagedInstanceCompliancePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p SSMManagedInstanceCompliancePaginator) NextPage(ctx context.Context) ([]SSMManagedInstanceCompliance, error) {
+	var response SSMManagedInstanceComplianceSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []SSMManagedInstanceCompliance
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listSSMManagedInstanceComplianceFilters = map[string]string{
+	"compliance_type":   "description.ComplianceItem.ComplianceType",
+	"details":           "description.ComplianceItem.Details",
+	"execution_summary": "description.ComplianceItem.ExecutionSummary",
+	"id":                "description.ComplianceItem.Id",
+	"kaytu_account_id":  "metadata.SourceID",
+	"name":              "description.ComplianceItem.Title",
+	"resource_id":       "description.ComplianceItem.ResourceId",
+	"resource_type":     "description.ComplianceItem.ResourceType",
+	"severity":          "description.ComplianceItem.Severity",
+	"status":            "description.ComplianceItem.Status",
+}
+
+func ListSSMManagedInstanceCompliance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListSSMManagedInstanceCompliance")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewSSMManagedInstanceCompliancePaginator(essdk.BuildFilter(d.KeyColumnQuals, listSSMManagedInstanceComplianceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getSSMManagedInstanceComplianceFilters = map[string]string{
+	"compliance_type":   "description.ComplianceItem.ComplianceType",
+	"details":           "description.ComplianceItem.Details",
+	"execution_summary": "description.ComplianceItem.ExecutionSummary",
+	"id":                "description.ComplianceItem.Id",
+	"kaytu_account_id":  "metadata.SourceID",
+	"name":              "description.ComplianceItem.Title",
+	"resource_id":       "description.ComplianceItem.ResourceId",
+	"resource_type":     "description.ComplianceItem.ResourceType",
+	"severity":          "description.ComplianceItem.Severity",
+	"status":            "description.ComplianceItem.Status",
+}
+
+func GetSSMManagedInstanceCompliance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetSSMManagedInstanceCompliance")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewSSMManagedInstanceCompliancePaginator(essdk.BuildFilter(d.KeyColumnQuals, getSSMManagedInstanceComplianceFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: SSMManagedInstanceCompliance =============================
 
 // ==========================  START: ECSTaskDefinition =============================
 

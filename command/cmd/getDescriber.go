@@ -31,10 +31,10 @@ var getDescriberCmd = &cobra.Command{
 			context.Background(),
 			resourceType,
 			enums.DescribeTriggerTypeManual,
-			"",
+			accountID,
 			nil,
-			"",
-			"",
+			accessKey,
+			secretKey,
 			"",
 			"",
 			nil,
@@ -60,4 +60,7 @@ func init() {
 	getDescriberCmd.Flags().StringVar(&name, "name", "", "name")
 	getDescriberCmd.Flags().StringVar(&arn, "arn", "", "arn")
 	getDescriberCmd.Flags().StringVar(&resourceType, "resourceType", "", "resourceType")
+	getDescriberCmd.Flags().StringVar(&accountID, "accountID", "", "AccountID")
+	getDescriberCmd.Flags().StringVar(&accessKey, "accessKey", "", "Access key")
+	getDescriberCmd.Flags().StringVar(&secretKey, "secretKey", "", "Secret key")
 }
