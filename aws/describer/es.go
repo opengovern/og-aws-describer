@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"github.com/aws/aws-sdk-go-v2/service/elasticsearchservice/types"
 	"math"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -10,7 +11,6 @@ import (
 )
 
 func ESDomain(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	var values []Resource
 
 	client := es.NewFromConfig(cfg)
@@ -37,22 +37,15 @@ func ESDomain(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 		}
 
 		for _, v := range out.DomainStatusList {
-			out, err := client.ListTags(ctx, &es.ListTagsInput{
-				ARN: v.ARN,
-			})
+			resource, err := ESDomainHandle(ctx, cfg, v)
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.ARN,
-				Name:   *v.DomainName,
-				Description: model.ESDomainDescription{
-					Domain: v,
-					Tags:   out.TagList,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -62,6 +55,54 @@ func ESDomain(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 			}
 		}
 	}
+	return values, nil
+}
+func ESDomainHandle(ctx context.Context, cfg aws.Config, v types.ElasticsearchDomainStatus) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := es.NewFromConfig(cfg)
 
+	out, err := client.ListTags(ctx, &es.ListTagsInput{
+		ARN: v.ARN,
+	})
+	if err != nil {
+		if isErr(err, "ListTagsNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.ARN,
+		Name:   *v.DomainName,
+		Description: model.ESDomainDescription{
+			Domain: v,
+			Tags:   out.TagList,
+		},
+	}
+	return resource, nil
+}
+func GetESDomain(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	domainName := fields["domainName"]
+	var values []Resource
+
+	client := es.NewFromConfig(cfg)
+	describeElasticSearch, err := client.DescribeElasticsearchDomain(ctx, &es.DescribeElasticsearchDomainInput{
+		DomainName: &domainName,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	resource, err := ESDomainHandle(ctx, cfg, *describeElasticSearch.DomainStatus)
+	emptyResource := Resource{}
+	if err == nil && resource == emptyResource {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	values = append(values, resource)
 	return values, nil
 }

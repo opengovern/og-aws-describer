@@ -2,19 +2,17 @@ package describer
 
 import (
 	"context"
+	_ "database/sql/driver"
 	"fmt"
-
-	"github.com/aws/aws-sdk-go-v2/service/apigateway/types"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/apigateway"
+	"github.com/aws/aws-sdk-go-v2/service/apigateway/types"
 	"github.com/aws/aws-sdk-go-v2/service/apigatewayv2"
 	typesv2 "github.com/aws/aws-sdk-go-v2/service/apigatewayv2/types"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 )
 
 func ApiGatewayStage(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := apigateway.NewFromConfig(cfg)
 	paginator := apigateway.NewGetRestApisPaginator(client, &apigateway.GetRestApisInput{})
 
@@ -34,16 +32,7 @@ func ApiGatewayStage(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			}
 
 			for _, stageItem := range out.Item {
-				arn := "arn:" + describeCtx.Partition + ":apigateway:" + describeCtx.Region + "::/restapis/" + *restItem.Id + "/stages/" + *stageItem.StageName
-				resource := Resource{
-					Region: describeCtx.KaytuRegion,
-					ARN:    arn,
-					Name:   *restItem.Name,
-					Description: model.ApiGatewayStageDescription{
-						RestApiId: restItem.Id,
-						Stage:     stageItem,
-					},
-				}
+				resource := apiGatewayStageHandle(ctx, stageItem, *restItem.Id, *restItem.Name)
 				if stream != nil {
 					m := *stream
 					err := m(resource)
@@ -58,32 +47,57 @@ func ApiGatewayStage(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 	}
 	return values, nil
 }
-
-func GetApiGatewayStage(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+func apiGatewayStageHandle(ctx context.Context, stageItem types.Stage, id string, name string) Resource {
 	describeCtx := GetDescribeContext(ctx)
-	restAPIID := fields["id"]
+	arn := "arn:" + describeCtx.Partition + ":apigateway:" + describeCtx.Region + "::/restapis/" + id + "/stages/" + *stageItem.StageName
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		Name:   name,
+		Description: model.ApiGatewayStageDescription{
+			RestApiId: &id,
+			Stage:     stageItem,
+		},
+	}
+	return resource
+}
+func GetApiGatewayStage(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	restAPIID := fields["respApiId"]
+	stageName := fields["stageName"]
 	client := apigateway.NewFromConfig(cfg)
+	var values []Resource
 
-	out, err := client.GetStages(ctx, &apigateway.GetStagesInput{
+	stage, err := client.GetStage(ctx, &apigateway.GetStageInput{
 		RestApiId: &restAPIID,
+		StageName: &stageName,
 	})
 	if err != nil {
+		if isErr(err, "GetStageNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
 		return nil, err
 	}
 
-	var values []Resource
-	for _, stageItem := range out.Item {
-		arn := "arn:" + describeCtx.Partition + ":apigateway:" + describeCtx.Region + "::/restapis/" + restAPIID + "/stages/" + *stageItem.StageName
-		values = append(values, Resource{
-			Region: describeCtx.KaytuRegion,
-			ARN:    arn,
-			Name:   *stageItem.StageName,
-			Description: model.ApiGatewayStageDescription{
-				RestApiId: &restAPIID,
-				Stage:     stageItem,
-			},
-		})
+	stageItem := types.Stage{
+		Tags:                 stage.Tags,
+		StageName:            stage.StageName,
+		AccessLogSettings:    stage.AccessLogSettings,
+		Description:          stage.Description,
+		CreatedDate:          stage.CreatedDate,
+		CacheClusterEnabled:  stage.CacheClusterEnabled,
+		CacheClusterSize:     stage.CacheClusterSize,
+		CacheClusterStatus:   stage.CacheClusterStatus,
+		CanarySettings:       stage.CanarySettings,
+		DeploymentId:         stage.DeploymentId,
+		ClientCertificateId:  stage.ClientCertificateId,
+		WebAclArn:            stage.WebAclArn,
+		Variables:            stage.Variables,
+		TracingEnabled:       stage.TracingEnabled,
+		MethodSettings:       stage.MethodSettings,
+		LastUpdatedDate:      stage.LastUpdatedDate,
+		DocumentationVersion: stage.DocumentationVersion,
 	}
+	values = append(values, apiGatewayStageHandle(ctx, stageItem, restAPIID, *stageItem.StageName))
 	return values, nil
 }
 
@@ -152,7 +166,6 @@ func ApiGatewayV2Stage(ctx context.Context, cfg aws.Config, stream *StreamSender
 }
 
 func ApiGatewayRestAPI(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := apigateway.NewFromConfig(cfg)
 	paginator := apigateway.NewGetRestApisPaginator(client, &apigateway.GetRestApisInput{})
 
@@ -167,15 +180,7 @@ func ApiGatewayRestAPI(ctx context.Context, cfg aws.Config, stream *StreamSender
 		}
 
 		for _, restItem := range page.Items {
-			arn := fmt.Sprintf("arn:%s:apigateway:%s::/restapis/%s", describeCtx.Partition, describeCtx.Region, *restItem.Id)
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    arn,
-				Name:   *restItem.Name,
-				Description: model.ApiGatewayRestAPIDescription{
-					RestAPI: restItem,
-				},
-			}
+			resource := apiGatewayRestAPIHandle(ctx, restItem)
 			if stream != nil {
 				m := *stream
 				err := m(resource)
@@ -189,9 +194,20 @@ func ApiGatewayRestAPI(ctx context.Context, cfg aws.Config, stream *StreamSender
 	}
 	return values, nil
 }
-
-func GetApiGatewayRestAPI(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+func apiGatewayRestAPIHandle(ctx context.Context, restItem types.RestApi) Resource {
 	describeCtx := GetDescribeContext(ctx)
+	arn := fmt.Sprintf("arn:%s:apigateway:%s::/restapis/%s", describeCtx.Partition, describeCtx.Region, *restItem.Id)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		Name:   *restItem.Name,
+		Description: model.ApiGatewayRestAPIDescription{
+			RestAPI: restItem,
+		},
+	}
+	return resource
+}
+func GetApiGatewayRestAPI(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	id := fields["id"]
 	client := apigateway.NewFromConfig(cfg)
 
@@ -206,34 +222,25 @@ func GetApiGatewayRestAPI(ctx context.Context, cfg aws.Config, fields map[string
 	}
 
 	var values []Resource
-	arn := fmt.Sprintf("arn:%s:apigateway:%s::/restapis/%s", describeCtx.Partition, describeCtx.Region, *out.Id)
-	values = append(values, Resource{
-		Region: describeCtx.KaytuRegion,
-		ARN:    arn,
-		Name:   *out.Name,
-		Description: model.ApiGatewayRestAPIDescription{
-			RestAPI: types.RestApi{
-				ApiKeySource:              out.ApiKeySource,
-				BinaryMediaTypes:          out.BinaryMediaTypes,
-				CreatedDate:               out.CreatedDate,
-				Description:               out.Description,
-				DisableExecuteApiEndpoint: out.DisableExecuteApiEndpoint,
-				EndpointConfiguration:     out.EndpointConfiguration,
-				Id:                        out.Id,
-				MinimumCompressionSize:    out.MinimumCompressionSize,
-				Name:                      out.Name,
-				Policy:                    out.Policy,
-				Tags:                      out.Tags,
-				Version:                   out.Version,
-				Warnings:                  out.Warnings,
-			},
-		},
-	})
+	values = append(values, apiGatewayRestAPIHandle(ctx, types.RestApi{
+		ApiKeySource:              out.ApiKeySource,
+		BinaryMediaTypes:          out.BinaryMediaTypes,
+		CreatedDate:               out.CreatedDate,
+		Description:               out.Description,
+		DisableExecuteApiEndpoint: out.DisableExecuteApiEndpoint,
+		EndpointConfiguration:     out.EndpointConfiguration,
+		Id:                        out.Id,
+		MinimumCompressionSize:    out.MinimumCompressionSize,
+		Name:                      out.Name,
+		Policy:                    out.Policy,
+		Tags:                      out.Tags,
+		Version:                   out.Version,
+		Warnings:                  out.Warnings,
+	}))
 	return values, nil
 }
 
 func ApiGatewayApiKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := apigateway.NewFromConfig(cfg)
 	paginator := apigateway.NewGetApiKeysPaginator(client, &apigateway.GetApiKeysInput{})
 
@@ -248,16 +255,7 @@ func ApiGatewayApiKey(ctx context.Context, cfg aws.Config, stream *StreamSender)
 		}
 
 		for _, apiKey := range page.Items {
-			arn := fmt.Sprintf("arn:%s:apigateway:%s::/apikeys/%s", describeCtx.Partition, describeCtx.Region, *apiKey.Id)
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ID:     *apiKey.Id,
-				ARN:    arn,
-				Name:   *apiKey.Name,
-				Description: model.ApiGatewayApiKeyDescription{
-					ApiKey: apiKey,
-				},
-			}
+			resource := apiGatewayApiKeyHandle(ctx, apiKey)
 			if stream != nil {
 				m := *stream
 				err := m(resource)
@@ -271,9 +269,51 @@ func ApiGatewayApiKey(ctx context.Context, cfg aws.Config, stream *StreamSender)
 	}
 	return values, nil
 }
+func apiGatewayApiKeyHandle(ctx context.Context, apiKey types.ApiKey) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	arn := fmt.Sprintf("arn:%s:apigateway:%s::/apikeys/%s", describeCtx.Partition, describeCtx.Region, *apiKey.Id)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ID:     *apiKey.Id,
+		ARN:    arn,
+		Name:   *apiKey.Name,
+		Description: model.ApiGatewayApiKeyDescription{
+			ApiKey: apiKey,
+		},
+	}
+	return resource
+}
+func GetApiGatewayApiKey(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	apiKeyVa := fields["apiKeyVa"]
+	client := apigateway.NewFromConfig(cfg)
+
+	out, err := client.GetApiKey(ctx, &apigateway.GetApiKeyInput{
+		ApiKey: &apiKeyVa,
+	})
+	if err != nil {
+		if isErr(err, "GetApiKeyNotFound") || isErr(err, "invalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	values = append(values, apiGatewayApiKeyHandle(ctx, types.ApiKey{
+		StageKeys:       out.StageKeys,
+		Name:            out.Name,
+		Id:              out.Id,
+		Tags:            out.Tags,
+		Description:     out.Description,
+		LastUpdatedDate: out.LastUpdatedDate,
+		CreatedDate:     out.CreatedDate,
+		CustomerId:      out.CustomerId,
+		Enabled:         out.Enabled,
+		Value:           out.Value,
+	}))
+	return values, nil
+}
 
 func ApiGatewayUsagePlan(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := apigateway.NewFromConfig(cfg)
 	paginator := apigateway.NewGetUsagePlansPaginator(client, &apigateway.GetUsagePlansInput{})
 
@@ -288,16 +328,7 @@ func ApiGatewayUsagePlan(ctx context.Context, cfg aws.Config, stream *StreamSend
 		}
 
 		for _, usagePlan := range page.Items {
-			arn := fmt.Sprintf("arn:%s:apigateway:%s::/usageplans/%s", describeCtx.Partition, describeCtx.Region, *usagePlan.Id)
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ID:     *usagePlan.Id,
-				ARN:    arn,
-				Name:   *usagePlan.Name,
-				Description: model.ApiGatewayUsagePlanDescription{
-					UsagePlan: usagePlan,
-				},
-			}
+			resource := apiGatewayUsagePlanHandle(ctx, usagePlan)
 			if stream != nil {
 				m := *stream
 				err := m(resource)
@@ -311,9 +342,49 @@ func ApiGatewayUsagePlan(ctx context.Context, cfg aws.Config, stream *StreamSend
 	}
 	return values, nil
 }
+func apiGatewayUsagePlanHandle(ctx context.Context, usagePlan types.UsagePlan) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	arn := fmt.Sprintf("arn:%s:apigateway:%s::/usageplans/%s", describeCtx.Partition, describeCtx.Region, *usagePlan.Id)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ID:     *usagePlan.Id,
+		ARN:    arn,
+		Name:   *usagePlan.Name,
+		Description: model.ApiGatewayUsagePlanDescription{
+			UsagePlan: usagePlan,
+		},
+	}
+	return resource
+}
+func GetApiGatewayUsagePlan(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	usagePlanId := fields["usagePlanId"]
+	client := apigateway.NewFromConfig(cfg)
+
+	out, err := client.GetUsagePlan(ctx, &apigateway.GetUsagePlanInput{
+		UsagePlanId: &usagePlanId,
+	})
+	if err != nil {
+		if isErr(err, "GetUsagePlanNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	values = append(values, apiGatewayUsagePlanHandle(ctx, types.UsagePlan{
+		Name:        out.Name,
+		Tags:        out.Tags,
+		Id:          out.Id,
+		Description: out.Description,
+		ApiStages:   out.ApiStages,
+		ProductCode: out.ProductCode,
+		Quota:       out.Quota,
+		Throttle:    out.Throttle,
+	}))
+	return values, nil
+}
 
 func ApiGatewayAuthorizer(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := apigateway.NewFromConfig(cfg)
 	paginator := apigateway.NewGetRestApisPaginator(client, &apigateway.GetRestApisInput{})
 
@@ -335,17 +406,7 @@ func ApiGatewayAuthorizer(ctx context.Context, cfg aws.Config, stream *StreamSen
 				return nil, err
 			}
 			for _, authorizer := range authorizers.Items {
-				arn := fmt.Sprintf("arn:%s:apigateway:%s::/restapis/%s/authorizer/%s", describeCtx.Partition, describeCtx.Region, *api.Id, *authorizer.Id)
-				resource := Resource{
-					Region: describeCtx.KaytuRegion,
-					ID:     *authorizer.Id,
-					ARN:    arn,
-					Name:   *api.Name,
-					Description: model.ApiGatewayAuthorizerDescription{
-						Authorizer: authorizer,
-						RestApiId:  *api.Id,
-					},
-				}
+				resource := apiGatewayAuthorizerHandle(ctx, authorizer, *api.Id, *api.Name)
 				if stream != nil {
 					m := *stream
 					err := m(resource)
@@ -360,10 +421,54 @@ func ApiGatewayAuthorizer(ctx context.Context, cfg aws.Config, stream *StreamSen
 	}
 	return values, nil
 }
+func apiGatewayAuthorizerHandle(ctx context.Context, authorizer types.Authorizer, apiId string, apiName string) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	arn := fmt.Sprintf("arn:%s:apigateway:%s::/restapis/%s/authorizer/%s", describeCtx.Partition, describeCtx.Region, apiId, *authorizer.Id)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ID:     *authorizer.Id,
+		ARN:    arn,
+		Name:   apiName,
+		Description: model.ApiGatewayAuthorizerDescription{
+			Authorizer: authorizer,
+			RestApiId:  apiId,
+		},
+	}
+	return resource
+}
+func GetApiGatewayAuthorizer(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	restApiId := fields["restApiId"]
+	authorizerId := fields["authorizerId"]
+	var values []Resource
+	client := apigateway.NewFromConfig(cfg)
+
+	out, err := client.GetAuthorizer(ctx, &apigateway.GetAuthorizerInput{
+		AuthorizerId: &authorizerId,
+		RestApiId:    &restApiId,
+	})
+	if err != nil {
+		if isErr(err, "GetAuthorizerNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	authorizer := types.Authorizer{
+		AuthorizerCredentials:        out.AuthorizerCredentials,
+		Id:                           out.Id,
+		AuthorizerUri:                out.AuthorizerUri,
+		AuthType:                     out.AuthType,
+		AuthorizerResultTtlInSeconds: out.AuthorizerResultTtlInSeconds,
+		IdentitySource:               out.IdentitySource,
+		IdentityValidationExpression: out.IdentityValidationExpression,
+		ProviderARNs:                 out.ProviderARNs,
+		Type:                         out.Type,
+	}
+	values = append(values, apiGatewayAuthorizerHandle(ctx, authorizer, restApiId, *authorizer.Name))
+	return values, nil
+}
 
 func ApiGatewayV2API(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-
 	client := apigatewayv2.NewFromConfig(cfg)
 
 	var values []Resource
@@ -379,15 +484,7 @@ func ApiGatewayV2API(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		}
 
 		for _, api := range output.Items {
-			arn := fmt.Sprintf("arn:%s:apigateway:%s::/apis/%s", describeCtx.Partition, describeCtx.Region, *api.ApiId)
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    arn,
-				Name:   *api.Name,
-				Description: model.ApiGatewayV2APIDescription{
-					API: api,
-				},
-			}
+			resource := apiGatewayV2APIHandle(ctx, api)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -407,14 +504,23 @@ func ApiGatewayV2API(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 
 	return values, nil
 }
-
-func GetApiGatewayV2API(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+func apiGatewayV2APIHandle(ctx context.Context, api typesv2.Api) Resource {
 	describeCtx := GetDescribeContext(ctx)
+	arn := fmt.Sprintf("arn:%s:apigateway:%s::/apis/%s", describeCtx.Partition, describeCtx.Region, *api.ApiId)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		Name:   *api.Name,
+		Description: model.ApiGatewayV2APIDescription{
+			API: api,
+		},
+	}
+	return resource
+}
+func GetApiGatewayV2API(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	apiID := fields["id"]
-
 	client := apigatewayv2.NewFromConfig(cfg)
 
-	var values []Resource
 	out, err := client.GetApi(ctx, &apigatewayv2.GetApiInput{
 		ApiId: &apiID,
 	})
@@ -425,39 +531,29 @@ func GetApiGatewayV2API(ctx context.Context, cfg aws.Config, fields map[string]s
 		return nil, err
 	}
 
-	arn := fmt.Sprintf("arn:%s:apigateway:%s::/apis/%s", describeCtx.Partition, describeCtx.Region, apiID)
-	values = append(values, Resource{
-		Region: describeCtx.KaytuRegion,
-		ARN:    arn,
-		Name:   *out.Name,
-		Description: model.ApiGatewayV2APIDescription{
-			API: typesv2.Api{
-				Name:                      out.Name,
-				ProtocolType:              out.ProtocolType,
-				RouteSelectionExpression:  out.RouteSelectionExpression,
-				ApiEndpoint:               out.ApiEndpoint,
-				ApiGatewayManaged:         out.ApiGatewayManaged,
-				ApiId:                     out.ApiId,
-				ApiKeySelectionExpression: out.ApiKeySelectionExpression,
-				CorsConfiguration:         out.CorsConfiguration,
-				CreatedDate:               out.CreatedDate,
-				Description:               out.Description,
-				DisableExecuteApiEndpoint: out.DisableExecuteApiEndpoint,
-				DisableSchemaValidation:   out.DisableSchemaValidation,
-				ImportInfo:                out.ImportInfo,
-				Tags:                      out.Tags,
-				Version:                   out.Version,
-				Warnings:                  out.Warnings,
-			},
-		},
-	})
-
+	var values []Resource
+	values = append(values, apiGatewayV2APIHandle(ctx, typesv2.Api{
+		Name:                      out.Name,
+		ProtocolType:              out.ProtocolType,
+		RouteSelectionExpression:  out.RouteSelectionExpression,
+		ApiEndpoint:               out.ApiEndpoint,
+		ApiGatewayManaged:         out.ApiGatewayManaged,
+		ApiId:                     out.ApiId,
+		ApiKeySelectionExpression: out.ApiKeySelectionExpression,
+		CorsConfiguration:         out.CorsConfiguration,
+		CreatedDate:               out.CreatedDate,
+		Description:               out.Description,
+		DisableExecuteApiEndpoint: out.DisableExecuteApiEndpoint,
+		DisableSchemaValidation:   out.DisableSchemaValidation,
+		ImportInfo:                out.ImportInfo,
+		Tags:                      out.Tags,
+		Version:                   out.Version,
+		Warnings:                  out.Warnings,
+	}))
 	return values, nil
 }
 
 func ApiGatewayV2DomainName(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-
 	client := apigatewayv2.NewFromConfig(cfg)
 	var values []Resource
 	err := PaginateRetrieveAll(func(prevToken *string) (nextToken *string, err error) {
@@ -472,15 +568,7 @@ func ApiGatewayV2DomainName(ctx context.Context, cfg aws.Config, stream *StreamS
 		}
 
 		for _, domainName := range output.Items {
-			arn := fmt.Sprintf("arn:%s:apigateway:%s::/domainnames/%s", describeCtx.Partition, describeCtx.Region, *domainName.DomainName)
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    arn,
-				Name:   *domainName.DomainName,
-				Description: model.ApiGatewayV2DomainNameDescription{
-					DomainName: domainName,
-				},
-			}
+			resource := apiGatewayV2DomainNameHandle(ctx, domainName)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -500,13 +588,23 @@ func ApiGatewayV2DomainName(ctx context.Context, cfg aws.Config, stream *StreamS
 
 	return values, nil
 }
-
-func GetApiGatewayV2DomainName(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+func apiGatewayV2DomainNameHandle(ctx context.Context, domainName typesv2.DomainName) Resource {
 	describeCtx := GetDescribeContext(ctx)
+	arn := fmt.Sprintf("arn:%s:apigateway:%s::/domainnames/%s", describeCtx.Partition, describeCtx.Region, *domainName.DomainName)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		Name:   *domainName.DomainName,
+		Description: model.ApiGatewayV2DomainNameDescription{
+			DomainName: domainName,
+		},
+	}
+	return resource
+}
+func GetApiGatewayV2DomainName(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	domainName := fields["domain_name"]
 
 	client := apigatewayv2.NewFromConfig(cfg)
-	var values []Resource
 	out, err := client.GetDomainName(ctx, &apigatewayv2.GetDomainNameInput{
 		DomainName: &domainName,
 	})
@@ -516,27 +614,19 @@ func GetApiGatewayV2DomainName(ctx context.Context, cfg aws.Config, fields map[s
 		}
 		return nil, err
 	}
-	arn := fmt.Sprintf("arn:%s:apigateway:%s::/domainnames/%s", describeCtx.Partition, describeCtx.Region, domainName)
-	values = append(values, Resource{
-		Region: describeCtx.KaytuRegion,
-		ARN:    arn,
-		Name:   *out.DomainName,
-		Description: model.ApiGatewayV2DomainNameDescription{
-			DomainName: typesv2.DomainName{
-				DomainName:                    out.DomainName,
-				ApiMappingSelectionExpression: out.ApiMappingSelectionExpression,
-				DomainNameConfigurations:      out.DomainNameConfigurations,
-				MutualTlsAuthentication:       out.MutualTlsAuthentication,
-				Tags:                          out.Tags,
-			},
-		},
-	})
+
+	var values []Resource
+	values = append(values, apiGatewayV2DomainNameHandle(ctx, typesv2.DomainName{
+		DomainName:                    out.DomainName,
+		ApiMappingSelectionExpression: out.ApiMappingSelectionExpression,
+		DomainNameConfigurations:      out.DomainNameConfigurations,
+		MutualTlsAuthentication:       out.MutualTlsAuthentication,
+		Tags:                          out.Tags,
+	}))
 	return values, nil
 }
 
 func ApiGatewayV2Integration(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-
 	client := apigatewayv2.NewFromConfig(cfg)
 
 	var values []Resource
@@ -563,16 +653,7 @@ func ApiGatewayV2Integration(ctx context.Context, cfg aws.Config, stream *Stream
 				}
 
 				for _, integration := range output.Items {
-					arn := fmt.Sprintf("arn:%s:apigateway:%s::/apis/%s/integrations/%s", describeCtx.Partition, describeCtx.Region, *api.ApiId, *integration.IntegrationId)
-					resource := Resource{
-						Region: describeCtx.KaytuRegion,
-						ARN:    arn,
-						ID:     *integration.IntegrationId,
-						Description: model.ApiGatewayV2IntegrationDescription{
-							Integration: integration,
-							ApiId:       *api.ApiId,
-						},
-					}
+					resource := apiGatewayV2IntegrationHandle(ctx, integration, *api.ApiId)
 					if stream != nil {
 						if err := (*stream)(resource); err != nil {
 							return nil, err
@@ -606,15 +687,26 @@ func ApiGatewayV2Integration(ctx context.Context, cfg aws.Config, stream *Stream
 
 	return values, nil
 }
-
-func GetApiGatewayV2Integration(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+func apiGatewayV2IntegrationHandle(ctx context.Context, integration typesv2.Integration, apiId string) Resource {
 	describeCtx := GetDescribeContext(ctx)
+	arn := fmt.Sprintf("arn:%s:apigateway:%s::/apis/%s/integrations/%s", describeCtx.Partition, describeCtx.Region, apiId, *integration.IntegrationId)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		ID:     *integration.IntegrationId,
+		Description: model.ApiGatewayV2IntegrationDescription{
+			Integration: integration,
+			ApiId:       apiId,
+		},
+	}
+	return resource
+}
+func GetApiGatewayV2Integration(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	apiId := fields["api_id"]
 	integrationID := fields["id"]
 
 	client := apigatewayv2.NewFromConfig(cfg)
 
-	var values []Resource
 	api, err := client.GetApi(ctx, &apigatewayv2.GetApiInput{
 		ApiId: &apiId,
 	})
@@ -625,46 +717,37 @@ func GetApiGatewayV2Integration(ctx context.Context, cfg aws.Config, fields map[
 		return nil, err
 	}
 
-	integration, err := client.GetIntegration(ctx, &apigatewayv2.GetIntegrationInput{
+	out, err := client.GetIntegration(ctx, &apigatewayv2.GetIntegrationInput{
 		ApiId:         aws.String(*api.ApiId),
 		IntegrationId: &integrationID,
 	})
-
 	if err != nil {
 		return nil, err
 	}
 
-	arn := fmt.Sprintf("arn:%s:apigateway:%s::/apis/%s/integrations/%s", describeCtx.Partition, describeCtx.Region, *api.ApiId, *integration.IntegrationId)
-	values = append(values, Resource{
-		Region: describeCtx.KaytuRegion,
-		ARN:    arn,
-		ID:     *integration.IntegrationId,
-		Description: model.ApiGatewayV2IntegrationDescription{
-			Integration: typesv2.Integration{
-				ApiGatewayManaged:                      integration.ApiGatewayManaged,
-				ConnectionId:                           integration.ConnectionId,
-				ConnectionType:                         integration.ConnectionType,
-				ContentHandlingStrategy:                integration.ContentHandlingStrategy,
-				CredentialsArn:                         integration.CredentialsArn,
-				Description:                            integration.Description,
-				IntegrationId:                          integration.IntegrationId,
-				IntegrationMethod:                      integration.IntegrationMethod,
-				IntegrationResponseSelectionExpression: integration.IntegrationResponseSelectionExpression,
-				IntegrationSubtype:                     integration.IntegrationSubtype,
-				IntegrationType:                        integration.IntegrationType,
-				IntegrationUri:                         integration.IntegrationUri,
-				PassthroughBehavior:                    integration.PassthroughBehavior,
-				PayloadFormatVersion:                   integration.PayloadFormatVersion,
-				RequestParameters:                      integration.RequestParameters,
-				RequestTemplates:                       integration.RequestTemplates,
-				ResponseParameters:                     integration.ResponseParameters,
-				TemplateSelectionExpression:            integration.TemplateSelectionExpression,
-				TimeoutInMillis:                        integration.TimeoutInMillis,
-				TlsConfig:                              integration.TlsConfig,
-			},
-			ApiId: *api.ApiId,
-		},
-	})
-
+	var values []Resource
+	integration := typesv2.Integration{
+		ApiGatewayManaged:                      out.ApiGatewayManaged,
+		ConnectionId:                           out.ConnectionId,
+		ConnectionType:                         out.ConnectionType,
+		ContentHandlingStrategy:                out.ContentHandlingStrategy,
+		CredentialsArn:                         out.CredentialsArn,
+		Description:                            out.Description,
+		IntegrationId:                          out.IntegrationId,
+		IntegrationMethod:                      out.IntegrationMethod,
+		IntegrationResponseSelectionExpression: out.IntegrationResponseSelectionExpression,
+		IntegrationSubtype:                     out.IntegrationSubtype,
+		IntegrationType:                        out.IntegrationType,
+		IntegrationUri:                         out.IntegrationUri,
+		PassthroughBehavior:                    out.PassthroughBehavior,
+		PayloadFormatVersion:                   out.PayloadFormatVersion,
+		RequestParameters:                      out.RequestParameters,
+		RequestTemplates:                       out.RequestTemplates,
+		ResponseParameters:                     out.ResponseParameters,
+		TemplateSelectionExpression:            out.TemplateSelectionExpression,
+		TimeoutInMillis:                        out.TimeoutInMillis,
+		TlsConfig:                              out.TlsConfig,
+	}
+	values = append(values, apiGatewayV2IntegrationHandle(ctx, integration, *api.ApiId))
 	return values, nil
 }

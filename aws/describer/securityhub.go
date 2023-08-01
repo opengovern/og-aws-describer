@@ -2,7 +2,6 @@ package describer
 
 import (
 	"context"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/securityhub"
 	"github.com/aws/aws-sdk-go-v2/service/securityhub/types"
@@ -10,7 +9,6 @@ import (
 )
 
 func SecurityHubHub(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := securityhub.NewFromConfig(cfg)
 	out, err := client.DescribeHub(ctx, &securityhub.DescribeHubInput{})
 	if err != nil {
@@ -22,12 +20,31 @@ func SecurityHubHub(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 
 	var values []Resource
 
+	resource, err := securityHubHubHandle(ctx, cfg, out)
+	if err != nil {
+		return nil, err
+	}
+
+	if stream != nil {
+		if err := (*stream)(resource); err != nil {
+			return nil, err
+		}
+	} else {
+		values = append(values, resource)
+	}
+
+	return values, nil
+}
+func securityHubHubHandle(ctx context.Context, cfg aws.Config, out *securityhub.DescribeHubOutput) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := securityhub.NewFromConfig(cfg)
+
 	tags, err := client.ListTagsForResource(ctx, &securityhub.ListTagsForResourceInput{ResourceArn: out.HubArn})
 	if err != nil {
 		if isErr(err, "InvalidAccessException") {
-			return nil, nil
+			return Resource{}, nil
 		}
-		return nil, err
+		return Resource{}, err
 	}
 
 	resource := Resource{
@@ -39,19 +56,32 @@ func SecurityHubHub(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			Tags: tags.Tags,
 		},
 	}
-	if stream != nil {
-		if err := (*stream)(resource); err != nil {
-			return nil, err
+	return resource, nil
+}
+func GetSecurityHubHub(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	arn := fields["arn"]
+	var values []Resource
+	client := securityhub.NewFromConfig(cfg)
+
+	out, err := client.DescribeHub(ctx, &securityhub.DescribeHubInput{
+		HubArn: &arn,
+	})
+	if err != nil {
+		if isErr(err, "DescribeHubNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
 		}
-	} else {
-		values = append(values, resource)
+		return nil, err
 	}
 
+	resource, err := securityHubHubHandle(ctx, cfg, out)
+	if err != nil {
+		return nil, err
+	}
+	values = append(values, resource)
 	return values, nil
 }
 
 func SecurityHubActionTarget(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := securityhub.NewFromConfig(cfg)
 
 	var values []Resource
@@ -66,14 +96,8 @@ func SecurityHubActionTarget(ctx context.Context, cfg aws.Config, stream *Stream
 		}
 
 		for _, actionTarget := range page.ActionTargets {
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *actionTarget.ActionTargetArn,
-				Name:   *actionTarget.Name,
-				Description: model.SecurityHubActionTargetDescription{
-					ActionTarget: actionTarget,
-				},
-			}
+			resource := securityHubActionTargetHandle(ctx, actionTarget)
+
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -84,6 +108,40 @@ func SecurityHubActionTarget(ctx context.Context, cfg aws.Config, stream *Stream
 		}
 	}
 
+	return values, nil
+}
+func securityHubActionTargetHandle(ctx context.Context, actionTarget types.ActionTarget) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *actionTarget.ActionTargetArn,
+		Name:   *actionTarget.Name,
+		Description: model.SecurityHubActionTargetDescription{
+			ActionTarget: actionTarget,
+		},
+	}
+	return resource
+}
+func GetSecurityHubActionTarget(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	actionTargetArn := fields["arn"]
+	client := securityhub.NewFromConfig(cfg)
+
+	out, err := client.DescribeActionTargets(ctx, &securityhub.DescribeActionTargetsInput{
+		ActionTargetArns: []string{actionTargetArn},
+	})
+	if err != nil {
+		if isErr(err, "DescribeActionTargetsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _, actionTarget := range out.ActionTargets {
+
+		values = append(values, securityHubActionTargetHandle(ctx, actionTarget))
+
+	}
 	return values, nil
 }
 
@@ -125,7 +183,6 @@ func SecurityHubFinding(ctx context.Context, cfg aws.Config, stream *StreamSende
 }
 
 func SecurityHubFindingAggregator(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := securityhub.NewFromConfig(cfg)
 
 	var values []Resource
@@ -140,22 +197,15 @@ func SecurityHubFindingAggregator(ctx context.Context, cfg aws.Config, stream *S
 		}
 
 		for _, findingAggregatorSummary := range page.FindingAggregators {
-			findingAggregator, err := client.GetFindingAggregator(ctx, &securityhub.GetFindingAggregatorInput{
-				FindingAggregatorArn: findingAggregatorSummary.FindingAggregatorArn,
-			})
+			resource, err := securityHubFindingAggregatorHandle(ctx, cfg, *findingAggregatorSummary.FindingAggregatorArn)
 			if err != nil {
-				if isErr(err, "InvalidAccessException") {
-					return nil, nil
-				}
 				return nil, err
 			}
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *findingAggregator.FindingAggregatorArn,
-				Description: model.SecurityHubFindingAggregatorDescription{
-					FindingAggregator: *findingAggregator,
-				},
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				continue
 			}
+
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -168,9 +218,46 @@ func SecurityHubFindingAggregator(ctx context.Context, cfg aws.Config, stream *S
 
 	return values, nil
 }
+func securityHubFindingAggregatorHandle(ctx context.Context, cfg aws.Config, findingAggregatorArn string) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := securityhub.NewFromConfig(cfg)
+
+	findingAggregator, err := client.GetFindingAggregator(ctx, &securityhub.GetFindingAggregatorInput{
+		FindingAggregatorArn: &findingAggregatorArn,
+	})
+	if err != nil {
+		if isErr(err, "InvalidAccessException") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *findingAggregator.FindingAggregatorArn,
+		Description: model.SecurityHubFindingAggregatorDescription{
+			FindingAggregator: *findingAggregator,
+		},
+	}
+	return resource, nil
+}
+func GetSecurityHubFindingAggregator(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	arn := fields["arn"]
+	var values []Resource
+
+	resource, err := securityHubFindingAggregatorHandle(ctx, cfg, arn)
+	if err != nil {
+		return nil, err
+	}
+	emptyResource := Resource{}
+	if err == nil && resource == emptyResource {
+		return nil, nil
+	}
+
+	values = append(values, resource)
+	return values, nil
+}
 
 func SecurityHubInsight(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := securityhub.NewFromConfig(cfg)
 
 	var values []Resource
@@ -185,14 +272,8 @@ func SecurityHubInsight(ctx context.Context, cfg aws.Config, stream *StreamSende
 		}
 
 		for _, insight := range page.Insights {
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *insight.InsightArn,
-				Name:   *insight.Name,
-				Description: model.SecurityHubInsightDescription{
-					Insight: insight,
-				},
-			}
+			resource := securityHubInsightHandle(ctx, insight)
+
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -202,12 +283,43 @@ func SecurityHubInsight(ctx context.Context, cfg aws.Config, stream *StreamSende
 			}
 		}
 	}
+	return values, nil
+}
+func securityHubInsightHandle(ctx context.Context, insight types.Insight) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *insight.InsightArn,
+		Name:   *insight.Name,
+		Description: model.SecurityHubInsightDescription{
+			Insight: insight,
+		},
+	}
+	return resource
+}
+func GetSecurityHubInsight(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	arn := fields["arn"]
+	client := securityhub.NewFromConfig(cfg)
 
+	out, err := client.GetInsights(ctx, &securityhub.GetInsightsInput{
+		InsightArns: []string{arn},
+	})
+	if err != nil {
+		if isErr(err, "GetInsightsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _, insight := range out.Insights {
+		resource := securityHubInsightHandle(ctx, insight)
+		values = append(values, resource)
+	}
 	return values, nil
 }
 
 func SecurityHubMember(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := securityhub.NewFromConfig(cfg)
 
 	var values []Resource
@@ -222,13 +334,7 @@ func SecurityHubMember(ctx context.Context, cfg aws.Config, stream *StreamSender
 		}
 
 		for _, member := range page.Members {
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				Name:   *member.AccountId,
-				Description: model.SecurityHubMemberDescription{
-					Member: member,
-				},
-			}
+			resource := securityHubMemberHandle(ctx, member)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -239,6 +345,38 @@ func SecurityHubMember(ctx context.Context, cfg aws.Config, stream *StreamSender
 		}
 	}
 
+	return values, nil
+}
+func securityHubMemberHandle(ctx context.Context, member types.Member) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		Name:   *member.AccountId,
+		Description: model.SecurityHubMemberDescription{
+			Member: member,
+		},
+	}
+	return resource
+}
+func GetSecurityHubMember(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	accountId := fields["accountId"]
+	client := securityhub.NewFromConfig(cfg)
+
+	out, err := client.GetMembers(ctx, &securityhub.GetMembersInput{
+		AccountIds: []string{accountId},
+	})
+	if err != nil {
+		if isErr(err, "GetMembersNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _, member := range out.Members {
+		resource := securityHubMemberHandle(ctx, member)
+		values = append(values, resource)
+	}
 	return values, nil
 }
 
@@ -280,7 +418,6 @@ func SecurityHubProduct(ctx context.Context, cfg aws.Config, stream *StreamSende
 }
 
 func SecurityHubStandardsControl(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := securityhub.NewFromConfig(cfg)
 
 	var values []Resource
@@ -309,15 +446,7 @@ func SecurityHubStandardsControl(ctx context.Context, cfg aws.Config, stream *St
 				}
 
 				for _, standardsControl := range page.Controls {
-					resource := Resource{
-						Region: describeCtx.KaytuRegion,
-						ID:     *standardsControl.ControlId,
-						Name:   *standardsControl.Title,
-						ARN:    *standardsControl.StandardsControlArn,
-						Description: model.SecurityHubStandardsControlDescription{
-							StandardsControl: standardsControl,
-						},
-					}
+					resource := securityHubStandardsControlHandle(ctx, standardsControl)
 					if stream != nil {
 						if err := (*stream)(resource); err != nil {
 							return nil, err
@@ -331,13 +460,40 @@ func SecurityHubStandardsControl(ctx context.Context, cfg aws.Config, stream *St
 	}
 	return values, nil
 }
+func securityHubStandardsControlHandle(ctx context.Context, standardsControl types.StandardsControl) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ID:     *standardsControl.ControlId,
+		Name:   *standardsControl.Title,
+		ARN:    *standardsControl.StandardsControlArn,
+		Description: model.SecurityHubStandardsControlDescription{
+			StandardsControl: standardsControl,
+		},
+	}
+	return resource
+}
+func GetSecurityHubStandardsControl(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	standardsSubscriptionArn := fields["arn"]
+	client := securityhub.NewFromConfig(cfg)
+	out, err := client.DescribeStandardsControls(ctx, &securityhub.DescribeStandardsControlsInput{
+		StandardsSubscriptionArn: &standardsSubscriptionArn,
+	})
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+	for _, v := range out.Controls {
+		resource := securityHubStandardsControlHandle(ctx, v)
+		values = append(values, resource)
+	}
+	return values, nil
+}
 
 func SecurityHubStandardsSubscription(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := securityhub.NewFromConfig(cfg)
 
 	var values []Resource
-
 	standardsPaginator := securityhub.NewDescribeStandardsPaginator(client, &securityhub.DescribeStandardsInput{})
 	standards := make(map[string]types.Standard)
 	for standardsPaginator.HasMorePages() {
@@ -364,15 +520,7 @@ func SecurityHubStandardsSubscription(ctx context.Context, cfg aws.Config, strea
 		}
 
 		for _, standardSub := range page.StandardsSubscriptions {
-			standard, _ := standards[*standardSub.StandardsArn]
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *standardSub.StandardsSubscriptionArn,
-				Description: model.SecurityHubStandardsSubscriptionDescription{
-					Standard:              standard,
-					StandardsSubscription: standardSub,
-				},
-			}
+			resource := securityHubStandardsSubscriptionHandle(ctx, standardSub, standards)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -383,5 +531,51 @@ func SecurityHubStandardsSubscription(ctx context.Context, cfg aws.Config, strea
 		}
 	}
 
+	return values, nil
+}
+func securityHubStandardsSubscriptionHandle(ctx context.Context, standardSub types.StandardsSubscription, standards map[string]types.Standard) Resource {
+	describeCtx := GetDescribeContext(ctx)
+
+	standard, _ := standards[*standardSub.StandardsArn]
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *standardSub.StandardsSubscriptionArn,
+		Description: model.SecurityHubStandardsSubscriptionDescription{
+			Standard:              standard,
+			StandardsSubscription: standardSub,
+		},
+	}
+	return resource
+}
+func GetSecurityHubStandardsSubscription(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	standardsSubscriptionArn := fields["standardsSubscriptionArn"]
+	client := securityhub.NewFromConfig(cfg)
+
+	var values []Resource
+	standardsPaginator := securityhub.NewDescribeStandardsPaginator(client, &securityhub.DescribeStandardsInput{})
+	standards := make(map[string]types.Standard)
+	for standardsPaginator.HasMorePages() {
+		standardsPage, err := standardsPaginator.NextPage(ctx)
+		if err != nil {
+			if isErr(err, "InvalidAccessException") {
+				return nil, nil
+			}
+			return nil, err
+		}
+		for _, standard := range standardsPage.Standards {
+			standards[*standard.StandardsArn] = standard
+		}
+	}
+	out, err := client.GetEnabledStandards(ctx, &securityhub.GetEnabledStandardsInput{
+		StandardsSubscriptionArns: []string{standardsSubscriptionArn},
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	for _, standardSub := range out.StandardsSubscriptions {
+		resource := securityHubStandardsSubscriptionHandle(ctx, standardSub, standards)
+		values = append(values, resource)
+	}
 	return values, nil
 }

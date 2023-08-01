@@ -9,7 +9,6 @@ import (
 )
 
 func FirehoseDeliveryStream(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := firehose.NewFromConfig(cfg)
 
 	var values []Resource
@@ -23,27 +22,16 @@ func FirehoseDeliveryStream(ctx context.Context, cfg aws.Config, stream *StreamS
 		}
 		for _, deliveryStreamName := range deliveryStreams.DeliveryStreamNames {
 			lastName = &deliveryStreamName
-			deliveryStream, err := client.DescribeDeliveryStream(ctx, &firehose.DescribeDeliveryStreamInput{
-				DeliveryStreamName: &deliveryStreamName,
-			})
+
+			resource, err := FirehoseDeliveryStreamHandle(ctx, cfg, *lastName)
 			if err != nil {
 				return nil, err
 			}
-			tags, err := client.ListTagsForDeliveryStream(ctx, &firehose.ListTagsForDeliveryStreamInput{
-				DeliveryStreamName: &deliveryStreamName,
-			})
-			if err != nil {
-				return nil, err
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				continue
 			}
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *deliveryStream.DeliveryStreamDescription.DeliveryStreamARN,
-				Name:   *deliveryStream.DeliveryStreamDescription.DeliveryStreamName,
-				Description: model.FirehoseDeliveryStreamDescription{
-					DeliveryStream: *deliveryStream.DeliveryStreamDescription,
-					Tags:           tags.Tags,
-				},
-			}
+
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -61,5 +49,56 @@ func FirehoseDeliveryStream(ctx context.Context, cfg aws.Config, stream *StreamS
 		return nil, err
 	}
 
+	return values, nil
+}
+func FirehoseDeliveryStreamHandle(ctx context.Context, cfg aws.Config, deliveryStreamName string) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := firehose.NewFromConfig(cfg)
+
+	deliveryStream, err := client.DescribeDeliveryStream(ctx, &firehose.DescribeDeliveryStreamInput{
+		DeliveryStreamName: &deliveryStreamName,
+	})
+	if err != nil {
+		if isErr(err, "DescribeDeliveryStreamNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	tags, err := client.ListTagsForDeliveryStream(ctx, &firehose.ListTagsForDeliveryStreamInput{
+		DeliveryStreamName: &deliveryStreamName,
+	})
+	if err != nil {
+		if isErr(err, "ListTagsForDeliveryStreamNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *deliveryStream.DeliveryStreamDescription.DeliveryStreamARN,
+		Name:   *deliveryStream.DeliveryStreamDescription.DeliveryStreamName,
+		Description: model.FirehoseDeliveryStreamDescription{
+			DeliveryStream: *deliveryStream.DeliveryStreamDescription,
+			Tags:           tags.Tags,
+		},
+	}
+	return resource, nil
+}
+func GetFirehoseDeliveryStream(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	deliveryStreamName := fields["name"]
+	var values []Resource
+
+	resource, err := FirehoseDeliveryStreamHandle(ctx, cfg, deliveryStreamName)
+	if err != nil {
+		return nil, err
+	}
+	emptyResource := Resource{}
+	if err == nil && resource == emptyResource {
+		return nil, nil
+	}
+
+	values = append(values, resource)
 	return values, nil
 }

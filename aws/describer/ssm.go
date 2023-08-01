@@ -3,9 +3,8 @@ package describer
 import (
 	"context"
 	"errors"
-	"strings"
-
 	"github.com/aws/smithy-go"
+	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ssm"
@@ -427,7 +426,7 @@ func SSMParameter(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 			if err != nil {
 				var ae smithy.APIError
 				if errors.As(err, &ae) {
-					// In case the KMS key encrypting the SSM Parameter value is disabled, below error is thrown
+					// In case the KMS key encrypting the SSM Parameter values is disabled, below error is thrown
 					// operation error SSM: GetParameter, https response error StatusCode: 400, RequestID: 0965014b-77ab-4847-98d4-2b9e09a68385, InvalidKeyId: arn:aws:kms:us-east-1:111122223333:key/1a2b3c4d-f6b4-4c5b-97e7-123456ab210c is disabled. (Service: AWSKMS; Status Code: 400; Error Code: DisabledException; Request ID: 7b6ae355-c99a-4cad-b2c3-4b40c0abdda9; Proxy: null)
 					if ae.ErrorCode() == "InvalidKeyId" {
 						op = &ssm.GetParameterOutput{}

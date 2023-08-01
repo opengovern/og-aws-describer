@@ -246,6 +246,7 @@ type ApiGatewayV2IntegrationDescription struct {
 //getfilter:environment_name=description.EnvironmentDescription.EnvironmentName
 type ElasticBeanstalkEnvironmentDescription struct {
 	EnvironmentDescription elasticbeanstalk.EnvironmentDescription
+	ManagedAction          []elasticbeanstalk.ManagedAction
 	Tags                   []elasticbeanstalk.Tag
 }
 
@@ -594,7 +595,7 @@ type CloudWatchMetricDescription struct {
 	Metric cloudwatch.Metric
 }
 
-//index:aws_logs_loggroup
+//index:aws_cloudwatch_loggroup
 //getfilter:name=description.LogGroup.LogGroupName
 //listfilter:name=description.LogGroup.LogGroupName
 type CloudWatchLogsLogGroupDescription struct {
@@ -1408,7 +1409,8 @@ type IAMAccountSummaryDescription struct {
 
 //index:aws_iam_accesskey
 type IAMAccessKeyDescription struct {
-	AccessKey iam.AccessKeyMetadata
+	AccessKey         iam.AccessKeyMetadata
+	AccessKeyLastUsed iam.AccessKeyLastUsed
 }
 
 //index:aws_iam_accountpasswordpolicy
@@ -1427,6 +1429,7 @@ type InlinePolicy struct {
 type IAMUserDescription struct {
 	User               iam.User
 	Groups             []iam.Group
+	LoginProfile       iam.LoginProfile
 	InlinePolicies     []InlinePolicy
 	AttachedPolicyArns []string
 	MFADevices         []iam.MFADevice
@@ -1593,7 +1596,8 @@ type RDSDBEventSubscriptionDescription struct {
 //index:aws_rds_dbinstance
 //getfilter:db_instance_identifier=description.DBInstance.DBInstanceIdentifier
 type RDSDBInstanceDescription struct {
-	DBInstance rds.DBInstance
+	DBInstance         rds.DBInstance
+	PendingMaintenance rds.ResourcePendingMaintenanceActions
 }
 
 //index:aws_rds_dbsnapshot
@@ -1713,6 +1717,7 @@ type S3BucketDescription struct {
 		Grants []s3.Grant
 		Owner  *s3.Owner
 	}
+	BucketNotification             []s3.QueueConfiguration
 	Policy                         *string
 	PolicyStatus                   *s3.PolicyStatus
 	PublicAccessBlockConfiguration *s3.PublicAccessBlockConfiguration
@@ -1968,6 +1973,7 @@ type ECSServiceDescription struct {
 //index:aws_ecs_containerinstance
 type ECSContainerInstanceDescription struct {
 	ContainerInstance ecs.ContainerInstance
+	Cluster           ecs.Cluster
 }
 
 //index:aws_ecs_taskset
@@ -2128,8 +2134,13 @@ type KMSAliasDescription struct {
 //index:aws_lambda_function
 //getfilter:name=description.Function.Configuration.FunctionName
 type LambdaFunctionDescription struct {
-	Function *lambdaop.GetFunctionOutput
-	Policy   *lambdaop.GetPolicyOutput
+	Function          *lambdaop.GetFunctionOutput
+	SnapStart         lambda.SnapStartResponse
+	UrlConfig         lambda.FunctionUrlConfig
+	FileSystemConfigs []lambda.FileSystemConfig
+	Environment       lambda.EnvironmentResponse
+	TracingConfig     lambda.TracingConfigResponse
+	Policy            *lambdaop.GetPolicyOutput
 }
 
 //index:aws_lambda_functionversion
@@ -2275,6 +2286,7 @@ type ECRRepositoryDescription struct {
 //listfilter:registry_id=description.Image.RegistryId
 type ECRImageDescription struct {
 	Image                        ecr.ImageDetail
+	Repository                   ecr.Repository
 	ImageDigest                  *string
 	ImageScanFinding             ecr.ImageScanFinding
 	ImageScanStatus              ecr.ImageScanStatus
@@ -2507,6 +2519,8 @@ type SESIdentityDescription struct {
 	Identity               string
 	VerificationAttributes ses.IdentityVerificationAttributes
 	NotificationAttributes ses.IdentityNotificationAttributes
+	DkimAttributes         map[string]ses.IdentityDkimAttributes
+	IdentityMail           map[string]ses.IdentityMailFromDomainAttributes
 	Tags                   []types.Tag
 	ARN                    string
 }
@@ -2551,8 +2565,11 @@ type CodePipelinePipelineDescription struct {
 //index:aws_directoryservice_directory
 //getfilter:name=description.Directory.DirectoryId
 type DirectoryServiceDirectoryDescription struct {
-	Directory directoryservice.DirectoryDescription
-	Tags      []directoryservice.Tag
+	Directory       directoryservice.DirectoryDescription
+	Snapshot        directoryservice.SnapshotLimits
+	EventTopic      directoryservice.EventTopic
+	SharedDirectory []directoryservice.SharedDirectory
+	Tags            []directoryservice.Tag
 }
 
 //  ===================  SSOAdmin  ===================
@@ -2725,8 +2742,10 @@ type BatchJobQueueDescription struct {
 //index:aws_codeartifact_repository
 //getfilter:name=description.Repository.Name
 type CodeArtifactRepositoryDescription struct {
-	Repository codeartifact.RepositorySummary
-	Tags       []codeartifact.Tag
+	Repository  codeartifact.RepositorySummary
+	Policy      codeartifact.ResourcePolicy
+	Description codeartifact.RepositoryDescription
+	Tags        []codeartifact.Tag
 }
 
 //index:aws_codeartifact_domain
@@ -2821,7 +2840,8 @@ type FMSPolicyDescription struct {
 //index:aws_networkfirewall_firewall
 //getfilter:firewall_name=description.Firewall.FirewallName
 type NetworkFirewallFirewallDescription struct {
-	Firewall networkfirewall.Firewall
+	Firewall       networkfirewall.Firewall
+	FirewallStatus networkfirewall.FirewallStatus
 }
 
 //index:aws_networkfirewall_firewallpolicy

@@ -11,7 +11,6 @@ import (
 )
 
 func StorageGatewayStorageGateway(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := storagegateway.NewFromConfig(cfg)
 	paginator := storagegateway.NewListGatewaysPaginator(client, &storagegateway.ListGatewaysInput{})
 
@@ -23,22 +22,11 @@ func StorageGatewayStorageGateway(ctx context.Context, cfg aws.Config, stream *S
 		}
 
 		for _, v := range page.Gateways {
-			tags, err := client.ListTagsForResource(ctx, &storagegateway.ListTagsForResourceInput{
-				ResourceARN: v.GatewayARN,
-			})
+			resource, err := storageGatewayStorageGatewayHandle(ctx, cfg, *v.GatewayARN, *v.GatewayId, v)
 			if err != nil {
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.GatewayARN,
-				Name:   *v.GatewayId,
-				Description: model.StorageGatewayStorageGatewayDescription{
-					StorageGateway: v,
-					Tags:           tags.Tags,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -51,51 +39,55 @@ func StorageGatewayStorageGateway(ctx context.Context, cfg aws.Config, stream *S
 
 	return values, nil
 }
-
-func GetStorageGatewayStorageGateway(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+func storageGatewayStorageGatewayHandle(ctx context.Context, cfg aws.Config, gatewayARN string, gatewayId string, v types.GatewayInfo) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := storagegateway.NewFromConfig(cfg)
-	out, err := client.DescribeGatewayInformation(ctx, &storagegateway.DescribeGatewayInformationInput{
-		GatewayARN: nil,
-	})
-	if err != nil {
-		return nil, err
-	}
-
-	var values []Resource
 	tags, err := client.ListTagsForResource(ctx, &storagegateway.ListTagsForResourceInput{
-		ResourceARN: out.GatewayARN,
+		ResourceARN: &gatewayARN,
 	})
 	if err != nil {
-		return nil, err
+		return Resource{}, err
 	}
 
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
-		ARN:    *out.GatewayARN,
-		Name:   *out.GatewayId,
+		ARN:    gatewayARN,
+		Name:   gatewayId,
 		Description: model.StorageGatewayStorageGatewayDescription{
-			StorageGateway: types.GatewayInfo{
-				Ec2InstanceId:     out.Ec2InstanceId,
-				Ec2InstanceRegion: out.Ec2InstanceRegion,
-				GatewayARN:        out.GatewayARN,
-				GatewayId:         out.GatewayId,
-				GatewayName:       out.GatewayName,
-				//GatewayOperationalState: out.GatewayOperationalState, //TODO-Saleh
-				GatewayType:       out.GatewayType,
-				HostEnvironment:   out.HostEnvironment,
-				HostEnvironmentId: out.HostEnvironmentId,
-			},
-			Tags: tags.Tags,
+			StorageGateway: v,
+			Tags:           tags.Tags,
 		},
 	}
-	if stream != nil {
-		if err := (*stream)(resource); err != nil {
-			return nil, err
-		}
-	} else {
-		values = append(values, resource)
+	return resource, nil
+}
+func GetStorageGatewayStorageGateway(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	gatewayArn := fields["arn"]
+	client := storagegateway.NewFromConfig(cfg)
+	out, err := client.DescribeGatewayInformation(ctx, &storagegateway.DescribeGatewayInformationInput{
+		GatewayARN: &gatewayArn,
+	})
+	if err != nil {
+		return nil, err
 	}
 
+	storageGateway := types.GatewayInfo{
+		Ec2InstanceId:     out.Ec2InstanceId,
+		Ec2InstanceRegion: out.Ec2InstanceRegion,
+		GatewayARN:        out.GatewayARN,
+		GatewayId:         out.GatewayId,
+		GatewayName:       out.GatewayName,
+		//GatewayOperationalState: out.GatewayOperationalState, //TODO-Saleh
+		GatewayType:       out.GatewayType,
+		HostEnvironment:   out.HostEnvironment,
+		HostEnvironmentId: out.HostEnvironmentId,
+	}
+
+	var values []Resource
+	resource, err := storageGatewayStorageGatewayHandle(ctx, cfg, *out.GatewayARN, *out.GatewayId, storageGateway)
+	if err != nil {
+		return nil, err
+	}
+
+	values = append(values, resource)
 	return values, nil
 }

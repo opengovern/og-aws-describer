@@ -37,14 +37,46 @@ func DirectoryServiceDirectory(ctx context.Context, cfg aws.Config, stream *Stre
 				}
 				tags = &directoryservice.ListTagsForResourceOutput{}
 			}
+			sharedDirectory, err := client.DescribeSharedDirectories(ctx, &directoryservice.DescribeSharedDirectoriesInput{
+				OwnerDirectoryId: v.DirectoryId,
+			})
+			if err != nil {
+				if isErr(err, "DescribeSharedDirectoriesNotFound") || isErr(err, "InvalidParameterValue") {
+					return nil, nil
+				}
+				return nil, err
+			}
+
+			snapshot, err := client.GetSnapshotLimits(ctx, &directoryservice.GetSnapshotLimitsInput{
+				DirectoryId: v.DirectoryId,
+			})
+			if err != nil {
+				if isErr(err, "GetSnapshotLimitsNotFound") || isErr(err, "InvalidParameterValue") {
+					return nil, nil
+				}
+				return nil, err
+			}
+
+			eventTopic, err := client.DescribeEventTopics(ctx, &directoryservice.DescribeEventTopicsInput{
+				DirectoryId: v.DirectoryId,
+			})
+			if err != nil {
+				if isErr(err, "DescribeEventTopicsNotFound") || isErr(err, "InvalidParameterValue") {
+					return nil, nil
+				}
+				return nil, err
+			}
 
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *v.Name,
 				Description: model.DirectoryServiceDirectoryDescription{
-					Directory: v,
-					Tags:      tags.Tags,
+					Directory:       v,
+					Snapshot:        *snapshot.SnapshotLimits,
+					EventTopic:      *eventTopic.EventTopics,
+					SharedDirectory: sharedDirectory.SharedDirectories,
+					Tags:            tags.Tags,
 				},
 			}
 			if stream != nil {

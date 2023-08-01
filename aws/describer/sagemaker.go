@@ -2,7 +2,6 @@ package describer
 
 import (
 	"context"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/sagemaker"
 	"github.com/aws/aws-sdk-go-v2/service/sagemaker/types"
@@ -10,7 +9,6 @@ import (
 )
 
 func SageMakerEndpointConfiguration(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := sagemaker.NewFromConfig(cfg)
 	paginator := sagemaker.NewListEndpointConfigsPaginator(client, &sagemaker.ListEndpointConfigsInput{})
 
@@ -22,29 +20,26 @@ func SageMakerEndpointConfiguration(ctx context.Context, cfg aws.Config, stream 
 		}
 
 		for _, item := range page.EndpointConfigs {
+
 			out, err := client.DescribeEndpointConfig(ctx, &sagemaker.DescribeEndpointConfigInput{
 				EndpointConfigName: item.EndpointConfigName,
 			})
 			if err != nil {
+				if isErr(err, "DescribeEndpointConfigNotFound") || isErr(err, "InvalidParameterValue") {
+					return nil, nil
+				}
 				return nil, err
 			}
 
-			tags, err := client.ListTags(ctx, &sagemaker.ListTagsInput{
-				ResourceArn: item.EndpointConfigArn,
-			})
+			resource, err := sageMakerEndpointConfigurationHandle(ctx, cfg, item.EndpointConfigArn, out)
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *out.EndpointConfigArn,
-				Name:   *out.EndpointConfigName,
-				Description: model.SageMakerEndpointConfigurationDescription{
-					EndpointConfig: out,
-					Tags:           tags.Tags,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -54,6 +49,57 @@ func SageMakerEndpointConfiguration(ctx context.Context, cfg aws.Config, stream 
 			}
 		}
 	}
+	return values, nil
+}
+func sageMakerEndpointConfigurationHandle(ctx context.Context, cfg aws.Config, endpointConfigArn *string, out *sagemaker.DescribeEndpointConfigOutput) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := sagemaker.NewFromConfig(cfg)
+
+	tags, err := client.ListTags(ctx, &sagemaker.ListTagsInput{
+		ResourceArn: endpointConfigArn,
+	})
+	if err != nil {
+		if isErr(err, "ListTagsNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *out.EndpointConfigArn,
+		Name:   *out.EndpointConfigName,
+		Description: model.SageMakerEndpointConfigurationDescription{
+			EndpointConfig: out,
+			Tags:           tags.Tags,
+		},
+	}
+	return resource, nil
+}
+func GetMakerEndpointConfigurationHandle(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	endpointConfigName := fields["name"]
+	var values []Resource
+	client := sagemaker.NewFromConfig(cfg)
+	out, err := client.DescribeEndpointConfig(ctx, &sagemaker.DescribeEndpointConfigInput{
+		EndpointConfigName: &endpointConfigName,
+	})
+	if err != nil {
+		if isErr(err, "DescribeEndpointConfigNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	resource, err := sageMakerEndpointConfigurationHandle(ctx, cfg, out.EndpointConfigArn, out)
+	emptyResource := Resource{}
+	if err == nil && resource == emptyResource {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	values = append(values, resource)
 	return values, nil
 }
 
@@ -178,7 +224,6 @@ func SageMakerDomain(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 }
 
 func SageMakerNotebookInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := sagemaker.NewFromConfig(cfg)
 	paginator := sagemaker.NewListNotebookInstancesPaginator(client, &sagemaker.ListNotebookInstancesInput{})
 
@@ -194,25 +239,21 @@ func SageMakerNotebookInstance(ctx context.Context, cfg aws.Config, stream *Stre
 				NotebookInstanceName: item.NotebookInstanceName,
 			})
 			if err != nil {
+				if isErr(err, "DescribeNotebookInstanceNotFound") || isErr(err, "InvalidParameterValue") {
+					return nil, nil
+				}
 				return nil, err
 			}
 
-			tags, err := client.ListTags(ctx, &sagemaker.ListTagsInput{
-				ResourceArn: out.NotebookInstanceArn,
-			})
+			resource, err := sageMakerNotebookInstanceHandle(ctx, cfg, out)
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *out.NotebookInstanceArn,
-				Name:   *out.NotebookInstanceName,
-				Description: model.SageMakerNotebookInstanceDescription{
-					NotebookInstance: out,
-					Tags:             tags.Tags,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -225,9 +266,60 @@ func SageMakerNotebookInstance(ctx context.Context, cfg aws.Config, stream *Stre
 
 	return values, nil
 }
+func sageMakerNotebookInstanceHandle(ctx context.Context, cfg aws.Config, out *sagemaker.DescribeNotebookInstanceOutput) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := sagemaker.NewFromConfig(cfg)
+
+	tags, err := client.ListTags(ctx, &sagemaker.ListTagsInput{
+		ResourceArn: out.NotebookInstanceArn,
+	})
+	if err != nil {
+		if isErr(err, "ListTagsNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *out.NotebookInstanceArn,
+		Name:   *out.NotebookInstanceName,
+		Description: model.SageMakerNotebookInstanceDescription{
+			NotebookInstance: out,
+			Tags:             tags.Tags,
+		},
+	}
+	return resource, nil
+}
+func GetSageMakerNotebookInstance(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	describeNetbookInstanceName := fields["name"]
+	var values []Resource
+
+	client := sagemaker.NewFromConfig(cfg)
+	out, err := client.DescribeNotebookInstance(ctx, &sagemaker.DescribeNotebookInstanceInput{
+		NotebookInstanceName: &describeNetbookInstanceName,
+	})
+	if err != nil {
+		if isErr(err, "DescribeNotebookInstanceNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	resource, err := sageMakerNotebookInstanceHandle(ctx, cfg, out)
+	emptyResource := Resource{}
+	if err == nil && resource == emptyResource {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	values = append(values, resource)
+	return values, nil
+}
 
 func SageMakerModel(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := sagemaker.NewFromConfig(cfg)
 
 	var values []Resource
@@ -245,23 +337,7 @@ func SageMakerModel(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			if err != nil {
 				return nil, err
 			}
-
-			tags, err := client.ListTags(ctx, &sagemaker.ListTagsInput{
-				ResourceArn: sageModel.ModelArn,
-			})
-			if err != nil {
-				tags = &sagemaker.ListTagsOutput{}
-			}
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *sageModel.ModelArn,
-				Name:   *sageModel.ModelName,
-				Description: model.SageMakerModelDescription{
-					Model: sageModel,
-					Tags:  tags.Tags,
-				},
-			}
+			resource := sageMakerModelHandle(ctx, cfg, sageModel)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -271,6 +347,46 @@ func SageMakerModel(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			}
 		}
 	}
+	return values, nil
+}
+func sageMakerModelHandle(ctx context.Context, cfg aws.Config, sageModel *sagemaker.DescribeModelOutput) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	client := sagemaker.NewFromConfig(cfg)
+
+	tags, err := client.ListTags(ctx, &sagemaker.ListTagsInput{
+		ResourceArn: sageModel.ModelArn,
+	})
+	if err != nil {
+		tags = &sagemaker.ListTagsOutput{}
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *sageModel.ModelArn,
+		Name:   *sageModel.ModelName,
+		Description: model.SageMakerModelDescription{
+			Model: sageModel,
+			Tags:  tags.Tags,
+		},
+	}
+	return resource
+}
+func GetSageMakerModel(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	modelName := fields["name"]
+	var values []Resource
+
+	client := sagemaker.NewFromConfig(cfg)
+	out, err := client.DescribeModel(ctx, &sagemaker.DescribeModelInput{
+		ModelName: &modelName,
+	})
+	if err != nil {
+		if isErr(err, "DescribeModelNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	values = append(values, sageMakerModelHandle(ctx, cfg, out))
 	return values, nil
 }
 

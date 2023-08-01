@@ -3,6 +3,7 @@ package describer
 import (
 	"context"
 	"fmt"
+	_ "github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -12,7 +13,6 @@ import (
 )
 
 func DynamoDbTable(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := dynamodb.NewFromConfig(cfg)
 	paginator := dynamodb.NewListTablesPaginator(client, &dynamodb.ListTablesInput{})
 
@@ -26,37 +26,15 @@ func DynamoDbTable(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 		for _, table := range page.TableNames {
 			// This prevents Implicit memory aliasing in for loop
 			table := table
-			v, err := client.DescribeTable(ctx, &dynamodb.DescribeTableInput{
-				TableName: &table,
-			})
+			resource, err := DynamoDbTableHandle(ctx, cfg, table)
 			if err != nil {
 				return nil, err
 			}
-
-			continuousBackup, err := client.DescribeContinuousBackups(ctx, &dynamodb.DescribeContinuousBackupsInput{
-				TableName: &table,
-			})
-			if err != nil {
-				return nil, err
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				continue
 			}
 
-			tags, err := client.ListTagsOfResource(ctx, &dynamodb.ListTagsOfResourceInput{
-				ResourceArn: v.Table.TableArn,
-			})
-			if err != nil {
-				return nil, err
-			}
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.Table.TableArn,
-				Name:   *v.Table.TableName,
-				Description: model.DynamoDbTableDescription{
-					Table:            v.Table,
-					ContinuousBackup: continuousBackup.ContinuousBackupsDescription,
-					Tags:             tags.Tags,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -67,6 +45,66 @@ func DynamoDbTable(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 		}
 	}
 
+	return values, nil
+}
+func DynamoDbTableHandle(ctx context.Context, cfg aws.Config, tableName string) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := dynamodb.NewFromConfig(cfg)
+	v, err := client.DescribeTable(ctx, &dynamodb.DescribeTableInput{
+		TableName: &tableName,
+	})
+	if err != nil {
+		if isErr(err, "ListTagsOfResourceNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	continuousBackup, err := client.DescribeContinuousBackups(ctx, &dynamodb.DescribeContinuousBackupsInput{
+		TableName: &tableName,
+	})
+	if err != nil {
+		if isErr(err, "ListTagsOfResourceNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	tags, err := client.ListTagsOfResource(ctx, &dynamodb.ListTagsOfResourceInput{
+		ResourceArn: v.Table.TableArn,
+	})
+	if err != nil {
+		if isErr(err, "ListTagsOfResourceNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.Table.TableArn,
+		Name:   *v.Table.TableName,
+		Description: model.DynamoDbTableDescription{
+			Table:            v.Table,
+			ContinuousBackup: continuousBackup.ContinuousBackupsDescription,
+			Tags:             tags.Tags,
+		},
+	}
+
+	return resource, nil
+}
+func GetDynamoDbTable(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	tableName := fields["tableName"]
+	var values []Resource
+	resource, err := DynamoDbTableHandle(ctx, cfg, tableName)
+	if err != nil {
+		return nil, err
+	}
+	emptyResource := Resource{}
+	if err == nil && resource == emptyResource {
+		return nil, nil
+	}
+	values = append(values, resource)
 	return values, nil
 }
 
@@ -114,7 +152,6 @@ func DynamoDbGlobalSecondaryIndex(ctx context.Context, cfg aws.Config, stream *S
 
 	return values, nil
 }
-
 func GetDynamoDbGlobalSecondaryIndex(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	tableName := fields["name"]
@@ -280,7 +317,6 @@ func DynamoDbBackUp(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 }
 
 func DynamoDbGlobalTable(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := dynamodb.NewFromConfig(cfg)
 
 	var values []Resource
@@ -301,23 +337,15 @@ func DynamoDbGlobalTable(ctx context.Context, cfg aws.Config, stream *StreamSend
 		}
 
 		for _, table := range globalTables.GlobalTables {
-			globalTable, err := client.DescribeGlobalTable(ctx, &dynamodb.DescribeGlobalTableInput{
-				GlobalTableName: table.GlobalTableName,
-			})
+			resource, err := DynamoDbGlobalTableHandle(ctx, cfg, *table.GlobalTableName)
 			if err != nil {
-				if isErr(err, "ResourceNotFoundException") {
-					continue
-				}
 				return nil, err
 			}
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *globalTable.GlobalTableDescription.GlobalTableArn,
-				Name:   *globalTable.GlobalTableDescription.GlobalTableName,
-				Description: model.DynamoDbGlobalTableDescription{
-					GlobalTable: *globalTable.GlobalTableDescription,
-				},
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				continue
 			}
+
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -333,6 +361,46 @@ func DynamoDbGlobalTable(ctx context.Context, cfg aws.Config, stream *StreamSend
 		last = globalTables.LastEvaluatedGlobalTableName
 	}
 
+	return values, nil
+}
+func DynamoDbGlobalTableHandle(ctx context.Context, cfg aws.Config, tableName string) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := dynamodb.NewFromConfig(cfg)
+
+	globalTable, err := client.DescribeGlobalTable(ctx, &dynamodb.DescribeGlobalTableInput{
+		GlobalTableName: &tableName,
+	})
+	if err != nil {
+		if isErr(err, "ResourceNotFoundException") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *globalTable.GlobalTableDescription.GlobalTableArn,
+		Name:   *globalTable.GlobalTableDescription.GlobalTableName,
+		Description: model.DynamoDbGlobalTableDescription{
+			GlobalTable: *globalTable.GlobalTableDescription,
+		},
+	}
+	return resource, nil
+}
+func GetDynamoDbGlobalTable(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	var values []Resource
+	globalTableName := fields["globalTableName"]
+
+	resource, err := DynamoDbGlobalTableHandle(ctx, cfg, globalTableName)
+	if err != nil {
+		return nil, err
+	}
+	emptyResource := Resource{}
+	if err == nil && resource == emptyResource {
+		return nil, nil
+	}
+
+	values = append(values, resource)
 	return values, nil
 }
 

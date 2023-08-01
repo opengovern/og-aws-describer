@@ -4,18 +4,18 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/aws/smithy-go"
 	"log"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/lambda"
 	"github.com/aws/aws-sdk-go-v2/service/lambda/types"
 	"github.com/aws/aws-sdk-go/aws/awserr"
-	"github.com/aws/smithy-go"
+	_ "github.com/aws/smithy-go"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 )
 
 func LambdaFunction(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := lambda.NewFromConfig(cfg)
 	paginator := lambda.NewListFunctionsPaginator(client, &lambda.ListFunctionsInput{
 		FunctionVersion: types.FunctionVersionAll,
@@ -29,72 +29,44 @@ func LambdaFunction(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 		}
 
 		for _, v := range page.Functions {
-			policy, err := client.GetPolicy(ctx, &lambda.GetPolicyInput{
+
+			listUrlConfig, err := client.ListFunctionUrlConfigs(ctx, &lambda.ListFunctionUrlConfigsInput{
 				FunctionName: v.FunctionName,
 			})
 			if err != nil {
-				var ae smithy.APIError
-				if errors.As(err, &ae) && ae.ErrorCode() == "ResourceNotFoundException" {
-					policy = &lambda.GetPolicyOutput{}
-					err = nil
+				if isErr(err, "ListFunctionUrlConfigsNotFound") || isErr(err, "InvalidParameterValue") {
+					return nil, nil
 				}
-
-				if awsErr, ok := err.(awserr.Error); ok {
-					log.Println("Describe Lambda Error:", awsErr.Code(), awsErr.Message())
-					if awsErr.Code() == "ResourceNotFoundException" {
-						policy = &lambda.GetPolicyOutput{}
-						err = nil
-					}
-				}
-
-				if err != nil {
-					return nil, err
-				}
-			}
-
-			function, err := client.GetFunction(ctx, &lambda.GetFunctionInput{
-				FunctionName: v.FunctionName,
-			})
-			if err != nil {
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.FunctionArn,
-				Name:   *v.FunctionName,
-				Description: model.LambdaFunctionDescription{
-					Function: function,
-					Policy:   policy,
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+			for _, l := range listUrlConfig.FunctionUrlConfigs {
+				resource, err := lambdaFunctionHandle(ctx, cfg, v, l)
+				if err != nil {
 					return nil, err
 				}
-			} else {
-				values = append(values, resource)
+				emptyResource := Resource{}
+				if err == nil && resource == emptyResource {
+					return nil, nil
+				}
+
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
 			}
 		}
 	}
 
 	return values, nil
 }
-
-func GetLambdaFunction(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+func lambdaFunctionHandle(ctx context.Context, cfg aws.Config, v types.FunctionConfiguration, l types.FunctionUrlConfig) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
-	functionName := fields["name"]
 	client := lambda.NewFromConfig(cfg)
-	out, err := client.GetFunction(ctx, &lambda.GetFunctionInput{
-		FunctionName: &functionName,
-		Qualifier:    nil,
-	})
-	if err != nil {
-		return nil, err
-	}
-	v := out.Configuration
 
-	var values []Resource
 	policy, err := client.GetPolicy(ctx, &lambda.GetPolicyInput{
 		FunctionName: v.FunctionName,
 	})
@@ -114,7 +86,7 @@ func GetLambdaFunction(ctx context.Context, cfg aws.Config, fields map[string]st
 		}
 
 		if err != nil {
-			return nil, err
+			return Resource{}, err
 		}
 	}
 
@@ -122,18 +94,59 @@ func GetLambdaFunction(ctx context.Context, cfg aws.Config, fields map[string]st
 		FunctionName: v.FunctionName,
 	})
 	if err != nil {
-		return nil, err
+		return Resource{}, err
 	}
 
-	values = append(values, Resource{
+	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *v.FunctionArn,
 		Name:   *v.FunctionName,
 		Description: model.LambdaFunctionDescription{
-			Function: function,
-			Policy:   policy,
+			Function:          function,
+			TracingConfig:     *v.TracingConfig,
+			SnapStart:         *v.SnapStart,
+			FileSystemConfigs: v.FileSystemConfigs,
+			Environment:       *v.Environment,
+			UrlConfig:         l,
+			Policy:            policy,
 		},
+	}
+	return resource, nil
+}
+func GetLambdaFunction(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	functionName := fields["name"]
+	client := lambda.NewFromConfig(cfg)
+	out, err := client.GetFunction(ctx, &lambda.GetFunctionInput{
+		FunctionName: &functionName,
+		Qualifier:    nil,
 	})
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+
+	listUrlConfig, err := client.ListFunctionUrlConfigs(ctx, &lambda.ListFunctionUrlConfigsInput{
+		FunctionName: out.Configuration.FunctionName,
+	})
+	if err != nil {
+		if isErr(err, "ListFunctionUrlConfigsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	for _, l := range listUrlConfig.FunctionUrlConfigs {
+		resource, err := lambdaFunctionHandle(ctx, cfg, *out.Configuration, l)
+		if err != nil {
+			return nil, err
+		}
+		emptyResource := Resource{}
+		if err == nil && resource == emptyResource {
+			return nil, nil
+		}
+		values = append(values, resource)
+	}
 
 	return values, nil
 }
@@ -188,7 +201,6 @@ func LambdaFunctionVersion(ctx context.Context, cfg aws.Config, stream *StreamSe
 }
 
 func LambdaAlias(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	fns, err := LambdaFunction(ctx, cfg, nil)
 	if err != nil {
 		return nil, err
@@ -214,41 +226,11 @@ func LambdaAlias(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 			}
 
 			for _, v := range page.Aliases {
-				policy, err := client.GetPolicy(ctx, &lambda.GetPolicyInput{
-					FunctionName: fn.FunctionName,
-					Qualifier:    v.Name,
-				})
+				resource, err := LambdaAliasHandle(ctx, cfg, v, fn)
 				if err != nil {
-					if isErr(err, "ResourceNotFoundException") {
-						policy = &lambda.GetPolicyOutput{}
-					} else {
-						return nil, err
-					}
+					return nil, err
 				}
 
-				urlConfig, err := client.GetFunctionUrlConfig(ctx, &lambda.GetFunctionUrlConfigInput{
-					FunctionName: fn.FunctionName,
-					Qualifier:    v.Name,
-				})
-				if err != nil {
-					if isErr(err, "ResourceNotFoundException") {
-						urlConfig = &lambda.GetFunctionUrlConfigOutput{}
-					} else {
-						return nil, err
-					}
-				}
-
-				resource := Resource{
-					Region: describeCtx.Region,
-					ARN:    *v.AliasArn,
-					Name:   *v.Name,
-					Description: model.LambdaAliasDescription{
-						FunctionName: *fn.FunctionName,
-						Alias:        v,
-						Policy:       policy,
-						UrlConfig:    *urlConfig,
-					},
-				}
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -259,7 +241,84 @@ func LambdaAlias(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 			}
 		}
 	}
+	return values, nil
+}
+func LambdaAliasHandle(ctx context.Context, cfg aws.Config, v types.AliasConfiguration, fn *types.FunctionConfiguration) (Resource, error) {
+	client := lambda.NewFromConfig(cfg)
+	describeCtx := GetDescribeContext(ctx)
 
+	policy, err := client.GetPolicy(ctx, &lambda.GetPolicyInput{
+		FunctionName: fn.FunctionName,
+		Qualifier:    v.Name,
+	})
+	if err != nil {
+		if isErr(err, "ResourceNotFoundException") {
+			policy = &lambda.GetPolicyOutput{}
+		} else {
+			return Resource{}, err
+		}
+	}
+
+	urlConfig, err := client.GetFunctionUrlConfig(ctx, &lambda.GetFunctionUrlConfigInput{
+		FunctionName: fn.FunctionName,
+		Qualifier:    v.Name,
+	})
+	if err != nil {
+		if isErr(err, "ResourceNotFoundException") {
+			urlConfig = &lambda.GetFunctionUrlConfigOutput{}
+		} else {
+			return Resource{}, err
+		}
+	}
+
+	resource := Resource{
+		Region: describeCtx.Region,
+		ARN:    *v.AliasArn,
+		Name:   *v.Name,
+		Description: model.LambdaAliasDescription{
+			FunctionName: *fn.FunctionName,
+			Alias:        v,
+			Policy:       policy,
+			UrlConfig:    *urlConfig,
+		},
+	}
+	return resource, nil
+}
+func GetLambdaAlias(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	name := fields["aliasName"]
+	client := lambda.NewFromConfig(cfg)
+
+	fns, err := client.ListFunctions(ctx, &lambda.ListFunctionsInput{})
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for _, fn := range fns.Functions {
+
+		out, err := client.GetAlias(ctx, &lambda.GetAliasInput{
+			Name:         &name,
+			FunctionName: fn.FunctionName,
+		})
+		if err != nil {
+			return nil, err
+		}
+
+		alias := types.AliasConfiguration{
+			AliasArn:        out.AliasArn,
+			Name:            out.Name,
+			Description:     out.Description,
+			FunctionVersion: out.FunctionVersion,
+			RevisionId:      out.RevisionId,
+			RoutingConfig:   out.RoutingConfig,
+		}
+		resource, err := LambdaAliasHandle(ctx, cfg, alias, &fn)
+		if err != nil {
+			return nil, err
+		}
+
+		values = append(values, resource)
+	}
 	return values, nil
 }
 
@@ -414,7 +473,6 @@ func LambdaEventSourceMapping(ctx context.Context, cfg aws.Config, stream *Strea
 }
 
 func LambdaLayerVersion(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	layers, err := listLayers(ctx, cfg)
 	if err != nil {
 		return nil, err
@@ -435,36 +493,11 @@ func LambdaLayerVersion(ctx context.Context, cfg aws.Config, stream *StreamSende
 			}
 
 			for _, v := range page.LayerVersions {
-				layerVersion, err := client.GetLayerVersion(ctx, &lambda.GetLayerVersionInput{
-					LayerName:     layer.LayerArn,
-					VersionNumber: v.Version,
-				})
+				resource, err := lambdaLayerVersionHandle(ctx, cfg, layer, v)
 				if err != nil {
 					return nil, err
 				}
 
-				policy, err := client.GetLayerVersionPolicy(ctx, &lambda.GetLayerVersionPolicyInput{
-					LayerName:     layer.LayerArn,
-					VersionNumber: v.Version,
-				})
-				if err != nil {
-					if isErr(err, "ResourceNotFoundException") {
-						policy = &lambda.GetLayerVersionPolicyOutput{}
-					} else {
-						return nil, err
-					}
-				}
-
-				resource := Resource{
-					Region: describeCtx.Region,
-					ARN:    *v.LayerVersionArn,
-					Name:   *v.LayerVersionArn,
-					Description: model.LambdaLayerVersionDescription{
-						LayerName:    *layer.LayerName,
-						LayerVersion: *layerVersion,
-						Policy:       *policy,
-					},
-				}
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -476,6 +509,82 @@ func LambdaLayerVersion(ctx context.Context, cfg aws.Config, stream *StreamSende
 		}
 	}
 
+	return values, nil
+}
+func lambdaLayerVersionHandle(ctx context.Context, cfg aws.Config, layer types.LayersListItem, v types.LayerVersionsListItem) (Resource, error) {
+	client := lambda.NewFromConfig(cfg)
+	describeCtx := GetDescribeContext(ctx)
+	layerVersion, err := client.GetLayerVersion(ctx, &lambda.GetLayerVersionInput{
+		LayerName:     layer.LayerArn,
+		VersionNumber: v.Version,
+	})
+	if err != nil {
+		return Resource{}, err
+	}
+
+	policy, err := client.GetLayerVersionPolicy(ctx, &lambda.GetLayerVersionPolicyInput{
+		LayerName:     layer.LayerArn,
+		VersionNumber: v.Version,
+	})
+	if err != nil {
+		if isErr(err, "ResourceNotFoundException") {
+			policy = &lambda.GetLayerVersionPolicyOutput{}
+		} else {
+			return Resource{}, err
+		}
+	}
+
+	resource := Resource{
+		Region: describeCtx.Region,
+		ARN:    *v.LayerVersionArn,
+		Name:   *v.LayerVersionArn,
+		Description: model.LambdaLayerVersionDescription{
+			LayerName:    *layer.LayerName,
+			LayerVersion: *layerVersion,
+			Policy:       *policy,
+		},
+	}
+	return resource, nil
+
+}
+func GetLambdaLayerVersion(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	layerArn := fields["arn"]
+	client := lambda.NewFromConfig(cfg)
+
+	layers, err := client.ListLayers(ctx, &lambda.ListLayersInput{})
+	if err != nil {
+		if isErr(err, "ListLayersNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _, layer := range layers.Layers {
+		if *layer.LayerArn != layerArn {
+			continue
+		}
+
+		out, err := client.ListLayerVersions(ctx, &lambda.ListLayerVersionsInput{
+			LayerName: &layerArn,
+		})
+		if err != nil {
+			if isErr(err, "ListLayerVersionsNotFound") || isErr(err, "InvalidParameterValue") {
+				return nil, nil
+			}
+			return nil, err
+		}
+
+		for _, v := range out.LayerVersions {
+
+			resource, err := lambdaLayerVersionHandle(ctx, cfg, layer, v)
+			if err != nil {
+				return nil, err
+			}
+			values = append(values, resource)
+
+		}
+	}
 	return values, nil
 }
 

@@ -9,7 +9,6 @@ import (
 )
 
 func ServerlessApplicationRepositoryApplication(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := serverlessapplicationrepository.NewFromConfig(cfg)
 	paginator := serverlessapplicationrepository.NewListApplicationsPaginator(client, &serverlessapplicationrepository.ListApplicationsInput{})
 
@@ -21,29 +20,11 @@ func ServerlessApplicationRepositoryApplication(ctx context.Context, cfg aws.Con
 		}
 
 		for _, applicationSummary := range page.Applications {
-			application, err := client.GetApplication(ctx, &serverlessapplicationrepository.GetApplicationInput{
-				ApplicationId: applicationSummary.ApplicationId,
-			})
+			resource, err := serverlessApplicationRepositoryApplicationHandle(ctx, cfg, *applicationSummary.ApplicationId)
 			if err != nil {
 				return nil, err
 			}
 
-			policy, err := client.GetApplicationPolicy(ctx, &serverlessapplicationrepository.GetApplicationPolicyInput{
-				ApplicationId: applicationSummary.ApplicationId,
-			})
-			if err != nil {
-				policy = &serverlessapplicationrepository.GetApplicationPolicyOutput{}
-			}
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *application.ApplicationId,
-				Name:   *application.ApplicationId,
-				Description: model.ServerlessApplicationRepositoryApplicationDescription{
-					Application: *application,
-					Statements:  policy.Statements,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -54,5 +35,46 @@ func ServerlessApplicationRepositoryApplication(ctx context.Context, cfg aws.Con
 		}
 	}
 
+	return values, nil
+}
+func serverlessApplicationRepositoryApplicationHandle(ctx context.Context, cfg aws.Config, applicationId string) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := serverlessapplicationrepository.NewFromConfig(cfg)
+
+	application, err := client.GetApplication(ctx, &serverlessapplicationrepository.GetApplicationInput{
+		ApplicationId: &applicationId,
+	})
+	if err != nil {
+		return Resource{}, err
+	}
+
+	policy, err := client.GetApplicationPolicy(ctx, &serverlessapplicationrepository.GetApplicationPolicyInput{
+		ApplicationId: &applicationId,
+	})
+	if err != nil {
+		policy = &serverlessapplicationrepository.GetApplicationPolicyOutput{}
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *application.ApplicationId,
+		Name:   *application.ApplicationId,
+		Description: model.ServerlessApplicationRepositoryApplicationDescription{
+			Application: *application,
+			Statements:  policy.Statements,
+		},
+	}
+	return resource, nil
+}
+func GetServerlessApplicationRepositoryApplication(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	applicationId := fields["applicationId"]
+
+	var values []Resource
+	resource, err := serverlessApplicationRepositoryApplicationHandle(ctx, cfg, applicationId)
+	if err != nil {
+		return nil, err
+	}
+
+	values = append(values, resource)
 	return values, nil
 }

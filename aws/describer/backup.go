@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"github.com/aws/aws-sdk-go-v2/service/backup/types"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/backup"
@@ -189,7 +190,6 @@ func BackupSelection(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 }
 
 func BackupVault(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := backup.NewFromConfig(cfg)
 	paginator := backup.NewListBackupVaultsPaginator(client, &backup.ListBackupVaultsInput{})
 
@@ -213,29 +213,11 @@ func BackupVault(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 			//		return nil, err
 			//	}
 			//}
-
-			accessPolicy, err := client.GetBackupVaultAccessPolicy(ctx, &backup.GetBackupVaultAccessPolicyInput{
-				BackupVaultName: v.BackupVaultName,
-			})
+			resource, err := backupVaultHandle(ctx, cfg, v, notification)
 			if err != nil {
-				if isErr(err, "ResourceNotFoundException") || isErr(err, "InvalidParameter") {
-					accessPolicy = &backup.GetBackupVaultAccessPolicyOutput{}
-				} else {
-					return nil, err
-				}
+				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.BackupVaultArn,
-				Name:   *v.BackupVaultName,
-				Description: model.BackupVaultDescription{
-					BackupVault:       v,
-					Policy:            accessPolicy.Policy,
-					BackupVaultEvents: notification.BackupVaultEvents,
-					SNSTopicArn:       notification.SNSTopicArn,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -248,9 +230,64 @@ func BackupVault(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 
 	return values, nil
 }
+func backupVaultHandle(ctx context.Context, cfg aws.Config, v types.BackupVaultListMember, notification *backup.GetBackupVaultNotificationsOutput) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := backup.NewFromConfig(cfg)
+	accessPolicy, err := client.GetBackupVaultAccessPolicy(ctx, &backup.GetBackupVaultAccessPolicyInput{
+		BackupVaultName: v.BackupVaultName,
+	})
+	if err != nil {
+		if isErr(err, "ResourceNotFoundException") || isErr(err, "InvalidParameter") {
+			accessPolicy = &backup.GetBackupVaultAccessPolicyOutput{}
+		} else {
+			return Resource{}, err
+		}
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.BackupVaultArn,
+		Name:   *v.BackupVaultName,
+		Description: model.BackupVaultDescription{
+			BackupVault:       v,
+			Policy:            accessPolicy.Policy,
+			BackupVaultEvents: notification.BackupVaultEvents,
+			SNSTopicArn:       notification.SNSTopicArn,
+		},
+	}
+	return resource, nil
+}
+func GetBackupVault(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	backupVaultName := fields["name"]
+	client := backup.NewFromConfig(cfg)
+
+	listBackup, err := client.ListBackupVaults(ctx, &backup.ListBackupVaultsInput{})
+	if err != nil {
+		if isErr(err, "ListBackupVaultsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _, v := range listBackup.BackupVaultList {
+
+		if *v.BackupVaultName != backupVaultName {
+			continue
+		}
+		notification := &backup.GetBackupVaultNotificationsOutput{}
+
+		resource, err := backupVaultHandle(ctx, cfg, v, notification)
+		if err != nil {
+			return nil, err
+		}
+
+		values = append(values, resource)
+	}
+	return values, nil
+}
 
 func BackupFramework(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := backup.NewFromConfig(cfg)
 	paginator := backup.NewListFrameworksPaginator(client, &backup.ListFrameworksInput{})
 
@@ -262,26 +299,11 @@ func BackupFramework(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		}
 
 		for _, v := range page.Frameworks {
-			framework, err := client.DescribeFramework(ctx, &backup.DescribeFrameworkInput{
-				FrameworkName: v.FrameworkName,
-			})
+			resource, err := backupFrameworkHandle(ctx, cfg, v)
 			if err != nil {
 				return nil, err
 			}
 
-			tags, err := client.ListTags(ctx, &backup.ListTagsInput{
-				ResourceArn: v.FrameworkArn,
-			})
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.FrameworkArn,
-				Name:   *v.FrameworkName,
-				Description: model.BackupFrameworkDescription{
-					Framework: *framework,
-					Tags:      tags.Tags,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -292,6 +314,61 @@ func BackupFramework(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		}
 	}
 
+	return values, nil
+}
+func backupFrameworkHandle(ctx context.Context, cfg aws.Config, v types.Framework) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := backup.NewFromConfig(cfg)
+
+	framework, err := client.DescribeFramework(ctx, &backup.DescribeFrameworkInput{
+		FrameworkName: v.FrameworkName,
+	})
+	if err != nil {
+		return Resource{}, err
+	}
+
+	tags, err := client.ListTags(ctx, &backup.ListTagsInput{
+		ResourceArn: v.FrameworkArn,
+	})
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.FrameworkArn,
+		Name:   *v.FrameworkName,
+		Description: model.BackupFrameworkDescription{
+			Framework: *framework,
+			Tags:      tags.Tags,
+		},
+	}
+	return resource, nil
+}
+func GetBackupFramework(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	var values []Resource
+	frameworkName := fields["name"]
+	client := backup.NewFromConfig(cfg)
+
+	describe, err := client.ListFrameworks(ctx, &backup.ListFrameworksInput{})
+	if err != nil {
+		if isErr(err, "ListFrameworksNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+	for _, v := range describe.Frameworks {
+		if *v.FrameworkName != frameworkName {
+			continue
+		}
+
+		resource, err := backupFrameworkHandle(ctx, cfg, v)
+		if err != nil {
+			return nil, err
+		}
+
+		values = append(values, resource)
+	}
+	if values == nil {
+		return nil, nil
+	}
 	return values, nil
 }
 

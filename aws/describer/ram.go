@@ -10,7 +10,6 @@ import (
 )
 
 func RamPrincipalAssociation(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := ram.NewFromConfig(cfg)
 
 	var values []Resource
@@ -22,27 +21,11 @@ func RamPrincipalAssociation(ctx context.Context, cfg aws.Config, stream *Stream
 		}
 
 		for _, association := range page.ResourceShareAssociations {
-			permissionPaginator := ram.NewListResourceSharePermissionsPaginator(client, &ram.ListResourceSharePermissionsInput{
-				ResourceShareArn: association.ResourceShareArn,
-			})
-			var permissions []types.ResourceSharePermissionSummary
-			for permissionPaginator.HasMorePages() {
-				permissionPage, err := permissionPaginator.NextPage(ctx)
-				if err != nil {
-					return nil, err
-				}
-				permissions = append(permissions, permissionPage.Permissions...)
+			resource, err := ramPrincipalAssociationHandle(ctx, cfg, association, *association.ResourceShareArn)
+			if err != nil {
+				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				Name:   *association.ResourceShareName,
-				ARN:    *association.ResourceShareArn,
-				Description: model.RamPrincipalAssociationDescription{
-					PrincipalAssociation:    association,
-					ResourceSharePermission: permissions,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -55,9 +38,57 @@ func RamPrincipalAssociation(ctx context.Context, cfg aws.Config, stream *Stream
 
 	return values, nil
 }
+func GetRamPrincipalAssociation(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	resourceShareArn := fields["ResourceShareArn"]
+	client := ram.NewFromConfig(cfg)
+
+	associations, err := client.GetResourceShareAssociations(ctx, &ram.GetResourceShareAssociationsInput{
+		ResourceShareArns: []string{resourceShareArn},
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for _, association := range associations.ResourceShareAssociations {
+		resource, err := ramPrincipalAssociationHandle(ctx, cfg, association, resourceShareArn)
+		if err != nil {
+			return nil, err
+		}
+		values = append(values, resource)
+	}
+	return values, nil
+}
+func ramPrincipalAssociationHandle(ctx context.Context, cfg aws.Config, association types.ResourceShareAssociation, resourceShareArn string) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := ram.NewFromConfig(cfg)
+
+	permissionPaginator := ram.NewListResourceSharePermissionsPaginator(client, &ram.ListResourceSharePermissionsInput{
+		ResourceShareArn: &resourceShareArn,
+	})
+
+	var permissions []types.ResourceSharePermissionSummary
+	for permissionPaginator.HasMorePages() {
+		permissionPage, err := permissionPaginator.NextPage(ctx)
+		if err != nil {
+			return Resource{}, err
+		}
+		permissions = append(permissions, permissionPage.Permissions...)
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		Name:   *association.ResourceShareName,
+		ARN:    *association.ResourceShareArn,
+		Description: model.RamPrincipalAssociationDescription{
+			PrincipalAssociation:    association,
+			ResourceSharePermission: permissions,
+		},
+	}
+	return resource, nil
+}
 
 func RamResourceAssociation(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := ram.NewFromConfig(cfg)
 
 	var values []Resource
@@ -69,27 +100,11 @@ func RamResourceAssociation(ctx context.Context, cfg aws.Config, stream *StreamS
 		}
 
 		for _, association := range page.ResourceShareAssociations {
-			permissionPaginator := ram.NewListResourceSharePermissionsPaginator(client, &ram.ListResourceSharePermissionsInput{
-				ResourceShareArn: association.ResourceShareArn,
-			})
-			var permissions []types.ResourceSharePermissionSummary
-			for permissionPaginator.HasMorePages() {
-				permissionPage, err := permissionPaginator.NextPage(ctx)
-				if err != nil {
-					return nil, err
-				}
-				permissions = append(permissions, permissionPage.Permissions...)
+			resource, err := ramResourceAssociationHandle(ctx, cfg, association, *association.ResourceShareArn)
+			if err != nil {
+				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				Name:   *association.ResourceShareName,
-				ARN:    *association.ResourceShareArn,
-				Description: model.RamResourceAssociationDescription{
-					ResourceAssociation:     association,
-					ResourceSharePermission: permissions,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -99,6 +114,54 @@ func RamResourceAssociation(ctx context.Context, cfg aws.Config, stream *StreamS
 			}
 		}
 	}
+	return values, nil
+}
+func ramResourceAssociationHandle(ctx context.Context, cfg aws.Config, association types.ResourceShareAssociation, resourceShareArn string) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := ram.NewFromConfig(cfg)
+	permissionPaginator := ram.NewListResourceSharePermissionsPaginator(client, &ram.ListResourceSharePermissionsInput{
+		ResourceShareArn: &resourceShareArn,
+	})
+	var permissions []types.ResourceSharePermissionSummary
+	for permissionPaginator.HasMorePages() {
+		permissionPage, err := permissionPaginator.NextPage(ctx)
+		if err != nil {
+			return Resource{}, err
+		}
+		permissions = append(permissions, permissionPage.Permissions...)
+	}
 
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		Name:   *association.ResourceShareName,
+		ARN:    *association.ResourceShareArn,
+		Description: model.RamResourceAssociationDescription{
+			ResourceAssociation:     association,
+			ResourceSharePermission: permissions,
+		},
+	}
+	return resource, nil
+}
+func GetRamResourceAssociation(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	resourceShareArn := fields["resourceShareArn"]
+	client := ram.NewFromConfig(cfg)
+
+	associations, err := client.GetResourceShareAssociations(ctx, &ram.GetResourceShareAssociationsInput{
+		ResourceShareArns: []string{resourceShareArn},
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for _, association := range associations.ResourceShareAssociations {
+
+		resource, err := ramResourceAssociationHandle(ctx, cfg, association, resourceShareArn)
+		if err != nil {
+			return nil, err
+		}
+
+		values = append(values, resource)
+	}
 	return values, nil
 }

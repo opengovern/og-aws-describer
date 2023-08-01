@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"github.com/aws/aws-sdk-go-v2/service/inspector/types"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/inspector"
@@ -54,7 +55,6 @@ func InspectorAssessmentRun(ctx context.Context, cfg aws.Config, stream *StreamS
 }
 
 func InspectorAssessmentTarget(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := inspector.NewFromConfig(cfg)
 	paginator := inspector.NewListAssessmentTargetsPaginator(client, &inspector.ListAssessmentTargetsInput{})
 
@@ -77,14 +77,7 @@ func InspectorAssessmentTarget(ctx context.Context, cfg aws.Config, stream *Stre
 		}
 
 		for _, assessmentTarget := range assessmentTargets.AssessmentTargets {
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				Name:   *assessmentTarget.Name,
-				ARN:    *assessmentTarget.Arn,
-				Description: model.InspectorAssessmentTargetDescription{
-					AssessmentTarget: assessmentTarget,
-				},
-			}
+			resource := inspectorAssessmentTargetHandle(ctx, assessmentTarget)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -94,12 +87,43 @@ func InspectorAssessmentTarget(ctx context.Context, cfg aws.Config, stream *Stre
 			}
 		}
 	}
+	return values, nil
+}
+func inspectorAssessmentTargetHandle(ctx context.Context, assessmentTarget types.AssessmentTarget) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		Name:   *assessmentTarget.Name,
+		ARN:    *assessmentTarget.Arn,
+		Description: model.InspectorAssessmentTargetDescription{
+			AssessmentTarget: assessmentTarget,
+		},
+	}
+	return resource
+}
+func GetInspectorAssessmentTarget(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	AssessmentTargetArn := fields["arn"]
+	var values []Resource
+	client := inspector.NewFromConfig(cfg)
 
+	describeAssessments, err := client.DescribeAssessmentTargets(ctx, &inspector.DescribeAssessmentTargetsInput{
+		AssessmentTargetArns: []string{AssessmentTargetArn},
+	})
+	if err != nil {
+		if isErr(err, "DescribeAssessmentTargetsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	for _, assessmentTarget := range describeAssessments.AssessmentTargets {
+		resource := inspectorAssessmentTargetHandle(ctx, assessmentTarget)
+		values = append(values, resource)
+	}
 	return values, nil
 }
 
 func InspectorAssessmentTemplate(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := inspector.NewFromConfig(cfg)
 	paginator := inspector.NewListAssessmentTemplatesPaginator(client, &inspector.ListAssessmentTemplatesInput{})
 
@@ -136,16 +160,7 @@ func InspectorAssessmentTemplate(ctx context.Context, cfg aws.Config, stream *St
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				Name:   *assessmentTemplate.Name,
-				ARN:    *assessmentTemplate.Arn,
-				Description: model.InspectorAssessmentTemplateDescription{
-					AssessmentTemplate: assessmentTemplate,
-					EventSubscriptions: eventSubscriptions.Subscriptions,
-					Tags:               tags.Tags,
-				},
-			}
+			resource := inspectorAssessmentTemplateHandle(ctx, assessmentTemplate, eventSubscriptions, tags)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -158,9 +173,21 @@ func InspectorAssessmentTemplate(ctx context.Context, cfg aws.Config, stream *St
 
 	return values, nil
 }
-
-func GetInspectorAssessmentTemplate(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+func inspectorAssessmentTemplateHandle(ctx context.Context, assessmentTemplate types.AssessmentTemplate, eventSubscriptions *inspector.ListEventSubscriptionsOutput, tags *inspector.ListTagsForResourceOutput) Resource {
 	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		Name:   *assessmentTemplate.Name,
+		ARN:    *assessmentTemplate.Arn,
+		Description: model.InspectorAssessmentTemplateDescription{
+			AssessmentTemplate: assessmentTemplate,
+			EventSubscriptions: eventSubscriptions.Subscriptions,
+			Tags:               tags.Tags,
+		},
+	}
+	return resource
+}
+func GetInspectorAssessmentTemplate(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	arn := fields["arn"]
 	client := inspector.NewFromConfig(cfg)
 
@@ -187,18 +214,9 @@ func GetInspectorAssessmentTemplate(ctx context.Context, cfg aws.Config, fields 
 			return nil, err
 		}
 
-		values = append(values, Resource{
-			Region: describeCtx.KaytuRegion,
-			Name:   *assessmentTemplate.Name,
-			ARN:    *assessmentTemplate.Arn,
-			Description: model.InspectorAssessmentTemplateDescription{
-				AssessmentTemplate: assessmentTemplate,
-				EventSubscriptions: eventSubscriptions.Subscriptions,
-				Tags:               tags.Tags,
-			},
-		})
+		resource := inspectorAssessmentTemplateHandle(ctx, assessmentTemplate, eventSubscriptions, tags)
+		values = append(values, resource)
 	}
-
 	return values, nil
 }
 

@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"github.com/aws/aws-sdk-go-v2/service/opensearch/types"
 	"math"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -10,7 +11,6 @@ import (
 )
 
 func OpenSearchDomain(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := opensearch.NewFromConfig(cfg)
 
 	domainNamesOutput, err := client.ListDomainNames(ctx, &opensearch.ListDomainNamesInput{})
@@ -33,22 +33,15 @@ func OpenSearchDomain(ctx context.Context, cfg aws.Config, stream *StreamSender)
 		}
 
 		for _, domain := range domains.DomainStatusList {
-			tags, err := client.ListTags(ctx, &opensearch.ListTagsInput{
-				ARN: domain.ARN,
-			})
+			resource, err := openSearchDomainHandle(ctx, cfg, domain)
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				return nil, nil
+			}
 			if err != nil {
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *domain.ARN,
-				Name:   *domain.DomainName,
-				Description: model.OpenSearchDomainDescription{
-					Domain: domain,
-					Tags:   tags.TagList,
-				},
-			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -58,6 +51,54 @@ func OpenSearchDomain(ctx context.Context, cfg aws.Config, stream *StreamSender)
 			}
 		}
 	}
+	return values, nil
+}
+func openSearchDomainHandle(ctx context.Context, cfg aws.Config, domain types.DomainStatus) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := opensearch.NewFromConfig(cfg)
 
+	tags, err := client.ListTags(ctx, &opensearch.ListTagsInput{
+		ARN: domain.ARN,
+	})
+	if err != nil {
+		if isErr(err, "ListTagsNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *domain.ARN,
+		Name:   *domain.DomainName,
+		Description: model.OpenSearchDomainDescription{
+			Domain: domain,
+			Tags:   tags.TagList,
+		},
+	}
+	return resource, nil
+}
+func GetOpenSearchDomain(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	client := opensearch.NewFromConfig(cfg)
+	var values []Resource
+
+	domainName := fields["domainName"]
+	domain, err := client.DescribeDomain(ctx, &opensearch.DescribeDomainInput{
+		DomainName: &domainName,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	resource, err := openSearchDomainHandle(ctx, cfg, *domain.DomainStatus)
+	emptyResource := Resource{}
+	if err == nil && resource == emptyResource {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	values = append(values, resource)
 	return values, nil
 }
