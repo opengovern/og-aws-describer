@@ -18,6 +18,9 @@ const (
 )
 
 func CheckAttachedPolicy(logger *zap.Logger, cfg aws.Config, roleName string, expectedPolicyARN string) (bool, error) {
+	if expectedPolicyARN == "" {
+		expectedPolicyARN = SecurityAuditPolicyARN
+	}
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
