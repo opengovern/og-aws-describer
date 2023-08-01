@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/networkfirewall"
+	"github.com/aws/aws-sdk-go-v2/service/networkfirewall/types"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 )
 
@@ -19,14 +20,18 @@ func NetworkFirewallFirewall(ctx context.Context, cfg aws.Config, stream *Stream
 		}
 
 		for _, v := range page.Firewalls {
-			firewall, err := client.DescribeFirewall(ctx, &networkfirewall.DescribeFirewallInput{
-				FirewallArn: v.FirewallArn,
-			})
+			resource, err := NetworkFirewallFirewallHandle(ctx, cfg, v)
 			if err != nil {
 				return nil, err
 			}
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				return nil, nil
+			}
 
-			resource := NetworkFirewallFirewallHandle(ctx, firewall, *v.FirewallName, *v.FirewallArn)
+			if err != nil {
+				return nil, err
+			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -39,33 +44,57 @@ func NetworkFirewallFirewall(ctx context.Context, cfg aws.Config, stream *Stream
 
 	return values, nil
 }
-func NetworkFirewallFirewallHandle(ctx context.Context, firewall *networkfirewall.DescribeFirewallOutput, firewallName string, firewallArn string) Resource {
+func NetworkFirewallFirewallHandle(ctx context.Context, cfg aws.Config, v types.FirewallMetadata) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+	client := networkfirewall.NewFromConfig(cfg)
+	firewall, err := client.DescribeFirewall(ctx, &networkfirewall.DescribeFirewallInput{
+		FirewallName: v.FirewallName,
+		FirewallArn:  v.FirewallArn,
+	})
+	if err != nil {
+		return Resource{}, err
+	}
+
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
-		ARN:    firewallArn,
-		Name:   firewallName,
+		ARN:    *v.FirewallArn,
+		Name:   *v.FirewallName,
 		Description: model.NetworkFirewallFirewallDescription{
-			Firewall: *firewall.Firewall,
+			Firewall:       *firewall.Firewall,
+			FirewallStatus: *firewall.FirewallStatus,
 		},
 	}
-	return resource
+	return resource, nil
 }
 func GetNetworkFirewallFirewall(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	var values []Resource
-	firewallName := fields["firewallName"]
 	firewallArn := fields["firewallArn"]
 	client := networkfirewall.NewFromConfig(cfg)
-	firewall, err := client.DescribeFirewall(ctx, &networkfirewall.DescribeFirewallInput{
-		FirewallName: &firewallName,
-		FirewallArn:  &firewallArn,
-	})
+
+	listFirewalls, err := client.ListFirewalls(ctx, &networkfirewall.ListFirewallsInput{})
 	if err != nil {
+		if isErr(err, "ListFirewallsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
 		return nil, err
 	}
 
-	resource := NetworkFirewallFirewallHandle(ctx, firewall, firewallName, firewallArn)
-	values = append(values, resource)
+	for _, v := range listFirewalls.Firewalls {
+		if *v.FirewallArn != firewallArn {
+			continue
+		}
+		resource, err := NetworkFirewallFirewallHandle(ctx, cfg, v)
+		if err != nil {
+			return nil, err
+		}
+		emptyResource := Resource{}
+		if err == nil && resource == emptyResource {
+			return nil, nil
+		}
+
+		values = append(values, resource)
+	}
+
 	return values, nil
 }
 

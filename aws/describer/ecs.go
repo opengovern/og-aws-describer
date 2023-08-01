@@ -444,6 +444,16 @@ func ECSContainerInstance(ctx context.Context, cfg aws.Config, stream *StreamSen
 			if page.ContainerInstanceArns == nil || len(page.ContainerInstanceArns) == 0 {
 				continue
 			}
+			describeCluster, err := client.DescribeClusters(ctx, &ecs.DescribeClustersInput{
+				Clusters: clusters,
+			})
+			if err != nil {
+				if isErr(err, "DescribeClustersNotFound") || isErr(err, "InvalidParameterValue") {
+					return nil, nil
+				}
+				return nil, err
+			}
+
 			output, err := client.DescribeContainerInstances(ctx, &ecs.DescribeContainerInstancesInput{
 				Cluster:            &cluster,
 				ContainerInstances: page.ContainerInstanceArns,
@@ -456,20 +466,24 @@ func ECSContainerInstance(ctx context.Context, cfg aws.Config, stream *StreamSen
 			}
 
 			for _, v := range output.ContainerInstances {
-				resource := Resource{
-					Region: describeCtx.KaytuRegion,
-					ARN:    *v.ContainerInstanceArn,
-					Name:   *v.ContainerInstanceArn,
-					Description: model.ECSContainerInstanceDescription{
-						ContainerInstance: v,
-					},
-				}
-				if stream != nil {
-					if err := (*stream)(resource); err != nil {
-						return nil, err
+				for _, c := range describeCluster.Clusters {
+					resource := Resource{
+						Region: describeCtx.KaytuRegion,
+						ARN:    *v.ContainerInstanceArn,
+						Name:   *v.ContainerInstanceArn,
+						Description: model.ECSContainerInstanceDescription{
+							ContainerInstance: v,
+							Cluster:           c,
+						},
 					}
-				} else {
-					values = append(values, resource)
+
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
 				}
 			}
 		}

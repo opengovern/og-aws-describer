@@ -225,27 +225,41 @@ func RDSDBInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 		}
 
 		for _, v := range page.DBInstances {
-			resource := rDSDBInstanceHandle(ctx, v)
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
+			pendingMaintenance, err := client.DescribePendingMaintenanceActions(ctx, &rds.DescribePendingMaintenanceActionsInput{
+				ResourceIdentifier: v.DBInstanceArn,
+			})
+			if err != nil {
+				if isErr(err, "DescribePendingMaintenanceActionsNotFound") || isErr(err, "InvalidParameterValue") {
+					return nil, nil
 				}
-			} else {
+				return nil, nil
+			}
+			for _, pendingM := range pendingMaintenance.PendingMaintenanceActions {
+				resource := rDSDBInstanceHandle(ctx, v, pendingM)
 				values = append(values, resource)
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
 			}
 		}
 	}
 
 	return values, nil
 }
-func rDSDBInstanceHandle(ctx context.Context, v types.DBInstance) Resource {
+func rDSDBInstanceHandle(ctx context.Context, v types.DBInstance, pendingM types.ResourcePendingMaintenanceActions) Resource {
 	describeCtx := GetDescribeContext(ctx)
+
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *v.DBInstanceArn,
 		Name:   *v.DBInstanceIdentifier,
 		Description: model.RDSDBInstanceDescription{
-			DBInstance: v,
+			DBInstance:         v,
+			PendingMaintenance: pendingM,
 		},
 	}
 	return resource
@@ -266,7 +280,19 @@ func GetRDSDBInstance(ctx context.Context, cfg aws.Config, fields map[string]str
 
 	var values []Resource
 	for _, v := range out.DBInstances {
-		values = append(values, rDSDBInstanceHandle(ctx, v))
+		pendingMaintenance, err := client.DescribePendingMaintenanceActions(ctx, &rds.DescribePendingMaintenanceActionsInput{
+			ResourceIdentifier: v.DBInstanceArn,
+		})
+		if err != nil {
+			if isErr(err, "DescribePendingMaintenanceActionsNotFound") || isErr(err, "InvalidParameterValue") {
+				return nil, nil
+			}
+			return nil, nil
+		}
+		for _, pendingM := range pendingMaintenance.PendingMaintenanceActions {
+			resource := rDSDBInstanceHandle(ctx, v, pendingM)
+			values = append(values, resource)
+		}
 	}
 	return values, nil
 }

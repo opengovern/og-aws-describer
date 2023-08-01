@@ -159,6 +159,26 @@ func sESIdentityHandle(ctx context.Context, cfg aws.Config, v string) (Resource,
 		return Resource{}, err
 	}
 
+	DkimAtrb, err := client.GetIdentityDkimAttributes(ctx, &ses.GetIdentityDkimAttributesInput{
+		Identities: []string{v},
+	})
+	if err != nil {
+		if isErr(err, "GetIdentityDkimAttributesNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
+	identityMail, err := client.GetIdentityMailFromDomainAttributes(ctx, &ses.GetIdentityMailFromDomainAttributesInput{
+		Identities: []string{v},
+	})
+	if err != nil {
+		if isErr(err, "GetIdentityMailFromDomainAttributesNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    arn,
@@ -166,6 +186,8 @@ func sESIdentityHandle(ctx context.Context, cfg aws.Config, v string) (Resource,
 		Description: model.SESIdentityDescription{
 			ARN:                    arn,
 			Identity:               v,
+			DkimAttributes:         DkimAtrb.DkimAttributes,
+			IdentityMail:           identityMail.MailFromDomainAttributes,
 			VerificationAttributes: identity.VerificationAttributes[v],
 			NotificationAttributes: notif.NotificationAttributes[v],
 			Tags:                   tags.Tags,

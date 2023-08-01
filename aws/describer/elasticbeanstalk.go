@@ -55,12 +55,24 @@ func elasticBeanstalkEnvironmentHandle(ctx context.Context, cfg aws.Config, item
 		return Resource{}, err
 	}
 
+	managedActions, err := client.DescribeEnvironmentManagedActions(ctx, &elasticbeanstalk.DescribeEnvironmentManagedActionsInput{
+		EnvironmentId:   item.EnvironmentId,
+		EnvironmentName: item.EnvironmentName,
+	})
+	if err != nil {
+		if isErr(err, "DescribeEnvironmentManagedActionsNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *item.EnvironmentArn,
 		Name:   *item.EnvironmentName,
 		Description: model.ElasticBeanstalkEnvironmentDescription{
 			EnvironmentDescription: item,
+			ManagedAction:          managedActions.ManagedActions,
 			Tags:                   tags.ResourceTags,
 		},
 	}

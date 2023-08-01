@@ -16,7 +16,6 @@ import (
 )
 
 func LambdaFunction(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := lambda.NewFromConfig(cfg)
 	paginator := lambda.NewListFunctionsPaginator(client, &lambda.ListFunctionsInput{
 		FunctionVersion: types.FunctionVersionAll,
@@ -30,72 +29,44 @@ func LambdaFunction(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 		}
 
 		for _, v := range page.Functions {
-			policy, err := client.GetPolicy(ctx, &lambda.GetPolicyInput{
+
+			listUrlConfig, err := client.ListFunctionUrlConfigs(ctx, &lambda.ListFunctionUrlConfigsInput{
 				FunctionName: v.FunctionName,
 			})
 			if err != nil {
-				var ae smithy.APIError
-				if errors.As(err, &ae) && ae.ErrorCode() == "ResourceNotFoundException" {
-					policy = &lambda.GetPolicyOutput{}
-					err = nil
+				if isErr(err, "ListFunctionUrlConfigsNotFound") || isErr(err, "InvalidParameterValue") {
+					return nil, nil
 				}
-
-				if awsErr, ok := err.(awserr.Error); ok {
-					log.Println("Describe Lambda Error:", awsErr.Code(), awsErr.Message())
-					if awsErr.Code() == "ResourceNotFoundException" {
-						policy = &lambda.GetPolicyOutput{}
-						err = nil
-					}
-				}
-
-				if err != nil {
-					return nil, err
-				}
-			}
-
-			function, err := client.GetFunction(ctx, &lambda.GetFunctionInput{
-				FunctionName: v.FunctionName,
-			})
-			if err != nil {
 				return nil, err
 			}
 
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *v.FunctionArn,
-				Name:   *v.FunctionName,
-				Description: model.LambdaFunctionDescription{
-					Function: function,
-					Policy:   policy,
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+			for _, l := range listUrlConfig.FunctionUrlConfigs {
+				resource, err := lambdaFunctionHandle(ctx, cfg, v, l)
+				if err != nil {
 					return nil, err
 				}
-			} else {
-				values = append(values, resource)
+				emptyResource := Resource{}
+				if err == nil && resource == emptyResource {
+					return nil, nil
+				}
+
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
 			}
 		}
 	}
 
 	return values, nil
 }
-
-func GetLambdaFunction(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+func lambdaFunctionHandle(ctx context.Context, cfg aws.Config, v types.FunctionConfiguration, l types.FunctionUrlConfig) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
-	functionName := fields["name"]
 	client := lambda.NewFromConfig(cfg)
-	out, err := client.GetFunction(ctx, &lambda.GetFunctionInput{
-		FunctionName: &functionName,
-		Qualifier:    nil,
-	})
-	if err != nil {
-		return nil, err
-	}
-	v := out.Configuration
 
-	var values []Resource
 	policy, err := client.GetPolicy(ctx, &lambda.GetPolicyInput{
 		FunctionName: v.FunctionName,
 	})
@@ -115,7 +86,7 @@ func GetLambdaFunction(ctx context.Context, cfg aws.Config, fields map[string]st
 		}
 
 		if err != nil {
-			return nil, err
+			return Resource{}, err
 		}
 	}
 
@@ -123,18 +94,59 @@ func GetLambdaFunction(ctx context.Context, cfg aws.Config, fields map[string]st
 		FunctionName: v.FunctionName,
 	})
 	if err != nil {
-		return nil, err
+		return Resource{}, err
 	}
 
-	values = append(values, Resource{
+	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *v.FunctionArn,
 		Name:   *v.FunctionName,
 		Description: model.LambdaFunctionDescription{
-			Function: function,
-			Policy:   policy,
+			Function:          function,
+			TracingConfig:     *v.TracingConfig,
+			SnapStart:         *v.SnapStart,
+			FileSystemConfigs: v.FileSystemConfigs,
+			Environment:       *v.Environment,
+			UrlConfig:         l,
+			Policy:            policy,
 		},
+	}
+	return resource, nil
+}
+func GetLambdaFunction(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	functionName := fields["name"]
+	client := lambda.NewFromConfig(cfg)
+	out, err := client.GetFunction(ctx, &lambda.GetFunctionInput{
+		FunctionName: &functionName,
+		Qualifier:    nil,
 	})
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+
+	listUrlConfig, err := client.ListFunctionUrlConfigs(ctx, &lambda.ListFunctionUrlConfigsInput{
+		FunctionName: out.Configuration.FunctionName,
+	})
+	if err != nil {
+		if isErr(err, "ListFunctionUrlConfigsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	for _, l := range listUrlConfig.FunctionUrlConfigs {
+		resource, err := lambdaFunctionHandle(ctx, cfg, *out.Configuration, l)
+		if err != nil {
+			return nil, err
+		}
+		emptyResource := Resource{}
+		if err == nil && resource == emptyResource {
+			return nil, nil
+		}
+		values = append(values, resource)
+	}
 
 	return values, nil
 }

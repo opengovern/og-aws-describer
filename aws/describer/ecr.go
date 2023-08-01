@@ -417,6 +417,7 @@ func eCRImageHandle(ctx context.Context, cfg aws.Config, image types.ImageDetail
 	client := ecr.NewFromConfig(cfg)
 	desc := model.ECRImageDescription{
 		Image:       image,
+		Repository:  repository,
 		ImageDigest: image.ImageDigest,
 	}
 	if len(image.ImageTags) > 0 {

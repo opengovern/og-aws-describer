@@ -205,7 +205,15 @@ func IAMAccessKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 		}
 
 		for _, v := range page.AccessKeyMetadata {
-			resource := iAMAccessKeyHandle(ctx, v)
+			resource, err := iAMAccessKeyHandle(ctx, cfg, v)
+			if err != nil {
+				return nil, err
+			}
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				return nil, nil
+			}
+
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -218,18 +226,30 @@ func IAMAccessKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 
 	return values, nil
 }
-func iAMAccessKeyHandle(ctx context.Context, v types.AccessKeyMetadata) Resource {
+func iAMAccessKeyHandle(ctx context.Context, cfg aws.Config, v types.AccessKeyMetadata) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+	client := iam.NewFromConfig(cfg)
+	lastUsed, err := client.GetAccessKeyLastUsed(ctx, &iam.GetAccessKeyLastUsedInput{
+		AccessKeyId: v.AccessKeyId,
+	})
+	if err != nil {
+		if isErr(err, "GetAccessKeyLastUsedNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
 	arn := "arn:" + describeCtx.Partition + ":iam::" + describeCtx.AccountID + ":user/" + *v.UserName + "/accesskey/" + *v.AccessKeyId
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    arn,
 		Name:   *v.UserName,
 		Description: model.IAMAccessKeyDescription{
-			AccessKey: v,
+			AccessKeyLastUsed: *lastUsed.AccessKeyLastUsed,
+			AccessKey:         v,
 		},
 	}
-	return resource
+	return resource, nil
 }
 func GetIAMAccessKey(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	userName := fields["name"]
@@ -247,7 +267,15 @@ func GetIAMAccessKey(ctx context.Context, cfg aws.Config, fields map[string]stri
 	}
 
 	for _, v := range accessKeys.AccessKeyMetadata {
-		resource := iAMAccessKeyHandle(ctx, v)
+		resource, err := iAMAccessKeyHandle(ctx, cfg, v)
+		if err != nil {
+			return nil, err
+		}
+		emptyResource := Resource{}
+		if err == nil && resource == emptyResource {
+			return nil, nil
+		}
+
 		values = append(values, resource)
 	}
 	return values, nil
@@ -1044,27 +1072,15 @@ func IAMUser(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 		}
 
 		for _, v := range page.Users {
-			policies, err := getUserPolicies(ctx, client, v.UserName)
+			resource, err := iAMUserHandle(ctx, cfg, v)
 			if err != nil {
 				return nil, err
 			}
-
-			aPolicies, err := getUserAttachedPolicyArns(ctx, client, v.UserName)
-			if err != nil {
-				return nil, err
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				return nil, nil
 			}
 
-			groups, err := getUserGroups(ctx, client, v.UserName)
-			if err != nil {
-				return nil, err
-			}
-
-			devices, err := getUserMFADevices(ctx, client, v.UserName)
-			if err != nil {
-				return nil, err
-			}
-
-			resource := iAMUserHandle(ctx, v, policies, aPolicies, groups, devices)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -1077,21 +1093,53 @@ func IAMUser(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 
 	return values, nil
 }
-func iAMUserHandle(ctx context.Context, v types.User, policies []model.InlinePolicy, aPolicies []string, groups []types.Group, devices []types.MFADevice) Resource {
+func iAMUserHandle(ctx context.Context, cfg aws.Config, v types.User) (Resource, error) {
+	client := iam.NewFromConfig(cfg)
 	describeCtx := GetDescribeContext(ctx)
+	policies, err := getUserPolicies(ctx, client, v.UserName)
+	if err != nil {
+		return Resource{}, err
+	}
+
+	aPolicies, err := getUserAttachedPolicyArns(ctx, client, v.UserName)
+	if err != nil {
+		return Resource{}, err
+	}
+
+	groups, err := getUserGroups(ctx, client, v.UserName)
+	if err != nil {
+		return Resource{}, err
+	}
+
+	devices, err := getUserMFADevices(ctx, client, v.UserName)
+	if err != nil {
+		return Resource{}, err
+	}
+
+	loginProfile, err := client.GetLoginProfile(ctx, &iam.GetLoginProfileInput{
+		UserName: v.UserName,
+	})
+	if err != nil {
+		if isErr(err, "GetLoginProfileNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *v.Arn,
 		Name:   *v.UserName,
 		Description: model.IAMUserDescription{
 			User:               v,
+			LoginProfile:       *loginProfile.LoginProfile,
 			Groups:             groups,
 			InlinePolicies:     policies,
 			AttachedPolicyArns: aPolicies,
 			MFADevices:         devices,
 		},
 	}
-	return resource
+	return resource, nil
 }
 func GetIAMUser(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	userName := fields["name"]
@@ -1104,29 +1152,17 @@ func GetIAMUser(ctx context.Context, cfg aws.Config, fields map[string]string) (
 		return nil, err
 	}
 
-	v := out.User
 	var values []Resource
-	policies, err := getUserPolicies(ctx, client, v.UserName)
+
+	resource, err := iAMUserHandle(ctx, cfg, *out.User)
 	if err != nil {
 		return nil, err
 	}
-
-	aPolicies, err := getUserAttachedPolicyArns(ctx, client, v.UserName)
-	if err != nil {
-		return nil, err
+	emptyResource := Resource{}
+	if err == nil && resource == emptyResource {
+		return nil, nil
 	}
 
-	groups, err := getUserGroups(ctx, client, v.UserName)
-	if err != nil {
-		return nil, err
-	}
-
-	devices, err := getUserMFADevices(ctx, client, v.UserName)
-	if err != nil {
-		return nil, err
-	}
-
-	resource := iAMUserHandle(ctx, *v, policies, aPolicies, groups, devices)
 	values = append(values, resource)
 
 	return values, nil

@@ -5,7 +5,7 @@ import (
 	"context"
 	aws "github.com/kaytu-io/kaytu-aws-describer/aws/model"
 	essdk "github.com/kaytu-io/kaytu-util/pkg/keibi-es-sdk"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
 type Client struct {

@@ -55,14 +55,38 @@ func codeArtifactRepositoryHandle(ctx context.Context, cfg aws.Config, v types.R
 		}
 		return Resource{}, err
 	}
+	policy, err := client.GetRepositoryPermissionsPolicy(ctx, &codeartifact.GetRepositoryPermissionsPolicyInput{
+		Domain:      v.DomainName,
+		Repository:  v.Name,
+		DomainOwner: v.DomainOwner,
+	})
+	if err != nil {
+		if isErr(err, "GetRepositoryPermissionsPolicyNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+	description, err := client.DescribeRepository(ctx, &codeartifact.DescribeRepositoryInput{
+		Domain:      v.Name,
+		DomainOwner: v.DomainOwner,
+		Repository:  v.Name,
+	})
+	if err != nil {
+		if isErr(err, "DescribeRepositoryNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
 
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *v.Arn,
 		Name:   *v.Name,
 		Description: model.CodeArtifactRepositoryDescription{
-			Repository: v,
-			Tags:       tags.Tags,
+			Repository:  v,
+			Policy:      *policy.Policy,
+			Description: *description.Repository,
+			Tags:        tags.Tags,
 		},
 	}
 	return resource, nil
