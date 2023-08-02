@@ -127,3 +127,48 @@ func CodeDeployApplication(ctx context.Context, cfg aws.Config, stream *StreamSe
 
 	return values, nil
 }
+
+func CodeDeployDeploymentConfig(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+
+	client := codedeploy.NewFromConfig(cfg)
+	paginator := codedeploy.NewListDeploymentConfigsPaginator(client, &codedeploy.ListDeploymentConfigsInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, c := range page.DeploymentConfigsList {
+			config, err := client.GetDeploymentConfig(ctx, &codedeploy.GetDeploymentConfigInput{
+				DeploymentConfigName: &c,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			arn := fmt.Sprintf("arn:%s:codedeploy:%s:%s:deploymentconfig:%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *config.DeploymentConfigInfo.DeploymentConfigName)
+
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    arn,
+				Name:   *config.DeploymentConfigInfo.DeploymentConfigName,
+				ID:     *config.DeploymentConfigInfo.DeploymentConfigId,
+				Description: model.CodeDeployDeploymentConfigDescription{
+					Config: *config.DeploymentConfigInfo,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}

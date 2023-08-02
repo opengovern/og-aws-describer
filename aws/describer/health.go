@@ -39,3 +39,35 @@ func HealthEvent(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 	}
 	return values, nil
 }
+
+func HealthAffectedEntity(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := health.NewFromConfig(cfg)
+	paginator := health.NewDescribeEventsPaginator(client, &health.DescribeEventsInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, event := range page.Events {
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    *event.Arn,
+				Description: model.HealthEventDescription{
+					Event: event,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}

@@ -694,3 +694,115 @@ func listCloudWatchMetricStatistics(ctx context.Context, cfg aws.Config, granula
 
 	return values, nil
 }
+
+func CloudWatchMetricDataPoint(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := cloudwatch.NewFromConfig(cfg)
+	paginator := cloudwatch.NewDescribeAnomalyDetectorsPaginator(client, &cloudwatch.DescribeAnomalyDetectorsInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, a := range page.AnomalyDetectors {
+			for _, q := range a.MetricMathAnomalyDetector.MetricDataQueries {
+				metircsPaginator := cloudwatch.NewGetMetricDataPaginator(client, &cloudwatch.GetMetricDataInput{
+					MetricDataQueries: []types.MetricDataQuery{q},
+				})
+
+				for metircsPaginator.HasMorePages() {
+					metricsPage, err := metircsPaginator.NextPage(ctx)
+					if err != nil {
+						return nil, err
+					}
+					for _, r := range metricsPage.MetricDataResults {
+						for item := 0; item < len(r.Timestamps); item++ {
+							resource := Resource{
+								Region: describeCtx.KaytuRegion,
+								ID:     *r.Id,
+								Description: model.CloudWatchMetricDataPointDescription{
+									MetricDataResult: r,
+									MetricDataQuery:  q,
+									TimeStamp:        r.Timestamps[item],
+									Value:            r.Values[item],
+								},
+							}
+							if stream != nil {
+								if err := (*stream)(resource); err != nil {
+									return nil, err
+								}
+							} else {
+								values = append(values, resource)
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return values, nil
+}
+
+//
+//func CloudWatchMetricStatisticDataPoint(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+//	describeCtx := GetDescribeContext(ctx)
+//	client := cloudwatch.NewFromConfig(cfg)
+//	paginator := cloudwatch.NewDescribeAnomalyDetectorsPaginator(client, &cloudwatch.DescribeAnomalyDetectorsInput{})
+//
+//	var values []Resource
+//	for paginator.HasMorePages() {
+//		page, err := paginator.NextPage(ctx)
+//		if err != nil {
+//			return nil, err
+//		}
+//
+//		for _, a := range page.AnomalyDetectors {
+//			for _, q := range a.MetricMathAnomalyDetector.MetricDataQueries {
+//				metircsPaginator := cloudwatch.NewGetMetricDataPaginator(client, &cloudwatch.GetMetricDataInput{
+//					MetricDataQueries: []types.MetricDataQuery{q},
+//				})
+//				stats, err := client.GetMetricStatistics(ctx, &cloudwatch.GetMetricStatisticsInput{
+//					MetricName: q.MetricStat.Metric.MetricName,
+//					Namespace:  q.MetricStat.Metric.Namespace,
+//					Period:     q.MetricStat.Period,
+//				})
+//				if err != nil {
+//					return nil, err
+//				}
+//				for metircsPaginator.HasMorePages() {
+//					metricsPage, err := metircsPaginator.NextPage(ctx)
+//					if err != nil {
+//						return nil, err
+//					}
+//					for _, r := range metricsPage.MetricDataResults {
+//						for item := 0; item < len(r.Timestamps); item++ {
+//							resource := Resource{
+//								Region: describeCtx.KaytuRegion,
+//								ID:     *r.Id,
+//								Description: model.CloudWatchMetricDataPointDescription{
+//									MetricDataResult: r,
+//									MetricDataQuery:  q,
+//									TimeStamp:        r.Timestamps[item],
+//									Value:            r.Values[item],
+//								},
+//							}
+//							if stream != nil {
+//								if err := (*stream)(resource); err != nil {
+//									return nil, err
+//								}
+//							} else {
+//								values = append(values, resource)
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
+//
+//	return values, nil
+//}
