@@ -85,32 +85,42 @@ func ServiceDiscoveryNamespace(ctx context.Context, cfg aws.Config, stream *Stre
 	}
 	return values, nil
 }
+
 func ServiceDiscoveryInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := servicediscovery.NewFromConfig(cfg)
 
-	paginator := servicediscovery.NewListInstancesPaginator(client, &servicediscovery.ListInstancesInput{})
+	services, err := client.ListServices(ctx, &servicediscovery.ListServicesInput{})
+	if err != nil {
+		return nil, err
+	}
 	var values []Resource
-	for paginator.HasMorePages() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-		for _, v := range page.Instances {
-			resource := Resource{
-				Region: describeCtx.Region,
-				ID:     *v.Id,
-				Name:   *v.Id,
-				Description: model.ServiceDiscoveryInstance{
-					Instance: v,
-				},
+	for _, service := range services.Services {
+		paginator := servicediscovery.NewListInstancesPaginator(client, &servicediscovery.ListInstancesInput{
+			ServiceId: service.Id,
+		})
+		for paginator.HasMorePages() {
+			page, err := paginator.NextPage(ctx)
+			if err != nil {
+				return nil, err
 			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
+			for _, v := range page.Instances {
+				resource := Resource{
+					Region: describeCtx.Region,
+					ID:     *v.Id,
+					Name:   *v.Id,
+					Description: model.ServiceDiscoveryInstance{
+						Instance:  v,
+						ServiceId: service.Id,
+					},
 				}
-			} else {
-				values = append(values, resource)
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
 			}
 		}
 	}

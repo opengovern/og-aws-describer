@@ -1829,7 +1829,7 @@ type S3Object struct {
 	ObjectVersion        s3.ObjectVersion
 	ObjectResult         s3.CopyObjectResult
 	LifecycleRule        s3.LifecycleRule
-	ServerSideEncription s3.ServerSideEncryptionConfiguration
+	ServerSideEncryption s3.ServerSideEncryptionConfiguration
 }
 
 //  ===================  SageMaker  ===================
@@ -3672,7 +3672,10 @@ type ServiceCatalogProductDescription struct {
 
 //index:aws_servicecatalog_portfolio
 type ServiceCatalogPortFolioDescription struct {
-	Portfolio serviceCatalog.PortfolioDetail
+	Portfolio  serviceCatalog.PortfolioDetail
+	Budgets    []serviceCatalog.BudgetDetail
+	TagOptions []serviceCatalog.TagOptionDetail
+	Tag        []serviceCatalog.Tag
 }
 
 // =================== Service Discovery ===========================
@@ -3691,5 +3694,6 @@ type ServiceDiscoveryNamespace struct {
 
 //index:aws_service_discovery_instance
 type ServiceDiscoveryInstance struct {
-	Instance serviceDiscovery.InstanceSummary
+	Instance  serviceDiscovery.InstanceSummary
+	ServiceId *string
 }
