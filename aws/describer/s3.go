@@ -630,3 +630,38 @@ func S3AccountSetting(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 	return values, nil
 }
+func S3Object(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := s3.NewFromConfig(cfg)
+	buckets, err := client.ListBuckets(ctx, &s3.ListBucketsInput{})
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+	for _, bucket := range buckets.Buckets {
+		paginator := s3.NewListObjectsV2Paginator(client, &s3.ListObjectsV2Input{})
+		for paginator.HasMorePages() {
+			page, err := paginator.NextPage(ctx)
+			if err != nil {
+				return nil, err
+			}
+			for _, v := range page.Contents {
+				resource := Resource{
+					Region: describeCtx.Region,
+					Description: model.S3Object{
+						Object:     v,
+						BucketName: bucket.Name,
+					},
+				}
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+		}
+	}
+	return values, nil
+}

@@ -506,6 +506,8 @@ github.com/aws/aws-sdk-go-v2/service/serverlessapplicationrepository v1.12.11 h1
 github.com/aws/aws-sdk-go-v2/service/serverlessapplicationrepository v1.12.11/go.mod h1:bzD54FE0zg2R5VHzFR342K0S1qBuYAtcunCJ2q6s3YQ=
 github.com/aws/aws-sdk-go-v2/service/servicecatalog v1.20.1 h1:sY1qkX4gmwdUJH5Kt05lXAU2+BdUsE8TxnPMA94i6MQ=
 github.com/aws/aws-sdk-go-v2/service/servicecatalog v1.20.1/go.mod h1:rBjWwZN69UtcNRUo+LtYa28mG20/9fCbahscBycwkck=
+github.com/aws/aws-sdk-go-v2/service/servicediscovery v1.22.1 h1:t1IsmYYdzRxiKRz1MkwRHU3B6FMIGWDf3JYYS7iyblA=
+github.com/aws/aws-sdk-go-v2/service/servicediscovery v1.22.1/go.mod h1:qPpw9YdmQW80p4ciSQvJGxB1pODwBFWFLESZaNqDXrk=
 github.com/aws/aws-sdk-go-v2/service/servicequotas v1.14.12 h1:vDH2yFtpp1SHujVvrI/40vpKMz00UC2SQSR1e985rf8=
 github.com/aws/aws-sdk-go-v2/service/servicequotas v1.14.12/go.mod h1:EPzLWxkl2SXfg4pi3+WH9mkhHvZCcQ6JuaG0iARvj/8=
 github.com/aws/aws-sdk-go-v2/service/ses v1.14.18 h1:4hlsHBoglPrwFzU9qZvku1B4YpU29Mc2I6AuGZs9b/s=

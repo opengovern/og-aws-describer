@@ -139,6 +139,7 @@ import (
 	serverlessapplicationrepositoryop "github.com/aws/aws-sdk-go-v2/service/serverlessapplicationrepository"
 	serverlessapplicationrepository "github.com/aws/aws-sdk-go-v2/service/serverlessapplicationrepository/types"
 	serviceCatalog "github.com/aws/aws-sdk-go-v2/service/servicecatalog/types"
+	serviceDiscovery "github.com/aws/aws-sdk-go-v2/service/servicediscovery/types"
 	servicequotas "github.com/aws/aws-sdk-go-v2/service/servicequotas/types"
 	ses "github.com/aws/aws-sdk-go-v2/service/ses/types"
 	sfnop "github.com/aws/aws-sdk-go-v2/service/sfn"
@@ -1772,6 +1773,20 @@ type S3BucketDescription struct {
 //index:aws_s3_accountsettingdescription
 type S3AccountSettingDescription struct {
 	PublicAccessBlockConfiguration s3control.PublicAccessBlockConfiguration
+}
+
+//index:aws_s3_object
+type S3Object struct {
+	BucketName          *string
+	Object              s3.Object
+	ObjectLockLegal     s3.ObjectLockLegalHold
+	ObjectLockRetention s3.ObjectLockRetention
+	Encryption          s3.Encryption
+
+	ObjectVersion        s3.ObjectVersion
+	ObjectResult         s3.CopyObjectResult
+	LifecycleRule        s3.LifecycleRule
+	ServerSideEncription s3.ServerSideEncryptionConfiguration
 }
 
 //  ===================  SageMaker  ===================
@@ -3584,4 +3599,23 @@ type ServiceCatalogProductDescription struct {
 //index:aws_servicecatalog_portfolio
 type ServiceCatalogPortFolioDescription struct {
 	Portfolio serviceCatalog.PortfolioDetail
+}
+
+// =================== Service Discovery ===========================
+
+//index:aws_service_discovery_service
+type ServiceDiscoveryServiceDescription struct {
+	Service serviceDiscovery.ServiceSummary
+	Tags    []serviceDiscovery.Tag
+}
+
+//index:aws_service_discovery_namespace
+type ServiceDiscoveryNamespace struct {
+	Namespace serviceDiscovery.NamespaceSummary
+	Tags      []serviceDiscovery.Tag
+}
+
+//index:aws_service_discovery_instance
+type ServiceDiscoveryInstance struct {
+	Instance serviceDiscovery.InstanceSummary
 }

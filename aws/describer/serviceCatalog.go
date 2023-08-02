@@ -67,6 +67,9 @@ func ServiceCatalogPortfolio(ctx context.Context, cfg aws.Config, stream *Stream
 			return nil, err
 		}
 		for _, v := range page.PortfolioDetails {
+			client.DescribePortfolio(ctx, &servicecatalog.DescribePortfolioInput{
+				Id: v.Id,
+			})
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ID:     *v.Id,

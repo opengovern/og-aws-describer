@@ -175,6 +175,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.13.8 // indirect
 	github.com/aws/aws-sdk-go-v2/service/pricing v1.16.8 // indirect
 	github.com/aws/aws-sdk-go-v2/service/servicecatalog v1.20.1 // indirect
+	github.com/aws/aws-sdk-go-v2/service/servicediscovery v1.22.1 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sso v1.12.10 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.14.10 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
