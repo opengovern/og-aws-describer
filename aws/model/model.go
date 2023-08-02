@@ -137,6 +137,7 @@ import (
 	securitylake "github.com/aws/aws-sdk-go-v2/service/securitylake/types"
 	serverlessapplicationrepositoryop "github.com/aws/aws-sdk-go-v2/service/serverlessapplicationrepository"
 	serverlessapplicationrepository "github.com/aws/aws-sdk-go-v2/service/serverlessapplicationrepository/types"
+	serviceCatalog "github.com/aws/aws-sdk-go-v2/service/servicecatalog/types"
 	servicequotas "github.com/aws/aws-sdk-go-v2/service/servicequotas/types"
 	ses "github.com/aws/aws-sdk-go-v2/service/ses/types"
 	sfnop "github.com/aws/aws-sdk-go-v2/service/sfn"
@@ -1901,6 +1902,12 @@ type SSMDocumentDescription struct {
 	Permissions        *ssm_sdkv2.DescribeDocumentPermissionOutput
 }
 
+//index:aws_ssm_document_permission
+type SSMDocumentPermissionDescription struct {
+	Permissions *ssm_sdkv2.DescribeDocumentPermissionOutput
+	Document    *ssm_sdkv2.DescribeDocumentOutput
+}
+
 //index:aws_ssm_inventory
 //listfilter:id=description.Id
 //listfilter:type_name=description.TypeName
@@ -1911,6 +1918,17 @@ type SSMInventoryDescription struct {
 	SchemaVersion *string
 	TypeName      *string
 	Schemas       []ssm.InventoryItemSchema
+}
+
+//index:aws_ssm_inventory_entry
+//listfilter:instance_id=description.InstanceId
+//listfilter:type_name=description.TypeName
+type SSMInventoryEntry struct {
+	CaptureTime   *string
+	InstanceId    *string
+	SchemaVersion *string
+	TypeName      *string
+	Entries       map[string]string
 }
 
 //index:aws_ssm_maintenancewindow
@@ -3392,4 +3410,19 @@ type ServiceQuotasServiceQuotaDescription struct {
 type ServiceQuotasServiceQuotaChangeRequestDescription struct {
 	ServiceQuotaChangeRequest servicequotas.RequestedServiceQuotaChange
 	Tags                      []servicequotas.Tag
+}
+
+// =================== Service Catalog =======================
+
+//index:aws_servicecatalog_product
+type ServiceCatalogProductDescription struct {
+	ProductViewSummary    serviceCatalog.ProductViewSummary
+	Budgets               []serviceCatalog.BudgetDetail
+	LunchPaths            []serviceCatalog.LaunchPathSummary
+	ProvisioningArtifacts []serviceCatalog.ProvisioningArtifactSummary
+}
+
+//index:aws_servicecatalog_portfolio
+type ServiceCatalogPortFolioDescription struct {
+	Portfolio serviceCatalog.PortfolioDetail
 }

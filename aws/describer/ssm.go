@@ -103,6 +103,54 @@ func SSMInventory(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 	return values, nil
 }
 
+func SSMInventoryEntry(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := ssm.NewFromConfig(cfg)
+	paginator := ssm.NewGetInventoryPaginator(client, &ssm.GetInventoryInput{})
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, inventory := range page.Entities {
+			if inventory.Data != nil {
+				for _, data := range inventory.Data {
+					op, err := client.ListInventoryEntries(ctx, &ssm.ListInventoryEntriesInput{
+						TypeName:   data.TypeName,
+						InstanceId: inventory.Id,
+					})
+					if err != nil {
+						return nil, err
+					}
+					for _, v := range op.Entries {
+						resource := Resource{
+							Region: describeCtx.Region,
+							ID:     *op.InstanceId,
+							Name:   *op.InstanceId,
+							Description: model.SSMInventoryEntry{
+								InstanceId:    op.InstanceId,
+								TypeName:      op.TypeName,
+								CaptureTime:   op.CaptureTime,
+								SchemaVersion: op.SchemaVersion,
+								Entries:       v,
+							},
+						}
+						if stream != nil {
+							if err := (*stream)(resource); err != nil {
+								return nil, err
+							}
+						} else {
+							values = append(values, resource)
+						}
+					}
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
 func SSMManagedInstanceCompliance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := ssm.NewFromConfig(cfg)
@@ -248,6 +296,61 @@ func SSMDocument(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 		}
 	}
 
+	return values, nil
+}
+
+func SSMDocumentPermission(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := ssm.NewFromConfig(cfg)
+	paginator := ssm.NewListDocumentsPaginator(client, &ssm.ListDocumentsInput{
+		Filters: []types.DocumentKeyValuesFilter{
+			{
+				Key:    aws.String("Owner"),
+				Values: []string{"Self"},
+			},
+		},
+	})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.DocumentIdentifiers {
+			permissions, err := client.DescribeDocumentPermission(ctx, &ssm.DescribeDocumentPermissionInput{
+				Name:           v.Name,
+				PermissionType: "Share",
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			data, err := client.DescribeDocument(ctx, &ssm.DescribeDocumentInput{
+				Name: v.Name,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			resource := Resource{
+				Region: describeCtx.Region,
+				ID:     *v.Name,
+				Name:   *v.Name,
+				Description: model.SSMDocumentPermissionDescription{
+					Document:    data,
+					Permissions: permissions,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
 	return values, nil
 }
 
