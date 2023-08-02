@@ -1008,6 +1008,11 @@ type EC2EIPDescription struct {
 	Address ec2.Address
 }
 
+//index:aws_ec2_eip_address_transfer
+type EC2EIPAddressTransferDescription struct {
+	AddressTransfer ec2.AddressTransfer
+}
+
 //index:aws_ec2_internetgateway
 //getfilter:internet_gateway_id=description.InternetGateway.InternetGatewayId
 type EC2InternetGatewayDescription struct {
@@ -3779,4 +3784,13 @@ type ServiceDiscoveryNamespace struct {
 type ServiceDiscoveryInstance struct {
 	Instance  serviceDiscovery.InstanceSummary
 	ServiceId *string
+}
+
+// ======================= STS Caller ==============================
+
+//index:aws_sts_caller_identity
+type STSCallerIdentityDescription struct {
+	Arn     string
+	UsrId   string
+	Account string
 }

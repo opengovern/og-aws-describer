@@ -1039,6 +1039,37 @@ func GetEC2EIP(ctx context.Context, cfg aws.Config, fields map[string]string) ([
 
 	return values, nil
 }
+func EC2EIPAddressTransfer(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := ec2.NewFromConfig(cfg)
+	describeCtx := GetDescribeContext(ctx)
+	paginator := ec2.NewDescribeAddressTransfersPaginator(client, &ec2.DescribeAddressTransfersInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, item := range page.AddressTransfers {
+			resource := Resource{
+				Region: describeCtx.Region,
+				ID:     *item.TransferAccountId,
+				Name:   *item.TransferAccountId,
+				Description: model.EC2EIPAddressTransferDescription{
+					AddressTransfer: item,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}
 
 func EC2EnclaveCertificateIamRoleAssociation(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
