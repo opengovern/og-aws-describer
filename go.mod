@@ -136,7 +136,7 @@ require (
 	github.com/gocarina/gocsv v0.0.0-20211203214250-4735fba0c1d9
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/hashicorp/go-hclog v1.4.0
-	github.com/kaytu-io/kaytu-util v0.0.0-20230730070339-96d3af2ad17d
+	github.com/kaytu-io/kaytu-util v0.0.0-20230801140906-583b4d799d87
 	github.com/kaytu-io/steampipe-plugin-aws v0.0.0-20230713070934-2d1d29891502
 	github.com/manifoldco/promptui v0.9.0
 	github.com/spf13/cobra v1.7.0
@@ -168,6 +168,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.3.34 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/v4a v1.0.16 // indirect
 	github.com/aws/aws-sdk-go-v2/service/athena v1.31.1 // indirect
+	github.com/aws/aws-sdk-go-v2/service/inspector2 v1.16.1 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.9.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.1.9 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.7.8 // indirect
@@ -237,6 +238,7 @@ require (
 	github.com/oklog/run v1.1.0 // indirect
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/pegasus-kv/thrift v0.13.0 // indirect
+	github.com/pganalyze/pg_query_go/v4 v4.2.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.15.0 // indirect
 	github.com/prometheus/client_model v0.3.0 // indirect

@@ -141,3 +141,45 @@ func OrganizationsAccount(ctx context.Context, cfg aws.Config, stream *StreamSen
 
 	return values, nil
 }
+
+func OrganizationsPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := organizations.NewFromConfig(cfg)
+
+	paginator := organizations.NewListPoliciesPaginator(client, &organizations.ListPoliciesInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, p := range page.Policies {
+			policy, err := client.DescribePolicy(ctx, &organizations.DescribePolicyInput{
+				PolicyId: p.Id,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    *p.Arn,
+				Name:   *p.Name,
+				Description: model.OrganizationsPolicyDescription{
+					Policy: *policy.Policy,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}

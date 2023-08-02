@@ -4,6 +4,7 @@ package model
 
 import (
 	athena "github.com/aws/aws-sdk-go-v2/service/athena/types"
+	inspector2 "github.com/aws/aws-sdk-go-v2/service/inspector2/types"
 	"time"
 
 	types2 "github.com/aws/aws-sdk-go-v2/service/resourcegroupstaggingapi/types"
@@ -1609,6 +1610,15 @@ type IAMServiceSpecificCredentialDescription struct {
 	ServiceSpecificCredential iam.ServiceSpecificCredentialMetadata
 }
 
+//index:aws_iam_openidconnectprovider
+type IAMOpenIdConnectProviderDescription struct {
+	ClientIDList   []string
+	Tags           []iam.Tag
+	CreateDate     time.Time
+	ThumbprintList []string
+	URL            string
+}
+
 //  ===================  RDS  ===================
 
 //index:aws_rds_dbcluster
@@ -1704,6 +1714,12 @@ type RDSGlobalClusterDescription struct {
 //listfilter:reserved_db_instances_offering_id=description.ReservedDBInstance.ReservedDBInstancesOfferingId
 type RDSReservedDBInstanceDescription struct {
 	ReservedDBInstance rds.ReservedDBInstance
+}
+
+//index:aws_rds_dbcluster
+//getfilter:db_cluster_identifier=description.DBCluster.DBClusterIdentifier
+type RDSDBInstanceAutomatedBackupDescription struct {
+	InstanceAutomatedBackup rds.DBInstanceAutomatedBackup
 }
 
 //  ===================  Redshift  ===================
@@ -1830,6 +1846,17 @@ type S3Object struct {
 	ObjectResult         s3.CopyObjectResult
 	LifecycleRule        s3.LifecycleRule
 	ServerSideEncryption s3.ServerSideEncryptionConfiguration
+}
+
+//index:aws_s3_bucketintelligenttieringconfiguration
+type S3BucketIntelligentTieringConfigurationDescription struct {
+	BucketName                      string
+	IntelligentTieringConfiguration s3.IntelligentTieringConfiguration
+}
+
+//index:aws_s3_bucketintelligenttieringconfiguration
+type S3MultiRegionAccessPointDescription struct {
+	Report s3control.MultiRegionAccessPointReport
 }
 
 //  ===================  SageMaker  ===================
@@ -2989,6 +3016,18 @@ type Route53TrafficPolicyInstanceDescription struct {
 	TrafficPolicyInstance route53.TrafficPolicyInstance
 }
 
+//index:aws_route53_querylog
+//getfilter:id=description.TrafficPolicyInstance.Id
+type Route53QueryLogDescription struct {
+	QueryConfig route53.QueryLoggingConfig
+}
+
+//index:aws_route53_querylog
+//getfilter:id=description.TrafficPolicyInstance.Id
+type Route53ResolverQueryLogConfigDescription struct {
+	QueryConfig route53resolver.ResolverQueryLogConfig
+}
+
 //  ===================  Batch  ===================
 
 //index:aws_batch_computeenvironment
@@ -3160,6 +3199,12 @@ type OrganizationsOrganizationDescription struct {
 type OrganizationsAccountDescription struct {
 	Tags    []organizations.Tag
 	Account organizations.Account
+}
+
+//index:aws_organizations_policy
+//getfilter:id=description.Policy.PolicySummary.Id
+type OrganizationsPolicyDescription struct {
+	Policy organizations.Policy
 }
 
 // ===================  Pinpoint ===================
@@ -3486,6 +3531,11 @@ type HealthEventDescription struct {
 	Event health.Event
 }
 
+//index:aws_health_affectedentity
+type HealthAffectedEntityDescription struct {
+	Entity health.AffectedEntity
+}
+
 // ===================  Identity Store ===================
 
 //index:aws_identitystore_group
@@ -3502,6 +3552,14 @@ type IdentityStoreGroupDescription struct {
 //listfilter:identity_store_id=description.User.IdentityStoreId
 type IdentityStoreUserDescription struct {
 	User identitystore.User
+}
+
+//index:aws_identitystore_group
+//getfilter:id=description.Group.GroupId
+//getfilter:identity_store_id=description.Group.IdentityStoreId
+//listfilter:identity_store_id=description.Group.IdentityStoreId
+type IdentityStoreGroupMembershipDescription struct {
+	GroupMembership identitystore.GroupMembership
 }
 
 // ===================  Inspector ===================
@@ -3545,6 +3603,31 @@ type InspectorExclusionDescription struct {
 type InspectorFindingDescription struct {
 	Finding     inspector.Finding
 	FailedItems map[string]inspector.FailedItemDetails
+}
+
+//index:aws_inspector2_coverage
+//listfilter:account_id=description.CoveredResource.AccountId
+//getfilter:resource_id=description.CoveredResource.ResourceId
+type Inspector2CoverageDescription struct {
+	CoveredResource inspector2.CoveredResource
+}
+
+//index:aws_inspector2_coveragestatistic
+type Inspector2CoverageStatisticDescription struct {
+	TotalCounts *int64
+	Counts      []inspector2.Counts
+}
+
+//index:aws_inspector2_member
+type Inspector2MemberDescription struct {
+	Member         inspector2.Member
+	OnlyAssociated bool
+}
+
+//index:aws_inspector2_member
+type Inspector2FindingDescription struct {
+	Finding  inspector2.Finding
+	Resource inspector2.Resource
 }
 
 // ===================  Firehose  ===================

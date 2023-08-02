@@ -412,6 +412,8 @@ github.com/aws/aws-sdk-go-v2/service/imagebuilder v1.23.4 h1:lM5X3ituBefJFZXxT3n
 github.com/aws/aws-sdk-go-v2/service/imagebuilder v1.23.4/go.mod h1:3iXR2y5mnnj4mxJlMC0vqKnT4MlnmW3jnrh0HyffAWE=
 github.com/aws/aws-sdk-go-v2/service/inspector v1.12.15 h1:gKxgS8oV6+Bo1AQiyIBepmGQoqvU8o4Ys/C71qSHUr0=
 github.com/aws/aws-sdk-go-v2/service/inspector v1.12.15/go.mod h1:XgCB+HTKD7s+beHujnMeyWnNkMV2c3H6Wf3zSjFiPJ8=
+github.com/aws/aws-sdk-go-v2/service/inspector2 v1.16.1 h1:1b4VIGtxBXUJ6d/pNA0PDrGVqgy6R+55Sz0ohyTsrQE=
+github.com/aws/aws-sdk-go-v2/service/inspector2 v1.16.1/go.mod h1:eNEIFReyvXQeB91nXgK7V0VHahM/eXwaJCe8Sc45FkE=
 github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.9.3 h1:4n4KCtv5SUoT5Er5XV41huuzrCqepxlW3SDI9qHQebc=
 github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.9.3/go.mod h1:gkb2qADY+OHaGLKNTYxMaQNacfeyQpZ4csDTQMeFmcw=
 github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.1.9 h1:gVv2vXOMqJeR4ZHHV32K7LElIJIIzyw/RU1b0lSfWTQ=
@@ -902,6 +904,8 @@ github.com/kaytu-io/kaytu-util v0.0.0-20230720103850-13062d0192c7 h1:f5grvCRXs4v
 github.com/kaytu-io/kaytu-util v0.0.0-20230720103850-13062d0192c7/go.mod h1:QULmP8Hug87ctExrOBAzZgwKJ7BXEWUcs0vIJAV1Hrs=
 github.com/kaytu-io/kaytu-util v0.0.0-20230730070339-96d3af2ad17d h1:FLpn7bltotPnJydMdh8uUijXt2mFzRTURRnoDaBNyzk=
 github.com/kaytu-io/kaytu-util v0.0.0-20230730070339-96d3af2ad17d/go.mod h1:8nqEFGMSX/jTQNn2MmURj9RRaWlyNWDEeHUKYxf4uK8=
+github.com/kaytu-io/kaytu-util v0.0.0-20230801140906-583b4d799d87 h1:gZNsJYqUHDJBSKATz2lkVvjcPiNSgvt2Ka/+rB1hIqQ=
+github.com/kaytu-io/kaytu-util v0.0.0-20230801140906-583b4d799d87/go.mod h1:8nqEFGMSX/jTQNn2MmURj9RRaWlyNWDEeHUKYxf4uK8=
 github.com/kaytu-io/steampipe-plugin-aws v0.0.0-20230713070934-2d1d29891502 h1:vDJRyGAk6MjoFawOhekpyIMfqvIFsxmuyuUra/w/zdM=
 github.com/kaytu-io/steampipe-plugin-aws v0.0.0-20230713070934-2d1d29891502/go.mod h1:XXJmFYC1bEJbBeN989tceseQ2LP/sqe9HVykT/NBGZ0=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
@@ -986,6 +990,8 @@ github.com/ory/dockertest/v3 v3.10.0 h1:4K3z2VMe8Woe++invjaTB7VRyQXQy5UY+loujO4a
 github.com/patrickmn/go-cache v2.1.0+incompatible h1:HRMgzkcYKYpi3C8ajMPV8OFXaaRUnok+kx1WdO15EQc=
 github.com/pegasus-kv/thrift v0.13.0 h1:4ESwaNoHImfbHa9RUGJiJZ4hrxorihZHk5aarYwY8d4=
 github.com/pegasus-kv/thrift v0.13.0/go.mod h1:Gl9NT/WHG6ABm6NsrbfE8LiJN0sAyneCrvB4qN4NPqQ=
+github.com/pganalyze/pg_query_go/v4 v4.2.1 h1:id/vuyIQccb9f6Yx3pzH5l4QYrxE3v6/m8RPlgMrprc=
+github.com/pganalyze/pg_query_go/v4 v4.2.1/go.mod h1:aEkDNOXNM5j0YGzaAapwJ7LB3dLNj+bvbWcLv1hOVqA=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
