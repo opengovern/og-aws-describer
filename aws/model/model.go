@@ -353,6 +353,12 @@ type EMRInstanceGroupDescription struct {
 	ClusterID     string
 }
 
+//index:aws_emr_instancegroup
+type EMRBlockPublicAccessConfigurationDescription struct {
+	Configuration         emr.BlockPublicAccessConfiguration
+	ConfigurationMetadata emr.BlockPublicAccessConfigurationMetadata
+}
+
 //  ===================   GuardDuty   ===================
 
 //index:aws_guardduty_finding
@@ -617,6 +623,15 @@ type CloudWatchMetricDescription struct {
 	Metric cloudwatch.Metric
 }
 
+//index:aws_cloudwatch_metricdata
+//listfilter:metric_data_id=description.MetricDataQuery.Id
+type CloudWatchMetricDataPointDescription struct {
+	MetricDataResult cloudwatch.MetricDataResult
+	MetricDataQuery  cloudwatch.MetricDataQuery
+	TimeStamp        time.Time
+	Value            float64
+}
+
 //index:aws_cloudwatch_loggroup
 //getfilter:name=description.LogGroup.LogGroupName
 //listfilter:name=description.LogGroup.LogGroupName
@@ -648,6 +663,12 @@ type CodeBuildSourceCredentialDescription struct {
 	SourceCredentialsInfo codebuild.SourceCredentialsInfo
 }
 
+//index:aws_codebuild_build
+//getfilter:id=description.Build.Id
+type CodeBuildBuildDescription struct {
+	Build codebuild.Build
+}
+
 //  ===================   Config   ===================
 
 //index:aws_config_configurationrecorder
@@ -676,6 +697,12 @@ type ConfigRuleDescription struct {
 	Rule       configservice.ConfigRule
 	Compliance configservice.ComplianceByConfigRule
 	Tags       []configservice.Tag
+}
+
+//index:aws_config_retentionconfiguration
+//getfilter:name=description.ConformancePack.ConformancePackName
+type ConfigRetentionConfigurationDescription struct {
+	RetentionConfiguration configservice.RetentionConfiguration
 }
 
 //  ===================   Dax   ===================
@@ -870,6 +897,12 @@ type EC2VolumeDescription struct {
 		AutoEnableIO bool
 		ProductCodes []ec2.ProductCode
 	}
+}
+
+//index:aws_ec2_volume
+//getfilter:volume_id=description.Volume.VolumeId
+type EC2ClientVpnEndpointDescription struct {
+	ClientVpnEndpoint ec2.ClientVpnEndpoint
 }
 
 //index:aws_ec2_instance
@@ -1153,6 +1186,12 @@ type EC2ManagedPrefixListDescription struct {
 	ManagedPrefixList ec2.ManagedPrefixList
 }
 
+//index:aws_ec2_managedprefixlistentry
+type EC2ManagedPrefixListEntryDescription struct {
+	PrefixListEntry ec2.PrefixListEntry
+	PrefixListId    string
+}
+
 //index:aws_ec2_spotprice
 //listfilter:availability_zone=description.SpotPrice.AvailabilityZone
 //listfilter:instance_type=description.SpotPrice.InstanceType
@@ -1186,6 +1225,10 @@ type EC2TransitGatewayAttachmentDescription struct {
 
 type EC2LaunchTemplateDescription struct {
 	LaunchTemplate ec2.LaunchTemplate
+}
+
+type EC2LaunchTemplateVersionDescription struct {
+	LaunchTemplateVersion ec2.LaunchTemplateVersion
 }
 
 //index:aws_vpc_nat_gateway_metric_bytes_out_to_destination
@@ -2638,6 +2681,12 @@ type CloudFormationStackSetDescription struct {
 	StackSet cloudformation.StackSet
 }
 
+//index:aws_cloudformation_stackresource
+//listfilter:name=description.StackResource.StackName
+type CloudFormationStackResourceDescription struct {
+	StackResource cloudformation.StackResourceDetail
+}
+
 //  ===================  CodeCommit  ===================
 
 //index:aws_codecommit_repository
@@ -2663,9 +2712,21 @@ type CodePipelinePipelineDescription struct {
 type DirectoryServiceDirectoryDescription struct {
 	Directory       directoryservice.DirectoryDescription
 	Snapshot        directoryservice.SnapshotLimits
-	EventTopic      directoryservice.EventTopic
+	EventTopics     []directoryservice.EventTopic
 	SharedDirectory []directoryservice.SharedDirectory
 	Tags            []directoryservice.Tag
+}
+
+//index:aws_directoryservice_certificate
+//getfilter:name=description.Certificate.CertificateId
+type DirectoryServiceCertificateDescription struct {
+	Certificate directoryservice.Certificate
+	DirectoryId string
+}
+
+//index:aws_directoryservice_logsubscription
+type DirectoryServiceLogSubscriptionDescription struct {
+	LogSubscription directoryservice.LogSubscription
 }
 
 //  ===================  SSOAdmin  ===================
@@ -2982,6 +3043,12 @@ type CodeDeployDeploymentGroupDescription struct {
 type CodeDeployApplicationDescription struct {
 	Application codedeploy.ApplicationInfo
 	Tags        []codedeploy.Tag
+}
+
+//index:aws_codedeploy_application
+//getfilter:application_name=description.Application.ApplicationName
+type CodeDeployDeploymentConfigDescription struct {
+	Config codedeploy.DeploymentConfigInfo
 }
 
 //  ===================  CodeStar  ===================
@@ -3305,6 +3372,13 @@ type DLMLifecyclePolicyDescription struct {
 type DocDBClusterDescription struct {
 	DBCluster docdb.DBCluster
 	Tags      []docdb.Tag
+}
+
+//index:aws_docdb_instance
+//getfilter:db_instance_identifier=description.DBCluster.DBClusterIdentifier
+type DocDBClusterInstanceDescription struct {
+	DBInstance docdb.DBInstance
+	Tags       []docdb.Tag
 }
 
 // ===================  Global Accelerator ===================

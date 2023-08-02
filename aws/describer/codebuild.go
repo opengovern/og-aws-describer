@@ -136,3 +136,75 @@ func GetCodeBuildSourceCredential(ctx context.Context, cfg aws.Config, fields ma
 	}
 	return values, nil
 }
+
+func CodeBuildBuild(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := codebuild.NewFromConfig(cfg)
+	paginator := codebuild.NewListBuildsPaginator(client, &codebuild.ListBuildsInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		if len(page.Ids) == 0 {
+			continue
+		}
+
+		build, err := client.BatchGetBuilds(ctx, &codebuild.BatchGetBuildsInput{
+			Ids: page.Ids,
+		})
+		if err != nil {
+			return nil, err
+		}
+
+		for _, project := range build.Builds {
+
+			resource := codeBuildBuildHandle(ctx, project)
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+
+		}
+	}
+
+	return values, nil
+}
+func codeBuildBuildHandle(ctx context.Context, build types.Build) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *build.Arn,
+		ID:     *build.Id,
+		Description: model.CodeBuildBuildDescription{
+			Build: build,
+		},
+	}
+	return resource
+}
+func GetCodeBuildBuild(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	id := fields["id"]
+	client := codebuild.NewFromConfig(cfg)
+
+	out, err := client.BatchGetBuilds(ctx, &codebuild.BatchGetBuildsInput{
+		Ids: []string{id},
+	})
+	if err != nil {
+		if isErr(err, "BatchGetBuildsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _, build := range out.Builds {
+		resource := codeBuildBuildHandle(ctx, build)
+		values = append(values, resource)
+	}
+	return values, nil
+}

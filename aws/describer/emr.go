@@ -285,3 +285,29 @@ func GetEMRInstanceGroup(ctx context.Context, cfg aws.Config, fields map[string]
 	}
 	return values, nil
 }
+
+func EMRBlockPublicAccessConfiguration(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := emr.NewFromConfig(cfg)
+	describeCtx := GetDescribeContext(ctx)
+	op, err := client.GetBlockPublicAccessConfiguration(ctx, &emr.GetBlockPublicAccessConfigurationInput{})
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		Description: model.EMRBlockPublicAccessConfigurationDescription{
+			Configuration:         *op.BlockPublicAccessConfiguration,
+			ConfigurationMetadata: *op.BlockPublicAccessConfigurationMetadata,
+		},
+	}
+
+	if stream != nil {
+		if err := (*stream)(resource); err != nil {
+			return nil, err
+		}
+	} else {
+		values = append(values, resource)
+	}
+	return values, nil
+}
