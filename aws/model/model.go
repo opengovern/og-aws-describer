@@ -1166,6 +1166,11 @@ type EC2LaunchTemplateDescription struct {
 	LaunchTemplate ec2.LaunchTemplate
 }
 
+//index:aws_vpc_nat_gateway_metric_bytes_out_to_destination
+type EC2NatGatewayMetricBytesOutToDestination struct {
+	NatGateway ec2.NatGateway
+}
+
 //  ===================  Elastic Load Balancing  ===================
 
 //index:aws_elasticloadbalancingv2_sslpolicy
@@ -1950,6 +1955,13 @@ type SSMManagedInstanceComplianceDescription struct {
 	ComplianceItem ssm.ComplianceItem
 }
 
+// index:aws_ssm_managed_instance_patch_state
+//
+//listfilter:instance_id=Description.PatchState.InstanceId
+type SSMManagedInstancePatchStateDescription struct {
+	PatchState ssm.InstancePatchState
+}
+
 //  ===================  ECS  ===================
 
 //index:aws_ecs_taskdefinition
@@ -2577,6 +2589,13 @@ type DirectoryServiceDirectoryDescription struct {
 //index:aws_ssoadmin_instance
 type SSOAdminInstanceDescription struct {
 	Instance ssoadmin.InstanceMetadata
+}
+
+//index:aws_ssoadmin_account_assignment
+type SSOAdminAccountAssignmentDescription struct {
+	Instance               ssoadmin.InstanceMetadata
+	AccountAssignment      ssoadmin.AccountAssignment
+	PermissionSetProvision ssoadmin.PermissionSetProvisioningStatus
 }
 
 //  ===================  Tagging  ===================

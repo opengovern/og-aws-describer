@@ -4216,3 +4216,57 @@ func EbsVolumeMetricWriteOpsHourly(ctx context.Context, cfg aws.Config, stream *
 
 	return values, nil
 }
+func EC2VPCNatGatewayMetricBytesOutToDestination(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := ec2.NewFromConfig(cfg)
+	paginator := ec2.NewDescribeNatGatewaysPaginator(client, &ec2.DescribeNatGatewaysInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.NatGateways {
+			resource := eC2VPCNatGatewayMetricBytesOutToDestinationHandle(ctx, v)
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}
+func eC2VPCNatGatewayMetricBytesOutToDestinationHandle(ctx context.Context, v types.NatGateway) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.Region,
+		ID:     *v.NatGatewayId,
+		Description: model.EC2NatGatewayMetricBytesOutToDestination{
+			NatGateway: v,
+		},
+	}
+	return resource
+}
+func GetEC2VPCNatGatewayMetricBytesOutToDestination(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	natGatewayId := fields["id"]
+	client := ec2.NewFromConfig(cfg)
+	natGateway, err := client.DescribeNatGateways(ctx, &ec2.DescribeNatGatewaysInput{
+		NatGatewayIds: []string{natGatewayId},
+	})
+	if err != nil {
+		if isErr(err, "DescribeNatGatewaysNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _, v := range natGateway.NatGateways {
+		resource := eC2VPCNatGatewayMetricBytesOutToDestinationHandle(ctx, v)
+		values = append(values, resource)
+	}
+	return values, nil
+}

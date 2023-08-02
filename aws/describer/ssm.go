@@ -566,3 +566,45 @@ func SSMResourceDataSync(ctx context.Context, cfg aws.Config, stream *StreamSend
 
 	return values, nil
 }
+func SSMManagedInstancePatchState(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := ssm.NewFromConfig(cfg)
+	paginator := ssm.NewDescribeInstanceInformationPaginator(client, &ssm.DescribeInstanceInformationInput{})
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.InstanceInformationList {
+			paginatorPS := ssm.NewDescribeInstancePatchStatesPaginator(client, &ssm.DescribeInstancePatchStatesInput{
+				InstanceIds: []string{*v.InstanceId},
+			})
+
+			for paginatorPS.HasMorePages() {
+				pagePS, err := paginatorPS.NextPage(ctx)
+				if err != nil {
+					return nil, err
+				}
+
+				for _, item := range pagePS.InstancePatchStates {
+					resource := Resource{
+						Region: describeCtx.Region,
+						ID:     *item.InstanceId,
+						Description: model.SSMManagedInstancePatchStateDescription{
+							PatchState: item,
+						},
+					}
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
+				}
+			}
+		}
+	}
+	return values, nil
+}
