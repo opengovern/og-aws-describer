@@ -413,3 +413,88 @@ func BackupLegalHold(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 
 	return values, nil
 }
+
+func BackupReportPlan(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := backup.NewFromConfig(cfg)
+	paginator := backup.NewListReportPlansPaginator(client, &backup.ListReportPlansInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page.ReportPlans {
+			resource, err := backupReportPlanHandle(ctx, cfg, v)
+			if err != nil {
+				return nil, err
+			}
+
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+func backupReportPlanHandle(ctx context.Context, cfg aws.Config, v types.ReportPlan) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := backup.NewFromConfig(cfg)
+
+	reportPlan, err := client.DescribeReportPlan(ctx, &backup.DescribeReportPlanInput{
+		ReportPlanName: v.ReportPlanName,
+	})
+	if err != nil {
+		return Resource{}, err
+	}
+
+	tags, err := client.ListTags(ctx, &backup.ListTagsInput{
+		ResourceArn: v.ReportPlanArn,
+	})
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.ReportPlanArn,
+		Name:   *v.ReportPlanName,
+		Description: model.BackupReportPlanDescription{
+			ReportPlan: *reportPlan.ReportPlan,
+			Tags:       tags.Tags,
+		},
+	}
+	return resource, nil
+}
+func GetBackupReportPlan(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	var values []Resource
+	name := fields["name"]
+	client := backup.NewFromConfig(cfg)
+
+	describe, err := client.ListReportPlans(ctx, &backup.ListReportPlansInput{})
+	if err != nil {
+		if isErr(err, "ListReportPlansNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+	for _, v := range describe.ReportPlans {
+		if *v.ReportPlanName != name {
+			continue
+		}
+
+		resource, err := backupReportPlanHandle(ctx, cfg, v)
+		if err != nil {
+			return nil, err
+		}
+
+		values = append(values, resource)
+	}
+	if values == nil {
+		return nil, nil
+	}
+	return values, nil
+}

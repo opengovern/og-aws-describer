@@ -3,6 +3,7 @@
 package model
 
 import (
+	athena "github.com/aws/aws-sdk-go-v2/service/athena/types"
 	"time"
 
 	types2 "github.com/aws/aws-sdk-go-v2/service/resourcegroupstaggingapi/types"
@@ -233,6 +234,18 @@ type ApiGatewayV2DomainNameDescription struct {
 	DomainName apigatewayv2.DomainName
 }
 
+//index:aws_apigateway_domainname
+//getfilter:domain_name=description.DomainName.DomainName
+type ApiGatewayDomainNameDescription struct {
+	DomainName apigateway.DomainName
+}
+
+//index:aws_apigateway_domainname
+//getfilter:domain_name=description.DomainName.DomainName
+type ApiGatewayV2RouteDescription struct {
+	Route apigatewayv2.Route
+}
+
 //index:aws_apigatewayv2_integration
 //getfilter:integration_id=description.Integration.IntegrationId
 //getfilter:api_id=description.ApiId
@@ -452,6 +465,13 @@ type BackupFrameworkDescription struct {
 //getfilter:legal_hold_id=description.Framework.LegalHoldId
 type BackupLegalHoldDescription struct {
 	LegalHold backupop.GetLegalHoldOutput
+}
+
+//index:aws_backup_reportplan
+//getfilter:framework_name=description.Framework.FrameworkName
+type BackupReportPlanDescription struct {
+	ReportPlan backup.ReportPlan
+	Tags       map[string]string
 }
 
 //  ===================   CloudFront   ===================
@@ -1282,6 +1302,16 @@ type FSXSnapshotDescription struct {
 //listfilter:scalable_dimension=description.ScalableTarget.ScalableDimension
 type ApplicationAutoScalingTargetDescription struct {
 	ScalableTarget applicationautoscaling.ScalableTarget
+}
+
+//index:aws_applicationautoscaling_target
+//getfilter:service_namespace=description.ScalablePolicy.ServiceNamespace
+//getfilter:resource_id=description.ScalablePolicy.ResourceId
+//listfilter:service_namespace=description.ScalablePolicy.ServiceNamespace
+//listfilter:resource_id=description.ScalablePolicy.ResourceId
+//listfilter:scalable_dimension=description.ScalablePolicy.ScalableDimension
+type ApplicationAutoScalingPolicyDescription struct {
+	ScalablePolicy applicationautoscaling.ScalingPolicy
 }
 
 //  ===================  Auto Scaling  ===================
@@ -2383,6 +2413,27 @@ type AppStreamFleetDescription struct {
 	Tags  map[string]string
 }
 
+//index:aws_appstream_image
+//getfilter:name=description.Image.Name
+type AppStreamImageDescription struct {
+	Image appstream.Image
+	Tags  map[string]string
+}
+
+// ===================  Athena  ===================
+
+//index:aws_athena_workgroup
+//getfilter:name=description.WorkGroup.Name
+type AthenaWorkGroupDescription struct {
+	WorkGroup *athena.WorkGroup
+}
+
+//index:aws_athena_queryexecution
+//getfilter:name=description.QueryExecution.Query
+type AthenaQueryExecutionDescription struct {
+	QueryExecution *athena.QueryExecution
+}
+
 //  ===================  Kinesis  ===================
 
 //index:aws_kinesis_stream
@@ -2636,7 +2687,7 @@ type WAFRuleDescription struct {
 //index:aws_wafregional_rule
 //getfilter:rule_id=description.Rule.RuleId
 type WAFRegionalRuleDescription struct {
-	Rule wafregional.RuleSummary
+	Rule wafregional.Rule
 	Tags []wafregional.Tag
 }
 
@@ -2674,6 +2725,114 @@ type WAFWebAclDescription struct {
 type WellArchitectedWorkloadDescription struct {
 	WorkloadSummary types3.WorkloadSummary
 	Workload        *types3.Workload
+}
+
+//index:aws_wellarchitected_answer
+//getfilter:workload_id=description.WorkloadId
+type WellArchitectedAnswerDescription struct {
+	Answer          types3.Answer
+	WorkloadId      string
+	WorkloadName    string
+	LensAlias       string
+	LensArn         string
+	MilestoneNumber int32
+}
+
+//index:aws_wellarchitected_checkdetail
+//getfilter:workload_id=description.WorkloadId
+type WellArchitectedCheckDetailDescription struct {
+	CheckDetail types3.CheckDetail
+	WorkloadId  string
+}
+
+//index:aws_wellarchitected_checksymmary
+//getfilter:workload_id=description.WorkloadId
+type WellArchitectedCheckSummaryDescription struct {
+	CheckSummary types3.CheckSummary
+	WorkloadId   string
+}
+
+//index:aws_wellarchitected_consolidated_report
+type WellArchitectedCheckConsolidatedReportDescription struct {
+	IncludeSharedResources bool
+	ConsolidateReport      types3.ConsolidatedReportMetric
+	Base64                 string
+}
+
+//index:aws_wellarchitected_lens
+type WellArchitectedLensDescription struct {
+	Lens        types3.Lens
+	LensSummary types3.LensSummary
+}
+
+//index:aws_wellarchitected_lensreview
+type WellArchitectedLensReviewDescription struct {
+	LensReview types3.LensReview
+}
+
+//index:aws_wellarchitected_lensreviewimprovement
+//getfilter:workload_id=description.WorkloadId
+type WellArchitectedLensReviewImprovementDescription struct {
+	ImprovementSummary types3.ImprovementSummary
+	LensAlias          string
+	LensArn            string
+	MilestoneNumber    int32
+	WorkloadId         string
+}
+
+//index:aws_wellarchitected_lensreviewreport
+//getfilter:workload_id=description.WorkloadId
+type WellArchitectedLensReviewReportDescription struct {
+	Report          types3.LensReviewReport
+	MilestoneNumber int32
+	WorkloadId      string
+}
+
+//index:aws_wellarchitected_lensshare
+type WellArchitectedLensShareDescription struct {
+	Share types3.LensShareSummary
+	Lens  types3.Lens
+}
+
+//index:aws_wellarchitected_milestone
+type WellArchitectedMilestoneDescription struct {
+	Milestone types3.Milestone
+}
+
+//index:aws_wellarchitected_notification
+type WellArchitectedNotificationDescription struct {
+	Notification types3.NotificationSummary
+}
+
+//index:aws_wellarchitected_shareinvitation
+type WellArchitectedShareInvitationDescription struct {
+	ShareInvitation types3.ShareInvitationSummary
+}
+
+//index:aws_wellarchitected_shareinvitation
+type WellArchitectedWorkloadShareDescription struct {
+	Share      types3.WorkloadShareSummary
+	WorkloadId string
+	Arn        string
+}
+
+//index:aws_wafregional_webacl
+//getfilter:web_acl_id=description.WebACL.WebACLId
+type WAFRegionalWebAclDescription struct {
+	WebACL               *wafregional.WebACL
+	AssociatedResources  []string
+	LoggingConfiguration *wafregional.LoggingConfiguration
+	Tags                 *wafregional.TagInfoForResource
+}
+
+//index:aws_wafregional_rulegroup
+//getfilter:rule_group_id=description.Rule.RuleId
+type WAFRegionalRuleGroupDescription struct {
+	ARN              string
+	RuleGroupSummary wafregional.RuleGroupSummary
+	RuleGroup        *wafregional.RuleGroup
+	ActivatedRules   []wafregional.ActivatedRule
+	Tags             []wafregional.Tag
 }
 
 //  ===================  Route53  ===================
