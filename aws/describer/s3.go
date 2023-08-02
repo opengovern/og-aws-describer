@@ -630,8 +630,15 @@ func S3AccountSetting(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 	return values, nil
 }
+<<<<<<< Updated upstream
 func S3Object(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+=======
+
+func S3BucketIntelligentTieringConfiguration(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+
+>>>>>>> Stashed changes
 	client := s3.NewFromConfig(cfg)
 	buckets, err := client.ListBuckets(ctx, &s3.ListBucketsInput{})
 	if err != nil {
@@ -639,6 +646,7 @@ func S3Object(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 	}
 	var values []Resource
 	for _, bucket := range buckets.Buckets {
+<<<<<<< Updated upstream
 		paginator := s3.NewListObjectsV2Paginator(client, &s3.ListObjectsV2Input{})
 		for paginator.HasMorePages() {
 			page, err := paginator.NextPage(ctx)
@@ -663,5 +671,75 @@ func S3Object(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 			}
 		}
 	}
+=======
+		conf, err := client.ListBucketIntelligentTieringConfigurations(ctx, &s3.ListBucketIntelligentTieringConfigurationsInput{
+			Bucket: bucket.Name,
+		})
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range conf.IntelligentTieringConfigurationList {
+			resource := Resource{
+				Region: describeCtx.Region,
+				ID:     *v.Id,
+				Description: model.S3BucketIntelligentTieringConfigurationDescription{
+					BucketName:                      *bucket.Name,
+					IntelligentTieringConfiguration: v,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+
+func S3MultiRegionAccessPoint(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	accountId, err := STSAccount(ctx, cfg)
+	if err != nil {
+		return nil, err
+	}
+	client := s3control.NewFromConfig(cfg)
+
+	input := &s3control.ListMultiRegionAccessPointsInput{
+		AccountId: aws.String(accountId),
+	}
+
+	paginator := s3control.NewListMultiRegionAccessPointsPaginator(client, input)
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, report := range page.AccessPoints {
+			arn := "arn:" + describeCtx.Partition + ":s3::" + accountId + ":accesspoint/" + *report.Name
+
+			resource := Resource{
+				Region: describeCtx.Region,
+				ARN:    arn,
+				Name:   *report.Name,
+				Description: model.S3MultiRegionAccessPointDescription{
+					Report: report,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+>>>>>>> Stashed changes
 	return values, nil
 }

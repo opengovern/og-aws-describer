@@ -1557,3 +1557,63 @@ func GetIAMVirtualMFADevice(ctx context.Context, cfg aws.Config, fields map[stri
 	}
 	return values, nil
 }
+
+func IAMOpenIdConnectProvider(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := iam.NewFromConfig(cfg)
+
+	// SDK doesn't have new paginator for ListOpenIDConnectProviders action
+	output, err := client.ListOpenIDConnectProviders(ctx, &iam.ListOpenIDConnectProvidersInput{})
+	var values []Resource
+	if err != nil {
+		return nil, err
+	}
+	for _, provider := range output.OpenIDConnectProviderList {
+		resource, err := iAMOpenIdConnectProviderHandle(ctx, cfg, *provider.Arn)
+		if err != nil {
+			return nil, err
+		}
+		if stream != nil {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
+			}
+		} else {
+			values = append(values, resource)
+		}
+	}
+	return values, nil
+}
+func iAMOpenIdConnectProviderHandle(ctx context.Context, cfg aws.Config, arn string) (Resource, error) {
+	client := iam.NewFromConfig(cfg)
+	describeCtx := GetDescribeContext(ctx)
+	params := &iam.GetOpenIDConnectProviderInput{
+		OpenIDConnectProviderArn: aws.String(arn),
+	}
+
+	op, err := client.GetOpenIDConnectProvider(ctx, params)
+	if err != nil {
+		return Resource{}, err
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		Description: model.IAMOpenIdConnectProviderDescription{
+			ClientIDList:   op.ClientIDList,
+			Tags:           op.Tags,
+			CreateDate:     *op.CreateDate,
+			ThumbprintList: op.ThumbprintList,
+			URL:            *op.Url,
+		},
+	}
+	return resource, nil
+}
+func GetIAMOpenIdConnectProvider(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	arn := fields["arn"]
+	var values []Resource
+	resource, err := iAMOpenIdConnectProviderHandle(ctx, cfg, arn)
+	if err != nil {
+		return nil, err
+	}
+	values = append(values, resource)
+	return values, nil
+}

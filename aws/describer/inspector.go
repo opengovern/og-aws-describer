@@ -3,6 +3,8 @@ package describer
 import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/service/inspector/types"
+	"github.com/aws/aws-sdk-go-v2/service/inspector2"
+	"reflect"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/inspector"
@@ -313,6 +315,161 @@ func InspectorFinding(ctx context.Context, cfg aws.Config, stream *StreamSender)
 				}
 			} else {
 				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+
+func Inspector2Coverage(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := inspector2.NewFromConfig(cfg)
+	paginator := inspector2.NewListCoveragePaginator(client, &inspector2.ListCoverageInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, coveredResource := range page.CoveredResources {
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ID:     *coveredResource.ResourceId,
+				Description: model.Inspector2CoverageDescription{
+					CoveredResource: coveredResource,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+
+func Inspector2CoverageStatistic(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := inspector2.NewFromConfig(cfg)
+	paginator := inspector2.NewListCoverageStatisticsPaginator(client, &inspector2.ListCoverageStatisticsInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		resource := Resource{
+			Region: describeCtx.KaytuRegion,
+			Description: model.Inspector2CoverageStatisticDescription{
+				TotalCounts: page.TotalCounts,
+				Counts:      page.CountsByGroup,
+			},
+		}
+		if stream != nil {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
+			}
+		} else {
+			values = append(values, resource)
+		}
+	}
+
+	return values, nil
+}
+
+func Inspector2CoverageMember(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := inspector2.NewFromConfig(cfg)
+	associated, err := Inspector2CoverageMemberHelper(ctx, cfg, client, true)
+	if err != nil {
+		return nil, err
+	}
+	notAssociated, err := Inspector2CoverageMemberHelper(ctx, cfg, client, false)
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+	values = append(values, associated...)
+	for _, resource := range notAssociated {
+		if !ContainsResource(resource, values) {
+			values = append(values, resource)
+		}
+	}
+	return values, nil
+}
+
+func ContainsResource(val Resource, values []Resource) bool {
+	for _, v := range values {
+		if reflect.DeepEqual(val, v) {
+			return true
+		}
+	}
+	return false
+}
+
+func Inspector2CoverageMemberHelper(ctx context.Context, cfg aws.Config, client *inspector2.Client, onlyAssociated bool) ([]Resource, error) {
+	input := &inspector2.ListMembersInput{
+		OnlyAssociated: &onlyAssociated,
+	}
+	paginator := inspector2.NewListMembersPaginator(client, input)
+	describeCtx := GetDescribeContext(ctx)
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, member := range page.Members {
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				Description: model.Inspector2MemberDescription{
+					Member:         member,
+					OnlyAssociated: onlyAssociated,
+				},
+			}
+
+			values = append(values, resource)
+		}
+
+	}
+	return values, nil
+}
+
+func Inspector2Finding(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := inspector2.NewFromConfig(cfg)
+	paginator := inspector2.NewListFindingsPaginator(client, &inspector2.ListFindingsInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		for _, finding := range page.Findings {
+			if err != nil {
+				return nil, err
+			}
+			for _, resource := range finding.Resources {
+				resource := Resource{
+					Region: describeCtx.KaytuRegion,
+					Description: model.Inspector2FindingDescription{
+						Finding:  finding,
+						Resource: resource,
+					},
+				}
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
 			}
 		}
 	}

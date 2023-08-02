@@ -168,6 +168,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.3.34 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/v4a v1.0.16 // indirect
 	github.com/aws/aws-sdk-go-v2/service/athena v1.31.1 // indirect
+	github.com/aws/aws-sdk-go-v2/service/inspector2 v1.16.1 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.9.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.1.9 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.7.8 // indirect
