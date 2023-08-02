@@ -630,15 +630,9 @@ func S3AccountSetting(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 	return values, nil
 }
-<<<<<<< Updated upstream
+
 func S3Object(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
-=======
-
-func S3BucketIntelligentTieringConfiguration(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-
->>>>>>> Stashed changes
 	client := s3.NewFromConfig(cfg)
 	buckets, err := client.ListBuckets(ctx, &s3.ListBucketsInput{})
 	if err != nil {
@@ -646,7 +640,6 @@ func S3BucketIntelligentTieringConfiguration(ctx context.Context, cfg aws.Config
 	}
 	var values []Resource
 	for _, bucket := range buckets.Buckets {
-<<<<<<< Updated upstream
 		paginator := s3.NewListObjectsV2Paginator(client, &s3.ListObjectsV2Input{})
 		for paginator.HasMorePages() {
 			page, err := paginator.NextPage(ctx)
@@ -671,7 +664,19 @@ func S3BucketIntelligentTieringConfiguration(ctx context.Context, cfg aws.Config
 			}
 		}
 	}
-=======
+	return values, nil
+}
+
+func S3BucketIntelligentTieringConfiguration(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+
+	client := s3.NewFromConfig(cfg)
+	buckets, err := client.ListBuckets(ctx, &s3.ListBucketsInput{})
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+	for _, bucket := range buckets.Buckets {
 		conf, err := client.ListBucketIntelligentTieringConfigurations(ctx, &s3.ListBucketIntelligentTieringConfigurationsInput{
 			Bucket: bucket.Name,
 		})
@@ -740,6 +745,5 @@ func S3MultiRegionAccessPoint(ctx context.Context, cfg aws.Config, stream *Strea
 		}
 	}
 
->>>>>>> Stashed changes
 	return values, nil
 }

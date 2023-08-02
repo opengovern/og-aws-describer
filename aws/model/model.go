@@ -1834,7 +1834,6 @@ type S3AccountSettingDescription struct {
 	PublicAccessBlockConfiguration s3control.PublicAccessBlockConfiguration
 }
 
-<<<<<<< Updated upstream
 //index:aws_s3_object
 type S3Object struct {
 	BucketName          *string
@@ -1847,7 +1846,8 @@ type S3Object struct {
 	ObjectResult         s3.CopyObjectResult
 	LifecycleRule        s3.LifecycleRule
 	ServerSideEncription s3.ServerSideEncryptionConfiguration
-=======
+}
+
 //index:aws_s3_bucketintelligenttieringconfiguration
 type S3BucketIntelligentTieringConfigurationDescription struct {
 	BucketName                      string
@@ -1857,7 +1857,6 @@ type S3BucketIntelligentTieringConfigurationDescription struct {
 //index:aws_s3_bucketintelligenttieringconfiguration
 type S3MultiRegionAccessPointDescription struct {
 	Report s3control.MultiRegionAccessPointReport
->>>>>>> Stashed changes
 }
 
 //  ===================  SageMaker  ===================
