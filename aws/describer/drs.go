@@ -28,13 +28,6 @@ func DRSSourceServer(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		}
 
 		for _, v := range page.Items {
-			lunchConfiguration, err := client.GetLaunchConfiguration(ctx, &drs.GetLaunchConfigurationInput{
-				SourceServerID: v.SourceServerID,
-			})
-			if err != nil {
-				return nil, err
-			}
-
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ARN:    *v.Arn,

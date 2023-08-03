@@ -30,6 +30,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/cloudtrail"
 	cloudtrailtypes "github.com/aws/aws-sdk-go-v2/service/cloudtrail/types"
 	cloudwatch "github.com/aws/aws-sdk-go-v2/service/cloudwatch/types"
+	cloudwatchlogs2 "github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs"
 	cloudwatchlogs "github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/types"
 	codeartifact "github.com/aws/aws-sdk-go-v2/service/codeartifact/types"
 	codebuild "github.com/aws/aws-sdk-go-v2/service/codebuild/types"
@@ -1227,12 +1228,10 @@ type EC2TransitGatewayAttachmentDescription struct {
 	TransitGatewayAttachment ec2.TransitGatewayAttachment
 }
 
-//index:aws_ec2_launch_template
 type EC2LaunchTemplateDescription struct {
 	LaunchTemplate ec2.LaunchTemplate
 }
 
-//index:aws_ec2_launch_template_version
 type EC2LaunchTemplateVersionDescription struct {
 	LaunchTemplateVersion ec2.LaunchTemplateVersion
 }
@@ -1846,6 +1845,10 @@ type S3BucketDescription struct {
 	ObjectLockConfiguration           *s3.ObjectLockConfiguration
 	ReplicationConfiguration          string
 	Tags                              []s3.Tag
+	Region                            string
+	BucketWebsite                     *s3types.GetBucketWebsiteOutput
+	BucketOwnershipControls           *s3types.GetBucketOwnershipControlsOutput
+	EventNotificationConfiguration    *s3types.GetBucketNotificationConfigurationOutput
 }
 
 //index:aws_s3_accountsettingdescription
@@ -2750,7 +2753,7 @@ type CodePipelinePipelineDescription struct {
 
 //  ===================  DirectoryService  ===================
 
-//index:aws_directory_service_directory
+//index:aws_directoryservice_directory
 //getfilter:name=description.Directory.DirectoryId
 type DirectoryServiceDirectoryDescription struct {
 	Directory       directoryservice.DirectoryDescription
