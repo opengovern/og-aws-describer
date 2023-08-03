@@ -28,12 +28,20 @@ func DRSSourceServer(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		}
 
 		for _, v := range page.Items {
+			launchConfiguration, err := client.GetLaunchConfiguration(ctx, &drs.GetLaunchConfigurationInput{
+				SourceServerID: v.SourceServerID,
+			})
+			if err != nil {
+				return nil, err
+			}
+
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ARN:    *v.Arn,
 				Name:   *v.SourceServerID,
 				Description: model.DRSSourceServerDescription{
-					SourceServer: v,
+					SourceServer:        v,
+					LaunchConfiguration: *launchConfiguration,
 				},
 			}
 			if stream != nil {
