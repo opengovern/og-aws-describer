@@ -21,28 +21,51 @@ func CodeArtifactRepository(ctx context.Context, cfg aws.Config, stream *StreamS
 		}
 
 		for _, v := range page.Repositories {
-			resource, err := codeArtifactRepositoryHandle(ctx, cfg, v)
+			description, err := client.DescribeRepository(ctx, &codeartifact.DescribeRepositoryInput{
+				Domain:      v.Name,
+				DomainOwner: v.DomainOwner,
+				Repository:  v.Name,
+			})
 			if err != nil {
+				if isErr(err, "DescribeRepositoryNotFound") || isErr(err, "InvalidParameterValue") {
+					return nil, nil
+				}
 				return nil, err
 			}
-			emptyResource := Resource{}
-			if err == nil && resource == emptyResource {
-				continue
-			}
-
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+			for _, item := range description.Repository.ExternalConnections {
+				repositoryEndpoint, err := client.GetRepositoryEndpoint(ctx, &codeartifact.GetRepositoryEndpointInput{
+					Domain:      v.DomainName,
+					DomainOwner: v.DomainOwner,
+					Format:      item.PackageFormat,
+					Repository:  v.Name,
+				})
+				if err != nil {
 					return nil, err
 				}
-			} else {
-				values = append(values, resource)
+
+				resource, err := codeArtifactRepositoryHandle(ctx, cfg, v, repositoryEndpoint.RepositoryEndpoint, description.Repository)
+				if err != nil {
+					return nil, err
+				}
+				emptyResource := Resource{}
+				if err == nil && resource == emptyResource {
+					continue
+				}
+
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
 			}
 		}
 	}
 
 	return values, nil
 }
-func codeArtifactRepositoryHandle(ctx context.Context, cfg aws.Config, v types.RepositorySummary) (Resource, error) {
+func codeArtifactRepositoryHandle(ctx context.Context, cfg aws.Config, v types.RepositorySummary, repositoryEndpoint *string, descriptionRepository *types.RepositoryDescription) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := codeartifact.NewFromConfig(cfg)
 
@@ -66,29 +89,19 @@ func codeArtifactRepositoryHandle(ctx context.Context, cfg aws.Config, v types.R
 		}
 		return Resource{}, err
 	}
-	description, err := client.DescribeRepository(ctx, &codeartifact.DescribeRepositoryInput{
-		Domain:      v.Name,
-		DomainOwner: v.DomainOwner,
-		Repository:  v.Name,
-	})
-	if err != nil {
-		if isErr(err, "DescribeRepositoryNotFound") || isErr(err, "InvalidParameterValue") {
-			return Resource{}, nil
-		}
-		return Resource{}, err
-	}
-
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *v.Arn,
 		Name:   *v.Name,
 		Description: model.CodeArtifactRepositoryDescription{
-			Repository:  v,
-			Policy:      *policy.Policy,
-			Description: *description.Repository,
-			Tags:        tags.Tags,
+			Repository:         v,
+			RepositoryEndpoint: repositoryEndpoint,
+			Policy:             *policy.Policy,
+			Description:        *descriptionRepository,
+			Tags:               tags.Tags,
 		},
 	}
+
 	return resource, nil
 }
 func GetCodeArtifactRepository(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
@@ -115,17 +128,44 @@ func GetCodeArtifactRepository(ctx context.Context, cfg aws.Config, fields map[s
 	}
 
 	var values []Resource
-
-	resource, err := codeArtifactRepositoryHandle(ctx, cfg, Repo)
+	description, err := client.DescribeRepository(ctx, &codeartifact.DescribeRepositoryInput{
+		Domain:      Repo.Name,
+		DomainOwner: Repo.DomainOwner,
+		Repository:  Repo.Name,
+	})
 	if err != nil {
+		if isErr(err, "DescribeRepositoryNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
 		return nil, err
 	}
-	emptyResource := Resource{}
-	if err == nil && resource == emptyResource {
-		return nil, nil
+
+	for _, item := range description.Repository.ExternalConnections {
+		repositoryEndpoint, err := client.GetRepositoryEndpoint(ctx, &codeartifact.GetRepositoryEndpointInput{
+			Domain:      Repo.DomainName,
+			DomainOwner: Repo.DomainOwner,
+			Format:      item.PackageFormat,
+			Repository:  Repo.Name,
+		})
+		if err != nil {
+			if isErr(err, "GetRepositoryEndpointNotFound") || isErr(err, "InvalidParameterValue") {
+				return nil, nil
+			}
+			return nil, err
+		}
+
+		resource, err := codeArtifactRepositoryHandle(ctx, cfg, Repo, repositoryEndpoint.RepositoryEndpoint, description.Repository)
+		if err != nil {
+			return nil, err
+		}
+		emptyResource := Resource{}
+		if err == nil && resource == emptyResource {
+			return nil, nil
+		}
+
+		values = append(values, resource)
 	}
 
-	values = append(values, resource)
 	return values, nil
 }
 

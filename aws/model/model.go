@@ -1229,10 +1229,12 @@ type EC2TransitGatewayAttachmentDescription struct {
 	TransitGatewayAttachment ec2.TransitGatewayAttachment
 }
 
+//index:aws_ec2_launch_template
 type EC2LaunchTemplateDescription struct {
 	LaunchTemplate ec2.LaunchTemplate
 }
 
+//index:aws_ec2_launch_template_version
 type EC2LaunchTemplateVersionDescription struct {
 	LaunchTemplateVersion ec2.LaunchTemplateVersion
 }
@@ -2739,7 +2741,7 @@ type CodePipelinePipelineDescription struct {
 
 //  ===================  DirectoryService  ===================
 
-//index:aws_directoryservice_directory
+//index:aws_directory_service_directory
 //getfilter:name=description.Directory.DirectoryId
 type DirectoryServiceDirectoryDescription struct {
 	Directory       directoryservice.DirectoryDescription
@@ -3058,10 +3060,11 @@ type BatchJobQueueDescription struct {
 //index:aws_codeartifact_repository
 //getfilter:name=description.Repository.Name
 type CodeArtifactRepositoryDescription struct {
-	Repository  codeartifact.RepositorySummary
-	Policy      codeartifact.ResourcePolicy
-	Description codeartifact.RepositoryDescription
-	Tags        []codeartifact.Tag
+	Repository         codeartifact.RepositorySummary
+	Policy             codeartifact.ResourcePolicy
+	RepositoryEndpoint *string
+	Description        codeartifact.RepositoryDescription
+	Tags               []codeartifact.Tag
 }
 
 //index:aws_codeartifact_domain
@@ -3124,7 +3127,8 @@ type DirectConnectGatewayDescription struct {
 //index:aws_drs_sourceserver
 //getfilter:source_server_id=description.SourceServer.SourceServerID
 type DRSSourceServerDescription struct {
-	SourceServer drs.SourceServer
+	SourceServer        drs.SourceServer
+	LaunchConfiguration *drs.output
 }
 
 //index:aws_drs_recoveryinstance

@@ -293,7 +293,7 @@ func CloudWatchLogsLogGroup(ctx context.Context, cfg aws.Config, stream *StreamS
 			if err != nil {
 				return nil, err
 			}
-
+			client.GetDataProtectionPolicy
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ARN:    *v.Arn,

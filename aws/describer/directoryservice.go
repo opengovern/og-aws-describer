@@ -66,7 +66,6 @@ func DirectoryServiceDirectory(ctx context.Context, cfg aws.Config, stream *Stre
 				}
 				return nil, err
 			}
-
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
