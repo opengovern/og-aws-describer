@@ -3,13 +3,6 @@
 package model
 
 import (
-	"time"
-
-	types2 "github.com/aws/aws-sdk-go-v2/service/resourcegroupstaggingapi/types"
-	"github.com/aws/aws-sdk-go-v2/service/sesv2/types"
-	waf2 "github.com/aws/aws-sdk-go-v2/service/waf"
-	types3 "github.com/aws/aws-sdk-go-v2/service/wellarchitected/types"
-
 	accessanalyzer "github.com/aws/aws-sdk-go-v2/service/accessanalyzer/types"
 	account "github.com/aws/aws-sdk-go-v2/service/account/types"
 	acm "github.com/aws/aws-sdk-go-v2/service/acm/types"
@@ -21,6 +14,7 @@ import (
 	appconfig "github.com/aws/aws-sdk-go-v2/service/appconfig/types"
 	applicationautoscaling "github.com/aws/aws-sdk-go-v2/service/applicationautoscaling/types"
 	appstream "github.com/aws/aws-sdk-go-v2/service/appstream/types"
+	athena "github.com/aws/aws-sdk-go-v2/service/athena/types"
 	auditmanager "github.com/aws/aws-sdk-go-v2/service/auditmanager/types"
 	autoscaling "github.com/aws/aws-sdk-go-v2/service/autoscaling/types"
 	backupop "github.com/aws/aws-sdk-go-v2/service/backup"
@@ -36,6 +30,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/cloudtrail"
 	cloudtrailtypes "github.com/aws/aws-sdk-go-v2/service/cloudtrail/types"
 	cloudwatch "github.com/aws/aws-sdk-go-v2/service/cloudwatch/types"
+	cloudwatchlogs2 "github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs"
 	cloudwatchlogs "github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/types"
 	codeartifact "github.com/aws/aws-sdk-go-v2/service/codeartifact/types"
 	codebuild "github.com/aws/aws-sdk-go-v2/service/codebuild/types"
@@ -86,6 +81,7 @@ import (
 	identitystore "github.com/aws/aws-sdk-go-v2/service/identitystore/types"
 	imagebuilder "github.com/aws/aws-sdk-go-v2/service/imagebuilder/types"
 	inspector "github.com/aws/aws-sdk-go-v2/service/inspector/types"
+	inspector2 "github.com/aws/aws-sdk-go-v2/service/inspector2/types"
 	kafkaop "github.com/aws/aws-sdk-go-v2/service/kafka"
 	kafka "github.com/aws/aws-sdk-go-v2/service/kafka/types"
 	keyspaces "github.com/aws/aws-sdk-go-v2/service/keyspaces/types"
@@ -120,12 +116,14 @@ import (
 	redshift "github.com/aws/aws-sdk-go-v2/service/redshift/types"
 	redshiftserverlesstypes "github.com/aws/aws-sdk-go-v2/service/redshiftserverless/types"
 	resourceexplorer2 "github.com/aws/aws-sdk-go-v2/service/resourceexplorer2/types"
+	types2 "github.com/aws/aws-sdk-go-v2/service/resourcegroupstaggingapi/types"
 	route53op "github.com/aws/aws-sdk-go-v2/service/route53"
 	route53 "github.com/aws/aws-sdk-go-v2/service/route53/types"
 	route53domainsop "github.com/aws/aws-sdk-go-v2/service/route53domains"
 	route53domains "github.com/aws/aws-sdk-go-v2/service/route53domains/types"
 	route53resolverop "github.com/aws/aws-sdk-go-v2/service/route53resolver"
 	route53resolver "github.com/aws/aws-sdk-go-v2/service/route53resolver/types"
+	s3types "github.com/aws/aws-sdk-go-v2/service/s3"
 	s3 "github.com/aws/aws-sdk-go-v2/service/s3/types"
 	s3controlop "github.com/aws/aws-sdk-go-v2/service/s3control"
 	s3control "github.com/aws/aws-sdk-go-v2/service/s3control/types"
@@ -137,8 +135,11 @@ import (
 	securitylake "github.com/aws/aws-sdk-go-v2/service/securitylake/types"
 	serverlessapplicationrepositoryop "github.com/aws/aws-sdk-go-v2/service/serverlessapplicationrepository"
 	serverlessapplicationrepository "github.com/aws/aws-sdk-go-v2/service/serverlessapplicationrepository/types"
+	serviceCatalog "github.com/aws/aws-sdk-go-v2/service/servicecatalog/types"
+	serviceDiscovery "github.com/aws/aws-sdk-go-v2/service/servicediscovery/types"
 	servicequotas "github.com/aws/aws-sdk-go-v2/service/servicequotas/types"
 	ses "github.com/aws/aws-sdk-go-v2/service/ses/types"
+	"github.com/aws/aws-sdk-go-v2/service/sesv2/types"
 	sfnop "github.com/aws/aws-sdk-go-v2/service/sfn"
 	sfn "github.com/aws/aws-sdk-go-v2/service/sfn/types"
 	shield "github.com/aws/aws-sdk-go-v2/service/shield/types"
@@ -149,11 +150,14 @@ import (
 	ssm "github.com/aws/aws-sdk-go-v2/service/ssm/types"
 	ssoadmin "github.com/aws/aws-sdk-go-v2/service/ssoadmin/types"
 	storagegateway "github.com/aws/aws-sdk-go-v2/service/storagegateway/types"
+	waf2 "github.com/aws/aws-sdk-go-v2/service/waf"
 	waf "github.com/aws/aws-sdk-go-v2/service/waf/types"
 	wafregional "github.com/aws/aws-sdk-go-v2/service/wafregional/types"
 	wafv2op "github.com/aws/aws-sdk-go-v2/service/wafv2"
 	wafv2 "github.com/aws/aws-sdk-go-v2/service/wafv2/types"
+	types3 "github.com/aws/aws-sdk-go-v2/service/wellarchitected/types"
 	workspaces "github.com/aws/aws-sdk-go-v2/service/workspaces/types"
+	"time"
 )
 
 type Metadata struct {
@@ -230,6 +234,18 @@ type ApiGatewayV2APIDescription struct {
 //getfilter:domain_name=description.DomainName.DomainName
 type ApiGatewayV2DomainNameDescription struct {
 	DomainName apigatewayv2.DomainName
+}
+
+//index:aws_apigateway_domainname
+//getfilter:domain_name=description.DomainName.DomainName
+type ApiGatewayDomainNameDescription struct {
+	DomainName apigateway.DomainName
+}
+
+//index:aws_apigateway_domainname
+//getfilter:domain_name=description.DomainName.DomainName
+type ApiGatewayV2RouteDescription struct {
+	Route apigatewayv2.Route
 }
 
 //index:aws_apigatewayv2_integration
@@ -336,6 +352,12 @@ type EMRInstanceFleetDescription struct {
 type EMRInstanceGroupDescription struct {
 	InstanceGroup emr.InstanceGroup
 	ClusterID     string
+}
+
+//index:aws_emr_instancegroup
+type EMRBlockPublicAccessConfigurationDescription struct {
+	Configuration         emr.BlockPublicAccessConfiguration
+	ConfigurationMetadata emr.BlockPublicAccessConfigurationMetadata
 }
 
 //  ===================   GuardDuty   ===================
@@ -451,6 +473,13 @@ type BackupFrameworkDescription struct {
 //getfilter:legal_hold_id=description.Framework.LegalHoldId
 type BackupLegalHoldDescription struct {
 	LegalHold backupop.GetLegalHoldOutput
+}
+
+//index:aws_backup_reportplan
+//getfilter:framework_name=description.Framework.FrameworkName
+type BackupReportPlanDescription struct {
+	ReportPlan backup.ReportPlan
+	Tags       map[string]string
 }
 
 //  ===================   CloudFront   ===================
@@ -595,12 +624,22 @@ type CloudWatchMetricDescription struct {
 	Metric cloudwatch.Metric
 }
 
+//index:aws_cloudwatch_metricdata
+//listfilter:metric_data_id=description.MetricDataQuery.Id
+type CloudWatchMetricDataPointDescription struct {
+	MetricDataResult cloudwatch.MetricDataResult
+	MetricDataQuery  cloudwatch.MetricDataQuery
+	TimeStamp        time.Time
+	Value            float64
+}
+
 //index:aws_cloudwatch_loggroup
 //getfilter:name=description.LogGroup.LogGroupName
 //listfilter:name=description.LogGroup.LogGroupName
 type CloudWatchLogsLogGroupDescription struct {
-	LogGroup cloudwatchlogs.LogGroup
-	Tags     map[string]string
+	LogGroup       cloudwatchlogs.LogGroup
+	DataProtection *cloudwatchlogs2.GetDataProtectionPolicyOutput
+	Tags           map[string]string
 }
 
 //index:aws_logs_metricfilter
@@ -624,6 +663,12 @@ type CodeBuildProjectDescription struct {
 //index:aws_codebuild_sourcecredential
 type CodeBuildSourceCredentialDescription struct {
 	SourceCredentialsInfo codebuild.SourceCredentialsInfo
+}
+
+//index:aws_codebuild_build
+//getfilter:id=description.Build.Id
+type CodeBuildBuildDescription struct {
+	Build codebuild.Build
 }
 
 //  ===================   Config   ===================
@@ -654,6 +699,12 @@ type ConfigRuleDescription struct {
 	Rule       configservice.ConfigRule
 	Compliance configservice.ComplianceByConfigRule
 	Tags       []configservice.Tag
+}
+
+//index:aws_config_retentionconfiguration
+//getfilter:name=description.ConformancePack.ConformancePackName
+type ConfigRetentionConfigurationDescription struct {
+	RetentionConfiguration configservice.RetentionConfiguration
 }
 
 //  ===================   Dax   ===================
@@ -850,6 +901,12 @@ type EC2VolumeDescription struct {
 	}
 }
 
+//index:aws_ec2_volume
+//getfilter:volume_id=description.Volume.VolumeId
+type EC2ClientVpnEndpointDescription struct {
+	ClientVpnEndpoint ec2.ClientVpnEndpoint
+}
+
 //index:aws_ec2_instance
 //getfilter:instance_id=description.Instance.InstanceId
 //listfilter:hypervisor=description.Instance.Hypervisor
@@ -878,6 +935,7 @@ type EC2InstanceDescription struct {
 		InstanceInitiatedShutdownBehavior string
 		DisableApiTermination             bool
 	}
+	LaunchTemplateData ec2.ResponseLaunchTemplateData
 }
 
 //index:aws_ec2_vpc
@@ -1108,7 +1166,9 @@ type EC2IpamDescription struct {
 //index:aws_ec2_vpcendpointservice
 //getfilter:service_name=description.VPCEndpoint.ServiceName
 type EC2VPCEndpointServiceDescription struct {
-	VpcEndpointService ec2.ServiceDetail
+	VpcEndpointService     ec2.ServiceDetail
+	AllowedPrincipals      []ec2.AllowedPrincipal
+	VpcEndpointConnections []ec2.VpcEndpointConnection
 }
 
 //index:aws_ec2_instanceavailability
@@ -1129,6 +1189,12 @@ type EC2InstanceTypeDescription struct {
 //listfilter:owner_id=description.ManagedPrefixList.OwnerId
 type EC2ManagedPrefixListDescription struct {
 	ManagedPrefixList ec2.ManagedPrefixList
+}
+
+//index:aws_ec2_managedprefixlistentry
+type EC2ManagedPrefixListEntryDescription struct {
+	PrefixListEntry ec2.PrefixListEntry
+	PrefixListId    string
 }
 
 //index:aws_ec2_spotprice
@@ -1164,6 +1230,29 @@ type EC2TransitGatewayAttachmentDescription struct {
 
 type EC2LaunchTemplateDescription struct {
 	LaunchTemplate ec2.LaunchTemplate
+}
+
+type EC2LaunchTemplateVersionDescription struct {
+	LaunchTemplateVersion ec2.LaunchTemplateVersion
+}
+
+//index:aws_vpc_nat_gateway_metric_bytes_out_to_destination
+type EC2NatGatewayMetricBytesOutToDestinationDescription struct {
+	NatGateway ec2.NatGateway
+}
+
+//index:aws_vpc_eip_address_transfer
+type EC2EIPAddressTransferDescription struct {
+	AddressTransfer ec2.AddressTransfer
+}
+
+// ===================  STS Caller  =================
+
+//index:aws_stscaller_identity
+type STSCallerIdentityDescription struct {
+	UsrId   string
+	Account string
+	Arn     string
 }
 
 //  ===================  Elastic Load Balancing  ===================
@@ -1276,6 +1365,16 @@ type FSXSnapshotDescription struct {
 //listfilter:scalable_dimension=description.ScalableTarget.ScalableDimension
 type ApplicationAutoScalingTargetDescription struct {
 	ScalableTarget applicationautoscaling.ScalableTarget
+}
+
+//index:aws_applicationautoscaling_target
+//getfilter:service_namespace=description.ScalablePolicy.ServiceNamespace
+//getfilter:resource_id=description.ScalablePolicy.ResourceId
+//listfilter:service_namespace=description.ScalablePolicy.ServiceNamespace
+//listfilter:resource_id=description.ScalablePolicy.ResourceId
+//listfilter:scalable_dimension=description.ScalablePolicy.ScalableDimension
+type ApplicationAutoScalingPolicyDescription struct {
+	ScalablePolicy applicationautoscaling.ScalingPolicy
 }
 
 //  ===================  Auto Scaling  ===================
@@ -1529,6 +1628,15 @@ type IAMServiceSpecificCredentialDescription struct {
 	ServiceSpecificCredential iam.ServiceSpecificCredentialMetadata
 }
 
+//index:aws_iam_openidconnectprovider
+type IAMOpenIdConnectProviderDescription struct {
+	ClientIDList   []string
+	Tags           []iam.Tag
+	CreateDate     time.Time
+	ThumbprintList []string
+	URL            string
+}
+
 //  ===================  RDS  ===================
 
 //index:aws_rds_dbcluster
@@ -1624,6 +1732,12 @@ type RDSGlobalClusterDescription struct {
 //listfilter:reserved_db_instances_offering_id=description.ReservedDBInstance.ReservedDBInstancesOfferingId
 type RDSReservedDBInstanceDescription struct {
 	ReservedDBInstance rds.ReservedDBInstance
+}
+
+//index:aws_rds_dbcluster
+//getfilter:db_cluster_identifier=description.DBCluster.DBClusterIdentifier
+type RDSDBInstanceAutomatedBackupDescription struct {
+	InstanceAutomatedBackup rds.DBInstanceAutomatedBackup
 }
 
 //  ===================  Redshift  ===================
@@ -1731,11 +1845,36 @@ type S3BucketDescription struct {
 	ObjectLockConfiguration           *s3.ObjectLockConfiguration
 	ReplicationConfiguration          string
 	Tags                              []s3.Tag
+	Region                            string
+	BucketWebsite                     *s3types.GetBucketWebsiteOutput
+	BucketOwnershipControls           *s3types.GetBucketOwnershipControlsOutput
+	EventNotificationConfiguration    *s3types.GetBucketNotificationConfigurationOutput
 }
 
 //index:aws_s3_accountsettingdescription
 type S3AccountSettingDescription struct {
 	PublicAccessBlockConfiguration s3control.PublicAccessBlockConfiguration
+}
+
+//index:aws_s3_object
+type S3ObjectDescription struct {
+	BucketName       *string
+	Object           *s3types.GetObjectOutput
+	ObjectSummary    s3.Object
+	ObjectAttributes s3types.GetObjectAttributesOutput
+	ObjectAcl        s3types.GetObjectAclOutput
+	ObjectTags       s3types.GetObjectTaggingOutput
+}
+
+//index:aws_s3_bucketintelligenttieringconfiguration
+type S3BucketIntelligentTieringConfigurationDescription struct {
+	BucketName                      string
+	IntelligentTieringConfiguration s3.IntelligentTieringConfiguration
+}
+
+//index:aws_s3_bucketintelligenttieringconfiguration
+type S3MultiRegionAccessPointDescription struct {
+	Report s3control.MultiRegionAccessPointReport
 }
 
 //  ===================  SageMaker  ===================
@@ -1806,8 +1945,9 @@ type SecretsManagerSecretDescription struct {
 //index:aws_securityhub_hub
 //getfilter:hub_arn=description.Hub.HubArn
 type SecurityHubHubDescription struct {
-	Hub  *securityhubop.DescribeHubOutput
-	Tags map[string]string
+	Hub                  *securityhubop.DescribeHubOutput
+	AdministratorAccount securityhub.Invitation
+	Tags                 map[string]string
 }
 
 //index:aws_securityhub_actiontarget
@@ -1896,6 +2036,12 @@ type SSMDocumentDescription struct {
 	Permissions        *ssm_sdkv2.DescribeDocumentPermissionOutput
 }
 
+//index:aws_ssm_document_permission
+type SSMDocumentPermissionDescription struct {
+	Permissions *ssm_sdkv2.DescribeDocumentPermissionOutput
+	Document    *ssm_sdkv2.DescribeDocumentOutput
+}
+
 //index:aws_ssm_inventory
 //listfilter:id=description.Id
 //listfilter:type_name=description.TypeName
@@ -1906,6 +2052,17 @@ type SSMInventoryDescription struct {
 	SchemaVersion *string
 	TypeName      *string
 	Schemas       []ssm.InventoryItemSchema
+}
+
+//index:aws_ssm_inventory_entry
+//listfilter:instance_id=description.InstanceId
+//listfilter:type_name=description.TypeName
+type SSMInventoryEntryDescription struct {
+	CaptureTime   *string
+	InstanceId    *string
+	SchemaVersion *string
+	TypeName      *string
+	Entries       map[string]string
 }
 
 //index:aws_ssm_maintenancewindow
@@ -1948,6 +2105,13 @@ type SSMPatchBaselineDescription struct {
 //listfilter:resource_id=description.ComplianceItem.ResourceId
 type SSMManagedInstanceComplianceDescription struct {
 	ComplianceItem ssm.ComplianceItem
+}
+
+// index:aws_ssm_managed_instance_patch_state
+//
+//listfilter:instance_id=Description.PatchState.InstanceId
+type SSMManagedInstancePatchStateDescription struct {
+	PatchState ssm.InstancePatchState
 }
 
 //  ===================  ECS  ===================
@@ -2353,6 +2517,27 @@ type AppStreamFleetDescription struct {
 	Tags  map[string]string
 }
 
+//index:aws_appstream_image
+//getfilter:name=description.Image.Name
+type AppStreamImageDescription struct {
+	Image appstream.Image
+	Tags  map[string]string
+}
+
+// ===================  Athena  ===================
+
+//index:aws_athena_workgroup
+//getfilter:name=description.WorkGroup.Name
+type AthenaWorkGroupDescription struct {
+	WorkGroup *athena.WorkGroup
+}
+
+//index:aws_athena_queryexecution
+//getfilter:name=description.QueryExecution.Query
+type AthenaQueryExecutionDescription struct {
+	QueryExecution *athena.QueryExecution
+}
+
 //  ===================  Kinesis  ===================
 
 //index:aws_kinesis_stream
@@ -2542,6 +2727,12 @@ type CloudFormationStackSetDescription struct {
 	StackSet cloudformation.StackSet
 }
 
+//index:aws_cloudformation_stackresource
+//listfilter:name=description.StackResource.StackName
+type CloudFormationStackResourceDescription struct {
+	StackResource cloudformation.StackResourceDetail
+}
+
 //  ===================  CodeCommit  ===================
 
 //index:aws_codecommit_repository
@@ -2567,9 +2758,21 @@ type CodePipelinePipelineDescription struct {
 type DirectoryServiceDirectoryDescription struct {
 	Directory       directoryservice.DirectoryDescription
 	Snapshot        directoryservice.SnapshotLimits
-	EventTopic      directoryservice.EventTopic
+	EventTopics     []directoryservice.EventTopic
 	SharedDirectory []directoryservice.SharedDirectory
 	Tags            []directoryservice.Tag
+}
+
+//index:aws_directoryservice_certificate
+//getfilter:name=description.Certificate.CertificateId
+type DirectoryServiceCertificateDescription struct {
+	Certificate directoryservice.Certificate
+	DirectoryId string
+}
+
+//index:aws_directoryservice_logsubscription
+type DirectoryServiceLogSubscriptionDescription struct {
+	LogSubscription directoryservice.LogSubscription
 }
 
 //  ===================  SSOAdmin  ===================
@@ -2577,6 +2780,13 @@ type DirectoryServiceDirectoryDescription struct {
 //index:aws_ssoadmin_instance
 type SSOAdminInstanceDescription struct {
 	Instance ssoadmin.InstanceMetadata
+}
+
+//index:aws_ssoadmin_account_assignment
+type SSOAdminAccountAssignmentDescription struct {
+	Instance               ssoadmin.InstanceMetadata
+	AccountAssignment      ssoadmin.AccountAssignment
+	PermissionSetProvision ssoadmin.PermissionSetProvisioningStatus
 }
 
 //  ===================  Tagging  ===================
@@ -2599,7 +2809,7 @@ type WAFRuleDescription struct {
 //index:aws_wafregional_rule
 //getfilter:rule_id=description.Rule.RuleId
 type WAFRegionalRuleDescription struct {
-	Rule wafregional.RuleSummary
+	Rule wafregional.Rule
 	Tags []wafregional.Tag
 }
 
@@ -2637,6 +2847,114 @@ type WAFWebAclDescription struct {
 type WellArchitectedWorkloadDescription struct {
 	WorkloadSummary types3.WorkloadSummary
 	Workload        *types3.Workload
+}
+
+//index:aws_wellarchitected_answer
+//getfilter:workload_id=description.WorkloadId
+type WellArchitectedAnswerDescription struct {
+	Answer          types3.Answer
+	WorkloadId      string
+	WorkloadName    string
+	LensAlias       string
+	LensArn         string
+	MilestoneNumber int32
+}
+
+//index:aws_wellarchitected_checkdetail
+//getfilter:workload_id=description.WorkloadId
+type WellArchitectedCheckDetailDescription struct {
+	CheckDetail types3.CheckDetail
+	WorkloadId  string
+}
+
+//index:aws_wellarchitected_checksymmary
+//getfilter:workload_id=description.WorkloadId
+type WellArchitectedCheckSummaryDescription struct {
+	CheckSummary types3.CheckSummary
+	WorkloadId   string
+}
+
+//index:aws_wellarchitected_consolidated_report
+type WellArchitectedCheckConsolidatedReportDescription struct {
+	IncludeSharedResources bool
+	ConsolidateReport      types3.ConsolidatedReportMetric
+	Base64                 string
+}
+
+//index:aws_wellarchitected_lens
+type WellArchitectedLensDescription struct {
+	Lens        types3.Lens
+	LensSummary types3.LensSummary
+}
+
+//index:aws_wellarchitected_lensreview
+type WellArchitectedLensReviewDescription struct {
+	LensReview types3.LensReview
+}
+
+//index:aws_wellarchitected_lensreviewimprovement
+//getfilter:workload_id=description.WorkloadId
+type WellArchitectedLensReviewImprovementDescription struct {
+	ImprovementSummary types3.ImprovementSummary
+	LensAlias          string
+	LensArn            string
+	MilestoneNumber    int32
+	WorkloadId         string
+}
+
+//index:aws_wellarchitected_lensreviewreport
+//getfilter:workload_id=description.WorkloadId
+type WellArchitectedLensReviewReportDescription struct {
+	Report          types3.LensReviewReport
+	MilestoneNumber int32
+	WorkloadId      string
+}
+
+//index:aws_wellarchitected_lensshare
+type WellArchitectedLensShareDescription struct {
+	Share types3.LensShareSummary
+	Lens  types3.Lens
+}
+
+//index:aws_wellarchitected_milestone
+type WellArchitectedMilestoneDescription struct {
+	Milestone types3.Milestone
+}
+
+//index:aws_wellarchitected_notification
+type WellArchitectedNotificationDescription struct {
+	Notification types3.NotificationSummary
+}
+
+//index:aws_wellarchitected_shareinvitation
+type WellArchitectedShareInvitationDescription struct {
+	ShareInvitation types3.ShareInvitationSummary
+}
+
+//index:aws_wellarchitected_shareinvitation
+type WellArchitectedWorkloadShareDescription struct {
+	Share      types3.WorkloadShareSummary
+	WorkloadId string
+	Arn        string
+}
+
+//index:aws_wafregional_webacl
+//getfilter:web_acl_id=description.WebACL.WebACLId
+type WAFRegionalWebAclDescription struct {
+	WebACL               *wafregional.WebACL
+	AssociatedResources  []string
+	LoggingConfiguration *wafregional.LoggingConfiguration
+	Tags                 *wafregional.TagInfoForResource
+}
+
+//index:aws_wafregional_rulegroup
+//getfilter:rule_group_id=description.Rule.RuleId
+type WAFRegionalRuleGroupDescription struct {
+	ARN              string
+	RuleGroupSummary wafregional.RuleGroupSummary
+	RuleGroup        *wafregional.RuleGroup
+	ActivatedRules   []wafregional.ActivatedRule
+	Tags             []wafregional.Tag
 }
 
 //  ===================  Route53  ===================
@@ -2717,6 +3035,18 @@ type Route53TrafficPolicyInstanceDescription struct {
 	TrafficPolicyInstance route53.TrafficPolicyInstance
 }
 
+//index:aws_route53_querylog
+//getfilter:id=description.TrafficPolicyInstance.Id
+type Route53QueryLogDescription struct {
+	QueryConfig route53.QueryLoggingConfig
+}
+
+//index:aws_route53_querylog
+//getfilter:id=description.TrafficPolicyInstance.Id
+type Route53ResolverQueryLogConfigDescription struct {
+	QueryConfig route53resolver.ResolverQueryLogConfig
+}
+
 //  ===================  Batch  ===================
 
 //index:aws_batch_computeenvironment
@@ -2745,6 +3075,7 @@ type CodeArtifactRepositoryDescription struct {
 	Repository  codeartifact.RepositorySummary
 	Policy      codeartifact.ResourcePolicy
 	Description codeartifact.RepositoryDescription
+	Endpoints   []string
 	Tags        []codeartifact.Tag
 }
 
@@ -2771,6 +3102,12 @@ type CodeDeployDeploymentGroupDescription struct {
 type CodeDeployApplicationDescription struct {
 	Application codedeploy.ApplicationInfo
 	Tags        []codedeploy.Tag
+}
+
+//index:aws_codedeploy_application
+//getfilter:application_name=description.Application.ApplicationName
+type CodeDeployDeploymentConfigDescription struct {
+	Config codedeploy.DeploymentConfigInfo
 }
 
 //  ===================  CodeStar  ===================
@@ -2882,6 +3219,12 @@ type OrganizationsOrganizationDescription struct {
 type OrganizationsAccountDescription struct {
 	Tags    []organizations.Tag
 	Account organizations.Account
+}
+
+//index:aws_organizations_policy
+//getfilter:id=description.Policy.PolicySummary.Id
+type OrganizationsPolicyDescription struct {
+	Policy organizations.Policy
 }
 
 // ===================  Pinpoint ===================
@@ -3096,6 +3439,13 @@ type DocDBClusterDescription struct {
 	Tags      []docdb.Tag
 }
 
+//index:aws_docdb_instance
+//getfilter:db_instance_identifier=description.DBCluster.DBClusterIdentifier
+type DocDBClusterInstanceDescription struct {
+	DBInstance docdb.DBInstance
+	Tags       []docdb.Tag
+}
+
 // ===================  Global Accelerator ===================
 
 //index:aws_globalaccelerator_accelerator
@@ -3201,6 +3551,11 @@ type HealthEventDescription struct {
 	Event health.Event
 }
 
+//index:aws_health_affectedentity
+type HealthAffectedEntityDescription struct {
+	Entity health.AffectedEntity
+}
+
 // ===================  Identity Store ===================
 
 //index:aws_identitystore_group
@@ -3217,6 +3572,14 @@ type IdentityStoreGroupDescription struct {
 //listfilter:identity_store_id=description.User.IdentityStoreId
 type IdentityStoreUserDescription struct {
 	User identitystore.User
+}
+
+//index:aws_identitystore_group
+//getfilter:id=description.Group.GroupId
+//getfilter:identity_store_id=description.Group.IdentityStoreId
+//listfilter:identity_store_id=description.Group.IdentityStoreId
+type IdentityStoreGroupMembershipDescription struct {
+	GroupMembership identitystore.GroupMembership
 }
 
 // ===================  Inspector ===================
@@ -3260,6 +3623,31 @@ type InspectorExclusionDescription struct {
 type InspectorFindingDescription struct {
 	Finding     inspector.Finding
 	FailedItems map[string]inspector.FailedItemDetails
+}
+
+//index:aws_inspector2_coverage
+//listfilter:account_id=description.CoveredResource.AccountId
+//getfilter:resource_id=description.CoveredResource.ResourceId
+type Inspector2CoverageDescription struct {
+	CoveredResource inspector2.CoveredResource
+}
+
+//index:aws_inspector2_coveragestatistic
+type Inspector2CoverageStatisticDescription struct {
+	TotalCounts *int64
+	Counts      []inspector2.Counts
+}
+
+//index:aws_inspector2_member
+type Inspector2MemberDescription struct {
+	Member         inspector2.Member
+	OnlyAssociated bool
+}
+
+//index:aws_inspector2_member
+type Inspector2FindingDescription struct {
+	Finding  inspector2.Finding
+	Resource inspector2.Resource
 }
 
 // ===================  Firehose  ===================
@@ -3373,4 +3761,38 @@ type ServiceQuotasServiceQuotaDescription struct {
 type ServiceQuotasServiceQuotaChangeRequestDescription struct {
 	ServiceQuotaChangeRequest servicequotas.RequestedServiceQuotaChange
 	Tags                      []servicequotas.Tag
+}
+
+// =================== Service Catalog =======================
+
+//index:aws_servicecatalog_product
+type ServiceCatalogProductDescription struct {
+	ProductViewSummary    serviceCatalog.ProductViewSummary
+	Budgets               []serviceCatalog.BudgetDetail
+	LunchPaths            []serviceCatalog.LaunchPathSummary
+	ProvisioningArtifacts []serviceCatalog.ProvisioningArtifactSummary
+}
+
+//index:aws_servicecatalog_portfolio
+type ServiceCatalogPortfolioDescription struct {
+	Portfolio serviceCatalog.PortfolioDetail
+}
+
+// =================== Service Discovery ===========================
+
+//index:aws_service_discovery_service
+type ServiceDiscoveryServiceDescription struct {
+	Service serviceDiscovery.ServiceSummary
+	Tags    []serviceDiscovery.Tag
+}
+
+//index:aws_service_discovery_namespace
+type ServiceDiscoveryNamespaceDescription struct {
+	Namespace serviceDiscovery.NamespaceSummary
+	Tags      []serviceDiscovery.Tag
+}
+
+//index:aws_service_discovery_instance
+type ServiceDiscoveryInstanceDescription struct {
+	Instance serviceDiscovery.InstanceSummary
 }

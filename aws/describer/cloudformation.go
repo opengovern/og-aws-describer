@@ -167,3 +167,80 @@ func GetCloudFormationStackSet(ctx context.Context, cfg aws.Config, fields map[s
 	values = append(values, resource)
 	return values, nil
 }
+
+func CloudFormationStackResource(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := cloudformation.NewFromConfig(cfg)
+	paginator := cloudformation.NewDescribeStacksPaginator(client, &cloudformation.DescribeStacksInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			if !isErr(err, "ValidationError") && !isErr(err, "ResourceNotFoundException") {
+				return nil, err
+			}
+			continue
+		}
+		for _, v := range page.Stacks {
+			resourcesPager := cloudformation.NewListStackResourcesPaginator(client, &cloudformation.ListStackResourcesInput{
+				StackName: v.StackName,
+			})
+			for resourcesPager.HasMorePages() {
+				resourcesPage, err := resourcesPager.NextPage(ctx)
+				if err != nil {
+					return nil, err
+				}
+				for _, r := range resourcesPage.StackResourceSummaries {
+					resource, err := cloudFormationStackResourceHandle(ctx, cfg, *v.StackName, *r.LogicalResourceId)
+					if err != nil {
+						return nil, err
+					}
+
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
+				}
+			}
+		}
+	}
+
+	return values, nil
+}
+func cloudFormationStackResourceHandle(ctx context.Context, cfg aws.Config, stackName string, resourceId string) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := cloudformation.NewFromConfig(cfg)
+
+	stackResource, err := client.DescribeStackResource(ctx, &cloudformation.DescribeStackResourceInput{
+		LogicalResourceId: aws.String(resourceId),
+		StackName:         aws.String(stackName),
+	})
+	if err != nil {
+		if !isErr(err, "ValidationError") && !isErr(err, "ResourceNotFoundException") {
+			return Resource{}, err
+		}
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ID:     *stackResource.StackResourceDetail.LogicalResourceId,
+		Description: model.CloudFormationStackResourceDescription{
+			StackResource: *stackResource.StackResourceDetail,
+		},
+	}
+	return resource, nil
+}
+func GetCloudFormationStackResource(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	stackName := fields["stack_name"]
+	LogicalResourceId := fields["logical_resource_id"]
+
+	resource, err := cloudFormationStackResourceHandle(ctx, cfg, stackName, LogicalResourceId)
+	if err != nil {
+		return nil, err
+	}
+
+	return []Resource{resource}, nil
+}

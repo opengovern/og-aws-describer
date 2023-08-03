@@ -393,10 +393,12 @@ func EC2ClientVpnEndpoint(ctx context.Context, cfg aws.Config, stream *StreamSen
 
 		for _, v := range page.ClientVpnEndpoints {
 			resource := Resource{
-				Region:      describeCtx.Region,
-				ID:          *v.ClientVpnEndpointId,
-				Name:        *v.ClientVpnEndpointId,
-				Description: v,
+				Region: describeCtx.Region,
+				ID:     *v.ClientVpnEndpointId,
+				Name:   *v.ClientVpnEndpointId,
+				Description: model.EC2ClientVpnEndpointDescription{
+					ClientVpnEndpoint: v,
+				},
 			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
@@ -1037,6 +1039,37 @@ func GetEC2EIP(ctx context.Context, cfg aws.Config, fields map[string]string) ([
 
 	return values, nil
 }
+func EC2EIPAddressTransfer(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := ec2.NewFromConfig(cfg)
+	describeCtx := GetDescribeContext(ctx)
+	paginator := ec2.NewDescribeAddressTransfersPaginator(client, &ec2.DescribeAddressTransfersInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, item := range page.AddressTransfers {
+			resource := Resource{
+				Region: describeCtx.Region,
+				ID:     *item.TransferAccountId,
+				Name:   *item.TransferAccountId,
+				Description: model.EC2EIPAddressTransferDescription{
+					AddressTransfer: item,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}
 
 func EC2EnclaveCertificateIamRoleAssociation(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
@@ -1271,6 +1304,15 @@ func eC2InstanceHandle(ctx context.Context, v types.Instance, client *ec2.Client
 	}
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":instance/" + *v.InstanceId
 
+	params := &ec2.GetLaunchTemplateDataInput{
+		InstanceId: v.InstanceId,
+	}
+
+	op, err := client.GetLaunchTemplateData(ctx, params)
+	if err != nil {
+		return Resource{}, err
+	}
+	desc.LaunchTemplateData = *op.LaunchTemplateData
 	resource := Resource{
 		Region:      describeCtx.Region,
 		ARN:         arn,
@@ -2885,12 +2927,44 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 			splitServiceName := strings.Split(*v.ServiceName, ".")
 			arn := fmt.Sprintf("arn:%s:ec2:%s:%s:vpc-endpoint-service/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, splitServiceName[len(splitServiceName)-1])
 
+			paginator := ec2.NewDescribeVpcEndpointServicePermissionsPaginator(client, &ec2.DescribeVpcEndpointServicePermissionsInput{
+				ServiceId: v.ServiceId,
+			})
+
+			var allowedPrincipals []types.AllowedPrincipal
+			for paginator.HasMorePages() {
+				permissions, err := paginator.NextPage(ctx)
+				if err != nil {
+					if err != nil {
+						if !strings.Contains(err.Error(), "NotFound") {
+							return nil, err
+						}
+					}
+
+					allowedPrincipals = append(allowedPrincipals, permissions.AllowedPrincipals...)
+				}
+			}
+
+			op, err := client.DescribeVpcEndpointConnections(ctx, &ec2.DescribeVpcEndpointConnectionsInput{
+				Filters: []types.Filter{
+					{
+						Name:   aws.String("service-id"),
+						Values: []string{*v.ServiceId},
+					},
+				},
+			})
+			if err != nil {
+				return nil, err
+			}
+
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *v.ServiceName,
 				Description: model.EC2VPCEndpointServiceDescription{
-					VpcEndpointService: v,
+					VpcEndpointService:     v,
+					AllowedPrincipals:      allowedPrincipals,
+					VpcEndpointConnections: op.VpcEndpointConnections,
 				},
 			}
 			if stream != nil {
@@ -4215,4 +4289,169 @@ func EbsVolumeMetricWriteOpsHourly(ctx context.Context, cfg aws.Config, stream *
 	}
 
 	return values, nil
+}
+func EC2VPCNatGatewayMetricBytesOutToDestination(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := ec2.NewFromConfig(cfg)
+	paginator := ec2.NewDescribeNatGatewaysPaginator(client, &ec2.DescribeNatGatewaysInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.NatGateways {
+			resource := eC2VPCNatGatewayMetricBytesOutToDestinationHandle(ctx, v)
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}
+func eC2VPCNatGatewayMetricBytesOutToDestinationHandle(ctx context.Context, v types.NatGateway) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.Region,
+		ID:     *v.NatGatewayId,
+		Description: model.EC2NatGatewayMetricBytesOutToDestinationDescription{
+			NatGateway: v,
+		},
+	}
+	return resource
+}
+func GetEC2VPCNatGatewayMetricBytesOutToDestination(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	natGatewayId := fields["id"]
+	client := ec2.NewFromConfig(cfg)
+	natGateway, err := client.DescribeNatGateways(ctx, &ec2.DescribeNatGatewaysInput{
+		NatGatewayIds: []string{natGatewayId},
+	})
+	if err != nil {
+		if isErr(err, "DescribeNatGatewaysNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _, v := range natGateway.NatGateways {
+		resource := eC2VPCNatGatewayMetricBytesOutToDestinationHandle(ctx, v)
+		values = append(values, resource)
+	}
+	return values, nil
+}
+
+func EC2LaunchTemplateVersion(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := ec2.NewFromConfig(cfg)
+	paginator := ec2.NewDescribeLaunchTemplatesPaginator(client, &ec2.DescribeLaunchTemplatesInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, t := range page.LaunchTemplates {
+			version, err := client.DescribeLaunchTemplateVersions(ctx, &ec2.DescribeLaunchTemplateVersionsInput{
+				LaunchTemplateId: t.LaunchTemplateId,
+			})
+			if err != nil {
+				return nil, err
+			}
+			for _, v := range version.LaunchTemplateVersions {
+				resource := eC2LaunchTemplateVersionHandle(ctx, v)
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
+func eC2LaunchTemplateVersionHandle(ctx context.Context, v types.LaunchTemplateVersion) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		Description: model.EC2LaunchTemplateVersionDescription{
+			LaunchTemplateVersion: v,
+		},
+	}
+	return resource
+}
+
+func GetEC2LaunchTemplateVersion(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	LaunchTemplateId := fields["id"]
+	client := ec2.NewFromConfig(cfg)
+
+	out, err := client.DescribeLaunchTemplateVersions(ctx, &ec2.DescribeLaunchTemplateVersionsInput{
+		LaunchTemplateId: aws.String(LaunchTemplateId),
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+	for _, v := range out.LaunchTemplateVersions {
+		resource := eC2LaunchTemplateVersionHandle(ctx, v)
+		values = append(values, resource)
+	}
+	return values, nil
+}
+
+func EC2ManagedPrefixListEntry(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := ec2.NewFromConfig(cfg)
+	paginator := ec2.NewDescribeManagedPrefixListsPaginator(client, &ec2.DescribeManagedPrefixListsInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page.PrefixLists {
+			enPaginator := ec2.NewGetManagedPrefixListEntriesPaginator(client, &ec2.GetManagedPrefixListEntriesInput{
+				PrefixListId: v.PrefixListId,
+			})
+			for enPaginator.HasMorePages() {
+				enPage, err := enPaginator.NextPage(ctx)
+				if err != nil {
+					return nil, err
+				}
+				for _, entry := range enPage.Entries {
+					resource := eC2ManagedPrefixListEntryHandle(ctx, *v.PrefixListId, entry)
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
+				}
+			}
+		}
+	}
+
+	return values, nil
+}
+func eC2ManagedPrefixListEntryHandle(ctx context.Context, prefixListId string, v types.PrefixListEntry) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	values := Resource{
+		Region: describeCtx.KaytuRegion,
+		Description: model.EC2ManagedPrefixListEntryDescription{
+			PrefixListEntry: v,
+			PrefixListId:    prefixListId,
+		},
+	}
+	return values
 }

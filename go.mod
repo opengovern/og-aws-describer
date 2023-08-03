@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/aws/aws-lambda-go v1.13.3
 	github.com/aws/aws-sdk-go v1.44.153
-	github.com/aws/aws-sdk-go-v2 v1.18.0
+	github.com/aws/aws-sdk-go-v2 v1.20.0
 	github.com/aws/aws-sdk-go-v2/config v1.18.25
 	github.com/aws/aws-sdk-go-v2/credentials v1.13.24
 	github.com/aws/aws-sdk-go-v2/service/accessanalyzer v1.16.0
@@ -20,6 +20,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/applicationautoscaling v1.15.18
 	github.com/aws/aws-sdk-go-v2/service/applicationinsights v1.8.0
 	github.com/aws/aws-sdk-go-v2/service/appstream v1.17.13
+	github.com/aws/aws-sdk-go-v2/service/athena v1.31.1
 	github.com/aws/aws-sdk-go-v2/service/auditmanager v1.20.4
 	github.com/aws/aws-sdk-go-v2/service/autoscaling v1.23.10
 	github.com/aws/aws-sdk-go-v2/service/backup v1.18.0
@@ -30,7 +31,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/cloudsearch v1.13.19
 	github.com/aws/aws-sdk-go-v2/service/cloudtrail v1.21.1
 	github.com/aws/aws-sdk-go-v2/service/cloudwatch v1.21.6
-	github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs v1.15.14
+	github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs v1.23.1
 	github.com/aws/aws-sdk-go-v2/service/codeartifact v1.13.11
 	github.com/aws/aws-sdk-go-v2/service/codebuild v1.19.13
 	github.com/aws/aws-sdk-go-v2/service/codecommit v1.13.19
@@ -74,6 +75,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/identitystore v1.15.5
 	github.com/aws/aws-sdk-go-v2/service/imagebuilder v1.23.4
 	github.com/aws/aws-sdk-go-v2/service/inspector v1.12.15
+	github.com/aws/aws-sdk-go-v2/service/inspector2 v1.16.1
 	github.com/aws/aws-sdk-go-v2/service/kafka v1.18.0
 	github.com/aws/aws-sdk-go-v2/service/keyspaces v1.1.0
 	github.com/aws/aws-sdk-go-v2/service/kinesis v1.15.21
@@ -112,6 +114,8 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/securityhub v1.26.0
 	github.com/aws/aws-sdk-go-v2/service/securitylake v1.3.6
 	github.com/aws/aws-sdk-go-v2/service/serverlessapplicationrepository v1.12.11
+	github.com/aws/aws-sdk-go-v2/service/servicecatalog v1.20.1
+	github.com/aws/aws-sdk-go-v2/service/servicediscovery v1.22.1
 	github.com/aws/aws-sdk-go-v2/service/servicequotas v1.14.12
 	github.com/aws/aws-sdk-go-v2/service/ses v1.14.18
 	github.com/aws/aws-sdk-go-v2/service/sesv2 v1.16.0
@@ -131,17 +135,17 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/wafv2 v1.22.9
 	github.com/aws/aws-sdk-go-v2/service/wellarchitected v1.20.1
 	github.com/aws/aws-sdk-go-v2/service/workspaces v1.23.0
-	github.com/aws/smithy-go v1.13.5
+	github.com/aws/smithy-go v1.14.0
 	github.com/go-errors/errors v1.4.2
 	github.com/gocarina/gocsv v0.0.0-20211203214250-4735fba0c1d9
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/hashicorp/go-hclog v1.4.0
-	github.com/kaytu-io/kaytu-util v0.0.0-20230730070339-96d3af2ad17d
-	github.com/kaytu-io/steampipe-plugin-aws v0.0.0-20230713070934-2d1d29891502
+	github.com/kaytu-io/kaytu-util v0.0.0-20230801140906-583b4d799d87
+	github.com/kaytu-io/steampipe-plugin-aws v0.0.0-20230803092558-02ad1372d449
 	github.com/manifoldco/promptui v0.9.0
 	github.com/spf13/cobra v1.7.0
 	github.com/turbot/go-kit v0.6.0
-	github.com/turbot/steampipe-plugin-sdk/v4 v4.1.13
+	github.com/turbot/steampipe-plugin-sdk/v5 v5.5.1
 	go.uber.org/zap v1.24.0
 	golang.org/x/oauth2 v0.7.0
 	golang.org/x/tools v0.7.0
@@ -163,8 +167,8 @@ require (
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
 	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.4.9 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.13.3 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.33 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.27 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.37 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.31 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.3.34 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/v4a v1.0.16 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.9.3 // indirect
@@ -234,6 +238,7 @@ require (
 	github.com/oklog/run v1.1.0 // indirect
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/pegasus-kv/thrift v0.13.0 // indirect
+	github.com/pganalyze/pg_query_go/v4 v4.2.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.15.0 // indirect
 	github.com/prometheus/client_model v0.3.0 // indirect
@@ -247,8 +252,7 @@ require (
 	github.com/stevenle/topsort v0.2.0 // indirect
 	github.com/streadway/amqp v1.0.0 // indirect
 	github.com/tkrajina/go-reflector v0.5.6 // indirect
-	github.com/turbot/steampipe-plugin-sdk/v5 v5.5.1 // indirect
-	github.com/ulikunitz/xz v0.5.10 // indirect
+	github.com/ulikunitz/xz v0.5.11 // indirect
 	github.com/zclconf/go-cty v1.12.1 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/otel v1.16.0 // indirect

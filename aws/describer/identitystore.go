@@ -75,3 +75,48 @@ func IdentityStoreUser(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 	return values, nil
 }
+
+func IdentityStoreGroupMembership(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := identitystore.NewFromConfig(cfg)
+	paginator := identitystore.NewListGroupsPaginator(client, &identitystore.ListGroupsInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, group := range page.Groups {
+			membershipPaginator := identitystore.NewListGroupMembershipsPaginator(client, &identitystore.ListGroupMembershipsInput{
+				GroupId:         group.GroupId,
+				IdentityStoreId: group.IdentityStoreId,
+			})
+			for membershipPaginator.HasMorePages() {
+				membershipPage, err := membershipPaginator.NextPage(ctx)
+				if err != nil {
+					return nil, err
+				}
+				for _, membership := range membershipPage.GroupMemberships {
+					resource := Resource{
+						Region: describeCtx.KaytuRegion,
+						ID:     *membership.MembershipId,
+						Description: model.IdentityStoreGroupMembershipDescription{
+							GroupMembership: membership,
+						},
+					}
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
+				}
+			}
+		}
+	}
+
+	return values, nil
+}

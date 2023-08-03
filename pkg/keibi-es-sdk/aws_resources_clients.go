@@ -263,6 +263,8 @@ func (p ApiGatewayStagePaginator) NextPage(ctx context.Context) ([]ApiGatewaySta
 
 var listApiGatewayStageFilters = map[string]string{
 	"access_log_settings":   "description.Stage.AccessLogSettings",
+	"akas":                  "aRN",
+	"arn":                   "aRN",
 	"cache_cluster_enabled": "description.Stage.CacheClusterEnabled",
 	"cache_cluster_size":    "description.Stage.CacheClusterSize",
 	"cache_cluster_status":  "description.Stage.CacheClusterStatus",
@@ -316,6 +318,8 @@ func ListApiGatewayStage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 var getApiGatewayStageFilters = map[string]string{
 	"access_log_settings":   "description.Stage.AccessLogSettings",
+	"akas":                  "aRN",
+	"arn":                   "aRN",
 	"cache_cluster_enabled": "description.Stage.CacheClusterEnabled",
 	"cache_cluster_size":    "description.Stage.CacheClusterSize",
 	"cache_cluster_status":  "description.Stage.CacheClusterStatus",
@@ -1572,6 +1576,336 @@ func GetApiGatewayV2DomainName(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 // ==========================  END: ApiGatewayV2DomainName =============================
+
+// ==========================  START: ApiGatewayDomainName =============================
+
+type ApiGatewayDomainName struct {
+	Description   aws.ApiGatewayDomainNameDescription `json:"description"`
+	Metadata      aws.Metadata                        `json:"metadata"`
+	ResourceJobID int                                 `json:"resource_job_id"`
+	SourceJobID   int                                 `json:"source_job_id"`
+	ResourceType  string                              `json:"resource_type"`
+	SourceType    string                              `json:"source_type"`
+	ID            string                              `json:"id"`
+	ARN           string                              `json:"arn"`
+	SourceID      string                              `json:"source_id"`
+}
+
+type ApiGatewayDomainNameHit struct {
+	ID      string               `json:"_id"`
+	Score   float64              `json:"_score"`
+	Index   string               `json:"_index"`
+	Type    string               `json:"_type"`
+	Version int64                `json:"_version,omitempty"`
+	Source  ApiGatewayDomainName `json:"_source"`
+	Sort    []interface{}        `json:"sort"`
+}
+
+type ApiGatewayDomainNameHits struct {
+	Total essdk.SearchTotal         `json:"total"`
+	Hits  []ApiGatewayDomainNameHit `json:"hits"`
+}
+
+type ApiGatewayDomainNameSearchResponse struct {
+	PitID string                   `json:"pit_id"`
+	Hits  ApiGatewayDomainNameHits `json:"hits"`
+}
+
+type ApiGatewayDomainNamePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewApiGatewayDomainNamePaginator(filters []essdk.BoolFilter, limit *int64) (ApiGatewayDomainNamePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_apigateway_domainname", filters, limit)
+	if err != nil {
+		return ApiGatewayDomainNamePaginator{}, err
+	}
+
+	p := ApiGatewayDomainNamePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p ApiGatewayDomainNamePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p ApiGatewayDomainNamePaginator) NextPage(ctx context.Context) ([]ApiGatewayDomainName, error) {
+	var response ApiGatewayDomainNameSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []ApiGatewayDomainName
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listApiGatewayDomainNameFilters = map[string]string{
+	"kaytu_account_id": "metadata.SourceID",
+	"title":            "domainName",
+}
+
+func ListApiGatewayDomainName(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListApiGatewayDomainName")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewApiGatewayDomainNamePaginator(essdk.BuildFilter(d.EqualsQuals, listApiGatewayDomainNameFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getApiGatewayDomainNameFilters = map[string]string{
+	"domain_name":      "description.DomainName.DomainName",
+	"kaytu_account_id": "metadata.SourceID",
+	"title":            "domainName",
+}
+
+func GetApiGatewayDomainName(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetApiGatewayDomainName")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewApiGatewayDomainNamePaginator(essdk.BuildFilter(d.EqualsQuals, getApiGatewayDomainNameFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: ApiGatewayDomainName =============================
+
+// ==========================  START: ApiGatewayV2Route =============================
+
+type ApiGatewayV2Route struct {
+	Description   aws.ApiGatewayV2RouteDescription `json:"description"`
+	Metadata      aws.Metadata                     `json:"metadata"`
+	ResourceJobID int                              `json:"resource_job_id"`
+	SourceJobID   int                              `json:"source_job_id"`
+	ResourceType  string                           `json:"resource_type"`
+	SourceType    string                           `json:"source_type"`
+	ID            string                           `json:"id"`
+	ARN           string                           `json:"arn"`
+	SourceID      string                           `json:"source_id"`
+}
+
+type ApiGatewayV2RouteHit struct {
+	ID      string            `json:"_id"`
+	Score   float64           `json:"_score"`
+	Index   string            `json:"_index"`
+	Type    string            `json:"_type"`
+	Version int64             `json:"_version,omitempty"`
+	Source  ApiGatewayV2Route `json:"_source"`
+	Sort    []interface{}     `json:"sort"`
+}
+
+type ApiGatewayV2RouteHits struct {
+	Total essdk.SearchTotal      `json:"total"`
+	Hits  []ApiGatewayV2RouteHit `json:"hits"`
+}
+
+type ApiGatewayV2RouteSearchResponse struct {
+	PitID string                `json:"pit_id"`
+	Hits  ApiGatewayV2RouteHits `json:"hits"`
+}
+
+type ApiGatewayV2RoutePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewApiGatewayV2RoutePaginator(filters []essdk.BoolFilter, limit *int64) (ApiGatewayV2RoutePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_apigatewayv2_route", filters, limit)
+	if err != nil {
+		return ApiGatewayV2RoutePaginator{}, err
+	}
+
+	p := ApiGatewayV2RoutePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p ApiGatewayV2RoutePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p ApiGatewayV2RoutePaginator) NextPage(ctx context.Context) ([]ApiGatewayV2Route, error) {
+	var response ApiGatewayV2RouteSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []ApiGatewayV2Route
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listApiGatewayV2RouteFilters = map[string]string{
+	"akas":                                "aRN",
+	"api_gateway_managed":                 "description.Route.ApiGatewayManaged",
+	"api_key_required":                    "description.Route.ApiKeyRequired",
+	"authorization_scopes":                "description.Route.AuthorizationScopes",
+	"authorization_type":                  "description.Route.AuthorizationType",
+	"authorizer_id":                       "description.Route.AuthorizerId",
+	"kaytu_account_id":                    "metadata.SourceID",
+	"model_selection_expression":          "description.Route.ModelSelectionExpression",
+	"operation_name":                      "description.Route.OperationName",
+	"request_models":                      "description.Route.RequestModels",
+	"request_parameters":                  "description.Route.RequestParameters",
+	"route_id":                            "description.Route.RouteId",
+	"route_key":                           "description.Route.RouteKey",
+	"route_response_selection_expression": "description.Route.RouteResponseSelectionExpression",
+	"target":                              "description.Route.Target",
+	"title":                               "description.Route.RouteId",
+}
+
+func ListApiGatewayV2Route(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListApiGatewayV2Route")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewApiGatewayV2RoutePaginator(essdk.BuildFilter(d.EqualsQuals, listApiGatewayV2RouteFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getApiGatewayV2RouteFilters = map[string]string{
+	"akas":                                "aRN",
+	"api_gateway_managed":                 "description.Route.ApiGatewayManaged",
+	"api_key_required":                    "description.Route.ApiKeyRequired",
+	"authorization_scopes":                "description.Route.AuthorizationScopes",
+	"authorization_type":                  "description.Route.AuthorizationType",
+	"authorizer_id":                       "description.Route.AuthorizerId",
+	"domain_name":                         "description.DomainName.DomainName",
+	"kaytu_account_id":                    "metadata.SourceID",
+	"model_selection_expression":          "description.Route.ModelSelectionExpression",
+	"operation_name":                      "description.Route.OperationName",
+	"request_models":                      "description.Route.RequestModels",
+	"request_parameters":                  "description.Route.RequestParameters",
+	"route_id":                            "description.Route.RouteId",
+	"route_key":                           "description.Route.RouteKey",
+	"route_response_selection_expression": "description.Route.RouteResponseSelectionExpression",
+	"target":                              "description.Route.Target",
+	"title":                               "description.Route.RouteId",
+}
+
+func GetApiGatewayV2Route(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetApiGatewayV2Route")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewApiGatewayV2RoutePaginator(essdk.BuildFilter(d.EqualsQuals, getApiGatewayV2RouteFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: ApiGatewayV2Route =============================
 
 // ==========================  START: ApiGatewayV2Integration =============================
 
@@ -4013,6 +4347,164 @@ func GetEMRInstanceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 // ==========================  END: EMRInstanceGroup =============================
 
+// ==========================  START: EMRBlockPublicAccessConfiguration =============================
+
+type EMRBlockPublicAccessConfiguration struct {
+	Description   aws.EMRBlockPublicAccessConfigurationDescription `json:"description"`
+	Metadata      aws.Metadata                                     `json:"metadata"`
+	ResourceJobID int                                              `json:"resource_job_id"`
+	SourceJobID   int                                              `json:"source_job_id"`
+	ResourceType  string                                           `json:"resource_type"`
+	SourceType    string                                           `json:"source_type"`
+	ID            string                                           `json:"id"`
+	ARN           string                                           `json:"arn"`
+	SourceID      string                                           `json:"source_id"`
+}
+
+type EMRBlockPublicAccessConfigurationHit struct {
+	ID      string                            `json:"_id"`
+	Score   float64                           `json:"_score"`
+	Index   string                            `json:"_index"`
+	Type    string                            `json:"_type"`
+	Version int64                             `json:"_version,omitempty"`
+	Source  EMRBlockPublicAccessConfiguration `json:"_source"`
+	Sort    []interface{}                     `json:"sort"`
+}
+
+type EMRBlockPublicAccessConfigurationHits struct {
+	Total essdk.SearchTotal                      `json:"total"`
+	Hits  []EMRBlockPublicAccessConfigurationHit `json:"hits"`
+}
+
+type EMRBlockPublicAccessConfigurationSearchResponse struct {
+	PitID string                                `json:"pit_id"`
+	Hits  EMRBlockPublicAccessConfigurationHits `json:"hits"`
+}
+
+type EMRBlockPublicAccessConfigurationPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewEMRBlockPublicAccessConfigurationPaginator(filters []essdk.BoolFilter, limit *int64) (EMRBlockPublicAccessConfigurationPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_emr_blockpublicaccessconfiguration", filters, limit)
+	if err != nil {
+		return EMRBlockPublicAccessConfigurationPaginator{}, err
+	}
+
+	p := EMRBlockPublicAccessConfigurationPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p EMRBlockPublicAccessConfigurationPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p EMRBlockPublicAccessConfigurationPaginator) NextPage(ctx context.Context) ([]EMRBlockPublicAccessConfiguration, error) {
+	var response EMRBlockPublicAccessConfigurationSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []EMRBlockPublicAccessConfiguration
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listEMRBlockPublicAccessConfigurationFilters = map[string]string{
+	"block_public_security_group_rules":           "description.Configuration.BlockPublicSecurityGroupRules",
+	"classification":                              "description.Configuration.Classification",
+	"created_by_arn":                              "description.ConfigurationMetadata.CreatedByArn",
+	"creation_date":                               "description.ConfigurationMetadata.CreationDateTime",
+	"kaytu_account_id":                            "metadata.SourceID",
+	"permitted_public_security_group_rule_ranges": "description.Configuration.PermittedPublicSecurityGroupRuleRanges",
+}
+
+func ListEMRBlockPublicAccessConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListEMRBlockPublicAccessConfiguration")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewEMRBlockPublicAccessConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, listEMRBlockPublicAccessConfigurationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getEMRBlockPublicAccessConfigurationFilters = map[string]string{
+	"block_public_security_group_rules":           "description.Configuration.BlockPublicSecurityGroupRules",
+	"classification":                              "description.Configuration.Classification",
+	"created_by_arn":                              "description.ConfigurationMetadata.CreatedByArn",
+	"creation_date":                               "description.ConfigurationMetadata.CreationDateTime",
+	"kaytu_account_id":                            "metadata.SourceID",
+	"permitted_public_security_group_rule_ranges": "description.Configuration.PermittedPublicSecurityGroupRuleRanges",
+}
+
+func GetEMRBlockPublicAccessConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetEMRBlockPublicAccessConfiguration")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewEMRBlockPublicAccessConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, getEMRBlockPublicAccessConfigurationFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: EMRBlockPublicAccessConfiguration =============================
+
 // ==========================  START: GuardDutyFinding =============================
 
 type GuardDutyFinding struct {
@@ -5437,6 +5929,8 @@ func (p BackupSelectionPaginator) NextPage(ctx context.Context) ([]BackupSelecti
 }
 
 var listBackupSelectionFilters = map[string]string{
+	"akas":               "aRN",
+	"arn":                "aRN",
 	"backup_plan_id":     "description.BackupSelection.BackupPlanId",
 	"creation_date":      "description.BackupSelection.CreationDate",
 	"creator_request_id": "description.BackupSelection.CreatorRequestId",
@@ -5480,6 +5974,8 @@ func ListBackupSelection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 var getBackupSelectionFilters = map[string]string{
+	"akas":               "aRN",
+	"arn":                "aRN",
 	"backup_plan_id":     "description.BackupSelection.BackupPlanId",
 	"creation_date":      "description.BackupSelection.CreationDate",
 	"creator_request_id": "description.BackupSelection.CreatorRequestId",
@@ -6376,6 +6872,177 @@ func GetBackupLegalHold(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 // ==========================  END: BackupLegalHold =============================
+
+// ==========================  START: BackupReportPlan =============================
+
+type BackupReportPlan struct {
+	Description   aws.BackupReportPlanDescription `json:"description"`
+	Metadata      aws.Metadata                    `json:"metadata"`
+	ResourceJobID int                             `json:"resource_job_id"`
+	SourceJobID   int                             `json:"source_job_id"`
+	ResourceType  string                          `json:"resource_type"`
+	SourceType    string                          `json:"source_type"`
+	ID            string                          `json:"id"`
+	ARN           string                          `json:"arn"`
+	SourceID      string                          `json:"source_id"`
+}
+
+type BackupReportPlanHit struct {
+	ID      string           `json:"_id"`
+	Score   float64          `json:"_score"`
+	Index   string           `json:"_index"`
+	Type    string           `json:"_type"`
+	Version int64            `json:"_version,omitempty"`
+	Source  BackupReportPlan `json:"_source"`
+	Sort    []interface{}    `json:"sort"`
+}
+
+type BackupReportPlanHits struct {
+	Total essdk.SearchTotal     `json:"total"`
+	Hits  []BackupReportPlanHit `json:"hits"`
+}
+
+type BackupReportPlanSearchResponse struct {
+	PitID string               `json:"pit_id"`
+	Hits  BackupReportPlanHits `json:"hits"`
+}
+
+type BackupReportPlanPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewBackupReportPlanPaginator(filters []essdk.BoolFilter, limit *int64) (BackupReportPlanPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_backup_reportplan", filters, limit)
+	if err != nil {
+		return BackupReportPlanPaginator{}, err
+	}
+
+	p := BackupReportPlanPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p BackupReportPlanPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p BackupReportPlanPaginator) NextPage(ctx context.Context) ([]BackupReportPlan, error) {
+	var response BackupReportPlanSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []BackupReportPlan
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listBackupReportPlanFilters = map[string]string{
+	"akas":                           "description.ReportPlan.ReportPlanArn",
+	"arn":                            "description.ReportPlan.ReportPlanArn",
+	"creation_time":                  "description.ReportPlan.CreationTime",
+	"deployment_status":              "description.ReportPlan.DeploymentStatus",
+	"description":                    "description.ReportPlan.ReportPlanDescription",
+	"kaytu_account_id":               "metadata.SourceID",
+	"last_attempted_execution_time":  "description.ReportPlan.LastAttemptedExecutionTime",
+	"last_successful_execution_time": "description.ReportPlan.LastSuccessfulExecutionTime",
+	"report_delivery_channel":        "description.ReportPlan.ReportDeliveryChannel",
+	"report_plan_name":               "description.ReportPlan.ReportPlanName",
+	"report_setting":                 "description.ReportPlan.ReportSetting",
+	"title":                          "description.ReportPlan.ReportPlanName",
+}
+
+func ListBackupReportPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListBackupReportPlan")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewBackupReportPlanPaginator(essdk.BuildFilter(d.EqualsQuals, listBackupReportPlanFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getBackupReportPlanFilters = map[string]string{
+	"akas":                           "description.ReportPlan.ReportPlanArn",
+	"arn":                            "description.ReportPlan.ReportPlanArn",
+	"creation_time":                  "description.ReportPlan.CreationTime",
+	"deployment_status":              "description.ReportPlan.DeploymentStatus",
+	"description":                    "description.ReportPlan.ReportPlanDescription",
+	"framework_name":                 "description.Framework.FrameworkName",
+	"kaytu_account_id":               "metadata.SourceID",
+	"last_attempted_execution_time":  "description.ReportPlan.LastAttemptedExecutionTime",
+	"last_successful_execution_time": "description.ReportPlan.LastSuccessfulExecutionTime",
+	"report_delivery_channel":        "description.ReportPlan.ReportDeliveryChannel",
+	"report_plan_name":               "description.ReportPlan.ReportPlanName",
+	"report_setting":                 "description.ReportPlan.ReportSetting",
+	"title":                          "description.ReportPlan.ReportPlanName",
+}
+
+func GetBackupReportPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetBackupReportPlan")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewBackupReportPlanPaginator(essdk.BuildFilter(d.EqualsQuals, getBackupReportPlanFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: BackupReportPlan =============================
 
 // ==========================  START: CloudFrontDistribution =============================
 
@@ -9441,6 +10108,220 @@ func GetCodeBuildSourceCredential(ctx context.Context, d *plugin.QueryData, _ *p
 
 // ==========================  END: CodeBuildSourceCredential =============================
 
+// ==========================  START: CodeBuildBuild =============================
+
+type CodeBuildBuild struct {
+	Description   aws.CodeBuildBuildDescription `json:"description"`
+	Metadata      aws.Metadata                  `json:"metadata"`
+	ResourceJobID int                           `json:"resource_job_id"`
+	SourceJobID   int                           `json:"source_job_id"`
+	ResourceType  string                        `json:"resource_type"`
+	SourceType    string                        `json:"source_type"`
+	ID            string                        `json:"id"`
+	ARN           string                        `json:"arn"`
+	SourceID      string                        `json:"source_id"`
+}
+
+type CodeBuildBuildHit struct {
+	ID      string         `json:"_id"`
+	Score   float64        `json:"_score"`
+	Index   string         `json:"_index"`
+	Type    string         `json:"_type"`
+	Version int64          `json:"_version,omitempty"`
+	Source  CodeBuildBuild `json:"_source"`
+	Sort    []interface{}  `json:"sort"`
+}
+
+type CodeBuildBuildHits struct {
+	Total essdk.SearchTotal   `json:"total"`
+	Hits  []CodeBuildBuildHit `json:"hits"`
+}
+
+type CodeBuildBuildSearchResponse struct {
+	PitID string             `json:"pit_id"`
+	Hits  CodeBuildBuildHits `json:"hits"`
+}
+
+type CodeBuildBuildPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewCodeBuildBuildPaginator(filters []essdk.BoolFilter, limit *int64) (CodeBuildBuildPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_codebuild_build", filters, limit)
+	if err != nil {
+		return CodeBuildBuildPaginator{}, err
+	}
+
+	p := CodeBuildBuildPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p CodeBuildBuildPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p CodeBuildBuildPaginator) NextPage(ctx context.Context) ([]CodeBuildBuild, error) {
+	var response CodeBuildBuildSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []CodeBuildBuild
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listCodeBuildBuildFilters = map[string]string{
+	"akas":                           "description.Build.Arn",
+	"arn":                            "description.Build.Arn",
+	"artifacts":                      "description.Build.Artifacts",
+	"build_batch_arn":                "description.Build.BuildBatchArn",
+	"build_complete":                 "description.Build.BuildComplete",
+	"build_number":                   "description.Build.BuildNumber",
+	"build_status":                   "description.Build.BuildStatus",
+	"cache":                          "description.Build.Cache",
+	"current_phase":                  "description.Build.CurrentPhase",
+	"debug_session":                  "description.Build.DebugSession",
+	"encryption_key":                 "description.Build.EncryptionKey",
+	"end_time":                       "description.Build.EndTime",
+	"environment":                    "description.Build.Environment",
+	"exported_environment_variables": "description.Build.ExportedEnvironmentVariables",
+	"file_system_locations":          "description.Build.FileSystemLocations",
+	"id":                             "description.Build.Id",
+	"initiator":                      "description.Build.Initiator",
+	"kaytu_account_id":               "metadata.SourceID",
+	"logs":                           "description.Build.Logs",
+	"network_interfaces":             "description.Build.NetworkInterface",
+	"phases":                         "description.Build.Phases",
+	"project_name":                   "description.Build.ProjectName",
+	"queued_timeout_in_minutes":      "description.Build.QueuedTimeoutInMinutes",
+	"report_arns":                    "description.Build.ReportArns",
+	"resolved_source_version":        "description.Build.ResolvedSourceVersion",
+	"secondary_artifacts":            "description.Build.SecondaryArtifacts",
+	"secondary_source_versions":      "description.Build.SecondarySourceVersions",
+	"secondary_sources":              "description.Build.SecondarySources",
+	"source":                         "description.Build.Source",
+	"source_version":                 "description.Build.SourceVersion",
+	"start_time":                     "description.Build.StartTime",
+	"timeout_in_minutes":             "description.Build.TimeoutInMinutes",
+	"title":                          "description.Build.Arn",
+	"vpc_config":                     "description.Build.VpcConfig",
+}
+
+func ListCodeBuildBuild(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListCodeBuildBuild")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewCodeBuildBuildPaginator(essdk.BuildFilter(d.EqualsQuals, listCodeBuildBuildFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getCodeBuildBuildFilters = map[string]string{
+	"akas":                           "description.Build.Arn",
+	"arn":                            "description.Build.Arn",
+	"artifacts":                      "description.Build.Artifacts",
+	"build_batch_arn":                "description.Build.BuildBatchArn",
+	"build_complete":                 "description.Build.BuildComplete",
+	"build_number":                   "description.Build.BuildNumber",
+	"build_status":                   "description.Build.BuildStatus",
+	"cache":                          "description.Build.Cache",
+	"current_phase":                  "description.Build.CurrentPhase",
+	"debug_session":                  "description.Build.DebugSession",
+	"encryption_key":                 "description.Build.EncryptionKey",
+	"end_time":                       "description.Build.EndTime",
+	"environment":                    "description.Build.Environment",
+	"exported_environment_variables": "description.Build.ExportedEnvironmentVariables",
+	"file_system_locations":          "description.Build.FileSystemLocations",
+	"id":                             "description.Build.Id",
+	"initiator":                      "description.Build.Initiator",
+	"kaytu_account_id":               "metadata.SourceID",
+	"logs":                           "description.Build.Logs",
+	"network_interfaces":             "description.Build.NetworkInterface",
+	"phases":                         "description.Build.Phases",
+	"project_name":                   "description.Build.ProjectName",
+	"queued_timeout_in_minutes":      "description.Build.QueuedTimeoutInMinutes",
+	"report_arns":                    "description.Build.ReportArns",
+	"resolved_source_version":        "description.Build.ResolvedSourceVersion",
+	"secondary_artifacts":            "description.Build.SecondaryArtifacts",
+	"secondary_source_versions":      "description.Build.SecondarySourceVersions",
+	"secondary_sources":              "description.Build.SecondarySources",
+	"source":                         "description.Build.Source",
+	"source_version":                 "description.Build.SourceVersion",
+	"start_time":                     "description.Build.StartTime",
+	"timeout_in_minutes":             "description.Build.TimeoutInMinutes",
+	"title":                          "description.Build.Arn",
+	"vpc_config":                     "description.Build.VpcConfig",
+}
+
+func GetCodeBuildBuild(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetCodeBuildBuild")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewCodeBuildBuildPaginator(essdk.BuildFilter(d.EqualsQuals, getCodeBuildBuildFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: CodeBuildBuild =============================
+
 // ==========================  START: ConfigConfigurationRecorder =============================
 
 type ConfigConfigurationRecorder struct {
@@ -10110,6 +10991,160 @@ func GetConfigRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 }
 
 // ==========================  END: ConfigRule =============================
+
+// ==========================  START: ConfigRetentionConfiguration =============================
+
+type ConfigRetentionConfiguration struct {
+	Description   aws.ConfigRetentionConfigurationDescription `json:"description"`
+	Metadata      aws.Metadata                                `json:"metadata"`
+	ResourceJobID int                                         `json:"resource_job_id"`
+	SourceJobID   int                                         `json:"source_job_id"`
+	ResourceType  string                                      `json:"resource_type"`
+	SourceType    string                                      `json:"source_type"`
+	ID            string                                      `json:"id"`
+	ARN           string                                      `json:"arn"`
+	SourceID      string                                      `json:"source_id"`
+}
+
+type ConfigRetentionConfigurationHit struct {
+	ID      string                       `json:"_id"`
+	Score   float64                      `json:"_score"`
+	Index   string                       `json:"_index"`
+	Type    string                       `json:"_type"`
+	Version int64                        `json:"_version,omitempty"`
+	Source  ConfigRetentionConfiguration `json:"_source"`
+	Sort    []interface{}                `json:"sort"`
+}
+
+type ConfigRetentionConfigurationHits struct {
+	Total essdk.SearchTotal                 `json:"total"`
+	Hits  []ConfigRetentionConfigurationHit `json:"hits"`
+}
+
+type ConfigRetentionConfigurationSearchResponse struct {
+	PitID string                           `json:"pit_id"`
+	Hits  ConfigRetentionConfigurationHits `json:"hits"`
+}
+
+type ConfigRetentionConfigurationPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewConfigRetentionConfigurationPaginator(filters []essdk.BoolFilter, limit *int64) (ConfigRetentionConfigurationPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_config_retentionconfiguration", filters, limit)
+	if err != nil {
+		return ConfigRetentionConfigurationPaginator{}, err
+	}
+
+	p := ConfigRetentionConfigurationPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p ConfigRetentionConfigurationPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p ConfigRetentionConfigurationPaginator) NextPage(ctx context.Context) ([]ConfigRetentionConfiguration, error) {
+	var response ConfigRetentionConfigurationSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []ConfigRetentionConfiguration
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listConfigRetentionConfigurationFilters = map[string]string{
+	"kaytu_account_id":         "metadata.SourceID",
+	"name":                     "description.RetentionConfiguration.Name",
+	"retention_period_in_days": "description.RetentionConfiguration.RetentionPeriodInDays",
+	"title":                    "description.RetentionConfiguration.Name",
+}
+
+func ListConfigRetentionConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListConfigRetentionConfiguration")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewConfigRetentionConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, listConfigRetentionConfigurationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getConfigRetentionConfigurationFilters = map[string]string{
+	"kaytu_account_id":         "metadata.SourceID",
+	"name":                     "description.ConformancePack.ConformancePackName",
+	"retention_period_in_days": "description.RetentionConfiguration.RetentionPeriodInDays",
+	"title":                    "description.RetentionConfiguration.Name",
+}
+
+func GetConfigRetentionConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetConfigRetentionConfiguration")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewConfigRetentionConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, getConfigRetentionConfigurationFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: ConfigRetentionConfiguration =============================
 
 // ==========================  START: DAXCluster =============================
 
@@ -13868,6 +14903,203 @@ func GetEC2Volume(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 }
 
 // ==========================  END: EC2Volume =============================
+
+// ==========================  START: EC2ClientVpnEndpoint =============================
+
+type EC2ClientVpnEndpoint struct {
+	Description   aws.EC2ClientVpnEndpointDescription `json:"description"`
+	Metadata      aws.Metadata                        `json:"metadata"`
+	ResourceJobID int                                 `json:"resource_job_id"`
+	SourceJobID   int                                 `json:"source_job_id"`
+	ResourceType  string                              `json:"resource_type"`
+	SourceType    string                              `json:"source_type"`
+	ID            string                              `json:"id"`
+	ARN           string                              `json:"arn"`
+	SourceID      string                              `json:"source_id"`
+}
+
+type EC2ClientVpnEndpointHit struct {
+	ID      string               `json:"_id"`
+	Score   float64              `json:"_score"`
+	Index   string               `json:"_index"`
+	Type    string               `json:"_type"`
+	Version int64                `json:"_version,omitempty"`
+	Source  EC2ClientVpnEndpoint `json:"_source"`
+	Sort    []interface{}        `json:"sort"`
+}
+
+type EC2ClientVpnEndpointHits struct {
+	Total essdk.SearchTotal         `json:"total"`
+	Hits  []EC2ClientVpnEndpointHit `json:"hits"`
+}
+
+type EC2ClientVpnEndpointSearchResponse struct {
+	PitID string                   `json:"pit_id"`
+	Hits  EC2ClientVpnEndpointHits `json:"hits"`
+}
+
+type EC2ClientVpnEndpointPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewEC2ClientVpnEndpointPaginator(filters []essdk.BoolFilter, limit *int64) (EC2ClientVpnEndpointPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_ec2_clientvpnendpoint", filters, limit)
+	if err != nil {
+		return EC2ClientVpnEndpointPaginator{}, err
+	}
+
+	p := EC2ClientVpnEndpointPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p EC2ClientVpnEndpointPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p EC2ClientVpnEndpointPaginator) NextPage(ctx context.Context) ([]EC2ClientVpnEndpoint, error) {
+	var response EC2ClientVpnEndpointSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []EC2ClientVpnEndpoint
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listEC2ClientVpnEndpointFilters = map[string]string{
+	"authentication_options":      "description.ClientVpnEndpoint.AuthenticationOptions",
+	"client_cidr_block":           "description.ClientVpnEndpoint.ClientCidrBlock",
+	"client_connect_options":      "description.ClientVpnEndpoint.ClientConnectOptions",
+	"client_log_options":          "description.ClientVpnEndpoint.ConnectionLogOptions",
+	"client_login_banner_options": "description.ClientVpnEndpoint.ClientLoginBannerOptions",
+	"client_vpn_endpoint_id":      "description.ClientVpnEndpoint.ClientVpnEndpointId",
+	"creation_time":               "description.ClientVpnEndpoint.CreationTime",
+	"deletion_time":               "description.ClientVpnEndpoint.DeletionTime",
+	"description":                 "description.ClientVpnEndpoint.Description",
+	"dns_name":                    "description.ClientVpnEndpoint.DnsName",
+	"dns_servers":                 "description.ClientVpnEndpoint.DnsServers",
+	"kaytu_account_id":            "metadata.SourceID",
+	"security_group_ids":          "description.ClientVpnEndpoint.SecurityGroupIds",
+	"self_service_portal_url":     "description.ClientVpnEndpoint.SelfServicePortalUrl",
+	"server_certificate_arn":      "description.ClientVpnEndpoint.ServerCertificateArn",
+	"session_timeout_hours":       "description.ClientVpnEndpoint.SessionTimeoutHours",
+	"split_tunnel":                "description.ClientVpnEndpoint.SplitTunnel",
+	"status":                      "description.ClientVpnEndpoint.Status",
+	"tags":                        "description.ClientVpnEndpoint.Tags",
+	"tags_src":                    "description.ClientVpnEndpoint.Tags",
+	"title":                       "description.ClientVpnEndpoint.Tags",
+	"transport_protocol":          "description.ClientVpnEndpoint.TransportProtocol",
+	"vpc_id":                      "description.ClientVpnEndpoint.VpcId",
+	"vpn_port":                    "description.ClientVpnEndpoint.VpnPort",
+	"vpn_protocol":                "description.ClientVpnEndpoint.VpnProtocol",
+}
+
+func ListEC2ClientVpnEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListEC2ClientVpnEndpoint")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewEC2ClientVpnEndpointPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2ClientVpnEndpointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getEC2ClientVpnEndpointFilters = map[string]string{
+	"authentication_options":      "description.ClientVpnEndpoint.AuthenticationOptions",
+	"client_cidr_block":           "description.ClientVpnEndpoint.ClientCidrBlock",
+	"client_connect_options":      "description.ClientVpnEndpoint.ClientConnectOptions",
+	"client_log_options":          "description.ClientVpnEndpoint.ConnectionLogOptions",
+	"client_login_banner_options": "description.ClientVpnEndpoint.ClientLoginBannerOptions",
+	"client_vpn_endpoint_id":      "description.ClientVpnEndpoint.ClientVpnEndpointId",
+	"creation_time":               "description.ClientVpnEndpoint.CreationTime",
+	"deletion_time":               "description.ClientVpnEndpoint.DeletionTime",
+	"description":                 "description.ClientVpnEndpoint.Description",
+	"dns_name":                    "description.ClientVpnEndpoint.DnsName",
+	"dns_servers":                 "description.ClientVpnEndpoint.DnsServers",
+	"kaytu_account_id":            "metadata.SourceID",
+	"security_group_ids":          "description.ClientVpnEndpoint.SecurityGroupIds",
+	"self_service_portal_url":     "description.ClientVpnEndpoint.SelfServicePortalUrl",
+	"server_certificate_arn":      "description.ClientVpnEndpoint.ServerCertificateArn",
+	"session_timeout_hours":       "description.ClientVpnEndpoint.SessionTimeoutHours",
+	"split_tunnel":                "description.ClientVpnEndpoint.SplitTunnel",
+	"status":                      "description.ClientVpnEndpoint.Status",
+	"tags":                        "description.ClientVpnEndpoint.Tags",
+	"tags_src":                    "description.ClientVpnEndpoint.Tags",
+	"title":                       "description.ClientVpnEndpoint.Tags",
+	"transport_protocol":          "description.ClientVpnEndpoint.TransportProtocol",
+	"volume_id":                   "description.Volume.VolumeId",
+	"vpc_id":                      "description.ClientVpnEndpoint.VpcId",
+	"vpn_port":                    "description.ClientVpnEndpoint.VpnPort",
+	"vpn_protocol":                "description.ClientVpnEndpoint.VpnProtocol",
+}
+
+func GetEC2ClientVpnEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetEC2ClientVpnEndpoint")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewEC2ClientVpnEndpointPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2ClientVpnEndpointFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: EC2ClientVpnEndpoint =============================
 
 // ==========================  START: EC2Instance =============================
 
@@ -20140,6 +21372,158 @@ func GetEC2ManagedPrefixList(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 // ==========================  END: EC2ManagedPrefixList =============================
 
+// ==========================  START: EC2ManagedPrefixListEntry =============================
+
+type EC2ManagedPrefixListEntry struct {
+	Description   aws.EC2ManagedPrefixListEntryDescription `json:"description"`
+	Metadata      aws.Metadata                             `json:"metadata"`
+	ResourceJobID int                                      `json:"resource_job_id"`
+	SourceJobID   int                                      `json:"source_job_id"`
+	ResourceType  string                                   `json:"resource_type"`
+	SourceType    string                                   `json:"source_type"`
+	ID            string                                   `json:"id"`
+	ARN           string                                   `json:"arn"`
+	SourceID      string                                   `json:"source_id"`
+}
+
+type EC2ManagedPrefixListEntryHit struct {
+	ID      string                    `json:"_id"`
+	Score   float64                   `json:"_score"`
+	Index   string                    `json:"_index"`
+	Type    string                    `json:"_type"`
+	Version int64                     `json:"_version,omitempty"`
+	Source  EC2ManagedPrefixListEntry `json:"_source"`
+	Sort    []interface{}             `json:"sort"`
+}
+
+type EC2ManagedPrefixListEntryHits struct {
+	Total essdk.SearchTotal              `json:"total"`
+	Hits  []EC2ManagedPrefixListEntryHit `json:"hits"`
+}
+
+type EC2ManagedPrefixListEntrySearchResponse struct {
+	PitID string                        `json:"pit_id"`
+	Hits  EC2ManagedPrefixListEntryHits `json:"hits"`
+}
+
+type EC2ManagedPrefixListEntryPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewEC2ManagedPrefixListEntryPaginator(filters []essdk.BoolFilter, limit *int64) (EC2ManagedPrefixListEntryPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_ec2_managedprefixlistentry", filters, limit)
+	if err != nil {
+		return EC2ManagedPrefixListEntryPaginator{}, err
+	}
+
+	p := EC2ManagedPrefixListEntryPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p EC2ManagedPrefixListEntryPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p EC2ManagedPrefixListEntryPaginator) NextPage(ctx context.Context) ([]EC2ManagedPrefixListEntry, error) {
+	var response EC2ManagedPrefixListEntrySearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []EC2ManagedPrefixListEntry
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listEC2ManagedPrefixListEntryFilters = map[string]string{
+	"kaytu_account_id": "metadata.SourceID",
+	"prefix_list_id":   "description.LaunchTemplateVersion.LaunchTemplateName",
+	"title":            "cidr",
+}
+
+func ListEC2ManagedPrefixListEntry(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListEC2ManagedPrefixListEntry")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewEC2ManagedPrefixListEntryPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2ManagedPrefixListEntryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getEC2ManagedPrefixListEntryFilters = map[string]string{
+	"kaytu_account_id": "metadata.SourceID",
+	"prefix_list_id":   "description.LaunchTemplateVersion.LaunchTemplateName",
+	"title":            "cidr",
+}
+
+func GetEC2ManagedPrefixListEntry(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetEC2ManagedPrefixListEntry")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewEC2ManagedPrefixListEntryPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2ManagedPrefixListEntryFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: EC2ManagedPrefixListEntry =============================
+
 // ==========================  START: EC2TransitGatewayRoute =============================
 
 type EC2TransitGatewayRoute struct {
@@ -20643,6 +22027,192 @@ func GetEC2LaunchTemplate(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 // ==========================  END: EC2LaunchTemplate =============================
+
+// ==========================  START: EC2LaunchTemplateVersion =============================
+
+type EC2LaunchTemplateVersion struct {
+	Description   aws.EC2LaunchTemplateVersionDescription `json:"description"`
+	Metadata      aws.Metadata                            `json:"metadata"`
+	ResourceJobID int                                     `json:"resource_job_id"`
+	SourceJobID   int                                     `json:"source_job_id"`
+	ResourceType  string                                  `json:"resource_type"`
+	SourceType    string                                  `json:"source_type"`
+	ID            string                                  `json:"id"`
+	ARN           string                                  `json:"arn"`
+	SourceID      string                                  `json:"source_id"`
+}
+
+type EC2LaunchTemplateVersionHit struct {
+	ID      string                   `json:"_id"`
+	Score   float64                  `json:"_score"`
+	Index   string                   `json:"_index"`
+	Type    string                   `json:"_type"`
+	Version int64                    `json:"_version,omitempty"`
+	Source  EC2LaunchTemplateVersion `json:"_source"`
+	Sort    []interface{}            `json:"sort"`
+}
+
+type EC2LaunchTemplateVersionHits struct {
+	Total essdk.SearchTotal             `json:"total"`
+	Hits  []EC2LaunchTemplateVersionHit `json:"hits"`
+}
+
+type EC2LaunchTemplateVersionSearchResponse struct {
+	PitID string                       `json:"pit_id"`
+	Hits  EC2LaunchTemplateVersionHits `json:"hits"`
+}
+
+type EC2LaunchTemplateVersionPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewEC2LaunchTemplateVersionPaginator(filters []essdk.BoolFilter, limit *int64) (EC2LaunchTemplateVersionPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_ec2_launchtemplateversion", filters, limit)
+	if err != nil {
+		return EC2LaunchTemplateVersionPaginator{}, err
+	}
+
+	p := EC2LaunchTemplateVersionPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p EC2LaunchTemplateVersionPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p EC2LaunchTemplateVersionPaginator) NextPage(ctx context.Context) ([]EC2LaunchTemplateVersion, error) {
+	var response EC2LaunchTemplateVersionSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []EC2LaunchTemplateVersion
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listEC2LaunchTemplateVersionFilters = map[string]string{
+	"create_time":             "description.LaunchTemplateVersion.CreateTime",
+	"created_by":              "description.LaunchTemplateVersion.CreatedBy",
+	"default_version":         "description.LaunchTemplateVersion.DefaultVersion",
+	"disable_api_stop":        "description.LaunchTemplateVersion.LaunchTemplateData.DisableApiStop",
+	"disable_api_termination": "description.LaunchTemplateVersion.LaunchTemplateData.DisableApiTermination",
+	"ebs_optimized":           "description.LaunchTemplateVersion.LaunchTemplateData.EbsOptimized",
+	"image_id":                "description.LaunchTemplateVersion.LaunchTemplateData.ImageId",
+	"instance_type":           "description.LaunchTemplateVersion.LaunchTemplateData.InstanceType",
+	"kernel_id":               "description.LaunchTemplateVersion.LaunchTemplateData.KernelId",
+	"key_name":                "description.LaunchTemplateVersion.LaunchTemplateData.KeyName",
+	"launch_template_data":    "description.LaunchTemplateVersion.LaunchTemplateData",
+	"launch_template_id":      "description.LaunchTemplateVersion.LaunchTemplateId",
+	"launch_template_name":    "description.LaunchTemplateVersion.LaunchTemplateName",
+	"ram_disk_id":             "description.LaunchTemplateVersion.LaunchTemplateData.RamDiskId",
+	"security_group_ids":      "description.LaunchTemplateVersion.LaunchTemplateData.SecurityGroupIds",
+	"security_groups":         "description.LaunchTemplateVersion.LaunchTemplateData.SecurityGroups",
+	"title":                   "description.LaunchTemplateVersion.LaunchTemplateName",
+	"user_data":               "description.LaunchTemplateVersion.LaunchTemplateData.UserData",
+	"version_description":     "description.LaunchTemplateVersion.VersionDescription",
+	"version_number":          "description.LaunchTemplateVersion.VersionNumber",
+}
+
+func ListEC2LaunchTemplateVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListEC2LaunchTemplateVersion")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewEC2LaunchTemplateVersionPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2LaunchTemplateVersionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getEC2LaunchTemplateVersionFilters = map[string]string{
+	"create_time":             "description.LaunchTemplateVersion.CreateTime",
+	"created_by":              "description.LaunchTemplateVersion.CreatedBy",
+	"default_version":         "description.LaunchTemplateVersion.DefaultVersion",
+	"disable_api_stop":        "description.LaunchTemplateVersion.LaunchTemplateData.DisableApiStop",
+	"disable_api_termination": "description.LaunchTemplateVersion.LaunchTemplateData.DisableApiTermination",
+	"ebs_optimized":           "description.LaunchTemplateVersion.LaunchTemplateData.EbsOptimized",
+	"image_id":                "description.LaunchTemplateVersion.LaunchTemplateData.ImageId",
+	"instance_type":           "description.LaunchTemplateVersion.LaunchTemplateData.InstanceType",
+	"kernel_id":               "description.LaunchTemplateVersion.LaunchTemplateData.KernelId",
+	"key_name":                "description.LaunchTemplateVersion.LaunchTemplateData.KeyName",
+	"launch_template_data":    "description.LaunchTemplateVersion.LaunchTemplateData",
+	"launch_template_id":      "description.LaunchTemplateVersion.LaunchTemplateId",
+	"launch_template_name":    "description.LaunchTemplateVersion.LaunchTemplateName",
+	"ram_disk_id":             "description.LaunchTemplateVersion.LaunchTemplateData.RamDiskId",
+	"security_group_ids":      "description.LaunchTemplateVersion.LaunchTemplateData.SecurityGroupIds",
+	"security_groups":         "description.LaunchTemplateVersion.LaunchTemplateData.SecurityGroups",
+	"title":                   "description.LaunchTemplateVersion.LaunchTemplateName",
+	"user_data":               "description.LaunchTemplateVersion.LaunchTemplateData.UserData",
+	"version_description":     "description.LaunchTemplateVersion.VersionDescription",
+	"version_number":          "description.LaunchTemplateVersion.VersionNumber",
+}
+
+func GetEC2LaunchTemplateVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetEC2LaunchTemplateVersion")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewEC2LaunchTemplateVersionPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2LaunchTemplateVersionFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: EC2LaunchTemplateVersion =============================
 
 // ==========================  START: ElasticLoadBalancingV2SslPolicy =============================
 
@@ -22665,6 +24235,176 @@ func GetApplicationAutoScalingTarget(ctx context.Context, d *plugin.QueryData, _
 }
 
 // ==========================  END: ApplicationAutoScalingTarget =============================
+
+// ==========================  START: ApplicationAutoScalingPolicy =============================
+
+type ApplicationAutoScalingPolicy struct {
+	Description   aws.ApplicationAutoScalingPolicyDescription `json:"description"`
+	Metadata      aws.Metadata                                `json:"metadata"`
+	ResourceJobID int                                         `json:"resource_job_id"`
+	SourceJobID   int                                         `json:"source_job_id"`
+	ResourceType  string                                      `json:"resource_type"`
+	SourceType    string                                      `json:"source_type"`
+	ID            string                                      `json:"id"`
+	ARN           string                                      `json:"arn"`
+	SourceID      string                                      `json:"source_id"`
+}
+
+type ApplicationAutoScalingPolicyHit struct {
+	ID      string                       `json:"_id"`
+	Score   float64                      `json:"_score"`
+	Index   string                       `json:"_index"`
+	Type    string                       `json:"_type"`
+	Version int64                        `json:"_version,omitempty"`
+	Source  ApplicationAutoScalingPolicy `json:"_source"`
+	Sort    []interface{}                `json:"sort"`
+}
+
+type ApplicationAutoScalingPolicyHits struct {
+	Total essdk.SearchTotal                 `json:"total"`
+	Hits  []ApplicationAutoScalingPolicyHit `json:"hits"`
+}
+
+type ApplicationAutoScalingPolicySearchResponse struct {
+	PitID string                           `json:"pit_id"`
+	Hits  ApplicationAutoScalingPolicyHits `json:"hits"`
+}
+
+type ApplicationAutoScalingPolicyPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewApplicationAutoScalingPolicyPaginator(filters []essdk.BoolFilter, limit *int64) (ApplicationAutoScalingPolicyPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_applicationautoscaling_policy", filters, limit)
+	if err != nil {
+		return ApplicationAutoScalingPolicyPaginator{}, err
+	}
+
+	p := ApplicationAutoScalingPolicyPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p ApplicationAutoScalingPolicyPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p ApplicationAutoScalingPolicyPaginator) NextPage(ctx context.Context) ([]ApplicationAutoScalingPolicy, error) {
+	var response ApplicationAutoScalingPolicySearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []ApplicationAutoScalingPolicy
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listApplicationAutoScalingPolicyFilters = map[string]string{
+	"alarms":                            "description.ScalablePolicy.Alarms",
+	"creation_time":                     "description.ScalablePolicy.CreationTime",
+	"kaytu_account_id":                  "metadata.SourceID",
+	"policy_arn":                        "description.ScalablePolicy.PolicyARN",
+	"policy_name":                       "description.ScalablePolicy.PolicyARN",
+	"policy_type":                       "description.ScalablePolicy.PolicyType",
+	"resource_id":                       "description.ScalablePolicy.ResourceId",
+	"scalable_dimension":                "description.ScalablePolicy.ScalableDimension",
+	"service_namespace":                 "description.ScalablePolicy.ServiceNamespace",
+	"step_scaling_policy_configuration": "description.ScalablePolicy.StepScalingPolicyConfiguration",
+	"target_tracking_scaling_policy_configuration": "description.ScalablePolicy.TargetTrackingScalingPolicyConfiguration",
+	"title": "description.ScalablePolicy.ResourceId",
+}
+
+func ListApplicationAutoScalingPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListApplicationAutoScalingPolicy")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewApplicationAutoScalingPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, listApplicationAutoScalingPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getApplicationAutoScalingPolicyFilters = map[string]string{
+	"alarms":                            "description.ScalablePolicy.Alarms",
+	"creation_time":                     "description.ScalablePolicy.CreationTime",
+	"kaytu_account_id":                  "metadata.SourceID",
+	"policy_arn":                        "description.ScalablePolicy.PolicyARN",
+	"policy_name":                       "description.ScalablePolicy.PolicyARN",
+	"policy_type":                       "description.ScalablePolicy.PolicyType",
+	"resource_id":                       "description.ScalablePolicy.ResourceId",
+	"scalable_dimension":                "description.ScalablePolicy.ScalableDimension",
+	"service_namespace":                 "description.ScalablePolicy.ServiceNamespace",
+	"step_scaling_policy_configuration": "description.ScalablePolicy.StepScalingPolicyConfiguration",
+	"target_tracking_scaling_policy_configuration": "description.ScalablePolicy.TargetTrackingScalingPolicyConfiguration",
+	"title": "description.ScalablePolicy.ResourceId",
+}
+
+func GetApplicationAutoScalingPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetApplicationAutoScalingPolicy")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewApplicationAutoScalingPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, getApplicationAutoScalingPolicyFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: ApplicationAutoScalingPolicy =============================
 
 // ==========================  START: AutoScalingGroup =============================
 
@@ -26794,6 +28534,168 @@ func GetIAMServiceSpecificCredential(ctx context.Context, d *plugin.QueryData, _
 
 // ==========================  END: IAMServiceSpecificCredential =============================
 
+// ==========================  START: IAMOpenIdConnectProvider =============================
+
+type IAMOpenIdConnectProvider struct {
+	Description   aws.IAMOpenIdConnectProviderDescription `json:"description"`
+	Metadata      aws.Metadata                            `json:"metadata"`
+	ResourceJobID int                                     `json:"resource_job_id"`
+	SourceJobID   int                                     `json:"source_job_id"`
+	ResourceType  string                                  `json:"resource_type"`
+	SourceType    string                                  `json:"source_type"`
+	ID            string                                  `json:"id"`
+	ARN           string                                  `json:"arn"`
+	SourceID      string                                  `json:"source_id"`
+}
+
+type IAMOpenIdConnectProviderHit struct {
+	ID      string                   `json:"_id"`
+	Score   float64                  `json:"_score"`
+	Index   string                   `json:"_index"`
+	Type    string                   `json:"_type"`
+	Version int64                    `json:"_version,omitempty"`
+	Source  IAMOpenIdConnectProvider `json:"_source"`
+	Sort    []interface{}            `json:"sort"`
+}
+
+type IAMOpenIdConnectProviderHits struct {
+	Total essdk.SearchTotal             `json:"total"`
+	Hits  []IAMOpenIdConnectProviderHit `json:"hits"`
+}
+
+type IAMOpenIdConnectProviderSearchResponse struct {
+	PitID string                       `json:"pit_id"`
+	Hits  IAMOpenIdConnectProviderHits `json:"hits"`
+}
+
+type IAMOpenIdConnectProviderPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewIAMOpenIdConnectProviderPaginator(filters []essdk.BoolFilter, limit *int64) (IAMOpenIdConnectProviderPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_iam_openidconnectprovider", filters, limit)
+	if err != nil {
+		return IAMOpenIdConnectProviderPaginator{}, err
+	}
+
+	p := IAMOpenIdConnectProviderPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p IAMOpenIdConnectProviderPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p IAMOpenIdConnectProviderPaginator) NextPage(ctx context.Context) ([]IAMOpenIdConnectProvider, error) {
+	var response IAMOpenIdConnectProviderSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []IAMOpenIdConnectProvider
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listIAMOpenIdConnectProviderFilters = map[string]string{
+	"akas":             "aRN",
+	"client_id_list":   "description.ClientIDList",
+	"create_date":      "description.CreateDate",
+	"kaytu_account_id": "metadata.SourceID",
+	"tags":             "description.Tags",
+	"tags_src":         "description.Tags",
+	"thumbprint_list":  "description.ThumbprintList",
+	"url":              "description.URL",
+}
+
+func ListIAMOpenIdConnectProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListIAMOpenIdConnectProvider")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewIAMOpenIdConnectProviderPaginator(essdk.BuildFilter(d.EqualsQuals, listIAMOpenIdConnectProviderFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getIAMOpenIdConnectProviderFilters = map[string]string{
+	"akas":             "aRN",
+	"client_id_list":   "description.ClientIDList",
+	"create_date":      "description.CreateDate",
+	"kaytu_account_id": "metadata.SourceID",
+	"tags":             "description.Tags",
+	"tags_src":         "description.Tags",
+	"thumbprint_list":  "description.ThumbprintList",
+	"url":              "description.URL",
+}
+
+func GetIAMOpenIdConnectProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetIAMOpenIdConnectProvider")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewIAMOpenIdConnectProviderPaginator(essdk.BuildFilter(d.EqualsQuals, getIAMOpenIdConnectProviderFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: IAMOpenIdConnectProvider =============================
+
 // ==========================  START: RDSDBCluster =============================
 
 type RDSDBCluster struct {
@@ -29108,6 +31010,211 @@ func GetRDSReservedDBInstance(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 // ==========================  END: RDSReservedDBInstance =============================
 
+// ==========================  START: RDSDBInstanceAutomatedBackup =============================
+
+type RDSDBInstanceAutomatedBackup struct {
+	Description   aws.RDSDBInstanceAutomatedBackupDescription `json:"description"`
+	Metadata      aws.Metadata                                `json:"metadata"`
+	ResourceJobID int                                         `json:"resource_job_id"`
+	SourceJobID   int                                         `json:"source_job_id"`
+	ResourceType  string                                      `json:"resource_type"`
+	SourceType    string                                      `json:"source_type"`
+	ID            string                                      `json:"id"`
+	ARN           string                                      `json:"arn"`
+	SourceID      string                                      `json:"source_id"`
+}
+
+type RDSDBInstanceAutomatedBackupHit struct {
+	ID      string                       `json:"_id"`
+	Score   float64                      `json:"_score"`
+	Index   string                       `json:"_index"`
+	Type    string                       `json:"_type"`
+	Version int64                        `json:"_version,omitempty"`
+	Source  RDSDBInstanceAutomatedBackup `json:"_source"`
+	Sort    []interface{}                `json:"sort"`
+}
+
+type RDSDBInstanceAutomatedBackupHits struct {
+	Total essdk.SearchTotal                 `json:"total"`
+	Hits  []RDSDBInstanceAutomatedBackupHit `json:"hits"`
+}
+
+type RDSDBInstanceAutomatedBackupSearchResponse struct {
+	PitID string                           `json:"pit_id"`
+	Hits  RDSDBInstanceAutomatedBackupHits `json:"hits"`
+}
+
+type RDSDBInstanceAutomatedBackupPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewRDSDBInstanceAutomatedBackupPaginator(filters []essdk.BoolFilter, limit *int64) (RDSDBInstanceAutomatedBackupPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_rds_dbinstanceautomatedbackup", filters, limit)
+	if err != nil {
+		return RDSDBInstanceAutomatedBackupPaginator{}, err
+	}
+
+	p := RDSDBInstanceAutomatedBackupPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p RDSDBInstanceAutomatedBackupPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p RDSDBInstanceAutomatedBackupPaginator) NextPage(ctx context.Context) ([]RDSDBInstanceAutomatedBackup, error) {
+	var response RDSDBInstanceAutomatedBackupSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []RDSDBInstanceAutomatedBackup
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listRDSDBInstanceAutomatedBackupFilters = map[string]string{
+	"akas":                    "description.InstanceAutomatedBackup.DBInstanceAutomatedBackupsArn",
+	"allocated_storage":       "description.InstanceAutomatedBackup.AllocatedStorage",
+	"arn":                     "description.InstanceAutomatedBackup.DBInstanceAutomatedBackupsArn",
+	"availability_zone":       "description.InstanceAutomatedBackup.AvailabilityZone",
+	"backup_retention_period": "description.InstanceAutomatedBackup.BackupRetentionPeriod",
+	"backup_target":           "description.InstanceAutomatedBackup.BackupTarget",
+	"db_instance_arn":         "description.InstanceAutomatedBackup.DBInstanceArn",
+	"db_instance_automated_backups_replications": "description.InstanceAutomatedBackup.DBInstanceAutomatedBackupsReplications",
+	"db_instance_identifier":                     "description.InstanceAutomatedBackup.DBInstanceIdentifier",
+	"dbi_resource_id":                            "description.InstanceAutomatedBackup.DbiResourceId",
+	"encrypted":                                  "description.InstanceAutomatedBackup.Encrypted",
+	"engine":                                     "description.InstanceAutomatedBackup.Engine",
+	"engine_version":                             "description.InstanceAutomatedBackup.EngineVersion",
+	"iam_database_authentication_enabled":        "description.InstanceAutomatedBackup.IAMDatabaseAuthenticationEnabled",
+	"instance_create_time":                       "description.InstanceAutomatedBackup.InstanceCreateTime",
+	"iops":                                       "description.InstanceAutomatedBackup.Iops",
+	"kaytu_account_id":                           "metadata.SourceID",
+	"kms_key_id":                                 "description.InstanceAutomatedBackup.KmsKeyId",
+	"license_model":                              "description.InstanceAutomatedBackup.LicenseModel",
+	"master_username":                            "description.InstanceAutomatedBackup.MasterUsername",
+	"option_group_name":                          "description.InstanceAutomatedBackup.OptionGroupName",
+	"port":                                       "description.InstanceAutomatedBackup.Port",
+	"restore_window":                             "description.InstanceAutomatedBackup.RestoreWindow",
+	"status":                                     "description.InstanceAutomatedBackup.Status",
+	"storage_type":                               "description.InstanceAutomatedBackup.StorageType",
+	"tde_credential_arn":                         "description.InstanceAutomatedBackup.TdeCredentialArn",
+	"timezone":                                   "description.InstanceAutomatedBackup.Timezone",
+	"title":                                      "description.InstanceAutomatedBackup.DBInstanceIdentifier",
+	"vpc_id":                                     "description.InstanceAutomatedBackup.VpcId",
+}
+
+func ListRDSDBInstanceAutomatedBackup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListRDSDBInstanceAutomatedBackup")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewRDSDBInstanceAutomatedBackupPaginator(essdk.BuildFilter(d.EqualsQuals, listRDSDBInstanceAutomatedBackupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getRDSDBInstanceAutomatedBackupFilters = map[string]string{
+	"akas":                    "description.InstanceAutomatedBackup.DBInstanceAutomatedBackupsArn",
+	"allocated_storage":       "description.InstanceAutomatedBackup.AllocatedStorage",
+	"arn":                     "description.InstanceAutomatedBackup.DBInstanceAutomatedBackupsArn",
+	"availability_zone":       "description.InstanceAutomatedBackup.AvailabilityZone",
+	"backup_retention_period": "description.InstanceAutomatedBackup.BackupRetentionPeriod",
+	"backup_target":           "description.InstanceAutomatedBackup.BackupTarget",
+	"db_cluster_identifier":   "description.DBCluster.DBClusterIdentifier",
+	"db_instance_arn":         "description.InstanceAutomatedBackup.DBInstanceArn",
+	"db_instance_automated_backups_replications": "description.InstanceAutomatedBackup.DBInstanceAutomatedBackupsReplications",
+	"db_instance_identifier":                     "description.InstanceAutomatedBackup.DBInstanceIdentifier",
+	"dbi_resource_id":                            "description.InstanceAutomatedBackup.DbiResourceId",
+	"encrypted":                                  "description.InstanceAutomatedBackup.Encrypted",
+	"engine":                                     "description.InstanceAutomatedBackup.Engine",
+	"engine_version":                             "description.InstanceAutomatedBackup.EngineVersion",
+	"iam_database_authentication_enabled":        "description.InstanceAutomatedBackup.IAMDatabaseAuthenticationEnabled",
+	"instance_create_time":                       "description.InstanceAutomatedBackup.InstanceCreateTime",
+	"iops":                                       "description.InstanceAutomatedBackup.Iops",
+	"kaytu_account_id":                           "metadata.SourceID",
+	"kms_key_id":                                 "description.InstanceAutomatedBackup.KmsKeyId",
+	"license_model":                              "description.InstanceAutomatedBackup.LicenseModel",
+	"master_username":                            "description.InstanceAutomatedBackup.MasterUsername",
+	"option_group_name":                          "description.InstanceAutomatedBackup.OptionGroupName",
+	"port":                                       "description.InstanceAutomatedBackup.Port",
+	"restore_window":                             "description.InstanceAutomatedBackup.RestoreWindow",
+	"status":                                     "description.InstanceAutomatedBackup.Status",
+	"storage_type":                               "description.InstanceAutomatedBackup.StorageType",
+	"tde_credential_arn":                         "description.InstanceAutomatedBackup.TdeCredentialArn",
+	"timezone":                                   "description.InstanceAutomatedBackup.Timezone",
+	"title":                                      "description.InstanceAutomatedBackup.DBInstanceIdentifier",
+	"vpc_id":                                     "description.InstanceAutomatedBackup.VpcId",
+}
+
+func GetRDSDBInstanceAutomatedBackup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetRDSDBInstanceAutomatedBackup")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewRDSDBInstanceAutomatedBackupPaginator(essdk.BuildFilter(d.EqualsQuals, getRDSDBInstanceAutomatedBackupFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: RDSDBInstanceAutomatedBackup =============================
+
 // ==========================  START: RedshiftCluster =============================
 
 type RedshiftCluster struct {
@@ -30667,29 +32774,29 @@ func (p SNSTopicPaginator) NextPage(ctx context.Context) ([]SNSTopic, error) {
 
 var listSNSTopicFilters = map[string]string{
 	"akas":                                     "description.Attributes.TopicArn",
-	"application_failure_feedback_role_arn":    "attributes.ApplicationFailureFeedbackRoleArn",
-	"application_success_feedback_role_arn":    "attributes.ApplicationSuccessFeedbackRoleArn",
-	"application_success_feedback_sample_rate": "attributes.ApplicationSuccessFeedbackSampleRate",
+	"application_failure_feedback_role_arn":    "description.Attributes.ApplicationFailureFeedbackRoleArn",
+	"application_success_feedback_role_arn":    "description.Attributes.ApplicationSuccessFeedbackRoleArn",
+	"application_success_feedback_sample_rate": "description.Attributes.ApplicationSuccessFeedbackSampleRate",
 	"delivery_policy":                          "description.Attributes.DeliveryPolicy",
 	"display_name":                             "description.Attributes.DisplayName",
 	"effective_delivery_policy":                "description.Attributes.EffectiveDeliveryPolicy",
-	"firehose_failure_feedback_role_arn":       "attributes.FirehoseFailureFeedbackRoleArn",
-	"firehose_success_feedback_role_arn":       "attributes.FirehoseSuccessFeedbackRoleArn",
-	"firehose_success_feedback_sample_rate":    "attributes.FirehoseSuccessFeedbackSampleRate",
-	"http_failure_feedback_role_arn":           "attributes.HTTPFailureFeedbackRoleArn",
-	"http_success_feedback_role_arn":           "attributes.HTTPSuccessFeedbackRoleArn",
-	"http_success_feedback_sample_rate":        "attributes.HTTPSuccessFeedbackSampleRate",
+	"firehose_failure_feedback_role_arn":       "description.Attributes.FirehoseFailureFeedbackRoleArn",
+	"firehose_success_feedback_role_arn":       "description.Attributes.FirehoseSuccessFeedbackRoleArn",
+	"firehose_success_feedback_sample_rate":    "description.Attributes.FirehoseSuccessFeedbackSampleRate",
+	"http_failure_feedback_role_arn":           "description.Attributes.HTTPFailureFeedbackRoleArn",
+	"http_success_feedback_role_arn":           "description.Attributes.HTTPSuccessFeedbackRoleArn",
+	"http_success_feedback_sample_rate":        "description.Attributes.HTTPSuccessFeedbackSampleRate",
 	"kaytu_account_id":                         "metadata.SourceID",
 	"kms_master_key_id":                        "description.Attributes.KmsMasterKeyId",
-	"lambda_failure_feedback_role_arn":         "attributes.LambdaFailureFeedbackRoleArn",
-	"lambda_success_feedback_role_arn":         "attributes.LambdaSuccessFeedbackRoleArn",
-	"lambda_success_feedback_sample_rate":      "attributes.LambdaSuccessFeedbackSampleRate",
+	"lambda_failure_feedback_role_arn":         "description.Attributes.LambdaFailureFeedbackRoleArn",
+	"lambda_success_feedback_role_arn":         "description.Attributes.LambdaSuccessFeedbackRoleArn",
+	"lambda_success_feedback_sample_rate":      "description.Attributes.LambdaSuccessFeedbackSampleRate",
 	"owner":                                    "description.Attributes.Owner",
 	"policy":                                   "description.Attributes.Policy",
 	"policy_std":                               "description.Attributes.Policy",
-	"sqs_failure_feedback_role_arn":            "attributes.SQSFailureFeedbackRoleArn",
-	"sqs_success_feedback_role_arn":            "attributes.SQSSuccessFeedbackRoleArn",
-	"sqs_success_feedback_sample_rate":         "attributes.SQSSuccessFeedbackSampleRate",
+	"sqs_failure_feedback_role_arn":            "description.Attributes.SQSFailureFeedbackRoleArn",
+	"sqs_success_feedback_role_arn":            "description.Attributes.SQSSuccessFeedbackRoleArn",
+	"sqs_success_feedback_sample_rate":         "description.Attributes.SQSSuccessFeedbackSampleRate",
 	"subscriptions_confirmed":                  "description.Attributes.SubscriptionsConfirmed",
 	"subscriptions_deleted":                    "description.Attributes.SubscriptionsDeleted",
 	"subscriptions_pending":                    "description.Attributes.SubscriptionsPending",
@@ -30730,29 +32837,29 @@ func ListSNSTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 var getSNSTopicFilters = map[string]string{
 	"akas":                                     "description.Attributes.TopicArn",
-	"application_failure_feedback_role_arn":    "attributes.ApplicationFailureFeedbackRoleArn",
-	"application_success_feedback_role_arn":    "attributes.ApplicationSuccessFeedbackRoleArn",
-	"application_success_feedback_sample_rate": "attributes.ApplicationSuccessFeedbackSampleRate",
+	"application_failure_feedback_role_arn":    "description.Attributes.ApplicationFailureFeedbackRoleArn",
+	"application_success_feedback_role_arn":    "description.Attributes.ApplicationSuccessFeedbackRoleArn",
+	"application_success_feedback_sample_rate": "description.Attributes.ApplicationSuccessFeedbackSampleRate",
 	"delivery_policy":                          "description.Attributes.DeliveryPolicy",
 	"display_name":                             "description.Attributes.DisplayName",
 	"effective_delivery_policy":                "description.Attributes.EffectiveDeliveryPolicy",
-	"firehose_failure_feedback_role_arn":       "attributes.FirehoseFailureFeedbackRoleArn",
-	"firehose_success_feedback_role_arn":       "attributes.FirehoseSuccessFeedbackRoleArn",
-	"firehose_success_feedback_sample_rate":    "attributes.FirehoseSuccessFeedbackSampleRate",
-	"http_failure_feedback_role_arn":           "attributes.HTTPFailureFeedbackRoleArn",
-	"http_success_feedback_role_arn":           "attributes.HTTPSuccessFeedbackRoleArn",
-	"http_success_feedback_sample_rate":        "attributes.HTTPSuccessFeedbackSampleRate",
+	"firehose_failure_feedback_role_arn":       "description.Attributes.FirehoseFailureFeedbackRoleArn",
+	"firehose_success_feedback_role_arn":       "description.Attributes.FirehoseSuccessFeedbackRoleArn",
+	"firehose_success_feedback_sample_rate":    "description.Attributes.FirehoseSuccessFeedbackSampleRate",
+	"http_failure_feedback_role_arn":           "description.Attributes.HTTPFailureFeedbackRoleArn",
+	"http_success_feedback_role_arn":           "description.Attributes.HTTPSuccessFeedbackRoleArn",
+	"http_success_feedback_sample_rate":        "description.Attributes.HTTPSuccessFeedbackSampleRate",
 	"kaytu_account_id":                         "metadata.SourceID",
 	"kms_master_key_id":                        "description.Attributes.KmsMasterKeyId",
-	"lambda_failure_feedback_role_arn":         "attributes.LambdaFailureFeedbackRoleArn",
-	"lambda_success_feedback_role_arn":         "attributes.LambdaSuccessFeedbackRoleArn",
-	"lambda_success_feedback_sample_rate":      "attributes.LambdaSuccessFeedbackSampleRate",
+	"lambda_failure_feedback_role_arn":         "description.Attributes.LambdaFailureFeedbackRoleArn",
+	"lambda_success_feedback_role_arn":         "description.Attributes.LambdaSuccessFeedbackRoleArn",
+	"lambda_success_feedback_sample_rate":      "description.Attributes.LambdaSuccessFeedbackSampleRate",
 	"owner":                                    "description.Attributes.Owner",
 	"policy":                                   "description.Attributes.Policy",
 	"policy_std":                               "description.Attributes.Policy",
-	"sqs_failure_feedback_role_arn":            "attributes.SQSFailureFeedbackRoleArn",
-	"sqs_success_feedback_role_arn":            "attributes.SQSSuccessFeedbackRoleArn",
-	"sqs_success_feedback_sample_rate":         "attributes.SQSSuccessFeedbackSampleRate",
+	"sqs_failure_feedback_role_arn":            "description.Attributes.SQSFailureFeedbackRoleArn",
+	"sqs_success_feedback_role_arn":            "description.Attributes.SQSSuccessFeedbackRoleArn",
+	"sqs_success_feedback_sample_rate":         "description.Attributes.SQSSuccessFeedbackSampleRate",
 	"subscriptions_confirmed":                  "description.Attributes.SubscriptionsConfirmed",
 	"subscriptions_deleted":                    "description.Attributes.SubscriptionsDeleted",
 	"subscriptions_pending":                    "description.Attributes.SubscriptionsPending",
@@ -30793,6 +32900,182 @@ func GetSNSTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 }
 
 // ==========================  END: SNSTopic =============================
+
+// ==========================  START: SNSSubscription =============================
+
+type SNSSubscription struct {
+	Description   aws.SNSSubscriptionDescription `json:"description"`
+	Metadata      aws.Metadata                   `json:"metadata"`
+	ResourceJobID int                            `json:"resource_job_id"`
+	SourceJobID   int                            `json:"source_job_id"`
+	ResourceType  string                         `json:"resource_type"`
+	SourceType    string                         `json:"source_type"`
+	ID            string                         `json:"id"`
+	ARN           string                         `json:"arn"`
+	SourceID      string                         `json:"source_id"`
+}
+
+type SNSSubscriptionHit struct {
+	ID      string          `json:"_id"`
+	Score   float64         `json:"_score"`
+	Index   string          `json:"_index"`
+	Type    string          `json:"_type"`
+	Version int64           `json:"_version,omitempty"`
+	Source  SNSSubscription `json:"_source"`
+	Sort    []interface{}   `json:"sort"`
+}
+
+type SNSSubscriptionHits struct {
+	Total essdk.SearchTotal    `json:"total"`
+	Hits  []SNSSubscriptionHit `json:"hits"`
+}
+
+type SNSSubscriptionSearchResponse struct {
+	PitID string              `json:"pit_id"`
+	Hits  SNSSubscriptionHits `json:"hits"`
+}
+
+type SNSSubscriptionPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewSNSSubscriptionPaginator(filters []essdk.BoolFilter, limit *int64) (SNSSubscriptionPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_sns_subscription", filters, limit)
+	if err != nil {
+		return SNSSubscriptionPaginator{}, err
+	}
+
+	p := SNSSubscriptionPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p SNSSubscriptionPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p SNSSubscriptionPaginator) NextPage(ctx context.Context) ([]SNSSubscription, error) {
+	var response SNSSubscriptionSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []SNSSubscription
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listSNSSubscriptionFilters = map[string]string{
+	"akas":                           "description.Subscription.SubscriptionArn",
+	"confirmation_was_authenticated": "description.Attributes.ConfirmationWasAuthenticated",
+	"delivery_policy":                "description.Attributes.DeliveryPolicy",
+	"effective_delivery_policy":      "description.Attributes.EffectiveDeliveryPolicy",
+	"endpoint":                       "description.Subscription.Endpoint",
+	"filter_policy":                  "description.Attributes.FilterPolicy",
+	"kaytu_account_id":               "metadata.SourceID",
+	"owner":                          "description.Subscription.Owner",
+	"pending_confirmation":           "description.Attributes.PendingConfirmation",
+	"protocol":                       "description.Subscription.Protocol",
+	"raw_message_delivery":           "description.Attributes.RawMessageDelivery",
+	"redrive_policy":                 "description.Attributes.RedrivePolicy",
+	"subscription_arn":               "description.Subscription.SubscriptionArn",
+	"title":                          "description.Subscription.SubscriptionArn",
+	"topic_arn":                      "description.Subscription.TopicArn",
+}
+
+func ListSNSSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListSNSSubscription")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewSNSSubscriptionPaginator(essdk.BuildFilter(d.EqualsQuals, listSNSSubscriptionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getSNSSubscriptionFilters = map[string]string{
+	"akas":                           "description.Subscription.SubscriptionArn",
+	"confirmation_was_authenticated": "description.Attributes.ConfirmationWasAuthenticated",
+	"delivery_policy":                "description.Attributes.DeliveryPolicy",
+	"effective_delivery_policy":      "description.Attributes.EffectiveDeliveryPolicy",
+	"endpoint":                       "description.Subscription.Endpoint",
+	"filter_policy":                  "description.Attributes.FilterPolicy",
+	"kaytu_account_id":               "metadata.SourceID",
+	"owner":                          "description.Subscription.Owner",
+	"pending_confirmation":           "description.Attributes.PendingConfirmation",
+	"protocol":                       "description.Subscription.Protocol",
+	"raw_message_delivery":           "description.Attributes.RawMessageDelivery",
+	"redrive_policy":                 "description.Attributes.RedrivePolicy",
+	"subscription_arn":               "description.Subscription.SubscriptionArn",
+	"title":                          "description.Subscription.SubscriptionArn",
+	"topic_arn":                      "description.Subscription.TopicArn",
+}
+
+func GetSNSSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetSNSSubscription")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewSNSSubscriptionPaginator(essdk.BuildFilter(d.EqualsQuals, getSNSSubscriptionFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: SNSSubscription =============================
 
 // ==========================  START: SQSQueue =============================
 
@@ -30886,7 +33169,7 @@ var listSQSQueueFilters = map[string]string{
 	"queue_url":                   "description.Attributes.QueueUrl",
 	"receive_wait_time_seconds":   "description.Attributes.ReceiveMessageWaitTimeSeconds",
 	"redrive_policy":              "description.Attributes.RedrivePolicy",
-	"sqs_managed_sse_enabled":     "attributes.SqsManagedSseEnabled",
+	"sqs_managed_sse_enabled":     "description.Attributes.SqsManagedSseEnabled",
 	"tags":                        "description.Tags",
 	"title":                       "description.Attributes.QueueUrl",
 	"visibility_timeout_seconds":  "description.Attributes.VisibilityTimeout",
@@ -30937,7 +33220,7 @@ var getSQSQueueFilters = map[string]string{
 	"queue_url":                   "description.Attributes.QueueUrl",
 	"receive_wait_time_seconds":   "description.Attributes.ReceiveMessageWaitTimeSeconds",
 	"redrive_policy":              "description.Attributes.RedrivePolicy",
-	"sqs_managed_sse_enabled":     "attributes.SqsManagedSseEnabled",
+	"sqs_managed_sse_enabled":     "description.Attributes.SqsManagedSseEnabled",
 	"tags":                        "description.Tags",
 	"title":                       "description.Attributes.QueueUrl",
 	"visibility_timeout_seconds":  "description.Attributes.VisibilityTimeout",
@@ -31163,6 +33446,698 @@ func GetS3Bucket(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 }
 
 // ==========================  END: S3Bucket =============================
+
+// ==========================  START: S3AccountSetting =============================
+
+type S3AccountSetting struct {
+	Description   aws.S3AccountSettingDescription `json:"description"`
+	Metadata      aws.Metadata                    `json:"metadata"`
+	ResourceJobID int                             `json:"resource_job_id"`
+	SourceJobID   int                             `json:"source_job_id"`
+	ResourceType  string                          `json:"resource_type"`
+	SourceType    string                          `json:"source_type"`
+	ID            string                          `json:"id"`
+	ARN           string                          `json:"arn"`
+	SourceID      string                          `json:"source_id"`
+}
+
+type S3AccountSettingHit struct {
+	ID      string           `json:"_id"`
+	Score   float64          `json:"_score"`
+	Index   string           `json:"_index"`
+	Type    string           `json:"_type"`
+	Version int64            `json:"_version,omitempty"`
+	Source  S3AccountSetting `json:"_source"`
+	Sort    []interface{}    `json:"sort"`
+}
+
+type S3AccountSettingHits struct {
+	Total essdk.SearchTotal     `json:"total"`
+	Hits  []S3AccountSettingHit `json:"hits"`
+}
+
+type S3AccountSettingSearchResponse struct {
+	PitID string               `json:"pit_id"`
+	Hits  S3AccountSettingHits `json:"hits"`
+}
+
+type S3AccountSettingPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewS3AccountSettingPaginator(filters []essdk.BoolFilter, limit *int64) (S3AccountSettingPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_s3_accountsetting", filters, limit)
+	if err != nil {
+		return S3AccountSettingPaginator{}, err
+	}
+
+	p := S3AccountSettingPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p S3AccountSettingPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p S3AccountSettingPaginator) NextPage(ctx context.Context) ([]S3AccountSetting, error) {
+	var response S3AccountSettingSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []S3AccountSetting
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listS3AccountSettingFilters = map[string]string{
+	"block_public_acls":       "description.PublicAccessBlockConfiguration.BlockPublicAcls",
+	"block_public_policy":     "description.PublicAccessBlockConfiguration.BlockPublicPolicy",
+	"ignore_public_acls":      "description.PublicAccessBlockConfiguration.IgnorePublicAcls",
+	"kaytu_account_id":        "metadata.SourceID",
+	"restrict_public_buckets": "description.PublicAccessBlockConfiguration.RestrictPublicBuckets",
+}
+
+func ListS3AccountSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListS3AccountSetting")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewS3AccountSettingPaginator(essdk.BuildFilter(d.EqualsQuals, listS3AccountSettingFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getS3AccountSettingFilters = map[string]string{
+	"block_public_acls":       "description.PublicAccessBlockConfiguration.BlockPublicAcls",
+	"block_public_policy":     "description.PublicAccessBlockConfiguration.BlockPublicPolicy",
+	"ignore_public_acls":      "description.PublicAccessBlockConfiguration.IgnorePublicAcls",
+	"kaytu_account_id":        "metadata.SourceID",
+	"restrict_public_buckets": "description.PublicAccessBlockConfiguration.RestrictPublicBuckets",
+}
+
+func GetS3AccountSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetS3AccountSetting")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewS3AccountSettingPaginator(essdk.BuildFilter(d.EqualsQuals, getS3AccountSettingFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: S3AccountSetting =============================
+
+// ==========================  START: S3Object =============================
+
+type S3Object struct {
+	Description   aws.S3ObjectDescription `json:"description"`
+	Metadata      aws.Metadata            `json:"metadata"`
+	ResourceJobID int                     `json:"resource_job_id"`
+	SourceJobID   int                     `json:"source_job_id"`
+	ResourceType  string                  `json:"resource_type"`
+	SourceType    string                  `json:"source_type"`
+	ID            string                  `json:"id"`
+	ARN           string                  `json:"arn"`
+	SourceID      string                  `json:"source_id"`
+}
+
+type S3ObjectHit struct {
+	ID      string        `json:"_id"`
+	Score   float64       `json:"_score"`
+	Index   string        `json:"_index"`
+	Type    string        `json:"_type"`
+	Version int64         `json:"_version,omitempty"`
+	Source  S3Object      `json:"_source"`
+	Sort    []interface{} `json:"sort"`
+}
+
+type S3ObjectHits struct {
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []S3ObjectHit     `json:"hits"`
+}
+
+type S3ObjectSearchResponse struct {
+	PitID string       `json:"pit_id"`
+	Hits  S3ObjectHits `json:"hits"`
+}
+
+type S3ObjectPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewS3ObjectPaginator(filters []essdk.BoolFilter, limit *int64) (S3ObjectPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_s3_object", filters, limit)
+	if err != nil {
+		return S3ObjectPaginator{}, err
+	}
+
+	p := S3ObjectPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p S3ObjectPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p S3ObjectPaginator) NextPage(ctx context.Context) ([]S3Object, error) {
+	var response S3ObjectSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []S3Object
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listS3ObjectFilters = map[string]string{
+	"accept_ranges":                 "acceptRanges",
+	"bucket_key_enabled":            "bucketKeyEnabled",
+	"cache_control":                 "cacheControl",
+	"checksum":                      "checksum",
+	"content_disposition":           "contentDisposition",
+	"content_encoding":              "contentEncoding",
+	"content_language":              "contentLanguage",
+	"content_length":                "contentLength",
+	"content_range":                 "contentRange",
+	"content_type":                  "contentType",
+	"delete_marker":                 "deleteMarker",
+	"etag":                          "description.Object.ETag",
+	"expiration":                    "expiration",
+	"expires":                       "expires",
+	"kaytu_account_id":              "metadata.SourceID",
+	"metadata":                      "metadata",
+	"object_lock_legal_hold_status": "description.ObjectLockLegal.Status",
+	"object_lock_mode":              "description.ObjectLockRetention.Mode",
+	"object_lock_retain_until_date": "description.ObjectLockRetention.RetainUntilDate",
+	"object_parts":                  "objectParts",
+	"replication_status":            "replicationStatus",
+	"request_charged":               "requestCharged",
+	"restore":                       "restore",
+	"server_side_encryption":        "description.Encryption.EncryptionType",
+	"size":                          "description.Object.Size",
+	"sse_customer_algorithm":        "sSECustomerAlgorithm",
+	"sse_customer_key_md5":          "sSECustomerKeyMD5",
+	"sse_kms_key_id":                "description.ServerSideEncryption.Rules.ApplyServerSideEncryptionByDefault.KMSMasterKeyID",
+	"tag_count":                     "tagCount",
+	"tags":                          "tagSet",
+	"tags_src":                      "tagSet",
+	"title":                         "key",
+	"website_redirection_location":  "websiteRedirectLocation",
+}
+
+func ListS3Object(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListS3Object")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewS3ObjectPaginator(essdk.BuildFilter(d.EqualsQuals, listS3ObjectFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getS3ObjectFilters = map[string]string{
+	"accept_ranges":                 "acceptRanges",
+	"bucket_key_enabled":            "bucketKeyEnabled",
+	"cache_control":                 "cacheControl",
+	"checksum":                      "checksum",
+	"content_disposition":           "contentDisposition",
+	"content_encoding":              "contentEncoding",
+	"content_language":              "contentLanguage",
+	"content_length":                "contentLength",
+	"content_range":                 "contentRange",
+	"content_type":                  "contentType",
+	"delete_marker":                 "deleteMarker",
+	"etag":                          "description.Object.ETag",
+	"expiration":                    "expiration",
+	"expires":                       "expires",
+	"kaytu_account_id":              "metadata.SourceID",
+	"metadata":                      "metadata",
+	"object_lock_legal_hold_status": "description.ObjectLockLegal.Status",
+	"object_lock_mode":              "description.ObjectLockRetention.Mode",
+	"object_lock_retain_until_date": "description.ObjectLockRetention.RetainUntilDate",
+	"object_parts":                  "objectParts",
+	"replication_status":            "replicationStatus",
+	"request_charged":               "requestCharged",
+	"restore":                       "restore",
+	"server_side_encryption":        "description.Encryption.EncryptionType",
+	"size":                          "description.Object.Size",
+	"sse_customer_algorithm":        "sSECustomerAlgorithm",
+	"sse_customer_key_md5":          "sSECustomerKeyMD5",
+	"sse_kms_key_id":                "description.ServerSideEncryption.Rules.ApplyServerSideEncryptionByDefault.KMSMasterKeyID",
+	"tag_count":                     "tagCount",
+	"tags":                          "tagSet",
+	"tags_src":                      "tagSet",
+	"title":                         "key",
+	"website_redirection_location":  "websiteRedirectLocation",
+}
+
+func GetS3Object(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetS3Object")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewS3ObjectPaginator(essdk.BuildFilter(d.EqualsQuals, getS3ObjectFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: S3Object =============================
+
+// ==========================  START: S3BucketIntelligentTieringConfiguration =============================
+
+type S3BucketIntelligentTieringConfiguration struct {
+	Description   aws.S3BucketIntelligentTieringConfigurationDescription `json:"description"`
+	Metadata      aws.Metadata                                           `json:"metadata"`
+	ResourceJobID int                                                    `json:"resource_job_id"`
+	SourceJobID   int                                                    `json:"source_job_id"`
+	ResourceType  string                                                 `json:"resource_type"`
+	SourceType    string                                                 `json:"source_type"`
+	ID            string                                                 `json:"id"`
+	ARN           string                                                 `json:"arn"`
+	SourceID      string                                                 `json:"source_id"`
+}
+
+type S3BucketIntelligentTieringConfigurationHit struct {
+	ID      string                                  `json:"_id"`
+	Score   float64                                 `json:"_score"`
+	Index   string                                  `json:"_index"`
+	Type    string                                  `json:"_type"`
+	Version int64                                   `json:"_version,omitempty"`
+	Source  S3BucketIntelligentTieringConfiguration `json:"_source"`
+	Sort    []interface{}                           `json:"sort"`
+}
+
+type S3BucketIntelligentTieringConfigurationHits struct {
+	Total essdk.SearchTotal                            `json:"total"`
+	Hits  []S3BucketIntelligentTieringConfigurationHit `json:"hits"`
+}
+
+type S3BucketIntelligentTieringConfigurationSearchResponse struct {
+	PitID string                                      `json:"pit_id"`
+	Hits  S3BucketIntelligentTieringConfigurationHits `json:"hits"`
+}
+
+type S3BucketIntelligentTieringConfigurationPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewS3BucketIntelligentTieringConfigurationPaginator(filters []essdk.BoolFilter, limit *int64) (S3BucketIntelligentTieringConfigurationPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_s3_bucketintelligenttieringconfiguration", filters, limit)
+	if err != nil {
+		return S3BucketIntelligentTieringConfigurationPaginator{}, err
+	}
+
+	p := S3BucketIntelligentTieringConfigurationPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p S3BucketIntelligentTieringConfigurationPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p S3BucketIntelligentTieringConfigurationPaginator) NextPage(ctx context.Context) ([]S3BucketIntelligentTieringConfiguration, error) {
+	var response S3BucketIntelligentTieringConfigurationSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []S3BucketIntelligentTieringConfiguration
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listS3BucketIntelligentTieringConfigurationFilters = map[string]string{
+	"bucket_name":      "description.BucketName",
+	"filter":           "description.IntelligentTieringConfiguration.Filter",
+	"id":               "description.IntelligentTieringConfiguration.Id",
+	"kaytu_account_id": "metadata.SourceID",
+	"status":           "description.IntelligentTieringConfiguration.Status",
+	"tierings":         "description.IntelligentTieringConfiguration.Tierings",
+	"title":            "description.IntelligentTieringConfiguration.Id",
+}
+
+func ListS3BucketIntelligentTieringConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListS3BucketIntelligentTieringConfiguration")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewS3BucketIntelligentTieringConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, listS3BucketIntelligentTieringConfigurationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getS3BucketIntelligentTieringConfigurationFilters = map[string]string{
+	"bucket_name":      "description.BucketName",
+	"filter":           "description.IntelligentTieringConfiguration.Filter",
+	"id":               "description.IntelligentTieringConfiguration.Id",
+	"kaytu_account_id": "metadata.SourceID",
+	"status":           "description.IntelligentTieringConfiguration.Status",
+	"tierings":         "description.IntelligentTieringConfiguration.Tierings",
+	"title":            "description.IntelligentTieringConfiguration.Id",
+}
+
+func GetS3BucketIntelligentTieringConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetS3BucketIntelligentTieringConfiguration")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewS3BucketIntelligentTieringConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, getS3BucketIntelligentTieringConfigurationFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: S3BucketIntelligentTieringConfiguration =============================
+
+// ==========================  START: S3MultiRegionAccessPoint =============================
+
+type S3MultiRegionAccessPoint struct {
+	Description   aws.S3MultiRegionAccessPointDescription `json:"description"`
+	Metadata      aws.Metadata                            `json:"metadata"`
+	ResourceJobID int                                     `json:"resource_job_id"`
+	SourceJobID   int                                     `json:"source_job_id"`
+	ResourceType  string                                  `json:"resource_type"`
+	SourceType    string                                  `json:"source_type"`
+	ID            string                                  `json:"id"`
+	ARN           string                                  `json:"arn"`
+	SourceID      string                                  `json:"source_id"`
+}
+
+type S3MultiRegionAccessPointHit struct {
+	ID      string                   `json:"_id"`
+	Score   float64                  `json:"_score"`
+	Index   string                   `json:"_index"`
+	Type    string                   `json:"_type"`
+	Version int64                    `json:"_version,omitempty"`
+	Source  S3MultiRegionAccessPoint `json:"_source"`
+	Sort    []interface{}            `json:"sort"`
+}
+
+type S3MultiRegionAccessPointHits struct {
+	Total essdk.SearchTotal             `json:"total"`
+	Hits  []S3MultiRegionAccessPointHit `json:"hits"`
+}
+
+type S3MultiRegionAccessPointSearchResponse struct {
+	PitID string                       `json:"pit_id"`
+	Hits  S3MultiRegionAccessPointHits `json:"hits"`
+}
+
+type S3MultiRegionAccessPointPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewS3MultiRegionAccessPointPaginator(filters []essdk.BoolFilter, limit *int64) (S3MultiRegionAccessPointPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_s3_multiregionaccesspoint", filters, limit)
+	if err != nil {
+		return S3MultiRegionAccessPointPaginator{}, err
+	}
+
+	p := S3MultiRegionAccessPointPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p S3MultiRegionAccessPointPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p S3MultiRegionAccessPointPaginator) NextPage(ctx context.Context) ([]S3MultiRegionAccessPoint, error) {
+	var response S3MultiRegionAccessPointSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []S3MultiRegionAccessPoint
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listS3MultiRegionAccessPointFilters = map[string]string{
+	"akas":                "aRN",
+	"alias":               "description.Report.Alias",
+	"created_at":          "description.Report.CreatedAt",
+	"kaytu_account_id":    "metadata.SourceID",
+	"name":                "description.Report.Name",
+	"public_access_block": "description.Report.PublicAccessBlock",
+	"regions":             "description.Report.Regions",
+	"status":              "description.Report.Status",
+	"title":               "description.Report.Name",
+}
+
+func ListS3MultiRegionAccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListS3MultiRegionAccessPoint")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewS3MultiRegionAccessPointPaginator(essdk.BuildFilter(d.EqualsQuals, listS3MultiRegionAccessPointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getS3MultiRegionAccessPointFilters = map[string]string{
+	"akas":                "aRN",
+	"alias":               "description.Report.Alias",
+	"created_at":          "description.Report.CreatedAt",
+	"kaytu_account_id":    "metadata.SourceID",
+	"name":                "description.Report.Name",
+	"public_access_block": "description.Report.PublicAccessBlock",
+	"regions":             "description.Report.Regions",
+	"status":              "description.Report.Status",
+	"title":               "description.Report.Name",
+}
+
+func GetS3MultiRegionAccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetS3MultiRegionAccessPoint")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewS3MultiRegionAccessPointPaginator(essdk.BuildFilter(d.EqualsQuals, getS3MultiRegionAccessPointFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: S3MultiRegionAccessPoint =============================
 
 // ==========================  START: SageMakerEndpointConfiguration =============================
 
@@ -34094,17 +37069,19 @@ func (p SSMManagedInstancePaginator) NextPage(ctx context.Context) ([]SSMManaged
 }
 
 var listSSMManagedInstanceFilters = map[string]string{
-	"activation_id":                              "description.InstanceInformation.ActivationId",
-	"agent_version":                              "description.InstanceInformation.AgentVersion",
-	"association_overview":                       "description.InstanceInformation.AssociationOverview",
-	"association_status":                         "description.InstanceInformation.AssociationStatus",
-	"computer_name":                              "description.InstanceInformation.ComputerName",
-	"instance_id":                                "description.InstanceInformation.InstanceId",
-	"ip_address":                                 "description.InstanceInformation.IPAddress",
-	"is_latest_version":                          "description.InstanceInformation.IsLatestVersion",
-	"kaytu_account_id":                           "metadata.SourceID",
-	"last_association_execution_date":            "description.InstanceInformation.LastAssociationExecutionDate",
-	"last_ping_date_time":                        "description.InstanceInformation.LastPingDateTime",
+	"activation_id":                   "description.InstanceInformation.ActivationId",
+	"agent_version":                   "description.InstanceInformation.AgentVersion",
+	"akas":                            "aRN",
+	"arn":                             "aRN",
+	"association_overview":            "description.InstanceInformation.AssociationOverview",
+	"association_status":              "description.InstanceInformation.AssociationStatus",
+	"computer_name":                   "description.InstanceInformation.ComputerName",
+	"instance_id":                     "description.InstanceInformation.InstanceId",
+	"ip_address":                      "description.InstanceInformation.IPAddress",
+	"is_latest_version":               "description.InstanceInformation.IsLatestVersion",
+	"kaytu_account_id":                "metadata.SourceID",
+	"last_association_execution_date": "description.InstanceInformation.LastAssociationExecutionDate",
+	"last_ping_date_time":             "description.InstanceInformation.LastPingDateTime",
 	"last_successful_association_execution_date": "description.InstanceInformation.LastSuccessfulAssociationExecutionDate",
 	"name":              "description.InstanceInformation.Name",
 	"ping_status":       "description.InstanceInformation.PingStatus",
@@ -34147,17 +37124,19 @@ func ListSSMManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.
 }
 
 var getSSMManagedInstanceFilters = map[string]string{
-	"activation_id":                              "description.InstanceInformation.ActivationId",
-	"agent_version":                              "description.InstanceInformation.AgentVersion",
-	"association_overview":                       "description.InstanceInformation.AssociationOverview",
-	"association_status":                         "description.InstanceInformation.AssociationStatus",
-	"computer_name":                              "description.InstanceInformation.ComputerName",
-	"instance_id":                                "description.InstanceInformation.InstanceId",
-	"ip_address":                                 "description.InstanceInformation.IPAddress",
-	"is_latest_version":                          "description.InstanceInformation.IsLatestVersion",
-	"kaytu_account_id":                           "metadata.SourceID",
-	"last_association_execution_date":            "description.InstanceInformation.LastAssociationExecutionDate",
-	"last_ping_date_time":                        "description.InstanceInformation.LastPingDateTime",
+	"activation_id":                   "description.InstanceInformation.ActivationId",
+	"agent_version":                   "description.InstanceInformation.AgentVersion",
+	"akas":                            "aRN",
+	"arn":                             "aRN",
+	"association_overview":            "description.InstanceInformation.AssociationOverview",
+	"association_status":              "description.InstanceInformation.AssociationStatus",
+	"computer_name":                   "description.InstanceInformation.ComputerName",
+	"instance_id":                     "description.InstanceInformation.InstanceId",
+	"ip_address":                      "description.InstanceInformation.IPAddress",
+	"is_latest_version":               "description.InstanceInformation.IsLatestVersion",
+	"kaytu_account_id":                "metadata.SourceID",
+	"last_association_execution_date": "description.InstanceInformation.LastAssociationExecutionDate",
+	"last_ping_date_time":             "description.InstanceInformation.LastPingDateTime",
 	"last_successful_association_execution_date": "description.InstanceInformation.LastSuccessfulAssociationExecutionDate",
 	"name":              "description.InstanceInformation.Name",
 	"ping_status":       "description.InstanceInformation.PingStatus",
@@ -34611,6 +37590,164 @@ func GetSSMDocument(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 // ==========================  END: SSMDocument =============================
 
+// ==========================  START: SSMDocumentPermission =============================
+
+type SSMDocumentPermission struct {
+	Description   aws.SSMDocumentPermissionDescription `json:"description"`
+	Metadata      aws.Metadata                         `json:"metadata"`
+	ResourceJobID int                                  `json:"resource_job_id"`
+	SourceJobID   int                                  `json:"source_job_id"`
+	ResourceType  string                               `json:"resource_type"`
+	SourceType    string                               `json:"source_type"`
+	ID            string                               `json:"id"`
+	ARN           string                               `json:"arn"`
+	SourceID      string                               `json:"source_id"`
+}
+
+type SSMDocumentPermissionHit struct {
+	ID      string                `json:"_id"`
+	Score   float64               `json:"_score"`
+	Index   string                `json:"_index"`
+	Type    string                `json:"_type"`
+	Version int64                 `json:"_version,omitempty"`
+	Source  SSMDocumentPermission `json:"_source"`
+	Sort    []interface{}         `json:"sort"`
+}
+
+type SSMDocumentPermissionHits struct {
+	Total essdk.SearchTotal          `json:"total"`
+	Hits  []SSMDocumentPermissionHit `json:"hits"`
+}
+
+type SSMDocumentPermissionSearchResponse struct {
+	PitID string                    `json:"pit_id"`
+	Hits  SSMDocumentPermissionHits `json:"hits"`
+}
+
+type SSMDocumentPermissionPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewSSMDocumentPermissionPaginator(filters []essdk.BoolFilter, limit *int64) (SSMDocumentPermissionPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_ssm_documentpermission", filters, limit)
+	if err != nil {
+		return SSMDocumentPermissionPaginator{}, err
+	}
+
+	p := SSMDocumentPermissionPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p SSMDocumentPermissionPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p SSMDocumentPermissionPaginator) NextPage(ctx context.Context) ([]SSMDocumentPermission, error) {
+	var response SSMDocumentPermissionSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []SSMDocumentPermission
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listSSMDocumentPermissionFilters = map[string]string{
+	"account_ids":             "description.Permissions.AccountIds",
+	"document_name":           "description.Document.Document.Name",
+	"kaytu_account_id":        "metadata.SourceID",
+	"shared_account_id":       "description.Permissions.AccountSharingInfoList.AccountId",
+	"shared_document_version": "description.Permissions.AccountSharingInfoList.SharedDocumentVersion",
+	"title":                   "description.Permissions.AccountSharingInfoList.SharedDocumentVersion",
+}
+
+func ListSSMDocumentPermission(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListSSMDocumentPermission")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewSSMDocumentPermissionPaginator(essdk.BuildFilter(d.EqualsQuals, listSSMDocumentPermissionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getSSMDocumentPermissionFilters = map[string]string{
+	"account_ids":             "description.Permissions.AccountIds",
+	"document_name":           "description.Document.Document.Name",
+	"kaytu_account_id":        "metadata.SourceID",
+	"shared_account_id":       "description.Permissions.AccountSharingInfoList.AccountId",
+	"shared_document_version": "description.Permissions.AccountSharingInfoList.SharedDocumentVersion",
+	"title":                   "description.Permissions.AccountSharingInfoList.SharedDocumentVersion",
+}
+
+func GetSSMDocumentPermission(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetSSMDocumentPermission")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewSSMDocumentPermissionPaginator(essdk.BuildFilter(d.EqualsQuals, getSSMDocumentPermissionFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: SSMDocumentPermission =============================
+
 // ==========================  START: SSMInventory =============================
 
 type SSMInventory struct {
@@ -34772,6 +37909,166 @@ func GetSSMInventory(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 // ==========================  END: SSMInventory =============================
+
+// ==========================  START: SSMInventoryEntry =============================
+
+type SSMInventoryEntry struct {
+	Description   aws.SSMInventoryEntryDescription `json:"description"`
+	Metadata      aws.Metadata                     `json:"metadata"`
+	ResourceJobID int                              `json:"resource_job_id"`
+	SourceJobID   int                              `json:"source_job_id"`
+	ResourceType  string                           `json:"resource_type"`
+	SourceType    string                           `json:"source_type"`
+	ID            string                           `json:"id"`
+	ARN           string                           `json:"arn"`
+	SourceID      string                           `json:"source_id"`
+}
+
+type SSMInventoryEntryHit struct {
+	ID      string            `json:"_id"`
+	Score   float64           `json:"_score"`
+	Index   string            `json:"_index"`
+	Type    string            `json:"_type"`
+	Version int64             `json:"_version,omitempty"`
+	Source  SSMInventoryEntry `json:"_source"`
+	Sort    []interface{}     `json:"sort"`
+}
+
+type SSMInventoryEntryHits struct {
+	Total essdk.SearchTotal      `json:"total"`
+	Hits  []SSMInventoryEntryHit `json:"hits"`
+}
+
+type SSMInventoryEntrySearchResponse struct {
+	PitID string                `json:"pit_id"`
+	Hits  SSMInventoryEntryHits `json:"hits"`
+}
+
+type SSMInventoryEntryPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewSSMInventoryEntryPaginator(filters []essdk.BoolFilter, limit *int64) (SSMInventoryEntryPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_ssm_inventoryentry", filters, limit)
+	if err != nil {
+		return SSMInventoryEntryPaginator{}, err
+	}
+
+	p := SSMInventoryEntryPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p SSMInventoryEntryPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p SSMInventoryEntryPaginator) NextPage(ctx context.Context) ([]SSMInventoryEntry, error) {
+	var response SSMInventoryEntrySearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []SSMInventoryEntry
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listSSMInventoryEntryFilters = map[string]string{
+	"capture_time":     "description.CaptureTime",
+	"entries":          "description.Entries",
+	"instance_id":      "description.InstanceId",
+	"kaytu_account_id": "metadata.SourceID",
+	"schema_version":   "description.SchemaVersion",
+	"title":            "description.InstanceId",
+	"type_name":        "description.TypeName",
+}
+
+func ListSSMInventoryEntry(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListSSMInventoryEntry")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewSSMInventoryEntryPaginator(essdk.BuildFilter(d.EqualsQuals, listSSMInventoryEntryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getSSMInventoryEntryFilters = map[string]string{
+	"capture_time":     "description.CaptureTime",
+	"entries":          "description.Entries",
+	"instance_id":      "description.InstanceId",
+	"kaytu_account_id": "metadata.SourceID",
+	"schema_version":   "description.SchemaVersion",
+	"title":            "description.InstanceId",
+	"type_name":        "description.TypeName",
+}
+
+func GetSSMInventoryEntry(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetSSMInventoryEntry")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewSSMInventoryEntryPaginator(essdk.BuildFilter(d.EqualsQuals, getSSMInventoryEntryFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: SSMInventoryEntry =============================
 
 // ==========================  START: SSMMaintenanceWindow =============================
 
@@ -35330,6 +38627,364 @@ func GetSSMPatchBaseline(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 // ==========================  END: SSMPatchBaseline =============================
+
+// ==========================  START: SSMManagedInstanceCompliance =============================
+
+type SSMManagedInstanceCompliance struct {
+	Description   aws.SSMManagedInstanceComplianceDescription `json:"description"`
+	Metadata      aws.Metadata                                `json:"metadata"`
+	ResourceJobID int                                         `json:"resource_job_id"`
+	SourceJobID   int                                         `json:"source_job_id"`
+	ResourceType  string                                      `json:"resource_type"`
+	SourceType    string                                      `json:"source_type"`
+	ID            string                                      `json:"id"`
+	ARN           string                                      `json:"arn"`
+	SourceID      string                                      `json:"source_id"`
+}
+
+type SSMManagedInstanceComplianceHit struct {
+	ID      string                       `json:"_id"`
+	Score   float64                      `json:"_score"`
+	Index   string                       `json:"_index"`
+	Type    string                       `json:"_type"`
+	Version int64                        `json:"_version,omitempty"`
+	Source  SSMManagedInstanceCompliance `json:"_source"`
+	Sort    []interface{}                `json:"sort"`
+}
+
+type SSMManagedInstanceComplianceHits struct {
+	Total essdk.SearchTotal                 `json:"total"`
+	Hits  []SSMManagedInstanceComplianceHit `json:"hits"`
+}
+
+type SSMManagedInstanceComplianceSearchResponse struct {
+	PitID string                           `json:"pit_id"`
+	Hits  SSMManagedInstanceComplianceHits `json:"hits"`
+}
+
+type SSMManagedInstanceCompliancePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewSSMManagedInstanceCompliancePaginator(filters []essdk.BoolFilter, limit *int64) (SSMManagedInstanceCompliancePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_ssm_managedinstancecompliance", filters, limit)
+	if err != nil {
+		return SSMManagedInstanceCompliancePaginator{}, err
+	}
+
+	p := SSMManagedInstanceCompliancePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p SSMManagedInstanceCompliancePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p SSMManagedInstanceCompliancePaginator) NextPage(ctx context.Context) ([]SSMManagedInstanceCompliance, error) {
+	var response SSMManagedInstanceComplianceSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []SSMManagedInstanceCompliance
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listSSMManagedInstanceComplianceFilters = map[string]string{
+	"compliance_type":   "description.ComplianceItem.ComplianceType",
+	"details":           "description.ComplianceItem.Details",
+	"execution_summary": "description.ComplianceItem.ExecutionSummary",
+	"id":                "description.ComplianceItem.Id",
+	"kaytu_account_id":  "metadata.SourceID",
+	"name":              "description.ComplianceItem.Title",
+	"resource_id":       "description.ComplianceItem.ResourceId",
+	"resource_type":     "description.ComplianceItem.ResourceType",
+	"severity":          "description.ComplianceItem.Severity",
+	"status":            "description.ComplianceItem.Status",
+}
+
+func ListSSMManagedInstanceCompliance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListSSMManagedInstanceCompliance")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewSSMManagedInstanceCompliancePaginator(essdk.BuildFilter(d.EqualsQuals, listSSMManagedInstanceComplianceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getSSMManagedInstanceComplianceFilters = map[string]string{
+	"compliance_type":   "description.ComplianceItem.ComplianceType",
+	"details":           "description.ComplianceItem.Details",
+	"execution_summary": "description.ComplianceItem.ExecutionSummary",
+	"id":                "description.ComplianceItem.Id",
+	"kaytu_account_id":  "metadata.SourceID",
+	"name":              "description.ComplianceItem.Title",
+	"resource_id":       "description.ComplianceItem.ResourceId",
+	"resource_type":     "description.ComplianceItem.ResourceType",
+	"severity":          "description.ComplianceItem.Severity",
+	"status":            "description.ComplianceItem.Status",
+}
+
+func GetSSMManagedInstanceCompliance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetSSMManagedInstanceCompliance")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewSSMManagedInstanceCompliancePaginator(essdk.BuildFilter(d.EqualsQuals, getSSMManagedInstanceComplianceFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: SSMManagedInstanceCompliance =============================
+
+// ==========================  START: SSMManagedInstancePatchState =============================
+
+type SSMManagedInstancePatchState struct {
+	Description   aws.SSMManagedInstancePatchStateDescription `json:"description"`
+	Metadata      aws.Metadata                                `json:"metadata"`
+	ResourceJobID int                                         `json:"resource_job_id"`
+	SourceJobID   int                                         `json:"source_job_id"`
+	ResourceType  string                                      `json:"resource_type"`
+	SourceType    string                                      `json:"source_type"`
+	ID            string                                      `json:"id"`
+	ARN           string                                      `json:"arn"`
+	SourceID      string                                      `json:"source_id"`
+}
+
+type SSMManagedInstancePatchStateHit struct {
+	ID      string                       `json:"_id"`
+	Score   float64                      `json:"_score"`
+	Index   string                       `json:"_index"`
+	Type    string                       `json:"_type"`
+	Version int64                        `json:"_version,omitempty"`
+	Source  SSMManagedInstancePatchState `json:"_source"`
+	Sort    []interface{}                `json:"sort"`
+}
+
+type SSMManagedInstancePatchStateHits struct {
+	Total essdk.SearchTotal                 `json:"total"`
+	Hits  []SSMManagedInstancePatchStateHit `json:"hits"`
+}
+
+type SSMManagedInstancePatchStateSearchResponse struct {
+	PitID string                           `json:"pit_id"`
+	Hits  SSMManagedInstancePatchStateHits `json:"hits"`
+}
+
+type SSMManagedInstancePatchStatePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewSSMManagedInstancePatchStatePaginator(filters []essdk.BoolFilter, limit *int64) (SSMManagedInstancePatchStatePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_ssm_managedinstancepatchstate", filters, limit)
+	if err != nil {
+		return SSMManagedInstancePatchStatePaginator{}, err
+	}
+
+	p := SSMManagedInstancePatchStatePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p SSMManagedInstancePatchStatePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p SSMManagedInstancePatchStatePaginator) NextPage(ctx context.Context) ([]SSMManagedInstancePatchState, error) {
+	var response SSMManagedInstancePatchStateSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []SSMManagedInstancePatchState
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listSSMManagedInstancePatchStateFilters = map[string]string{
+	"baseline_id":                           "description.PatchState.BaselineId",
+	"critical_non_compliant_count":          "description.PatchState.CriticalNonCompliantCount",
+	"failed_count":                          "description.PatchState.FailedCount",
+	"installed_count":                       "description.PatchState.InstalledCount",
+	"installed_other_count":                 "description.PatchState.InstalledOtherCount",
+	"installed_pending_reboot_count":        "description.PatchState.InstalledPendingRebootCount",
+	"installed_rejected_count":              "description.PatchState.InstalledRejectedCount",
+	"instance_id":                           "Description.PatchState.InstanceId",
+	"kaytu_account_id":                      "metadata.SourceID",
+	"last_no_reboot_install_operation_time": "description.PatchState.LastNoRebootInstallOperationTime",
+	"missing_count":                         "description.PatchState.MissingCount",
+	"not_applicable_count":                  "description.PatchState.NotApplicableCount",
+	"operation":                             "description.PatchState.Operation",
+	"operation_end_time":                    "description.PatchState.OperationEndTime",
+	"operation_start_time":                  "description.PatchState.OperationStartTime",
+	"other_non_compliant_count":             "description.PatchState.OtherNonCompliantCount",
+	"owner_information":                     "description.PatchState.OwnerInformation",
+	"patch_group":                           "description.PatchState.PatchGroup",
+	"reboot_option":                         "description.PatchState.RebootOption",
+	"security_non_compliant_count":          "description.PatchState.SecurityNonCompliantCount",
+	"snapshot_id":                           "description.PatchState.UnreportedNotApplicableCount",
+	"title":                                 "description.PatchState.BaselineId",
+	"unreported_not_applicable_count":       "description.PatchState.SnapshotId",
+}
+
+func ListSSMManagedInstancePatchState(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListSSMManagedInstancePatchState")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewSSMManagedInstancePatchStatePaginator(essdk.BuildFilter(d.EqualsQuals, listSSMManagedInstancePatchStateFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getSSMManagedInstancePatchStateFilters = map[string]string{
+	"baseline_id":                           "description.PatchState.BaselineId",
+	"critical_non_compliant_count":          "description.PatchState.CriticalNonCompliantCount",
+	"failed_count":                          "description.PatchState.FailedCount",
+	"installed_count":                       "description.PatchState.InstalledCount",
+	"installed_other_count":                 "description.PatchState.InstalledOtherCount",
+	"installed_pending_reboot_count":        "description.PatchState.InstalledPendingRebootCount",
+	"installed_rejected_count":              "description.PatchState.InstalledRejectedCount",
+	"instance_id":                           "description.PatchState.InstanceId",
+	"kaytu_account_id":                      "metadata.SourceID",
+	"last_no_reboot_install_operation_time": "description.PatchState.LastNoRebootInstallOperationTime",
+	"missing_count":                         "description.PatchState.MissingCount",
+	"not_applicable_count":                  "description.PatchState.NotApplicableCount",
+	"operation":                             "description.PatchState.Operation",
+	"operation_end_time":                    "description.PatchState.OperationEndTime",
+	"operation_start_time":                  "description.PatchState.OperationStartTime",
+	"other_non_compliant_count":             "description.PatchState.OtherNonCompliantCount",
+	"owner_information":                     "description.PatchState.OwnerInformation",
+	"patch_group":                           "description.PatchState.PatchGroup",
+	"reboot_option":                         "description.PatchState.RebootOption",
+	"security_non_compliant_count":          "description.PatchState.SecurityNonCompliantCount",
+	"snapshot_id":                           "description.PatchState.UnreportedNotApplicableCount",
+	"title":                                 "description.PatchState.BaselineId",
+	"unreported_not_applicable_count":       "description.PatchState.SnapshotId",
+}
+
+func GetSSMManagedInstancePatchState(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetSSMManagedInstancePatchState")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewSSMManagedInstancePatchStatePaginator(essdk.BuildFilter(d.EqualsQuals, getSSMManagedInstancePatchStateFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: SSMManagedInstancePatchState =============================
 
 // ==========================  START: ECSTaskDefinition =============================
 
@@ -38177,8 +41832,8 @@ var listWAFv2IPSetFilters = map[string]string{
 	"lock_token":         "description.IPSetSummary.LockToken",
 	"name":               "description.IPSet.Name",
 	"partition":          "metadata.Partition",
-	"tags":               "description.IPSet.Addresses",
-	"tags_src":           "description.IPSet.Addresses",
+	"tags":               "description.Tags",
+	"tags_src":           "description.Tags",
 	"title":              "description.IPSet.Name",
 }
 
@@ -38225,8 +41880,8 @@ var getWAFv2IPSetFilters = map[string]string{
 	"name":               "description.IPSetSummary.Name",
 	"partition":          "metadata.Partition",
 	"scope":              "description.IPSetSummary.Scope",
-	"tags":               "description.IPSet.Addresses",
-	"tags_src":           "description.IPSet.Addresses",
+	"tags":               "description.Tags",
+	"tags_src":           "description.Tags",
 	"title":              "description.IPSet.Name",
 }
 
@@ -38345,7 +42000,7 @@ var listWAFv2RegexPatternSetFilters = map[string]string{
 	"akas":                "description.RegexPatternSet.ARN",
 	"arn":                 "description.RegexPatternSet.ARN",
 	"description":         "description.RegexPatternSet.Description",
-	"id":                  "id",
+	"id":                  "description.RegexPatternSet.Id",
 	"kaytu_account_id":    "metadata.SourceID",
 	"lock_token":          "description.RegexPatternSetSummary.LockToken",
 	"name":                "description.RegexPatternSet.Name",
@@ -43099,6 +46754,593 @@ func GetAppStreamFleet(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 // ==========================  END: AppStreamFleet =============================
 
+// ==========================  START: AppStreamImage =============================
+
+type AppStreamImage struct {
+	Description   aws.AppStreamImageDescription `json:"description"`
+	Metadata      aws.Metadata                  `json:"metadata"`
+	ResourceJobID int                           `json:"resource_job_id"`
+	SourceJobID   int                           `json:"source_job_id"`
+	ResourceType  string                        `json:"resource_type"`
+	SourceType    string                        `json:"source_type"`
+	ID            string                        `json:"id"`
+	ARN           string                        `json:"arn"`
+	SourceID      string                        `json:"source_id"`
+}
+
+type AppStreamImageHit struct {
+	ID      string         `json:"_id"`
+	Score   float64        `json:"_score"`
+	Index   string         `json:"_index"`
+	Type    string         `json:"_type"`
+	Version int64          `json:"_version,omitempty"`
+	Source  AppStreamImage `json:"_source"`
+	Sort    []interface{}  `json:"sort"`
+}
+
+type AppStreamImageHits struct {
+	Total essdk.SearchTotal   `json:"total"`
+	Hits  []AppStreamImageHit `json:"hits"`
+}
+
+type AppStreamImageSearchResponse struct {
+	PitID string             `json:"pit_id"`
+	Hits  AppStreamImageHits `json:"hits"`
+}
+
+type AppStreamImagePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewAppStreamImagePaginator(filters []essdk.BoolFilter, limit *int64) (AppStreamImagePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_appstream_image", filters, limit)
+	if err != nil {
+		return AppStreamImagePaginator{}, err
+	}
+
+	p := AppStreamImagePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p AppStreamImagePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p AppStreamImagePaginator) NextPage(ctx context.Context) ([]AppStreamImage, error) {
+	var response AppStreamImageSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []AppStreamImage
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listAppStreamImageFilters = map[string]string{
+	"akas":                            "description.Image.Arn",
+	"applications":                    "description.Image.Applications",
+	"appstream_agent_version":         "description.Image.AppstreamAgentVersion",
+	"arn":                             "description.Image.Arn",
+	"base_image_arn":                  "description.Image.BaseImageArn",
+	"created_time":                    "description.Image.CreatedTime",
+	"description":                     "description.Image.Description",
+	"display_name":                    "description.Image.DisplayName",
+	"image_builder_name":              "description.Image.ImageBuilderName",
+	"image_builder_supported":         "description.Image.ImageBuilderSupported",
+	"image_errors":                    "description.Image.ImageErrors",
+	"image_permissions":               "description.Image.ImagePermissions",
+	"kaytu_account_id":                "metadata.SourceID",
+	"name":                            "description.Image.Name",
+	"platform":                        "description.Image.Platform",
+	"public_base_image_released_date": "description.Image.PublicBaseImageReleasedDate",
+	"state":                           "description.Image.State",
+	"state_change_reason":             "description.Image.StateChangeReason",
+	"tags":                            "description.Tags",
+	"title":                           "description.Image.Name",
+	"visibility":                      "description.Image.Visibility",
+}
+
+func ListAppStreamImage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListAppStreamImage")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewAppStreamImagePaginator(essdk.BuildFilter(d.EqualsQuals, listAppStreamImageFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getAppStreamImageFilters = map[string]string{
+	"akas":                            "description.Image.Arn",
+	"applications":                    "description.Image.Applications",
+	"appstream_agent_version":         "description.Image.AppstreamAgentVersion",
+	"arn":                             "description.Image.Arn",
+	"base_image_arn":                  "description.Image.BaseImageArn",
+	"created_time":                    "description.Image.CreatedTime",
+	"description":                     "description.Image.Description",
+	"display_name":                    "description.Image.DisplayName",
+	"image_builder_name":              "description.Image.ImageBuilderName",
+	"image_builder_supported":         "description.Image.ImageBuilderSupported",
+	"image_errors":                    "description.Image.ImageErrors",
+	"image_permissions":               "description.Image.ImagePermissions",
+	"kaytu_account_id":                "metadata.SourceID",
+	"name":                            "description.Image.Name",
+	"platform":                        "description.Image.Platform",
+	"public_base_image_released_date": "description.Image.PublicBaseImageReleasedDate",
+	"state":                           "description.Image.State",
+	"state_change_reason":             "description.Image.StateChangeReason",
+	"tags":                            "description.Tags",
+	"title":                           "description.Image.Name",
+	"visibility":                      "description.Image.Visibility",
+}
+
+func GetAppStreamImage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetAppStreamImage")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewAppStreamImagePaginator(essdk.BuildFilter(d.EqualsQuals, getAppStreamImageFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: AppStreamImage =============================
+
+// ==========================  START: AthenaWorkGroup =============================
+
+type AthenaWorkGroup struct {
+	Description   aws.AthenaWorkGroupDescription `json:"description"`
+	Metadata      aws.Metadata                   `json:"metadata"`
+	ResourceJobID int                            `json:"resource_job_id"`
+	SourceJobID   int                            `json:"source_job_id"`
+	ResourceType  string                         `json:"resource_type"`
+	SourceType    string                         `json:"source_type"`
+	ID            string                         `json:"id"`
+	ARN           string                         `json:"arn"`
+	SourceID      string                         `json:"source_id"`
+}
+
+type AthenaWorkGroupHit struct {
+	ID      string          `json:"_id"`
+	Score   float64         `json:"_score"`
+	Index   string          `json:"_index"`
+	Type    string          `json:"_type"`
+	Version int64           `json:"_version,omitempty"`
+	Source  AthenaWorkGroup `json:"_source"`
+	Sort    []interface{}   `json:"sort"`
+}
+
+type AthenaWorkGroupHits struct {
+	Total essdk.SearchTotal    `json:"total"`
+	Hits  []AthenaWorkGroupHit `json:"hits"`
+}
+
+type AthenaWorkGroupSearchResponse struct {
+	PitID string              `json:"pit_id"`
+	Hits  AthenaWorkGroupHits `json:"hits"`
+}
+
+type AthenaWorkGroupPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewAthenaWorkGroupPaginator(filters []essdk.BoolFilter, limit *int64) (AthenaWorkGroupPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_athena_workgroup", filters, limit)
+	if err != nil {
+		return AthenaWorkGroupPaginator{}, err
+	}
+
+	p := AthenaWorkGroupPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p AthenaWorkGroupPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p AthenaWorkGroupPaginator) NextPage(ctx context.Context) ([]AthenaWorkGroup, error) {
+	var response AthenaWorkGroupSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []AthenaWorkGroup
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listAthenaWorkGroupFilters = map[string]string{
+	"additional_configuration":           "description.WorkGroup.Configuration.AdditionalConfiguration",
+	"bytes_scanned_cutoff_per_query":     "description.WorkGroup.Configuration.BytesScannedCutoffPerQuery",
+	"creation_time":                      "description.WorkGroup.CreationTime",
+	"customer_content_kms_key":           "description.WorkGroup.Configuration.CustomerContentEncryptionConfiguration.KmsKey",
+	"description":                        "description.WorkGroup.Description",
+	"effective_engine_version":           "description.WorkGroup.Configuration.EngineVersion.EffectiveEngineVersion",
+	"encryption_option":                  "description.WorkGroup.Configuration.ResultConfiguration.EncryptionConfiguration.EncryptionOption",
+	"enforce_workgroup_configuration":    "description.WorkGroup.Configuration.EnforceWorkGroupConfiguration",
+	"execution_role":                     "description.WorkGroup.Configuration.ExecutionRole",
+	"expected_bucket_owner":              "description.WorkGroup.Configuration.ResultConfiguration.ExpectedBucketOwner",
+	"kaytu_account_id":                   "metadata.SourceID",
+	"name":                               "description.WorkGroup.Name",
+	"output_location":                    "description.WorkGroup.Configuration.ResultConfiguration.OutputLocation",
+	"publish_cloudwatch_metrics_enabled": "description.WorkGroup.Configuration.PublishCloudWatchMetricsEnabled",
+	"requester_pays_enabled":             "description.WorkGroup.Configuration.RequesterPaysEnabled",
+	"result_configuration_kms_key":       "description.WorkGroup.Configuration.ResultConfiguration.EncryptionConfiguration.KmsKey",
+	"s3_acl_option":                      "description.WorkGroup.Configuration.ResultConfiguration.AclConfiguration.S3AclOption",
+	"selected_engine_version":            "description.WorkGroup.Configuration.EngineVersion.SelectedEngineVersion",
+	"state":                              "description.WorkGroup.State",
+}
+
+func ListAthenaWorkGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListAthenaWorkGroup")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewAthenaWorkGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listAthenaWorkGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getAthenaWorkGroupFilters = map[string]string{
+	"additional_configuration":           "description.WorkGroup.Configuration.AdditionalConfiguration",
+	"bytes_scanned_cutoff_per_query":     "description.WorkGroup.Configuration.BytesScannedCutoffPerQuery",
+	"creation_time":                      "description.WorkGroup.CreationTime",
+	"customer_content_kms_key":           "description.WorkGroup.Configuration.CustomerContentEncryptionConfiguration.KmsKey",
+	"description":                        "description.WorkGroup.Description",
+	"effective_engine_version":           "description.WorkGroup.Configuration.EngineVersion.EffectiveEngineVersion",
+	"encryption_option":                  "description.WorkGroup.Configuration.ResultConfiguration.EncryptionConfiguration.EncryptionOption",
+	"enforce_workgroup_configuration":    "description.WorkGroup.Configuration.EnforceWorkGroupConfiguration",
+	"execution_role":                     "description.WorkGroup.Configuration.ExecutionRole",
+	"expected_bucket_owner":              "description.WorkGroup.Configuration.ResultConfiguration.ExpectedBucketOwner",
+	"kaytu_account_id":                   "metadata.SourceID",
+	"name":                               "description.WorkGroup.Name",
+	"output_location":                    "description.WorkGroup.Configuration.ResultConfiguration.OutputLocation",
+	"publish_cloudwatch_metrics_enabled": "description.WorkGroup.Configuration.PublishCloudWatchMetricsEnabled",
+	"requester_pays_enabled":             "description.WorkGroup.Configuration.RequesterPaysEnabled",
+	"result_configuration_kms_key":       "description.WorkGroup.Configuration.ResultConfiguration.EncryptionConfiguration.KmsKey",
+	"s3_acl_option":                      "description.WorkGroup.Configuration.ResultConfiguration.AclConfiguration.S3AclOption",
+	"selected_engine_version":            "description.WorkGroup.Configuration.EngineVersion.SelectedEngineVersion",
+	"state":                              "description.WorkGroup.State",
+}
+
+func GetAthenaWorkGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetAthenaWorkGroup")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewAthenaWorkGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getAthenaWorkGroupFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: AthenaWorkGroup =============================
+
+// ==========================  START: AthenaQueryExecution =============================
+
+type AthenaQueryExecution struct {
+	Description   aws.AthenaQueryExecutionDescription `json:"description"`
+	Metadata      aws.Metadata                        `json:"metadata"`
+	ResourceJobID int                                 `json:"resource_job_id"`
+	SourceJobID   int                                 `json:"source_job_id"`
+	ResourceType  string                              `json:"resource_type"`
+	SourceType    string                              `json:"source_type"`
+	ID            string                              `json:"id"`
+	ARN           string                              `json:"arn"`
+	SourceID      string                              `json:"source_id"`
+}
+
+type AthenaQueryExecutionHit struct {
+	ID      string               `json:"_id"`
+	Score   float64              `json:"_score"`
+	Index   string               `json:"_index"`
+	Type    string               `json:"_type"`
+	Version int64                `json:"_version,omitempty"`
+	Source  AthenaQueryExecution `json:"_source"`
+	Sort    []interface{}        `json:"sort"`
+}
+
+type AthenaQueryExecutionHits struct {
+	Total essdk.SearchTotal         `json:"total"`
+	Hits  []AthenaQueryExecutionHit `json:"hits"`
+}
+
+type AthenaQueryExecutionSearchResponse struct {
+	PitID string                   `json:"pit_id"`
+	Hits  AthenaQueryExecutionHits `json:"hits"`
+}
+
+type AthenaQueryExecutionPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewAthenaQueryExecutionPaginator(filters []essdk.BoolFilter, limit *int64) (AthenaQueryExecutionPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_athena_queryexecution", filters, limit)
+	if err != nil {
+		return AthenaQueryExecutionPaginator{}, err
+	}
+
+	p := AthenaQueryExecutionPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p AthenaQueryExecutionPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p AthenaQueryExecutionPaginator) NextPage(ctx context.Context) ([]AthenaQueryExecution, error) {
+	var response AthenaQueryExecutionSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []AthenaQueryExecution
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listAthenaQueryExecutionFilters = map[string]string{
+	"catalog":                                "description.QueryExecution.QueryExecutionContext.Catalog",
+	"completion_date_time":                   "description.QueryExecution.Status.CompletionDateTime",
+	"data_manifest_location":                 "description.QueryExecution.Statistics.DataManifestLocation",
+	"data_scanned_in_bytes":                  "description.QueryExecution.Statistics.DataScannedInBytes",
+	"database":                               "description.QueryExecution.QueryExecutionContext.Database",
+	"effective_engine_version":               "description.QueryExecution.EngineVersion.EffectiveEngineVersion",
+	"encryption_option":                      "description.QueryExecution.ResultConfiguration.EncryptionConfiguration.EncryptionOption",
+	"engine_execution_time_in_millis":        "description.QueryExecution.Statistics.EngineExecutionTimeInMillis",
+	"error_category":                         "description.QueryExecution.Status.AthenaError.ErrorCategory",
+	"error_message":                          "description.QueryExecution.Status.AthenaError.ErrorMessage",
+	"error_type":                             "description.QueryExecution.Status.AthenaError.ErrorType",
+	"execution_parameters":                   "description.QueryExecution.ExecutionParameters",
+	"expected_bucket_owner":                  "description.QueryExecution.ResultConfiguration.ExpectedBucketOwner",
+	"id":                                     "description.QueryExecution.QueryExecutionId",
+	"kaytu_account_id":                       "metadata.SourceID",
+	"kms_key":                                "description.QueryExecution.ResultConfiguration.EncryptionConfiguration.KmsKey",
+	"output_location":                        "description.QueryExecution.ResultConfiguration.OutputLocation",
+	"query":                                  "description.QueryExecution.Query",
+	"query_planning_time_in_millis":          "description.QueryExecution.Statistics.QueryPlanningTimeInMillis",
+	"query_queue_time_in_millis":             "description.QueryExecution.Statistics.QueryQueueTimeInMillis",
+	"result_reuse_by_age_enabled":            "description.QueryExecution.ResultReuseConfiguration.ResultReuseByAgeConfiguration.Enabled",
+	"result_reuse_by_age_mag_age_in_minutes": "description.QueryExecution.ResultReuseConfiguration.ResultReuseByAgeConfiguration.MaxAgeInMinutes",
+	"retryable":                              "description.QueryExecution.Status.AthenaError.Retryable",
+	"reused_previous_result":                 "description.QueryExecution.Statistics.ResultReuseInformation.ReusedPreviousResult",
+	"s3_acl_option":                          "description.QueryExecution.ResultConfiguration.AclConfiguration.S3AclOption",
+	"selected_engine_version":                "description.QueryExecution.EngineVersion.SelectedEngineVersion",
+	"service_processing_time_in_millis":      "description.QueryExecution.Statistics.ServiceProcessingTimeInMillis",
+	"state":                                  "description.QueryExecution.Status.State",
+	"state_change_reason":                    "description.QueryExecution.Status.StateChangeReason",
+	"statement_type":                         "description.QueryExecution.StatementType",
+	"submission_date_time":                   "description.QueryExecution.Status.SubmissionDateTime",
+	"substatement_type":                      "description.QueryExecution.SubstatementType",
+	"total_execution_time_in_millis":         "description.QueryExecution.Statistics.TotalExecutionTimeInMillis",
+	"workgroup":                              "description.QueryExecution.WorkGroup",
+}
+
+func ListAthenaQueryExecution(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListAthenaQueryExecution")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewAthenaQueryExecutionPaginator(essdk.BuildFilter(d.EqualsQuals, listAthenaQueryExecutionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getAthenaQueryExecutionFilters = map[string]string{
+	"catalog":                                "description.QueryExecution.QueryExecutionContext.Catalog",
+	"completion_date_time":                   "description.QueryExecution.Status.CompletionDateTime",
+	"data_manifest_location":                 "description.QueryExecution.Statistics.DataManifestLocation",
+	"data_scanned_in_bytes":                  "description.QueryExecution.Statistics.DataScannedInBytes",
+	"database":                               "description.QueryExecution.QueryExecutionContext.Database",
+	"effective_engine_version":               "description.QueryExecution.EngineVersion.EffectiveEngineVersion",
+	"encryption_option":                      "description.QueryExecution.ResultConfiguration.EncryptionConfiguration.EncryptionOption",
+	"engine_execution_time_in_millis":        "description.QueryExecution.Statistics.EngineExecutionTimeInMillis",
+	"error_category":                         "description.QueryExecution.Status.AthenaError.ErrorCategory",
+	"error_message":                          "description.QueryExecution.Status.AthenaError.ErrorMessage",
+	"error_type":                             "description.QueryExecution.Status.AthenaError.ErrorType",
+	"execution_parameters":                   "description.QueryExecution.ExecutionParameters",
+	"expected_bucket_owner":                  "description.QueryExecution.ResultConfiguration.ExpectedBucketOwner",
+	"id":                                     "description.QueryExecution.QueryExecutionId",
+	"kaytu_account_id":                       "metadata.SourceID",
+	"kms_key":                                "description.QueryExecution.ResultConfiguration.EncryptionConfiguration.KmsKey",
+	"name":                                   "description.QueryExecution.Query",
+	"output_location":                        "description.QueryExecution.ResultConfiguration.OutputLocation",
+	"query":                                  "description.QueryExecution.Query",
+	"query_planning_time_in_millis":          "description.QueryExecution.Statistics.QueryPlanningTimeInMillis",
+	"query_queue_time_in_millis":             "description.QueryExecution.Statistics.QueryQueueTimeInMillis",
+	"result_reuse_by_age_enabled":            "description.QueryExecution.ResultReuseConfiguration.ResultReuseByAgeConfiguration.Enabled",
+	"result_reuse_by_age_mag_age_in_minutes": "description.QueryExecution.ResultReuseConfiguration.ResultReuseByAgeConfiguration.MaxAgeInMinutes",
+	"retryable":                              "description.QueryExecution.Status.AthenaError.Retryable",
+	"reused_previous_result":                 "description.QueryExecution.Statistics.ResultReuseInformation.ReusedPreviousResult",
+	"s3_acl_option":                          "description.QueryExecution.ResultConfiguration.AclConfiguration.S3AclOption",
+	"selected_engine_version":                "description.QueryExecution.EngineVersion.SelectedEngineVersion",
+	"service_processing_time_in_millis":      "description.QueryExecution.Statistics.ServiceProcessingTimeInMillis",
+	"state":                                  "description.QueryExecution.Status.State",
+	"state_change_reason":                    "description.QueryExecution.Status.StateChangeReason",
+	"statement_type":                         "description.QueryExecution.StatementType",
+	"submission_date_time":                   "description.QueryExecution.Status.SubmissionDateTime",
+	"substatement_type":                      "description.QueryExecution.SubstatementType",
+	"total_execution_time_in_millis":         "description.QueryExecution.Statistics.TotalExecutionTimeInMillis",
+	"workgroup":                              "description.QueryExecution.WorkGroup",
+}
+
+func GetAthenaQueryExecution(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetAthenaQueryExecution")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewAthenaQueryExecutionPaginator(essdk.BuildFilter(d.EqualsQuals, getAthenaQueryExecutionFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: AthenaQueryExecution =============================
+
 // ==========================  START: KinesisStream =============================
 
 type KinesisStream struct {
@@ -46815,6 +51057,179 @@ func GetCloudFormationStackSet(ctx context.Context, d *plugin.QueryData, _ *plug
 
 // ==========================  END: CloudFormationStackSet =============================
 
+// ==========================  START: CloudFormationStackResource =============================
+
+type CloudFormationStackResource struct {
+	Description   aws.CloudFormationStackResourceDescription `json:"description"`
+	Metadata      aws.Metadata                               `json:"metadata"`
+	ResourceJobID int                                        `json:"resource_job_id"`
+	SourceJobID   int                                        `json:"source_job_id"`
+	ResourceType  string                                     `json:"resource_type"`
+	SourceType    string                                     `json:"source_type"`
+	ID            string                                     `json:"id"`
+	ARN           string                                     `json:"arn"`
+	SourceID      string                                     `json:"source_id"`
+}
+
+type CloudFormationStackResourceHit struct {
+	ID      string                      `json:"_id"`
+	Score   float64                     `json:"_score"`
+	Index   string                      `json:"_index"`
+	Type    string                      `json:"_type"`
+	Version int64                       `json:"_version,omitempty"`
+	Source  CloudFormationStackResource `json:"_source"`
+	Sort    []interface{}               `json:"sort"`
+}
+
+type CloudFormationStackResourceHits struct {
+	Total essdk.SearchTotal                `json:"total"`
+	Hits  []CloudFormationStackResourceHit `json:"hits"`
+}
+
+type CloudFormationStackResourceSearchResponse struct {
+	PitID string                          `json:"pit_id"`
+	Hits  CloudFormationStackResourceHits `json:"hits"`
+}
+
+type CloudFormationStackResourcePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewCloudFormationStackResourcePaginator(filters []essdk.BoolFilter, limit *int64) (CloudFormationStackResourcePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_cloudformation_stackresource", filters, limit)
+	if err != nil {
+		return CloudFormationStackResourcePaginator{}, err
+	}
+
+	p := CloudFormationStackResourcePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p CloudFormationStackResourcePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p CloudFormationStackResourcePaginator) NextPage(ctx context.Context) ([]CloudFormationStackResource, error) {
+	var response CloudFormationStackResourceSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []CloudFormationStackResource
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listCloudFormationStackResourceFilters = map[string]string{
+	"description":            "description.StackResource.Description",
+	"drift_information":      "description.StackResource.DriftInformation",
+	"kaytu_account_id":       "metadata.SourceID",
+	"last_updated_timestamp": "description.StackResource.LastUpdatedTimestamp",
+	"logical_resource_id":    "description.StackResource.LogicalResourceId",
+	"module_info":            "description.StackResource.ModuleInfo",
+	"name":                   "description.StackResource.StackName",
+	"physical_resource_id":   "description.StackResource.PhysicalResourceId",
+	"resource_status":        "description.StackResource.ResourceStatus",
+	"resource_status_reason": "description.StackResource.ResourceStatusReason",
+	"resource_type":          "description.StackResource.ResourceType",
+	"stack_id":               "description.StackResource.StackId",
+	"stack_name":             "description.StackResource.StackName",
+	"title":                  "description.StackResource.LogicalResourceId",
+}
+
+func ListCloudFormationStackResource(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListCloudFormationStackResource")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewCloudFormationStackResourcePaginator(essdk.BuildFilter(d.EqualsQuals, listCloudFormationStackResourceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getCloudFormationStackResourceFilters = map[string]string{
+	"description":            "description.StackResource.Description",
+	"drift_information":      "description.StackResource.DriftInformation",
+	"kaytu_account_id":       "metadata.SourceID",
+	"last_updated_timestamp": "description.StackResource.LastUpdatedTimestamp",
+	"logical_resource_id":    "description.StackResource.LogicalResourceId",
+	"module_info":            "description.StackResource.ModuleInfo",
+	"physical_resource_id":   "description.StackResource.PhysicalResourceId",
+	"resource_status":        "description.StackResource.ResourceStatus",
+	"resource_status_reason": "description.StackResource.ResourceStatusReason",
+	"resource_type":          "description.StackResource.ResourceType",
+	"stack_id":               "description.StackResource.StackId",
+	"stack_name":             "description.StackResource.StackName",
+	"title":                  "description.StackResource.LogicalResourceId",
+}
+
+func GetCloudFormationStackResource(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetCloudFormationStackResource")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewCloudFormationStackResourcePaginator(essdk.BuildFilter(d.EqualsQuals, getCloudFormationStackResourceFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: CloudFormationStackResource =============================
+
 // ==========================  START: CodeCommitRepository =============================
 
 type CodeCommitRepository struct {
@@ -47363,6 +51778,645 @@ func GetDirectoryServiceDirectory(ctx context.Context, d *plugin.QueryData, _ *p
 
 // ==========================  END: DirectoryServiceDirectory =============================
 
+// ==========================  START: DirectoryServiceCertificate =============================
+
+type DirectoryServiceCertificate struct {
+	Description   aws.DirectoryServiceCertificateDescription `json:"description"`
+	Metadata      aws.Metadata                               `json:"metadata"`
+	ResourceJobID int                                        `json:"resource_job_id"`
+	SourceJobID   int                                        `json:"source_job_id"`
+	ResourceType  string                                     `json:"resource_type"`
+	SourceType    string                                     `json:"source_type"`
+	ID            string                                     `json:"id"`
+	ARN           string                                     `json:"arn"`
+	SourceID      string                                     `json:"source_id"`
+}
+
+type DirectoryServiceCertificateHit struct {
+	ID      string                      `json:"_id"`
+	Score   float64                     `json:"_score"`
+	Index   string                      `json:"_index"`
+	Type    string                      `json:"_type"`
+	Version int64                       `json:"_version,omitempty"`
+	Source  DirectoryServiceCertificate `json:"_source"`
+	Sort    []interface{}               `json:"sort"`
+}
+
+type DirectoryServiceCertificateHits struct {
+	Total essdk.SearchTotal                `json:"total"`
+	Hits  []DirectoryServiceCertificateHit `json:"hits"`
+}
+
+type DirectoryServiceCertificateSearchResponse struct {
+	PitID string                          `json:"pit_id"`
+	Hits  DirectoryServiceCertificateHits `json:"hits"`
+}
+
+type DirectoryServiceCertificatePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewDirectoryServiceCertificatePaginator(filters []essdk.BoolFilter, limit *int64) (DirectoryServiceCertificatePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_directoryservice_certificate", filters, limit)
+	if err != nil {
+		return DirectoryServiceCertificatePaginator{}, err
+	}
+
+	p := DirectoryServiceCertificatePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p DirectoryServiceCertificatePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p DirectoryServiceCertificatePaginator) NextPage(ctx context.Context) ([]DirectoryServiceCertificate, error) {
+	var response DirectoryServiceCertificateSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []DirectoryServiceCertificate
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listDirectoryServiceCertificateFilters = map[string]string{
+	"certificate_id":            "description.Certificate.CertificateId",
+	"client_cert_auth_settings": "description.Certificate.ClientCertAuthSettings",
+	"common_name":               "description.Certificate.CommonName",
+	"directory_id":              "description.DirectoryId",
+	"expiry_date_time":          "description.Certificate.ExpiryDateTime",
+	"kaytu_account_id":          "metadata.SourceID",
+	"registered_date_time":      "description.Certificate.RegisteredDateTime",
+	"state":                     "description.Certificate.State",
+	"state_reason":              "description.Certificate.StateReason",
+	"title":                     "description.Certificate.CommonName",
+	"type":                      "description.Certificate.Type",
+}
+
+func ListDirectoryServiceCertificate(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListDirectoryServiceCertificate")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewDirectoryServiceCertificatePaginator(essdk.BuildFilter(d.EqualsQuals, listDirectoryServiceCertificateFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getDirectoryServiceCertificateFilters = map[string]string{
+	"certificate_id":            "description.Certificate.CertificateId",
+	"client_cert_auth_settings": "description.Certificate.ClientCertAuthSettings",
+	"common_name":               "description.Certificate.CommonName",
+	"directory_id":              "description.DirectoryId",
+	"expiry_date_time":          "description.Certificate.ExpiryDateTime",
+	"kaytu_account_id":          "metadata.SourceID",
+	"name":                      "description.Certificate.CertificateId",
+	"registered_date_time":      "description.Certificate.RegisteredDateTime",
+	"state":                     "description.Certificate.State",
+	"state_reason":              "description.Certificate.StateReason",
+	"title":                     "description.Certificate.CommonName",
+	"type":                      "description.Certificate.Type",
+}
+
+func GetDirectoryServiceCertificate(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetDirectoryServiceCertificate")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewDirectoryServiceCertificatePaginator(essdk.BuildFilter(d.EqualsQuals, getDirectoryServiceCertificateFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: DirectoryServiceCertificate =============================
+
+// ==========================  START: DirectoryServiceLogSubscription =============================
+
+type DirectoryServiceLogSubscription struct {
+	Description   aws.DirectoryServiceLogSubscriptionDescription `json:"description"`
+	Metadata      aws.Metadata                                   `json:"metadata"`
+	ResourceJobID int                                            `json:"resource_job_id"`
+	SourceJobID   int                                            `json:"source_job_id"`
+	ResourceType  string                                         `json:"resource_type"`
+	SourceType    string                                         `json:"source_type"`
+	ID            string                                         `json:"id"`
+	ARN           string                                         `json:"arn"`
+	SourceID      string                                         `json:"source_id"`
+}
+
+type DirectoryServiceLogSubscriptionHit struct {
+	ID      string                          `json:"_id"`
+	Score   float64                         `json:"_score"`
+	Index   string                          `json:"_index"`
+	Type    string                          `json:"_type"`
+	Version int64                           `json:"_version,omitempty"`
+	Source  DirectoryServiceLogSubscription `json:"_source"`
+	Sort    []interface{}                   `json:"sort"`
+}
+
+type DirectoryServiceLogSubscriptionHits struct {
+	Total essdk.SearchTotal                    `json:"total"`
+	Hits  []DirectoryServiceLogSubscriptionHit `json:"hits"`
+}
+
+type DirectoryServiceLogSubscriptionSearchResponse struct {
+	PitID string                              `json:"pit_id"`
+	Hits  DirectoryServiceLogSubscriptionHits `json:"hits"`
+}
+
+type DirectoryServiceLogSubscriptionPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewDirectoryServiceLogSubscriptionPaginator(filters []essdk.BoolFilter, limit *int64) (DirectoryServiceLogSubscriptionPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_directoryservice_logsubscription", filters, limit)
+	if err != nil {
+		return DirectoryServiceLogSubscriptionPaginator{}, err
+	}
+
+	p := DirectoryServiceLogSubscriptionPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p DirectoryServiceLogSubscriptionPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p DirectoryServiceLogSubscriptionPaginator) NextPage(ctx context.Context) ([]DirectoryServiceLogSubscription, error) {
+	var response DirectoryServiceLogSubscriptionSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []DirectoryServiceLogSubscription
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listDirectoryServiceLogSubscriptionFilters = map[string]string{
+	"directory_id":                   "description.LogSubscription.DirectoryId",
+	"kaytu_account_id":               "metadata.SourceID",
+	"log_group_name":                 "description.LogSubscription.LogGroupName",
+	"subscription_created_date_time": "description.LogSubscription.SubscriptionCreatedDateTime",
+	"title":                          "description.LogSubscription.LogGroupName",
+}
+
+func ListDirectoryServiceLogSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListDirectoryServiceLogSubscription")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewDirectoryServiceLogSubscriptionPaginator(essdk.BuildFilter(d.EqualsQuals, listDirectoryServiceLogSubscriptionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getDirectoryServiceLogSubscriptionFilters = map[string]string{
+	"directory_id":                   "description.LogSubscription.DirectoryId",
+	"kaytu_account_id":               "metadata.SourceID",
+	"log_group_name":                 "description.LogSubscription.LogGroupName",
+	"subscription_created_date_time": "description.LogSubscription.SubscriptionCreatedDateTime",
+	"title":                          "description.LogSubscription.LogGroupName",
+}
+
+func GetDirectoryServiceLogSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetDirectoryServiceLogSubscription")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewDirectoryServiceLogSubscriptionPaginator(essdk.BuildFilter(d.EqualsQuals, getDirectoryServiceLogSubscriptionFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: DirectoryServiceLogSubscription =============================
+
+// ==========================  START: SSOAdminInstance =============================
+
+type SSOAdminInstance struct {
+	Description   aws.SSOAdminInstanceDescription `json:"description"`
+	Metadata      aws.Metadata                    `json:"metadata"`
+	ResourceJobID int                             `json:"resource_job_id"`
+	SourceJobID   int                             `json:"source_job_id"`
+	ResourceType  string                          `json:"resource_type"`
+	SourceType    string                          `json:"source_type"`
+	ID            string                          `json:"id"`
+	ARN           string                          `json:"arn"`
+	SourceID      string                          `json:"source_id"`
+}
+
+type SSOAdminInstanceHit struct {
+	ID      string           `json:"_id"`
+	Score   float64          `json:"_score"`
+	Index   string           `json:"_index"`
+	Type    string           `json:"_type"`
+	Version int64            `json:"_version,omitempty"`
+	Source  SSOAdminInstance `json:"_source"`
+	Sort    []interface{}    `json:"sort"`
+}
+
+type SSOAdminInstanceHits struct {
+	Total essdk.SearchTotal     `json:"total"`
+	Hits  []SSOAdminInstanceHit `json:"hits"`
+}
+
+type SSOAdminInstanceSearchResponse struct {
+	PitID string               `json:"pit_id"`
+	Hits  SSOAdminInstanceHits `json:"hits"`
+}
+
+type SSOAdminInstancePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewSSOAdminInstancePaginator(filters []essdk.BoolFilter, limit *int64) (SSOAdminInstancePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_ssoadmin_instance", filters, limit)
+	if err != nil {
+		return SSOAdminInstancePaginator{}, err
+	}
+
+	p := SSOAdminInstancePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p SSOAdminInstancePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p SSOAdminInstancePaginator) NextPage(ctx context.Context) ([]SSOAdminInstance, error) {
+	var response SSOAdminInstanceSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []SSOAdminInstance
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listSSOAdminInstanceFilters = map[string]string{
+	"akas":              "description.Instance.InstanceArn",
+	"arn":               "description.Instance.InstanceArn",
+	"identity_store_id": "description.Instance.IdentityStoreId",
+	"kaytu_account_id":  "metadata.SourceID",
+	"title":             "description.Instance.InstanceArn",
+}
+
+func ListSSOAdminInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListSSOAdminInstance")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewSSOAdminInstancePaginator(essdk.BuildFilter(d.EqualsQuals, listSSOAdminInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getSSOAdminInstanceFilters = map[string]string{
+	"akas":              "description.Instance.InstanceArn",
+	"arn":               "description.Instance.InstanceArn",
+	"identity_store_id": "description.Instance.IdentityStoreId",
+	"kaytu_account_id":  "metadata.SourceID",
+	"title":             "description.Instance.InstanceArn",
+}
+
+func GetSSOAdminInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetSSOAdminInstance")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewSSOAdminInstancePaginator(essdk.BuildFilter(d.EqualsQuals, getSSOAdminInstanceFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: SSOAdminInstance =============================
+
+// ==========================  START: SSOAdminAccountAssignment =============================
+
+type SSOAdminAccountAssignment struct {
+	Description   aws.SSOAdminAccountAssignmentDescription `json:"description"`
+	Metadata      aws.Metadata                             `json:"metadata"`
+	ResourceJobID int                                      `json:"resource_job_id"`
+	SourceJobID   int                                      `json:"source_job_id"`
+	ResourceType  string                                   `json:"resource_type"`
+	SourceType    string                                   `json:"source_type"`
+	ID            string                                   `json:"id"`
+	ARN           string                                   `json:"arn"`
+	SourceID      string                                   `json:"source_id"`
+}
+
+type SSOAdminAccountAssignmentHit struct {
+	ID      string                    `json:"_id"`
+	Score   float64                   `json:"_score"`
+	Index   string                    `json:"_index"`
+	Type    string                    `json:"_type"`
+	Version int64                     `json:"_version,omitempty"`
+	Source  SSOAdminAccountAssignment `json:"_source"`
+	Sort    []interface{}             `json:"sort"`
+}
+
+type SSOAdminAccountAssignmentHits struct {
+	Total essdk.SearchTotal              `json:"total"`
+	Hits  []SSOAdminAccountAssignmentHit `json:"hits"`
+}
+
+type SSOAdminAccountAssignmentSearchResponse struct {
+	PitID string                        `json:"pit_id"`
+	Hits  SSOAdminAccountAssignmentHits `json:"hits"`
+}
+
+type SSOAdminAccountAssignmentPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewSSOAdminAccountAssignmentPaginator(filters []essdk.BoolFilter, limit *int64) (SSOAdminAccountAssignmentPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_ssoadmin_accountassignment", filters, limit)
+	if err != nil {
+		return SSOAdminAccountAssignmentPaginator{}, err
+	}
+
+	p := SSOAdminAccountAssignmentPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p SSOAdminAccountAssignmentPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p SSOAdminAccountAssignmentPaginator) NextPage(ctx context.Context) ([]SSOAdminAccountAssignment, error) {
+	var response SSOAdminAccountAssignmentSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []SSOAdminAccountAssignment
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listSSOAdminAccountAssignmentFilters = map[string]string{
+	"instance_arn":       "description.InstanceMetadata.InstanceArn",
+	"kaytu_account_id":   "metadata.SourceID",
+	"permission_set_arn": "description.PermissionSetProvisioningStatus.PermissionSetArn",
+	"principal_id":       "description.AccountAssignment.PrincipalId",
+	"principal_type":     "description.AccountAssignment.PrincipalType",
+	"target_account_id":  "description.AccountAssignment.AccountId",
+}
+
+func ListSSOAdminAccountAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListSSOAdminAccountAssignment")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewSSOAdminAccountAssignmentPaginator(essdk.BuildFilter(d.EqualsQuals, listSSOAdminAccountAssignmentFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getSSOAdminAccountAssignmentFilters = map[string]string{
+	"instance_arn":       "description.InstanceMetadata.InstanceArn",
+	"kaytu_account_id":   "metadata.SourceID",
+	"permission_set_arn": "description.PermissionSetProvisioningStatus.PermissionSetArn",
+	"principal_id":       "description.AccountAssignment.PrincipalId",
+	"principal_type":     "description.AccountAssignment.PrincipalType",
+	"target_account_id":  "description.AccountAssignment.AccountId",
+}
+
+func GetSSOAdminAccountAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetSSOAdminAccountAssignment")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewSSOAdminAccountAssignmentPaginator(essdk.BuildFilter(d.EqualsQuals, getSSOAdminAccountAssignmentFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: SSOAdminAccountAssignment =============================
+
 // ==========================  START: WAFRule =============================
 
 type WAFRule struct {
@@ -47602,7 +52656,11 @@ func (p WAFRegionalRulePaginator) NextPage(ctx context.Context) ([]WAFRegionalRu
 
 var listWAFRegionalRuleFilters = map[string]string{
 	"kaytu_account_id": "metadata.SourceID",
-	"title":            "name",
+	"metric_name":      "description.Rule.MetricName",
+	"name":             "description.Rule.Name",
+	"predicates":       "description.Rule.Predicates",
+	"rule_id":          "description.Rule.RuleId",
+	"title":            "description.Rule.Name",
 }
 
 func ListWAFRegionalRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -47637,8 +52695,11 @@ func ListWAFRegionalRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 var getWAFRegionalRuleFilters = map[string]string{
 	"kaytu_account_id": "metadata.SourceID",
+	"metric_name":      "description.Rule.MetricName",
+	"name":             "description.Rule.Name",
+	"predicates":       "description.Rule.Predicates",
 	"rule_id":          "description.Rule.RuleId",
-	"title":            "name",
+	"title":            "description.Rule.Name",
 }
 
 func GetWAFRegionalRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -48207,6 +53268,2536 @@ func GetWellArchitectedWorkload(ctx context.Context, d *plugin.QueryData, _ *plu
 }
 
 // ==========================  END: WellArchitectedWorkload =============================
+
+// ==========================  START: WellArchitectedAnswer =============================
+
+type WellArchitectedAnswer struct {
+	Description   aws.WellArchitectedAnswerDescription `json:"description"`
+	Metadata      aws.Metadata                         `json:"metadata"`
+	ResourceJobID int                                  `json:"resource_job_id"`
+	SourceJobID   int                                  `json:"source_job_id"`
+	ResourceType  string                               `json:"resource_type"`
+	SourceType    string                               `json:"source_type"`
+	ID            string                               `json:"id"`
+	ARN           string                               `json:"arn"`
+	SourceID      string                               `json:"source_id"`
+}
+
+type WellArchitectedAnswerHit struct {
+	ID      string                `json:"_id"`
+	Score   float64               `json:"_score"`
+	Index   string                `json:"_index"`
+	Type    string                `json:"_type"`
+	Version int64                 `json:"_version,omitempty"`
+	Source  WellArchitectedAnswer `json:"_source"`
+	Sort    []interface{}         `json:"sort"`
+}
+
+type WellArchitectedAnswerHits struct {
+	Total essdk.SearchTotal          `json:"total"`
+	Hits  []WellArchitectedAnswerHit `json:"hits"`
+}
+
+type WellArchitectedAnswerSearchResponse struct {
+	PitID string                    `json:"pit_id"`
+	Hits  WellArchitectedAnswerHits `json:"hits"`
+}
+
+type WellArchitectedAnswerPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewWellArchitectedAnswerPaginator(filters []essdk.BoolFilter, limit *int64) (WellArchitectedAnswerPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_wellarchitected_answer", filters, limit)
+	if err != nil {
+		return WellArchitectedAnswerPaginator{}, err
+	}
+
+	p := WellArchitectedAnswerPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p WellArchitectedAnswerPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p WellArchitectedAnswerPaginator) NextPage(ctx context.Context) ([]WellArchitectedAnswer, error) {
+	var response WellArchitectedAnswerSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []WellArchitectedAnswer
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listWellArchitectedAnswerFilters = map[string]string{
+	"choice_answers":                "description.Answer.ChoiceAnswers",
+	"choices":                       "description.Answer.Choices",
+	"helpful_resource_display_text": "description.Answer.HelpfulResourceDisplayText",
+	"helpful_resource_url":          "description.Answer.HelpfulResourceUrl",
+	"improvement_plan_url":          "description.Answer.ImprovementPlanUrl",
+	"is_applicable":                 "description.Answer.IsApplicable",
+	"kaytu_account_id":              "metadata.SourceID",
+	"lens_alias":                    "description.LensAlias",
+	"lens_arn":                      "description.LensArn",
+	"milestone_number":              "description.MilestoneNumber",
+	"notes":                         "description.Answer.Notes",
+	"pillar_id":                     "description.Answer.PillarId",
+	"question_description":          "description.Answer.QuestionDescription",
+	"question_id":                   "description.Answer.QuestionId",
+	"question_title":                "description.Answer.QuestionTitle",
+	"reason":                        "description.Answer.Reason",
+	"risk":                          "description.Answer.Risk",
+	"selected_choices":              "description.Answer.SelectedChoices",
+	"title":                         "description.Answer.QuestionTitle",
+	"workload_id":                   "description.WorkloadId",
+}
+
+func ListWellArchitectedAnswer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListWellArchitectedAnswer")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewWellArchitectedAnswerPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedAnswerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getWellArchitectedAnswerFilters = map[string]string{
+	"choice_answers":                "description.Answer.ChoiceAnswers",
+	"choices":                       "description.Answer.Choices",
+	"helpful_resource_display_text": "description.Answer.HelpfulResourceDisplayText",
+	"helpful_resource_url":          "description.Answer.HelpfulResourceUrl",
+	"improvement_plan_url":          "description.Answer.ImprovementPlanUrl",
+	"is_applicable":                 "description.Answer.IsApplicable",
+	"kaytu_account_id":              "metadata.SourceID",
+	"lens_alias":                    "description.LensAlias",
+	"lens_arn":                      "description.LensArn",
+	"milestone_number":              "description.MilestoneNumber",
+	"notes":                         "description.Answer.Notes",
+	"pillar_id":                     "description.Answer.PillarId",
+	"question_description":          "description.Answer.QuestionDescription",
+	"question_id":                   "description.Answer.QuestionId",
+	"question_title":                "description.Answer.QuestionTitle",
+	"reason":                        "description.Answer.Reason",
+	"risk":                          "description.Answer.Risk",
+	"selected_choices":              "description.Answer.SelectedChoices",
+	"title":                         "description.Answer.QuestionTitle",
+	"workload_id":                   "description.WorkloadId",
+}
+
+func GetWellArchitectedAnswer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetWellArchitectedAnswer")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewWellArchitectedAnswerPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedAnswerFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: WellArchitectedAnswer =============================
+
+// ==========================  START: WellArchitectedCheckDetail =============================
+
+type WellArchitectedCheckDetail struct {
+	Description   aws.WellArchitectedCheckDetailDescription `json:"description"`
+	Metadata      aws.Metadata                              `json:"metadata"`
+	ResourceJobID int                                       `json:"resource_job_id"`
+	SourceJobID   int                                       `json:"source_job_id"`
+	ResourceType  string                                    `json:"resource_type"`
+	SourceType    string                                    `json:"source_type"`
+	ID            string                                    `json:"id"`
+	ARN           string                                    `json:"arn"`
+	SourceID      string                                    `json:"source_id"`
+}
+
+type WellArchitectedCheckDetailHit struct {
+	ID      string                     `json:"_id"`
+	Score   float64                    `json:"_score"`
+	Index   string                     `json:"_index"`
+	Type    string                     `json:"_type"`
+	Version int64                      `json:"_version,omitempty"`
+	Source  WellArchitectedCheckDetail `json:"_source"`
+	Sort    []interface{}              `json:"sort"`
+}
+
+type WellArchitectedCheckDetailHits struct {
+	Total essdk.SearchTotal               `json:"total"`
+	Hits  []WellArchitectedCheckDetailHit `json:"hits"`
+}
+
+type WellArchitectedCheckDetailSearchResponse struct {
+	PitID string                         `json:"pit_id"`
+	Hits  WellArchitectedCheckDetailHits `json:"hits"`
+}
+
+type WellArchitectedCheckDetailPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewWellArchitectedCheckDetailPaginator(filters []essdk.BoolFilter, limit *int64) (WellArchitectedCheckDetailPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_wellarchitected_checkdetail", filters, limit)
+	if err != nil {
+		return WellArchitectedCheckDetailPaginator{}, err
+	}
+
+	p := WellArchitectedCheckDetailPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p WellArchitectedCheckDetailPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p WellArchitectedCheckDetailPaginator) NextPage(ctx context.Context) ([]WellArchitectedCheckDetail, error) {
+	var response WellArchitectedCheckDetailSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []WellArchitectedCheckDetail
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listWellArchitectedCheckDetailFilters = map[string]string{
+	"choice_id":         "description.CheckDetail.ChoiceId",
+	"description":       "description.CheckDetail.Description",
+	"flagged_resources": "description.CheckDetail.FlaggedResources",
+	"id":                "description.CheckDetail.Id",
+	"kaytu_account_id":  "metadata.SourceID",
+	"lens_arn":          "description.CheckDetail.LensArn",
+	"name":              "description.CheckDetail.Name",
+	"owner_account_id":  "description.CheckDetail.AccountId",
+	"pillar_id":         "description.CheckDetail.PillarId",
+	"provider":          "description.CheckDetail.Provider",
+	"question_id":       "description.CheckDetail.QuestionId",
+	"reason":            "description.CheckDetail.Reason",
+	"status":            "description.CheckDetail.Status",
+	"title":             "description.CheckDetail.Name",
+	"updated_at":        "description.CheckDetail.UpdatedAt",
+	"workload_id":       "description.WorkloadId",
+}
+
+func ListWellArchitectedCheckDetail(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListWellArchitectedCheckDetail")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewWellArchitectedCheckDetailPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedCheckDetailFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getWellArchitectedCheckDetailFilters = map[string]string{
+	"choice_id":         "description.CheckDetail.ChoiceId",
+	"description":       "description.CheckDetail.Description",
+	"flagged_resources": "description.CheckDetail.FlaggedResources",
+	"id":                "description.CheckDetail.Id",
+	"kaytu_account_id":  "metadata.SourceID",
+	"lens_arn":          "description.CheckDetail.LensArn",
+	"name":              "description.CheckDetail.Name",
+	"owner_account_id":  "description.CheckDetail.AccountId",
+	"pillar_id":         "description.CheckDetail.PillarId",
+	"provider":          "description.CheckDetail.Provider",
+	"question_id":       "description.CheckDetail.QuestionId",
+	"reason":            "description.CheckDetail.Reason",
+	"status":            "description.CheckDetail.Status",
+	"title":             "description.CheckDetail.Name",
+	"updated_at":        "description.CheckDetail.UpdatedAt",
+	"workload_id":       "description.WorkloadId",
+}
+
+func GetWellArchitectedCheckDetail(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetWellArchitectedCheckDetail")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewWellArchitectedCheckDetailPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedCheckDetailFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: WellArchitectedCheckDetail =============================
+
+// ==========================  START: WellArchitectedCheckSummary =============================
+
+type WellArchitectedCheckSummary struct {
+	Description   aws.WellArchitectedCheckSummaryDescription `json:"description"`
+	Metadata      aws.Metadata                               `json:"metadata"`
+	ResourceJobID int                                        `json:"resource_job_id"`
+	SourceJobID   int                                        `json:"source_job_id"`
+	ResourceType  string                                     `json:"resource_type"`
+	SourceType    string                                     `json:"source_type"`
+	ID            string                                     `json:"id"`
+	ARN           string                                     `json:"arn"`
+	SourceID      string                                     `json:"source_id"`
+}
+
+type WellArchitectedCheckSummaryHit struct {
+	ID      string                      `json:"_id"`
+	Score   float64                     `json:"_score"`
+	Index   string                      `json:"_index"`
+	Type    string                      `json:"_type"`
+	Version int64                       `json:"_version,omitempty"`
+	Source  WellArchitectedCheckSummary `json:"_source"`
+	Sort    []interface{}               `json:"sort"`
+}
+
+type WellArchitectedCheckSummaryHits struct {
+	Total essdk.SearchTotal                `json:"total"`
+	Hits  []WellArchitectedCheckSummaryHit `json:"hits"`
+}
+
+type WellArchitectedCheckSummarySearchResponse struct {
+	PitID string                          `json:"pit_id"`
+	Hits  WellArchitectedCheckSummaryHits `json:"hits"`
+}
+
+type WellArchitectedCheckSummaryPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewWellArchitectedCheckSummaryPaginator(filters []essdk.BoolFilter, limit *int64) (WellArchitectedCheckSummaryPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_wellarchitected_checksummary", filters, limit)
+	if err != nil {
+		return WellArchitectedCheckSummaryPaginator{}, err
+	}
+
+	p := WellArchitectedCheckSummaryPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p WellArchitectedCheckSummaryPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p WellArchitectedCheckSummaryPaginator) NextPage(ctx context.Context) ([]WellArchitectedCheckSummary, error) {
+	var response WellArchitectedCheckSummarySearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []WellArchitectedCheckSummary
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listWellArchitectedCheckSummaryFilters = map[string]string{
+	"account_summary":  "description.CheckSummary.AccountSummary",
+	"choice_id":        "description.CheckSummary.ChoiceId",
+	"description":      "description.CheckSummary.Description",
+	"id":               "description.CheckSummary.ChoiceId",
+	"kaytu_account_id": "metadata.SourceID",
+	"lens_arn":         "description.CheckSummary.LensArn",
+	"name":             "description.CheckSummary.Name",
+	"pillar_id":        "description.CheckSummary.PillarId",
+	"provider":         "description.CheckSummary.Provider",
+	"question_id":      "description.CheckSummary.QuestionId",
+	"status":           "description.CheckSummary.Status",
+	"title":            "name",
+	"updated_at":       "description.CheckSummary.UpdatedAt",
+	"workload_id":      "description.WorkloadId",
+}
+
+func ListWellArchitectedCheckSummary(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListWellArchitectedCheckSummary")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewWellArchitectedCheckSummaryPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedCheckSummaryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getWellArchitectedCheckSummaryFilters = map[string]string{
+	"account_summary":  "description.CheckSummary.AccountSummary",
+	"choice_id":        "description.CheckSummary.ChoiceId",
+	"description":      "description.CheckSummary.Description",
+	"id":               "description.CheckSummary.ChoiceId",
+	"kaytu_account_id": "metadata.SourceID",
+	"lens_arn":         "description.CheckSummary.LensArn",
+	"name":             "description.CheckSummary.Name",
+	"pillar_id":        "description.CheckSummary.PillarId",
+	"provider":         "description.CheckSummary.Provider",
+	"question_id":      "description.CheckSummary.QuestionId",
+	"status":           "description.CheckSummary.Status",
+	"title":            "name",
+	"updated_at":       "description.CheckSummary.UpdatedAt",
+	"workload_id":      "description.WorkloadId",
+}
+
+func GetWellArchitectedCheckSummary(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetWellArchitectedCheckSummary")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewWellArchitectedCheckSummaryPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedCheckSummaryFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: WellArchitectedCheckSummary =============================
+
+// ==========================  START: WellArchitectedCheckConsolidatedReport =============================
+
+type WellArchitectedCheckConsolidatedReport struct {
+	Description   aws.WellArchitectedCheckConsolidatedReportDescription `json:"description"`
+	Metadata      aws.Metadata                                          `json:"metadata"`
+	ResourceJobID int                                                   `json:"resource_job_id"`
+	SourceJobID   int                                                   `json:"source_job_id"`
+	ResourceType  string                                                `json:"resource_type"`
+	SourceType    string                                                `json:"source_type"`
+	ID            string                                                `json:"id"`
+	ARN           string                                                `json:"arn"`
+	SourceID      string                                                `json:"source_id"`
+}
+
+type WellArchitectedCheckConsolidatedReportHit struct {
+	ID      string                                 `json:"_id"`
+	Score   float64                                `json:"_score"`
+	Index   string                                 `json:"_index"`
+	Type    string                                 `json:"_type"`
+	Version int64                                  `json:"_version,omitempty"`
+	Source  WellArchitectedCheckConsolidatedReport `json:"_source"`
+	Sort    []interface{}                          `json:"sort"`
+}
+
+type WellArchitectedCheckConsolidatedReportHits struct {
+	Total essdk.SearchTotal                           `json:"total"`
+	Hits  []WellArchitectedCheckConsolidatedReportHit `json:"hits"`
+}
+
+type WellArchitectedCheckConsolidatedReportSearchResponse struct {
+	PitID string                                     `json:"pit_id"`
+	Hits  WellArchitectedCheckConsolidatedReportHits `json:"hits"`
+}
+
+type WellArchitectedCheckConsolidatedReportPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewWellArchitectedCheckConsolidatedReportPaginator(filters []essdk.BoolFilter, limit *int64) (WellArchitectedCheckConsolidatedReportPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_wellarchitected_consolidatedreport", filters, limit)
+	if err != nil {
+		return WellArchitectedCheckConsolidatedReportPaginator{}, err
+	}
+
+	p := WellArchitectedCheckConsolidatedReportPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p WellArchitectedCheckConsolidatedReportPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p WellArchitectedCheckConsolidatedReportPaginator) NextPage(ctx context.Context) ([]WellArchitectedCheckConsolidatedReport, error) {
+	var response WellArchitectedCheckConsolidatedReportSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []WellArchitectedCheckConsolidatedReport
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listWellArchitectedCheckConsolidatedReportFilters = map[string]string{
+	"base64_string":            "description.Base64",
+	"include_shared_resources": "description.ConsolidateReport.WorkloadId",
+	"kaytu_account_id":         "metadata.SourceID",
+	"lenses":                   "description.ConsolidateReport.Lenses",
+	"lenses_applied_count":     "description.ConsolidateReport.LensesAppliedCount",
+	"metric_type":              "description.ConsolidateReport.MetricType",
+	"risk_counts":              "description.ConsolidateReport.RiskCounts",
+	"updated_at":               "description.ConsolidateReport.UpdatedAt",
+	"workload_arn":             "description.ConsolidateReport.WorkloadArn",
+	"workload_id":              "description.ConsolidateReport.WorkloadId",
+	"workload_name":            "description.ConsolidateReport.WorkloadName",
+}
+
+func ListWellArchitectedCheckConsolidatedReport(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListWellArchitectedCheckConsolidatedReport")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewWellArchitectedCheckConsolidatedReportPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedCheckConsolidatedReportFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getWellArchitectedCheckConsolidatedReportFilters = map[string]string{
+	"base64_string":            "description.Base64",
+	"include_shared_resources": "description.ConsolidateReport.WorkloadId",
+	"kaytu_account_id":         "metadata.SourceID",
+	"lenses":                   "description.ConsolidateReport.Lenses",
+	"lenses_applied_count":     "description.ConsolidateReport.LensesAppliedCount",
+	"metric_type":              "description.ConsolidateReport.MetricType",
+	"risk_counts":              "description.ConsolidateReport.RiskCounts",
+	"updated_at":               "description.ConsolidateReport.UpdatedAt",
+	"workload_arn":             "description.ConsolidateReport.WorkloadArn",
+	"workload_id":              "description.ConsolidateReport.WorkloadId",
+	"workload_name":            "description.ConsolidateReport.WorkloadName",
+}
+
+func GetWellArchitectedCheckConsolidatedReport(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetWellArchitectedCheckConsolidatedReport")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewWellArchitectedCheckConsolidatedReportPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedCheckConsolidatedReportFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: WellArchitectedCheckConsolidatedReport =============================
+
+// ==========================  START: WellArchitectedLens =============================
+
+type WellArchitectedLens struct {
+	Description   aws.WellArchitectedLensDescription `json:"description"`
+	Metadata      aws.Metadata                       `json:"metadata"`
+	ResourceJobID int                                `json:"resource_job_id"`
+	SourceJobID   int                                `json:"source_job_id"`
+	ResourceType  string                             `json:"resource_type"`
+	SourceType    string                             `json:"source_type"`
+	ID            string                             `json:"id"`
+	ARN           string                             `json:"arn"`
+	SourceID      string                             `json:"source_id"`
+}
+
+type WellArchitectedLensHit struct {
+	ID      string              `json:"_id"`
+	Score   float64             `json:"_score"`
+	Index   string              `json:"_index"`
+	Type    string              `json:"_type"`
+	Version int64               `json:"_version,omitempty"`
+	Source  WellArchitectedLens `json:"_source"`
+	Sort    []interface{}       `json:"sort"`
+}
+
+type WellArchitectedLensHits struct {
+	Total essdk.SearchTotal        `json:"total"`
+	Hits  []WellArchitectedLensHit `json:"hits"`
+}
+
+type WellArchitectedLensSearchResponse struct {
+	PitID string                  `json:"pit_id"`
+	Hits  WellArchitectedLensHits `json:"hits"`
+}
+
+type WellArchitectedLensPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewWellArchitectedLensPaginator(filters []essdk.BoolFilter, limit *int64) (WellArchitectedLensPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_wellarchitected_lens", filters, limit)
+	if err != nil {
+		return WellArchitectedLensPaginator{}, err
+	}
+
+	p := WellArchitectedLensPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p WellArchitectedLensPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p WellArchitectedLensPaginator) NextPage(ctx context.Context) ([]WellArchitectedLens, error) {
+	var response WellArchitectedLensSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []WellArchitectedLens
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listWellArchitectedLensFilters = map[string]string{
+	"akas":                "description.Lens.LensArn",
+	"arn":                 "description.LensSummary.LensArn",
+	"created_at":          "description.LensSummary.CreatedAt",
+	"description":         "description.LensSummary.Description",
+	"kaytu_account_id":    "metadata.SourceID",
+	"lens_alias":          "description.LensSummary.LensAlias",
+	"lens_name":           "description.LensSummary.LensName",
+	"lens_status":         "description.LensSummary.LensStatus",
+	"lens_type":           "description.LensSummary.LensType",
+	"lens_version":        "description.LensSummary.LensVersion",
+	"owner":               "description.LensSummary.Owner",
+	"share_invitation_id": "description.Lens.ShareInvitationId",
+	"tags":                "description.Lens.Tags",
+	"title":               "description.Lens.Name",
+	"updated_at":          "description.LensSummary.UpdatedAt",
+}
+
+func ListWellArchitectedLens(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListWellArchitectedLens")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewWellArchitectedLensPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedLensFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getWellArchitectedLensFilters = map[string]string{
+	"akas":                "description.Lens.LensArn",
+	"arn":                 "description.LensSummary.LensArn",
+	"created_at":          "description.LensSummary.CreatedAt",
+	"description":         "description.LensSummary.Description",
+	"kaytu_account_id":    "metadata.SourceID",
+	"lens_alias":          "description.LensSummary.LensAlias",
+	"lens_name":           "description.LensSummary.LensName",
+	"lens_status":         "description.LensSummary.LensStatus",
+	"lens_type":           "description.LensSummary.LensType",
+	"lens_version":        "description.LensSummary.LensVersion",
+	"owner":               "description.LensSummary.Owner",
+	"share_invitation_id": "description.Lens.ShareInvitationId",
+	"tags":                "description.Lens.Tags",
+	"title":               "description.Lens.Name",
+	"updated_at":          "description.LensSummary.UpdatedAt",
+}
+
+func GetWellArchitectedLens(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetWellArchitectedLens")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewWellArchitectedLensPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedLensFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: WellArchitectedLens =============================
+
+// ==========================  START: WellArchitectedLensReview =============================
+
+type WellArchitectedLensReview struct {
+	Description   aws.WellArchitectedLensReviewDescription `json:"description"`
+	Metadata      aws.Metadata                             `json:"metadata"`
+	ResourceJobID int                                      `json:"resource_job_id"`
+	SourceJobID   int                                      `json:"source_job_id"`
+	ResourceType  string                                   `json:"resource_type"`
+	SourceType    string                                   `json:"source_type"`
+	ID            string                                   `json:"id"`
+	ARN           string                                   `json:"arn"`
+	SourceID      string                                   `json:"source_id"`
+}
+
+type WellArchitectedLensReviewHit struct {
+	ID      string                    `json:"_id"`
+	Score   float64                   `json:"_score"`
+	Index   string                    `json:"_index"`
+	Type    string                    `json:"_type"`
+	Version int64                     `json:"_version,omitempty"`
+	Source  WellArchitectedLensReview `json:"_source"`
+	Sort    []interface{}             `json:"sort"`
+}
+
+type WellArchitectedLensReviewHits struct {
+	Total essdk.SearchTotal              `json:"total"`
+	Hits  []WellArchitectedLensReviewHit `json:"hits"`
+}
+
+type WellArchitectedLensReviewSearchResponse struct {
+	PitID string                        `json:"pit_id"`
+	Hits  WellArchitectedLensReviewHits `json:"hits"`
+}
+
+type WellArchitectedLensReviewPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewWellArchitectedLensReviewPaginator(filters []essdk.BoolFilter, limit *int64) (WellArchitectedLensReviewPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_wellarchitected_lensreview", filters, limit)
+	if err != nil {
+		return WellArchitectedLensReviewPaginator{}, err
+	}
+
+	p := WellArchitectedLensReviewPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p WellArchitectedLensReviewPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p WellArchitectedLensReviewPaginator) NextPage(ctx context.Context) ([]WellArchitectedLensReview, error) {
+	var response WellArchitectedLensReviewSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []WellArchitectedLensReview
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listWellArchitectedLensReviewFilters = map[string]string{
+	"kaytu_account_id":        "metadata.SourceID",
+	"lens_alias":              "description.LensReview.LensAlias",
+	"lens_arn":                "description.LensReview.LensArn",
+	"lens_name":               "description.LensReview.LensName",
+	"lens_status":             "description.LensReview.LensStatus",
+	"lens_version":            "description.LensReview.LensVersion",
+	"notes":                   "description.LensReview.Notes",
+	"pillar_review_summaries": "description.LensReview.PillarReviewSummaries",
+	"risk_counts":             "description.LensReview.RiskCounts",
+	"title":                   "description.LensReview.LensName",
+	"updated_at":              "description.LensReview.UpdatedAt",
+}
+
+func ListWellArchitectedLensReview(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListWellArchitectedLensReview")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewWellArchitectedLensReviewPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedLensReviewFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getWellArchitectedLensReviewFilters = map[string]string{
+	"kaytu_account_id":        "metadata.SourceID",
+	"lens_alias":              "description.LensReview.LensAlias",
+	"lens_arn":                "description.LensReview.LensArn",
+	"lens_name":               "description.LensReview.LensName",
+	"lens_status":             "description.LensReview.LensStatus",
+	"lens_version":            "description.LensReview.LensVersion",
+	"notes":                   "description.LensReview.Notes",
+	"pillar_review_summaries": "description.LensReview.PillarReviewSummaries",
+	"risk_counts":             "description.LensReview.RiskCounts",
+	"title":                   "description.LensReview.LensName",
+	"updated_at":              "description.LensReview.UpdatedAt",
+}
+
+func GetWellArchitectedLensReview(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetWellArchitectedLensReview")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewWellArchitectedLensReviewPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedLensReviewFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: WellArchitectedLensReview =============================
+
+// ==========================  START: WellArchitectedLensReviewImprovement =============================
+
+type WellArchitectedLensReviewImprovement struct {
+	Description   aws.WellArchitectedLensReviewImprovementDescription `json:"description"`
+	Metadata      aws.Metadata                                        `json:"metadata"`
+	ResourceJobID int                                                 `json:"resource_job_id"`
+	SourceJobID   int                                                 `json:"source_job_id"`
+	ResourceType  string                                              `json:"resource_type"`
+	SourceType    string                                              `json:"source_type"`
+	ID            string                                              `json:"id"`
+	ARN           string                                              `json:"arn"`
+	SourceID      string                                              `json:"source_id"`
+}
+
+type WellArchitectedLensReviewImprovementHit struct {
+	ID      string                               `json:"_id"`
+	Score   float64                              `json:"_score"`
+	Index   string                               `json:"_index"`
+	Type    string                               `json:"_type"`
+	Version int64                                `json:"_version,omitempty"`
+	Source  WellArchitectedLensReviewImprovement `json:"_source"`
+	Sort    []interface{}                        `json:"sort"`
+}
+
+type WellArchitectedLensReviewImprovementHits struct {
+	Total essdk.SearchTotal                         `json:"total"`
+	Hits  []WellArchitectedLensReviewImprovementHit `json:"hits"`
+}
+
+type WellArchitectedLensReviewImprovementSearchResponse struct {
+	PitID string                                   `json:"pit_id"`
+	Hits  WellArchitectedLensReviewImprovementHits `json:"hits"`
+}
+
+type WellArchitectedLensReviewImprovementPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewWellArchitectedLensReviewImprovementPaginator(filters []essdk.BoolFilter, limit *int64) (WellArchitectedLensReviewImprovementPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_wellarchitected_lensreviewimprovement", filters, limit)
+	if err != nil {
+		return WellArchitectedLensReviewImprovementPaginator{}, err
+	}
+
+	p := WellArchitectedLensReviewImprovementPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p WellArchitectedLensReviewImprovementPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p WellArchitectedLensReviewImprovementPaginator) NextPage(ctx context.Context) ([]WellArchitectedLensReviewImprovement, error) {
+	var response WellArchitectedLensReviewImprovementSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []WellArchitectedLensReviewImprovement
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listWellArchitectedLensReviewImprovementFilters = map[string]string{
+	"improvement_plan_url": "description.ImprovementSummary.ImprovementPlanUrl",
+	"improvement_plans":    "description.ImprovementSummary.ImprovementPlans",
+	"kaytu_account_id":     "metadata.SourceID",
+	"lens_alias":           "description.LensAlias",
+	"lens_arn":             "description.LensArn",
+	"milestone_number":     "description.MilestoneNumber",
+	"pillar_id":            "description.ImprovementSummary.PillarId",
+	"question_id":          "description.ImprovementSummary.QuestionId",
+	"question_title":       "description.ImprovementSummary.QuestionTitle",
+	"risk":                 "description.ImprovementSummary.Risk",
+	"title":                "description.ImprovementSummary.QuestionTitle",
+	"workload_id":          "description.WorkloadId",
+}
+
+func ListWellArchitectedLensReviewImprovement(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListWellArchitectedLensReviewImprovement")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewWellArchitectedLensReviewImprovementPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedLensReviewImprovementFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getWellArchitectedLensReviewImprovementFilters = map[string]string{
+	"improvement_plan_url": "description.ImprovementSummary.ImprovementPlanUrl",
+	"improvement_plans":    "description.ImprovementSummary.ImprovementPlans",
+	"kaytu_account_id":     "metadata.SourceID",
+	"lens_alias":           "description.LensAlias",
+	"lens_arn":             "description.LensArn",
+	"milestone_number":     "description.MilestoneNumber",
+	"pillar_id":            "description.ImprovementSummary.PillarId",
+	"question_id":          "description.ImprovementSummary.QuestionId",
+	"question_title":       "description.ImprovementSummary.QuestionTitle",
+	"risk":                 "description.ImprovementSummary.Risk",
+	"title":                "description.ImprovementSummary.QuestionTitle",
+	"workload_id":          "description.WorkloadId",
+}
+
+func GetWellArchitectedLensReviewImprovement(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetWellArchitectedLensReviewImprovement")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewWellArchitectedLensReviewImprovementPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedLensReviewImprovementFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: WellArchitectedLensReviewImprovement =============================
+
+// ==========================  START: WellArchitectedLensReviewReport =============================
+
+type WellArchitectedLensReviewReport struct {
+	Description   aws.WellArchitectedLensReviewReportDescription `json:"description"`
+	Metadata      aws.Metadata                                   `json:"metadata"`
+	ResourceJobID int                                            `json:"resource_job_id"`
+	SourceJobID   int                                            `json:"source_job_id"`
+	ResourceType  string                                         `json:"resource_type"`
+	SourceType    string                                         `json:"source_type"`
+	ID            string                                         `json:"id"`
+	ARN           string                                         `json:"arn"`
+	SourceID      string                                         `json:"source_id"`
+}
+
+type WellArchitectedLensReviewReportHit struct {
+	ID      string                          `json:"_id"`
+	Score   float64                         `json:"_score"`
+	Index   string                          `json:"_index"`
+	Type    string                          `json:"_type"`
+	Version int64                           `json:"_version,omitempty"`
+	Source  WellArchitectedLensReviewReport `json:"_source"`
+	Sort    []interface{}                   `json:"sort"`
+}
+
+type WellArchitectedLensReviewReportHits struct {
+	Total essdk.SearchTotal                    `json:"total"`
+	Hits  []WellArchitectedLensReviewReportHit `json:"hits"`
+}
+
+type WellArchitectedLensReviewReportSearchResponse struct {
+	PitID string                              `json:"pit_id"`
+	Hits  WellArchitectedLensReviewReportHits `json:"hits"`
+}
+
+type WellArchitectedLensReviewReportPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewWellArchitectedLensReviewReportPaginator(filters []essdk.BoolFilter, limit *int64) (WellArchitectedLensReviewReportPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_wellarchitected_lensreviewreport", filters, limit)
+	if err != nil {
+		return WellArchitectedLensReviewReportPaginator{}, err
+	}
+
+	p := WellArchitectedLensReviewReportPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p WellArchitectedLensReviewReportPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p WellArchitectedLensReviewReportPaginator) NextPage(ctx context.Context) ([]WellArchitectedLensReviewReport, error) {
+	var response WellArchitectedLensReviewReportSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []WellArchitectedLensReviewReport
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listWellArchitectedLensReviewReportFilters = map[string]string{
+	"base64_string":    "description.Report.Base64String",
+	"kaytu_account_id": "metadata.SourceID",
+	"lens_alias":       "description.Report.LensAlias",
+	"lens_arn":         "description.Report.LensArn",
+	"milestone_number": "description.MilestoneNumber",
+	"workload_id":      "description.WorkloadId",
+}
+
+func ListWellArchitectedLensReviewReport(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListWellArchitectedLensReviewReport")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewWellArchitectedLensReviewReportPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedLensReviewReportFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getWellArchitectedLensReviewReportFilters = map[string]string{
+	"base64_string":    "description.Report.Base64String",
+	"kaytu_account_id": "metadata.SourceID",
+	"lens_alias":       "description.Report.LensAlias",
+	"lens_arn":         "description.Report.LensArn",
+	"milestone_number": "description.MilestoneNumber",
+	"workload_id":      "description.WorkloadId",
+}
+
+func GetWellArchitectedLensReviewReport(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetWellArchitectedLensReviewReport")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewWellArchitectedLensReviewReportPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedLensReviewReportFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: WellArchitectedLensReviewReport =============================
+
+// ==========================  START: WellArchitectedLensShare =============================
+
+type WellArchitectedLensShare struct {
+	Description   aws.WellArchitectedLensShareDescription `json:"description"`
+	Metadata      aws.Metadata                            `json:"metadata"`
+	ResourceJobID int                                     `json:"resource_job_id"`
+	SourceJobID   int                                     `json:"source_job_id"`
+	ResourceType  string                                  `json:"resource_type"`
+	SourceType    string                                  `json:"source_type"`
+	ID            string                                  `json:"id"`
+	ARN           string                                  `json:"arn"`
+	SourceID      string                                  `json:"source_id"`
+}
+
+type WellArchitectedLensShareHit struct {
+	ID      string                   `json:"_id"`
+	Score   float64                  `json:"_score"`
+	Index   string                   `json:"_index"`
+	Type    string                   `json:"_type"`
+	Version int64                    `json:"_version,omitempty"`
+	Source  WellArchitectedLensShare `json:"_source"`
+	Sort    []interface{}            `json:"sort"`
+}
+
+type WellArchitectedLensShareHits struct {
+	Total essdk.SearchTotal             `json:"total"`
+	Hits  []WellArchitectedLensShareHit `json:"hits"`
+}
+
+type WellArchitectedLensShareSearchResponse struct {
+	PitID string                       `json:"pit_id"`
+	Hits  WellArchitectedLensShareHits `json:"hits"`
+}
+
+type WellArchitectedLensSharePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewWellArchitectedLensSharePaginator(filters []essdk.BoolFilter, limit *int64) (WellArchitectedLensSharePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_wellarchitected_lensshare", filters, limit)
+	if err != nil {
+		return WellArchitectedLensSharePaginator{}, err
+	}
+
+	p := WellArchitectedLensSharePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p WellArchitectedLensSharePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p WellArchitectedLensSharePaginator) NextPage(ctx context.Context) ([]WellArchitectedLensShare, error) {
+	var response WellArchitectedLensShareSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []WellArchitectedLensShare
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listWellArchitectedLensShareFilters = map[string]string{
+	"kaytu_account_id": "metadata.SourceID",
+	"lens_alias":       "description.Lens.LensAlias",
+	"lens_arn":         "description.Lens.LensArn",
+	"lens_name":        "description.Lens.Name",
+	"share_id":         "description.Share.ShareId",
+	"shared_with":      "description.Share.SharedWith",
+	"status":           "description.Share.Status",
+	"status_message":   "description.Share.StatusMessage",
+	"title":            "description.Share.ShareId",
+}
+
+func ListWellArchitectedLensShare(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListWellArchitectedLensShare")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewWellArchitectedLensSharePaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedLensShareFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getWellArchitectedLensShareFilters = map[string]string{
+	"kaytu_account_id": "metadata.SourceID",
+	"lens_alias":       "description.Lens.LensAlias",
+	"lens_arn":         "description.Lens.LensArn",
+	"lens_name":        "description.Lens.Name",
+	"share_id":         "description.Share.ShareId",
+	"shared_with":      "description.Share.SharedWith",
+	"status":           "description.Share.Status",
+	"status_message":   "description.Share.StatusMessage",
+	"title":            "description.Share.ShareId",
+}
+
+func GetWellArchitectedLensShare(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetWellArchitectedLensShare")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewWellArchitectedLensSharePaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedLensShareFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: WellArchitectedLensShare =============================
+
+// ==========================  START: WellArchitectedMilestone =============================
+
+type WellArchitectedMilestone struct {
+	Description   aws.WellArchitectedMilestoneDescription `json:"description"`
+	Metadata      aws.Metadata                            `json:"metadata"`
+	ResourceJobID int                                     `json:"resource_job_id"`
+	SourceJobID   int                                     `json:"source_job_id"`
+	ResourceType  string                                  `json:"resource_type"`
+	SourceType    string                                  `json:"source_type"`
+	ID            string                                  `json:"id"`
+	ARN           string                                  `json:"arn"`
+	SourceID      string                                  `json:"source_id"`
+}
+
+type WellArchitectedMilestoneHit struct {
+	ID      string                   `json:"_id"`
+	Score   float64                  `json:"_score"`
+	Index   string                   `json:"_index"`
+	Type    string                   `json:"_type"`
+	Version int64                    `json:"_version,omitempty"`
+	Source  WellArchitectedMilestone `json:"_source"`
+	Sort    []interface{}            `json:"sort"`
+}
+
+type WellArchitectedMilestoneHits struct {
+	Total essdk.SearchTotal             `json:"total"`
+	Hits  []WellArchitectedMilestoneHit `json:"hits"`
+}
+
+type WellArchitectedMilestoneSearchResponse struct {
+	PitID string                       `json:"pit_id"`
+	Hits  WellArchitectedMilestoneHits `json:"hits"`
+}
+
+type WellArchitectedMilestonePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewWellArchitectedMilestonePaginator(filters []essdk.BoolFilter, limit *int64) (WellArchitectedMilestonePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_wellarchitected_milestone", filters, limit)
+	if err != nil {
+		return WellArchitectedMilestonePaginator{}, err
+	}
+
+	p := WellArchitectedMilestonePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p WellArchitectedMilestonePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p WellArchitectedMilestonePaginator) NextPage(ctx context.Context) ([]WellArchitectedMilestone, error) {
+	var response WellArchitectedMilestoneSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []WellArchitectedMilestone
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listWellArchitectedMilestoneFilters = map[string]string{
+	"kaytu_account_id": "metadata.SourceID",
+	"milestone_name":   "description.Milestone.MilestoneName",
+	"milestone_number": "description.Milestone.MilestoneNumber",
+	"recorded_at":      "description.Milestone.RecordedAt",
+	"workload":         "description.Milestone.Workload",
+	"workload_id":      "description.Milestone.Workload.WorkloadId",
+}
+
+func ListWellArchitectedMilestone(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListWellArchitectedMilestone")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewWellArchitectedMilestonePaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedMilestoneFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getWellArchitectedMilestoneFilters = map[string]string{
+	"kaytu_account_id": "metadata.SourceID",
+	"milestone_name":   "description.Milestone.MilestoneName",
+	"milestone_number": "description.Milestone.MilestoneNumber",
+	"recorded_at":      "description.Milestone.RecordedAt",
+	"workload":         "description.Milestone.Workload",
+	"workload_id":      "description.Milestone.Workload.WorkloadId",
+}
+
+func GetWellArchitectedMilestone(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetWellArchitectedMilestone")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewWellArchitectedMilestonePaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedMilestoneFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: WellArchitectedMilestone =============================
+
+// ==========================  START: WellArchitectedNotification =============================
+
+type WellArchitectedNotification struct {
+	Description   aws.WellArchitectedNotificationDescription `json:"description"`
+	Metadata      aws.Metadata                               `json:"metadata"`
+	ResourceJobID int                                        `json:"resource_job_id"`
+	SourceJobID   int                                        `json:"source_job_id"`
+	ResourceType  string                                     `json:"resource_type"`
+	SourceType    string                                     `json:"source_type"`
+	ID            string                                     `json:"id"`
+	ARN           string                                     `json:"arn"`
+	SourceID      string                                     `json:"source_id"`
+}
+
+type WellArchitectedNotificationHit struct {
+	ID      string                      `json:"_id"`
+	Score   float64                     `json:"_score"`
+	Index   string                      `json:"_index"`
+	Type    string                      `json:"_type"`
+	Version int64                       `json:"_version,omitempty"`
+	Source  WellArchitectedNotification `json:"_source"`
+	Sort    []interface{}               `json:"sort"`
+}
+
+type WellArchitectedNotificationHits struct {
+	Total essdk.SearchTotal                `json:"total"`
+	Hits  []WellArchitectedNotificationHit `json:"hits"`
+}
+
+type WellArchitectedNotificationSearchResponse struct {
+	PitID string                          `json:"pit_id"`
+	Hits  WellArchitectedNotificationHits `json:"hits"`
+}
+
+type WellArchitectedNotificationPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewWellArchitectedNotificationPaginator(filters []essdk.BoolFilter, limit *int64) (WellArchitectedNotificationPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_wellarchitected_notification", filters, limit)
+	if err != nil {
+		return WellArchitectedNotificationPaginator{}, err
+	}
+
+	p := WellArchitectedNotificationPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p WellArchitectedNotificationPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p WellArchitectedNotificationPaginator) NextPage(ctx context.Context) ([]WellArchitectedNotification, error) {
+	var response WellArchitectedNotificationSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []WellArchitectedNotification
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listWellArchitectedNotificationFilters = map[string]string{
+	"current_lens_version": "description.Notification.LensUpgradeSummary.CurrentLensVersion",
+	"kaytu_account_id":     "metadata.SourceID",
+	"latest_lens_version":  "description.Notification.LensUpgradeSummary.LatestLensVersion",
+	"lens_alias":           "description.Notification.LensUpgradeSummary.LensAlias",
+	"lens_arn":             "description.Notification.LensUpgradeSummary.LensArn",
+	"type":                 "description.Notification.Type",
+	"workload_id":          "description.Notification.LensUpgradeSummary.WorkloadId",
+	"workload_name":        "description.Notification.LensUpgradeSummary.WorkloadName",
+}
+
+func ListWellArchitectedNotification(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListWellArchitectedNotification")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewWellArchitectedNotificationPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedNotificationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getWellArchitectedNotificationFilters = map[string]string{
+	"current_lens_version": "description.Notification.LensUpgradeSummary.CurrentLensVersion",
+	"kaytu_account_id":     "metadata.SourceID",
+	"latest_lens_version":  "description.Notification.LensUpgradeSummary.LatestLensVersion",
+	"lens_alias":           "description.Notification.LensUpgradeSummary.LensAlias",
+	"lens_arn":             "description.Notification.LensUpgradeSummary.LensArn",
+	"type":                 "description.Notification.Type",
+	"workload_id":          "description.Notification.LensUpgradeSummary.WorkloadId",
+	"workload_name":        "description.Notification.LensUpgradeSummary.WorkloadName",
+}
+
+func GetWellArchitectedNotification(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetWellArchitectedNotification")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewWellArchitectedNotificationPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedNotificationFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: WellArchitectedNotification =============================
+
+// ==========================  START: WellArchitectedShareInvitation =============================
+
+type WellArchitectedShareInvitation struct {
+	Description   aws.WellArchitectedShareInvitationDescription `json:"description"`
+	Metadata      aws.Metadata                                  `json:"metadata"`
+	ResourceJobID int                                           `json:"resource_job_id"`
+	SourceJobID   int                                           `json:"source_job_id"`
+	ResourceType  string                                        `json:"resource_type"`
+	SourceType    string                                        `json:"source_type"`
+	ID            string                                        `json:"id"`
+	ARN           string                                        `json:"arn"`
+	SourceID      string                                        `json:"source_id"`
+}
+
+type WellArchitectedShareInvitationHit struct {
+	ID      string                         `json:"_id"`
+	Score   float64                        `json:"_score"`
+	Index   string                         `json:"_index"`
+	Type    string                         `json:"_type"`
+	Version int64                          `json:"_version,omitempty"`
+	Source  WellArchitectedShareInvitation `json:"_source"`
+	Sort    []interface{}                  `json:"sort"`
+}
+
+type WellArchitectedShareInvitationHits struct {
+	Total essdk.SearchTotal                   `json:"total"`
+	Hits  []WellArchitectedShareInvitationHit `json:"hits"`
+}
+
+type WellArchitectedShareInvitationSearchResponse struct {
+	PitID string                             `json:"pit_id"`
+	Hits  WellArchitectedShareInvitationHits `json:"hits"`
+}
+
+type WellArchitectedShareInvitationPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewWellArchitectedShareInvitationPaginator(filters []essdk.BoolFilter, limit *int64) (WellArchitectedShareInvitationPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_wellarchitected_shareinvitation", filters, limit)
+	if err != nil {
+		return WellArchitectedShareInvitationPaginator{}, err
+	}
+
+	p := WellArchitectedShareInvitationPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p WellArchitectedShareInvitationPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p WellArchitectedShareInvitationPaginator) NextPage(ctx context.Context) ([]WellArchitectedShareInvitation, error) {
+	var response WellArchitectedShareInvitationSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []WellArchitectedShareInvitation
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listWellArchitectedShareInvitationFilters = map[string]string{
+	"kaytu_account_id":    "metadata.SourceID",
+	"lens_arn":            "description.ShareInvitation.LensArn",
+	"lens_name":           "description.ShareInvitation.LensName",
+	"permission_type":     "description.ShareInvitation.PermissionType",
+	"share_invitation_id": "description.ShareInvitation.ShareInvitationId",
+	"shared_by":           "description.ShareInvitation.SharedBy",
+	"shared_with":         "description.ShareInvitation.SharedWith",
+	"title":               "description.ShareInvitation.ShareInvitationId",
+	"workload_id":         "description.ShareInvitation.WorkloadId",
+	"workload_name":       "description.ShareInvitation.WorkloadName",
+}
+
+func ListWellArchitectedShareInvitation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListWellArchitectedShareInvitation")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewWellArchitectedShareInvitationPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedShareInvitationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getWellArchitectedShareInvitationFilters = map[string]string{
+	"kaytu_account_id":    "metadata.SourceID",
+	"lens_arn":            "description.ShareInvitation.LensArn",
+	"lens_name":           "description.ShareInvitation.LensName",
+	"permission_type":     "description.ShareInvitation.PermissionType",
+	"share_invitation_id": "description.ShareInvitation.ShareInvitationId",
+	"shared_by":           "description.ShareInvitation.SharedBy",
+	"shared_with":         "description.ShareInvitation.SharedWith",
+	"title":               "description.ShareInvitation.ShareInvitationId",
+	"workload_id":         "description.ShareInvitation.WorkloadId",
+	"workload_name":       "description.ShareInvitation.WorkloadName",
+}
+
+func GetWellArchitectedShareInvitation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetWellArchitectedShareInvitation")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewWellArchitectedShareInvitationPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedShareInvitationFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: WellArchitectedShareInvitation =============================
+
+// ==========================  START: WellArchitectedWorkloadShare =============================
+
+type WellArchitectedWorkloadShare struct {
+	Description   aws.WellArchitectedWorkloadShareDescription `json:"description"`
+	Metadata      aws.Metadata                                `json:"metadata"`
+	ResourceJobID int                                         `json:"resource_job_id"`
+	SourceJobID   int                                         `json:"source_job_id"`
+	ResourceType  string                                      `json:"resource_type"`
+	SourceType    string                                      `json:"source_type"`
+	ID            string                                      `json:"id"`
+	ARN           string                                      `json:"arn"`
+	SourceID      string                                      `json:"source_id"`
+}
+
+type WellArchitectedWorkloadShareHit struct {
+	ID      string                       `json:"_id"`
+	Score   float64                      `json:"_score"`
+	Index   string                       `json:"_index"`
+	Type    string                       `json:"_type"`
+	Version int64                        `json:"_version,omitempty"`
+	Source  WellArchitectedWorkloadShare `json:"_source"`
+	Sort    []interface{}                `json:"sort"`
+}
+
+type WellArchitectedWorkloadShareHits struct {
+	Total essdk.SearchTotal                 `json:"total"`
+	Hits  []WellArchitectedWorkloadShareHit `json:"hits"`
+}
+
+type WellArchitectedWorkloadShareSearchResponse struct {
+	PitID string                           `json:"pit_id"`
+	Hits  WellArchitectedWorkloadShareHits `json:"hits"`
+}
+
+type WellArchitectedWorkloadSharePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewWellArchitectedWorkloadSharePaginator(filters []essdk.BoolFilter, limit *int64) (WellArchitectedWorkloadSharePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_wellarchitected_workloadshare", filters, limit)
+	if err != nil {
+		return WellArchitectedWorkloadSharePaginator{}, err
+	}
+
+	p := WellArchitectedWorkloadSharePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p WellArchitectedWorkloadSharePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p WellArchitectedWorkloadSharePaginator) NextPage(ctx context.Context) ([]WellArchitectedWorkloadShare, error) {
+	var response WellArchitectedWorkloadShareSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []WellArchitectedWorkloadShare
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listWellArchitectedWorkloadShareFilters = map[string]string{
+	"akas":             "description.Arn",
+	"kaytu_account_id": "metadata.SourceID",
+	"permission_type":  "description.Share.PermissionType",
+	"share_id":         "description.Share.ShareId",
+	"shared_with":      "description.Share.SharedWith",
+	"status":           "description.Share.Status",
+	"status_message":   "description.Share.StatusMessage",
+	"title":            "description.Share.ShareId",
+	"workload_id":      "description.WorkloadId",
+}
+
+func ListWellArchitectedWorkloadShare(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListWellArchitectedWorkloadShare")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewWellArchitectedWorkloadSharePaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedWorkloadShareFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getWellArchitectedWorkloadShareFilters = map[string]string{
+	"akas":             "description.Arn",
+	"kaytu_account_id": "metadata.SourceID",
+	"permission_type":  "description.Share.PermissionType",
+	"share_id":         "description.Share.ShareId",
+	"shared_with":      "description.Share.SharedWith",
+	"status":           "description.Share.Status",
+	"status_message":   "description.Share.StatusMessage",
+	"title":            "description.Share.ShareId",
+	"workload_id":      "description.WorkloadId",
+}
+
+func GetWellArchitectedWorkloadShare(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetWellArchitectedWorkloadShare")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewWellArchitectedWorkloadSharePaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedWorkloadShareFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: WellArchitectedWorkloadShare =============================
+
+// ==========================  START: WAFRegionalWebAcl =============================
+
+type WAFRegionalWebAcl struct {
+	Description   aws.WAFRegionalWebAclDescription `json:"description"`
+	Metadata      aws.Metadata                     `json:"metadata"`
+	ResourceJobID int                              `json:"resource_job_id"`
+	SourceJobID   int                              `json:"source_job_id"`
+	ResourceType  string                           `json:"resource_type"`
+	SourceType    string                           `json:"source_type"`
+	ID            string                           `json:"id"`
+	ARN           string                           `json:"arn"`
+	SourceID      string                           `json:"source_id"`
+}
+
+type WAFRegionalWebAclHit struct {
+	ID      string            `json:"_id"`
+	Score   float64           `json:"_score"`
+	Index   string            `json:"_index"`
+	Type    string            `json:"_type"`
+	Version int64             `json:"_version,omitempty"`
+	Source  WAFRegionalWebAcl `json:"_source"`
+	Sort    []interface{}     `json:"sort"`
+}
+
+type WAFRegionalWebAclHits struct {
+	Total essdk.SearchTotal      `json:"total"`
+	Hits  []WAFRegionalWebAclHit `json:"hits"`
+}
+
+type WAFRegionalWebAclSearchResponse struct {
+	PitID string                `json:"pit_id"`
+	Hits  WAFRegionalWebAclHits `json:"hits"`
+}
+
+type WAFRegionalWebAclPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewWAFRegionalWebAclPaginator(filters []essdk.BoolFilter, limit *int64) (WAFRegionalWebAclPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_wafregional_webacl", filters, limit)
+	if err != nil {
+		return WAFRegionalWebAclPaginator{}, err
+	}
+
+	p := WAFRegionalWebAclPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p WAFRegionalWebAclPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p WAFRegionalWebAclPaginator) NextPage(ctx context.Context) ([]WAFRegionalWebAcl, error) {
+	var response WAFRegionalWebAclSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []WAFRegionalWebAcl
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listWAFRegionalWebAclFilters = map[string]string{
+	"akas":                  "description.WebACL.WebACLArn",
+	"arn":                   "description.WebACL.WebACLArn",
+	"default_action":        "description.WebACL.DefaultAction",
+	"kaytu_account_id":      "metadata.SourceID",
+	"logging_configuration": "description.LoggingConfiguration",
+	"metric_name":           "description.WebACL.MetricName",
+	"name":                  "description.WebACL.Name",
+	"resources":             "description.AssociatedResources",
+	"rules":                 "description.WebACL.Rules",
+	"tags":                  "description.Tags",
+	"tags_src":              "description.Tags",
+	"title":                 "description.WebACL.Name",
+	"web_acl_id":            "description.WebACL.WebACLId",
+}
+
+func ListWAFRegionalWebAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListWAFRegionalWebAcl")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewWAFRegionalWebAclPaginator(essdk.BuildFilter(d.EqualsQuals, listWAFRegionalWebAclFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getWAFRegionalWebAclFilters = map[string]string{
+	"akas":                  "description.WebACL.WebACLArn",
+	"arn":                   "description.WebACL.WebACLArn",
+	"default_action":        "description.WebACL.DefaultAction",
+	"kaytu_account_id":      "metadata.SourceID",
+	"logging_configuration": "description.LoggingConfiguration",
+	"metric_name":           "description.WebACL.MetricName",
+	"name":                  "description.WebACL.Name",
+	"resources":             "description.AssociatedResources",
+	"rules":                 "description.WebACL.Rules",
+	"tags":                  "description.Tags",
+	"tags_src":              "description.Tags",
+	"title":                 "description.WebACL.Name",
+	"web_acl_id":            "description.WebACL.WebACLId",
+}
+
+func GetWAFRegionalWebAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetWAFRegionalWebAcl")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewWAFRegionalWebAclPaginator(essdk.BuildFilter(d.EqualsQuals, getWAFRegionalWebAclFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: WAFRegionalWebAcl =============================
+
+// ==========================  START: WAFRegionalRuleGroup =============================
+
+type WAFRegionalRuleGroup struct {
+	Description   aws.WAFRegionalRuleGroupDescription `json:"description"`
+	Metadata      aws.Metadata                        `json:"metadata"`
+	ResourceJobID int                                 `json:"resource_job_id"`
+	SourceJobID   int                                 `json:"source_job_id"`
+	ResourceType  string                              `json:"resource_type"`
+	SourceType    string                              `json:"source_type"`
+	ID            string                              `json:"id"`
+	ARN           string                              `json:"arn"`
+	SourceID      string                              `json:"source_id"`
+}
+
+type WAFRegionalRuleGroupHit struct {
+	ID      string               `json:"_id"`
+	Score   float64              `json:"_score"`
+	Index   string               `json:"_index"`
+	Type    string               `json:"_type"`
+	Version int64                `json:"_version,omitempty"`
+	Source  WAFRegionalRuleGroup `json:"_source"`
+	Sort    []interface{}        `json:"sort"`
+}
+
+type WAFRegionalRuleGroupHits struct {
+	Total essdk.SearchTotal         `json:"total"`
+	Hits  []WAFRegionalRuleGroupHit `json:"hits"`
+}
+
+type WAFRegionalRuleGroupSearchResponse struct {
+	PitID string                   `json:"pit_id"`
+	Hits  WAFRegionalRuleGroupHits `json:"hits"`
+}
+
+type WAFRegionalRuleGroupPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewWAFRegionalRuleGroupPaginator(filters []essdk.BoolFilter, limit *int64) (WAFRegionalRuleGroupPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_wafregional_rulegroup", filters, limit)
+	if err != nil {
+		return WAFRegionalRuleGroupPaginator{}, err
+	}
+
+	p := WAFRegionalRuleGroupPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p WAFRegionalRuleGroupPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p WAFRegionalRuleGroupPaginator) NextPage(ctx context.Context) ([]WAFRegionalRuleGroup, error) {
+	var response WAFRegionalRuleGroupSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []WAFRegionalRuleGroup
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listWAFRegionalRuleGroupFilters = map[string]string{
+	"activated_rules":  "description.ActivatedRules",
+	"akas":             "description.ARN",
+	"arn":              "description.ARN",
+	"kaytu_account_id": "metadata.SourceID",
+	"metric_name":      "description.RuleGroup.MetricName",
+	"name":             "description.RuleGroup.Name",
+	"rule_group_id":    "description.RuleGroup.RuleGroupId",
+	"tags":             "description.Tags",
+	"tags_src":         "description.Tags",
+	"title":            "description.RuleGroup.Name",
+}
+
+func ListWAFRegionalRuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListWAFRegionalRuleGroup")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewWAFRegionalRuleGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listWAFRegionalRuleGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getWAFRegionalRuleGroupFilters = map[string]string{
+	"activated_rules":  "description.ActivatedRules",
+	"akas":             "description.ARN",
+	"arn":              "description.ARN",
+	"kaytu_account_id": "metadata.SourceID",
+	"metric_name":      "description.RuleGroup.MetricName",
+	"name":             "description.RuleGroup.Name",
+	"rule_group_id":    "description.Rule.RuleId",
+	"tags":             "description.Tags",
+	"tags_src":         "description.Tags",
+	"title":            "description.RuleGroup.Name",
+}
+
+func GetWAFRegionalRuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetWAFRegionalRuleGroup")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewWAFRegionalRuleGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getWAFRegionalRuleGroupFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: WAFRegionalRuleGroup =============================
 
 // ==========================  START: Route53HostedZone =============================
 
@@ -49634,6 +57225,336 @@ func GetRoute53TrafficPolicyInstance(ctx context.Context, d *plugin.QueryData, _
 
 // ==========================  END: Route53TrafficPolicyInstance =============================
 
+// ==========================  START: Route53QueryLog =============================
+
+type Route53QueryLog struct {
+	Description   aws.Route53QueryLogDescription `json:"description"`
+	Metadata      aws.Metadata                   `json:"metadata"`
+	ResourceJobID int                            `json:"resource_job_id"`
+	SourceJobID   int                            `json:"source_job_id"`
+	ResourceType  string                         `json:"resource_type"`
+	SourceType    string                         `json:"source_type"`
+	ID            string                         `json:"id"`
+	ARN           string                         `json:"arn"`
+	SourceID      string                         `json:"source_id"`
+}
+
+type Route53QueryLogHit struct {
+	ID      string          `json:"_id"`
+	Score   float64         `json:"_score"`
+	Index   string          `json:"_index"`
+	Type    string          `json:"_type"`
+	Version int64           `json:"_version,omitempty"`
+	Source  Route53QueryLog `json:"_source"`
+	Sort    []interface{}   `json:"sort"`
+}
+
+type Route53QueryLogHits struct {
+	Total essdk.SearchTotal    `json:"total"`
+	Hits  []Route53QueryLogHit `json:"hits"`
+}
+
+type Route53QueryLogSearchResponse struct {
+	PitID string              `json:"pit_id"`
+	Hits  Route53QueryLogHits `json:"hits"`
+}
+
+type Route53QueryLogPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewRoute53QueryLogPaginator(filters []essdk.BoolFilter, limit *int64) (Route53QueryLogPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_route53_querylog", filters, limit)
+	if err != nil {
+		return Route53QueryLogPaginator{}, err
+	}
+
+	p := Route53QueryLogPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p Route53QueryLogPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p Route53QueryLogPaginator) NextPage(ctx context.Context) ([]Route53QueryLog, error) {
+	var response Route53QueryLogSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Route53QueryLog
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listRoute53QueryLogFilters = map[string]string{
+	"akas":                           "aRN",
+	"cloud_watch_logs_log_group_arn": "description.QueryConfig.CloudWatchLogsLogGroupArn",
+	"hosted_zone_id":                 "description.QueryConfig.HostedZoneId",
+	"id":                             "description.QueryConfig.Id",
+	"kaytu_account_id":               "metadata.SourceID",
+	"title":                          "description.QueryConfig.Id",
+}
+
+func ListRoute53QueryLog(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListRoute53QueryLog")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewRoute53QueryLogPaginator(essdk.BuildFilter(d.EqualsQuals, listRoute53QueryLogFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getRoute53QueryLogFilters = map[string]string{
+	"akas":                           "aRN",
+	"cloud_watch_logs_log_group_arn": "description.QueryConfig.CloudWatchLogsLogGroupArn",
+	"hosted_zone_id":                 "description.QueryConfig.HostedZoneId",
+	"id":                             "description.TrafficPolicyInstance.Id",
+	"kaytu_account_id":               "metadata.SourceID",
+	"title":                          "description.QueryConfig.Id",
+}
+
+func GetRoute53QueryLog(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetRoute53QueryLog")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewRoute53QueryLogPaginator(essdk.BuildFilter(d.EqualsQuals, getRoute53QueryLogFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: Route53QueryLog =============================
+
+// ==========================  START: Route53ResolverQueryLogConfig =============================
+
+type Route53ResolverQueryLogConfig struct {
+	Description   aws.Route53ResolverQueryLogConfigDescription `json:"description"`
+	Metadata      aws.Metadata                                 `json:"metadata"`
+	ResourceJobID int                                          `json:"resource_job_id"`
+	SourceJobID   int                                          `json:"source_job_id"`
+	ResourceType  string                                       `json:"resource_type"`
+	SourceType    string                                       `json:"source_type"`
+	ID            string                                       `json:"id"`
+	ARN           string                                       `json:"arn"`
+	SourceID      string                                       `json:"source_id"`
+}
+
+type Route53ResolverQueryLogConfigHit struct {
+	ID      string                        `json:"_id"`
+	Score   float64                       `json:"_score"`
+	Index   string                        `json:"_index"`
+	Type    string                        `json:"_type"`
+	Version int64                         `json:"_version,omitempty"`
+	Source  Route53ResolverQueryLogConfig `json:"_source"`
+	Sort    []interface{}                 `json:"sort"`
+}
+
+type Route53ResolverQueryLogConfigHits struct {
+	Total essdk.SearchTotal                  `json:"total"`
+	Hits  []Route53ResolverQueryLogConfigHit `json:"hits"`
+}
+
+type Route53ResolverQueryLogConfigSearchResponse struct {
+	PitID string                            `json:"pit_id"`
+	Hits  Route53ResolverQueryLogConfigHits `json:"hits"`
+}
+
+type Route53ResolverQueryLogConfigPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewRoute53ResolverQueryLogConfigPaginator(filters []essdk.BoolFilter, limit *int64) (Route53ResolverQueryLogConfigPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_route53resolver_querylogconfig", filters, limit)
+	if err != nil {
+		return Route53ResolverQueryLogConfigPaginator{}, err
+	}
+
+	p := Route53ResolverQueryLogConfigPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p Route53ResolverQueryLogConfigPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p Route53ResolverQueryLogConfigPaginator) NextPage(ctx context.Context) ([]Route53ResolverQueryLogConfig, error) {
+	var response Route53ResolverQueryLogConfigSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Route53ResolverQueryLogConfig
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listRoute53ResolverQueryLogConfigFilters = map[string]string{
+	"akas":               "description.QueryConfig.Arn",
+	"arn":                "description.QueryConfig.Arn",
+	"association_count":  "description.QueryConfig.AssociationCount",
+	"creation_time":      "description.QueryConfig.CreationTime",
+	"creator_request_id": "description.QueryConfig.CreatorRequestId",
+	"destination_arn":    "description.QueryConfig.DestinationArn",
+	"id":                 "description.QueryConfig.Id",
+	"kaytu_account_id":   "metadata.SourceID",
+	"name":               "description.QueryConfig.Name",
+	"owner_id":           "description.QueryConfig.OwnerId",
+	"share_status":       "description.QueryConfig.ShareStatus",
+	"status":             "description.QueryConfig.Status",
+	"title":              "description.QueryConfig.Name",
+}
+
+func ListRoute53ResolverQueryLogConfig(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListRoute53ResolverQueryLogConfig")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewRoute53ResolverQueryLogConfigPaginator(essdk.BuildFilter(d.EqualsQuals, listRoute53ResolverQueryLogConfigFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getRoute53ResolverQueryLogConfigFilters = map[string]string{
+	"akas":               "description.QueryConfig.Arn",
+	"arn":                "description.QueryConfig.Arn",
+	"association_count":  "description.QueryConfig.AssociationCount",
+	"creation_time":      "description.QueryConfig.CreationTime",
+	"creator_request_id": "description.QueryConfig.CreatorRequestId",
+	"destination_arn":    "description.QueryConfig.DestinationArn",
+	"id":                 "description.TrafficPolicyInstance.Id",
+	"kaytu_account_id":   "metadata.SourceID",
+	"name":               "description.QueryConfig.Name",
+	"owner_id":           "description.QueryConfig.OwnerId",
+	"share_status":       "description.QueryConfig.ShareStatus",
+	"status":             "description.QueryConfig.Status",
+	"title":              "description.QueryConfig.Name",
+}
+
+func GetRoute53ResolverQueryLogConfig(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetRoute53ResolverQueryLogConfig")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewRoute53ResolverQueryLogConfigPaginator(essdk.BuildFilter(d.EqualsQuals, getRoute53ResolverQueryLogConfigFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: Route53ResolverQueryLogConfig =============================
+
 // ==========================  START: BatchComputeEnvironment =============================
 
 type BatchComputeEnvironment struct {
@@ -50739,11 +58660,11 @@ func (p CodeDeployApplicationPaginator) NextPage(ctx context.Context) ([]CodeDep
 }
 
 var listCodeDeployApplicationFilters = map[string]string{
+	"application_id":      "description.Application.ApplicationId",
 	"application_name":    "description.Application.ApplicationName",
 	"compute_platform":    "description.Application.ComputePlatform",
 	"create_time":         "description.Application.CreateTime",
 	"github_account_name": "description.Application.GitHubAccountName",
-	"id":                  "description.Application.ApplicationId",
 	"kaytu_account_id":    "metadata.SourceID",
 	"linked_to_github":    "description.Application.LinkedToGitHub",
 	"tags_src":            "description.Tags",
@@ -50781,11 +58702,11 @@ func ListCodeDeployApplication(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 var getCodeDeployApplicationFilters = map[string]string{
+	"application_id":      "description.Application.ApplicationId",
 	"application_name":    "description.Application.ApplicationName",
 	"compute_platform":    "description.Application.ComputePlatform",
 	"create_time":         "description.Application.CreateTime",
 	"github_account_name": "description.Application.GitHubAccountName",
-	"id":                  "description.Application.ApplicationId",
 	"kaytu_account_id":    "metadata.SourceID",
 	"linked_to_github":    "description.Application.LinkedToGitHub",
 	"tags_src":            "description.Tags",
@@ -50824,6 +58745,173 @@ func GetCodeDeployApplication(ctx context.Context, d *plugin.QueryData, _ *plugi
 }
 
 // ==========================  END: CodeDeployApplication =============================
+
+// ==========================  START: CodeDeployDeploymentConfig =============================
+
+type CodeDeployDeploymentConfig struct {
+	Description   aws.CodeDeployDeploymentConfigDescription `json:"description"`
+	Metadata      aws.Metadata                              `json:"metadata"`
+	ResourceJobID int                                       `json:"resource_job_id"`
+	SourceJobID   int                                       `json:"source_job_id"`
+	ResourceType  string                                    `json:"resource_type"`
+	SourceType    string                                    `json:"source_type"`
+	ID            string                                    `json:"id"`
+	ARN           string                                    `json:"arn"`
+	SourceID      string                                    `json:"source_id"`
+}
+
+type CodeDeployDeploymentConfigHit struct {
+	ID      string                     `json:"_id"`
+	Score   float64                    `json:"_score"`
+	Index   string                     `json:"_index"`
+	Type    string                     `json:"_type"`
+	Version int64                      `json:"_version,omitempty"`
+	Source  CodeDeployDeploymentConfig `json:"_source"`
+	Sort    []interface{}              `json:"sort"`
+}
+
+type CodeDeployDeploymentConfigHits struct {
+	Total essdk.SearchTotal               `json:"total"`
+	Hits  []CodeDeployDeploymentConfigHit `json:"hits"`
+}
+
+type CodeDeployDeploymentConfigSearchResponse struct {
+	PitID string                         `json:"pit_id"`
+	Hits  CodeDeployDeploymentConfigHits `json:"hits"`
+}
+
+type CodeDeployDeploymentConfigPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewCodeDeployDeploymentConfigPaginator(filters []essdk.BoolFilter, limit *int64) (CodeDeployDeploymentConfigPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_codedeploy_deploymentconfig", filters, limit)
+	if err != nil {
+		return CodeDeployDeploymentConfigPaginator{}, err
+	}
+
+	p := CodeDeployDeploymentConfigPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p CodeDeployDeploymentConfigPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p CodeDeployDeploymentConfigPaginator) NextPage(ctx context.Context) ([]CodeDeployDeploymentConfig, error) {
+	var response CodeDeployDeploymentConfigSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []CodeDeployDeploymentConfig
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listCodeDeployDeploymentConfigFilters = map[string]string{
+	"akas":                   "aRN",
+	"arn":                    "aRN",
+	"compute_platform":       "description.Config.ComputePlatform",
+	"create_time":            "description.Config.CreateTime",
+	"deployment_config_id":   "description.Config.DeploymentConfigId",
+	"deployment_config_name": "description.Config.DeploymentConfigName",
+	"kaytu_account_id":       "metadata.SourceID",
+	"minimum_healthy_hosts":  "description.Config.MinimumHealthyHosts",
+	"title":                  "description.Config.DeploymentConfigName",
+	"traffic_routing_config": "description.Config.TrafficRoutingConfig",
+}
+
+func ListCodeDeployDeploymentConfig(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListCodeDeployDeploymentConfig")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewCodeDeployDeploymentConfigPaginator(essdk.BuildFilter(d.EqualsQuals, listCodeDeployDeploymentConfigFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getCodeDeployDeploymentConfigFilters = map[string]string{
+	"akas":                   "aRN",
+	"application_name":       "description.Application.ApplicationName",
+	"arn":                    "aRN",
+	"compute_platform":       "description.Config.ComputePlatform",
+	"create_time":            "description.Config.CreateTime",
+	"deployment_config_id":   "description.Config.DeploymentConfigId",
+	"deployment_config_name": "description.Config.DeploymentConfigName",
+	"kaytu_account_id":       "metadata.SourceID",
+	"minimum_healthy_hosts":  "description.Config.MinimumHealthyHosts",
+	"title":                  "description.Config.DeploymentConfigName",
+	"traffic_routing_config": "description.Config.TrafficRoutingConfig",
+}
+
+func GetCodeDeployDeploymentConfig(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetCodeDeployDeploymentConfig")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewCodeDeployDeploymentConfigPaginator(essdk.BuildFilter(d.EqualsQuals, getCodeDeployDeploymentConfigFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: CodeDeployDeploymentConfig =============================
 
 // ==========================  START: CodeStarProject =============================
 
@@ -52309,6 +60397,172 @@ func GetOrganizationsAccount(ctx context.Context, d *plugin.QueryData, _ *plugin
 }
 
 // ==========================  END: OrganizationsAccount =============================
+
+// ==========================  START: OrganizationsPolicy =============================
+
+type OrganizationsPolicy struct {
+	Description   aws.OrganizationsPolicyDescription `json:"description"`
+	Metadata      aws.Metadata                       `json:"metadata"`
+	ResourceJobID int                                `json:"resource_job_id"`
+	SourceJobID   int                                `json:"source_job_id"`
+	ResourceType  string                             `json:"resource_type"`
+	SourceType    string                             `json:"source_type"`
+	ID            string                             `json:"id"`
+	ARN           string                             `json:"arn"`
+	SourceID      string                             `json:"source_id"`
+}
+
+type OrganizationsPolicyHit struct {
+	ID      string              `json:"_id"`
+	Score   float64             `json:"_score"`
+	Index   string              `json:"_index"`
+	Type    string              `json:"_type"`
+	Version int64               `json:"_version,omitempty"`
+	Source  OrganizationsPolicy `json:"_source"`
+	Sort    []interface{}       `json:"sort"`
+}
+
+type OrganizationsPolicyHits struct {
+	Total essdk.SearchTotal        `json:"total"`
+	Hits  []OrganizationsPolicyHit `json:"hits"`
+}
+
+type OrganizationsPolicySearchResponse struct {
+	PitID string                  `json:"pit_id"`
+	Hits  OrganizationsPolicyHits `json:"hits"`
+}
+
+type OrganizationsPolicyPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewOrganizationsPolicyPaginator(filters []essdk.BoolFilter, limit *int64) (OrganizationsPolicyPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_organizations_policy", filters, limit)
+	if err != nil {
+		return OrganizationsPolicyPaginator{}, err
+	}
+
+	p := OrganizationsPolicyPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p OrganizationsPolicyPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p OrganizationsPolicyPaginator) NextPage(ctx context.Context) ([]OrganizationsPolicy, error) {
+	var response OrganizationsPolicySearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []OrganizationsPolicy
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listOrganizationsPolicyFilters = map[string]string{
+	"akas":             "description.Policy.PolicySummary.Arn",
+	"arn":              "description.Policy.PolicySummary.Arn",
+	"aws_managed":      "description.Policy.PolicySummary.AwsManaged",
+	"content":          "cDescription.Policy.ontent",
+	"description":      "description.Policy.PolicySummary.Description",
+	"id":               "description.Policy.PolicySummary.Id",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.Policy.PolicySummary.Name",
+	"title":            "description.Policy.PolicySummary.Name",
+	"type":             "description.Policy.PolicySummary.Type",
+}
+
+func ListOrganizationsPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListOrganizationsPolicy")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewOrganizationsPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, listOrganizationsPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getOrganizationsPolicyFilters = map[string]string{
+	"akas":             "description.Policy.PolicySummary.Arn",
+	"arn":              "description.Policy.PolicySummary.Arn",
+	"aws_managed":      "description.Policy.PolicySummary.AwsManaged",
+	"content":          "cDescription.Policy.ontent",
+	"description":      "description.Policy.PolicySummary.Description",
+	"id":               "description.Policy.PolicySummary.Id",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.Policy.PolicySummary.Name",
+	"title":            "description.Policy.PolicySummary.Name",
+	"type":             "description.Policy.PolicySummary.Type",
+}
+
+func GetOrganizationsPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetOrganizationsPolicy")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewOrganizationsPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, getOrganizationsPolicyFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: OrganizationsPolicy =============================
 
 // ==========================  START: PinPointApp =============================
 
@@ -56546,6 +64800,228 @@ func GetDocDBCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 // ==========================  END: DocDBCluster =============================
 
+// ==========================  START: DocDBClusterInstance =============================
+
+type DocDBClusterInstance struct {
+	Description   aws.DocDBClusterInstanceDescription `json:"description"`
+	Metadata      aws.Metadata                        `json:"metadata"`
+	ResourceJobID int                                 `json:"resource_job_id"`
+	SourceJobID   int                                 `json:"source_job_id"`
+	ResourceType  string                              `json:"resource_type"`
+	SourceType    string                              `json:"source_type"`
+	ID            string                              `json:"id"`
+	ARN           string                              `json:"arn"`
+	SourceID      string                              `json:"source_id"`
+}
+
+type DocDBClusterInstanceHit struct {
+	ID      string               `json:"_id"`
+	Score   float64              `json:"_score"`
+	Index   string               `json:"_index"`
+	Type    string               `json:"_type"`
+	Version int64                `json:"_version,omitempty"`
+	Source  DocDBClusterInstance `json:"_source"`
+	Sort    []interface{}        `json:"sort"`
+}
+
+type DocDBClusterInstanceHits struct {
+	Total essdk.SearchTotal         `json:"total"`
+	Hits  []DocDBClusterInstanceHit `json:"hits"`
+}
+
+type DocDBClusterInstanceSearchResponse struct {
+	PitID string                   `json:"pit_id"`
+	Hits  DocDBClusterInstanceHits `json:"hits"`
+}
+
+type DocDBClusterInstancePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewDocDBClusterInstancePaginator(filters []essdk.BoolFilter, limit *int64) (DocDBClusterInstancePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_docdb_clusterinstance", filters, limit)
+	if err != nil {
+		return DocDBClusterInstancePaginator{}, err
+	}
+
+	p := DocDBClusterInstancePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p DocDBClusterInstancePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p DocDBClusterInstancePaginator) NextPage(ctx context.Context) ([]DocDBClusterInstance, error) {
+	var response DocDBClusterInstanceSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []DocDBClusterInstance
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listDocDBClusterInstanceFilters = map[string]string{
+	"akas":                            "description.DBInstance.DBInstanceArn",
+	"availability_zone":               "description.DBInstance.AvailabilityZone",
+	"backup_retention_period":         "description.DBInstance.BackupRetentionPeriod",
+	"ca_certificate_identifier":       "description.DBInstance.CACertificateIdentifier",
+	"copy_tags_to_snapshot":           "description.DBInstance.CopyTagsToSnapshot",
+	"db_cluster_identifier":           "description.DBInstance.DBClusterIdentifier",
+	"db_instance_arn":                 "description.DBInstance.DBInstanceArn",
+	"db_instance_class":               "description.DBInstance.DBInstanceClass",
+	"db_instance_identifier":          "description.DBInstance.DBInstanceIdentifier",
+	"db_instance_status":              "description.DBInstance.DBInstanceStatus",
+	"db_subnet_group_arn":             "description.DBInstance.DBSubnetGroup.DBSubnetGroupArn",
+	"db_subnet_group_description":     "description.DBInstance.DBSubnetGroup.DBSubnetGroupDescription",
+	"db_subnet_group_name":            "description.DBInstance.DBSubnetGroup.DBSubnetGroupName",
+	"db_subnet_group_status":          "description.DBInstance.DBSubnetGroup.SubnetGroupStatus",
+	"dbi_resource_id":                 "description.DBInstance.DbiResourceId",
+	"enabled_cloudwatch_logs_exports": "description.DBInstance.EnabledCloudwatchLogsExports",
+	"endpoint_address":                "description.DBInstance.Endpoint.Address",
+	"endpoint_hosted_zone_id":         "description.DBInstance.Endpoint.HostedZoneId",
+	"endpoint_port":                   "description.DBInstance.Endpoint.Port",
+	"engine":                          "description.DBInstance.Engine",
+	"engine_version":                  "description.DBInstance.EngineVersion",
+	"instance_create_time":            "description.DBInstance.InstanceCreateTime",
+	"kaytu_account_id":                "metadata.SourceID",
+	"kms_key_id":                      "description.DBInstance.KmsKeyId",
+	"latest_restorable_time":          "description.DBInstance.LatestRestorableTime",
+	"pending_modified_values":         "description.DBInstance.PendingModifiedValues",
+	"preferred_backup_window":         "description.DBInstance.PreferredBackupWindow",
+	"preferred_maintenance_window":    "description.DBInstance.PreferredMaintenanceWindow",
+	"promotion_tier":                  "description.DBInstance.PromotionTier",
+	"publicly_accessible":             "description.DBInstance.PubliclyAccessible",
+	"status_infos":                    "description.DBInstance.StatusInfos",
+	"storage_encrypted":               "description.DBInstance.StorageEncrypted",
+	"subnets":                         "description.DBInstance.DBSubnetGroup.Subnets",
+	"tags":                            "description.Tags",
+	"tags_src":                        "description.Tags",
+	"title":                           "description.DBInstance.DBInstanceIdentifier",
+	"vpc_id":                          "description.DBInstance.DBSubnetGroup.VpcId",
+	"vpc_security_groups":             "description.DBInstance.VpcSecurityGroups",
+}
+
+func ListDocDBClusterInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListDocDBClusterInstance")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewDocDBClusterInstancePaginator(essdk.BuildFilter(d.EqualsQuals, listDocDBClusterInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getDocDBClusterInstanceFilters = map[string]string{
+	"akas":                            "description.DBInstance.DBInstanceArn",
+	"availability_zone":               "description.DBInstance.AvailabilityZone",
+	"backup_retention_period":         "description.DBInstance.BackupRetentionPeriod",
+	"ca_certificate_identifier":       "description.DBInstance.CACertificateIdentifier",
+	"copy_tags_to_snapshot":           "description.DBInstance.CopyTagsToSnapshot",
+	"db_cluster_identifier":           "description.DBInstance.DBClusterIdentifier",
+	"db_instance_arn":                 "description.DBInstance.DBInstanceArn",
+	"db_instance_class":               "description.DBInstance.DBInstanceClass",
+	"db_instance_identifier":          "description.DBCluster.DBClusterIdentifier",
+	"db_instance_status":              "description.DBInstance.DBInstanceStatus",
+	"db_subnet_group_arn":             "description.DBInstance.DBSubnetGroup.DBSubnetGroupArn",
+	"db_subnet_group_description":     "description.DBInstance.DBSubnetGroup.DBSubnetGroupDescription",
+	"db_subnet_group_name":            "description.DBInstance.DBSubnetGroup.DBSubnetGroupName",
+	"db_subnet_group_status":          "description.DBInstance.DBSubnetGroup.SubnetGroupStatus",
+	"dbi_resource_id":                 "description.DBInstance.DbiResourceId",
+	"enabled_cloudwatch_logs_exports": "description.DBInstance.EnabledCloudwatchLogsExports",
+	"endpoint_address":                "description.DBInstance.Endpoint.Address",
+	"endpoint_hosted_zone_id":         "description.DBInstance.Endpoint.HostedZoneId",
+	"endpoint_port":                   "description.DBInstance.Endpoint.Port",
+	"engine":                          "description.DBInstance.Engine",
+	"engine_version":                  "description.DBInstance.EngineVersion",
+	"instance_create_time":            "description.DBInstance.InstanceCreateTime",
+	"kaytu_account_id":                "metadata.SourceID",
+	"kms_key_id":                      "description.DBInstance.KmsKeyId",
+	"latest_restorable_time":          "description.DBInstance.LatestRestorableTime",
+	"pending_modified_values":         "description.DBInstance.PendingModifiedValues",
+	"preferred_backup_window":         "description.DBInstance.PreferredBackupWindow",
+	"preferred_maintenance_window":    "description.DBInstance.PreferredMaintenanceWindow",
+	"promotion_tier":                  "description.DBInstance.PromotionTier",
+	"publicly_accessible":             "description.DBInstance.PubliclyAccessible",
+	"status_infos":                    "description.DBInstance.StatusInfos",
+	"storage_encrypted":               "description.DBInstance.StorageEncrypted",
+	"subnets":                         "description.DBInstance.DBSubnetGroup.Subnets",
+	"tags":                            "description.Tags",
+	"tags_src":                        "description.Tags",
+	"title":                           "description.DBInstance.DBInstanceIdentifier",
+	"vpc_id":                          "description.DBInstance.DBSubnetGroup.VpcId",
+	"vpc_security_groups":             "description.DBInstance.VpcSecurityGroups",
+}
+
+func GetDocDBClusterInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetDocDBClusterInstance")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewDocDBClusterInstancePaginator(essdk.BuildFilter(d.EqualsQuals, getDocDBClusterInstanceFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: DocDBClusterInstance =============================
+
 // ==========================  START: GlobalAcceleratorAccelerator =============================
 
 type GlobalAcceleratorAccelerator struct {
@@ -58830,6 +67306,170 @@ func GetHealthEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 // ==========================  END: HealthEvent =============================
 
+// ==========================  START: HealthAffectedEntity =============================
+
+type HealthAffectedEntity struct {
+	Description   aws.HealthAffectedEntityDescription `json:"description"`
+	Metadata      aws.Metadata                        `json:"metadata"`
+	ResourceJobID int                                 `json:"resource_job_id"`
+	SourceJobID   int                                 `json:"source_job_id"`
+	ResourceType  string                              `json:"resource_type"`
+	SourceType    string                              `json:"source_type"`
+	ID            string                              `json:"id"`
+	ARN           string                              `json:"arn"`
+	SourceID      string                              `json:"source_id"`
+}
+
+type HealthAffectedEntityHit struct {
+	ID      string               `json:"_id"`
+	Score   float64              `json:"_score"`
+	Index   string               `json:"_index"`
+	Type    string               `json:"_type"`
+	Version int64                `json:"_version,omitempty"`
+	Source  HealthAffectedEntity `json:"_source"`
+	Sort    []interface{}        `json:"sort"`
+}
+
+type HealthAffectedEntityHits struct {
+	Total essdk.SearchTotal         `json:"total"`
+	Hits  []HealthAffectedEntityHit `json:"hits"`
+}
+
+type HealthAffectedEntitySearchResponse struct {
+	PitID string                   `json:"pit_id"`
+	Hits  HealthAffectedEntityHits `json:"hits"`
+}
+
+type HealthAffectedEntityPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewHealthAffectedEntityPaginator(filters []essdk.BoolFilter, limit *int64) (HealthAffectedEntityPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_health_affectedentity", filters, limit)
+	if err != nil {
+		return HealthAffectedEntityPaginator{}, err
+	}
+
+	p := HealthAffectedEntityPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p HealthAffectedEntityPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p HealthAffectedEntityPaginator) NextPage(ctx context.Context) ([]HealthAffectedEntity, error) {
+	var response HealthAffectedEntitySearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []HealthAffectedEntity
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listHealthAffectedEntityFilters = map[string]string{
+	"akas":              "description.Entity.EntityArn",
+	"arn":               "description.Entity.EntityArn",
+	"entity_url":        "description.Entity.EntityUrl",
+	"entity_value":      "description.Entity.EntityValue",
+	"event_arn":         "description.Entity.EntityArn",
+	"kaytu_account_id":  "metadata.SourceID",
+	"last_updated_time": "description.Entity.LastUpdatedTime",
+	"status_code":       "description.Entity.StatusCode",
+	"tags":              "description.Entity.Tags",
+}
+
+func ListHealthAffectedEntity(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListHealthAffectedEntity")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewHealthAffectedEntityPaginator(essdk.BuildFilter(d.EqualsQuals, listHealthAffectedEntityFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getHealthAffectedEntityFilters = map[string]string{
+	"akas":              "description.Entity.EntityArn",
+	"arn":               "description.Entity.EntityArn",
+	"entity_url":        "description.Entity.EntityUrl",
+	"entity_value":      "description.Entity.EntityValue",
+	"event_arn":         "description.Entity.EntityArn",
+	"kaytu_account_id":  "metadata.SourceID",
+	"last_updated_time": "description.Entity.LastUpdatedTime",
+	"status_code":       "description.Entity.StatusCode",
+	"tags":              "description.Entity.Tags",
+}
+
+func GetHealthAffectedEntity(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetHealthAffectedEntity")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewHealthAffectedEntityPaginator(essdk.BuildFilter(d.EqualsQuals, getHealthAffectedEntityFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: HealthAffectedEntity =============================
+
 // ==========================  START: InspectorAssessmentRun =============================
 
 type InspectorAssessmentRun struct {
@@ -59705,6 +68345,751 @@ func GetInspectorFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 // ==========================  END: InspectorFinding =============================
+
+// ==========================  START: Inspector2Coverage =============================
+
+type Inspector2Coverage struct {
+	Description   aws.Inspector2CoverageDescription `json:"description"`
+	Metadata      aws.Metadata                      `json:"metadata"`
+	ResourceJobID int                               `json:"resource_job_id"`
+	SourceJobID   int                               `json:"source_job_id"`
+	ResourceType  string                            `json:"resource_type"`
+	SourceType    string                            `json:"source_type"`
+	ID            string                            `json:"id"`
+	ARN           string                            `json:"arn"`
+	SourceID      string                            `json:"source_id"`
+}
+
+type Inspector2CoverageHit struct {
+	ID      string             `json:"_id"`
+	Score   float64            `json:"_score"`
+	Index   string             `json:"_index"`
+	Type    string             `json:"_type"`
+	Version int64              `json:"_version,omitempty"`
+	Source  Inspector2Coverage `json:"_source"`
+	Sort    []interface{}      `json:"sort"`
+}
+
+type Inspector2CoverageHits struct {
+	Total essdk.SearchTotal       `json:"total"`
+	Hits  []Inspector2CoverageHit `json:"hits"`
+}
+
+type Inspector2CoverageSearchResponse struct {
+	PitID string                 `json:"pit_id"`
+	Hits  Inspector2CoverageHits `json:"hits"`
+}
+
+type Inspector2CoveragePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewInspector2CoveragePaginator(filters []essdk.BoolFilter, limit *int64) (Inspector2CoveragePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_inspector2_coverage", filters, limit)
+	if err != nil {
+		return Inspector2CoveragePaginator{}, err
+	}
+
+	p := Inspector2CoveragePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p Inspector2CoveragePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p Inspector2CoveragePaginator) NextPage(ctx context.Context) ([]Inspector2Coverage, error) {
+	var response Inspector2CoverageSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Inspector2Coverage
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listInspector2CoverageFilters = map[string]string{
+	"account_id":                    "description.CoveredResource.AccountId",
+	"ec2_ami_id":                    "description.CoveredResource.ResourceMetadata.Ec2.AmiId",
+	"ec2_instance_tags":             "description.CoveredResource.ResourceMetadata.Ec2.Tags",
+	"ec2_platform":                  "description.CoveredResource.ResourceMetadata.Ec2.Platform",
+	"ecr_image_tag":                 "description.CoveredResource.ResourceMetadata.EcrImage.Tags",
+	"ecr_image_tags":                "description.CoveredResource.ResourceMetadata.EcrImage.Tags",
+	"ecr_repository_name":           "description.CoveredResource.ResourceMetadata.EcrRepository.Name",
+	"ecr_repository_scan_frequency": "description.CoveredResource.ResourceMetadata.EcrRepository.ScanFrequency",
+	"kaytu_account_id":              "metadata.SourceID",
+	"lambda_function_layers":        "description.CoveredResource.ResourceMetadata.LambdaFunction.Layers",
+	"lambda_function_name":          "description.CoveredResource.ResourceMetadata.LambdaFunction.FunctionName",
+	"lambda_function_runtime":       "description.CoveredResource.ResourceMetadata.LambdaFunction.Runtime",
+	"lambda_function_tags":          "description.CoveredResource.ResourceMetadata.LambdaFunction.FunctionTags",
+	"resource_id":                   "description.CoveredResource.ResourceId",
+	"resource_type":                 "description.CoveredResource.ResourceType",
+	"scan_status_code":              "description.CoveredResource.ScanStatus.StatusCode",
+	"scan_status_reason":            "description.CoveredResource.ScanStatus.Reason",
+	"scan_type":                     "description.CoveredResource.ScanType",
+	"source_account_id":             "description.CoveredResource.AccountId",
+	"title":                         "description.CoveredResource.ResourceId",
+}
+
+func ListInspector2Coverage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListInspector2Coverage")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewInspector2CoveragePaginator(essdk.BuildFilter(d.EqualsQuals, listInspector2CoverageFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getInspector2CoverageFilters = map[string]string{
+	"ec2_ami_id":                    "description.CoveredResource.ResourceMetadata.Ec2.AmiId",
+	"ec2_instance_tags":             "description.CoveredResource.ResourceMetadata.Ec2.Tags",
+	"ec2_platform":                  "description.CoveredResource.ResourceMetadata.Ec2.Platform",
+	"ecr_image_tag":                 "description.CoveredResource.ResourceMetadata.EcrImage.Tags",
+	"ecr_image_tags":                "description.CoveredResource.ResourceMetadata.EcrImage.Tags",
+	"ecr_repository_name":           "description.CoveredResource.ResourceMetadata.EcrRepository.Name",
+	"ecr_repository_scan_frequency": "description.CoveredResource.ResourceMetadata.EcrRepository.ScanFrequency",
+	"kaytu_account_id":              "metadata.SourceID",
+	"lambda_function_layers":        "description.CoveredResource.ResourceMetadata.LambdaFunction.Layers",
+	"lambda_function_name":          "description.CoveredResource.ResourceMetadata.LambdaFunction.FunctionName",
+	"lambda_function_runtime":       "description.CoveredResource.ResourceMetadata.LambdaFunction.Runtime",
+	"lambda_function_tags":          "description.CoveredResource.ResourceMetadata.LambdaFunction.FunctionTags",
+	"resource_id":                   "description.CoveredResource.ResourceId",
+	"resource_type":                 "description.CoveredResource.ResourceType",
+	"scan_status_code":              "description.CoveredResource.ScanStatus.StatusCode",
+	"scan_status_reason":            "description.CoveredResource.ScanStatus.Reason",
+	"scan_type":                     "description.CoveredResource.ScanType",
+	"source_account_id":             "description.CoveredResource.AccountId",
+	"title":                         "description.CoveredResource.ResourceId",
+}
+
+func GetInspector2Coverage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetInspector2Coverage")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewInspector2CoveragePaginator(essdk.BuildFilter(d.EqualsQuals, getInspector2CoverageFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: Inspector2Coverage =============================
+
+// ==========================  START: Inspector2CoverageStatistic =============================
+
+type Inspector2CoverageStatistic struct {
+	Description   aws.Inspector2CoverageStatisticDescription `json:"description"`
+	Metadata      aws.Metadata                               `json:"metadata"`
+	ResourceJobID int                                        `json:"resource_job_id"`
+	SourceJobID   int                                        `json:"source_job_id"`
+	ResourceType  string                                     `json:"resource_type"`
+	SourceType    string                                     `json:"source_type"`
+	ID            string                                     `json:"id"`
+	ARN           string                                     `json:"arn"`
+	SourceID      string                                     `json:"source_id"`
+}
+
+type Inspector2CoverageStatisticHit struct {
+	ID      string                      `json:"_id"`
+	Score   float64                     `json:"_score"`
+	Index   string                      `json:"_index"`
+	Type    string                      `json:"_type"`
+	Version int64                       `json:"_version,omitempty"`
+	Source  Inspector2CoverageStatistic `json:"_source"`
+	Sort    []interface{}               `json:"sort"`
+}
+
+type Inspector2CoverageStatisticHits struct {
+	Total essdk.SearchTotal                `json:"total"`
+	Hits  []Inspector2CoverageStatisticHit `json:"hits"`
+}
+
+type Inspector2CoverageStatisticSearchResponse struct {
+	PitID string                          `json:"pit_id"`
+	Hits  Inspector2CoverageStatisticHits `json:"hits"`
+}
+
+type Inspector2CoverageStatisticPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewInspector2CoverageStatisticPaginator(filters []essdk.BoolFilter, limit *int64) (Inspector2CoverageStatisticPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_inspector2_coveragestatistics", filters, limit)
+	if err != nil {
+		return Inspector2CoverageStatisticPaginator{}, err
+	}
+
+	p := Inspector2CoverageStatisticPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p Inspector2CoverageStatisticPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p Inspector2CoverageStatisticPaginator) NextPage(ctx context.Context) ([]Inspector2CoverageStatistic, error) {
+	var response Inspector2CoverageStatisticSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Inspector2CoverageStatistic
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listInspector2CoverageStatisticFilters = map[string]string{
+	"counts_by_group":  "description.Counts",
+	"kaytu_account_id": "metadata.SourceID",
+	"total_counts":     "description.TotalCounts",
+}
+
+func ListInspector2CoverageStatistic(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListInspector2CoverageStatistic")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewInspector2CoverageStatisticPaginator(essdk.BuildFilter(d.EqualsQuals, listInspector2CoverageStatisticFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getInspector2CoverageStatisticFilters = map[string]string{
+	"counts_by_group":  "description.Counts",
+	"kaytu_account_id": "metadata.SourceID",
+	"total_counts":     "description.TotalCounts",
+}
+
+func GetInspector2CoverageStatistic(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetInspector2CoverageStatistic")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewInspector2CoverageStatisticPaginator(essdk.BuildFilter(d.EqualsQuals, getInspector2CoverageStatisticFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: Inspector2CoverageStatistic =============================
+
+// ==========================  START: Inspector2Member =============================
+
+type Inspector2Member struct {
+	Description   aws.Inspector2MemberDescription `json:"description"`
+	Metadata      aws.Metadata                    `json:"metadata"`
+	ResourceJobID int                             `json:"resource_job_id"`
+	SourceJobID   int                             `json:"source_job_id"`
+	ResourceType  string                          `json:"resource_type"`
+	SourceType    string                          `json:"source_type"`
+	ID            string                          `json:"id"`
+	ARN           string                          `json:"arn"`
+	SourceID      string                          `json:"source_id"`
+}
+
+type Inspector2MemberHit struct {
+	ID      string           `json:"_id"`
+	Score   float64          `json:"_score"`
+	Index   string           `json:"_index"`
+	Type    string           `json:"_type"`
+	Version int64            `json:"_version,omitempty"`
+	Source  Inspector2Member `json:"_source"`
+	Sort    []interface{}    `json:"sort"`
+}
+
+type Inspector2MemberHits struct {
+	Total essdk.SearchTotal     `json:"total"`
+	Hits  []Inspector2MemberHit `json:"hits"`
+}
+
+type Inspector2MemberSearchResponse struct {
+	PitID string               `json:"pit_id"`
+	Hits  Inspector2MemberHits `json:"hits"`
+}
+
+type Inspector2MemberPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewInspector2MemberPaginator(filters []essdk.BoolFilter, limit *int64) (Inspector2MemberPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_inspector2_member", filters, limit)
+	if err != nil {
+		return Inspector2MemberPaginator{}, err
+	}
+
+	p := Inspector2MemberPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p Inspector2MemberPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p Inspector2MemberPaginator) NextPage(ctx context.Context) ([]Inspector2Member, error) {
+	var response Inspector2MemberSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Inspector2Member
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listInspector2MemberFilters = map[string]string{
+	"delegated_admin_account_id": "description.Member.DelegatedAdminAccountId",
+	"kaytu_account_id":           "metadata.SourceID",
+	"member_account_id":          "description.Member.AccountId",
+	"relationship_status":        "description.Member.RelationshipStatus",
+	"title":                      "description.Member.AccountId",
+	"updated_at":                 "description.Member.UpdatedAt",
+}
+
+func ListInspector2Member(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListInspector2Member")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewInspector2MemberPaginator(essdk.BuildFilter(d.EqualsQuals, listInspector2MemberFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getInspector2MemberFilters = map[string]string{
+	"delegated_admin_account_id": "description.Member.DelegatedAdminAccountId",
+	"kaytu_account_id":           "metadata.SourceID",
+	"member_account_id":          "description.Member.AccountId",
+	"relationship_status":        "description.Member.RelationshipStatus",
+	"title":                      "description.Member.AccountId",
+	"updated_at":                 "description.Member.UpdatedAt",
+}
+
+func GetInspector2Member(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetInspector2Member")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewInspector2MemberPaginator(essdk.BuildFilter(d.EqualsQuals, getInspector2MemberFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: Inspector2Member =============================
+
+// ==========================  START: Inspector2Finding =============================
+
+type Inspector2Finding struct {
+	Description   aws.Inspector2FindingDescription `json:"description"`
+	Metadata      aws.Metadata                     `json:"metadata"`
+	ResourceJobID int                              `json:"resource_job_id"`
+	SourceJobID   int                              `json:"source_job_id"`
+	ResourceType  string                           `json:"resource_type"`
+	SourceType    string                           `json:"source_type"`
+	ID            string                           `json:"id"`
+	ARN           string                           `json:"arn"`
+	SourceID      string                           `json:"source_id"`
+}
+
+type Inspector2FindingHit struct {
+	ID      string            `json:"_id"`
+	Score   float64           `json:"_score"`
+	Index   string            `json:"_index"`
+	Type    string            `json:"_type"`
+	Version int64             `json:"_version,omitempty"`
+	Source  Inspector2Finding `json:"_source"`
+	Sort    []interface{}     `json:"sort"`
+}
+
+type Inspector2FindingHits struct {
+	Total essdk.SearchTotal      `json:"total"`
+	Hits  []Inspector2FindingHit `json:"hits"`
+}
+
+type Inspector2FindingSearchResponse struct {
+	PitID string                `json:"pit_id"`
+	Hits  Inspector2FindingHits `json:"hits"`
+}
+
+type Inspector2FindingPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewInspector2FindingPaginator(filters []essdk.BoolFilter, limit *int64) (Inspector2FindingPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_inspector2_finding", filters, limit)
+	if err != nil {
+		return Inspector2FindingPaginator{}, err
+	}
+
+	p := Inspector2FindingPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p Inspector2FindingPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p Inspector2FindingPaginator) NextPage(ctx context.Context) ([]Inspector2Finding, error) {
+	var response Inspector2FindingSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Inspector2Finding
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listInspector2FindingFilters = map[string]string{
+	"akas":                               "description.Finding.FindingArn",
+	"arn":                                "description.Finding.FindingArn",
+	"cvss":                               "description.Finding.PackageVulnerabilityDetails.Cvss",
+	"description":                        "description.Finding.Description",
+	"ec2_instance_image_id":              "description.Resource.Details.AwsEc2Instance.ImageId",
+	"ec2_instance_subnet_id":             "description.Resource.Details.AwsEc2Instance.SubnetId",
+	"ec2_instance_vpc_id":                "description.Resource.Details.AwsEc2Instance.VpcId",
+	"ecr_image_architecture":             "description.Resource.Details.AwsEcrContainerImage.Architecture",
+	"ecr_image_hash":                     "description.Resource.Details.AwsEcrContainerImage.ImageHash",
+	"ecr_image_pushed_at":                "description.Resource.Details.AwsEcrContainerImage.PushedAt",
+	"ecr_image_registry":                 "description.Resource.Details.AwsEcrContainerImage.Registry",
+	"ecr_image_repository_name":          "description.Resource.Details.AwsEcrContainerImage.RepositoryName",
+	"ecr_image_tags":                     "description.Resource.Details.AwsEcrContainerImage.ImageTags",
+	"exploit_available":                  "description.Finding.ExploitAvailable",
+	"exploitability_details":             "description.Finding.ExploitabilityDetails",
+	"finding_account_id":                 "description.Finding.AwsAccountId",
+	"first_observed_at":                  "description.Finding.FirstObservedAt",
+	"fix_available":                      "description.Finding.FixAvailable",
+	"inspector_score":                    "description.Finding.InspectorScore",
+	"inspector_score_details":            "description.Finding.InspectorScoreDetails",
+	"kaytu_account_id":                   "metadata.SourceID",
+	"lambda_function_execution_role_arn": "description.Resource.Details.AwsLambdaFunction.ExecutionRoleArn",
+	"lambda_function_last_modified_at":   "description.Resource.Details.AwsLambdaFunction.LastModifiedAt",
+	"lambda_function_layers":             "description.Resource.Details.AwsLambdaFunction.Layers",
+	"lambda_function_name":               "description.Resource.Details.AwsLambdaFunction.FunctionName",
+	"lambda_function_runtime":            "description.Resource.Details.AwsLambdaFunction.Runtime",
+	"last_observed_at":                   "description.Finding.LastObservedAt",
+	"network_protocol":                   "description.Finding.NetworkReachabilityDetails.Protocol",
+	"network_reachability_details":       "description.Finding.NetworkReachabilityDetails",
+	"package_vulnerability_details":      "description.Finding.PackageVulnerabilityDetails",
+	"reference_urls":                     "description.Finding.PackageVulnerabilityDetails.ReferenceUrls",
+	"related_vulnerabilitie":             "description.Finding.PackageVulnerabilityDetails.VulnerabilityId",
+	"related_vulnerabilities":            "description.Finding.PackageVulnerabilityDetails.RelatedVulnerabilities",
+	"remediation_recommendation_text":    "description.Finding.Remediation.Recommendation.Text",
+	"remediation_recommendation_url":     "description.Finding.Remediation.Recommendation.Url",
+	"resource_id":                        "description.Resource.Id",
+	"resource_tags":                      "description.Resource.Tags",
+	"resource_type":                      "description.Resource.Type",
+	"resources":                          "description.Resource",
+	"severity":                           "description.Finding.Severity",
+	"source":                             "description.Finding.PackageVulnerabilityDetails.Source",
+	"source_url":                         "description.Finding.PackageVulnerabilityDetails.SourceUrl",
+	"status":                             "description.Finding.Status",
+	"title":                              "description.Finding.Title",
+	"type":                               "description.Finding.Type",
+	"updated_at":                         "description.Finding.UpdatedAt",
+	"vendor_created_at":                  "description.Finding.PackageVulnerabilityDetails.VendorCreatedAt",
+	"vendor_severity":                    "description.Finding.PackageVulnerabilityDetails.VendorSeverity",
+	"vendor_updated_at":                  "description.Finding.PackageVulnerabilityDetails.vendorUpdatedAt",
+	"vulnerability_id":                   "description.Finding.PackageVulnerabilityDetails.VulnerabilityId",
+	"vulnerable_package":                 "description.Finding.PackageVulnerabilityDetails.VulnerablePackages",
+	"vulnerable_packages":                "description.Finding.PackageVulnerabilityDetails.VulnerablePackages",
+}
+
+func ListInspector2Finding(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListInspector2Finding")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewInspector2FindingPaginator(essdk.BuildFilter(d.EqualsQuals, listInspector2FindingFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getInspector2FindingFilters = map[string]string{
+	"akas":                               "description.Finding.FindingArn",
+	"arn":                                "description.Finding.FindingArn",
+	"cvss":                               "description.Finding.PackageVulnerabilityDetails.Cvss",
+	"description":                        "description.Finding.Description",
+	"ec2_instance_image_id":              "description.Resource.Details.AwsEc2Instance.ImageId",
+	"ec2_instance_subnet_id":             "description.Resource.Details.AwsEc2Instance.SubnetId",
+	"ec2_instance_vpc_id":                "description.Resource.Details.AwsEc2Instance.VpcId",
+	"ecr_image_architecture":             "description.Resource.Details.AwsEcrContainerImage.Architecture",
+	"ecr_image_hash":                     "description.Resource.Details.AwsEcrContainerImage.ImageHash",
+	"ecr_image_pushed_at":                "description.Resource.Details.AwsEcrContainerImage.PushedAt",
+	"ecr_image_registry":                 "description.Resource.Details.AwsEcrContainerImage.Registry",
+	"ecr_image_repository_name":          "description.Resource.Details.AwsEcrContainerImage.RepositoryName",
+	"ecr_image_tags":                     "description.Resource.Details.AwsEcrContainerImage.ImageTags",
+	"exploit_available":                  "description.Finding.ExploitAvailable",
+	"exploitability_details":             "description.Finding.ExploitabilityDetails",
+	"finding_account_id":                 "description.Finding.AwsAccountId",
+	"first_observed_at":                  "description.Finding.FirstObservedAt",
+	"fix_available":                      "description.Finding.FixAvailable",
+	"inspector_score":                    "description.Finding.InspectorScore",
+	"inspector_score_details":            "description.Finding.InspectorScoreDetails",
+	"kaytu_account_id":                   "metadata.SourceID",
+	"lambda_function_execution_role_arn": "description.Resource.Details.AwsLambdaFunction.ExecutionRoleArn",
+	"lambda_function_last_modified_at":   "description.Resource.Details.AwsLambdaFunction.LastModifiedAt",
+	"lambda_function_layers":             "description.Resource.Details.AwsLambdaFunction.Layers",
+	"lambda_function_name":               "description.Resource.Details.AwsLambdaFunction.FunctionName",
+	"lambda_function_runtime":            "description.Resource.Details.AwsLambdaFunction.Runtime",
+	"last_observed_at":                   "description.Finding.LastObservedAt",
+	"network_protocol":                   "description.Finding.NetworkReachabilityDetails.Protocol",
+	"network_reachability_details":       "description.Finding.NetworkReachabilityDetails",
+	"package_vulnerability_details":      "description.Finding.PackageVulnerabilityDetails",
+	"reference_urls":                     "description.Finding.PackageVulnerabilityDetails.ReferenceUrls",
+	"related_vulnerabilitie":             "description.Finding.PackageVulnerabilityDetails.VulnerabilityId",
+	"related_vulnerabilities":            "description.Finding.PackageVulnerabilityDetails.RelatedVulnerabilities",
+	"remediation_recommendation_text":    "description.Finding.Remediation.Recommendation.Text",
+	"remediation_recommendation_url":     "description.Finding.Remediation.Recommendation.Url",
+	"resource_id":                        "description.Resource.Id",
+	"resource_tags":                      "description.Resource.Tags",
+	"resource_type":                      "description.Resource.Type",
+	"resources":                          "description.Resource",
+	"severity":                           "description.Finding.Severity",
+	"source":                             "description.Finding.PackageVulnerabilityDetails.Source",
+	"source_url":                         "description.Finding.PackageVulnerabilityDetails.SourceUrl",
+	"status":                             "description.Finding.Status",
+	"title":                              "description.Finding.Title",
+	"type":                               "description.Finding.Type",
+	"updated_at":                         "description.Finding.UpdatedAt",
+	"vendor_created_at":                  "description.Finding.PackageVulnerabilityDetails.VendorCreatedAt",
+	"vendor_severity":                    "description.Finding.PackageVulnerabilityDetails.VendorSeverity",
+	"vendor_updated_at":                  "description.Finding.PackageVulnerabilityDetails.vendorUpdatedAt",
+	"vulnerability_id":                   "description.Finding.PackageVulnerabilityDetails.VulnerabilityId",
+	"vulnerable_package":                 "description.Finding.PackageVulnerabilityDetails.VulnerablePackages",
+	"vulnerable_packages":                "description.Finding.PackageVulnerabilityDetails.VulnerablePackages",
+}
+
+func GetInspector2Finding(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetInspector2Finding")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewInspector2FindingPaginator(essdk.BuildFilter(d.EqualsQuals, getInspector2FindingFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: Inspector2Finding =============================
 
 // ==========================  START: FirehoseDeliveryStream =============================
 
@@ -61660,3 +71045,879 @@ func GetServiceQuotasServiceQuotaChangeRequest(ctx context.Context, d *plugin.Qu
 }
 
 // ==========================  END: ServiceQuotasServiceQuotaChangeRequest =============================
+
+// ==========================  START: ServiceCatalogProduct =============================
+
+type ServiceCatalogProduct struct {
+	Description   aws.ServiceCatalogProductDescription `json:"description"`
+	Metadata      aws.Metadata                         `json:"metadata"`
+	ResourceJobID int                                  `json:"resource_job_id"`
+	SourceJobID   int                                  `json:"source_job_id"`
+	ResourceType  string                               `json:"resource_type"`
+	SourceType    string                               `json:"source_type"`
+	ID            string                               `json:"id"`
+	ARN           string                               `json:"arn"`
+	SourceID      string                               `json:"source_id"`
+}
+
+type ServiceCatalogProductHit struct {
+	ID      string                `json:"_id"`
+	Score   float64               `json:"_score"`
+	Index   string                `json:"_index"`
+	Type    string                `json:"_type"`
+	Version int64                 `json:"_version,omitempty"`
+	Source  ServiceCatalogProduct `json:"_source"`
+	Sort    []interface{}         `json:"sort"`
+}
+
+type ServiceCatalogProductHits struct {
+	Total essdk.SearchTotal          `json:"total"`
+	Hits  []ServiceCatalogProductHit `json:"hits"`
+}
+
+type ServiceCatalogProductSearchResponse struct {
+	PitID string                    `json:"pit_id"`
+	Hits  ServiceCatalogProductHits `json:"hits"`
+}
+
+type ServiceCatalogProductPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewServiceCatalogProductPaginator(filters []essdk.BoolFilter, limit *int64) (ServiceCatalogProductPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_servicecatalog_product", filters, limit)
+	if err != nil {
+		return ServiceCatalogProductPaginator{}, err
+	}
+
+	p := ServiceCatalogProductPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p ServiceCatalogProductPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p ServiceCatalogProductPaginator) NextPage(ctx context.Context) ([]ServiceCatalogProduct, error) {
+	var response ServiceCatalogProductSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []ServiceCatalogProduct
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listServiceCatalogProductFilters = map[string]string{
+	"akas":                   "aRN",
+	"budgets":                "description.Budgets",
+	"distributor":            "description.ProductViewSummary.Distributor",
+	"has_default_path":       "description.ProductViewSummary.HasDefaultPath",
+	"id":                     "description.ProductViewSummary.Id",
+	"kaytu_account_id":       "metadata.SourceID",
+	"launch_paths":           "description.LunchPaths",
+	"name":                   "description.ProductViewSummary.Name",
+	"owner":                  "description.ProductViewSummary.Owner",
+	"product_id":             "description.ProductViewSummary.ProductId",
+	"provisioning_artifacts": "description.ProvisioningArtifacts",
+	"short_description":      "description.ProductViewSummary.ShortDescription",
+	"support_description":    "description.ProductViewSummary.SupportDescription",
+	"support_email":          "description.ProductViewSummary.SupportEmail",
+	"support_url":            "description.ProductViewSummary.SupportUrl",
+	"title":                  "description.ProductViewSummary.Name",
+	"type":                   "description.ProductViewSummary.Type",
+}
+
+func ListServiceCatalogProduct(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListServiceCatalogProduct")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewServiceCatalogProductPaginator(essdk.BuildFilter(d.EqualsQuals, listServiceCatalogProductFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getServiceCatalogProductFilters = map[string]string{
+	"akas":                   "aRN",
+	"budgets":                "description.Budgets",
+	"distributor":            "description.ProductViewSummary.Distributor",
+	"has_default_path":       "description.ProductViewSummary.HasDefaultPath",
+	"id":                     "description.ProductViewSummary.Id",
+	"kaytu_account_id":       "metadata.SourceID",
+	"launch_paths":           "description.LunchPaths",
+	"name":                   "description.ProductViewSummary.Name",
+	"owner":                  "description.ProductViewSummary.Owner",
+	"product_id":             "description.ProductViewSummary.ProductId",
+	"provisioning_artifacts": "description.ProvisioningArtifacts",
+	"short_description":      "description.ProductViewSummary.ShortDescription",
+	"support_description":    "description.ProductViewSummary.SupportDescription",
+	"support_email":          "description.ProductViewSummary.SupportEmail",
+	"support_url":            "description.ProductViewSummary.SupportUrl",
+	"title":                  "description.ProductViewSummary.Name",
+	"type":                   "description.ProductViewSummary.Type",
+}
+
+func GetServiceCatalogProduct(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetServiceCatalogProduct")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewServiceCatalogProductPaginator(essdk.BuildFilter(d.EqualsQuals, getServiceCatalogProductFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: ServiceCatalogProduct =============================
+
+// ==========================  START: ServiceCatalogPortfolio =============================
+
+type ServiceCatalogPortfolio struct {
+	Description   aws.ServiceCatalogPortfolioDescription `json:"description"`
+	Metadata      aws.Metadata                           `json:"metadata"`
+	ResourceJobID int                                    `json:"resource_job_id"`
+	SourceJobID   int                                    `json:"source_job_id"`
+	ResourceType  string                                 `json:"resource_type"`
+	SourceType    string                                 `json:"source_type"`
+	ID            string                                 `json:"id"`
+	ARN           string                                 `json:"arn"`
+	SourceID      string                                 `json:"source_id"`
+}
+
+type ServiceCatalogPortfolioHit struct {
+	ID      string                  `json:"_id"`
+	Score   float64                 `json:"_score"`
+	Index   string                  `json:"_index"`
+	Type    string                  `json:"_type"`
+	Version int64                   `json:"_version,omitempty"`
+	Source  ServiceCatalogPortfolio `json:"_source"`
+	Sort    []interface{}           `json:"sort"`
+}
+
+type ServiceCatalogPortfolioHits struct {
+	Total essdk.SearchTotal            `json:"total"`
+	Hits  []ServiceCatalogPortfolioHit `json:"hits"`
+}
+
+type ServiceCatalogPortfolioSearchResponse struct {
+	PitID string                      `json:"pit_id"`
+	Hits  ServiceCatalogPortfolioHits `json:"hits"`
+}
+
+type ServiceCatalogPortfolioPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewServiceCatalogPortfolioPaginator(filters []essdk.BoolFilter, limit *int64) (ServiceCatalogPortfolioPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_servicecatalog_portfolio", filters, limit)
+	if err != nil {
+		return ServiceCatalogPortfolioPaginator{}, err
+	}
+
+	p := ServiceCatalogPortfolioPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p ServiceCatalogPortfolioPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p ServiceCatalogPortfolioPaginator) NextPage(ctx context.Context) ([]ServiceCatalogPortfolio, error) {
+	var response ServiceCatalogPortfolioSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []ServiceCatalogPortfolio
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listServiceCatalogPortfolioFilters = map[string]string{
+	"akas":             "description.Portfolio.ARN",
+	"arn":              "description.Portfolio.ARN",
+	"budgets":          "description.Budgets",
+	"created_time":     "description.Portfolio.CreatedTime",
+	"description":      "description.Portfolio.Description",
+	"display_name":     "description.Portfolio.DisplayName",
+	"id":               "description.Portfolio.Id",
+	"kaytu_account_id": "metadata.SourceID",
+	"provider_name":    "description.Portfolio.ProviderName",
+	"tag_options":      "description.TagOptions",
+	"tags":             "description.Tag",
+	"tags_src":         "description.Tag",
+	"title":            "description.Portfolio.DisplayName",
+}
+
+func ListServiceCatalogPortfolio(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListServiceCatalogPortfolio")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewServiceCatalogPortfolioPaginator(essdk.BuildFilter(d.EqualsQuals, listServiceCatalogPortfolioFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getServiceCatalogPortfolioFilters = map[string]string{
+	"akas":             "description.Portfolio.ARN",
+	"arn":              "description.Portfolio.ARN",
+	"budgets":          "description.Budgets",
+	"created_time":     "description.Portfolio.CreatedTime",
+	"description":      "description.Portfolio.Description",
+	"display_name":     "description.Portfolio.DisplayName",
+	"id":               "description.Portfolio.Id",
+	"kaytu_account_id": "metadata.SourceID",
+	"provider_name":    "description.Portfolio.ProviderName",
+	"tag_options":      "description.TagOptions",
+	"tags":             "description.Tag",
+	"tags_src":         "description.Tag",
+	"title":            "description.Portfolio.DisplayName",
+}
+
+func GetServiceCatalogPortfolio(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetServiceCatalogPortfolio")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewServiceCatalogPortfolioPaginator(essdk.BuildFilter(d.EqualsQuals, getServiceCatalogPortfolioFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: ServiceCatalogPortfolio =============================
+
+// ==========================  START: ServiceDiscoveryService =============================
+
+type ServiceDiscoveryService struct {
+	Description   aws.ServiceDiscoveryServiceDescription `json:"description"`
+	Metadata      aws.Metadata                           `json:"metadata"`
+	ResourceJobID int                                    `json:"resource_job_id"`
+	SourceJobID   int                                    `json:"source_job_id"`
+	ResourceType  string                                 `json:"resource_type"`
+	SourceType    string                                 `json:"source_type"`
+	ID            string                                 `json:"id"`
+	ARN           string                                 `json:"arn"`
+	SourceID      string                                 `json:"source_id"`
+}
+
+type ServiceDiscoveryServiceHit struct {
+	ID      string                  `json:"_id"`
+	Score   float64                 `json:"_score"`
+	Index   string                  `json:"_index"`
+	Type    string                  `json:"_type"`
+	Version int64                   `json:"_version,omitempty"`
+	Source  ServiceDiscoveryService `json:"_source"`
+	Sort    []interface{}           `json:"sort"`
+}
+
+type ServiceDiscoveryServiceHits struct {
+	Total essdk.SearchTotal            `json:"total"`
+	Hits  []ServiceDiscoveryServiceHit `json:"hits"`
+}
+
+type ServiceDiscoveryServiceSearchResponse struct {
+	PitID string                      `json:"pit_id"`
+	Hits  ServiceDiscoveryServiceHits `json:"hits"`
+}
+
+type ServiceDiscoveryServicePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewServiceDiscoveryServicePaginator(filters []essdk.BoolFilter, limit *int64) (ServiceDiscoveryServicePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_servicediscovery_service", filters, limit)
+	if err != nil {
+		return ServiceDiscoveryServicePaginator{}, err
+	}
+
+	p := ServiceDiscoveryServicePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p ServiceDiscoveryServicePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p ServiceDiscoveryServicePaginator) NextPage(ctx context.Context) ([]ServiceDiscoveryService, error) {
+	var response ServiceDiscoveryServiceSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []ServiceDiscoveryService
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listServiceDiscoveryServiceFilters = map[string]string{
+	"akas":                       "description.Service.Arn",
+	"arn":                        "description.Service.Arn",
+	"create_date":                "description.Service.CreateDate",
+	"description":                "description.Service.Description",
+	"dns_records":                "description.Service.DnsConfig.DnsRecords",
+	"health_check_config":        "description.Service.HealthCheckConfig",
+	"health_check_custom_config": "description.Service.HealthCheckCustomConfig",
+	"id":                         "description.Service.Id",
+	"instance_count":             "description.Service.DnsConfig.InstanceCount",
+	"kaytu_account_id":           "metadata.SourceID",
+	"name":                       "description.Service.Name",
+	"namespace_id":               "description.Service.DnsConfig.NamespaceId",
+	"routing_policy":             "description.Service.DnsConfig.RoutingPolicy",
+	"tags":                       "description.Tags",
+	"tags_src":                   "description.Tags",
+	"title":                      "description.Service.Name",
+	"type":                       "description.Service.Type",
+}
+
+func ListServiceDiscoveryService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListServiceDiscoveryService")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewServiceDiscoveryServicePaginator(essdk.BuildFilter(d.EqualsQuals, listServiceDiscoveryServiceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getServiceDiscoveryServiceFilters = map[string]string{
+	"akas":                       "description.Service.Arn",
+	"arn":                        "description.Service.Arn",
+	"create_date":                "description.Service.CreateDate",
+	"description":                "description.Service.Description",
+	"dns_records":                "description.Service.DnsConfig.DnsRecords",
+	"health_check_config":        "description.Service.HealthCheckConfig",
+	"health_check_custom_config": "description.Service.HealthCheckCustomConfig",
+	"id":                         "description.Service.Id",
+	"instance_count":             "description.Service.DnsConfig.InstanceCount",
+	"kaytu_account_id":           "metadata.SourceID",
+	"name":                       "description.Service.Name",
+	"namespace_id":               "description.Service.DnsConfig.NamespaceId",
+	"routing_policy":             "description.Service.DnsConfig.RoutingPolicy",
+	"tags":                       "description.Tags",
+	"tags_src":                   "description.Tags",
+	"title":                      "description.Service.Name",
+	"type":                       "description.Service.Type",
+}
+
+func GetServiceDiscoveryService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetServiceDiscoveryService")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewServiceDiscoveryServicePaginator(essdk.BuildFilter(d.EqualsQuals, getServiceDiscoveryServiceFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: ServiceDiscoveryService =============================
+
+// ==========================  START: ServiceDiscoveryNamespace =============================
+
+type ServiceDiscoveryNamespace struct {
+	Description   aws.ServiceDiscoveryNamespaceDescription `json:"description"`
+	Metadata      aws.Metadata                             `json:"metadata"`
+	ResourceJobID int                                      `json:"resource_job_id"`
+	SourceJobID   int                                      `json:"source_job_id"`
+	ResourceType  string                                   `json:"resource_type"`
+	SourceType    string                                   `json:"source_type"`
+	ID            string                                   `json:"id"`
+	ARN           string                                   `json:"arn"`
+	SourceID      string                                   `json:"source_id"`
+}
+
+type ServiceDiscoveryNamespaceHit struct {
+	ID      string                    `json:"_id"`
+	Score   float64                   `json:"_score"`
+	Index   string                    `json:"_index"`
+	Type    string                    `json:"_type"`
+	Version int64                     `json:"_version,omitempty"`
+	Source  ServiceDiscoveryNamespace `json:"_source"`
+	Sort    []interface{}             `json:"sort"`
+}
+
+type ServiceDiscoveryNamespaceHits struct {
+	Total essdk.SearchTotal              `json:"total"`
+	Hits  []ServiceDiscoveryNamespaceHit `json:"hits"`
+}
+
+type ServiceDiscoveryNamespaceSearchResponse struct {
+	PitID string                        `json:"pit_id"`
+	Hits  ServiceDiscoveryNamespaceHits `json:"hits"`
+}
+
+type ServiceDiscoveryNamespacePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewServiceDiscoveryNamespacePaginator(filters []essdk.BoolFilter, limit *int64) (ServiceDiscoveryNamespacePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_servicediscovery_namespace", filters, limit)
+	if err != nil {
+		return ServiceDiscoveryNamespacePaginator{}, err
+	}
+
+	p := ServiceDiscoveryNamespacePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p ServiceDiscoveryNamespacePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p ServiceDiscoveryNamespacePaginator) NextPage(ctx context.Context) ([]ServiceDiscoveryNamespace, error) {
+	var response ServiceDiscoveryNamespaceSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []ServiceDiscoveryNamespace
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listServiceDiscoveryNamespaceFilters = map[string]string{
+	"akas":             "description.Namespace.Arn",
+	"arn":              "description.Namespace.Arn",
+	"create_date":      "description.Namespace.CreateDate",
+	"description":      "description.Namespace.Description",
+	"dns_properties":   "description.Namespace.Properties.DnsProperties",
+	"http_properties":  "description.Namespace.Properties.HttpProperties",
+	"id":               "description.Namespace.Id",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.Namespace.Name",
+	"service_count":    "description.Namespace.ServiceCount",
+	"tags":             "description.Tags",
+	"tags_src":         "description.Tags",
+	"title":            "description.Namespace.Name",
+	"type":             "description.Namespace.Type",
+}
+
+func ListServiceDiscoveryNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListServiceDiscoveryNamespace")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewServiceDiscoveryNamespacePaginator(essdk.BuildFilter(d.EqualsQuals, listServiceDiscoveryNamespaceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getServiceDiscoveryNamespaceFilters = map[string]string{
+	"akas":             "description.Namespace.Arn",
+	"arn":              "description.Namespace.Arn",
+	"create_date":      "description.Namespace.CreateDate",
+	"description":      "description.Namespace.Description",
+	"dns_properties":   "description.Namespace.Properties.DnsProperties",
+	"http_properties":  "description.Namespace.Properties.HttpProperties",
+	"id":               "description.Namespace.Id",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.Namespace.Name",
+	"service_count":    "description.Namespace.ServiceCount",
+	"tags":             "description.Tags",
+	"tags_src":         "description.Tags",
+	"title":            "description.Namespace.Name",
+	"type":             "description.Namespace.Type",
+}
+
+func GetServiceDiscoveryNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetServiceDiscoveryNamespace")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewServiceDiscoveryNamespacePaginator(essdk.BuildFilter(d.EqualsQuals, getServiceDiscoveryNamespaceFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: ServiceDiscoveryNamespace =============================
+
+// ==========================  START: ServiceDiscoveryInstance =============================
+
+type ServiceDiscoveryInstance struct {
+	Description   aws.ServiceDiscoveryInstanceDescription `json:"description"`
+	Metadata      aws.Metadata                            `json:"metadata"`
+	ResourceJobID int                                     `json:"resource_job_id"`
+	SourceJobID   int                                     `json:"source_job_id"`
+	ResourceType  string                                  `json:"resource_type"`
+	SourceType    string                                  `json:"source_type"`
+	ID            string                                  `json:"id"`
+	ARN           string                                  `json:"arn"`
+	SourceID      string                                  `json:"source_id"`
+}
+
+type ServiceDiscoveryInstanceHit struct {
+	ID      string                   `json:"_id"`
+	Score   float64                  `json:"_score"`
+	Index   string                   `json:"_index"`
+	Type    string                   `json:"_type"`
+	Version int64                    `json:"_version,omitempty"`
+	Source  ServiceDiscoveryInstance `json:"_source"`
+	Sort    []interface{}            `json:"sort"`
+}
+
+type ServiceDiscoveryInstanceHits struct {
+	Total essdk.SearchTotal             `json:"total"`
+	Hits  []ServiceDiscoveryInstanceHit `json:"hits"`
+}
+
+type ServiceDiscoveryInstanceSearchResponse struct {
+	PitID string                       `json:"pit_id"`
+	Hits  ServiceDiscoveryInstanceHits `json:"hits"`
+}
+
+type ServiceDiscoveryInstancePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewServiceDiscoveryInstancePaginator(filters []essdk.BoolFilter, limit *int64) (ServiceDiscoveryInstancePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_servicediscovery_instance", filters, limit)
+	if err != nil {
+		return ServiceDiscoveryInstancePaginator{}, err
+	}
+
+	p := ServiceDiscoveryInstancePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p ServiceDiscoveryInstancePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p ServiceDiscoveryInstancePaginator) NextPage(ctx context.Context) ([]ServiceDiscoveryInstance, error) {
+	var response ServiceDiscoveryInstanceSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []ServiceDiscoveryInstance
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listServiceDiscoveryInstanceFilters = map[string]string{
+	"alias_dns_name":     "description.Instance.Attributes.AWS_ALIAS_DNS_NAME",
+	"attributes":         "description.Instance.Attributes",
+	"ec2_instance_id":    "description.Instance.Attributes.AWS_EC2_INSTANCE_ID",
+	"id":                 "description.Instance.Id",
+	"init_health_status": "description.Instance.Attributes.AWS_INIT_HEALTH_STATUS",
+	"instance_cname":     "description.Instance.Attributes.AWS_INSTANCE_CNAME",
+	"instance_ipv4":      "description.Instance.Attributes.AWS_INSTANCE_IPV4",
+	"instance_ipv6":      "description.Instance.Attributes.AWS_INSTANCE_IPV6",
+	"instance_port":      "description.Instance.Attributes.AWS_INSTANCE_PORT",
+	"kaytu_account_id":   "metadata.SourceID",
+	"service_id":         "description.ServiceId",
+	"title":              "description.Instance.Id",
+}
+
+func ListServiceDiscoveryInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListServiceDiscoveryInstance")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewServiceDiscoveryInstancePaginator(essdk.BuildFilter(d.EqualsQuals, listServiceDiscoveryInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getServiceDiscoveryInstanceFilters = map[string]string{
+	"alias_dns_name":     "description.Instance.Attributes.AWS_ALIAS_DNS_NAME",
+	"attributes":         "description.Instance.Attributes",
+	"ec2_instance_id":    "description.Instance.Attributes.AWS_EC2_INSTANCE_ID",
+	"id":                 "description.Instance.Id",
+	"init_health_status": "description.Instance.Attributes.AWS_INIT_HEALTH_STATUS",
+	"instance_cname":     "description.Instance.Attributes.AWS_INSTANCE_CNAME",
+	"instance_ipv4":      "description.Instance.Attributes.AWS_INSTANCE_IPV4",
+	"instance_ipv6":      "description.Instance.Attributes.AWS_INSTANCE_IPV6",
+	"instance_port":      "description.Instance.Attributes.AWS_INSTANCE_PORT",
+	"kaytu_account_id":   "metadata.SourceID",
+	"service_id":         "description.ServiceId",
+	"title":              "description.Instance.Id",
+}
+
+func GetServiceDiscoveryInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetServiceDiscoveryInstance")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewServiceDiscoveryInstancePaginator(essdk.BuildFilter(d.EqualsQuals, getServiceDiscoveryInstanceFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: ServiceDiscoveryInstance =============================

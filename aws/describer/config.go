@@ -185,3 +185,35 @@ func ConfigRule(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 
 	return values, nil
 }
+
+func ConfigRetentionConfiguration(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := configservice.NewFromConfig(cfg)
+	paginator := configservice.NewDescribeRetentionConfigurationsPaginator(client, &configservice.DescribeRetentionConfigurationsInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, item := range page.RetentionConfigurations {
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				Name:   *item.Name,
+				Description: model.ConfigRetentionConfigurationDescription{
+					RetentionConfiguration: item,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}

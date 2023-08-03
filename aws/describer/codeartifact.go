@@ -2,10 +2,10 @@ package describer
 
 import (
 	"context"
-	"github.com/aws/aws-sdk-go-v2/service/codeartifact/types"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/codeartifact"
+	"github.com/aws/aws-sdk-go-v2/service/codeartifact/types"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 )
 
@@ -78,6 +78,30 @@ func codeArtifactRepositoryHandle(ctx context.Context, cfg aws.Config, v types.R
 		return Resource{}, err
 	}
 
+	resultData := []string{}
+
+	for _, item := range description.Repository.ExternalConnections {
+
+		// Build the params
+		params := &codeartifact.GetRepositoryEndpointInput{
+			Repository:  description.Repository.Name,
+			Domain:      description.Repository.DomainName,
+			DomainOwner: description.Repository.DomainOwner,
+			Format:      item.PackageFormat,
+		}
+
+		if err != nil {
+			return Resource{}, err
+		}
+
+		data, err := client.GetRepositoryEndpoint(ctx, params)
+
+		if err != nil {
+			return Resource{}, err
+		}
+		resultData = append(resultData, *data.RepositoryEndpoint)
+	}
+
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *v.Arn,
@@ -86,6 +110,7 @@ func codeArtifactRepositoryHandle(ctx context.Context, cfg aws.Config, v types.R
 			Repository:  v,
 			Policy:      *policy.Policy,
 			Description: *description.Repository,
+			Endpoints:   resultData,
 			Tags:        tags.Tags,
 		},
 	}

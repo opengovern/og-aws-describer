@@ -896,3 +896,63 @@ func GetRDSReservedDBInstance(ctx context.Context, cfg aws.Config, fields map[st
 	}
 	return values, nil
 }
+
+func RDSDBInstanceAutomatedBackup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := rds.NewFromConfig(cfg)
+	paginator := rds.NewDescribeDBInstanceAutomatedBackupsPaginator(client, &rds.DescribeDBInstanceAutomatedBackupsInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page.DBInstanceAutomatedBackups {
+			resource := rDSDBInstanceAutomatedBackupHandle(ctx, v)
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+func rDSDBInstanceAutomatedBackupHandle(ctx context.Context, v types.DBInstanceAutomatedBackup) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.DBInstanceArn,
+		ID:     *v.DBInstanceIdentifier,
+		Description: model.RDSDBInstanceAutomatedBackupDescription{
+			InstanceAutomatedBackup: v,
+		},
+	}
+	return resource
+}
+func GetRDSDBInstanceAutomatedBackup(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	arn := fields["arn"]
+	client := rds.NewFromConfig(cfg)
+
+	out, err := client.DescribeDBInstanceAutomatedBackups(ctx, &rds.DescribeDBInstanceAutomatedBackupsInput{
+		DBInstanceAutomatedBackupsArn: &arn,
+	})
+	if err != nil {
+		if isErr(err, "DescribeDBClustersNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	for _, v := range out.DBInstanceAutomatedBackups {
+		resource := rDSDBInstanceAutomatedBackupHandle(ctx, v)
+		values = append(values, resource)
+	}
+
+	return values, nil
+}

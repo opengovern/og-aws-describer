@@ -751,3 +751,126 @@ func GetApiGatewayV2Integration(ctx context.Context, cfg aws.Config, fields map[
 	values = append(values, apiGatewayV2IntegrationHandle(ctx, integration, *api.ApiId))
 	return values, nil
 }
+
+func ApiGatewayDomainName(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := apigateway.NewFromConfig(cfg)
+	var values []Resource
+	pager := apigateway.NewGetDomainNamesPaginator(client, &apigateway.GetDomainNamesInput{})
+	for pager.HasMorePages() {
+		output, err := pager.NextPage(ctx)
+		if err != nil {
+			if isErr(err, "NotFoundException") {
+				return nil, nil
+			}
+			return nil, err
+		}
+
+		for _, domainName := range output.Items {
+			resource := apiGatewayDomainNameHandle(ctx, domainName)
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}
+func apiGatewayDomainNameHandle(ctx context.Context, domainName types.DomainName) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	arn := fmt.Sprintf("arn:%s:apigateway:%s::/domainname/%s", describeCtx.Partition, describeCtx.Region, *domainName.DomainName)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		Name:   *domainName.DomainName,
+		Description: model.ApiGatewayDomainNameDescription{
+			DomainName: domainName,
+		},
+	}
+	return resource
+}
+func GetApiGatewayDomainName(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	domainName := fields["domain_name"]
+
+	client := apigateway.NewFromConfig(cfg)
+	out, err := client.GetDomainName(ctx, &apigateway.GetDomainNameInput{
+		DomainName: &domainName,
+	})
+	if err != nil {
+		if isErr(err, "NotFoundException") {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	var values []Resource
+	values = append(values, apiGatewayDomainNameHandle(ctx, types.DomainName{
+		DomainName:                          out.DomainName,
+		CertificateName:                     out.CertificateName,
+		CertificateArn:                      out.CertificateArn,
+		CertificateUploadDate:               out.CertificateUploadDate,
+		DistributionDomainName:              out.DistributionDomainName,
+		DistributionHostedZoneId:            out.DistributionHostedZoneId,
+		DomainNameStatus:                    out.DomainNameStatus,
+		DomainNameStatusMessage:             out.DomainNameStatusMessage,
+		OwnershipVerificationCertificateArn: out.OwnershipVerificationCertificateArn,
+		RegionalCertificateName:             out.RegionalCertificateName,
+		RegionalCertificateArn:              out.RegionalCertificateArn,
+		RegionalDomainName:                  out.RegionalDomainName,
+		RegionalHostedZoneId:                out.RegionalHostedZoneId,
+		SecurityPolicy:                      out.SecurityPolicy,
+		EndpointConfiguration:               out.EndpointConfiguration,
+		MutualTlsAuthentication:             out.MutualTlsAuthentication,
+		Tags:                                out.Tags,
+	}))
+	return values, nil
+}
+
+func ApiGatewayV2Route(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := apigatewayv2.NewFromConfig(cfg)
+
+	apis, err := ApiGatewayV2API(ctx, cfg, nil)
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+	for _, a := range apis {
+		api := a.Description.(model.ApiGatewayV2APIDescription).API
+		output, err := client.GetRoutes(ctx, &apigatewayv2.GetRoutesInput{
+			ApiId: api.ApiId,
+		})
+		if err != nil {
+			if isErr(err, "NotFoundException") {
+				return nil, nil
+			}
+			return nil, err
+		}
+
+		for _, route := range output.Items {
+			resource := apiGatewayV2Route(ctx, route)
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}
+func apiGatewayV2Route(ctx context.Context, route typesv2.Route) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	arn := fmt.Sprintf("arn:%s:apigateway:%s::/apis/%s/routes/%s", describeCtx.Partition, describeCtx.Region, *route.RouteId)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		Name:   *route.RouteId,
+		Description: model.ApiGatewayV2RouteDescription{
+			Route: route,
+		},
+	}
+	return resource
+}

@@ -984,3 +984,95 @@ func GetRoute53TrafficPolicyInstance(ctx context.Context, cfg aws.Config, fields
 	values = append(values, resource)
 	return values, nil
 }
+
+func Route53QueryLog(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := route53.NewFromConfig(cfg)
+	paginator := route53.NewListQueryLoggingConfigsPaginator(client, &route53.ListQueryLoggingConfigsInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page.QueryLoggingConfigs {
+			arn := fmt.Sprintf("arn:%s:route53:::query-log/%s/%s", describeCtx.Partition, *v.HostedZoneId, *v.Id)
+
+			resource := Resource{
+				Region: describeCtx.Region,
+				ID:     *v.Id,
+				ARN:    arn,
+				Description: model.Route53QueryLogDescription{
+					QueryConfig: v,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+
+func Route53ResolverQueryLogConfig(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := route53resolver.NewFromConfig(cfg)
+	paginator := route53resolver.NewListResolverQueryLogConfigsPaginator(client, &route53resolver.ListResolverQueryLogConfigsInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, queryLogConfig := range page.ResolverQueryLogConfigs {
+			resource := route53ResolverQueryLogConfigHandle(ctx, cfg, queryLogConfig)
+
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}
+func route53ResolverQueryLogConfigHandle(ctx context.Context, cfg aws.Config, queryLogConfig resolvertypes.ResolverQueryLogConfig) Resource {
+	describeCtx := GetDescribeContext(ctx)
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *queryLogConfig.Arn,
+		Name:   *queryLogConfig.Name,
+		ID:     *queryLogConfig.Id,
+		Description: model.Route53ResolverQueryLogConfigDescription{
+			QueryConfig: queryLogConfig,
+		},
+	}
+	return resource
+}
+func GetRoute53ResolverQueryLogConfig(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
+	id := fields["id"]
+	client := route53resolver.NewFromConfig(cfg)
+	var values []Resource
+
+	out, err := client.GetResolverQueryLogConfig(ctx, &route53resolver.GetResolverQueryLogConfigInput{
+		ResolverQueryLogConfigId: &id,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	resource := route53ResolverQueryLogConfigHandle(ctx, cfg, *out.ResolverQueryLogConfig)
+	values = append(values, resource)
+	return values, nil
+}
