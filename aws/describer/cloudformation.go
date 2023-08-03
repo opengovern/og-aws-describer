@@ -233,14 +233,14 @@ func cloudFormationStackResourceHandle(ctx context.Context, cfg aws.Config, stac
 	}
 	return resource, nil
 }
-func GetCloudFormationStackResource(ctx context.Context, cfg aws.Config, fields map[string]string) (Resource, error) {
+func GetCloudFormationStackResource(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	stackName := fields["stack_name"]
 	LogicalResourceId := fields["logical_resource_id"]
 
 	resource, err := cloudFormationStackResourceHandle(ctx, cfg, stackName, LogicalResourceId)
 	if err != nil {
-		return Resource{}, err
+		return nil, err
 	}
 
-	return resource, nil
+	return []Resource{resource}, nil
 }
