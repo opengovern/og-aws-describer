@@ -47,13 +47,19 @@ func securityHubHubHandle(ctx context.Context, cfg aws.Config, out *securityhub.
 		return Resource{}, err
 	}
 
+	data, err := client.GetAdministratorAccount(ctx, &securityhub.GetAdministratorAccountInput{})
+	if err != nil {
+		return Resource{}, err
+	}
+
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *out.HubArn,
 		Name:   nameFromArn(*out.HubArn),
 		Description: model.SecurityHubHubDescription{
-			Hub:  out,
-			Tags: tags.Tags,
+			Hub:                  out,
+			AdministratorAccount: *data.Administrator,
+			Tags:                 tags.Tags,
 		},
 	}
 	return resource, nil

@@ -69,7 +69,7 @@ func ServiceDiscoveryNamespace(ctx context.Context, cfg aws.Config, stream *Stre
 				Region: describeCtx.KaytuRegion,
 				ID:     *v.Id,
 				Name:   *v.Name,
-				Description: model.ServiceDiscoveryNamespace{
+				Description: model.ServiceDiscoveryNamespaceDescription{
 					Namespace: v,
 					Tags:      tag.Tags,
 				},
@@ -85,42 +85,32 @@ func ServiceDiscoveryNamespace(ctx context.Context, cfg aws.Config, stream *Stre
 	}
 	return values, nil
 }
-
 func ServiceDiscoveryInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := servicediscovery.NewFromConfig(cfg)
 
-	services, err := client.ListServices(ctx, &servicediscovery.ListServicesInput{})
-	if err != nil {
-		return nil, err
-	}
+	paginator := servicediscovery.NewListInstancesPaginator(client, &servicediscovery.ListInstancesInput{})
 	var values []Resource
-	for _, service := range services.Services {
-		paginator := servicediscovery.NewListInstancesPaginator(client, &servicediscovery.ListInstancesInput{
-			ServiceId: service.Id,
-		})
-		for paginator.HasMorePages() {
-			page, err := paginator.NextPage(ctx)
-			if err != nil {
-				return nil, err
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Instances {
+			resource := Resource{
+				Region: describeCtx.Region,
+				ID:     *v.Id,
+				Name:   *v.Id,
+				Description: model.ServiceDiscoveryInstanceDescription{
+					Instance: v,
+				},
 			}
-			for _, v := range page.Instances {
-				resource := Resource{
-					Region: describeCtx.Region,
-					ID:     *v.Id,
-					Name:   *v.Id,
-					Description: model.ServiceDiscoveryInstance{
-						Instance:  v,
-						ServiceId: service.Id,
-					},
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
 				}
-				if stream != nil {
-					if err := (*stream)(resource); err != nil {
-						return nil, err
-					}
-				} else {
-					values = append(values, resource)
-				}
+			} else {
+				values = append(values, resource)
 			}
 		}
 	}

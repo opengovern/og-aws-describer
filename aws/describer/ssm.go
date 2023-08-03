@@ -128,7 +128,7 @@ func SSMInventoryEntry(ctx context.Context, cfg aws.Config, stream *StreamSender
 							Region: describeCtx.Region,
 							ID:     *op.InstanceId,
 							Name:   *op.InstanceId,
-							Description: model.SSMInventoryEntry{
+							Description: model.SSMInventoryEntryDescription{
 								InstanceId:    op.InstanceId,
 								TypeName:      op.TypeName,
 								CaptureTime:   op.CaptureTime,
