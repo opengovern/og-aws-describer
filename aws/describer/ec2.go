@@ -1304,6 +1304,15 @@ func eC2InstanceHandle(ctx context.Context, v types.Instance, client *ec2.Client
 	}
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":instance/" + *v.InstanceId
 
+	params := &ec2.GetLaunchTemplateDataInput{
+		InstanceId: v.InstanceId,
+	}
+
+	op, err := client.GetLaunchTemplateData(ctx, params)
+	if err != nil {
+		return Resource{}, err
+	}
+	desc.LaunchTemplateData = *op.LaunchTemplateData
 	resource := Resource{
 		Region:      describeCtx.Region,
 		ARN:         arn,
@@ -2918,12 +2927,44 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 			splitServiceName := strings.Split(*v.ServiceName, ".")
 			arn := fmt.Sprintf("arn:%s:ec2:%s:%s:vpc-endpoint-service/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, splitServiceName[len(splitServiceName)-1])
 
+			paginator := ec2.NewDescribeVpcEndpointServicePermissionsPaginator(client, &ec2.DescribeVpcEndpointServicePermissionsInput{
+				ServiceId: v.ServiceId,
+			})
+
+			var allowedPrincipals []types.AllowedPrincipal
+			for paginator.HasMorePages() {
+				permissions, err := paginator.NextPage(ctx)
+				if err != nil {
+					if err != nil {
+						if !strings.Contains(err.Error(), "NotFound") {
+							return nil, err
+						}
+					}
+
+					allowedPrincipals = append(allowedPrincipals, permissions.AllowedPrincipals...)
+				}
+			}
+
+			op, err := client.DescribeVpcEndpointConnections(ctx, &ec2.DescribeVpcEndpointConnectionsInput{
+				Filters: []types.Filter{
+					{
+						Name:   aws.String("service-id"),
+						Values: []string{*v.ServiceId},
+					},
+				},
+			})
+			if err != nil {
+				return nil, err
+			}
+
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *v.ServiceName,
 				Description: model.EC2VPCEndpointServiceDescription{
-					VpcEndpointService: v,
+					VpcEndpointService:     v,
+					AllowedPrincipals:      allowedPrincipals,
+					VpcEndpointConnections: op.VpcEndpointConnections,
 				},
 			}
 			if stream != nil {
@@ -4277,7 +4318,7 @@ func eC2VPCNatGatewayMetricBytesOutToDestinationHandle(ctx context.Context, v ty
 	resource := Resource{
 		Region: describeCtx.Region,
 		ID:     *v.NatGatewayId,
-		Description: model.EC2NatGatewayMetricBytesOutToDestination{
+		Description: model.EC2NatGatewayMetricBytesOutToDestinationDescription{
 			NatGateway: v,
 		},
 	}

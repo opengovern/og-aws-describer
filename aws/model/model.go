@@ -3,15 +3,6 @@
 package model
 
 import (
-	athena "github.com/aws/aws-sdk-go-v2/service/athena/types"
-	inspector2 "github.com/aws/aws-sdk-go-v2/service/inspector2/types"
-	"time"
-
-	types2 "github.com/aws/aws-sdk-go-v2/service/resourcegroupstaggingapi/types"
-	"github.com/aws/aws-sdk-go-v2/service/sesv2/types"
-	waf2 "github.com/aws/aws-sdk-go-v2/service/waf"
-	types3 "github.com/aws/aws-sdk-go-v2/service/wellarchitected/types"
-
 	accessanalyzer "github.com/aws/aws-sdk-go-v2/service/accessanalyzer/types"
 	account "github.com/aws/aws-sdk-go-v2/service/account/types"
 	acm "github.com/aws/aws-sdk-go-v2/service/acm/types"
@@ -23,6 +14,7 @@ import (
 	appconfig "github.com/aws/aws-sdk-go-v2/service/appconfig/types"
 	applicationautoscaling "github.com/aws/aws-sdk-go-v2/service/applicationautoscaling/types"
 	appstream "github.com/aws/aws-sdk-go-v2/service/appstream/types"
+	athena "github.com/aws/aws-sdk-go-v2/service/athena/types"
 	auditmanager "github.com/aws/aws-sdk-go-v2/service/auditmanager/types"
 	autoscaling "github.com/aws/aws-sdk-go-v2/service/autoscaling/types"
 	backupop "github.com/aws/aws-sdk-go-v2/service/backup"
@@ -88,6 +80,7 @@ import (
 	identitystore "github.com/aws/aws-sdk-go-v2/service/identitystore/types"
 	imagebuilder "github.com/aws/aws-sdk-go-v2/service/imagebuilder/types"
 	inspector "github.com/aws/aws-sdk-go-v2/service/inspector/types"
+	inspector2 "github.com/aws/aws-sdk-go-v2/service/inspector2/types"
 	kafkaop "github.com/aws/aws-sdk-go-v2/service/kafka"
 	kafka "github.com/aws/aws-sdk-go-v2/service/kafka/types"
 	keyspaces "github.com/aws/aws-sdk-go-v2/service/keyspaces/types"
@@ -122,12 +115,14 @@ import (
 	redshift "github.com/aws/aws-sdk-go-v2/service/redshift/types"
 	redshiftserverlesstypes "github.com/aws/aws-sdk-go-v2/service/redshiftserverless/types"
 	resourceexplorer2 "github.com/aws/aws-sdk-go-v2/service/resourceexplorer2/types"
+	types2 "github.com/aws/aws-sdk-go-v2/service/resourcegroupstaggingapi/types"
 	route53op "github.com/aws/aws-sdk-go-v2/service/route53"
 	route53 "github.com/aws/aws-sdk-go-v2/service/route53/types"
 	route53domainsop "github.com/aws/aws-sdk-go-v2/service/route53domains"
 	route53domains "github.com/aws/aws-sdk-go-v2/service/route53domains/types"
 	route53resolverop "github.com/aws/aws-sdk-go-v2/service/route53resolver"
 	route53resolver "github.com/aws/aws-sdk-go-v2/service/route53resolver/types"
+	s3types "github.com/aws/aws-sdk-go-v2/service/s3"
 	s3 "github.com/aws/aws-sdk-go-v2/service/s3/types"
 	s3controlop "github.com/aws/aws-sdk-go-v2/service/s3control"
 	s3control "github.com/aws/aws-sdk-go-v2/service/s3control/types"
@@ -143,6 +138,7 @@ import (
 	serviceDiscovery "github.com/aws/aws-sdk-go-v2/service/servicediscovery/types"
 	servicequotas "github.com/aws/aws-sdk-go-v2/service/servicequotas/types"
 	ses "github.com/aws/aws-sdk-go-v2/service/ses/types"
+	"github.com/aws/aws-sdk-go-v2/service/sesv2/types"
 	sfnop "github.com/aws/aws-sdk-go-v2/service/sfn"
 	sfn "github.com/aws/aws-sdk-go-v2/service/sfn/types"
 	shield "github.com/aws/aws-sdk-go-v2/service/shield/types"
@@ -153,11 +149,14 @@ import (
 	ssm "github.com/aws/aws-sdk-go-v2/service/ssm/types"
 	ssoadmin "github.com/aws/aws-sdk-go-v2/service/ssoadmin/types"
 	storagegateway "github.com/aws/aws-sdk-go-v2/service/storagegateway/types"
+	waf2 "github.com/aws/aws-sdk-go-v2/service/waf"
 	waf "github.com/aws/aws-sdk-go-v2/service/waf/types"
 	wafregional "github.com/aws/aws-sdk-go-v2/service/wafregional/types"
 	wafv2op "github.com/aws/aws-sdk-go-v2/service/wafv2"
 	wafv2 "github.com/aws/aws-sdk-go-v2/service/wafv2/types"
+	types3 "github.com/aws/aws-sdk-go-v2/service/wellarchitected/types"
 	workspaces "github.com/aws/aws-sdk-go-v2/service/workspaces/types"
+	"time"
 )
 
 type Metadata struct {
@@ -637,8 +636,9 @@ type CloudWatchMetricDataPointDescription struct {
 //getfilter:name=description.LogGroup.LogGroupName
 //listfilter:name=description.LogGroup.LogGroupName
 type CloudWatchLogsLogGroupDescription struct {
-	LogGroup cloudwatchlogs.LogGroup
-	Tags     map[string]string
+	LogGroup       cloudwatchlogs.LogGroup
+	DataProtection *cloudwatchlogs2.GetDataProtectionPolicyOutput
+	Tags           map[string]string
 }
 
 //index:aws_logs_metricfilter
@@ -934,6 +934,7 @@ type EC2InstanceDescription struct {
 		InstanceInitiatedShutdownBehavior string
 		DisableApiTermination             bool
 	}
+	LaunchTemplateData ec2.ResponseLaunchTemplateData
 }
 
 //index:aws_ec2_vpc
@@ -1006,11 +1007,6 @@ type EC2SecurityGroupDescription struct {
 //getfilter:allocation_id=description.SecurityGroup.AllocationId
 type EC2EIPDescription struct {
 	Address ec2.Address
-}
-
-//index:aws_ec2_eip_address_transfer
-type EC2EIPAddressTransferDescription struct {
-	AddressTransfer ec2.AddressTransfer
 }
 
 //index:aws_ec2_internetgateway
@@ -1169,7 +1165,9 @@ type EC2IpamDescription struct {
 //index:aws_ec2_vpcendpointservice
 //getfilter:service_name=description.VPCEndpoint.ServiceName
 type EC2VPCEndpointServiceDescription struct {
-	VpcEndpointService ec2.ServiceDetail
+	VpcEndpointService     ec2.ServiceDetail
+	AllowedPrincipals      []ec2.AllowedPrincipal
+	VpcEndpointConnections []ec2.VpcEndpointConnection
 }
 
 //index:aws_ec2_instanceavailability
@@ -1240,7 +1238,7 @@ type EC2LaunchTemplateVersionDescription struct {
 }
 
 //index:aws_vpc_nat_gateway_metric_bytes_out_to_destination
-type EC2NatGatewayMetricBytesOutToDestination struct {
+type EC2NatGatewayMetricBytesOutToDestinationDescription struct {
 	NatGateway ec2.NatGateway
 }
 
@@ -1842,17 +1840,13 @@ type S3AccountSettingDescription struct {
 }
 
 //index:aws_s3_object
-type S3Object struct {
-	BucketName          *string
-	Object              s3.Object
-	ObjectLockLegal     s3.ObjectLockLegalHold
-	ObjectLockRetention s3.ObjectLockRetention
-	Encryption          s3.Encryption
-
-	ObjectVersion        s3.ObjectVersion
-	ObjectResult         s3.CopyObjectResult
-	LifecycleRule        s3.LifecycleRule
-	ServerSideEncryption s3.ServerSideEncryptionConfiguration
+type S3ObjectDescription struct {
+	BucketName       *string
+	Object           *s3types.GetObjectOutput
+	ObjectSummary    s3.Object
+	ObjectAttributes s3types.GetObjectAttributesOutput
+	ObjectAcl        s3types.GetObjectAclOutput
+	ObjectTags       s3types.GetObjectTaggingOutput
 }
 
 //index:aws_s3_bucketintelligenttieringconfiguration
@@ -1934,8 +1928,9 @@ type SecretsManagerSecretDescription struct {
 //index:aws_securityhub_hub
 //getfilter:hub_arn=description.Hub.HubArn
 type SecurityHubHubDescription struct {
-	Hub  *securityhubop.DescribeHubOutput
-	Tags map[string]string
+	Hub                  *securityhubop.DescribeHubOutput
+	AdministratorAccount securityhub.Invitation
+	Tags                 map[string]string
 }
 
 //index:aws_securityhub_actiontarget
@@ -2045,7 +2040,7 @@ type SSMInventoryDescription struct {
 //index:aws_ssm_inventory_entry
 //listfilter:instance_id=description.InstanceId
 //listfilter:type_name=description.TypeName
-type SSMInventoryEntry struct {
+type SSMInventoryEntryDescription struct {
 	CaptureTime   *string
 	InstanceId    *string
 	SchemaVersion *string
@@ -3060,11 +3055,11 @@ type BatchJobQueueDescription struct {
 //index:aws_codeartifact_repository
 //getfilter:name=description.Repository.Name
 type CodeArtifactRepositoryDescription struct {
-	Repository         codeartifact.RepositorySummary
-	Policy             codeartifact.ResourcePolicy
-	RepositoryEndpoint *string
-	Description        codeartifact.RepositoryDescription
-	Tags               []codeartifact.Tag
+	Repository  codeartifact.RepositorySummary
+	Policy      codeartifact.ResourcePolicy
+	Description codeartifact.RepositoryDescription
+	Endpoints   []string
+	Tags        []codeartifact.Tag
 }
 
 //index:aws_codeartifact_domain
@@ -3127,8 +3122,7 @@ type DirectConnectGatewayDescription struct {
 //index:aws_drs_sourceserver
 //getfilter:source_server_id=description.SourceServer.SourceServerID
 type DRSSourceServerDescription struct {
-	SourceServer        drs.SourceServer
-	LaunchConfiguration *drs.output
+	SourceServer drs.SourceServer
 }
 
 //index:aws_drs_recoveryinstance
@@ -3763,11 +3757,8 @@ type ServiceCatalogProductDescription struct {
 }
 
 //index:aws_servicecatalog_portfolio
-type ServiceCatalogPortFolioDescription struct {
-	Portfolio  serviceCatalog.PortfolioDetail
-	Budgets    []serviceCatalog.BudgetDetail
-	TagOptions []serviceCatalog.TagOptionDetail
-	Tag        []serviceCatalog.Tag
+type ServiceCatalogPortfolioDescription struct {
+	Portfolio serviceCatalog.PortfolioDetail
 }
 
 // =================== Service Discovery ===========================
@@ -3779,22 +3770,12 @@ type ServiceDiscoveryServiceDescription struct {
 }
 
 //index:aws_service_discovery_namespace
-type ServiceDiscoveryNamespace struct {
+type ServiceDiscoveryNamespaceDescription struct {
 	Namespace serviceDiscovery.NamespaceSummary
 	Tags      []serviceDiscovery.Tag
 }
 
 //index:aws_service_discovery_instance
-type ServiceDiscoveryInstance struct {
-	Instance  serviceDiscovery.InstanceSummary
-	ServiceId *string
-}
-
-// ======================= STS Caller ==============================
-
-//index:aws_sts_caller_identity
-type STSCallerIdentityDescription struct {
-	Arn     string
-	UsrId   string
-	Account string
+type ServiceDiscoveryInstanceDescription struct {
+	Instance serviceDiscovery.InstanceSummary
 }

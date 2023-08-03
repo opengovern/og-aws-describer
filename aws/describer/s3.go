@@ -264,6 +264,21 @@ func getBucketDescription(ctx context.Context, cfg aws.Config, bucket types.Buck
 		return nil, err
 	}
 
+	bucketwebsites, err := rClient.GetBucketWebsite(ctx, &s3.GetBucketWebsiteInput{Bucket: bucket.Name})
+	if err != nil {
+		return nil, err
+	}
+
+	bucketOwnershipControls, err := rClient.GetBucketOwnershipControls(ctx, &s3.GetBucketOwnershipControlsInput{Bucket: bucket.Name})
+	if err != nil {
+		return nil, err
+	}
+
+	notificationDetails, err := rClient.GetBucketNotificationConfiguration(ctx, &s3.GetBucketNotificationConfigurationInput{Bucket: bucket.Name})
+	if err != nil {
+		return nil, err
+	}
+
 	return &model.S3BucketDescription{
 		Bucket: bucket,
 		BucketAcl: struct {
@@ -289,6 +304,10 @@ func getBucketDescription(ctx context.Context, cfg aws.Config, bucket types.Buck
 		ObjectLockConfiguration:           o10.ObjectLockConfiguration,
 		ReplicationConfiguration:          string(replicationJson),
 		Tags:                              o11.TagSet,
+		Region:                            region,
+		BucketWebsite:                     bucketwebsites,
+		BucketOwnershipControls:           bucketOwnershipControls,
+		EventNotificationConfiguration:    notificationDetails,
 	}, nil
 }
 
@@ -647,11 +666,51 @@ func S3Object(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 				return nil, err
 			}
 			for _, v := range page.Contents {
+
+				object, err := client.GetObject(ctx, &s3.GetObjectInput{
+					Bucket: aws.String(*bucket.Name),
+					Key:    v.Key,
+				})
+				if err != nil {
+					return nil, err
+				}
+				arn := "arn:" + describeCtx.Partition + ":s3:::" + *bucket.Name + "/" + *v.Key
+
+				objectAttributes, err := client.GetObjectAttributes(ctx, &s3.GetObjectAttributesInput{
+					Bucket:           aws.String(*bucket.Name),
+					Key:              v.Key,
+					ObjectAttributes: []types.ObjectAttributes{types.ObjectAttributesChecksum, types.ObjectAttributesObjectParts},
+				})
+				if err != nil {
+					return nil, err
+				}
+
+				objectAcl, err := client.GetObjectAcl(ctx, &s3.GetObjectAclInput{
+					Bucket: aws.String(*bucket.Name),
+					Key:    v.Key,
+				})
+				if err != nil {
+					return nil, err
+				}
+
+				tags, err := client.GetObjectTagging(ctx, &s3.GetObjectTaggingInput{
+					Bucket: aws.String(*bucket.Name),
+					Key:    v.Key,
+				})
+				if err != nil {
+					return nil, err
+				}
+
 				resource := Resource{
 					Region: describeCtx.Region,
-					Description: model.S3Object{
-						Object:     v,
-						BucketName: bucket.Name,
+					ARN:    arn,
+					Description: model.S3ObjectDescription{
+						Object:           object,
+						ObjectSummary:    v,
+						BucketName:       bucket.Name,
+						ObjectAttributes: *objectAttributes,
+						ObjectAcl:        *objectAcl,
+						ObjectTags:       *tags,
 					},
 				}
 				if stream != nil {

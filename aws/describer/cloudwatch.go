@@ -287,20 +287,31 @@ func CloudWatchLogsLogGroup(ctx context.Context, cfg aws.Config, stream *StreamS
 		}
 
 		for _, v := range page.LogGroups {
-			tags, err := client.ListTagsLogGroup(ctx, &cloudwatchlogs.ListTagsLogGroupInput{
-				LogGroupName: v.LogGroupName,
+			tags, err := client.ListTagsForResource(ctx, &cloudwatchlogs.ListTagsForResourceInput{
+				ResourceArn: v.Arn,
 			})
 			if err != nil {
 				return nil, err
 			}
-			client.GetDataProtectionPolicy
+
+			params := &cloudwatchlogs.GetDataProtectionPolicyInput{
+				LogGroupIdentifier: v.LogGroupName,
+			}
+
+			// Get data protection policy
+			dataProtectionPolicyData, err := client.GetDataProtectionPolicy(ctx, params)
+			if err != nil {
+				return nil, err
+			}
+
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ARN:    *v.Arn,
 				Name:   *v.LogGroupName,
 				Description: model.CloudWatchLogsLogGroupDescription{
-					LogGroup: v,
-					Tags:     tags.Tags,
+					LogGroup:       v,
+					DataProtection: dataProtectionPolicyData,
+					Tags:           tags.Tags,
 				},
 			}
 			if stream != nil {

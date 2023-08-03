@@ -20,7 +20,6 @@ func ServiceCatalogProduct(ctx context.Context, cfg aws.Config, stream *StreamSe
 			return nil, err
 		}
 		for _, item := range page.ProductViewSummaries {
-
 			productAsA, err := client.DescribeProductAsAdmin(ctx, &servicecatalog.DescribeProductAsAdminInput{
 				Id:   item.ProductId,
 				Name: item.Name,
@@ -32,7 +31,6 @@ func ServiceCatalogProduct(ctx context.Context, cfg aws.Config, stream *StreamSe
 			lLP, err := client.ListLaunchPaths(ctx, &servicecatalog.ListLaunchPathsInput{
 				ProductId: item.ProductId,
 			})
-
 			if err != nil {
 				return nil, err
 			}
@@ -69,24 +67,16 @@ func ServiceCatalogPortfolio(ctx context.Context, cfg aws.Config, stream *Stream
 			return nil, err
 		}
 		for _, v := range page.PortfolioDetails {
-
-			portfolio, err := client.DescribePortfolio(ctx, &servicecatalog.DescribePortfolioInput{
+			client.DescribePortfolio(ctx, &servicecatalog.DescribePortfolioInput{
 				Id: v.Id,
 			})
-			if err != nil {
-				return nil, err
-			}
-
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ID:     *v.Id,
 				Name:   *v.ProviderName,
 				ARN:    *v.ARN,
-				Description: model.ServiceCatalogPortFolioDescription{
-					Budgets:    portfolio.Budgets,
-					TagOptions: portfolio.TagOptions,
-					Tag:        portfolio.Tags,
-					Portfolio:  v,
+				Description: model.ServiceCatalogPortfolioDescription{
+					Portfolio: v,
 				},
 			}
 			if stream != nil {
