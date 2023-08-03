@@ -1241,6 +1241,20 @@ type EC2NatGatewayMetricBytesOutToDestinationDescription struct {
 	NatGateway ec2.NatGateway
 }
 
+//index:aws_vpc_eip_address_transfer
+type EC2EIPAddressTransferDescription struct {
+	AddressTransfer ec2.AddressTransfer
+}
+
+// ===================  STS Caller  =================
+
+//index:aws_stscaller_identity
+type STSCallerIdentityDescription struct {
+	UsrId   string
+	Account string
+	Arn     string
+}
+
 //  ===================  Elastic Load Balancing  ===================
 
 //index:aws_elasticloadbalancingv2_sslpolicy
