@@ -141,7 +141,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/hashicorp/go-hclog v1.4.0
 	github.com/kaytu-io/kaytu-util v0.0.0-20230804082552-3c07cccc35a8
-	github.com/kaytu-io/steampipe-plugin-aws v0.0.0-20230803110842-473d5fad54ca
+	github.com/kaytu-io/steampipe-plugin-aws v0.0.0-20230804094059-473a4146e111
 	github.com/manifoldco/promptui v0.9.0
 	github.com/spf13/cobra v1.7.0
 	github.com/turbot/go-kit v0.6.0
