@@ -110,7 +110,7 @@ func ListAccessAnalyzerAnalyzer(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -156,7 +156,7 @@ func GetAccessAnalyzerAnalyzer(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -291,7 +291,7 @@ func ListApiGatewayStage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -346,7 +346,7 @@ func GetApiGatewayStage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -479,7 +479,7 @@ func ListApiGatewayV2Stage(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -533,7 +533,7 @@ func GetApiGatewayV2Stage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -662,7 +662,7 @@ func ListApiGatewayRestAPI(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -711,7 +711,7 @@ func GetApiGatewayRestAPI(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -836,7 +836,7 @@ func ListApiGatewayApiKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -881,7 +881,7 @@ func GetApiGatewayApiKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1005,7 +1005,7 @@ func ListApiGatewayUsagePlan(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1049,7 +1049,7 @@ func GetApiGatewayUsagePlan(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1174,7 +1174,7 @@ func ListApiGatewayAuthorizer(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1219,7 +1219,7 @@ func GetApiGatewayAuthorizer(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1343,7 +1343,7 @@ func ListApiGatewayV2API(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1387,7 +1387,7 @@ func GetApiGatewayV2API(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1508,7 +1508,7 @@ func ListApiGatewayV2DomainName(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1549,7 +1549,7 @@ func GetApiGatewayV2DomainName(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1664,7 +1664,7 @@ func ListApiGatewayDomainName(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1700,7 +1700,7 @@ func GetApiGatewayDomainName(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1829,7 +1829,7 @@ func ListApiGatewayV2Route(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -1879,7 +1879,7 @@ func GetApiGatewayV2Route(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2017,7 +2017,7 @@ func ListApiGatewayV2Integration(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2075,7 +2075,7 @@ func GetApiGatewayV2Integration(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2215,7 +2215,7 @@ func ListElasticBeanstalkEnvironment(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2275,7 +2275,7 @@ func GetElasticBeanstalkEnvironment(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2400,7 +2400,7 @@ func ListElasticBeanstalkApplication(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2445,7 +2445,7 @@ func GetElasticBeanstalkApplication(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2584,7 +2584,7 @@ func ListElastiCacheReplicationGroup(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2643,7 +2643,7 @@ func GetElastiCacheReplicationGroup(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2785,7 +2785,7 @@ func ListElastiCacheCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2847,7 +2847,7 @@ func GetElastiCacheCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -2968,7 +2968,7 @@ func ListElastiCacheParameterGroup(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3009,7 +3009,7 @@ func GetElastiCacheParameterGroup(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3138,7 +3138,7 @@ func ListElastiCacheReservedCacheNode(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3187,7 +3187,7 @@ func GetElastiCacheReservedCacheNode(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3308,7 +3308,7 @@ func ListElastiCacheSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3349,7 +3349,7 @@ func GetElastiCacheSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3491,7 +3491,7 @@ func ListESDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3553,7 +3553,7 @@ func GetESDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3700,7 +3700,7 @@ func ListEMRCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3767,7 +3767,7 @@ func GetEMRCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3898,7 +3898,7 @@ func ListEMRInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -3949,7 +3949,7 @@ func GetEMRInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4078,7 +4078,7 @@ func ListEMRInstanceFleet(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4127,7 +4127,7 @@ func GetEMRInstanceFleet(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4263,7 +4263,7 @@ func ListEMRInstanceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4319,7 +4319,7 @@ func GetEMRInstanceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4438,7 +4438,7 @@ func ListEMRBlockPublicAccessConfiguration(ctx context.Context, d *plugin.QueryD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4477,7 +4477,7 @@ func GetEMRBlockPublicAccessConfiguration(ctx context.Context, d *plugin.QueryDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4606,7 +4606,7 @@ func ListGuardDutyFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4655,7 +4655,7 @@ func GetGuardDutyFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4778,7 +4778,7 @@ func ListGuardDutyDetector(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4821,7 +4821,7 @@ func GetGuardDutyDetector(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4944,7 +4944,7 @@ func ListGuardDutyFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -4987,7 +4987,7 @@ func GetGuardDutyFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5110,7 +5110,7 @@ func ListGuardDutyIPSet(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5153,7 +5153,7 @@ func GetGuardDutyIPSet(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5275,7 +5275,7 @@ func ListGuardDutyMember(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5317,7 +5317,7 @@ func GetGuardDutyMember(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5441,7 +5441,7 @@ func ListGuardDutyPublishingDestination(ctx context.Context, d *plugin.QueryData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5485,7 +5485,7 @@ func GetGuardDutyPublishingDestination(ctx context.Context, d *plugin.QueryData,
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5608,7 +5608,7 @@ func ListGuardDutyThreatIntelSet(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5651,7 +5651,7 @@ func GetGuardDutyThreatIntelSet(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5777,7 +5777,7 @@ func ListBackupPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5823,7 +5823,7 @@ func GetBackupPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5948,7 +5948,7 @@ func ListBackupSelection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -5993,7 +5993,7 @@ func GetBackupSelection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6119,7 +6119,7 @@ func ListBackupVault(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6165,7 +6165,7 @@ func GetBackupVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6299,7 +6299,7 @@ func ListBackupRecoveryPoint(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6353,7 +6353,7 @@ func GetBackupRecoveryPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6471,7 +6471,7 @@ func ListBackupProtectedResource(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6509,7 +6509,7 @@ func GetBackupProtectedResource(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6633,7 +6633,7 @@ func ListBackupFramework(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6677,7 +6677,7 @@ func GetBackupFramework(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6801,7 +6801,7 @@ func ListBackupLegalHold(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6845,7 +6845,7 @@ func GetBackupLegalHold(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -6970,7 +6970,7 @@ func ListBackupReportPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7016,7 +7016,7 @@ func GetBackupReportPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7160,7 +7160,7 @@ func ListCloudFrontDistribution(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7224,7 +7224,7 @@ func GetCloudFrontDistribution(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7344,7 +7344,7 @@ func ListCloudFrontStreamingDistribution(ctx context.Context, d *plugin.QueryDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7384,7 +7384,7 @@ func GetCloudFrontStreamingDistribution(ctx context.Context, d *plugin.QueryData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7501,7 +7501,7 @@ func ListCloudFrontOriginAccessControl(ctx context.Context, d *plugin.QueryData,
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7538,7 +7538,7 @@ func GetCloudFrontOriginAccessControl(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7663,7 +7663,7 @@ func ListCloudFrontCachePolicy(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7708,7 +7708,7 @@ func GetCloudFrontCachePolicy(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7830,7 +7830,7 @@ func ListCloudFrontFunction(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7872,7 +7872,7 @@ func GetCloudFrontFunction(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -7994,7 +7994,7 @@ func ListCloudFrontOriginAccessIdentity(ctx context.Context, d *plugin.QueryData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8036,7 +8036,7 @@ func GetCloudFrontOriginAccessIdentity(ctx context.Context, d *plugin.QueryData,
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8160,7 +8160,7 @@ func ListCloudFrontOriginRequestPolicy(ctx context.Context, d *plugin.QueryData,
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8204,7 +8204,7 @@ func GetCloudFrontOriginRequestPolicy(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8327,7 +8327,7 @@ func ListCloudFrontResponseHeadersPolicy(ctx context.Context, d *plugin.QueryDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8370,7 +8370,7 @@ func GetCloudFrontResponseHeadersPolicy(ctx context.Context, d *plugin.QueryData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8514,7 +8514,7 @@ func ListCloudWatchAlarm(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8578,7 +8578,7 @@ func GetCloudWatchAlarm(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8699,7 +8699,7 @@ func ListCloudWatchLogEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8740,7 +8740,7 @@ func GetCloudWatchLogEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8859,7 +8859,7 @@ func ListCloudWatchLogResourcePolicy(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -8898,7 +8898,7 @@ func GetCloudWatchLogResourcePolicy(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9022,7 +9022,7 @@ func ListCloudWatchLogStream(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9066,7 +9066,7 @@ func GetCloudWatchLogStream(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9189,7 +9189,7 @@ func ListCloudWatchLogSubscriptionFilter(ctx context.Context, d *plugin.QueryDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9232,7 +9232,7 @@ func GetCloudWatchLogSubscriptionFilter(ctx context.Context, d *plugin.QueryData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9350,7 +9350,7 @@ func ListCloudWatchMetric(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9388,7 +9388,7 @@ func GetCloudWatchMetric(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9497,7 +9497,8 @@ var listCloudWatchLogsLogGroupFilters = map[string]string{
 	"akas":                   "description.LogGroup.Arn",
 	"arn":                    "description.LogGroup.Arn",
 	"creation_time":          "description.LogGroup.CreationTime",
-	"data_protection_policy": "policyDocument",
+	"data_protection":        "description.DataProtection",
+	"data_protection_policy": "description.DataProtection.PolicyDocument",
 	"kaytu_account_id":       "metadata.SourceID",
 	"kms_key_id":             "description.LogGroup.KmsKeyId",
 	"metric_filter_count":    "description.LogGroup.MetricFilterCount",
@@ -9513,7 +9514,7 @@ func ListCloudWatchLogsLogGroup(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9542,7 +9543,8 @@ var getCloudWatchLogsLogGroupFilters = map[string]string{
 	"akas":                   "description.LogGroup.Arn",
 	"arn":                    "description.LogGroup.Arn",
 	"creation_time":          "description.LogGroup.CreationTime",
-	"data_protection_policy": "policyDocument",
+	"data_protection":        "description.DataProtection",
+	"data_protection_policy": "description.DataProtection.PolicyDocument",
 	"kaytu_account_id":       "metadata.SourceID",
 	"kms_key_id":             "description.LogGroup.KmsKeyId",
 	"metric_filter_count":    "description.LogGroup.MetricFilterCount",
@@ -9558,7 +9560,7 @@ func GetCloudWatchLogsLogGroup(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9679,7 +9681,7 @@ func ListCloudWatchLogsMetricFilter(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9718,7 +9720,7 @@ func GetCloudWatchLogsMetricFilter(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9861,7 +9863,7 @@ func ListCodeBuildProject(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -9924,7 +9926,7 @@ func GetCodeBuildProject(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10042,7 +10044,7 @@ func ListCodeBuildSourceCredential(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10080,7 +10082,7 @@ func GetCodeBuildSourceCredential(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10227,7 +10229,7 @@ func ListCodeBuildBuild(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10294,7 +10296,7 @@ func GetCodeBuildBuild(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10414,7 +10416,7 @@ func ListConfigConfigurationRecorder(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10454,7 +10456,7 @@ func GetConfigConfigurationRecorder(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10576,7 +10578,7 @@ func ListConfigAggregationAuthorization(ctx context.Context, d *plugin.QueryData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10618,7 +10620,7 @@ func GetConfigAggregationAuthorization(ctx context.Context, d *plugin.QueryData,
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10742,7 +10744,7 @@ func ListConfigConformancePack(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10786,7 +10788,7 @@ func GetConfigConformancePack(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10915,7 +10917,7 @@ func ListConfigRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -10964,7 +10966,7 @@ func GetConfigRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11081,7 +11083,7 @@ func ListConfigRetentionConfiguration(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11118,7 +11120,7 @@ func GetConfigRetentionConfiguration(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11252,7 +11254,7 @@ func ListDAXCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11306,7 +11308,7 @@ func GetDAXCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11423,7 +11425,7 @@ func ListDAXParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11460,7 +11462,7 @@ func GetDAXParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11585,7 +11587,7 @@ func ListDAXParameter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11630,7 +11632,7 @@ func GetDAXParameter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11750,7 +11752,7 @@ func ListDAXSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11790,7 +11792,7 @@ func GetDAXSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11930,7 +11932,7 @@ func ListDMSReplicationInstance(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -11990,7 +11992,7 @@ func GetDMSReplicationInstance(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12128,7 +12130,7 @@ func ListDynamoDbTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12186,7 +12188,7 @@ func GetDynamoDbTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12304,7 +12306,7 @@ func ListDynamoDbGlobalSecondaryIndex(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12342,7 +12344,7 @@ func GetDynamoDbGlobalSecondaryIndex(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12460,7 +12462,7 @@ func ListDynamoDbLocalSecondaryIndex(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12498,7 +12500,7 @@ func GetDynamoDbLocalSecondaryIndex(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12616,7 +12618,7 @@ func ListDynamoDbStream(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12654,7 +12656,7 @@ func GetDynamoDbStream(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12780,7 +12782,7 @@ func ListDynamoDbBackup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12826,7 +12828,7 @@ func GetDynamoDbBackup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12947,7 +12949,7 @@ func ListDynamoDbGlobalTable(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -12988,7 +12990,7 @@ func GetDynamoDbGlobalTable(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13122,7 +13124,7 @@ func ListDynamoDbTableExport(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13176,7 +13178,7 @@ func GetDynamoDbTableExport(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13299,7 +13301,7 @@ func ListOAMLink(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13342,7 +13344,7 @@ func GetOAMLink(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13462,7 +13464,7 @@ func ListOAMSink(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13502,7 +13504,7 @@ func GetOAMSink(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13632,7 +13634,7 @@ func ListEC2VolumeSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13682,7 +13684,7 @@ func GetEC2VolumeSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13805,7 +13807,7 @@ func ListEC2CustomerGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13848,7 +13850,7 @@ func GetEC2CustomerGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -13968,7 +13970,7 @@ func ListEC2VerifiedAccessInstance(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14008,7 +14010,7 @@ func GetEC2VerifiedAccessInstance(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14140,7 +14142,7 @@ func ListEC2VerifiedAccessEndpoint(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14192,7 +14194,7 @@ func GetEC2VerifiedAccessEndpoint(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14316,7 +14318,7 @@ func ListEC2VerifiedAccessGroup(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14360,7 +14362,7 @@ func GetEC2VerifiedAccessGroup(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14485,7 +14487,7 @@ func ListEC2VerifiedAccessTrustProvider(ctx context.Context, d *plugin.QueryData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14530,7 +14532,7 @@ func GetEC2VerifiedAccessTrustProvider(ctx context.Context, d *plugin.QueryData,
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14652,7 +14654,7 @@ func ListEC2VPNGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14694,7 +14696,7 @@ func GetEC2VPNGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14825,7 +14827,7 @@ func ListEC2Volume(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -14876,7 +14878,7 @@ func GetEC2Volume(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15014,7 +15016,7 @@ func ListEC2ClientVpnEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15073,7 +15075,7 @@ func GetEC2ClientVpnEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15208,6 +15210,7 @@ var listEC2InstanceFilters = map[string]string{
 	"kaytu_account_id":                           "metadata.SourceID",
 	"kernel_id":                                  "description.Instance.KernelId",
 	"key_name":                                   "description.Instance.KeyName",
+	"launch_template_data":                       "description.LaunchTemplateData",
 	"launch_time":                                "description.Instance.LaunchTime",
 	"licenses":                                   "description.Instance.Licenses",
 	"maintenance_options":                        "description.Instance.MaintenanceOptions",
@@ -15255,7 +15258,7 @@ func ListEC2Instance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15310,6 +15313,7 @@ var getEC2InstanceFilters = map[string]string{
 	"kaytu_account_id":                           "metadata.SourceID",
 	"kernel_id":                                  "description.Instance.KernelId",
 	"key_name":                                   "description.Instance.KeyName",
+	"launch_template_data":                       "description.LaunchTemplateData",
 	"launch_time":                                "description.Instance.LaunchTime",
 	"licenses":                                   "description.Instance.Licenses",
 	"maintenance_options":                        "description.Instance.MaintenanceOptions",
@@ -15356,7 +15360,7 @@ func GetEC2Instance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15480,7 +15484,7 @@ func ListEC2Vpc(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15524,7 +15528,7 @@ func GetEC2Vpc(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15672,7 +15676,7 @@ func ListEC2NetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15740,7 +15744,7 @@ func GetEC2NetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15856,7 +15860,7 @@ func ListEC2RegionalSettings(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15892,7 +15896,7 @@ func GetEC2RegionalSettings(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16024,7 +16028,7 @@ func ListEC2Subnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16076,7 +16080,7 @@ func GetEC2Subnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16206,7 +16210,7 @@ func ListEC2VPCEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16256,7 +16260,7 @@ func GetEC2VPCEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16379,7 +16383,7 @@ func ListEC2SecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16422,7 +16426,7 @@ func GetEC2SecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16551,7 +16555,7 @@ func ListEC2EIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16600,7 +16604,7 @@ func GetEC2EIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16718,7 +16722,7 @@ func ListEC2InternetGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16756,7 +16760,7 @@ func GetEC2InternetGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16877,7 +16881,7 @@ func ListEC2NetworkAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -16918,7 +16922,7 @@ func GetEC2NetworkAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -17044,7 +17048,7 @@ func ListEC2VPNConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -17090,7 +17094,7 @@ func GetEC2VPNConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -17213,7 +17217,7 @@ func ListEC2RouteTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -17256,7 +17260,7 @@ func GetEC2RouteTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -17381,7 +17385,7 @@ func ListEC2NatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -17426,7 +17430,7 @@ func GetEC2NatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -17547,7 +17551,7 @@ func ListEC2Region(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -17588,7 +17592,7 @@ func GetEC2Region(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -17713,7 +17717,7 @@ func ListEC2AvailabilityZone(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -17758,7 +17762,7 @@ func GetEC2AvailabilityZone(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -17886,7 +17890,7 @@ func ListEC2FlowLog(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -17934,7 +17938,7 @@ func GetEC2FlowLog(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -18070,7 +18074,7 @@ func ListEC2CapacityReservation(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -18126,7 +18130,7 @@ func GetEC2CapacityReservation(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -18245,7 +18249,7 @@ func ListEC2KeyPair(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -18284,7 +18288,7 @@ func GetEC2KeyPair(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -18425,7 +18429,7 @@ func ListEC2AMI(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -18486,7 +18490,7 @@ func GetEC2AMI(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -18619,7 +18623,7 @@ func ListEC2ReservedInstances(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -18672,7 +18676,7 @@ func GetEC2ReservedInstances(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -18790,7 +18794,7 @@ func ListEC2CapacityReservationFleet(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -18828,7 +18832,7 @@ func GetEC2CapacityReservationFleet(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -18944,7 +18948,7 @@ func ListEC2Fleet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -18980,7 +18984,7 @@ func GetEC2Fleet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -19096,7 +19100,7 @@ func ListEC2Host(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -19132,7 +19136,7 @@ func GetEC2Host(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -19249,7 +19253,7 @@ func ListEC2PlacementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -19286,7 +19290,7 @@ func GetEC2PlacementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -19418,7 +19422,7 @@ func ListEC2TransitGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -19470,7 +19474,7 @@ func GetEC2TransitGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -19591,7 +19595,7 @@ func ListEC2TransitGatewayRouteTable(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -19632,7 +19636,7 @@ func GetEC2TransitGatewayRouteTable(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -19754,7 +19758,7 @@ func ListEC2DhcpOptions(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -19796,7 +19800,7 @@ func GetEC2DhcpOptions(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -19913,7 +19917,7 @@ func ListEC2EgressOnlyInternetGateway(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -19950,7 +19954,7 @@ func GetEC2EgressOnlyInternetGateway(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -20084,7 +20088,7 @@ func ListEC2VpcPeeringConnection(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -20138,7 +20142,7 @@ func GetEC2VpcPeeringConnection(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -20276,7 +20280,7 @@ func ListEC2SecurityGroupRule(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -20334,7 +20338,7 @@ func GetEC2SecurityGroupRule(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -20452,7 +20456,7 @@ func ListEC2IpamPool(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -20490,7 +20494,7 @@ func GetEC2IpamPool(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -20608,7 +20612,7 @@ func ListEC2Ipam(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -20646,7 +20650,7 @@ func GetEC2Ipam(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -20766,7 +20770,9 @@ var listEC2VPCEndpointServiceFilters = map[string]string{
 	"service_type":                        "description.VpcEndpointService.ServiceType",
 	"tags_src":                            "description.VpcEndpointService.Tags",
 	"title":                               "description.VpcEndpointService.ServiceName",
+	"vpc_endpoint_connections":            "description.VpcEndpointConnections",
 	"vpc_endpoint_policy_supported":       "description.VpcEndpointService.VpcEndpointPolicySupported",
+	"vpc_endpoint_service_permissions":    "description.AllowedPrincipals",
 }
 
 func ListEC2VPCEndpointService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -20774,7 +20780,7 @@ func ListEC2VPCEndpointService(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -20814,7 +20820,9 @@ var getEC2VPCEndpointServiceFilters = map[string]string{
 	"service_type":                        "description.VpcEndpointService.ServiceType",
 	"tags_src":                            "description.VpcEndpointService.Tags",
 	"title":                               "description.VpcEndpointService.ServiceName",
+	"vpc_endpoint_connections":            "description.VpcEndpointConnections",
 	"vpc_endpoint_policy_supported":       "description.VpcEndpointService.VpcEndpointPolicySupported",
+	"vpc_endpoint_service_permissions":    "description.AllowedPrincipals",
 }
 
 func GetEC2VPCEndpointService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -20822,7 +20830,7 @@ func GetEC2VPCEndpointService(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -20941,7 +20949,7 @@ func ListEC2InstanceAvailability(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -20980,7 +20988,7 @@ func GetEC2InstanceAvailability(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -21116,7 +21124,7 @@ func ListEC2InstanceType(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -21172,7 +21180,7 @@ func GetEC2InstanceType(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -21298,7 +21306,7 @@ func ListEC2ManagedPrefixList(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -21344,7 +21352,7 @@ func GetEC2ManagedPrefixList(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -21460,7 +21468,7 @@ func ListEC2ManagedPrefixListEntry(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -21496,7 +21504,7 @@ func GetEC2ManagedPrefixListEntry(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -21618,7 +21626,7 @@ func ListEC2TransitGatewayRoute(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -21660,7 +21668,7 @@ func GetEC2TransitGatewayRoute(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -21786,7 +21794,7 @@ func ListEC2TransitGatewayAttachment(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -21832,7 +21840,7 @@ func GetEC2TransitGatewayAttachment(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -21956,7 +21964,7 @@ func ListEC2LaunchTemplate(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -22000,7 +22008,7 @@ func GetEC2LaunchTemplate(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -22133,7 +22141,7 @@ func ListEC2LaunchTemplateVersion(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -22186,7 +22194,7 @@ func GetEC2LaunchTemplateVersion(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -22305,7 +22313,7 @@ func ListElasticLoadBalancingV2SslPolicy(ctx context.Context, d *plugin.QueryDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -22345,7 +22353,7 @@ func GetElasticLoadBalancingV2SslPolicy(ctx context.Context, d *plugin.QueryData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -22463,7 +22471,7 @@ func ListElasticLoadBalancingV2TargetGroup(ctx context.Context, d *plugin.QueryD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -22502,7 +22510,7 @@ func GetElasticLoadBalancingV2TargetGroup(ctx context.Context, d *plugin.QueryDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -22634,7 +22642,7 @@ func ListElasticLoadBalancingV2LoadBalancer(ctx context.Context, d *plugin.Query
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -22686,7 +22694,7 @@ func GetElasticLoadBalancingV2LoadBalancer(ctx context.Context, d *plugin.QueryD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -22834,7 +22842,7 @@ func ListElasticLoadBalancingLoadBalancer(ctx context.Context, d *plugin.QueryDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -22902,7 +22910,7 @@ func GetElasticLoadBalancingLoadBalancer(ctx context.Context, d *plugin.QueryDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -23025,7 +23033,7 @@ func ListElasticLoadBalancingV2Listener(ctx context.Context, d *plugin.QueryData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -23068,7 +23076,7 @@ func GetElasticLoadBalancingV2Listener(ctx context.Context, d *plugin.QueryData,
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -23185,7 +23193,7 @@ func ListElasticLoadBalancingV2Rule(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -23222,7 +23230,7 @@ func GetElasticLoadBalancingV2Rule(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -23357,7 +23365,7 @@ func ListFSXFileSystem(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -23412,7 +23420,7 @@ func GetFSXFileSystem(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -23531,7 +23539,7 @@ func ListFSXStorageVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -23570,7 +23578,7 @@ func GetFSXStorageVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -23688,7 +23696,7 @@ func ListFSXTask(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -23726,7 +23734,7 @@ func GetFSXTask(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -23845,7 +23853,7 @@ func ListFSXVolume(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -23884,7 +23892,7 @@ func GetFSXVolume(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -24003,7 +24011,7 @@ func ListFSXSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -24042,7 +24050,7 @@ func GetFSXSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -24165,7 +24173,7 @@ func ListApplicationAutoScalingTarget(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -24208,7 +24216,7 @@ func GetApplicationAutoScalingTarget(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -24333,7 +24341,7 @@ func ListApplicationAutoScalingPolicy(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -24378,7 +24386,7 @@ func GetApplicationAutoScalingPolicy(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -24532,7 +24540,7 @@ func ListAutoScalingGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -24606,7 +24614,7 @@ func GetAutoScalingGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -24744,7 +24752,7 @@ func ListAutoScalingLaunchConfiguration(ctx context.Context, d *plugin.QueryData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -24802,7 +24810,7 @@ func GetAutoScalingLaunchConfiguration(ctx context.Context, d *plugin.QueryData,
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -24944,7 +24952,7 @@ func ListCertificateManagerCertificate(ctx context.Context, d *plugin.QueryData,
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -25006,7 +25014,7 @@ func GetCertificateManagerCertificate(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -25152,7 +25160,7 @@ func ListCloudTrailTrail(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -25218,7 +25226,7 @@ func GetCloudTrailTrail(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -25341,7 +25349,7 @@ func ListCloudTrailChannel(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -25384,7 +25392,7 @@ func GetCloudTrailChannel(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -25510,7 +25518,7 @@ func ListCloudTrailEventDataStore(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -25556,7 +25564,7 @@ func GetCloudTrailEventDataStore(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -25680,7 +25688,7 @@ func ListCloudTrailImport(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -25724,7 +25732,7 @@ func GetCloudTrailImport(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -25851,7 +25859,7 @@ func ListCloudTrailQuery(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -25898,7 +25906,7 @@ func GetCloudTrailQuery(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -26021,7 +26029,7 @@ func ListCloudTrailTrailEvent(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -26064,7 +26072,7 @@ func GetCloudTrailTrailEvent(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -26186,7 +26194,7 @@ func ListIAMAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -26228,7 +26236,7 @@ func GetIAMAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -26375,7 +26383,7 @@ func ListIAMAccountSummary(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -26442,7 +26450,7 @@ func GetIAMAccountSummary(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -26564,7 +26572,7 @@ func ListIAMAccessKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -26606,7 +26614,7 @@ func GetIAMAccessKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -26730,7 +26738,7 @@ func ListIAMAccountPasswordPolicy(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -26774,7 +26782,7 @@ func GetIAMAccountPasswordPolicy(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -26905,7 +26913,7 @@ func ListIAMUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -26956,7 +26964,7 @@ func GetIAMUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -27081,7 +27089,7 @@ func ListIAMGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -27126,7 +27134,7 @@ func GetIAMGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -27260,7 +27268,7 @@ func ListIAMRole(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -27314,7 +27322,7 @@ func GetIAMRole(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -27440,7 +27448,7 @@ func ListIAMServerCertificate(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -27486,7 +27494,7 @@ func GetIAMServerCertificate(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -27616,7 +27624,7 @@ func ListIAMPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -27666,7 +27674,7 @@ func GetIAMPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -27804,7 +27812,7 @@ func ListIAMCredentialReport(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -27862,7 +27870,7 @@ func GetIAMCredentialReport(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -27984,7 +27992,7 @@ func ListIAMVirtualMFADevice(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -28026,7 +28034,7 @@ func GetIAMVirtualMFADevice(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -28145,7 +28153,7 @@ func ListIAMPolicyAttachment(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -28184,7 +28192,7 @@ func GetIAMPolicyAttachment(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -28304,7 +28312,7 @@ func ListIAMSamlProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -28344,7 +28352,7 @@ func GetIAMSamlProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -28465,7 +28473,7 @@ func ListIAMServiceSpecificCredential(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -28506,7 +28514,7 @@ func GetIAMServiceSpecificCredential(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -28627,7 +28635,7 @@ func ListIAMOpenIdConnectProvider(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -28668,7 +28676,7 @@ func GetIAMOpenIdConnectProvider(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -28837,7 +28845,7 @@ func ListRDSDBCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -28926,7 +28934,7 @@ func GetRDSDBCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -29048,7 +29056,7 @@ func ListRDSDBClusterParameterGroup(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -29090,7 +29098,7 @@ func GetRDSDBClusterParameterGroup(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -29215,7 +29223,7 @@ func ListRDSOptionGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -29260,7 +29268,7 @@ func GetRDSOptionGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -29382,7 +29390,7 @@ func ListRDSDBParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -29424,7 +29432,7 @@ func GetRDSDBParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -29556,7 +29564,7 @@ func ListRDSDBProxy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -29608,7 +29616,7 @@ func GetRDSDBProxy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -29731,7 +29739,7 @@ func ListRDSDBSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -29774,7 +29782,7 @@ func GetRDSDBSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -29912,7 +29920,7 @@ func ListRDSDBClusterSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -29970,7 +29978,7 @@ func GetRDSDBClusterSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -30095,7 +30103,7 @@ func ListRDSDBEventSubscription(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -30140,7 +30148,7 @@ func GetRDSDBEventSubscription(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -30325,7 +30333,7 @@ func ListRDSDBInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -30430,7 +30438,7 @@ func GetRDSDBInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -30576,7 +30584,7 @@ func ListRDSDBSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -30642,7 +30650,7 @@ func GetRDSDBSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -30760,7 +30768,7 @@ func ListRDSGlobalCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -30798,7 +30806,7 @@ func GetRDSGlobalCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -30930,7 +30938,7 @@ func ListRDSReservedDBInstance(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -30982,7 +30990,7 @@ func GetRDSReservedDBInstance(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -31124,7 +31132,7 @@ func ListRDSDBInstanceAutomatedBackup(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -31187,7 +31195,7 @@ func GetRDSDBInstanceAutomatedBackup(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -31352,7 +31360,7 @@ func ListRedshiftCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -31437,7 +31445,7 @@ func GetRedshiftCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -31564,7 +31572,7 @@ func ListRedshiftEventSubscription(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -31611,7 +31619,7 @@ func GetRedshiftEventSubscription(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -31741,7 +31749,7 @@ func ListRedshiftServerlessWorkgroup(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -31791,7 +31799,7 @@ func GetRedshiftServerlessWorkgroup(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -31912,7 +31920,7 @@ func ListRedshiftClusterParameterGroup(ctx context.Context, d *plugin.QueryData,
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -31953,7 +31961,7 @@ func GetRedshiftClusterParameterGroup(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -32102,7 +32110,7 @@ func ListRedshiftSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -32171,7 +32179,7 @@ func GetRedshiftSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -32299,7 +32307,7 @@ func ListRedshiftServerlessNamespace(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -32347,7 +32355,7 @@ func GetRedshiftServerlessNamespace(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -32465,7 +32473,7 @@ func ListRedshiftServerlessSnapshot(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -32503,7 +32511,7 @@ func GetRedshiftServerlessSnapshot(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -32625,7 +32633,7 @@ func ListRedshiftSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -32667,7 +32675,7 @@ func GetRedshiftSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -32810,7 +32818,7 @@ func ListSNSTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -32873,7 +32881,7 @@ func GetSNSTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -33001,7 +33009,7 @@ func ListSNSSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -33049,7 +33057,7 @@ func GetSNSSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -33180,7 +33188,7 @@ func ListSQSQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -33231,7 +33239,7 @@ func GetSQSQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -33342,15 +33350,17 @@ var listS3BucketFilters = map[string]string{
 	"block_public_policy":                  "description.PublicAccessBlockConfiguration.BlockPublicPolicy",
 	"bucket_policy_is_public":              "description.PolicyStatus.IsPublic",
 	"creation_date":                        "description.Bucket.CreationDate",
+	"event_notification_configuration":     "description.EventNotificationConfiguration",
 	"ignore_public_acls":                   "description.PublicAccessBlockConfiguration.IgnorePublicAcls",
 	"kaytu_account_id":                     "metadata.SourceID",
 	"lifecycle_rules":                      "description.LifecycleRules",
 	"logging":                              "description.LoggingEnabled",
 	"name":                                 "description.Bucket.Name",
 	"object_lock_configuration":            "description.ObjectLockConfiguration",
+	"object_ownership_controls":            "description.BucketOwnershipControls",
 	"policy":                               "description.Policy",
 	"policy_std":                           "description.Policy",
-	"region":                               "locationConstraint",
+	"region":                               "description.Region",
 	"replication":                          "description.ReplicationConfiguration",
 	"restrict_public_buckets":              "description.PublicAccessBlockConfiguration.RestrictPublicBuckets",
 	"server_side_encryption_configuration": "description.ServerSideEncryptionConfiguration",
@@ -33358,6 +33368,7 @@ var listS3BucketFilters = map[string]string{
 	"title":                                "description.Bucket.Name",
 	"versioning_enabled":                   "description.Versioning.Status",
 	"versioning_mfa_delete":                "description.Versioning.MFADelete",
+	"website_configuration":                "description.BucketWebsite",
 }
 
 func ListS3Bucket(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -33365,7 +33376,7 @@ func ListS3Bucket(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -33396,15 +33407,17 @@ var getS3BucketFilters = map[string]string{
 	"block_public_policy":                  "description.PublicAccessBlockConfiguration.BlockPublicPolicy",
 	"bucket_policy_is_public":              "description.PolicyStatus.IsPublic",
 	"creation_date":                        "description.Bucket.CreationDate",
+	"event_notification_configuration":     "description.EventNotificationConfiguration",
 	"ignore_public_acls":                   "description.PublicAccessBlockConfiguration.IgnorePublicAcls",
 	"kaytu_account_id":                     "metadata.SourceID",
 	"lifecycle_rules":                      "description.LifecycleRules",
 	"logging":                              "description.LoggingEnabled",
 	"name":                                 "description.Bucket.Name",
 	"object_lock_configuration":            "description.ObjectLockConfiguration",
+	"object_ownership_controls":            "description.BucketOwnershipControls",
 	"policy":                               "description.Policy",
 	"policy_std":                           "description.Policy",
-	"region":                               "locationConstraint",
+	"region":                               "description.Region",
 	"replication":                          "description.ReplicationConfiguration",
 	"restrict_public_buckets":              "description.PublicAccessBlockConfiguration.RestrictPublicBuckets",
 	"server_side_encryption_configuration": "description.ServerSideEncryptionConfiguration",
@@ -33412,6 +33425,7 @@ var getS3BucketFilters = map[string]string{
 	"title":                                "description.Bucket.Name",
 	"versioning_enabled":                   "description.Versioning.Status",
 	"versioning_mfa_delete":                "description.Versioning.MFADelete",
+	"website_configuration":                "description.BucketWebsite",
 }
 
 func GetS3Bucket(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -33419,7 +33433,7 @@ func GetS3Bucket(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -33537,7 +33551,7 @@ func ListS3AccountSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -33575,7 +33589,7 @@ func GetS3AccountSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -33681,39 +33695,54 @@ func (p S3ObjectPaginator) NextPage(ctx context.Context) ([]S3Object, error) {
 }
 
 var listS3ObjectFilters = map[string]string{
-	"accept_ranges":                 "acceptRanges",
-	"bucket_key_enabled":            "bucketKeyEnabled",
-	"cache_control":                 "cacheControl",
-	"checksum":                      "checksum",
-	"content_disposition":           "contentDisposition",
-	"content_encoding":              "contentEncoding",
-	"content_language":              "contentLanguage",
-	"content_length":                "contentLength",
-	"content_range":                 "contentRange",
-	"content_type":                  "contentType",
-	"delete_marker":                 "deleteMarker",
+	"accept_ranges":                 "description.Object.AcceptRanges",
+	"acl":                           "description.ObjectAcl",
+	"akas":                          "aRN",
+	"arn":                           "aRN",
+	"body":                          "description.Object.Body",
+	"bucket_key_enabled":            "description.Object.BucketKeyEnabled",
+	"bucket_name":                   "description.BucketName",
+	"cache_control":                 "description.Object.CacheControl",
+	"checksum":                      "description.ObjectAttributes.Checksum",
+	"checksum_crc32":                "description.Object.ChecksumCRC32",
+	"checksum_crc32c":               "description.Object.ChecksumCRC32C",
+	"checksum_sha1":                 "description.Object.ChecksumSHA1",
+	"checksum_sha256":               "description.Object.ChecksumSHA256",
+	"content_disposition":           "description.Object.ContentDisposition",
+	"content_encoding":              "description.Object.ContentEncoding",
+	"content_language":              "description.Object.ContentLanguage",
+	"content_length":                "description.Object.ContentLength",
+	"content_range":                 "description.Object.ContentRange",
+	"content_type":                  "description.Object.ContentType",
+	"delete_marker":                 "description.Object.DeleteMarker",
 	"etag":                          "description.Object.ETag",
-	"expiration":                    "expiration",
-	"expires":                       "expires",
+	"expiration":                    "description.Object.Expiration",
+	"expires":                       "description.Object.Expires",
 	"kaytu_account_id":              "metadata.SourceID",
-	"metadata":                      "metadata",
-	"object_lock_legal_hold_status": "description.ObjectLockLegal.Status",
-	"object_lock_mode":              "description.ObjectLockRetention.Mode",
-	"object_lock_retain_until_date": "description.ObjectLockRetention.RetainUntilDate",
-	"object_parts":                  "objectParts",
-	"replication_status":            "replicationStatus",
-	"request_charged":               "requestCharged",
-	"restore":                       "restore",
-	"server_side_encryption":        "description.Encryption.EncryptionType",
-	"size":                          "description.Object.Size",
-	"sse_customer_algorithm":        "sSECustomerAlgorithm",
-	"sse_customer_key_md5":          "sSECustomerKeyMD5",
-	"sse_kms_key_id":                "description.ServerSideEncryption.Rules.ApplyServerSideEncryptionByDefault.KMSMasterKeyID",
-	"tag_count":                     "tagCount",
-	"tags":                          "tagSet",
-	"tags_src":                      "tagSet",
-	"title":                         "key",
-	"website_redirection_location":  "websiteRedirectLocation",
+	"key":                           "description.ObjectSummary.Key",
+	"last_modified":                 "description.ObjectSummary.LastModified",
+	"metadata":                      "description.Object.Metadata",
+	"object_lock_legal_hold_status": "description.Object.ObjectLockLegalHoldStatus",
+	"object_lock_mode":              "description.Object.ObjectLockMode",
+	"object_lock_retain_until_date": "description.Object.ObjectLockRetainUntilDate",
+	"object_parts":                  "description.ObjectAttributes.ObjectParts",
+	"owner":                         "description.ObjectSummary.Owner",
+	"parts_count":                   "description.Object.PartsCount",
+	"replication_status":            "escription.Object.ReplicationStatus",
+	"request_charged":               "escription.Object.RequestCharged",
+	"restore":                       "escription.Object.Restore",
+	"server_side_encryption":        "description.Object.ServerSideEncryption",
+	"size":                          "description.ObjectSummary.Size",
+	"sse_customer_algorithm":        "description.Object.SSECustomerAlgorithm",
+	"sse_customer_key_md5":          "description.Object.SSECustomerKeyMD5",
+	"sse_kms_key_id":                "description.Object.SSEKMSKeyId",
+	"storage_class":                 "description.Object.StorageClass",
+	"tag_count":                     "description.Object.TagCount",
+	"tags":                          "description.ObjectTags",
+	"tags_src":                      "description.ObjectTags.TagSet",
+	"title":                         "description.ObjectSummary.Key",
+	"version_id":                    "description.Object.VersionId",
+	"website_redirection_location":  "description.Object.WebsiteRedirectLocation",
 }
 
 func ListS3Object(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -33721,7 +33750,7 @@ func ListS3Object(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -33747,39 +33776,54 @@ func ListS3Object(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 }
 
 var getS3ObjectFilters = map[string]string{
-	"accept_ranges":                 "acceptRanges",
-	"bucket_key_enabled":            "bucketKeyEnabled",
-	"cache_control":                 "cacheControl",
-	"checksum":                      "checksum",
-	"content_disposition":           "contentDisposition",
-	"content_encoding":              "contentEncoding",
-	"content_language":              "contentLanguage",
-	"content_length":                "contentLength",
-	"content_range":                 "contentRange",
-	"content_type":                  "contentType",
-	"delete_marker":                 "deleteMarker",
+	"accept_ranges":                 "description.Object.AcceptRanges",
+	"acl":                           "description.ObjectAcl",
+	"akas":                          "aRN",
+	"arn":                           "aRN",
+	"body":                          "description.Object.Body",
+	"bucket_key_enabled":            "description.Object.BucketKeyEnabled",
+	"bucket_name":                   "description.BucketName",
+	"cache_control":                 "description.Object.CacheControl",
+	"checksum":                      "description.ObjectAttributes.Checksum",
+	"checksum_crc32":                "description.Object.ChecksumCRC32",
+	"checksum_crc32c":               "description.Object.ChecksumCRC32C",
+	"checksum_sha1":                 "description.Object.ChecksumSHA1",
+	"checksum_sha256":               "description.Object.ChecksumSHA256",
+	"content_disposition":           "description.Object.ContentDisposition",
+	"content_encoding":              "description.Object.ContentEncoding",
+	"content_language":              "description.Object.ContentLanguage",
+	"content_length":                "description.Object.ContentLength",
+	"content_range":                 "description.Object.ContentRange",
+	"content_type":                  "description.Object.ContentType",
+	"delete_marker":                 "description.Object.DeleteMarker",
 	"etag":                          "description.Object.ETag",
-	"expiration":                    "expiration",
-	"expires":                       "expires",
+	"expiration":                    "description.Object.Expiration",
+	"expires":                       "description.Object.Expires",
 	"kaytu_account_id":              "metadata.SourceID",
-	"metadata":                      "metadata",
-	"object_lock_legal_hold_status": "description.ObjectLockLegal.Status",
-	"object_lock_mode":              "description.ObjectLockRetention.Mode",
-	"object_lock_retain_until_date": "description.ObjectLockRetention.RetainUntilDate",
-	"object_parts":                  "objectParts",
-	"replication_status":            "replicationStatus",
-	"request_charged":               "requestCharged",
-	"restore":                       "restore",
-	"server_side_encryption":        "description.Encryption.EncryptionType",
-	"size":                          "description.Object.Size",
-	"sse_customer_algorithm":        "sSECustomerAlgorithm",
-	"sse_customer_key_md5":          "sSECustomerKeyMD5",
-	"sse_kms_key_id":                "description.ServerSideEncryption.Rules.ApplyServerSideEncryptionByDefault.KMSMasterKeyID",
-	"tag_count":                     "tagCount",
-	"tags":                          "tagSet",
-	"tags_src":                      "tagSet",
-	"title":                         "key",
-	"website_redirection_location":  "websiteRedirectLocation",
+	"key":                           "description.ObjectSummary.Key",
+	"last_modified":                 "description.ObjectSummary.LastModified",
+	"metadata":                      "description.Object.Metadata",
+	"object_lock_legal_hold_status": "description.Object.ObjectLockLegalHoldStatus",
+	"object_lock_mode":              "description.Object.ObjectLockMode",
+	"object_lock_retain_until_date": "description.Object.ObjectLockRetainUntilDate",
+	"object_parts":                  "description.ObjectAttributes.ObjectParts",
+	"owner":                         "description.ObjectSummary.Owner",
+	"parts_count":                   "description.Object.PartsCount",
+	"replication_status":            "escription.Object.ReplicationStatus",
+	"request_charged":               "escription.Object.RequestCharged",
+	"restore":                       "escription.Object.Restore",
+	"server_side_encryption":        "description.Object.ServerSideEncryption",
+	"size":                          "description.ObjectSummary.Size",
+	"sse_customer_algorithm":        "description.Object.SSECustomerAlgorithm",
+	"sse_customer_key_md5":          "description.Object.SSECustomerKeyMD5",
+	"sse_kms_key_id":                "description.Object.SSEKMSKeyId",
+	"storage_class":                 "description.Object.StorageClass",
+	"tag_count":                     "description.Object.TagCount",
+	"tags":                          "description.ObjectTags",
+	"tags_src":                      "description.ObjectTags.TagSet",
+	"title":                         "description.ObjectSummary.Key",
+	"version_id":                    "description.Object.VersionId",
+	"website_redirection_location":  "description.Object.WebsiteRedirectLocation",
 }
 
 func GetS3Object(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -33787,7 +33831,7 @@ func GetS3Object(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -33907,7 +33951,7 @@ func ListS3BucketIntelligentTieringConfiguration(ctx context.Context, d *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -33947,7 +33991,7 @@ func GetS3BucketIntelligentTieringConfiguration(ctx context.Context, d *plugin.Q
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -34069,7 +34113,7 @@ func ListS3MultiRegionAccessPoint(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -34111,7 +34155,7 @@ func GetS3MultiRegionAccessPoint(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -34234,7 +34278,7 @@ func ListSageMakerEndpointConfiguration(ctx context.Context, d *plugin.QueryData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -34277,7 +34321,7 @@ func GetSageMakerEndpointConfiguration(ctx context.Context, d *plugin.QueryData,
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -34404,7 +34448,7 @@ func ListSageMakerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -34451,7 +34495,7 @@ func GetSageMakerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -34586,7 +34630,7 @@ func ListSageMakerDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -34641,7 +34685,7 @@ func GetSageMakerDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -34778,7 +34822,7 @@ func ListSageMakerNotebookInstance(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -34835,7 +34879,7 @@ func GetSageMakerNotebookInstance(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -34961,7 +35005,7 @@ func ListSageMakerModel(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -35007,7 +35051,7 @@ func GetSageMakerModel(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -35163,7 +35207,7 @@ func ListSageMakerTrainingJob(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -35239,7 +35283,7 @@ func GetSageMakerTrainingJob(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -35375,7 +35419,7 @@ func ListSecretsManagerSecret(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -35431,7 +35475,7 @@ func GetSecretsManagerSecret(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -35537,12 +35581,13 @@ func (p SecurityHubHubPaginator) NextPage(ctx context.Context) ([]SecurityHubHub
 }
 
 var listSecurityHubHubFilters = map[string]string{
-	"akas":                 "hubArn",
-	"auto_enable_controls": "description.Hub.AutoEnableControls",
-	"hub_arn":              "description.Hub.HubArn",
-	"kaytu_account_id":     "metadata.SourceID",
-	"subscribed_at":        "description.Hub.SubscribedAt",
-	"tags":                 "description.Tags",
+	"administrator_account": "description.AdministratorAccount",
+	"akas":                  "hubArn",
+	"auto_enable_controls":  "description.Hub.AutoEnableControls",
+	"hub_arn":               "description.Hub.HubArn",
+	"kaytu_account_id":      "metadata.SourceID",
+	"subscribed_at":         "description.Hub.SubscribedAt",
+	"tags":                  "description.Tags",
 }
 
 func ListSecurityHubHub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -35550,7 +35595,7 @@ func ListSecurityHubHub(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -35576,12 +35621,13 @@ func ListSecurityHubHub(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getSecurityHubHubFilters = map[string]string{
-	"akas":                 "hubArn",
-	"auto_enable_controls": "description.Hub.AutoEnableControls",
-	"hub_arn":              "description.Hub.HubArn",
-	"kaytu_account_id":     "metadata.SourceID",
-	"subscribed_at":        "description.Hub.SubscribedAt",
-	"tags":                 "description.Tags",
+	"administrator_account": "description.AdministratorAccount",
+	"akas":                  "hubArn",
+	"auto_enable_controls":  "description.Hub.AutoEnableControls",
+	"hub_arn":               "description.Hub.HubArn",
+	"kaytu_account_id":      "metadata.SourceID",
+	"subscribed_at":         "description.Hub.SubscribedAt",
+	"tags":                  "description.Tags",
 }
 
 func GetSecurityHubHub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -35589,7 +35635,7 @@ func GetSecurityHubHub(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -35708,7 +35754,7 @@ func ListSecurityHubActionTarget(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -35747,7 +35793,7 @@ func GetSecurityHubActionTarget(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -35899,7 +35945,7 @@ func ListSecurityHubFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -35971,7 +36017,7 @@ func GetSecurityHubFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -36090,7 +36136,7 @@ func ListSecurityHubFindingAggregator(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -36129,7 +36175,7 @@ func GetSecurityHubFindingAggregator(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -36249,7 +36295,7 @@ func ListSecurityHubInsight(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -36289,7 +36335,7 @@ func GetSecurityHubInsight(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -36411,7 +36457,7 @@ func ListSecurityHubMember(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -36453,7 +36499,7 @@ func GetSecurityHubMember(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -36578,7 +36624,7 @@ func ListSecurityHubProduct(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -36623,7 +36669,7 @@ func GetSecurityHubProduct(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -36748,7 +36794,7 @@ func ListSecurityHubStandardsControl(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -36793,7 +36839,7 @@ func GetSecurityHubStandardsControl(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -36918,7 +36964,7 @@ func ListSecurityHubStandardsSubscription(ctx context.Context, d *plugin.QueryDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -36963,7 +37009,7 @@ func GetSecurityHubStandardsSubscription(ctx context.Context, d *plugin.QueryDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -37098,7 +37144,7 @@ func ListSSMManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -37153,7 +37199,7 @@ func GetSSMManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -37291,7 +37337,7 @@ func ListSSMAssociation(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -37349,7 +37395,7 @@ func GetSSMAssociation(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -37496,7 +37542,7 @@ func ListSSMDocument(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -37562,7 +37608,7 @@ func GetSSMDocument(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -37681,7 +37727,7 @@ func ListSSMDocumentPermission(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -37720,7 +37766,7 @@ func GetSSMDocumentPermission(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -37841,7 +37887,7 @@ func ListSSMInventory(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -37882,7 +37928,7 @@ func GetSSMInventory(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -38002,7 +38048,7 @@ func ListSSMInventoryEntry(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -38042,7 +38088,7 @@ func GetSSMInventoryEntry(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -38177,7 +38223,7 @@ func ListSSMMaintenanceWindow(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -38232,7 +38278,7 @@ func GetSSMMaintenanceWindow(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -38363,7 +38409,7 @@ func ListSSMParameter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -38414,7 +38460,7 @@ func GetSSMParameter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -38547,7 +38593,7 @@ func ListSSMPatchBaseline(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -38600,7 +38646,7 @@ func GetSSMPatchBaseline(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -38723,7 +38769,7 @@ func ListSSMManagedInstanceCompliance(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -38766,7 +38812,7 @@ func GetSSMManagedInstanceCompliance(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -38902,7 +38948,7 @@ func ListSSMManagedInstancePatchState(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -38958,7 +39004,7 @@ func GetSSMManagedInstancePatchState(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -39095,7 +39141,7 @@ func ListECSTaskDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -39152,7 +39198,7 @@ func GetECSTaskDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -39283,7 +39329,7 @@ func ListECSCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -39334,7 +39380,7 @@ func GetECSCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -39481,7 +39527,7 @@ func ListECSService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -39548,7 +39594,7 @@ func GetECSService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -39681,7 +39727,7 @@ func ListECSContainerInstance(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -39734,7 +39780,7 @@ func GetECSContainerInstance(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -39852,7 +39898,7 @@ func ListECSTaskSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -39890,7 +39936,7 @@ func GetECSTaskSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -40042,7 +40088,7 @@ func ListECSTask(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -40113,7 +40159,7 @@ func GetECSTask(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -40247,7 +40293,7 @@ func ListEFSFileSystem(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -40302,7 +40348,7 @@ func GetEFSFileSystem(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -40427,7 +40473,7 @@ func ListEFSAccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -40472,7 +40518,7 @@ func GetEFSAccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -40599,7 +40645,7 @@ func ListEFSMountTarget(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -40646,7 +40692,7 @@ func GetEFSMountTarget(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -40777,7 +40823,7 @@ func ListEKSCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -40828,7 +40874,7 @@ func GetEKSCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -40954,7 +41000,7 @@ func ListEKSAddon(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -41000,7 +41046,7 @@ func GetEKSAddon(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -41139,7 +41185,7 @@ func ListEKSNodegroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -41198,7 +41244,7 @@ func GetEKSNodegroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -41320,7 +41366,7 @@ func ListEKSAddonVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -41362,7 +41408,7 @@ func GetEKSAddonVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -41487,7 +41533,7 @@ func ListEKSFargateProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -41532,7 +41578,7 @@ func GetEKSFargateProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -41663,7 +41709,7 @@ func ListWAFv2WebACL(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -41715,7 +41761,7 @@ func GetWAFv2WebACL(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -41842,7 +41888,7 @@ func ListWAFv2IPSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -41890,7 +41936,7 @@ func GetWAFv2IPSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -42017,7 +42063,7 @@ func ListWAFv2RegexPatternSet(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -42065,7 +42111,7 @@ func GetWAFv2RegexPatternSet(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -42193,7 +42239,7 @@ func ListWAFv2RuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -42242,7 +42288,7 @@ func GetWAFv2RuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -42377,7 +42423,7 @@ func ListKMSKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -42432,7 +42478,7 @@ func GetKMSKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -42553,7 +42599,7 @@ func ListKMSAlias(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -42594,7 +42640,7 @@ func GetKMSAlias(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -42747,7 +42793,7 @@ func ListLambdaFunction(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -42820,7 +42866,7 @@ func GetLambdaFunction(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -42959,7 +43005,7 @@ func ListLambdaFunctionVersion(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -43018,7 +43064,7 @@ func GetLambdaFunctionVersion(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -43143,7 +43189,7 @@ func ListLambdaAlias(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -43189,7 +43235,7 @@ func GetLambdaAlias(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -43314,7 +43360,7 @@ func ListLambdaLayer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -43359,7 +43405,7 @@ func GetLambdaLayer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -43488,7 +43534,7 @@ func ListLambdaLayerVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -43537,7 +43583,7 @@ func GetLambdaLayerVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -43664,7 +43710,7 @@ func ListS3AccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -43712,7 +43758,7 @@ func GetS3AccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -43827,7 +43873,7 @@ func ListCostExplorerByAccountMonthly(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -43862,7 +43908,7 @@ func GetCostExplorerByAccountMonthly(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -43977,7 +44023,7 @@ func ListCostExplorerByServiceMonthly(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -44012,7 +44058,7 @@ func GetCostExplorerByServiceMonthly(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -44128,7 +44174,7 @@ func ListCostExplorerByRecordTypeMonthly(ctx context.Context, d *plugin.QueryDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -44164,7 +44210,7 @@ func GetCostExplorerByRecordTypeMonthly(ctx context.Context, d *plugin.QueryData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -44280,7 +44326,7 @@ func ListCostExplorerByServiceUsageTypeMonthly(ctx context.Context, d *plugin.Qu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -44316,7 +44362,7 @@ func GetCostExplorerByServiceUsageTypeMonthly(ctx context.Context, d *plugin.Que
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -44433,7 +44479,7 @@ func ListCostExplorerForcastMonthly(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -44470,7 +44516,7 @@ func GetCostExplorerForcastMonthly(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -44585,7 +44631,7 @@ func ListCostExplorerByAccountDaily(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -44620,7 +44666,7 @@ func GetCostExplorerByAccountDaily(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -44735,7 +44781,7 @@ func ListCostExplorerByServiceDaily(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -44770,7 +44816,7 @@ func GetCostExplorerByServiceDaily(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -44886,7 +44932,7 @@ func ListCostExplorerByRecordTypeDaily(ctx context.Context, d *plugin.QueryData,
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -44922,7 +44968,7 @@ func GetCostExplorerByRecordTypeDaily(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -45038,7 +45084,7 @@ func ListCostExplorerByServiceUsageTypeDaily(ctx context.Context, d *plugin.Quer
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -45074,7 +45120,7 @@ func GetCostExplorerByServiceUsageTypeDaily(ctx context.Context, d *plugin.Query
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -45191,7 +45237,7 @@ func ListCostExplorerForcastDaily(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -45228,7 +45274,7 @@ func GetCostExplorerForcastDaily(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -45360,7 +45406,7 @@ func ListECRRepository(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -45412,7 +45458,7 @@ func GetECRRepository(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -45538,7 +45584,7 @@ func ListECRImage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -45584,7 +45630,7 @@ func GetECRImage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -45710,7 +45756,7 @@ func ListECRPublicRepository(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -45756,7 +45802,7 @@ func GetECRPublicRepository(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -45874,7 +45920,7 @@ func ListECRPublicRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -45912,7 +45958,7 @@ func GetECRPublicRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -46034,7 +46080,7 @@ func ListEventBridgeBus(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -46076,7 +46122,7 @@ func GetEventBridgeBus(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -46204,7 +46250,7 @@ func ListEventBridgeRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -46252,7 +46298,7 @@ func GetEventBridgeRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -46371,7 +46417,7 @@ func ListAppStreamApplication(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -46410,7 +46456,7 @@ func GetAppStreamApplication(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -46529,7 +46575,7 @@ func ListAppStreamStack(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -46568,7 +46614,7 @@ func GetAppStreamStack(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -46687,7 +46733,7 @@ func ListAppStreamFleet(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -46726,7 +46772,7 @@ func GetAppStreamFleet(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -46860,7 +46906,7 @@ func ListAppStreamImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -46914,7 +46960,7 @@ func GetAppStreamImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -47046,7 +47092,7 @@ func ListAthenaWorkGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -47098,7 +47144,7 @@ func GetAthenaWorkGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -47245,7 +47291,7 @@ func ListAthenaQueryExecution(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -47313,7 +47359,7 @@ func GetAthenaQueryExecution(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -47443,7 +47489,7 @@ func ListKinesisStream(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -47493,7 +47539,7 @@ func GetKinesisStream(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -47619,7 +47665,7 @@ func ListKinesisVideoStream(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -47665,7 +47711,7 @@ func GetKinesisVideoStream(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -47786,7 +47832,7 @@ func ListKinesisConsumer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -47827,7 +47873,7 @@ func GetKinesisConsumer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -47956,7 +48002,7 @@ func ListKinesisAnalyticsV2Application(ctx context.Context, d *plugin.QueryData,
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -48005,7 +48051,7 @@ func GetKinesisAnalyticsV2Application(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -48133,7 +48179,7 @@ func ListGlacierVault(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -48181,7 +48227,7 @@ func GetGlacierVault(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -48312,7 +48358,7 @@ func ListWorkspacesWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -48363,7 +48409,7 @@ func GetWorkspacesWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -48480,7 +48526,7 @@ func ListWorkspacesBundle(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -48517,7 +48563,7 @@ func GetWorkspacesBundle(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -48635,7 +48681,7 @@ func ListKeyspacesKeyspace(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -48673,7 +48719,7 @@ func GetKeyspacesKeyspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -48791,7 +48837,7 @@ func ListKeyspacesTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -48829,7 +48875,7 @@ func GetKeyspacesTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -48947,7 +48993,7 @@ func ListGrafanaWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -48985,7 +49031,7 @@ func GetGrafanaWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -49104,7 +49150,7 @@ func ListAMPWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -49143,7 +49189,7 @@ func GetAMPWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -49262,7 +49308,7 @@ func ListKafkaCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -49301,7 +49347,7 @@ func GetKafkaCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -49420,7 +49466,7 @@ func ListMWAAEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -49459,7 +49505,7 @@ func GetMWAAEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -49577,7 +49623,7 @@ func ListMemoryDbCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -49615,7 +49661,7 @@ func GetMemoryDbCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -49735,7 +49781,7 @@ func ListMQBroker(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -49775,7 +49821,7 @@ func GetMQBroker(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -49894,7 +49940,7 @@ func ListNeptuneDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -49933,7 +49979,7 @@ func GetNeptuneDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -50087,7 +50133,7 @@ func ListNeptuneDatabaseCluster(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -50162,7 +50208,7 @@ func GetNeptuneDatabaseCluster(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -50303,7 +50349,7 @@ func ListOpenSearchDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -50364,7 +50410,7 @@ func GetOpenSearchDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -50480,7 +50526,7 @@ func ListSESConfigurationSet(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -50516,7 +50562,7 @@ func GetSESConfigurationSet(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -50633,7 +50679,7 @@ func ListSESIdentity(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -50669,7 +50715,7 @@ func GetSESIdentity(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -50806,7 +50852,7 @@ func ListCloudFormationStack(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -50863,7 +50909,7 @@ func GetCloudFormationStack(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -50986,7 +51032,7 @@ func ListCloudFormationStackSet(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -51029,7 +51075,7 @@ func GetCloudFormationStackSet(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -51156,7 +51202,7 @@ func ListCloudFormationStackResource(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -51202,7 +51248,7 @@ func GetCloudFormationStackResource(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -51328,7 +51374,7 @@ func ListCodeCommitRepository(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -51374,7 +51420,7 @@ func GetCodeCommitRepository(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -51500,7 +51546,7 @@ func ListCodePipelinePipeline(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -51546,7 +51592,7 @@ func GetCodePipelinePipeline(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -51660,6 +51706,7 @@ var listDirectoryServiceDirectoryFilters = map[string]string{
 	"directory_id":                         "description.Directory.DirectoryId",
 	"dns_ip_addrs":                         "description.Directory.DnsIpAddrs",
 	"edition":                              "description.Directory.Edition",
+	"event_topics":                         "description.EventTopics",
 	"kaytu_account_id":                     "metadata.SourceID",
 	"launch_time":                          "description.Directory.LaunchTime",
 	"name":                                 "description.Directory.Name",
@@ -51670,6 +51717,7 @@ var listDirectoryServiceDirectoryFilters = map[string]string{
 	"share_method":                         "description.Directory.ShareMethod",
 	"share_notes":                          "description.Directory.ShareNotes",
 	"share_status":                         "description.Directory.ShareStatus",
+	"shared_directories":                   "description.SharedDirectory",
 	"short_name":                           "description.Directory.ShortName",
 	"size":                                 "description.Directory.Size",
 	"snapshot_limit":                       "description.Snapshot.ManualSnapshotsLimit",
@@ -51688,7 +51736,7 @@ func ListDirectoryServiceDirectory(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -51722,6 +51770,7 @@ var getDirectoryServiceDirectoryFilters = map[string]string{
 	"directory_id":                         "description.Directory.DirectoryId",
 	"dns_ip_addrs":                         "description.Directory.DnsIpAddrs",
 	"edition":                              "description.Directory.Edition",
+	"event_topics":                         "description.EventTopics",
 	"kaytu_account_id":                     "metadata.SourceID",
 	"launch_time":                          "description.Directory.LaunchTime",
 	"name":                                 "description.Directory.DirectoryId",
@@ -51732,6 +51781,7 @@ var getDirectoryServiceDirectoryFilters = map[string]string{
 	"share_method":                         "description.Directory.ShareMethod",
 	"share_notes":                          "description.Directory.ShareNotes",
 	"share_status":                         "description.Directory.ShareStatus",
+	"shared_directories":                   "description.SharedDirectory",
 	"short_name":                           "description.Directory.ShortName",
 	"size":                                 "description.Directory.Size",
 	"snapshot_limit":                       "description.Snapshot.ManualSnapshotsLimit",
@@ -51750,7 +51800,7 @@ func GetDirectoryServiceDirectory(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -51874,7 +51924,7 @@ func ListDirectoryServiceCertificate(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -51919,7 +51969,7 @@ func GetDirectoryServiceCertificate(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -52037,7 +52087,7 @@ func ListDirectoryServiceLogSubscription(ctx context.Context, d *plugin.QueryDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -52075,7 +52125,7 @@ func GetDirectoryServiceLogSubscription(ctx context.Context, d *plugin.QueryData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -52193,7 +52243,7 @@ func ListSSOAdminInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -52231,7 +52281,7 @@ func GetSSOAdminInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -52350,7 +52400,7 @@ func ListSSOAdminAccountAssignment(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -52389,7 +52439,7 @@ func GetSSOAdminAccountAssignment(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -52509,7 +52559,7 @@ func ListWAFRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -52549,7 +52599,7 @@ func GetWAFRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -52668,7 +52718,7 @@ func ListWAFRegionalRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -52707,7 +52757,7 @@ func GetWAFRegionalRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -52830,7 +52880,7 @@ func ListWAFRateBasedRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -52873,7 +52923,7 @@ func GetWAFRateBasedRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -52998,7 +53048,7 @@ func ListWAFWebAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -53043,7 +53093,7 @@ func GetWAFWebAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -53182,7 +53232,7 @@ func ListWellArchitectedWorkload(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -53241,7 +53291,7 @@ func GetWellArchitectedWorkload(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -53374,7 +53424,7 @@ func ListWellArchitectedAnswer(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -53427,7 +53477,7 @@ func GetWellArchitectedAnswer(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -53556,7 +53606,7 @@ func ListWellArchitectedCheckDetail(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -53605,7 +53655,7 @@ func GetWellArchitectedCheckDetail(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -53732,7 +53782,7 @@ func ListWellArchitectedCheckSummary(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -53779,7 +53829,7 @@ func GetWellArchitectedCheckSummary(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -53903,7 +53953,7 @@ func ListWellArchitectedCheckConsolidatedReport(ctx context.Context, d *plugin.Q
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -53947,7 +53997,7 @@ func GetWellArchitectedCheckConsolidatedReport(ctx context.Context, d *plugin.Qu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -54075,7 +54125,7 @@ func ListWellArchitectedLens(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -54123,7 +54173,7 @@ func GetWellArchitectedLens(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -54247,7 +54297,7 @@ func ListWellArchitectedLensReview(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -54291,7 +54341,7 @@ func GetWellArchitectedLensReview(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -54416,7 +54466,7 @@ func ListWellArchitectedLensReviewImprovement(ctx context.Context, d *plugin.Que
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -54461,7 +54511,7 @@ func GetWellArchitectedLensReviewImprovement(ctx context.Context, d *plugin.Quer
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -54580,7 +54630,7 @@ func ListWellArchitectedLensReviewReport(ctx context.Context, d *plugin.QueryDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -54619,7 +54669,7 @@ func GetWellArchitectedLensReviewReport(ctx context.Context, d *plugin.QueryData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -54741,7 +54791,7 @@ func ListWellArchitectedLensShare(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -54783,7 +54833,7 @@ func GetWellArchitectedLensShare(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -54902,7 +54952,7 @@ func ListWellArchitectedMilestone(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -54941,7 +54991,7 @@ func GetWellArchitectedMilestone(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -55062,7 +55112,7 @@ func ListWellArchitectedNotification(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -55103,7 +55153,7 @@ func GetWellArchitectedNotification(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -55226,7 +55276,7 @@ func ListWellArchitectedShareInvitation(ctx context.Context, d *plugin.QueryData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -55269,7 +55319,7 @@ func GetWellArchitectedShareInvitation(ctx context.Context, d *plugin.QueryData,
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -55391,7 +55441,7 @@ func ListWellArchitectedWorkloadShare(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -55433,7 +55483,7 @@ func GetWellArchitectedWorkloadShare(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -55559,7 +55609,7 @@ func ListWAFRegionalWebAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -55605,7 +55655,7 @@ func GetWAFRegionalWebAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -55728,7 +55778,7 @@ func ListWAFRegionalRuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -55771,7 +55821,7 @@ func GetWAFRegionalRuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -55899,7 +55949,7 @@ func ListRoute53HostedZone(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -55947,7 +55997,7 @@ func GetRoute53HostedZone(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -56072,7 +56122,7 @@ func ListRoute53HealthCheck(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -56117,7 +56167,7 @@ func GetRoute53HealthCheck(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -56250,7 +56300,7 @@ func ListRoute53ResolverResolverRule(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -56303,7 +56353,7 @@ func GetRoute53ResolverResolverRule(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -56434,7 +56484,7 @@ func ListRoute53ResolverEndpoint(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -56485,7 +56535,7 @@ func GetRoute53ResolverEndpoint(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -56625,7 +56675,7 @@ func ListRoute53Domain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -56685,7 +56735,7 @@ func GetRoute53Domain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -56814,7 +56864,7 @@ func ListRoute53Record(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -56863,7 +56913,7 @@ func GetRoute53Record(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -56985,7 +57035,7 @@ func ListRoute53TrafficPolicy(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -57027,7 +57077,7 @@ func GetRoute53TrafficPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -57152,7 +57202,7 @@ func ListRoute53TrafficPolicyInstance(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -57197,7 +57247,7 @@ func GetRoute53TrafficPolicyInstance(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -57316,7 +57366,7 @@ func ListRoute53QueryLog(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -57355,7 +57405,7 @@ func GetRoute53QueryLog(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -57481,7 +57531,7 @@ func ListRoute53ResolverQueryLogConfig(ctx context.Context, d *plugin.QueryData,
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -57527,7 +57577,7 @@ func GetRoute53ResolverQueryLogConfig(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -57647,7 +57697,7 @@ func ListBatchComputeEnvironment(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -57687,7 +57737,7 @@ func GetBatchComputeEnvironment(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -57806,7 +57856,7 @@ func ListBatchJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -57845,7 +57895,7 @@ func GetBatchJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -57965,7 +58015,7 @@ func ListBatchJobQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -58006,7 +58056,7 @@ func GetBatchJobQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -58123,6 +58173,7 @@ var listCodeArtifactRepositoryFilters = map[string]string{
 	"name":                  "description.Repository.Name",
 	"policy":                "description.Policy.ResourceArn",
 	"policy_std":            "description.Policy",
+	"repository_endpoint":   "description.Endpoints",
 	"tags_src":              "description.Tags",
 	"title":                 "description.Repository.Name",
 	"upstreams":             "description.Description.Upstreams",
@@ -58133,7 +58184,7 @@ func ListCodeArtifactRepository(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -58170,6 +58221,7 @@ var getCodeArtifactRepositoryFilters = map[string]string{
 	"name":                  "description.Repository.Name",
 	"policy":                "description.Policy.ResourceArn",
 	"policy_std":            "description.Policy",
+	"repository_endpoint":   "description.Endpoints",
 	"tags_src":              "description.Tags",
 	"title":                 "description.Repository.Name",
 	"upstreams":             "description.Description.Upstreams",
@@ -58180,7 +58232,7 @@ func GetCodeArtifactRepository(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -58309,7 +58361,7 @@ func ListCodeArtifactDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -58358,7 +58410,7 @@ func GetCodeArtifactDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -58496,7 +58548,7 @@ func ListCodeDeployDeploymentGroup(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -58554,7 +58606,7 @@ func GetCodeDeployDeploymentGroup(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -58676,7 +58728,7 @@ func ListCodeDeployApplication(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -58718,7 +58770,7 @@ func GetCodeDeployApplication(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -58841,7 +58893,7 @@ func ListCodeDeployDeploymentConfig(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -58885,7 +58937,7 @@ func GetCodeDeployDeploymentConfig(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -59005,7 +59057,7 @@ func ListCodeStarProject(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -59045,7 +59097,7 @@ func GetCodeStarProject(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -59162,7 +59214,7 @@ func ListDirectConnectConnection(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -59199,7 +59251,7 @@ func GetDirectConnectConnection(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -59316,7 +59368,7 @@ func ListDirectConnectGateway(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -59353,7 +59405,7 @@ func GetDirectConnectGateway(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -59482,7 +59534,7 @@ func ListNetworkFirewallFirewall(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -59532,7 +59584,7 @@ func GetNetworkFirewallFirewall(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -59661,7 +59713,7 @@ func ListNetworkFirewallFirewallPolicy(ctx context.Context, d *plugin.QueryData,
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -59710,7 +59762,7 @@ func GetNetworkFirewallFirewallPolicy(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -59840,7 +59892,7 @@ func ListNetworkFirewallRuleGroup(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -59890,7 +59942,7 @@ func GetNetworkFirewallRuleGroup(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -60008,7 +60060,7 @@ func ListOpsWorksCMServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -60046,7 +60098,7 @@ func GetOpsWorksCMServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -60164,7 +60216,7 @@ func ListOrganizationsOrganization(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -60202,7 +60254,7 @@ func GetOrganizationsOrganization(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -60326,7 +60378,7 @@ func ListOrganizationsAccount(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -60370,7 +60422,7 @@ func GetOrganizationsAccount(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -60493,7 +60545,7 @@ func ListOrganizationsPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -60536,7 +60588,7 @@ func GetOrganizationsPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -60660,7 +60712,7 @@ func ListPinPointApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -60704,7 +60756,7 @@ func GetPinPointApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -60835,7 +60887,7 @@ func ListPipesPipe(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -60886,7 +60938,7 @@ func GetPipesPipe(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -61003,7 +61055,7 @@ func ListResourceExplorer2Index(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -61040,7 +61092,7 @@ func GetResourceExplorer2Index(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -61156,7 +61208,7 @@ func ListResourceExplorer2SupportedResourceType(ctx context.Context, d *plugin.Q
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -61192,7 +61244,7 @@ func GetResourceExplorer2SupportedResourceType(ctx context.Context, d *plugin.Qu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -61318,7 +61370,7 @@ func ListStepFunctionsStateMachine(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -61364,7 +61416,7 @@ func GetStepFunctionsStateMachine(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -61517,7 +61569,7 @@ func ListStepFunctionsStateMachineExecutionHistories(ctx context.Context, d *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -61590,7 +61642,7 @@ func GetStepFunctionsStateMachineExecutionHistories(ctx context.Context, d *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -61717,7 +61769,7 @@ func ListStepFunctionsStateMachineExecution(ctx context.Context, d *plugin.Query
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -61764,7 +61816,7 @@ func GetStepFunctionsStateMachineExecution(ctx context.Context, d *plugin.QueryD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -61893,7 +61945,7 @@ func ListSimSpaceWeaverSimulation(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -61942,7 +61994,7 @@ func GetSimSpaceWeaverSimulation(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -62059,7 +62111,7 @@ func ListACMPCACertificateAuthority(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -62096,7 +62148,7 @@ func GetACMPCACertificateAuthority(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -62214,7 +62266,7 @@ func ListShieldProtectionGroup(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -62252,7 +62304,7 @@ func GetShieldProtectionGroup(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -62371,7 +62423,7 @@ func ListStorageGatewayStorageGateway(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -62410,7 +62462,7 @@ func GetStorageGatewayStorageGateway(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -62529,7 +62581,7 @@ func ListImageBuilderImage(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -62568,7 +62620,7 @@ func GetImageBuilderImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -62689,7 +62741,7 @@ func ListAccountAlternateContact(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -62730,7 +62782,7 @@ func GetAccountAlternateContact(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -62858,7 +62910,7 @@ func ListAccountContact(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -62906,7 +62958,7 @@ func GetAccountContact(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -63046,7 +63098,7 @@ func ListAmplifyApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -63106,7 +63158,7 @@ func GetAmplifyApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -63227,7 +63279,7 @@ func ListAppConfigApplication(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -63268,7 +63320,7 @@ func GetAppConfigApplication(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -63400,7 +63452,7 @@ func ListAuditManagerAssessment(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -63453,7 +63505,7 @@ func GetAuditManagerAssessment(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -63584,7 +63636,7 @@ func ListAuditManagerControl(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -63636,7 +63688,7 @@ func GetAuditManagerControl(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -63770,7 +63822,7 @@ func ListAuditManagerEvidence(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -63824,7 +63876,7 @@ func GetAuditManagerEvidence(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -63959,7 +64011,7 @@ func ListAuditManagerEvidenceFolder(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -64014,7 +64066,7 @@ func GetAuditManagerEvidenceFolder(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -64146,7 +64198,7 @@ func ListAuditManagerFramework(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -64199,7 +64251,7 @@ func GetAuditManagerFramework(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -64328,7 +64380,7 @@ func ListCloudSearchDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -64377,7 +64429,7 @@ func GetCloudSearchDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -64504,7 +64556,7 @@ func ListDLMLifecyclePolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -64552,7 +64604,7 @@ func GetDLMLifecyclePolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -64702,7 +64754,7 @@ func ListDocDBCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -64772,7 +64824,7 @@ func GetDocDBCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -64923,7 +64975,7 @@ func ListDocDBClusterInstance(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -64994,7 +65046,7 @@ func GetDocDBClusterInstance(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -65121,7 +65173,7 @@ func ListGlobalAcceleratorAccelerator(ctx context.Context, d *plugin.QueryData, 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -65168,7 +65220,7 @@ func GetGlobalAcceleratorAccelerator(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -65295,7 +65347,7 @@ func ListGlobalAcceleratorEndpointGroup(ctx context.Context, d *plugin.QueryData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -65342,7 +65394,7 @@ func GetGlobalAcceleratorEndpointGroup(ctx context.Context, d *plugin.QueryData,
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -65463,7 +65515,7 @@ func ListGlobalAcceleratorListener(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -65504,7 +65556,7 @@ func GetGlobalAcceleratorListener(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -65628,7 +65680,7 @@ func ListGlueCatalogDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -65672,7 +65724,7 @@ func GetGlueCatalogDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -65807,7 +65859,7 @@ func ListGlueCatalogTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -65862,7 +65914,7 @@ func GetGlueCatalogTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -65988,7 +66040,7 @@ func ListGlueConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -66034,7 +66086,7 @@ func GetGlueConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -66170,7 +66222,7 @@ func ListGlueCrawler(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -66226,7 +66278,7 @@ func GetGlueCrawler(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -66342,7 +66394,7 @@ func ListGlueDataCatalogEncryptionSettings(ctx context.Context, d *plugin.QueryD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -66378,7 +66430,7 @@ func GetGlueDataCatalogEncryptionSettings(ctx context.Context, d *plugin.QueryDa
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -66503,7 +66555,7 @@ func ListGlueDataQualityRuleset(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -66548,7 +66600,7 @@ func GetGlueDataQualityRuleset(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -66689,7 +66741,7 @@ func ListGlueDevEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -66750,7 +66802,7 @@ func GetGlueDevEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -66888,7 +66940,7 @@ func ListGlueJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -66946,7 +66998,7 @@ func GetGlueJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -67067,7 +67119,7 @@ func ListGlueSecurityConfiguration(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -67108,7 +67160,7 @@ func GetGlueSecurityConfiguration(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -67233,7 +67285,7 @@ func ListHealthEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -67278,7 +67330,7 @@ func GetHealthEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -67400,7 +67452,7 @@ func ListHealthAffectedEntity(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -67442,7 +67494,7 @@ func GetHealthAffectedEntity(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -67573,7 +67625,7 @@ func ListInspectorAssessmentRun(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -67624,7 +67676,7 @@ func GetInspectorAssessmentRun(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -67745,7 +67797,7 @@ func ListInspectorAssessmentTarget(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -67786,7 +67838,7 @@ func GetInspectorAssessmentTarget(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -67914,7 +67966,7 @@ func ListInspectorAssessmentTemplate(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -67962,7 +68014,7 @@ func GetInspectorAssessmentTemplate(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -68084,7 +68136,7 @@ func ListInspectorExclusion(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -68126,7 +68178,7 @@ func GetInspectorExclusion(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -68262,7 +68314,7 @@ func ListInspectorFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -68318,7 +68370,7 @@ func GetInspectorFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -68451,7 +68503,7 @@ func ListInspector2Coverage(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -68503,7 +68555,7 @@ func GetInspector2Coverage(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -68619,7 +68671,7 @@ func ListInspector2CoverageStatistic(ctx context.Context, d *plugin.QueryData, _
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -68655,7 +68707,7 @@ func GetInspector2CoverageStatistic(ctx context.Context, d *plugin.QueryData, _ 
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -68774,7 +68826,7 @@ func ListInspector2Member(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -68813,7 +68865,7 @@ func GetInspector2Member(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -68978,7 +69030,7 @@ func ListInspector2Finding(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -69063,7 +69115,7 @@ func GetInspector2Finding(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -69193,7 +69245,7 @@ func ListFirehoseDeliveryStream(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -69243,7 +69295,7 @@ func GetFirehoseDeliveryStream(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -69382,7 +69434,7 @@ func ListLightsailInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -69441,7 +69493,7 @@ func GetLightsailInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -69574,7 +69626,7 @@ func ListMacie2ClassificationJob(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -69627,7 +69679,7 @@ func GetMacie2ClassificationJob(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -69752,7 +69804,7 @@ func ListMediaStoreContainer(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -69797,7 +69849,7 @@ func GetMediaStoreContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -69923,7 +69975,7 @@ func ListMgnApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -69969,7 +70021,7 @@ func GetMgnApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -70090,7 +70142,7 @@ func ListSecurityLakeDataLake(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -70131,7 +70183,7 @@ func GetSecurityLakeDataLake(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -70261,7 +70313,7 @@ func ListSecurityLakeSubscriber(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -70312,7 +70364,7 @@ func GetSecurityLakeSubscriber(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -70438,7 +70490,7 @@ func ListRamPrincipalAssociation(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -70484,7 +70536,7 @@ func GetRamPrincipalAssociation(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -70610,7 +70662,7 @@ func ListRamResourceAssociation(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -70656,7 +70708,7 @@ func GetRamResourceAssociation(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -70786,7 +70838,7 @@ func ListServerlessApplicationRepositoryApplication(ctx context.Context, d *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -70836,7 +70888,7 @@ func GetServerlessApplicationRepositoryApplication(ctx context.Context, d *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -70967,7 +71019,7 @@ func ListServiceQuotasServiceQuotaChangeRequest(ctx context.Context, d *plugin.Q
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -71018,7 +71070,7 @@ func GetServiceQuotasServiceQuotaChangeRequest(ctx context.Context, d *plugin.Qu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -71148,7 +71200,7 @@ func ListServiceCatalogProduct(ctx context.Context, d *plugin.QueryData, _ *plug
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -71198,7 +71250,7 @@ func GetServiceCatalogProduct(ctx context.Context, d *plugin.QueryData, _ *plugi
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -71324,7 +71376,7 @@ func ListServiceCatalogPortfolio(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -71370,7 +71422,7 @@ func GetServiceCatalogPortfolio(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -71500,7 +71552,7 @@ func ListServiceDiscoveryService(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -71550,7 +71602,7 @@ func GetServiceDiscoveryService(ctx context.Context, d *plugin.QueryData, _ *plu
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -71677,7 +71729,7 @@ func ListServiceDiscoveryNamespace(ctx context.Context, d *plugin.QueryData, _ *
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -71724,7 +71776,7 @@ func GetServiceDiscoveryNamespace(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -71849,7 +71901,7 @@ func ListServiceDiscoveryInstance(ctx context.Context, d *plugin.QueryData, _ *p
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -71894,7 +71946,7 @@ func GetServiceDiscoveryInstance(ctx context.Context, d *plugin.QueryData, _ *pl
 
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
-	ke, err := essdk.NewClientCached(cfg, d.ConnectionManager.Cache, ctx)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
 		return nil, err
 	}
