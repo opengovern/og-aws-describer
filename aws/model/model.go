@@ -2298,13 +2298,9 @@ type KMSAliasDescription struct {
 //index:aws_lambda_function
 //getfilter:name=description.Function.Configuration.FunctionName
 type LambdaFunctionDescription struct {
-	Function          *lambdaop.GetFunctionOutput
-	SnapStart         lambda.SnapStartResponse
-	UrlConfig         lambda.FunctionUrlConfig
-	FileSystemConfigs []lambda.FileSystemConfig
-	Environment       lambda.EnvironmentResponse
-	TracingConfig     lambda.TracingConfigResponse
-	Policy            *lambdaop.GetPolicyOutput
+	Function  *lambdaop.GetFunctionOutput
+	UrlConfig lambda.FunctionUrlConfig
+	Policy    *lambdaop.GetPolicyOutput
 }
 
 //index:aws_lambda_functionversion
