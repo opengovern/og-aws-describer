@@ -50,6 +50,9 @@ func SecurityLakeSubscriber(ctx context.Context, cfg aws.Config, stream *StreamS
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			if isErr(err, "AccessDeniedException") {
+				continue
+			}
 			return nil, err
 		}
 

@@ -51,7 +51,7 @@ func accountAlternateContactHandle(ctx context.Context, cfg aws.Config, accountI
 	})
 	if err != nil {
 		if isErr(err, "ResourceNotFoundException") {
-			return Resource{}, nil
+			op = &account.GetAlternateContactOutput{}
 		}
 		return Resource{}, err
 	}

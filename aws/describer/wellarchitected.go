@@ -17,8 +17,12 @@ func WellArchitectedWorkload(ctx context.Context, cfg aws.Config, stream *Stream
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			if isErr(err, "AccessDeniedException") {
+				continue
+			}
 			return nil, err
 		}
+
 		for _, v := range page.WorkloadSummaries {
 			op, err := client.GetWorkload(ctx, &wellarchitected.GetWorkloadInput{
 				WorkloadId: v.WorkloadId,

@@ -109,6 +109,9 @@ func OrganizationsAccount(ctx context.Context, cfg aws.Config, stream *StreamSen
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			if isErr(err, "AccessDeniedException") {
+				continue
+			}
 			return nil, err
 		}
 

@@ -18,6 +18,9 @@ func SimSpaceWeaverSimulation(ctx context.Context, cfg aws.Config, stream *Strea
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			if isErr(err, "AccessDeniedException") {
+				continue
+			}
 			return nil, err
 		}
 
