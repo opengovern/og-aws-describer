@@ -135,7 +135,11 @@ func KMSKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resour
 				PolicyName: &defaultPolicy,
 			})
 			if err != nil {
-				return nil, err
+				if isErr(err, "AccessDeniedException") {
+					policy = &kms.GetKeyPolicyOutput{}
+				} else {
+					return nil, err
+				}
 			}
 
 			tags, err := client.ListResourceTags(ctx, &kms.ListResourceTagsInput{
