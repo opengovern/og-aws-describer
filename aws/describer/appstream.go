@@ -253,7 +253,11 @@ func AppStreamImage(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			NextToken: prevToken,
 		})
 		if err != nil {
-			return nil, err
+			if isErr(err, "AccessDeniedException") {
+				return nil, nil
+			} else {
+				return nil, err
+			}
 		}
 
 		for _, item := range output.Images {
@@ -263,7 +267,11 @@ func AppStreamImage(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 				return nil, nil
 			}
 			if err != nil {
-				return nil, err
+				if isErr(err, "AccessDeniedException") {
+					return nil, nil
+				} else {
+					return nil, err
+				}
 			}
 
 			if stream != nil {
@@ -289,7 +297,7 @@ func appStreamImageHandle(ctx context.Context, cfg aws.Config, item types.Image)
 		ResourceArn: item.Arn,
 	})
 	if err != nil {
-		if isErr(err, "ListTagsForResourceNotFound") || isErr(err, "InvalidParameterValue") {
+		if isErr(err, "ListTagsForResourceNotFound") || isErr(err, "InvalidParameterValue") || isErr(err, "AccessDeniedException") {
 			return Resource{}, nil
 		}
 		return Resource{}, err

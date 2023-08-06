@@ -102,13 +102,9 @@ func lambdaFunctionHandle(ctx context.Context, cfg aws.Config, v types.FunctionC
 		ARN:    *v.FunctionArn,
 		Name:   *v.FunctionName,
 		Description: model.LambdaFunctionDescription{
-			Function:          function,
-			TracingConfig:     *v.TracingConfig,
-			SnapStart:         *v.SnapStart,
-			FileSystemConfigs: v.FileSystemConfigs,
-			Environment:       *v.Environment,
-			UrlConfig:         l,
-			Policy:            policy,
+			Function:  function,
+			UrlConfig: l,
+			Policy:    policy,
 		},
 	}
 	return resource, nil

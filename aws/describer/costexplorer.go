@@ -244,7 +244,11 @@ func costDaily(ctx context.Context, cfg aws.Config, by string, startDate, endDat
 	for {
 		out, err := client.GetCostAndUsage(ctx, params)
 		if err != nil {
-			return nil, err
+			if isErr(err, "AccessDeniedException") {
+				break
+			} else {
+				return nil, err
+			}
 		}
 
 		for _, result := range out.ResultsByTime {

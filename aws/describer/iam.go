@@ -1116,14 +1116,17 @@ func iAMUserHandle(ctx context.Context, cfg aws.Config, v types.User) (Resource,
 		return Resource{}, err
 	}
 
-	loginProfile, err := client.GetLoginProfile(ctx, &iam.GetLoginProfileInput{
+	var loginProfile types.LoginProfile
+	getLoginProfile, err := client.GetLoginProfile(ctx, &iam.GetLoginProfileInput{
 		UserName: v.UserName,
 	})
 	if err != nil {
-		if isErr(err, "GetLoginProfileNotFound") || isErr(err, "InvalidParameterValue") {
-			return Resource{}, nil
+		if isErr(err, "GetLoginProfileNotFound") || isErr(err, "InvalidParameterValue") || isErr(err, "NoSuchEntity") {
+			loginProfile = types.LoginProfile{}
 		}
 		return Resource{}, err
+	} else {
+		loginProfile = *getLoginProfile.LoginProfile
 	}
 
 	resource := Resource{
@@ -1132,7 +1135,7 @@ func iAMUserHandle(ctx context.Context, cfg aws.Config, v types.User) (Resource,
 		Name:   *v.UserName,
 		Description: model.IAMUserDescription{
 			User:               v,
-			LoginProfile:       *loginProfile.LoginProfile,
+			LoginProfile:       loginProfile,
 			Groups:             groups,
 			InlinePolicies:     policies,
 			AttachedPolicyArns: aPolicies,

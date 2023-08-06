@@ -45,6 +45,7 @@ import (
 	directoryservice "github.com/aws/aws-sdk-go-v2/service/directoryservice/types"
 	dlm "github.com/aws/aws-sdk-go-v2/service/dlm/types"
 	docdb "github.com/aws/aws-sdk-go-v2/service/docdb/types"
+	drs2 "github.com/aws/aws-sdk-go-v2/service/drs"
 	drs "github.com/aws/aws-sdk-go-v2/service/drs/types"
 	dynamodb "github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	dynamodbstream "github.com/aws/aws-sdk-go-v2/service/dynamodbstreams/types"
@@ -2298,13 +2299,9 @@ type KMSAliasDescription struct {
 //index:aws_lambda_function
 //getfilter:name=description.Function.Configuration.FunctionName
 type LambdaFunctionDescription struct {
-	Function          *lambdaop.GetFunctionOutput
-	SnapStart         lambda.SnapStartResponse
-	UrlConfig         lambda.FunctionUrlConfig
-	FileSystemConfigs []lambda.FileSystemConfig
-	Environment       lambda.EnvironmentResponse
-	TracingConfig     lambda.TracingConfigResponse
-	Policy            *lambdaop.GetPolicyOutput
+	Function  *lambdaop.GetFunctionOutput
+	UrlConfig lambda.FunctionUrlConfig
+	Policy    *lambdaop.GetPolicyOutput
 }
 
 //index:aws_lambda_functionversion
@@ -3139,7 +3136,8 @@ type DirectConnectGatewayDescription struct {
 //index:aws_drs_sourceserver
 //getfilter:source_server_id=description.SourceServer.SourceServerID
 type DRSSourceServerDescription struct {
-	SourceServer drs.SourceServer
+	SourceServer        drs.SourceServer
+	LaunchConfiguration drs2.GetLaunchConfigurationOutput
 }
 
 //index:aws_drs_recoveryinstance

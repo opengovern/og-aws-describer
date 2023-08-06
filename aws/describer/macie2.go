@@ -17,13 +17,21 @@ func Macie2ClassificationJob(ctx context.Context, cfg aws.Config, stream *Stream
 			NextToken: prevToken,
 		})
 		if err != nil {
-			return nil, err
+			if isErr(err, "AccessDeniedException") {
+				return
+			} else {
+				return nil, err
+			}
 		}
 
 		for _, jobSummary := range classificationJobs.Items {
 			resource, err := macie2ClassificationJobHandle(ctx, cfg, *jobSummary.JobId)
 			if err != nil {
-				return nil, err
+				if isErr(err, "AccessDeniedException") {
+					return nil, nil
+				} else {
+					return nil, err
+				}
 			}
 			emptyResource := Resource{}
 			if err == nil && resource == emptyResource {

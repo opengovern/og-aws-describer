@@ -295,13 +295,21 @@ func BackupFramework(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
-			return nil, err
+			if isErr(err, "AccessDeniedException") {
+				return nil, nil
+			} else {
+				return nil, err
+			}
 		}
 
 		for _, v := range page.Frameworks {
 			resource, err := backupFrameworkHandle(ctx, cfg, v)
 			if err != nil {
-				return nil, err
+				if isErr(err, "AccessDeniedException") {
+					return nil, nil
+				} else {
+					return nil, err
+				}
 			}
 
 			if stream != nil {
@@ -349,7 +357,7 @@ func GetBackupFramework(ctx context.Context, cfg aws.Config, fields map[string]s
 
 	describe, err := client.ListFrameworks(ctx, &backup.ListFrameworksInput{})
 	if err != nil {
-		if isErr(err, "ListFrameworksNotFound") || isErr(err, "InvalidParameterValue") {
+		if isErr(err, "ListFrameworksNotFound") || isErr(err, "InvalidParameterValue") || isErr(err, "AccessDeniedException") {
 			return nil, nil
 		}
 		return nil, err

@@ -15,7 +15,11 @@ func SecurityLakeDataLake(ctx context.Context, cfg aws.Config, stream *StreamSen
 	var values []Resource
 	lakes, err := client.GetDatalake(ctx, &securitylake.GetDatalakeInput{})
 	if err != nil {
-		return nil, err
+		if isErr(err, "AccessDeniedException") {
+			return nil, nil
+		} else {
+			return nil, err
+		}
 	}
 	for lakeKey, lake := range lakes.Configurations {
 		resource := Resource{
@@ -46,6 +50,9 @@ func SecurityLakeSubscriber(ctx context.Context, cfg aws.Config, stream *StreamS
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			if isErr(err, "AccessDeniedException") {
+				continue
+			}
 			return nil, err
 		}
 
