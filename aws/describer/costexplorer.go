@@ -89,6 +89,10 @@ func costMonthly(ctx context.Context, cfg aws.Config, by string, startDate, endD
 				Type: types.GroupDefinitionTypeDimension,
 				Key:  aws.String(by),
 			},
+			{
+				Type: types.GroupDefinitionTypeDimension,
+				Key:  aws.String(string(types.DimensionBillingEntity)),
+			},
 		},
 	}
 
@@ -234,6 +238,10 @@ func costDaily(ctx context.Context, cfg aws.Config, by string, startDate, endDat
 			{
 				Type: types.GroupDefinitionTypeDimension,
 				Key:  aws.String(by),
+			},
+			{
+				Type: types.GroupDefinitionTypeDimension,
+				Key:  aws.String(string(types.DimensionBillingEntity)),
 			},
 		},
 	}
