@@ -4,7 +4,7 @@ build:
 	export CGO_ENABLED=0
 	export GOOS=linux
 	export GOARCH=amd64
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -ldflags "-w -extldflags -static" -o ./build/kaytu-aws-describer ./main.go
+	CC=/usr/bin/musl-gcc GOPRIVATE="github.com/kaytu-io" GOOS=linux GOARCH=amd64 go build -v -ldflags "-linkmode external -extldflags '-static' -s -w" -tags musl -o ./build/kaytu-aws-describer ./main.go
 	cd build && zip ./kaytu-aws-describer.zip ./kaytu-aws-describer
 	aws s3 cp ./build/kaytu-aws-describer.zip s3://lambda-describe-binary/kaytu-aws-describer.zip --cli-read-timeout 300
 	aws lambda update-function-code --function-name kaytu-aws-describer --region us-east-2 --s3-bucket lambda-describe-binary --s3-key kaytu-aws-describer.zip --no-cli-pager --no-cli-auto-prompt
