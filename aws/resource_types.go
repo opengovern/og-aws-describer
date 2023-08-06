@@ -2981,7 +2981,7 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "",
 		Tags:                 map[string][]string{},
 		ServiceName:          "WellArchitected",
-		ListDescriber:        ParallelDescribeRegional(describer.WellArchitectedAnswer),
+		ListDescriber:        ParallelDescribeRegional(describer.WellArchitectedMilestone),
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",

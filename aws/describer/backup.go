@@ -296,15 +296,20 @@ func BackupFramework(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
 			if isErr(err, "AccessDeniedException") {
-				continue
+				return nil, nil
+			} else {
+				return nil, err
 			}
-			return nil, err
 		}
 
 		for _, v := range page.Frameworks {
 			resource, err := backupFrameworkHandle(ctx, cfg, v)
 			if err != nil {
-				return nil, err
+				if isErr(err, "AccessDeniedException") {
+					return nil, nil
+				} else {
+					return nil, err
+				}
 			}
 
 			if stream != nil {

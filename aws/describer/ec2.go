@@ -388,7 +388,11 @@ func EC2ClientVpnEndpoint(ctx context.Context, cfg aws.Config, stream *StreamSen
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
-			return nil, err
+			if isErr(err, "AccessDeniedException") {
+				return nil, nil
+			} else {
+				return nil, err
+			}
 		}
 
 		for _, v := range page.ClientVpnEndpoints {
@@ -2784,7 +2788,6 @@ func EC2VPC(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resour
 			}
 		}
 	}
-
 	return values, nil
 }
 func eC2VPCHandle(ctx context.Context, v types.Vpc) Resource {

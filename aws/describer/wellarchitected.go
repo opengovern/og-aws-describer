@@ -18,17 +18,21 @@ func WellArchitectedWorkload(ctx context.Context, cfg aws.Config, stream *Stream
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
 			if isErr(err, "AccessDeniedException") {
-				continue
+				return nil, nil
+			} else {
+				return nil, err
 			}
-			return nil, err
 		}
-
 		for _, v := range page.WorkloadSummaries {
 			op, err := client.GetWorkload(ctx, &wellarchitected.GetWorkloadInput{
 				WorkloadId: v.WorkloadId,
 			})
 			if err != nil {
-				return nil, err
+				if isErr(err, "AccessDeniedException") {
+					return nil, nil
+				} else {
+					return nil, err
+				}
 			}
 
 			resource := Resource{
@@ -76,7 +80,11 @@ func WellArchitectedAnswer(ctx context.Context, cfg aws.Config, stream *StreamSe
 				for paginator.HasMorePages() {
 					page, err := paginator.NextPage(ctx)
 					if err != nil {
-						return nil, err
+						if isErr(err, "AccessDeniedException") {
+							return nil, nil
+						} else {
+							return nil, err
+						}
 					}
 					for _, a := range page.AnswerSummaries {
 						params := &wellarchitected.GetAnswerInput{
@@ -120,7 +128,11 @@ func WellArchitectedCheckDetail(ctx context.Context, cfg aws.Config, stream *Str
 	client := wellarchitected.NewFromConfig(cfg)
 	answers, err := WellArchitectedAnswer(ctx, cfg, stream)
 	if err != nil {
-		return nil, err
+		if isErr(err, "AccessDeniedException") {
+			return nil, nil
+		} else {
+			return nil, err
+		}
 	}
 	var values []Resource
 	for _, answer := range answers {
@@ -132,7 +144,11 @@ func WellArchitectedCheckDetail(ctx context.Context, cfg aws.Config, stream *Str
 		}
 		op, err := client.GetAnswer(ctx, params)
 		if err != nil {
-			return nil, err
+			if isErr(err, "AccessDeniedException") {
+				return nil, nil
+			} else {
+				return nil, err
+			}
 		}
 		answer := op.Answer
 		for _, choice := range answer.Choices {
@@ -150,7 +166,11 @@ func WellArchitectedCheckDetail(ctx context.Context, cfg aws.Config, stream *Str
 			for paginator.HasMorePages() {
 				page, err := paginator.NextPage(ctx)
 				if err != nil {
-					return nil, err
+					if isErr(err, "AccessDeniedException") {
+						return nil, nil
+					} else {
+						return nil, err
+					}
 				}
 				for _, c := range page.CheckDetails {
 
@@ -182,7 +202,11 @@ func WellArchitectedCheckSummary(ctx context.Context, cfg aws.Config, stream *St
 	client := wellarchitected.NewFromConfig(cfg)
 	answers, err := WellArchitectedAnswer(ctx, cfg, stream)
 	if err != nil {
-		return nil, err
+		if isErr(err, "AccessDeniedException") {
+			return nil, nil
+		} else {
+			return nil, err
+		}
 	}
 	var values []Resource
 	for _, answer := range answers {
@@ -194,7 +218,11 @@ func WellArchitectedCheckSummary(ctx context.Context, cfg aws.Config, stream *St
 		}
 		op, err := client.GetAnswer(ctx, params)
 		if err != nil {
-			return nil, err
+			if isErr(err, "AccessDeniedException") {
+				return nil, nil
+			} else {
+				return nil, err
+			}
 		}
 		answer := op.Answer
 		for _, choice := range answer.Choices {
@@ -248,7 +276,11 @@ func WellArchitectedConsolidatedReport(ctx context.Context, cfg aws.Config, stre
 	}
 	sharedValues, err := WellArchitectedConsolidatedReportHelper(ctx, cfg, stream, client, describeCtx, input)
 	if err != nil {
-		return nil, err
+		if isErr(err, "AccessDeniedException") {
+			return nil, nil
+		} else {
+			return nil, err
+		}
 	}
 	input2 := &wellarchitected.GetConsolidatedReportInput{
 		IncludeSharedResources: true,
@@ -284,7 +316,11 @@ func WellArchitectedConsolidatedReportHelper(ctx context.Context, cfg aws.Config
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
-			return nil, err
+			if isErr(err, "AccessDeniedException") {
+				return nil, nil
+			} else {
+				return nil, err
+			}
 		}
 		for _, v := range page.Metrics {
 
@@ -317,7 +353,11 @@ func WellArchitectedLens(ctx context.Context, cfg aws.Config, stream *StreamSend
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
-			return nil, err
+			if isErr(err, "AccessDeniedException") {
+				return nil, nil
+			} else {
+				return nil, err
+			}
 		}
 		for _, v := range page.LensSummaries {
 			op, err := client.GetLens(ctx, &wellarchitected.GetLensInput{
@@ -325,7 +365,11 @@ func WellArchitectedLens(ctx context.Context, cfg aws.Config, stream *StreamSend
 				LensVersion: v.LensVersion,
 			})
 			if err != nil {
-				return nil, err
+				if isErr(err, "AccessDeniedException") {
+					return nil, nil
+				} else {
+					return nil, err
+				}
 			}
 
 			resource := Resource{
@@ -358,14 +402,22 @@ func WellArchitectedLensReview(ctx context.Context, cfg aws.Config, stream *Stre
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
-			return nil, err
+			if isErr(err, "AccessDeniedException") {
+				return nil, nil
+			} else {
+				return nil, err
+			}
 		}
 		for _, v := range page.WorkloadSummaries {
 			op, err := client.ListLensReviews(ctx, &wellarchitected.ListLensReviewsInput{
 				WorkloadId: v.WorkloadId,
 			})
 			if err != nil {
-				return nil, err
+				if isErr(err, "AccessDeniedException") {
+					op = &wellarchitected.ListLensReviewsOutput{}
+				} else {
+					return nil, err
+				}
 			}
 			for _, r := range op.LensReviewSummaries {
 				review, err := client.GetLensReview(ctx, &wellarchitected.GetLensReviewInput{
@@ -373,7 +425,11 @@ func WellArchitectedLensReview(ctx context.Context, cfg aws.Config, stream *Stre
 					WorkloadId: v.WorkloadId,
 				})
 				if err != nil {
-					return nil, err
+					if isErr(err, "AccessDeniedException") {
+						op = &wellarchitected.ListLensReviewsOutput{}
+					} else {
+						return nil, err
+					}
 				}
 				resource := Resource{
 					Region: describeCtx.KaytuRegion,
@@ -403,7 +459,11 @@ func WellArchitectedLensReviewImprovement(ctx context.Context, cfg aws.Config, s
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
-			return nil, err
+			if isErr(err, "AccessDeniedException") {
+				return nil, nil
+			} else {
+				return nil, err
+			}
 		}
 		for _, v := range page.WorkloadSummaries {
 			for _, lense := range v.Lenses {
@@ -414,7 +474,11 @@ func WellArchitectedLensReviewImprovement(ctx context.Context, cfg aws.Config, s
 				for improvementPaginator.HasMorePages() {
 					output, err := improvementPaginator.NextPage(ctx)
 					if err != nil {
-						return nil, err
+						if isErr(err, "AccessDeniedException") {
+							return nil, nil
+						} else {
+							return nil, err
+						}
 					}
 					for _, improvement := range output.ImprovementSummaries {
 						resource := Resource{
@@ -451,7 +515,11 @@ func WellArchitectedLensReviewReport(ctx context.Context, cfg aws.Config, stream
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
-			return nil, err
+			if isErr(err, "AccessDeniedException") {
+				return nil, nil
+			} else {
+				return nil, err
+			}
 		}
 		for _, v := range page.WorkloadSummaries {
 			for _, lense := range v.Lenses {
@@ -460,7 +528,11 @@ func WellArchitectedLensReviewReport(ctx context.Context, cfg aws.Config, stream
 					WorkloadId: v.WorkloadId,
 				})
 				if err != nil {
-					return nil, err
+					if isErr(err, "AccessDeniedException") {
+						return nil, nil
+					} else {
+						return nil, err
+					}
 				}
 
 				resource := Resource{
@@ -503,7 +575,11 @@ func WellArchitectedLensShare(ctx context.Context, cfg aws.Config, stream *Strea
 		for paginator.HasMorePages() {
 			page, err := paginator.NextPage(ctx)
 			if err != nil {
-				return nil, err
+				if isErr(err, "AccessDeniedException") {
+					return nil, nil
+				} else {
+					return nil, err
+				}
 			}
 			for _, share := range page.LensShareSummaries {
 				resource := Resource{
@@ -544,7 +620,11 @@ func WellArchitectedMilestone(ctx context.Context, cfg aws.Config, stream *Strea
 			for paginator.HasMorePages() {
 				output, err := paginator.NextPage(ctx)
 				if err != nil {
-					return nil, err
+					if isErr(err, "AccessDeniedException") {
+						return nil, nil
+					} else {
+						return nil, err
+					}
 				}
 				for _, m := range output.MilestoneSummaries {
 					milestone, err := client.GetMilestone(ctx, &wellarchitected.GetMilestoneInput{
@@ -614,10 +694,13 @@ func WellArchitectedShareInvitation(ctx context.Context, cfg aws.Config, stream 
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
-			return nil, err
+			if isErr(err, "AccessDeniedException") {
+				return nil, nil
+			} else {
+				return nil, err
+			}
 		}
 		for _, v := range page.ShareInvitationSummaries {
-
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				Description: model.WellArchitectedShareInvitationDescription{
@@ -645,7 +728,11 @@ func WellArchitectedWorkloadShare(ctx context.Context, cfg aws.Config, stream *S
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
-			return nil, err
+			if isErr(err, "AccessDeniedException") {
+				return nil, nil
+			} else {
+				return nil, err
+			}
 		}
 		for _, v := range page.WorkloadSummaries {
 			paginator := wellarchitected.NewListWorkloadSharesPaginator(client, &wellarchitected.ListWorkloadSharesInput{
@@ -654,7 +741,11 @@ func WellArchitectedWorkloadShare(ctx context.Context, cfg aws.Config, stream *S
 			for paginator.HasMorePages() {
 				output, err := paginator.NextPage(ctx)
 				if err != nil {
-					return nil, err
+					if isErr(err, "AccessDeniedException") {
+						return nil, nil
+					} else {
+						return nil, err
+					}
 				}
 				for _, m := range output.WorkloadShareSummaries {
 					arn := "arn:" + describeCtx.Partition + ":waf::" + describeCtx.AccountID + ":ratebasedrule" + "/" + *m.ShareId
