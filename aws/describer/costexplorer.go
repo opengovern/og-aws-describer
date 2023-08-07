@@ -309,8 +309,9 @@ func CostByServiceLastDay(ctx context.Context, cfg aws.Config, stream *StreamSen
 	if triggerType == enums.DescribeTriggerTypeInitialDiscovery {
 		startDate = time.Now().AddDate(0, -3, -7)
 	}
+	endDate := time.Now()
 
-	costs, err := costDaily(ctx, cfg, "SERVICE", startDate, time.Now())
+	costs, err := costDaily(ctx, cfg, "SERVICE", startDate, endDate)
 	if err != nil {
 		return nil, err
 	}
@@ -343,8 +344,9 @@ func CostByAccountLastDay(ctx context.Context, cfg aws.Config, stream *StreamSen
 	if triggerType == enums.DescribeTriggerTypeInitialDiscovery {
 		startDate = time.Now().AddDate(0, -3, -7)
 	}
+	endDate := time.Now()
 
-	costs, err := costDaily(ctx, cfg, "LINKED_ACCOUNT", startDate, time.Now())
+	costs, err := costDaily(ctx, cfg, "LINKED_ACCOUNT", startDate, endDate)
 	if err != nil {
 		return nil, err
 	}
