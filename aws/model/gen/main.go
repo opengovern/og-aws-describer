@@ -46,7 +46,7 @@ type ResourceType struct {
 }
 
 func main() {
-	rt := "../../../kaytu-deploy/keibi/inventory-data/aws-resource-types.json"
+	rt := "../../../kaytu-deploy/kaytu/inventory-data/aws-resource-types.json"
 	b, err := os.ReadFile(rt)
 	if err != nil {
 		panic(err)
