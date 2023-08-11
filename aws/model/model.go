@@ -1,8 +1,10 @@
-//go:generate go run ./gen/main.go --file $GOFILE --output ../../pkg/keibi-es-sdk/aws_resources_clients.go --type aws
+//go:generate go run ./gen/main.go --file $GOFILE --output ../../pkg/kaytu-es-sdk/aws_resources_clients.go --type aws
 
 package model
 
 import (
+	"time"
+
 	accessanalyzer "github.com/aws/aws-sdk-go-v2/service/accessanalyzer/types"
 	account "github.com/aws/aws-sdk-go-v2/service/account/types"
 	acm "github.com/aws/aws-sdk-go-v2/service/acm/types"
@@ -158,7 +160,6 @@ import (
 	wafv2 "github.com/aws/aws-sdk-go-v2/service/wafv2/types"
 	types3 "github.com/aws/aws-sdk-go-v2/service/wellarchitected/types"
 	workspaces "github.com/aws/aws-sdk-go-v2/service/workspaces/types"
-	"time"
 )
 
 type Metadata struct {

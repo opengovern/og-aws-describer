@@ -140,7 +140,7 @@ require (
 	github.com/gocarina/gocsv v0.0.0-20211203214250-4735fba0c1d9
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/hashicorp/go-hclog v1.4.0
-	github.com/kaytu-io/kaytu-util v0.0.0-20230804082552-3c07cccc35a8
+	github.com/kaytu-io/kaytu-util v0.0.0-20230811114529-c7f9a0e48f03
 	github.com/kaytu-io/steampipe-plugin-aws v0.0.0-20230806114456-110c51f751d3
 	github.com/manifoldco/promptui v0.9.0
 	github.com/spf13/cobra v1.7.0
@@ -148,7 +148,7 @@ require (
 	github.com/turbot/steampipe-plugin-sdk/v5 v5.5.1
 	go.uber.org/zap v1.24.0
 	golang.org/x/oauth2 v0.7.0
-	golang.org/x/tools v0.7.0
+	golang.org/x/tools v0.10.0
 	google.golang.org/genproto v0.0.0-20230525234025-438c736192d0
 	google.golang.org/grpc v1.56.1
 )
@@ -199,7 +199,6 @@ require (
 	github.com/go-logr/logr v1.2.4 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-redis/redis/v8 v8.11.5 // indirect
-	github.com/gofrs/uuid v4.2.0+incompatible // indirect
 	github.com/golang/glog v1.1.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
