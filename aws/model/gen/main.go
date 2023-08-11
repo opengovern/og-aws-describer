@@ -353,7 +353,7 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		import (
 			"context"
 			"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
-			essdk "github.com/kaytu-io/kaytu-util/pkg/keibi-es-sdk"
+			essdk "github.com/kaytu-io/kaytu-util/pkg/kaytu-es-sdk"
 			`+*sourceType+` "github.com/kaytu-io/kaytu-`+*sourceType+`-describer/`+*sourceType+`/model"
 		)
 

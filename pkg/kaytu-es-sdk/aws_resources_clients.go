@@ -4,7 +4,7 @@ package keibi
 import (
 	"context"
 	aws "github.com/kaytu-io/kaytu-aws-describer/aws/model"
-	essdk "github.com/kaytu-io/kaytu-util/pkg/keibi-es-sdk"
+	essdk "github.com/kaytu-io/kaytu-util/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
