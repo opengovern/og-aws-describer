@@ -65,11 +65,18 @@ func setRowMetrics(row *model.CostExplorerRow, metrics map[string]types.MetricVa
 }
 
 func costMonthly(ctx context.Context, cfg aws.Config, by string, startDate, endDate time.Time) ([]model.CostExplorerRow, error) {
+	describeCtx := GetDescribeContext(ctx)
 	timeFormat := "2006-01-02"
 	endTime := endDate.Format(timeFormat)
 	startTime := startDate.Format(timeFormat)
 
 	params := &costexplorer.GetCostAndUsageInput{
+		Filter: &types.Expression{
+			Dimensions: &types.DimensionValues{
+				Key:    types.DimensionLinkedAccount,
+				Values: []string{describeCtx.AccountID},
+			},
+		},
 		TimePeriod: &types.DateInterval{
 			Start: aws.String(startTime),
 			End:   aws.String(endTime),
@@ -215,11 +222,18 @@ func CostByAccountLastMonth(ctx context.Context, cfg aws.Config, stream *StreamS
 }
 
 func costDaily(ctx context.Context, cfg aws.Config, by string, startDate, endDate time.Time) ([]model.CostExplorerRow, error) {
+	describeCtx := GetDescribeContext(ctx)
 	timeFormat := "2006-01-02"
 	endTime := endDate.Format(timeFormat)
 	startTime := startDate.Format(timeFormat)
 
 	params := &costexplorer.GetCostAndUsageInput{
+		Filter: &types.Expression{
+			Dimensions: &types.DimensionValues{
+				Key:    types.DimensionLinkedAccount,
+				Values: []string{describeCtx.AccountID},
+			},
+		},
 		TimePeriod: &types.DateInterval{
 			Start: aws.String(startTime),
 			End:   aws.String(endTime),
