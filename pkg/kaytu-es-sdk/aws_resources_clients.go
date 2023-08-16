@@ -116,7 +116,7 @@ func ListAccessAnalyzerAnalyzer(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAccessAnalyzerAnalyzerPaginator(essdk.BuildFilter(d.EqualsQuals, listAccessAnalyzerAnalyzerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAccessAnalyzerAnalyzerPaginator(essdk.BuildFilter(d.QueryContext, listAccessAnalyzerAnalyzerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -163,7 +163,7 @@ func GetAccessAnalyzerAnalyzer(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAccessAnalyzerAnalyzerPaginator(essdk.BuildFilter(d.EqualsQuals, getAccessAnalyzerAnalyzerFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewAccessAnalyzerAnalyzerPaginator(essdk.BuildFilter(d.QueryContext, getAccessAnalyzerAnalyzerFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -297,7 +297,7 @@ func ListApiGatewayStage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewApiGatewayStagePaginator(essdk.BuildFilter(d.EqualsQuals, listApiGatewayStageFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayStagePaginator(essdk.BuildFilter(d.QueryContext, listApiGatewayStageFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -353,7 +353,7 @@ func GetApiGatewayStage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayStagePaginator(essdk.BuildFilter(d.EqualsQuals, getApiGatewayStageFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewApiGatewayStagePaginator(essdk.BuildFilter(d.QueryContext, getApiGatewayStageFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -485,7 +485,7 @@ func ListApiGatewayV2Stage(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewApiGatewayV2StagePaginator(essdk.BuildFilter(d.EqualsQuals, listApiGatewayV2StageFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayV2StagePaginator(essdk.BuildFilter(d.QueryContext, listApiGatewayV2StageFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -540,7 +540,7 @@ func GetApiGatewayV2Stage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayV2StagePaginator(essdk.BuildFilter(d.EqualsQuals, getApiGatewayV2StageFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewApiGatewayV2StagePaginator(essdk.BuildFilter(d.QueryContext, getApiGatewayV2StageFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -668,7 +668,7 @@ func ListApiGatewayRestAPI(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewApiGatewayRestAPIPaginator(essdk.BuildFilter(d.EqualsQuals, listApiGatewayRestAPIFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayRestAPIPaginator(essdk.BuildFilter(d.QueryContext, listApiGatewayRestAPIFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -718,7 +718,7 @@ func GetApiGatewayRestAPI(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayRestAPIPaginator(essdk.BuildFilter(d.EqualsQuals, getApiGatewayRestAPIFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewApiGatewayRestAPIPaginator(essdk.BuildFilter(d.QueryContext, getApiGatewayRestAPIFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -842,7 +842,7 @@ func ListApiGatewayApiKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewApiGatewayApiKeyPaginator(essdk.BuildFilter(d.EqualsQuals, listApiGatewayApiKeyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayApiKeyPaginator(essdk.BuildFilter(d.QueryContext, listApiGatewayApiKeyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -888,7 +888,7 @@ func GetApiGatewayApiKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayApiKeyPaginator(essdk.BuildFilter(d.EqualsQuals, getApiGatewayApiKeyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewApiGatewayApiKeyPaginator(essdk.BuildFilter(d.QueryContext, getApiGatewayApiKeyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1011,7 +1011,7 @@ func ListApiGatewayUsagePlan(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewApiGatewayUsagePlanPaginator(essdk.BuildFilter(d.EqualsQuals, listApiGatewayUsagePlanFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayUsagePlanPaginator(essdk.BuildFilter(d.QueryContext, listApiGatewayUsagePlanFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1056,7 +1056,7 @@ func GetApiGatewayUsagePlan(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayUsagePlanPaginator(essdk.BuildFilter(d.EqualsQuals, getApiGatewayUsagePlanFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewApiGatewayUsagePlanPaginator(essdk.BuildFilter(d.QueryContext, getApiGatewayUsagePlanFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1180,7 +1180,7 @@ func ListApiGatewayAuthorizer(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewApiGatewayAuthorizerPaginator(essdk.BuildFilter(d.EqualsQuals, listApiGatewayAuthorizerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayAuthorizerPaginator(essdk.BuildFilter(d.QueryContext, listApiGatewayAuthorizerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1226,7 +1226,7 @@ func GetApiGatewayAuthorizer(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayAuthorizerPaginator(essdk.BuildFilter(d.EqualsQuals, getApiGatewayAuthorizerFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewApiGatewayAuthorizerPaginator(essdk.BuildFilter(d.QueryContext, getApiGatewayAuthorizerFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1349,7 +1349,7 @@ func ListApiGatewayV2API(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewApiGatewayV2APIPaginator(essdk.BuildFilter(d.EqualsQuals, listApiGatewayV2APIFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayV2APIPaginator(essdk.BuildFilter(d.QueryContext, listApiGatewayV2APIFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1394,7 +1394,7 @@ func GetApiGatewayV2API(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayV2APIPaginator(essdk.BuildFilter(d.EqualsQuals, getApiGatewayV2APIFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewApiGatewayV2APIPaginator(essdk.BuildFilter(d.QueryContext, getApiGatewayV2APIFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1514,7 +1514,7 @@ func ListApiGatewayV2DomainName(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewApiGatewayV2DomainNamePaginator(essdk.BuildFilter(d.EqualsQuals, listApiGatewayV2DomainNameFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayV2DomainNamePaginator(essdk.BuildFilter(d.QueryContext, listApiGatewayV2DomainNameFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1556,7 +1556,7 @@ func GetApiGatewayV2DomainName(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayV2DomainNamePaginator(essdk.BuildFilter(d.EqualsQuals, getApiGatewayV2DomainNameFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewApiGatewayV2DomainNamePaginator(essdk.BuildFilter(d.QueryContext, getApiGatewayV2DomainNameFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1670,7 +1670,7 @@ func ListApiGatewayDomainName(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewApiGatewayDomainNamePaginator(essdk.BuildFilter(d.EqualsQuals, listApiGatewayDomainNameFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayDomainNamePaginator(essdk.BuildFilter(d.QueryContext, listApiGatewayDomainNameFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1707,7 +1707,7 @@ func GetApiGatewayDomainName(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayDomainNamePaginator(essdk.BuildFilter(d.EqualsQuals, getApiGatewayDomainNameFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewApiGatewayDomainNamePaginator(essdk.BuildFilter(d.QueryContext, getApiGatewayDomainNameFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1835,7 +1835,7 @@ func ListApiGatewayV2Route(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewApiGatewayV2RoutePaginator(essdk.BuildFilter(d.EqualsQuals, listApiGatewayV2RouteFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayV2RoutePaginator(essdk.BuildFilter(d.QueryContext, listApiGatewayV2RouteFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1886,7 +1886,7 @@ func GetApiGatewayV2Route(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayV2RoutePaginator(essdk.BuildFilter(d.EqualsQuals, getApiGatewayV2RouteFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewApiGatewayV2RoutePaginator(essdk.BuildFilter(d.QueryContext, getApiGatewayV2RouteFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2023,7 +2023,7 @@ func ListApiGatewayV2Integration(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewApiGatewayV2IntegrationPaginator(essdk.BuildFilter(d.EqualsQuals, listApiGatewayV2IntegrationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayV2IntegrationPaginator(essdk.BuildFilter(d.QueryContext, listApiGatewayV2IntegrationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2082,7 +2082,7 @@ func GetApiGatewayV2Integration(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayV2IntegrationPaginator(essdk.BuildFilter(d.EqualsQuals, getApiGatewayV2IntegrationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewApiGatewayV2IntegrationPaginator(essdk.BuildFilter(d.QueryContext, getApiGatewayV2IntegrationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2221,7 +2221,7 @@ func ListElasticBeanstalkEnvironment(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewElasticBeanstalkEnvironmentPaginator(essdk.BuildFilter(d.EqualsQuals, listElasticBeanstalkEnvironmentFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewElasticBeanstalkEnvironmentPaginator(essdk.BuildFilter(d.QueryContext, listElasticBeanstalkEnvironmentFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2282,7 +2282,7 @@ func GetElasticBeanstalkEnvironment(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewElasticBeanstalkEnvironmentPaginator(essdk.BuildFilter(d.EqualsQuals, getElasticBeanstalkEnvironmentFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewElasticBeanstalkEnvironmentPaginator(essdk.BuildFilter(d.QueryContext, getElasticBeanstalkEnvironmentFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2406,7 +2406,7 @@ func ListElasticBeanstalkApplication(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewElasticBeanstalkApplicationPaginator(essdk.BuildFilter(d.EqualsQuals, listElasticBeanstalkApplicationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewElasticBeanstalkApplicationPaginator(essdk.BuildFilter(d.QueryContext, listElasticBeanstalkApplicationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2452,7 +2452,7 @@ func GetElasticBeanstalkApplication(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewElasticBeanstalkApplicationPaginator(essdk.BuildFilter(d.EqualsQuals, getElasticBeanstalkApplicationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewElasticBeanstalkApplicationPaginator(essdk.BuildFilter(d.QueryContext, getElasticBeanstalkApplicationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2590,7 +2590,7 @@ func ListElastiCacheReplicationGroup(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewElastiCacheReplicationGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listElastiCacheReplicationGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewElastiCacheReplicationGroupPaginator(essdk.BuildFilter(d.QueryContext, listElastiCacheReplicationGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2650,7 +2650,7 @@ func GetElastiCacheReplicationGroup(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewElastiCacheReplicationGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getElastiCacheReplicationGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewElastiCacheReplicationGroupPaginator(essdk.BuildFilter(d.QueryContext, getElastiCacheReplicationGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2791,7 +2791,7 @@ func ListElastiCacheCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewElastiCacheClusterPaginator(essdk.BuildFilter(d.EqualsQuals, listElastiCacheClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewElastiCacheClusterPaginator(essdk.BuildFilter(d.QueryContext, listElastiCacheClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2854,7 +2854,7 @@ func GetElastiCacheCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewElastiCacheClusterPaginator(essdk.BuildFilter(d.EqualsQuals, getElastiCacheClusterFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewElastiCacheClusterPaginator(essdk.BuildFilter(d.QueryContext, getElastiCacheClusterFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2974,7 +2974,7 @@ func ListElastiCacheParameterGroup(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewElastiCacheParameterGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listElastiCacheParameterGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewElastiCacheParameterGroupPaginator(essdk.BuildFilter(d.QueryContext, listElastiCacheParameterGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3016,7 +3016,7 @@ func GetElastiCacheParameterGroup(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewElastiCacheParameterGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getElastiCacheParameterGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewElastiCacheParameterGroupPaginator(essdk.BuildFilter(d.QueryContext, getElastiCacheParameterGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3144,7 +3144,7 @@ func ListElastiCacheReservedCacheNode(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewElastiCacheReservedCacheNodePaginator(essdk.BuildFilter(d.EqualsQuals, listElastiCacheReservedCacheNodeFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewElastiCacheReservedCacheNodePaginator(essdk.BuildFilter(d.QueryContext, listElastiCacheReservedCacheNodeFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3194,7 +3194,7 @@ func GetElastiCacheReservedCacheNode(ctx context.Context, d *plugin.QueryData, _
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewElastiCacheReservedCacheNodePaginator(essdk.BuildFilter(d.EqualsQuals, getElastiCacheReservedCacheNodeFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewElastiCacheReservedCacheNodePaginator(essdk.BuildFilter(d.QueryContext, getElastiCacheReservedCacheNodeFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3314,7 +3314,7 @@ func ListElastiCacheSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewElastiCacheSubnetGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listElastiCacheSubnetGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewElastiCacheSubnetGroupPaginator(essdk.BuildFilter(d.QueryContext, listElastiCacheSubnetGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3356,7 +3356,7 @@ func GetElastiCacheSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewElastiCacheSubnetGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getElastiCacheSubnetGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewElastiCacheSubnetGroupPaginator(essdk.BuildFilter(d.QueryContext, getElastiCacheSubnetGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3497,7 +3497,7 @@ func ListESDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewESDomainPaginator(essdk.BuildFilter(d.EqualsQuals, listESDomainFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewESDomainPaginator(essdk.BuildFilter(d.QueryContext, listESDomainFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3560,7 +3560,7 @@ func GetESDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewESDomainPaginator(essdk.BuildFilter(d.EqualsQuals, getESDomainFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewESDomainPaginator(essdk.BuildFilter(d.QueryContext, getESDomainFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3706,7 +3706,7 @@ func ListEMRCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEMRClusterPaginator(essdk.BuildFilter(d.EqualsQuals, listEMRClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEMRClusterPaginator(essdk.BuildFilter(d.QueryContext, listEMRClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3774,7 +3774,7 @@ func GetEMRCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEMRClusterPaginator(essdk.BuildFilter(d.EqualsQuals, getEMRClusterFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEMRClusterPaginator(essdk.BuildFilter(d.QueryContext, getEMRClusterFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3904,7 +3904,7 @@ func ListEMRInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEMRInstancePaginator(essdk.BuildFilter(d.EqualsQuals, listEMRInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEMRInstancePaginator(essdk.BuildFilter(d.QueryContext, listEMRInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3956,7 +3956,7 @@ func GetEMRInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEMRInstancePaginator(essdk.BuildFilter(d.EqualsQuals, getEMRInstanceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEMRInstancePaginator(essdk.BuildFilter(d.QueryContext, getEMRInstanceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4084,7 +4084,7 @@ func ListEMRInstanceFleet(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEMRInstanceFleetPaginator(essdk.BuildFilter(d.EqualsQuals, listEMRInstanceFleetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEMRInstanceFleetPaginator(essdk.BuildFilter(d.QueryContext, listEMRInstanceFleetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4134,7 +4134,7 @@ func GetEMRInstanceFleet(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEMRInstanceFleetPaginator(essdk.BuildFilter(d.EqualsQuals, getEMRInstanceFleetFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEMRInstanceFleetPaginator(essdk.BuildFilter(d.QueryContext, getEMRInstanceFleetFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4269,7 +4269,7 @@ func ListEMRInstanceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEMRInstanceGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listEMRInstanceGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEMRInstanceGroupPaginator(essdk.BuildFilter(d.QueryContext, listEMRInstanceGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4326,7 +4326,7 @@ func GetEMRInstanceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEMRInstanceGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getEMRInstanceGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEMRInstanceGroupPaginator(essdk.BuildFilter(d.QueryContext, getEMRInstanceGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4444,7 +4444,7 @@ func ListEMRBlockPublicAccessConfiguration(ctx context.Context, d *plugin.QueryD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEMRBlockPublicAccessConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, listEMRBlockPublicAccessConfigurationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEMRBlockPublicAccessConfigurationPaginator(essdk.BuildFilter(d.QueryContext, listEMRBlockPublicAccessConfigurationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4484,7 +4484,7 @@ func GetEMRBlockPublicAccessConfiguration(ctx context.Context, d *plugin.QueryDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEMRBlockPublicAccessConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, getEMRBlockPublicAccessConfigurationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEMRBlockPublicAccessConfigurationPaginator(essdk.BuildFilter(d.QueryContext, getEMRBlockPublicAccessConfigurationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4612,7 +4612,7 @@ func ListGuardDutyFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGuardDutyFindingPaginator(essdk.BuildFilter(d.EqualsQuals, listGuardDutyFindingFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGuardDutyFindingPaginator(essdk.BuildFilter(d.QueryContext, listGuardDutyFindingFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4662,7 +4662,7 @@ func GetGuardDutyFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGuardDutyFindingPaginator(essdk.BuildFilter(d.EqualsQuals, getGuardDutyFindingFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGuardDutyFindingPaginator(essdk.BuildFilter(d.QueryContext, getGuardDutyFindingFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4784,7 +4784,7 @@ func ListGuardDutyDetector(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGuardDutyDetectorPaginator(essdk.BuildFilter(d.EqualsQuals, listGuardDutyDetectorFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGuardDutyDetectorPaginator(essdk.BuildFilter(d.QueryContext, listGuardDutyDetectorFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4828,7 +4828,7 @@ func GetGuardDutyDetector(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGuardDutyDetectorPaginator(essdk.BuildFilter(d.EqualsQuals, getGuardDutyDetectorFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGuardDutyDetectorPaginator(essdk.BuildFilter(d.QueryContext, getGuardDutyDetectorFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4950,7 +4950,7 @@ func ListGuardDutyFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGuardDutyFilterPaginator(essdk.BuildFilter(d.EqualsQuals, listGuardDutyFilterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGuardDutyFilterPaginator(essdk.BuildFilter(d.QueryContext, listGuardDutyFilterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4994,7 +4994,7 @@ func GetGuardDutyFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGuardDutyFilterPaginator(essdk.BuildFilter(d.EqualsQuals, getGuardDutyFilterFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGuardDutyFilterPaginator(essdk.BuildFilter(d.QueryContext, getGuardDutyFilterFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5116,7 +5116,7 @@ func ListGuardDutyIPSet(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGuardDutyIPSetPaginator(essdk.BuildFilter(d.EqualsQuals, listGuardDutyIPSetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGuardDutyIPSetPaginator(essdk.BuildFilter(d.QueryContext, listGuardDutyIPSetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5160,7 +5160,7 @@ func GetGuardDutyIPSet(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGuardDutyIPSetPaginator(essdk.BuildFilter(d.EqualsQuals, getGuardDutyIPSetFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGuardDutyIPSetPaginator(essdk.BuildFilter(d.QueryContext, getGuardDutyIPSetFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5281,7 +5281,7 @@ func ListGuardDutyMember(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGuardDutyMemberPaginator(essdk.BuildFilter(d.EqualsQuals, listGuardDutyMemberFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGuardDutyMemberPaginator(essdk.BuildFilter(d.QueryContext, listGuardDutyMemberFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5324,7 +5324,7 @@ func GetGuardDutyMember(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGuardDutyMemberPaginator(essdk.BuildFilter(d.EqualsQuals, getGuardDutyMemberFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGuardDutyMemberPaginator(essdk.BuildFilter(d.QueryContext, getGuardDutyMemberFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5447,7 +5447,7 @@ func ListGuardDutyPublishingDestination(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGuardDutyPublishingDestinationPaginator(essdk.BuildFilter(d.EqualsQuals, listGuardDutyPublishingDestinationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGuardDutyPublishingDestinationPaginator(essdk.BuildFilter(d.QueryContext, listGuardDutyPublishingDestinationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5492,7 +5492,7 @@ func GetGuardDutyPublishingDestination(ctx context.Context, d *plugin.QueryData,
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGuardDutyPublishingDestinationPaginator(essdk.BuildFilter(d.EqualsQuals, getGuardDutyPublishingDestinationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGuardDutyPublishingDestinationPaginator(essdk.BuildFilter(d.QueryContext, getGuardDutyPublishingDestinationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5614,7 +5614,7 @@ func ListGuardDutyThreatIntelSet(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGuardDutyThreatIntelSetPaginator(essdk.BuildFilter(d.EqualsQuals, listGuardDutyThreatIntelSetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGuardDutyThreatIntelSetPaginator(essdk.BuildFilter(d.QueryContext, listGuardDutyThreatIntelSetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5658,7 +5658,7 @@ func GetGuardDutyThreatIntelSet(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGuardDutyThreatIntelSetPaginator(essdk.BuildFilter(d.EqualsQuals, getGuardDutyThreatIntelSetFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGuardDutyThreatIntelSetPaginator(essdk.BuildFilter(d.QueryContext, getGuardDutyThreatIntelSetFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5783,7 +5783,7 @@ func ListBackupPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewBackupPlanPaginator(essdk.BuildFilter(d.EqualsQuals, listBackupPlanFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewBackupPlanPaginator(essdk.BuildFilter(d.QueryContext, listBackupPlanFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5830,7 +5830,7 @@ func GetBackupPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewBackupPlanPaginator(essdk.BuildFilter(d.EqualsQuals, getBackupPlanFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewBackupPlanPaginator(essdk.BuildFilter(d.QueryContext, getBackupPlanFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5954,7 +5954,7 @@ func ListBackupSelection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewBackupSelectionPaginator(essdk.BuildFilter(d.EqualsQuals, listBackupSelectionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewBackupSelectionPaginator(essdk.BuildFilter(d.QueryContext, listBackupSelectionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6000,7 +6000,7 @@ func GetBackupSelection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewBackupSelectionPaginator(essdk.BuildFilter(d.EqualsQuals, getBackupSelectionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewBackupSelectionPaginator(essdk.BuildFilter(d.QueryContext, getBackupSelectionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6125,7 +6125,7 @@ func ListBackupVault(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewBackupVaultPaginator(essdk.BuildFilter(d.EqualsQuals, listBackupVaultFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewBackupVaultPaginator(essdk.BuildFilter(d.QueryContext, listBackupVaultFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6172,7 +6172,7 @@ func GetBackupVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewBackupVaultPaginator(essdk.BuildFilter(d.EqualsQuals, getBackupVaultFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewBackupVaultPaginator(essdk.BuildFilter(d.QueryContext, getBackupVaultFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6305,7 +6305,7 @@ func ListBackupRecoveryPoint(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewBackupRecoveryPointPaginator(essdk.BuildFilter(d.EqualsQuals, listBackupRecoveryPointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewBackupRecoveryPointPaginator(essdk.BuildFilter(d.QueryContext, listBackupRecoveryPointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6360,7 +6360,7 @@ func GetBackupRecoveryPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewBackupRecoveryPointPaginator(essdk.BuildFilter(d.EqualsQuals, getBackupRecoveryPointFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewBackupRecoveryPointPaginator(essdk.BuildFilter(d.QueryContext, getBackupRecoveryPointFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6477,7 +6477,7 @@ func ListBackupProtectedResource(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewBackupProtectedResourcePaginator(essdk.BuildFilter(d.EqualsQuals, listBackupProtectedResourceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewBackupProtectedResourcePaginator(essdk.BuildFilter(d.QueryContext, listBackupProtectedResourceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6516,7 +6516,7 @@ func GetBackupProtectedResource(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewBackupProtectedResourcePaginator(essdk.BuildFilter(d.EqualsQuals, getBackupProtectedResourceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewBackupProtectedResourcePaginator(essdk.BuildFilter(d.QueryContext, getBackupProtectedResourceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6639,7 +6639,7 @@ func ListBackupFramework(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewBackupFrameworkPaginator(essdk.BuildFilter(d.EqualsQuals, listBackupFrameworkFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewBackupFrameworkPaginator(essdk.BuildFilter(d.QueryContext, listBackupFrameworkFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6684,7 +6684,7 @@ func GetBackupFramework(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewBackupFrameworkPaginator(essdk.BuildFilter(d.EqualsQuals, getBackupFrameworkFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewBackupFrameworkPaginator(essdk.BuildFilter(d.QueryContext, getBackupFrameworkFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6807,7 +6807,7 @@ func ListBackupLegalHold(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewBackupLegalHoldPaginator(essdk.BuildFilter(d.EqualsQuals, listBackupLegalHoldFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewBackupLegalHoldPaginator(essdk.BuildFilter(d.QueryContext, listBackupLegalHoldFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6852,7 +6852,7 @@ func GetBackupLegalHold(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewBackupLegalHoldPaginator(essdk.BuildFilter(d.EqualsQuals, getBackupLegalHoldFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewBackupLegalHoldPaginator(essdk.BuildFilter(d.QueryContext, getBackupLegalHoldFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6976,7 +6976,7 @@ func ListBackupReportPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewBackupReportPlanPaginator(essdk.BuildFilter(d.EqualsQuals, listBackupReportPlanFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewBackupReportPlanPaginator(essdk.BuildFilter(d.QueryContext, listBackupReportPlanFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7023,7 +7023,7 @@ func GetBackupReportPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewBackupReportPlanPaginator(essdk.BuildFilter(d.EqualsQuals, getBackupReportPlanFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewBackupReportPlanPaginator(essdk.BuildFilter(d.QueryContext, getBackupReportPlanFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7166,7 +7166,7 @@ func ListCloudFrontDistribution(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudFrontDistributionPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudFrontDistributionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFrontDistributionPaginator(essdk.BuildFilter(d.QueryContext, listCloudFrontDistributionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7231,7 +7231,7 @@ func GetCloudFrontDistribution(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFrontDistributionPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudFrontDistributionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudFrontDistributionPaginator(essdk.BuildFilter(d.QueryContext, getCloudFrontDistributionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7350,7 +7350,7 @@ func ListCloudFrontStreamingDistribution(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudFrontStreamingDistributionPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudFrontStreamingDistributionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFrontStreamingDistributionPaginator(essdk.BuildFilter(d.QueryContext, listCloudFrontStreamingDistributionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7391,7 +7391,7 @@ func GetCloudFrontStreamingDistribution(ctx context.Context, d *plugin.QueryData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFrontStreamingDistributionPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudFrontStreamingDistributionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudFrontStreamingDistributionPaginator(essdk.BuildFilter(d.QueryContext, getCloudFrontStreamingDistributionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7507,7 +7507,7 @@ func ListCloudFrontOriginAccessControl(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudFrontOriginAccessControlPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudFrontOriginAccessControlFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFrontOriginAccessControlPaginator(essdk.BuildFilter(d.QueryContext, listCloudFrontOriginAccessControlFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7545,7 +7545,7 @@ func GetCloudFrontOriginAccessControl(ctx context.Context, d *plugin.QueryData, 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFrontOriginAccessControlPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudFrontOriginAccessControlFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudFrontOriginAccessControlPaginator(essdk.BuildFilter(d.QueryContext, getCloudFrontOriginAccessControlFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7669,7 +7669,7 @@ func ListCloudFrontCachePolicy(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudFrontCachePolicyPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudFrontCachePolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFrontCachePolicyPaginator(essdk.BuildFilter(d.QueryContext, listCloudFrontCachePolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7715,7 +7715,7 @@ func GetCloudFrontCachePolicy(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFrontCachePolicyPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudFrontCachePolicyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudFrontCachePolicyPaginator(essdk.BuildFilter(d.QueryContext, getCloudFrontCachePolicyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7836,7 +7836,7 @@ func ListCloudFrontFunction(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudFrontFunctionPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudFrontFunctionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFrontFunctionPaginator(essdk.BuildFilter(d.QueryContext, listCloudFrontFunctionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7879,7 +7879,7 @@ func GetCloudFrontFunction(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFrontFunctionPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudFrontFunctionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudFrontFunctionPaginator(essdk.BuildFilter(d.QueryContext, getCloudFrontFunctionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8000,7 +8000,7 @@ func ListCloudFrontOriginAccessIdentity(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudFrontOriginAccessIdentityPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudFrontOriginAccessIdentityFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFrontOriginAccessIdentityPaginator(essdk.BuildFilter(d.QueryContext, listCloudFrontOriginAccessIdentityFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8043,7 +8043,7 @@ func GetCloudFrontOriginAccessIdentity(ctx context.Context, d *plugin.QueryData,
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFrontOriginAccessIdentityPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudFrontOriginAccessIdentityFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudFrontOriginAccessIdentityPaginator(essdk.BuildFilter(d.QueryContext, getCloudFrontOriginAccessIdentityFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8166,7 +8166,7 @@ func ListCloudFrontOriginRequestPolicy(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudFrontOriginRequestPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudFrontOriginRequestPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFrontOriginRequestPolicyPaginator(essdk.BuildFilter(d.QueryContext, listCloudFrontOriginRequestPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8211,7 +8211,7 @@ func GetCloudFrontOriginRequestPolicy(ctx context.Context, d *plugin.QueryData, 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFrontOriginRequestPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudFrontOriginRequestPolicyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudFrontOriginRequestPolicyPaginator(essdk.BuildFilter(d.QueryContext, getCloudFrontOriginRequestPolicyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8333,7 +8333,7 @@ func ListCloudFrontResponseHeadersPolicy(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudFrontResponseHeadersPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudFrontResponseHeadersPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFrontResponseHeadersPolicyPaginator(essdk.BuildFilter(d.QueryContext, listCloudFrontResponseHeadersPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8377,7 +8377,7 @@ func GetCloudFrontResponseHeadersPolicy(ctx context.Context, d *plugin.QueryData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFrontResponseHeadersPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudFrontResponseHeadersPolicyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudFrontResponseHeadersPolicyPaginator(essdk.BuildFilter(d.QueryContext, getCloudFrontResponseHeadersPolicyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8520,7 +8520,7 @@ func ListCloudWatchAlarm(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudWatchAlarmPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudWatchAlarmFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudWatchAlarmPaginator(essdk.BuildFilter(d.QueryContext, listCloudWatchAlarmFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8585,7 +8585,7 @@ func GetCloudWatchAlarm(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudWatchAlarmPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudWatchAlarmFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudWatchAlarmPaginator(essdk.BuildFilter(d.QueryContext, getCloudWatchAlarmFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8705,7 +8705,7 @@ func ListCloudWatchLogEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudWatchLogEventPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudWatchLogEventFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudWatchLogEventPaginator(essdk.BuildFilter(d.QueryContext, listCloudWatchLogEventFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8747,7 +8747,7 @@ func GetCloudWatchLogEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudWatchLogEventPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudWatchLogEventFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudWatchLogEventPaginator(essdk.BuildFilter(d.QueryContext, getCloudWatchLogEventFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8865,7 +8865,7 @@ func ListCloudWatchLogResourcePolicy(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudWatchLogResourcePolicyPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudWatchLogResourcePolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudWatchLogResourcePolicyPaginator(essdk.BuildFilter(d.QueryContext, listCloudWatchLogResourcePolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8905,7 +8905,7 @@ func GetCloudWatchLogResourcePolicy(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudWatchLogResourcePolicyPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudWatchLogResourcePolicyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudWatchLogResourcePolicyPaginator(essdk.BuildFilter(d.QueryContext, getCloudWatchLogResourcePolicyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9028,7 +9028,7 @@ func ListCloudWatchLogStream(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudWatchLogStreamPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudWatchLogStreamFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudWatchLogStreamPaginator(essdk.BuildFilter(d.QueryContext, listCloudWatchLogStreamFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9073,7 +9073,7 @@ func GetCloudWatchLogStream(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudWatchLogStreamPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudWatchLogStreamFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudWatchLogStreamPaginator(essdk.BuildFilter(d.QueryContext, getCloudWatchLogStreamFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9195,7 +9195,7 @@ func ListCloudWatchLogSubscriptionFilter(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudWatchLogSubscriptionFilterPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudWatchLogSubscriptionFilterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudWatchLogSubscriptionFilterPaginator(essdk.BuildFilter(d.QueryContext, listCloudWatchLogSubscriptionFilterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9239,7 +9239,7 @@ func GetCloudWatchLogSubscriptionFilter(ctx context.Context, d *plugin.QueryData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudWatchLogSubscriptionFilterPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudWatchLogSubscriptionFilterFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudWatchLogSubscriptionFilterPaginator(essdk.BuildFilter(d.QueryContext, getCloudWatchLogSubscriptionFilterFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9356,7 +9356,7 @@ func ListCloudWatchMetric(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudWatchMetricPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudWatchMetricFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudWatchMetricPaginator(essdk.BuildFilter(d.QueryContext, listCloudWatchMetricFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9395,7 +9395,7 @@ func GetCloudWatchMetric(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudWatchMetricPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudWatchMetricFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudWatchMetricPaginator(essdk.BuildFilter(d.QueryContext, getCloudWatchMetricFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9520,7 +9520,7 @@ func ListCloudWatchLogsLogGroup(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudWatchLogsLogGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudWatchLogsLogGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudWatchLogsLogGroupPaginator(essdk.BuildFilter(d.QueryContext, listCloudWatchLogsLogGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9567,7 +9567,7 @@ func GetCloudWatchLogsLogGroup(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudWatchLogsLogGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudWatchLogsLogGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudWatchLogsLogGroupPaginator(essdk.BuildFilter(d.QueryContext, getCloudWatchLogsLogGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9687,7 +9687,7 @@ func ListCloudWatchLogsMetricFilter(ctx context.Context, d *plugin.QueryData, _ 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudWatchLogsMetricFilterPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudWatchLogsMetricFilterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudWatchLogsMetricFilterPaginator(essdk.BuildFilter(d.QueryContext, listCloudWatchLogsMetricFilterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9727,7 +9727,7 @@ func GetCloudWatchLogsMetricFilter(ctx context.Context, d *plugin.QueryData, _ *
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudWatchLogsMetricFilterPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudWatchLogsMetricFilterFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudWatchLogsMetricFilterPaginator(essdk.BuildFilter(d.QueryContext, getCloudWatchLogsMetricFilterFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9869,7 +9869,7 @@ func ListCodeBuildProject(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCodeBuildProjectPaginator(essdk.BuildFilter(d.EqualsQuals, listCodeBuildProjectFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCodeBuildProjectPaginator(essdk.BuildFilter(d.QueryContext, listCodeBuildProjectFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9933,7 +9933,7 @@ func GetCodeBuildProject(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeBuildProjectPaginator(essdk.BuildFilter(d.EqualsQuals, getCodeBuildProjectFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCodeBuildProjectPaginator(essdk.BuildFilter(d.QueryContext, getCodeBuildProjectFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10050,7 +10050,7 @@ func ListCodeBuildSourceCredential(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCodeBuildSourceCredentialPaginator(essdk.BuildFilter(d.EqualsQuals, listCodeBuildSourceCredentialFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCodeBuildSourceCredentialPaginator(essdk.BuildFilter(d.QueryContext, listCodeBuildSourceCredentialFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10089,7 +10089,7 @@ func GetCodeBuildSourceCredential(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeBuildSourceCredentialPaginator(essdk.BuildFilter(d.EqualsQuals, getCodeBuildSourceCredentialFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCodeBuildSourceCredentialPaginator(essdk.BuildFilter(d.QueryContext, getCodeBuildSourceCredentialFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10235,7 +10235,7 @@ func ListCodeBuildBuild(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCodeBuildBuildPaginator(essdk.BuildFilter(d.EqualsQuals, listCodeBuildBuildFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCodeBuildBuildPaginator(essdk.BuildFilter(d.QueryContext, listCodeBuildBuildFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10303,7 +10303,7 @@ func GetCodeBuildBuild(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeBuildBuildPaginator(essdk.BuildFilter(d.EqualsQuals, getCodeBuildBuildFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCodeBuildBuildPaginator(essdk.BuildFilter(d.QueryContext, getCodeBuildBuildFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10422,7 +10422,7 @@ func ListConfigConfigurationRecorder(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewConfigConfigurationRecorderPaginator(essdk.BuildFilter(d.EqualsQuals, listConfigConfigurationRecorderFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewConfigConfigurationRecorderPaginator(essdk.BuildFilter(d.QueryContext, listConfigConfigurationRecorderFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10463,7 +10463,7 @@ func GetConfigConfigurationRecorder(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewConfigConfigurationRecorderPaginator(essdk.BuildFilter(d.EqualsQuals, getConfigConfigurationRecorderFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewConfigConfigurationRecorderPaginator(essdk.BuildFilter(d.QueryContext, getConfigConfigurationRecorderFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10584,7 +10584,7 @@ func ListConfigAggregationAuthorization(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewConfigAggregationAuthorizationPaginator(essdk.BuildFilter(d.EqualsQuals, listConfigAggregationAuthorizationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewConfigAggregationAuthorizationPaginator(essdk.BuildFilter(d.QueryContext, listConfigAggregationAuthorizationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10627,7 +10627,7 @@ func GetConfigAggregationAuthorization(ctx context.Context, d *plugin.QueryData,
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewConfigAggregationAuthorizationPaginator(essdk.BuildFilter(d.EqualsQuals, getConfigAggregationAuthorizationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewConfigAggregationAuthorizationPaginator(essdk.BuildFilter(d.QueryContext, getConfigAggregationAuthorizationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10750,7 +10750,7 @@ func ListConfigConformancePack(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewConfigConformancePackPaginator(essdk.BuildFilter(d.EqualsQuals, listConfigConformancePackFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewConfigConformancePackPaginator(essdk.BuildFilter(d.QueryContext, listConfigConformancePackFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10795,7 +10795,7 @@ func GetConfigConformancePack(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewConfigConformancePackPaginator(essdk.BuildFilter(d.EqualsQuals, getConfigConformancePackFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewConfigConformancePackPaginator(essdk.BuildFilter(d.QueryContext, getConfigConformancePackFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10923,7 +10923,7 @@ func ListConfigRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewConfigRulePaginator(essdk.BuildFilter(d.EqualsQuals, listConfigRuleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewConfigRulePaginator(essdk.BuildFilter(d.QueryContext, listConfigRuleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10973,7 +10973,7 @@ func GetConfigRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewConfigRulePaginator(essdk.BuildFilter(d.EqualsQuals, getConfigRuleFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewConfigRulePaginator(essdk.BuildFilter(d.QueryContext, getConfigRuleFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11089,7 +11089,7 @@ func ListConfigRetentionConfiguration(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewConfigRetentionConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, listConfigRetentionConfigurationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewConfigRetentionConfigurationPaginator(essdk.BuildFilter(d.QueryContext, listConfigRetentionConfigurationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11127,7 +11127,7 @@ func GetConfigRetentionConfiguration(ctx context.Context, d *plugin.QueryData, _
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewConfigRetentionConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, getConfigRetentionConfigurationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewConfigRetentionConfigurationPaginator(essdk.BuildFilter(d.QueryContext, getConfigRetentionConfigurationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11260,7 +11260,7 @@ func ListDAXCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDAXClusterPaginator(essdk.BuildFilter(d.EqualsQuals, listDAXClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDAXClusterPaginator(essdk.BuildFilter(d.QueryContext, listDAXClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11315,7 +11315,7 @@ func GetDAXCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDAXClusterPaginator(essdk.BuildFilter(d.EqualsQuals, getDAXClusterFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDAXClusterPaginator(essdk.BuildFilter(d.QueryContext, getDAXClusterFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11431,7 +11431,7 @@ func ListDAXParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDAXParameterGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listDAXParameterGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDAXParameterGroupPaginator(essdk.BuildFilter(d.QueryContext, listDAXParameterGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11469,7 +11469,7 @@ func GetDAXParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDAXParameterGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getDAXParameterGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDAXParameterGroupPaginator(essdk.BuildFilter(d.QueryContext, getDAXParameterGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11593,7 +11593,7 @@ func ListDAXParameter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDAXParameterPaginator(essdk.BuildFilter(d.EqualsQuals, listDAXParameterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDAXParameterPaginator(essdk.BuildFilter(d.QueryContext, listDAXParameterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11639,7 +11639,7 @@ func GetDAXParameter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDAXParameterPaginator(essdk.BuildFilter(d.EqualsQuals, getDAXParameterFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDAXParameterPaginator(essdk.BuildFilter(d.QueryContext, getDAXParameterFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11758,7 +11758,7 @@ func ListDAXSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDAXSubnetGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listDAXSubnetGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDAXSubnetGroupPaginator(essdk.BuildFilter(d.QueryContext, listDAXSubnetGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11799,7 +11799,7 @@ func GetDAXSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDAXSubnetGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getDAXSubnetGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDAXSubnetGroupPaginator(essdk.BuildFilter(d.QueryContext, getDAXSubnetGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11938,7 +11938,7 @@ func ListDMSReplicationInstance(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDMSReplicationInstancePaginator(essdk.BuildFilter(d.EqualsQuals, listDMSReplicationInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDMSReplicationInstancePaginator(essdk.BuildFilter(d.QueryContext, listDMSReplicationInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11999,7 +11999,7 @@ func GetDMSReplicationInstance(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDMSReplicationInstancePaginator(essdk.BuildFilter(d.EqualsQuals, getDMSReplicationInstanceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDMSReplicationInstancePaginator(essdk.BuildFilter(d.QueryContext, getDMSReplicationInstanceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12136,7 +12136,7 @@ func ListDynamoDbTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDynamoDbTablePaginator(essdk.BuildFilter(d.EqualsQuals, listDynamoDbTableFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDynamoDbTablePaginator(essdk.BuildFilter(d.QueryContext, listDynamoDbTableFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12195,7 +12195,7 @@ func GetDynamoDbTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDynamoDbTablePaginator(essdk.BuildFilter(d.EqualsQuals, getDynamoDbTableFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDynamoDbTablePaginator(essdk.BuildFilter(d.QueryContext, getDynamoDbTableFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12312,7 +12312,7 @@ func ListDynamoDbGlobalSecondaryIndex(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDynamoDbGlobalSecondaryIndexPaginator(essdk.BuildFilter(d.EqualsQuals, listDynamoDbGlobalSecondaryIndexFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDynamoDbGlobalSecondaryIndexPaginator(essdk.BuildFilter(d.QueryContext, listDynamoDbGlobalSecondaryIndexFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12351,7 +12351,7 @@ func GetDynamoDbGlobalSecondaryIndex(ctx context.Context, d *plugin.QueryData, _
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDynamoDbGlobalSecondaryIndexPaginator(essdk.BuildFilter(d.EqualsQuals, getDynamoDbGlobalSecondaryIndexFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDynamoDbGlobalSecondaryIndexPaginator(essdk.BuildFilter(d.QueryContext, getDynamoDbGlobalSecondaryIndexFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12468,7 +12468,7 @@ func ListDynamoDbLocalSecondaryIndex(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDynamoDbLocalSecondaryIndexPaginator(essdk.BuildFilter(d.EqualsQuals, listDynamoDbLocalSecondaryIndexFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDynamoDbLocalSecondaryIndexPaginator(essdk.BuildFilter(d.QueryContext, listDynamoDbLocalSecondaryIndexFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12507,7 +12507,7 @@ func GetDynamoDbLocalSecondaryIndex(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDynamoDbLocalSecondaryIndexPaginator(essdk.BuildFilter(d.EqualsQuals, getDynamoDbLocalSecondaryIndexFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDynamoDbLocalSecondaryIndexPaginator(essdk.BuildFilter(d.QueryContext, getDynamoDbLocalSecondaryIndexFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12624,7 +12624,7 @@ func ListDynamoDbStream(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDynamoDbStreamPaginator(essdk.BuildFilter(d.EqualsQuals, listDynamoDbStreamFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDynamoDbStreamPaginator(essdk.BuildFilter(d.QueryContext, listDynamoDbStreamFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12663,7 +12663,7 @@ func GetDynamoDbStream(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDynamoDbStreamPaginator(essdk.BuildFilter(d.EqualsQuals, getDynamoDbStreamFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDynamoDbStreamPaginator(essdk.BuildFilter(d.QueryContext, getDynamoDbStreamFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12788,7 +12788,7 @@ func ListDynamoDbBackup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDynamoDbBackupPaginator(essdk.BuildFilter(d.EqualsQuals, listDynamoDbBackupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDynamoDbBackupPaginator(essdk.BuildFilter(d.QueryContext, listDynamoDbBackupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12835,7 +12835,7 @@ func GetDynamoDbBackup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDynamoDbBackupPaginator(essdk.BuildFilter(d.EqualsQuals, getDynamoDbBackupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDynamoDbBackupPaginator(essdk.BuildFilter(d.QueryContext, getDynamoDbBackupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12955,7 +12955,7 @@ func ListDynamoDbGlobalTable(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDynamoDbGlobalTablePaginator(essdk.BuildFilter(d.EqualsQuals, listDynamoDbGlobalTableFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDynamoDbGlobalTablePaginator(essdk.BuildFilter(d.QueryContext, listDynamoDbGlobalTableFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12997,7 +12997,7 @@ func GetDynamoDbGlobalTable(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDynamoDbGlobalTablePaginator(essdk.BuildFilter(d.EqualsQuals, getDynamoDbGlobalTableFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDynamoDbGlobalTablePaginator(essdk.BuildFilter(d.QueryContext, getDynamoDbGlobalTableFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13130,7 +13130,7 @@ func ListDynamoDbTableExport(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDynamoDbTableExportPaginator(essdk.BuildFilter(d.EqualsQuals, listDynamoDbTableExportFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDynamoDbTableExportPaginator(essdk.BuildFilter(d.QueryContext, listDynamoDbTableExportFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13185,7 +13185,7 @@ func GetDynamoDbTableExport(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDynamoDbTableExportPaginator(essdk.BuildFilter(d.EqualsQuals, getDynamoDbTableExportFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDynamoDbTableExportPaginator(essdk.BuildFilter(d.QueryContext, getDynamoDbTableExportFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13307,7 +13307,7 @@ func ListOAMLink(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewOAMLinkPaginator(essdk.BuildFilter(d.EqualsQuals, listOAMLinkFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewOAMLinkPaginator(essdk.BuildFilter(d.QueryContext, listOAMLinkFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13351,7 +13351,7 @@ func GetOAMLink(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewOAMLinkPaginator(essdk.BuildFilter(d.EqualsQuals, getOAMLinkFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewOAMLinkPaginator(essdk.BuildFilter(d.QueryContext, getOAMLinkFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13470,7 +13470,7 @@ func ListOAMSink(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewOAMSinkPaginator(essdk.BuildFilter(d.EqualsQuals, listOAMSinkFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewOAMSinkPaginator(essdk.BuildFilter(d.QueryContext, listOAMSinkFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13511,7 +13511,7 @@ func GetOAMSink(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewOAMSinkPaginator(essdk.BuildFilter(d.EqualsQuals, getOAMSinkFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewOAMSinkPaginator(essdk.BuildFilter(d.QueryContext, getOAMSinkFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13640,7 +13640,7 @@ func ListEC2VolumeSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2VolumeSnapshotPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2VolumeSnapshotFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VolumeSnapshotPaginator(essdk.BuildFilter(d.QueryContext, listEC2VolumeSnapshotFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13691,7 +13691,7 @@ func GetEC2VolumeSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VolumeSnapshotPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2VolumeSnapshotFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2VolumeSnapshotPaginator(essdk.BuildFilter(d.QueryContext, getEC2VolumeSnapshotFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13813,7 +13813,7 @@ func ListEC2CustomerGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2CustomerGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2CustomerGatewayFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2CustomerGatewayPaginator(essdk.BuildFilter(d.QueryContext, listEC2CustomerGatewayFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13857,7 +13857,7 @@ func GetEC2CustomerGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2CustomerGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2CustomerGatewayFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2CustomerGatewayPaginator(essdk.BuildFilter(d.QueryContext, getEC2CustomerGatewayFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13976,7 +13976,7 @@ func ListEC2VerifiedAccessInstance(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2VerifiedAccessInstancePaginator(essdk.BuildFilter(d.EqualsQuals, listEC2VerifiedAccessInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VerifiedAccessInstancePaginator(essdk.BuildFilter(d.QueryContext, listEC2VerifiedAccessInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14017,7 +14017,7 @@ func GetEC2VerifiedAccessInstance(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VerifiedAccessInstancePaginator(essdk.BuildFilter(d.EqualsQuals, getEC2VerifiedAccessInstanceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2VerifiedAccessInstancePaginator(essdk.BuildFilter(d.QueryContext, getEC2VerifiedAccessInstanceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14148,7 +14148,7 @@ func ListEC2VerifiedAccessEndpoint(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2VerifiedAccessEndpointPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2VerifiedAccessEndpointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VerifiedAccessEndpointPaginator(essdk.BuildFilter(d.QueryContext, listEC2VerifiedAccessEndpointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14201,7 +14201,7 @@ func GetEC2VerifiedAccessEndpoint(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VerifiedAccessEndpointPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2VerifiedAccessEndpointFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2VerifiedAccessEndpointPaginator(essdk.BuildFilter(d.QueryContext, getEC2VerifiedAccessEndpointFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14324,7 +14324,7 @@ func ListEC2VerifiedAccessGroup(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2VerifiedAccessGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2VerifiedAccessGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VerifiedAccessGroupPaginator(essdk.BuildFilter(d.QueryContext, listEC2VerifiedAccessGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14369,7 +14369,7 @@ func GetEC2VerifiedAccessGroup(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VerifiedAccessGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2VerifiedAccessGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2VerifiedAccessGroupPaginator(essdk.BuildFilter(d.QueryContext, getEC2VerifiedAccessGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14493,7 +14493,7 @@ func ListEC2VerifiedAccessTrustProvider(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2VerifiedAccessTrustProviderPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2VerifiedAccessTrustProviderFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VerifiedAccessTrustProviderPaginator(essdk.BuildFilter(d.QueryContext, listEC2VerifiedAccessTrustProviderFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14539,7 +14539,7 @@ func GetEC2VerifiedAccessTrustProvider(ctx context.Context, d *plugin.QueryData,
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VerifiedAccessTrustProviderPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2VerifiedAccessTrustProviderFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2VerifiedAccessTrustProviderPaginator(essdk.BuildFilter(d.QueryContext, getEC2VerifiedAccessTrustProviderFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14660,7 +14660,7 @@ func ListEC2VPNGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2VPNGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2VPNGatewayFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VPNGatewayPaginator(essdk.BuildFilter(d.QueryContext, listEC2VPNGatewayFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14703,7 +14703,7 @@ func GetEC2VPNGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VPNGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2VPNGatewayFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2VPNGatewayPaginator(essdk.BuildFilter(d.QueryContext, getEC2VPNGatewayFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14833,7 +14833,7 @@ func ListEC2Volume(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2VolumePaginator(essdk.BuildFilter(d.EqualsQuals, listEC2VolumeFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VolumePaginator(essdk.BuildFilter(d.QueryContext, listEC2VolumeFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14885,7 +14885,7 @@ func GetEC2Volume(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VolumePaginator(essdk.BuildFilter(d.EqualsQuals, getEC2VolumeFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2VolumePaginator(essdk.BuildFilter(d.QueryContext, getEC2VolumeFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15022,7 +15022,7 @@ func ListEC2ClientVpnEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2ClientVpnEndpointPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2ClientVpnEndpointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2ClientVpnEndpointPaginator(essdk.BuildFilter(d.QueryContext, listEC2ClientVpnEndpointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15082,7 +15082,7 @@ func GetEC2ClientVpnEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2ClientVpnEndpointPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2ClientVpnEndpointFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2ClientVpnEndpointPaginator(essdk.BuildFilter(d.QueryContext, getEC2ClientVpnEndpointFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15264,7 +15264,7 @@ func ListEC2Instance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2InstancePaginator(essdk.BuildFilter(d.EqualsQuals, listEC2InstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2InstancePaginator(essdk.BuildFilter(d.QueryContext, listEC2InstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15353,6 +15353,7 @@ var getEC2InstanceFilters = map[string]string{
 	"usage_operation_update_time":                "description.Instance.UsageOperationUpdateTime",
 	"user_data":                                  "description.Attributes.UserData",
 	"virtualization_type":                        "description.Instance.VirtualizationType",
+	"vpc_id":                                     "description.Instance.VpcId",
 }
 
 func GetEC2Instance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -15367,7 +15368,7 @@ func GetEC2Instance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2InstancePaginator(essdk.BuildFilter(d.EqualsQuals, getEC2InstanceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2InstancePaginator(essdk.BuildFilter(d.QueryContext, getEC2InstanceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15475,9 +15476,7 @@ var listEC2VpcFilters = map[string]string{
 	"kaytu_account_id":                "metadata.SourceID",
 	"owner_id":                        "description.Vpc.OwnerId",
 	"state":                           "description.Vpc.State",
-	"tags":                            "description.Subnet.Tags",
 	"tags_src":                        "description.Vpc.Tags",
-	"title":                           "description.Subnet.Tags",
 	"vpc_id":                          "description.Vpc.VpcId",
 }
 
@@ -15492,7 +15491,7 @@ func ListEC2Vpc(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2VpcPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2VpcFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VpcPaginator(essdk.BuildFilter(d.QueryContext, listEC2VpcFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15521,9 +15520,7 @@ var getEC2VpcFilters = map[string]string{
 	"kaytu_account_id":                "metadata.SourceID",
 	"owner_id":                        "description.Vpc.OwnerId",
 	"state":                           "description.Vpc.State",
-	"tags":                            "description.Subnet.Tags",
 	"tags_src":                        "description.Vpc.Tags",
-	"title":                           "description.Subnet.Tags",
 	"vpc_id":                          "description.Vpc.VpcId",
 }
 
@@ -15539,7 +15536,7 @@ func GetEC2Vpc(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VpcPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2VpcFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2VpcPaginator(essdk.BuildFilter(d.QueryContext, getEC2VpcFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15686,7 +15683,7 @@ func ListEC2NetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2NetworkInterfacePaginator(essdk.BuildFilter(d.EqualsQuals, listEC2NetworkInterfaceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2NetworkInterfacePaginator(essdk.BuildFilter(d.QueryContext, listEC2NetworkInterfaceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15755,7 +15752,7 @@ func GetEC2NetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2NetworkInterfacePaginator(essdk.BuildFilter(d.EqualsQuals, getEC2NetworkInterfaceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2NetworkInterfacePaginator(essdk.BuildFilter(d.QueryContext, getEC2NetworkInterfaceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15870,7 +15867,7 @@ func ListEC2RegionalSettings(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2RegionalSettingsPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2RegionalSettingsFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2RegionalSettingsPaginator(essdk.BuildFilter(d.QueryContext, listEC2RegionalSettingsFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15907,7 +15904,7 @@ func GetEC2RegionalSettings(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2RegionalSettingsPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2RegionalSettingsFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2RegionalSettingsPaginator(essdk.BuildFilter(d.QueryContext, getEC2RegionalSettingsFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16039,7 +16036,7 @@ func ListEC2Subnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2SubnetPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2SubnetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2SubnetPaginator(essdk.BuildFilter(d.QueryContext, listEC2SubnetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16093,7 +16090,7 @@ func GetEC2Subnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2SubnetPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2SubnetFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2SubnetPaginator(essdk.BuildFilter(d.QueryContext, getEC2SubnetFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16222,7 +16219,7 @@ func ListEC2VPCEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2VPCEndpointPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2VPCEndpointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VPCEndpointPaginator(essdk.BuildFilter(d.QueryContext, listEC2VPCEndpointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16273,7 +16270,7 @@ func GetEC2VPCEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VPCEndpointPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2VPCEndpointFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2VPCEndpointPaginator(essdk.BuildFilter(d.QueryContext, getEC2VPCEndpointFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16395,7 +16392,7 @@ func ListEC2SecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2SecurityGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2SecurityGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2SecurityGroupPaginator(essdk.BuildFilter(d.QueryContext, listEC2SecurityGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16439,7 +16436,7 @@ func GetEC2SecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2SecurityGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2SecurityGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2SecurityGroupPaginator(essdk.BuildFilter(d.QueryContext, getEC2SecurityGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16567,7 +16564,7 @@ func ListEC2EIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2EIPPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2EIPFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2EIPPaginator(essdk.BuildFilter(d.QueryContext, listEC2EIPFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16617,7 +16614,7 @@ func GetEC2EIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2EIPPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2EIPFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2EIPPaginator(essdk.BuildFilter(d.QueryContext, getEC2EIPFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16734,7 +16731,7 @@ func ListEC2InternetGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2InternetGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2InternetGatewayFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2InternetGatewayPaginator(essdk.BuildFilter(d.QueryContext, listEC2InternetGatewayFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16773,7 +16770,7 @@ func GetEC2InternetGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2InternetGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2InternetGatewayFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2InternetGatewayPaginator(essdk.BuildFilter(d.QueryContext, getEC2InternetGatewayFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16893,7 +16890,7 @@ func ListEC2NetworkAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2NetworkAclPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2NetworkAclFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2NetworkAclPaginator(essdk.BuildFilter(d.QueryContext, listEC2NetworkAclFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16935,7 +16932,7 @@ func GetEC2NetworkAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2NetworkAclPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2NetworkAclFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2NetworkAclPaginator(essdk.BuildFilter(d.QueryContext, getEC2NetworkAclFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17060,7 +17057,7 @@ func ListEC2VPNConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2VPNConnectionPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2VPNConnectionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VPNConnectionPaginator(essdk.BuildFilter(d.QueryContext, listEC2VPNConnectionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17107,7 +17104,7 @@ func GetEC2VPNConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VPNConnectionPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2VPNConnectionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2VPNConnectionPaginator(essdk.BuildFilter(d.QueryContext, getEC2VPNConnectionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17214,7 +17211,7 @@ var listEC2RouteTableFilters = map[string]string{
 	"route_table_id":   "description.RouteTable.RouteTableId",
 	"routes":           "description.RouteTable.Routes",
 	"tags_src":         "description.RouteTable.Tags",
-	"title":            "routeTableId",
+	"title":            "description.RouteTable.RouteTableId",
 	"vpc_id":           "description.RouteTable.VpcId",
 }
 
@@ -17229,7 +17226,7 @@ func ListEC2RouteTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2RouteTablePaginator(essdk.BuildFilter(d.EqualsQuals, listEC2RouteTableFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2RouteTablePaginator(essdk.BuildFilter(d.QueryContext, listEC2RouteTableFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17257,7 +17254,7 @@ var getEC2RouteTableFilters = map[string]string{
 	"route_table_id":   "description.RouteTable.RouteTableId",
 	"routes":           "description.RouteTable.Routes",
 	"tags_src":         "description.RouteTable.Tags",
-	"title":            "routeTableId",
+	"title":            "description.RouteTable.RouteTableId",
 	"vpc_id":           "description.RouteTable.VpcId",
 }
 
@@ -17273,7 +17270,7 @@ func GetEC2RouteTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2RouteTablePaginator(essdk.BuildFilter(d.EqualsQuals, getEC2RouteTableFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2RouteTablePaginator(essdk.BuildFilter(d.QueryContext, getEC2RouteTableFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17397,7 +17394,7 @@ func ListEC2NatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2NatGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2NatGatewayFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2NatGatewayPaginator(essdk.BuildFilter(d.QueryContext, listEC2NatGatewayFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17443,7 +17440,7 @@ func GetEC2NatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2NatGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2NatGatewayFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2NatGatewayPaginator(essdk.BuildFilter(d.QueryContext, getEC2NatGatewayFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17563,7 +17560,7 @@ func ListEC2Region(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2RegionPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2RegionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2RegionPaginator(essdk.BuildFilter(d.QueryContext, listEC2RegionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17605,7 +17602,7 @@ func GetEC2Region(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2RegionPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2RegionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2RegionPaginator(essdk.BuildFilter(d.QueryContext, getEC2RegionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17729,7 +17726,7 @@ func ListEC2AvailabilityZone(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2AvailabilityZonePaginator(essdk.BuildFilter(d.EqualsQuals, listEC2AvailabilityZoneFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2AvailabilityZonePaginator(essdk.BuildFilter(d.QueryContext, listEC2AvailabilityZoneFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17775,7 +17772,7 @@ func GetEC2AvailabilityZone(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2AvailabilityZonePaginator(essdk.BuildFilter(d.EqualsQuals, getEC2AvailabilityZoneFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2AvailabilityZonePaginator(essdk.BuildFilter(d.QueryContext, getEC2AvailabilityZoneFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17902,7 +17899,7 @@ func ListEC2FlowLog(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2FlowLogPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2FlowLogFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2FlowLogPaginator(essdk.BuildFilter(d.QueryContext, listEC2FlowLogFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17951,7 +17948,7 @@ func GetEC2FlowLog(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2FlowLogPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2FlowLogFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2FlowLogPaginator(essdk.BuildFilter(d.QueryContext, getEC2FlowLogFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18086,7 +18083,7 @@ func ListEC2CapacityReservation(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2CapacityReservationPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2CapacityReservationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2CapacityReservationPaginator(essdk.BuildFilter(d.QueryContext, listEC2CapacityReservationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18143,7 +18140,7 @@ func GetEC2CapacityReservation(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2CapacityReservationPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2CapacityReservationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2CapacityReservationPaginator(essdk.BuildFilter(d.QueryContext, getEC2CapacityReservationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18261,7 +18258,7 @@ func ListEC2KeyPair(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2KeyPairPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2KeyPairFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2KeyPairPaginator(essdk.BuildFilter(d.QueryContext, listEC2KeyPairFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18301,7 +18298,7 @@ func GetEC2KeyPair(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2KeyPairPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2KeyPairFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2KeyPairPaginator(essdk.BuildFilter(d.QueryContext, getEC2KeyPairFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18441,7 +18438,7 @@ func ListEC2AMI(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2AMIPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2AMIFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2AMIPaginator(essdk.BuildFilter(d.QueryContext, listEC2AMIFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18503,7 +18500,7 @@ func GetEC2AMI(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2AMIPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2AMIFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2AMIPaginator(essdk.BuildFilter(d.QueryContext, getEC2AMIFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18635,7 +18632,7 @@ func ListEC2ReservedInstances(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2ReservedInstancesPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2ReservedInstancesFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2ReservedInstancesPaginator(essdk.BuildFilter(d.QueryContext, listEC2ReservedInstancesFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18689,7 +18686,7 @@ func GetEC2ReservedInstances(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2ReservedInstancesPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2ReservedInstancesFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2ReservedInstancesPaginator(essdk.BuildFilter(d.QueryContext, getEC2ReservedInstancesFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18806,7 +18803,7 @@ func ListEC2CapacityReservationFleet(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2CapacityReservationFleetPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2CapacityReservationFleetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2CapacityReservationFleetPaginator(essdk.BuildFilter(d.QueryContext, listEC2CapacityReservationFleetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18845,7 +18842,7 @@ func GetEC2CapacityReservationFleet(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2CapacityReservationFleetPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2CapacityReservationFleetFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2CapacityReservationFleetPaginator(essdk.BuildFilter(d.QueryContext, getEC2CapacityReservationFleetFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18960,7 +18957,7 @@ func ListEC2Fleet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2FleetPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2FleetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2FleetPaginator(essdk.BuildFilter(d.QueryContext, listEC2FleetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18997,7 +18994,7 @@ func GetEC2Fleet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2FleetPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2FleetFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2FleetPaginator(essdk.BuildFilter(d.QueryContext, getEC2FleetFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19112,7 +19109,7 @@ func ListEC2Host(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2HostPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2HostFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2HostPaginator(essdk.BuildFilter(d.QueryContext, listEC2HostFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19149,7 +19146,7 @@ func GetEC2Host(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2HostPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2HostFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2HostPaginator(essdk.BuildFilter(d.QueryContext, getEC2HostFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19265,7 +19262,7 @@ func ListEC2PlacementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2PlacementGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2PlacementGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2PlacementGroupPaginator(essdk.BuildFilter(d.QueryContext, listEC2PlacementGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19303,7 +19300,7 @@ func GetEC2PlacementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2PlacementGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2PlacementGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2PlacementGroupPaginator(essdk.BuildFilter(d.QueryContext, getEC2PlacementGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19434,7 +19431,7 @@ func ListEC2TransitGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2TransitGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2TransitGatewayFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2TransitGatewayPaginator(essdk.BuildFilter(d.QueryContext, listEC2TransitGatewayFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19487,7 +19484,7 @@ func GetEC2TransitGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2TransitGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2TransitGatewayFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2TransitGatewayPaginator(essdk.BuildFilter(d.QueryContext, getEC2TransitGatewayFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19607,7 +19604,7 @@ func ListEC2TransitGatewayRouteTable(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2TransitGatewayRouteTablePaginator(essdk.BuildFilter(d.EqualsQuals, listEC2TransitGatewayRouteTableFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2TransitGatewayRouteTablePaginator(essdk.BuildFilter(d.QueryContext, listEC2TransitGatewayRouteTableFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19649,7 +19646,7 @@ func GetEC2TransitGatewayRouteTable(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2TransitGatewayRouteTablePaginator(essdk.BuildFilter(d.EqualsQuals, getEC2TransitGatewayRouteTableFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2TransitGatewayRouteTablePaginator(essdk.BuildFilter(d.QueryContext, getEC2TransitGatewayRouteTableFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19770,7 +19767,7 @@ func ListEC2DhcpOptions(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2DhcpOptionsPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2DhcpOptionsFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2DhcpOptionsPaginator(essdk.BuildFilter(d.QueryContext, listEC2DhcpOptionsFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19813,7 +19810,7 @@ func GetEC2DhcpOptions(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2DhcpOptionsPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2DhcpOptionsFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2DhcpOptionsPaginator(essdk.BuildFilter(d.QueryContext, getEC2DhcpOptionsFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19929,7 +19926,7 @@ func ListEC2EgressOnlyInternetGateway(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2EgressOnlyInternetGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2EgressOnlyInternetGatewayFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2EgressOnlyInternetGatewayPaginator(essdk.BuildFilter(d.QueryContext, listEC2EgressOnlyInternetGatewayFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19967,7 +19964,7 @@ func GetEC2EgressOnlyInternetGateway(ctx context.Context, d *plugin.QueryData, _
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2EgressOnlyInternetGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2EgressOnlyInternetGatewayFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2EgressOnlyInternetGatewayPaginator(essdk.BuildFilter(d.QueryContext, getEC2EgressOnlyInternetGatewayFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20100,7 +20097,7 @@ func ListEC2VpcPeeringConnection(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2VpcPeeringConnectionPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2VpcPeeringConnectionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VpcPeeringConnectionPaginator(essdk.BuildFilter(d.QueryContext, listEC2VpcPeeringConnectionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20155,7 +20152,7 @@ func GetEC2VpcPeeringConnection(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VpcPeeringConnectionPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2VpcPeeringConnectionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2VpcPeeringConnectionPaginator(essdk.BuildFilter(d.QueryContext, getEC2VpcPeeringConnectionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20292,7 +20289,7 @@ func ListEC2SecurityGroupRule(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2SecurityGroupRulePaginator(essdk.BuildFilter(d.EqualsQuals, listEC2SecurityGroupRuleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2SecurityGroupRulePaginator(essdk.BuildFilter(d.QueryContext, listEC2SecurityGroupRuleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20351,7 +20348,7 @@ func GetEC2SecurityGroupRule(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2SecurityGroupRulePaginator(essdk.BuildFilter(d.EqualsQuals, getEC2SecurityGroupRuleFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2SecurityGroupRulePaginator(essdk.BuildFilter(d.QueryContext, getEC2SecurityGroupRuleFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20468,7 +20465,7 @@ func ListEC2IpamPool(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2IpamPoolPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2IpamPoolFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2IpamPoolPaginator(essdk.BuildFilter(d.QueryContext, listEC2IpamPoolFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20507,7 +20504,7 @@ func GetEC2IpamPool(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2IpamPoolPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2IpamPoolFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2IpamPoolPaginator(essdk.BuildFilter(d.QueryContext, getEC2IpamPoolFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20624,7 +20621,7 @@ func ListEC2Ipam(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2IpamPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2IpamFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2IpamPaginator(essdk.BuildFilter(d.QueryContext, listEC2IpamFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20663,7 +20660,7 @@ func GetEC2Ipam(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2IpamPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2IpamFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2IpamPaginator(essdk.BuildFilter(d.QueryContext, getEC2IpamFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20792,7 +20789,7 @@ func ListEC2VPCEndpointService(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2VPCEndpointServicePaginator(essdk.BuildFilter(d.EqualsQuals, listEC2VPCEndpointServiceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VPCEndpointServicePaginator(essdk.BuildFilter(d.QueryContext, listEC2VPCEndpointServiceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20843,7 +20840,7 @@ func GetEC2VPCEndpointService(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VPCEndpointServicePaginator(essdk.BuildFilter(d.EqualsQuals, getEC2VPCEndpointServiceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2VPCEndpointServicePaginator(essdk.BuildFilter(d.QueryContext, getEC2VPCEndpointServiceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20961,7 +20958,7 @@ func ListEC2InstanceAvailability(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2InstanceAvailabilityPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2InstanceAvailabilityFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2InstanceAvailabilityPaginator(essdk.BuildFilter(d.QueryContext, listEC2InstanceAvailabilityFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21001,7 +20998,7 @@ func GetEC2InstanceAvailability(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2InstanceAvailabilityPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2InstanceAvailabilityFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2InstanceAvailabilityPaginator(essdk.BuildFilter(d.QueryContext, getEC2InstanceAvailabilityFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21136,7 +21133,7 @@ func ListEC2InstanceType(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2InstanceTypePaginator(essdk.BuildFilter(d.EqualsQuals, listEC2InstanceTypeFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2InstanceTypePaginator(essdk.BuildFilter(d.QueryContext, listEC2InstanceTypeFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21193,7 +21190,7 @@ func GetEC2InstanceType(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2InstanceTypePaginator(essdk.BuildFilter(d.EqualsQuals, getEC2InstanceTypeFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2InstanceTypePaginator(essdk.BuildFilter(d.QueryContext, getEC2InstanceTypeFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21318,7 +21315,7 @@ func ListEC2ManagedPrefixList(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2ManagedPrefixListPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2ManagedPrefixListFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2ManagedPrefixListPaginator(essdk.BuildFilter(d.QueryContext, listEC2ManagedPrefixListFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21365,7 +21362,7 @@ func GetEC2ManagedPrefixList(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2ManagedPrefixListPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2ManagedPrefixListFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2ManagedPrefixListPaginator(essdk.BuildFilter(d.QueryContext, getEC2ManagedPrefixListFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21480,7 +21477,7 @@ func ListEC2ManagedPrefixListEntry(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2ManagedPrefixListEntryPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2ManagedPrefixListEntryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2ManagedPrefixListEntryPaginator(essdk.BuildFilter(d.QueryContext, listEC2ManagedPrefixListEntryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21517,7 +21514,7 @@ func GetEC2ManagedPrefixListEntry(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2ManagedPrefixListEntryPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2ManagedPrefixListEntryFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2ManagedPrefixListEntryPaginator(essdk.BuildFilter(d.QueryContext, getEC2ManagedPrefixListEntryFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21638,7 +21635,7 @@ func ListEC2TransitGatewayRoute(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2TransitGatewayRoutePaginator(essdk.BuildFilter(d.EqualsQuals, listEC2TransitGatewayRouteFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2TransitGatewayRoutePaginator(essdk.BuildFilter(d.QueryContext, listEC2TransitGatewayRouteFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21681,7 +21678,7 @@ func GetEC2TransitGatewayRoute(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2TransitGatewayRoutePaginator(essdk.BuildFilter(d.EqualsQuals, getEC2TransitGatewayRouteFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2TransitGatewayRoutePaginator(essdk.BuildFilter(d.QueryContext, getEC2TransitGatewayRouteFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21806,7 +21803,7 @@ func ListEC2TransitGatewayAttachment(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2TransitGatewayAttachmentPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2TransitGatewayAttachmentFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2TransitGatewayAttachmentPaginator(essdk.BuildFilter(d.QueryContext, listEC2TransitGatewayAttachmentFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21853,7 +21850,7 @@ func GetEC2TransitGatewayAttachment(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2TransitGatewayAttachmentPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2TransitGatewayAttachmentFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2TransitGatewayAttachmentPaginator(essdk.BuildFilter(d.QueryContext, getEC2TransitGatewayAttachmentFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21976,7 +21973,7 @@ func ListEC2LaunchTemplate(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2LaunchTemplatePaginator(essdk.BuildFilter(d.EqualsQuals, listEC2LaunchTemplateFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2LaunchTemplatePaginator(essdk.BuildFilter(d.QueryContext, listEC2LaunchTemplateFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22021,7 +22018,7 @@ func GetEC2LaunchTemplate(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2LaunchTemplatePaginator(essdk.BuildFilter(d.EqualsQuals, getEC2LaunchTemplateFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2LaunchTemplatePaginator(essdk.BuildFilter(d.QueryContext, getEC2LaunchTemplateFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22153,7 +22150,7 @@ func ListEC2LaunchTemplateVersion(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEC2LaunchTemplateVersionPaginator(essdk.BuildFilter(d.EqualsQuals, listEC2LaunchTemplateVersionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEC2LaunchTemplateVersionPaginator(essdk.BuildFilter(d.QueryContext, listEC2LaunchTemplateVersionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22207,7 +22204,7 @@ func GetEC2LaunchTemplateVersion(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2LaunchTemplateVersionPaginator(essdk.BuildFilter(d.EqualsQuals, getEC2LaunchTemplateVersionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEC2LaunchTemplateVersionPaginator(essdk.BuildFilter(d.QueryContext, getEC2LaunchTemplateVersionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22325,7 +22322,7 @@ func ListElasticLoadBalancingV2SslPolicy(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewElasticLoadBalancingV2SslPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, listElasticLoadBalancingV2SslPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewElasticLoadBalancingV2SslPolicyPaginator(essdk.BuildFilter(d.QueryContext, listElasticLoadBalancingV2SslPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22366,7 +22363,7 @@ func GetElasticLoadBalancingV2SslPolicy(ctx context.Context, d *plugin.QueryData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewElasticLoadBalancingV2SslPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, getElasticLoadBalancingV2SslPolicyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewElasticLoadBalancingV2SslPolicyPaginator(essdk.BuildFilter(d.QueryContext, getElasticLoadBalancingV2SslPolicyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22483,7 +22480,7 @@ func ListElasticLoadBalancingV2TargetGroup(ctx context.Context, d *plugin.QueryD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewElasticLoadBalancingV2TargetGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listElasticLoadBalancingV2TargetGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewElasticLoadBalancingV2TargetGroupPaginator(essdk.BuildFilter(d.QueryContext, listElasticLoadBalancingV2TargetGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22523,7 +22520,7 @@ func GetElasticLoadBalancingV2TargetGroup(ctx context.Context, d *plugin.QueryDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewElasticLoadBalancingV2TargetGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getElasticLoadBalancingV2TargetGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewElasticLoadBalancingV2TargetGroupPaginator(essdk.BuildFilter(d.QueryContext, getElasticLoadBalancingV2TargetGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22654,7 +22651,7 @@ func ListElasticLoadBalancingV2LoadBalancer(ctx context.Context, d *plugin.Query
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewElasticLoadBalancingV2LoadBalancerPaginator(essdk.BuildFilter(d.EqualsQuals, listElasticLoadBalancingV2LoadBalancerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewElasticLoadBalancingV2LoadBalancerPaginator(essdk.BuildFilter(d.QueryContext, listElasticLoadBalancingV2LoadBalancerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22707,7 +22704,7 @@ func GetElasticLoadBalancingV2LoadBalancer(ctx context.Context, d *plugin.QueryD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewElasticLoadBalancingV2LoadBalancerPaginator(essdk.BuildFilter(d.EqualsQuals, getElasticLoadBalancingV2LoadBalancerFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewElasticLoadBalancingV2LoadBalancerPaginator(essdk.BuildFilter(d.QueryContext, getElasticLoadBalancingV2LoadBalancerFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22854,7 +22851,7 @@ func ListElasticLoadBalancingLoadBalancer(ctx context.Context, d *plugin.QueryDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewElasticLoadBalancingLoadBalancerPaginator(essdk.BuildFilter(d.EqualsQuals, listElasticLoadBalancingLoadBalancerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewElasticLoadBalancingLoadBalancerPaginator(essdk.BuildFilter(d.QueryContext, listElasticLoadBalancingLoadBalancerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22923,7 +22920,7 @@ func GetElasticLoadBalancingLoadBalancer(ctx context.Context, d *plugin.QueryDat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewElasticLoadBalancingLoadBalancerPaginator(essdk.BuildFilter(d.EqualsQuals, getElasticLoadBalancingLoadBalancerFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewElasticLoadBalancingLoadBalancerPaginator(essdk.BuildFilter(d.QueryContext, getElasticLoadBalancingLoadBalancerFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23045,7 +23042,7 @@ func ListElasticLoadBalancingV2Listener(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewElasticLoadBalancingV2ListenerPaginator(essdk.BuildFilter(d.EqualsQuals, listElasticLoadBalancingV2ListenerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewElasticLoadBalancingV2ListenerPaginator(essdk.BuildFilter(d.QueryContext, listElasticLoadBalancingV2ListenerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23089,7 +23086,7 @@ func GetElasticLoadBalancingV2Listener(ctx context.Context, d *plugin.QueryData,
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewElasticLoadBalancingV2ListenerPaginator(essdk.BuildFilter(d.EqualsQuals, getElasticLoadBalancingV2ListenerFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewElasticLoadBalancingV2ListenerPaginator(essdk.BuildFilter(d.QueryContext, getElasticLoadBalancingV2ListenerFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23205,7 +23202,7 @@ func ListElasticLoadBalancingV2Rule(ctx context.Context, d *plugin.QueryData, _ 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewElasticLoadBalancingV2RulePaginator(essdk.BuildFilter(d.EqualsQuals, listElasticLoadBalancingV2RuleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewElasticLoadBalancingV2RulePaginator(essdk.BuildFilter(d.QueryContext, listElasticLoadBalancingV2RuleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23243,7 +23240,7 @@ func GetElasticLoadBalancingV2Rule(ctx context.Context, d *plugin.QueryData, _ *
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewElasticLoadBalancingV2RulePaginator(essdk.BuildFilter(d.EqualsQuals, getElasticLoadBalancingV2RuleFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewElasticLoadBalancingV2RulePaginator(essdk.BuildFilter(d.QueryContext, getElasticLoadBalancingV2RuleFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23377,7 +23374,7 @@ func ListFSXFileSystem(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewFSXFileSystemPaginator(essdk.BuildFilter(d.EqualsQuals, listFSXFileSystemFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewFSXFileSystemPaginator(essdk.BuildFilter(d.QueryContext, listFSXFileSystemFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23433,7 +23430,7 @@ func GetFSXFileSystem(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewFSXFileSystemPaginator(essdk.BuildFilter(d.EqualsQuals, getFSXFileSystemFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewFSXFileSystemPaginator(essdk.BuildFilter(d.QueryContext, getFSXFileSystemFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23551,7 +23548,7 @@ func ListFSXStorageVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewFSXStorageVirtualMachinePaginator(essdk.BuildFilter(d.EqualsQuals, listFSXStorageVirtualMachineFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewFSXStorageVirtualMachinePaginator(essdk.BuildFilter(d.QueryContext, listFSXStorageVirtualMachineFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23591,7 +23588,7 @@ func GetFSXStorageVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewFSXStorageVirtualMachinePaginator(essdk.BuildFilter(d.EqualsQuals, getFSXStorageVirtualMachineFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewFSXStorageVirtualMachinePaginator(essdk.BuildFilter(d.QueryContext, getFSXStorageVirtualMachineFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23708,7 +23705,7 @@ func ListFSXTask(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewFSXTaskPaginator(essdk.BuildFilter(d.EqualsQuals, listFSXTaskFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewFSXTaskPaginator(essdk.BuildFilter(d.QueryContext, listFSXTaskFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23747,7 +23744,7 @@ func GetFSXTask(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewFSXTaskPaginator(essdk.BuildFilter(d.EqualsQuals, getFSXTaskFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewFSXTaskPaginator(essdk.BuildFilter(d.QueryContext, getFSXTaskFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23865,7 +23862,7 @@ func ListFSXVolume(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewFSXVolumePaginator(essdk.BuildFilter(d.EqualsQuals, listFSXVolumeFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewFSXVolumePaginator(essdk.BuildFilter(d.QueryContext, listFSXVolumeFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23905,7 +23902,7 @@ func GetFSXVolume(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewFSXVolumePaginator(essdk.BuildFilter(d.EqualsQuals, getFSXVolumeFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewFSXVolumePaginator(essdk.BuildFilter(d.QueryContext, getFSXVolumeFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24023,7 +24020,7 @@ func ListFSXSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewFSXSnapshotPaginator(essdk.BuildFilter(d.EqualsQuals, listFSXSnapshotFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewFSXSnapshotPaginator(essdk.BuildFilter(d.QueryContext, listFSXSnapshotFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24063,7 +24060,7 @@ func GetFSXSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewFSXSnapshotPaginator(essdk.BuildFilter(d.EqualsQuals, getFSXSnapshotFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewFSXSnapshotPaginator(essdk.BuildFilter(d.QueryContext, getFSXSnapshotFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24185,7 +24182,7 @@ func ListApplicationAutoScalingTarget(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewApplicationAutoScalingTargetPaginator(essdk.BuildFilter(d.EqualsQuals, listApplicationAutoScalingTargetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewApplicationAutoScalingTargetPaginator(essdk.BuildFilter(d.QueryContext, listApplicationAutoScalingTargetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24229,7 +24226,7 @@ func GetApplicationAutoScalingTarget(ctx context.Context, d *plugin.QueryData, _
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewApplicationAutoScalingTargetPaginator(essdk.BuildFilter(d.EqualsQuals, getApplicationAutoScalingTargetFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewApplicationAutoScalingTargetPaginator(essdk.BuildFilter(d.QueryContext, getApplicationAutoScalingTargetFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24353,7 +24350,7 @@ func ListApplicationAutoScalingPolicy(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewApplicationAutoScalingPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, listApplicationAutoScalingPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewApplicationAutoScalingPolicyPaginator(essdk.BuildFilter(d.QueryContext, listApplicationAutoScalingPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24399,7 +24396,7 @@ func GetApplicationAutoScalingPolicy(ctx context.Context, d *plugin.QueryData, _
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewApplicationAutoScalingPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, getApplicationAutoScalingPolicyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewApplicationAutoScalingPolicyPaginator(essdk.BuildFilter(d.QueryContext, getApplicationAutoScalingPolicyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24552,7 +24549,7 @@ func ListAutoScalingGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAutoScalingGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listAutoScalingGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAutoScalingGroupPaginator(essdk.BuildFilter(d.QueryContext, listAutoScalingGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24627,7 +24624,7 @@ func GetAutoScalingGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAutoScalingGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getAutoScalingGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewAutoScalingGroupPaginator(essdk.BuildFilter(d.QueryContext, getAutoScalingGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24764,7 +24761,7 @@ func ListAutoScalingLaunchConfiguration(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAutoScalingLaunchConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, listAutoScalingLaunchConfigurationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAutoScalingLaunchConfigurationPaginator(essdk.BuildFilter(d.QueryContext, listAutoScalingLaunchConfigurationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24823,7 +24820,7 @@ func GetAutoScalingLaunchConfiguration(ctx context.Context, d *plugin.QueryData,
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAutoScalingLaunchConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, getAutoScalingLaunchConfigurationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewAutoScalingLaunchConfigurationPaginator(essdk.BuildFilter(d.QueryContext, getAutoScalingLaunchConfigurationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24964,7 +24961,7 @@ func ListCertificateManagerCertificate(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCertificateManagerCertificatePaginator(essdk.BuildFilter(d.EqualsQuals, listCertificateManagerCertificateFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCertificateManagerCertificatePaginator(essdk.BuildFilter(d.QueryContext, listCertificateManagerCertificateFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25027,7 +25024,7 @@ func GetCertificateManagerCertificate(ctx context.Context, d *plugin.QueryData, 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCertificateManagerCertificatePaginator(essdk.BuildFilter(d.EqualsQuals, getCertificateManagerCertificateFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCertificateManagerCertificatePaginator(essdk.BuildFilter(d.QueryContext, getCertificateManagerCertificateFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25172,7 +25169,7 @@ func ListCloudTrailTrail(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudTrailTrailPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudTrailTrailFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudTrailTrailPaginator(essdk.BuildFilter(d.QueryContext, listCloudTrailTrailFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25239,7 +25236,7 @@ func GetCloudTrailTrail(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudTrailTrailPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudTrailTrailFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudTrailTrailPaginator(essdk.BuildFilter(d.QueryContext, getCloudTrailTrailFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25361,7 +25358,7 @@ func ListCloudTrailChannel(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudTrailChannelPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudTrailChannelFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudTrailChannelPaginator(essdk.BuildFilter(d.QueryContext, listCloudTrailChannelFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25405,7 +25402,7 @@ func GetCloudTrailChannel(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudTrailChannelPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudTrailChannelFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudTrailChannelPaginator(essdk.BuildFilter(d.QueryContext, getCloudTrailChannelFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25530,7 +25527,7 @@ func ListCloudTrailEventDataStore(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudTrailEventDataStorePaginator(essdk.BuildFilter(d.EqualsQuals, listCloudTrailEventDataStoreFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudTrailEventDataStorePaginator(essdk.BuildFilter(d.QueryContext, listCloudTrailEventDataStoreFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25577,7 +25574,7 @@ func GetCloudTrailEventDataStore(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudTrailEventDataStorePaginator(essdk.BuildFilter(d.EqualsQuals, getCloudTrailEventDataStoreFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudTrailEventDataStorePaginator(essdk.BuildFilter(d.QueryContext, getCloudTrailEventDataStoreFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25700,7 +25697,7 @@ func ListCloudTrailImport(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudTrailImportPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudTrailImportFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudTrailImportPaginator(essdk.BuildFilter(d.QueryContext, listCloudTrailImportFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25745,7 +25742,7 @@ func GetCloudTrailImport(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudTrailImportPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudTrailImportFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudTrailImportPaginator(essdk.BuildFilter(d.QueryContext, getCloudTrailImportFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25871,7 +25868,7 @@ func ListCloudTrailQuery(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudTrailQueryPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudTrailQueryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudTrailQueryPaginator(essdk.BuildFilter(d.QueryContext, listCloudTrailQueryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25919,7 +25916,7 @@ func GetCloudTrailQuery(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudTrailQueryPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudTrailQueryFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudTrailQueryPaginator(essdk.BuildFilter(d.QueryContext, getCloudTrailQueryFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26041,7 +26038,7 @@ func ListCloudTrailTrailEvent(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudTrailTrailEventPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudTrailTrailEventFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudTrailTrailEventPaginator(essdk.BuildFilter(d.QueryContext, listCloudTrailTrailEventFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26085,7 +26082,7 @@ func GetCloudTrailTrailEvent(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudTrailTrailEventPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudTrailTrailEventFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudTrailTrailEventPaginator(essdk.BuildFilter(d.QueryContext, getCloudTrailTrailEventFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26206,7 +26203,7 @@ func ListIAMAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewIAMAccountPaginator(essdk.BuildFilter(d.EqualsQuals, listIAMAccountFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewIAMAccountPaginator(essdk.BuildFilter(d.QueryContext, listIAMAccountFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26249,7 +26246,7 @@ func GetIAMAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMAccountPaginator(essdk.BuildFilter(d.EqualsQuals, getIAMAccountFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewIAMAccountPaginator(essdk.BuildFilter(d.QueryContext, getIAMAccountFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26395,7 +26392,7 @@ func ListIAMAccountSummary(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewIAMAccountSummaryPaginator(essdk.BuildFilter(d.EqualsQuals, listIAMAccountSummaryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewIAMAccountSummaryPaginator(essdk.BuildFilter(d.QueryContext, listIAMAccountSummaryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26463,7 +26460,7 @@ func GetIAMAccountSummary(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMAccountSummaryPaginator(essdk.BuildFilter(d.EqualsQuals, getIAMAccountSummaryFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewIAMAccountSummaryPaginator(essdk.BuildFilter(d.QueryContext, getIAMAccountSummaryFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26584,7 +26581,7 @@ func ListIAMAccessKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewIAMAccessKeyPaginator(essdk.BuildFilter(d.EqualsQuals, listIAMAccessKeyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewIAMAccessKeyPaginator(essdk.BuildFilter(d.QueryContext, listIAMAccessKeyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26627,7 +26624,7 @@ func GetIAMAccessKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMAccessKeyPaginator(essdk.BuildFilter(d.EqualsQuals, getIAMAccessKeyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewIAMAccessKeyPaginator(essdk.BuildFilter(d.QueryContext, getIAMAccessKeyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26750,7 +26747,7 @@ func ListIAMAccountPasswordPolicy(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewIAMAccountPasswordPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, listIAMAccountPasswordPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewIAMAccountPasswordPolicyPaginator(essdk.BuildFilter(d.QueryContext, listIAMAccountPasswordPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26795,7 +26792,7 @@ func GetIAMAccountPasswordPolicy(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMAccountPasswordPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, getIAMAccountPasswordPolicyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewIAMAccountPasswordPolicyPaginator(essdk.BuildFilter(d.QueryContext, getIAMAccountPasswordPolicyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26925,7 +26922,7 @@ func ListIAMUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewIAMUserPaginator(essdk.BuildFilter(d.EqualsQuals, listIAMUserFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewIAMUserPaginator(essdk.BuildFilter(d.QueryContext, listIAMUserFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26977,7 +26974,7 @@ func GetIAMUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMUserPaginator(essdk.BuildFilter(d.EqualsQuals, getIAMUserFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewIAMUserPaginator(essdk.BuildFilter(d.QueryContext, getIAMUserFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27101,7 +27098,7 @@ func ListIAMGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewIAMGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listIAMGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewIAMGroupPaginator(essdk.BuildFilter(d.QueryContext, listIAMGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27147,7 +27144,7 @@ func GetIAMGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getIAMGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewIAMGroupPaginator(essdk.BuildFilter(d.QueryContext, getIAMGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27280,7 +27277,7 @@ func ListIAMRole(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewIAMRolePaginator(essdk.BuildFilter(d.EqualsQuals, listIAMRoleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewIAMRolePaginator(essdk.BuildFilter(d.QueryContext, listIAMRoleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27335,7 +27332,7 @@ func GetIAMRole(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMRolePaginator(essdk.BuildFilter(d.EqualsQuals, getIAMRoleFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewIAMRolePaginator(essdk.BuildFilter(d.QueryContext, getIAMRoleFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27460,7 +27457,7 @@ func ListIAMServerCertificate(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewIAMServerCertificatePaginator(essdk.BuildFilter(d.EqualsQuals, listIAMServerCertificateFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewIAMServerCertificatePaginator(essdk.BuildFilter(d.QueryContext, listIAMServerCertificateFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27507,7 +27504,7 @@ func GetIAMServerCertificate(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMServerCertificatePaginator(essdk.BuildFilter(d.EqualsQuals, getIAMServerCertificateFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewIAMServerCertificatePaginator(essdk.BuildFilter(d.QueryContext, getIAMServerCertificateFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27636,7 +27633,7 @@ func ListIAMPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewIAMPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, listIAMPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewIAMPolicyPaginator(essdk.BuildFilter(d.QueryContext, listIAMPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27687,7 +27684,7 @@ func GetIAMPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, getIAMPolicyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewIAMPolicyPaginator(essdk.BuildFilter(d.QueryContext, getIAMPolicyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27824,7 +27821,7 @@ func ListIAMCredentialReport(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewIAMCredentialReportPaginator(essdk.BuildFilter(d.EqualsQuals, listIAMCredentialReportFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewIAMCredentialReportPaginator(essdk.BuildFilter(d.QueryContext, listIAMCredentialReportFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27883,7 +27880,7 @@ func GetIAMCredentialReport(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMCredentialReportPaginator(essdk.BuildFilter(d.EqualsQuals, getIAMCredentialReportFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewIAMCredentialReportPaginator(essdk.BuildFilter(d.QueryContext, getIAMCredentialReportFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28004,7 +28001,7 @@ func ListIAMVirtualMFADevice(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewIAMVirtualMFADevicePaginator(essdk.BuildFilter(d.EqualsQuals, listIAMVirtualMFADeviceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewIAMVirtualMFADevicePaginator(essdk.BuildFilter(d.QueryContext, listIAMVirtualMFADeviceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28047,7 +28044,7 @@ func GetIAMVirtualMFADevice(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMVirtualMFADevicePaginator(essdk.BuildFilter(d.EqualsQuals, getIAMVirtualMFADeviceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewIAMVirtualMFADevicePaginator(essdk.BuildFilter(d.QueryContext, getIAMVirtualMFADeviceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28165,7 +28162,7 @@ func ListIAMPolicyAttachment(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewIAMPolicyAttachmentPaginator(essdk.BuildFilter(d.EqualsQuals, listIAMPolicyAttachmentFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewIAMPolicyAttachmentPaginator(essdk.BuildFilter(d.QueryContext, listIAMPolicyAttachmentFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28205,7 +28202,7 @@ func GetIAMPolicyAttachment(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMPolicyAttachmentPaginator(essdk.BuildFilter(d.EqualsQuals, getIAMPolicyAttachmentFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewIAMPolicyAttachmentPaginator(essdk.BuildFilter(d.QueryContext, getIAMPolicyAttachmentFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28324,7 +28321,7 @@ func ListIAMSamlProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewIAMSamlProviderPaginator(essdk.BuildFilter(d.EqualsQuals, listIAMSamlProviderFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewIAMSamlProviderPaginator(essdk.BuildFilter(d.QueryContext, listIAMSamlProviderFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28365,7 +28362,7 @@ func GetIAMSamlProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMSamlProviderPaginator(essdk.BuildFilter(d.EqualsQuals, getIAMSamlProviderFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewIAMSamlProviderPaginator(essdk.BuildFilter(d.QueryContext, getIAMSamlProviderFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28485,7 +28482,7 @@ func ListIAMServiceSpecificCredential(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewIAMServiceSpecificCredentialPaginator(essdk.BuildFilter(d.EqualsQuals, listIAMServiceSpecificCredentialFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewIAMServiceSpecificCredentialPaginator(essdk.BuildFilter(d.QueryContext, listIAMServiceSpecificCredentialFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28527,7 +28524,7 @@ func GetIAMServiceSpecificCredential(ctx context.Context, d *plugin.QueryData, _
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMServiceSpecificCredentialPaginator(essdk.BuildFilter(d.EqualsQuals, getIAMServiceSpecificCredentialFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewIAMServiceSpecificCredentialPaginator(essdk.BuildFilter(d.QueryContext, getIAMServiceSpecificCredentialFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28647,7 +28644,7 @@ func ListIAMOpenIdConnectProvider(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewIAMOpenIdConnectProviderPaginator(essdk.BuildFilter(d.EqualsQuals, listIAMOpenIdConnectProviderFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewIAMOpenIdConnectProviderPaginator(essdk.BuildFilter(d.QueryContext, listIAMOpenIdConnectProviderFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28689,7 +28686,7 @@ func GetIAMOpenIdConnectProvider(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMOpenIdConnectProviderPaginator(essdk.BuildFilter(d.EqualsQuals, getIAMOpenIdConnectProviderFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewIAMOpenIdConnectProviderPaginator(essdk.BuildFilter(d.QueryContext, getIAMOpenIdConnectProviderFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28857,7 +28854,7 @@ func ListRDSDBCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRDSDBClusterPaginator(essdk.BuildFilter(d.EqualsQuals, listRDSDBClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBClusterPaginator(essdk.BuildFilter(d.QueryContext, listRDSDBClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28947,7 +28944,7 @@ func GetRDSDBCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBClusterPaginator(essdk.BuildFilter(d.EqualsQuals, getRDSDBClusterFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRDSDBClusterPaginator(essdk.BuildFilter(d.QueryContext, getRDSDBClusterFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29068,7 +29065,7 @@ func ListRDSDBClusterParameterGroup(ctx context.Context, d *plugin.QueryData, _ 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRDSDBClusterParameterGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listRDSDBClusterParameterGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBClusterParameterGroupPaginator(essdk.BuildFilter(d.QueryContext, listRDSDBClusterParameterGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29111,7 +29108,7 @@ func GetRDSDBClusterParameterGroup(ctx context.Context, d *plugin.QueryData, _ *
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBClusterParameterGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getRDSDBClusterParameterGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRDSDBClusterParameterGroupPaginator(essdk.BuildFilter(d.QueryContext, getRDSDBClusterParameterGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29235,7 +29232,7 @@ func ListRDSOptionGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRDSOptionGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listRDSOptionGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRDSOptionGroupPaginator(essdk.BuildFilter(d.QueryContext, listRDSOptionGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29281,7 +29278,7 @@ func GetRDSOptionGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSOptionGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getRDSOptionGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRDSOptionGroupPaginator(essdk.BuildFilter(d.QueryContext, getRDSOptionGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29402,7 +29399,7 @@ func ListRDSDBParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRDSDBParameterGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listRDSDBParameterGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBParameterGroupPaginator(essdk.BuildFilter(d.QueryContext, listRDSDBParameterGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29445,7 +29442,7 @@ func GetRDSDBParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBParameterGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getRDSDBParameterGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRDSDBParameterGroupPaginator(essdk.BuildFilter(d.QueryContext, getRDSDBParameterGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29576,7 +29573,7 @@ func ListRDSDBProxy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRDSDBProxyPaginator(essdk.BuildFilter(d.EqualsQuals, listRDSDBProxyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBProxyPaginator(essdk.BuildFilter(d.QueryContext, listRDSDBProxyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29629,7 +29626,7 @@ func GetRDSDBProxy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBProxyPaginator(essdk.BuildFilter(d.EqualsQuals, getRDSDBProxyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRDSDBProxyPaginator(essdk.BuildFilter(d.QueryContext, getRDSDBProxyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29751,7 +29748,7 @@ func ListRDSDBSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRDSDBSubnetGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listRDSDBSubnetGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBSubnetGroupPaginator(essdk.BuildFilter(d.QueryContext, listRDSDBSubnetGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29795,7 +29792,7 @@ func GetRDSDBSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBSubnetGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getRDSDBSubnetGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRDSDBSubnetGroupPaginator(essdk.BuildFilter(d.QueryContext, getRDSDBSubnetGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29932,7 +29929,7 @@ func ListRDSDBClusterSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRDSDBClusterSnapshotPaginator(essdk.BuildFilter(d.EqualsQuals, listRDSDBClusterSnapshotFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBClusterSnapshotPaginator(essdk.BuildFilter(d.QueryContext, listRDSDBClusterSnapshotFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29991,7 +29988,7 @@ func GetRDSDBClusterSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBClusterSnapshotPaginator(essdk.BuildFilter(d.EqualsQuals, getRDSDBClusterSnapshotFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRDSDBClusterSnapshotPaginator(essdk.BuildFilter(d.QueryContext, getRDSDBClusterSnapshotFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30115,7 +30112,7 @@ func ListRDSDBEventSubscription(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRDSDBEventSubscriptionPaginator(essdk.BuildFilter(d.EqualsQuals, listRDSDBEventSubscriptionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBEventSubscriptionPaginator(essdk.BuildFilter(d.QueryContext, listRDSDBEventSubscriptionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30161,7 +30158,7 @@ func GetRDSDBEventSubscription(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBEventSubscriptionPaginator(essdk.BuildFilter(d.EqualsQuals, getRDSDBEventSubscriptionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRDSDBEventSubscriptionPaginator(essdk.BuildFilter(d.QueryContext, getRDSDBEventSubscriptionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30345,7 +30342,7 @@ func ListRDSDBInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRDSDBInstancePaginator(essdk.BuildFilter(d.EqualsQuals, listRDSDBInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBInstancePaginator(essdk.BuildFilter(d.QueryContext, listRDSDBInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30451,7 +30448,7 @@ func GetRDSDBInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBInstancePaginator(essdk.BuildFilter(d.EqualsQuals, getRDSDBInstanceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRDSDBInstancePaginator(essdk.BuildFilter(d.QueryContext, getRDSDBInstanceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30596,7 +30593,7 @@ func ListRDSDBSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRDSDBSnapshotPaginator(essdk.BuildFilter(d.EqualsQuals, listRDSDBSnapshotFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBSnapshotPaginator(essdk.BuildFilter(d.QueryContext, listRDSDBSnapshotFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30663,7 +30660,7 @@ func GetRDSDBSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBSnapshotPaginator(essdk.BuildFilter(d.EqualsQuals, getRDSDBSnapshotFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRDSDBSnapshotPaginator(essdk.BuildFilter(d.QueryContext, getRDSDBSnapshotFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30780,7 +30777,7 @@ func ListRDSGlobalCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRDSGlobalClusterPaginator(essdk.BuildFilter(d.EqualsQuals, listRDSGlobalClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRDSGlobalClusterPaginator(essdk.BuildFilter(d.QueryContext, listRDSGlobalClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30819,7 +30816,7 @@ func GetRDSGlobalCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSGlobalClusterPaginator(essdk.BuildFilter(d.EqualsQuals, getRDSGlobalClusterFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRDSGlobalClusterPaginator(essdk.BuildFilter(d.QueryContext, getRDSGlobalClusterFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30950,7 +30947,7 @@ func ListRDSReservedDBInstance(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRDSReservedDBInstancePaginator(essdk.BuildFilter(d.EqualsQuals, listRDSReservedDBInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRDSReservedDBInstancePaginator(essdk.BuildFilter(d.QueryContext, listRDSReservedDBInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31003,7 +31000,7 @@ func GetRDSReservedDBInstance(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSReservedDBInstancePaginator(essdk.BuildFilter(d.EqualsQuals, getRDSReservedDBInstanceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRDSReservedDBInstancePaginator(essdk.BuildFilter(d.QueryContext, getRDSReservedDBInstanceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31144,7 +31141,7 @@ func ListRDSDBInstanceAutomatedBackup(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRDSDBInstanceAutomatedBackupPaginator(essdk.BuildFilter(d.EqualsQuals, listRDSDBInstanceAutomatedBackupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBInstanceAutomatedBackupPaginator(essdk.BuildFilter(d.QueryContext, listRDSDBInstanceAutomatedBackupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31208,7 +31205,7 @@ func GetRDSDBInstanceAutomatedBackup(ctx context.Context, d *plugin.QueryData, _
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBInstanceAutomatedBackupPaginator(essdk.BuildFilter(d.EqualsQuals, getRDSDBInstanceAutomatedBackupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRDSDBInstanceAutomatedBackupPaginator(essdk.BuildFilter(d.QueryContext, getRDSDBInstanceAutomatedBackupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31372,7 +31369,7 @@ func ListRedshiftCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRedshiftClusterPaginator(essdk.BuildFilter(d.EqualsQuals, listRedshiftClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRedshiftClusterPaginator(essdk.BuildFilter(d.QueryContext, listRedshiftClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31458,7 +31455,7 @@ func GetRedshiftCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRedshiftClusterPaginator(essdk.BuildFilter(d.EqualsQuals, getRedshiftClusterFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRedshiftClusterPaginator(essdk.BuildFilter(d.QueryContext, getRedshiftClusterFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31584,7 +31581,7 @@ func ListRedshiftEventSubscription(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRedshiftEventSubscriptionPaginator(essdk.BuildFilter(d.EqualsQuals, listRedshiftEventSubscriptionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRedshiftEventSubscriptionPaginator(essdk.BuildFilter(d.QueryContext, listRedshiftEventSubscriptionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31632,7 +31629,7 @@ func GetRedshiftEventSubscription(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRedshiftEventSubscriptionPaginator(essdk.BuildFilter(d.EqualsQuals, getRedshiftEventSubscriptionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRedshiftEventSubscriptionPaginator(essdk.BuildFilter(d.QueryContext, getRedshiftEventSubscriptionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31761,7 +31758,7 @@ func ListRedshiftServerlessWorkgroup(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRedshiftServerlessWorkgroupPaginator(essdk.BuildFilter(d.EqualsQuals, listRedshiftServerlessWorkgroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRedshiftServerlessWorkgroupPaginator(essdk.BuildFilter(d.QueryContext, listRedshiftServerlessWorkgroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31812,7 +31809,7 @@ func GetRedshiftServerlessWorkgroup(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRedshiftServerlessWorkgroupPaginator(essdk.BuildFilter(d.EqualsQuals, getRedshiftServerlessWorkgroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRedshiftServerlessWorkgroupPaginator(essdk.BuildFilter(d.QueryContext, getRedshiftServerlessWorkgroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31932,7 +31929,7 @@ func ListRedshiftClusterParameterGroup(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRedshiftClusterParameterGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listRedshiftClusterParameterGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRedshiftClusterParameterGroupPaginator(essdk.BuildFilter(d.QueryContext, listRedshiftClusterParameterGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31974,7 +31971,7 @@ func GetRedshiftClusterParameterGroup(ctx context.Context, d *plugin.QueryData, 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRedshiftClusterParameterGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getRedshiftClusterParameterGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRedshiftClusterParameterGroupPaginator(essdk.BuildFilter(d.QueryContext, getRedshiftClusterParameterGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32122,7 +32119,7 @@ func ListRedshiftSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRedshiftSnapshotPaginator(essdk.BuildFilter(d.EqualsQuals, listRedshiftSnapshotFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRedshiftSnapshotPaginator(essdk.BuildFilter(d.QueryContext, listRedshiftSnapshotFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32192,7 +32189,7 @@ func GetRedshiftSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRedshiftSnapshotPaginator(essdk.BuildFilter(d.EqualsQuals, getRedshiftSnapshotFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRedshiftSnapshotPaginator(essdk.BuildFilter(d.QueryContext, getRedshiftSnapshotFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32319,7 +32316,7 @@ func ListRedshiftServerlessNamespace(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRedshiftServerlessNamespacePaginator(essdk.BuildFilter(d.EqualsQuals, listRedshiftServerlessNamespaceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRedshiftServerlessNamespacePaginator(essdk.BuildFilter(d.QueryContext, listRedshiftServerlessNamespaceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32368,7 +32365,7 @@ func GetRedshiftServerlessNamespace(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRedshiftServerlessNamespacePaginator(essdk.BuildFilter(d.EqualsQuals, getRedshiftServerlessNamespaceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRedshiftServerlessNamespacePaginator(essdk.BuildFilter(d.QueryContext, getRedshiftServerlessNamespaceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32485,7 +32482,7 @@ func ListRedshiftServerlessSnapshot(ctx context.Context, d *plugin.QueryData, _ 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRedshiftServerlessSnapshotPaginator(essdk.BuildFilter(d.EqualsQuals, listRedshiftServerlessSnapshotFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRedshiftServerlessSnapshotPaginator(essdk.BuildFilter(d.QueryContext, listRedshiftServerlessSnapshotFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32524,7 +32521,7 @@ func GetRedshiftServerlessSnapshot(ctx context.Context, d *plugin.QueryData, _ *
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRedshiftServerlessSnapshotPaginator(essdk.BuildFilter(d.EqualsQuals, getRedshiftServerlessSnapshotFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRedshiftServerlessSnapshotPaginator(essdk.BuildFilter(d.QueryContext, getRedshiftServerlessSnapshotFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32645,7 +32642,7 @@ func ListRedshiftSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRedshiftSubnetGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listRedshiftSubnetGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRedshiftSubnetGroupPaginator(essdk.BuildFilter(d.QueryContext, listRedshiftSubnetGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32688,7 +32685,7 @@ func GetRedshiftSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRedshiftSubnetGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getRedshiftSubnetGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRedshiftSubnetGroupPaginator(essdk.BuildFilter(d.QueryContext, getRedshiftSubnetGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32830,7 +32827,7 @@ func ListSNSTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSNSTopicPaginator(essdk.BuildFilter(d.EqualsQuals, listSNSTopicFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSNSTopicPaginator(essdk.BuildFilter(d.QueryContext, listSNSTopicFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32894,7 +32891,7 @@ func GetSNSTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSNSTopicPaginator(essdk.BuildFilter(d.EqualsQuals, getSNSTopicFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSNSTopicPaginator(essdk.BuildFilter(d.QueryContext, getSNSTopicFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33021,7 +33018,7 @@ func ListSNSSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSNSSubscriptionPaginator(essdk.BuildFilter(d.EqualsQuals, listSNSSubscriptionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSNSSubscriptionPaginator(essdk.BuildFilter(d.QueryContext, listSNSSubscriptionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33070,7 +33067,7 @@ func GetSNSSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSNSSubscriptionPaginator(essdk.BuildFilter(d.EqualsQuals, getSNSSubscriptionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSNSSubscriptionPaginator(essdk.BuildFilter(d.QueryContext, getSNSSubscriptionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33200,7 +33197,7 @@ func ListSQSQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSQSQueuePaginator(essdk.BuildFilter(d.EqualsQuals, listSQSQueueFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSQSQueuePaginator(essdk.BuildFilter(d.QueryContext, listSQSQueueFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33252,7 +33249,7 @@ func GetSQSQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSQSQueuePaginator(essdk.BuildFilter(d.EqualsQuals, getSQSQueueFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSQSQueuePaginator(essdk.BuildFilter(d.QueryContext, getSQSQueueFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33388,7 +33385,7 @@ func ListS3Bucket(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewS3BucketPaginator(essdk.BuildFilter(d.EqualsQuals, listS3BucketFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewS3BucketPaginator(essdk.BuildFilter(d.QueryContext, listS3BucketFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33446,7 +33443,7 @@ func GetS3Bucket(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewS3BucketPaginator(essdk.BuildFilter(d.EqualsQuals, getS3BucketFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewS3BucketPaginator(essdk.BuildFilter(d.QueryContext, getS3BucketFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33563,7 +33560,7 @@ func ListS3AccountSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewS3AccountSettingPaginator(essdk.BuildFilter(d.EqualsQuals, listS3AccountSettingFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewS3AccountSettingPaginator(essdk.BuildFilter(d.QueryContext, listS3AccountSettingFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33602,7 +33599,7 @@ func GetS3AccountSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewS3AccountSettingPaginator(essdk.BuildFilter(d.EqualsQuals, getS3AccountSettingFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewS3AccountSettingPaginator(essdk.BuildFilter(d.QueryContext, getS3AccountSettingFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33762,7 +33759,7 @@ func ListS3Object(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewS3ObjectPaginator(essdk.BuildFilter(d.EqualsQuals, listS3ObjectFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewS3ObjectPaginator(essdk.BuildFilter(d.QueryContext, listS3ObjectFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33844,7 +33841,7 @@ func GetS3Object(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewS3ObjectPaginator(essdk.BuildFilter(d.EqualsQuals, getS3ObjectFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewS3ObjectPaginator(essdk.BuildFilter(d.QueryContext, getS3ObjectFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33963,7 +33960,7 @@ func ListS3BucketIntelligentTieringConfiguration(ctx context.Context, d *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewS3BucketIntelligentTieringConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, listS3BucketIntelligentTieringConfigurationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewS3BucketIntelligentTieringConfigurationPaginator(essdk.BuildFilter(d.QueryContext, listS3BucketIntelligentTieringConfigurationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34004,7 +34001,7 @@ func GetS3BucketIntelligentTieringConfiguration(ctx context.Context, d *plugin.Q
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewS3BucketIntelligentTieringConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, getS3BucketIntelligentTieringConfigurationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewS3BucketIntelligentTieringConfigurationPaginator(essdk.BuildFilter(d.QueryContext, getS3BucketIntelligentTieringConfigurationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34125,7 +34122,7 @@ func ListS3MultiRegionAccessPoint(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewS3MultiRegionAccessPointPaginator(essdk.BuildFilter(d.EqualsQuals, listS3MultiRegionAccessPointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewS3MultiRegionAccessPointPaginator(essdk.BuildFilter(d.QueryContext, listS3MultiRegionAccessPointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34168,7 +34165,7 @@ func GetS3MultiRegionAccessPoint(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewS3MultiRegionAccessPointPaginator(essdk.BuildFilter(d.EqualsQuals, getS3MultiRegionAccessPointFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewS3MultiRegionAccessPointPaginator(essdk.BuildFilter(d.QueryContext, getS3MultiRegionAccessPointFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34290,7 +34287,7 @@ func ListSageMakerEndpointConfiguration(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSageMakerEndpointConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, listSageMakerEndpointConfigurationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSageMakerEndpointConfigurationPaginator(essdk.BuildFilter(d.QueryContext, listSageMakerEndpointConfigurationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34334,7 +34331,7 @@ func GetSageMakerEndpointConfiguration(ctx context.Context, d *plugin.QueryData,
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSageMakerEndpointConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, getSageMakerEndpointConfigurationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSageMakerEndpointConfigurationPaginator(essdk.BuildFilter(d.QueryContext, getSageMakerEndpointConfigurationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34460,7 +34457,7 @@ func ListSageMakerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSageMakerAppPaginator(essdk.BuildFilter(d.EqualsQuals, listSageMakerAppFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSageMakerAppPaginator(essdk.BuildFilter(d.QueryContext, listSageMakerAppFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34508,7 +34505,7 @@ func GetSageMakerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSageMakerAppPaginator(essdk.BuildFilter(d.EqualsQuals, getSageMakerAppFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSageMakerAppPaginator(essdk.BuildFilter(d.QueryContext, getSageMakerAppFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34642,7 +34639,7 @@ func ListSageMakerDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSageMakerDomainPaginator(essdk.BuildFilter(d.EqualsQuals, listSageMakerDomainFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSageMakerDomainPaginator(essdk.BuildFilter(d.QueryContext, listSageMakerDomainFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34698,7 +34695,7 @@ func GetSageMakerDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSageMakerDomainPaginator(essdk.BuildFilter(d.EqualsQuals, getSageMakerDomainFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSageMakerDomainPaginator(essdk.BuildFilter(d.QueryContext, getSageMakerDomainFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34834,7 +34831,7 @@ func ListSageMakerNotebookInstance(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSageMakerNotebookInstancePaginator(essdk.BuildFilter(d.EqualsQuals, listSageMakerNotebookInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSageMakerNotebookInstancePaginator(essdk.BuildFilter(d.QueryContext, listSageMakerNotebookInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34892,7 +34889,7 @@ func GetSageMakerNotebookInstance(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSageMakerNotebookInstancePaginator(essdk.BuildFilter(d.EqualsQuals, getSageMakerNotebookInstanceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSageMakerNotebookInstancePaginator(essdk.BuildFilter(d.QueryContext, getSageMakerNotebookInstanceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35017,7 +35014,7 @@ func ListSageMakerModel(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSageMakerModelPaginator(essdk.BuildFilter(d.EqualsQuals, listSageMakerModelFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSageMakerModelPaginator(essdk.BuildFilter(d.QueryContext, listSageMakerModelFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35064,7 +35061,7 @@ func GetSageMakerModel(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSageMakerModelPaginator(essdk.BuildFilter(d.EqualsQuals, getSageMakerModelFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSageMakerModelPaginator(essdk.BuildFilter(d.QueryContext, getSageMakerModelFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35219,7 +35216,7 @@ func ListSageMakerTrainingJob(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSageMakerTrainingJobPaginator(essdk.BuildFilter(d.EqualsQuals, listSageMakerTrainingJobFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSageMakerTrainingJobPaginator(essdk.BuildFilter(d.QueryContext, listSageMakerTrainingJobFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35296,7 +35293,7 @@ func GetSageMakerTrainingJob(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSageMakerTrainingJobPaginator(essdk.BuildFilter(d.EqualsQuals, getSageMakerTrainingJobFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSageMakerTrainingJobPaginator(essdk.BuildFilter(d.QueryContext, getSageMakerTrainingJobFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35431,7 +35428,7 @@ func ListSecretsManagerSecret(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecretsManagerSecretPaginator(essdk.BuildFilter(d.EqualsQuals, listSecretsManagerSecretFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecretsManagerSecretPaginator(essdk.BuildFilter(d.QueryContext, listSecretsManagerSecretFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35488,7 +35485,7 @@ func GetSecretsManagerSecret(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecretsManagerSecretPaginator(essdk.BuildFilter(d.EqualsQuals, getSecretsManagerSecretFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecretsManagerSecretPaginator(essdk.BuildFilter(d.QueryContext, getSecretsManagerSecretFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35607,7 +35604,7 @@ func ListSecurityHubHub(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityHubHubPaginator(essdk.BuildFilter(d.EqualsQuals, listSecurityHubHubFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityHubHubPaginator(essdk.BuildFilter(d.QueryContext, listSecurityHubHubFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35648,7 +35645,7 @@ func GetSecurityHubHub(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityHubHubPaginator(essdk.BuildFilter(d.EqualsQuals, getSecurityHubHubFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityHubHubPaginator(essdk.BuildFilter(d.QueryContext, getSecurityHubHubFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35766,7 +35763,7 @@ func ListSecurityHubActionTarget(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityHubActionTargetPaginator(essdk.BuildFilter(d.EqualsQuals, listSecurityHubActionTargetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityHubActionTargetPaginator(essdk.BuildFilter(d.QueryContext, listSecurityHubActionTargetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35806,7 +35803,7 @@ func GetSecurityHubActionTarget(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityHubActionTargetPaginator(essdk.BuildFilter(d.EqualsQuals, getSecurityHubActionTargetFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityHubActionTargetPaginator(essdk.BuildFilter(d.QueryContext, getSecurityHubActionTargetFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35957,7 +35954,7 @@ func ListSecurityHubFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityHubFindingPaginator(essdk.BuildFilter(d.EqualsQuals, listSecurityHubFindingFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityHubFindingPaginator(essdk.BuildFilter(d.QueryContext, listSecurityHubFindingFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36030,7 +36027,7 @@ func GetSecurityHubFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityHubFindingPaginator(essdk.BuildFilter(d.EqualsQuals, getSecurityHubFindingFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityHubFindingPaginator(essdk.BuildFilter(d.QueryContext, getSecurityHubFindingFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36148,7 +36145,7 @@ func ListSecurityHubFindingAggregator(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityHubFindingAggregatorPaginator(essdk.BuildFilter(d.EqualsQuals, listSecurityHubFindingAggregatorFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityHubFindingAggregatorPaginator(essdk.BuildFilter(d.QueryContext, listSecurityHubFindingAggregatorFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36188,7 +36185,7 @@ func GetSecurityHubFindingAggregator(ctx context.Context, d *plugin.QueryData, _
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityHubFindingAggregatorPaginator(essdk.BuildFilter(d.EqualsQuals, getSecurityHubFindingAggregatorFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityHubFindingAggregatorPaginator(essdk.BuildFilter(d.QueryContext, getSecurityHubFindingAggregatorFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36307,7 +36304,7 @@ func ListSecurityHubInsight(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityHubInsightPaginator(essdk.BuildFilter(d.EqualsQuals, listSecurityHubInsightFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityHubInsightPaginator(essdk.BuildFilter(d.QueryContext, listSecurityHubInsightFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36348,7 +36345,7 @@ func GetSecurityHubInsight(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityHubInsightPaginator(essdk.BuildFilter(d.EqualsQuals, getSecurityHubInsightFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityHubInsightPaginator(essdk.BuildFilter(d.QueryContext, getSecurityHubInsightFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36469,7 +36466,7 @@ func ListSecurityHubMember(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityHubMemberPaginator(essdk.BuildFilter(d.EqualsQuals, listSecurityHubMemberFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityHubMemberPaginator(essdk.BuildFilter(d.QueryContext, listSecurityHubMemberFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36512,7 +36509,7 @@ func GetSecurityHubMember(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityHubMemberPaginator(essdk.BuildFilter(d.EqualsQuals, getSecurityHubMemberFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityHubMemberPaginator(essdk.BuildFilter(d.QueryContext, getSecurityHubMemberFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36636,7 +36633,7 @@ func ListSecurityHubProduct(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityHubProductPaginator(essdk.BuildFilter(d.EqualsQuals, listSecurityHubProductFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityHubProductPaginator(essdk.BuildFilter(d.QueryContext, listSecurityHubProductFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36682,7 +36679,7 @@ func GetSecurityHubProduct(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityHubProductPaginator(essdk.BuildFilter(d.EqualsQuals, getSecurityHubProductFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityHubProductPaginator(essdk.BuildFilter(d.QueryContext, getSecurityHubProductFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36806,7 +36803,7 @@ func ListSecurityHubStandardsControl(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityHubStandardsControlPaginator(essdk.BuildFilter(d.EqualsQuals, listSecurityHubStandardsControlFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityHubStandardsControlPaginator(essdk.BuildFilter(d.QueryContext, listSecurityHubStandardsControlFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36852,7 +36849,7 @@ func GetSecurityHubStandardsControl(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityHubStandardsControlPaginator(essdk.BuildFilter(d.EqualsQuals, getSecurityHubStandardsControlFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityHubStandardsControlPaginator(essdk.BuildFilter(d.QueryContext, getSecurityHubStandardsControlFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36976,7 +36973,7 @@ func ListSecurityHubStandardsSubscription(ctx context.Context, d *plugin.QueryDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityHubStandardsSubscriptionPaginator(essdk.BuildFilter(d.EqualsQuals, listSecurityHubStandardsSubscriptionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityHubStandardsSubscriptionPaginator(essdk.BuildFilter(d.QueryContext, listSecurityHubStandardsSubscriptionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37022,7 +37019,7 @@ func GetSecurityHubStandardsSubscription(ctx context.Context, d *plugin.QueryDat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityHubStandardsSubscriptionPaginator(essdk.BuildFilter(d.EqualsQuals, getSecurityHubStandardsSubscriptionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityHubStandardsSubscriptionPaginator(essdk.BuildFilter(d.QueryContext, getSecurityHubStandardsSubscriptionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37156,7 +37153,7 @@ func ListSSMManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSSMManagedInstancePaginator(essdk.BuildFilter(d.EqualsQuals, listSSMManagedInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSSMManagedInstancePaginator(essdk.BuildFilter(d.QueryContext, listSSMManagedInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37212,7 +37209,7 @@ func GetSSMManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMManagedInstancePaginator(essdk.BuildFilter(d.EqualsQuals, getSSMManagedInstanceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSSMManagedInstancePaginator(essdk.BuildFilter(d.QueryContext, getSSMManagedInstanceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37349,7 +37346,7 @@ func ListSSMAssociation(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSSMAssociationPaginator(essdk.BuildFilter(d.EqualsQuals, listSSMAssociationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSSMAssociationPaginator(essdk.BuildFilter(d.QueryContext, listSSMAssociationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37408,7 +37405,7 @@ func GetSSMAssociation(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMAssociationPaginator(essdk.BuildFilter(d.EqualsQuals, getSSMAssociationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSSMAssociationPaginator(essdk.BuildFilter(d.QueryContext, getSSMAssociationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37554,7 +37551,7 @@ func ListSSMDocument(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSSMDocumentPaginator(essdk.BuildFilter(d.EqualsQuals, listSSMDocumentFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSSMDocumentPaginator(essdk.BuildFilter(d.QueryContext, listSSMDocumentFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37621,7 +37618,7 @@ func GetSSMDocument(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMDocumentPaginator(essdk.BuildFilter(d.EqualsQuals, getSSMDocumentFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSSMDocumentPaginator(essdk.BuildFilter(d.QueryContext, getSSMDocumentFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37739,7 +37736,7 @@ func ListSSMDocumentPermission(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSSMDocumentPermissionPaginator(essdk.BuildFilter(d.EqualsQuals, listSSMDocumentPermissionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSSMDocumentPermissionPaginator(essdk.BuildFilter(d.QueryContext, listSSMDocumentPermissionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37779,7 +37776,7 @@ func GetSSMDocumentPermission(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMDocumentPermissionPaginator(essdk.BuildFilter(d.EqualsQuals, getSSMDocumentPermissionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSSMDocumentPermissionPaginator(essdk.BuildFilter(d.QueryContext, getSSMDocumentPermissionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37899,7 +37896,7 @@ func ListSSMInventory(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSSMInventoryPaginator(essdk.BuildFilter(d.EqualsQuals, listSSMInventoryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSSMInventoryPaginator(essdk.BuildFilter(d.QueryContext, listSSMInventoryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37941,7 +37938,7 @@ func GetSSMInventory(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMInventoryPaginator(essdk.BuildFilter(d.EqualsQuals, getSSMInventoryFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSSMInventoryPaginator(essdk.BuildFilter(d.QueryContext, getSSMInventoryFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38060,7 +38057,7 @@ func ListSSMInventoryEntry(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSSMInventoryEntryPaginator(essdk.BuildFilter(d.EqualsQuals, listSSMInventoryEntryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSSMInventoryEntryPaginator(essdk.BuildFilter(d.QueryContext, listSSMInventoryEntryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38101,7 +38098,7 @@ func GetSSMInventoryEntry(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMInventoryEntryPaginator(essdk.BuildFilter(d.EqualsQuals, getSSMInventoryEntryFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSSMInventoryEntryPaginator(essdk.BuildFilter(d.QueryContext, getSSMInventoryEntryFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38235,7 +38232,7 @@ func ListSSMMaintenanceWindow(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSSMMaintenanceWindowPaginator(essdk.BuildFilter(d.EqualsQuals, listSSMMaintenanceWindowFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSSMMaintenanceWindowPaginator(essdk.BuildFilter(d.QueryContext, listSSMMaintenanceWindowFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38291,7 +38288,7 @@ func GetSSMMaintenanceWindow(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMMaintenanceWindowPaginator(essdk.BuildFilter(d.EqualsQuals, getSSMMaintenanceWindowFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSSMMaintenanceWindowPaginator(essdk.BuildFilter(d.QueryContext, getSSMMaintenanceWindowFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38421,7 +38418,7 @@ func ListSSMParameter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSSMParameterPaginator(essdk.BuildFilter(d.EqualsQuals, listSSMParameterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSSMParameterPaginator(essdk.BuildFilter(d.QueryContext, listSSMParameterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38473,7 +38470,7 @@ func GetSSMParameter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMParameterPaginator(essdk.BuildFilter(d.EqualsQuals, getSSMParameterFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSSMParameterPaginator(essdk.BuildFilter(d.QueryContext, getSSMParameterFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38605,7 +38602,7 @@ func ListSSMPatchBaseline(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSSMPatchBaselinePaginator(essdk.BuildFilter(d.EqualsQuals, listSSMPatchBaselineFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSSMPatchBaselinePaginator(essdk.BuildFilter(d.QueryContext, listSSMPatchBaselineFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38659,7 +38656,7 @@ func GetSSMPatchBaseline(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMPatchBaselinePaginator(essdk.BuildFilter(d.EqualsQuals, getSSMPatchBaselineFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSSMPatchBaselinePaginator(essdk.BuildFilter(d.QueryContext, getSSMPatchBaselineFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38781,7 +38778,7 @@ func ListSSMManagedInstanceCompliance(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSSMManagedInstanceCompliancePaginator(essdk.BuildFilter(d.EqualsQuals, listSSMManagedInstanceComplianceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSSMManagedInstanceCompliancePaginator(essdk.BuildFilter(d.QueryContext, listSSMManagedInstanceComplianceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38825,7 +38822,7 @@ func GetSSMManagedInstanceCompliance(ctx context.Context, d *plugin.QueryData, _
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMManagedInstanceCompliancePaginator(essdk.BuildFilter(d.EqualsQuals, getSSMManagedInstanceComplianceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSSMManagedInstanceCompliancePaginator(essdk.BuildFilter(d.QueryContext, getSSMManagedInstanceComplianceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38960,7 +38957,7 @@ func ListSSMManagedInstancePatchState(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSSMManagedInstancePatchStatePaginator(essdk.BuildFilter(d.EqualsQuals, listSSMManagedInstancePatchStateFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSSMManagedInstancePatchStatePaginator(essdk.BuildFilter(d.QueryContext, listSSMManagedInstancePatchStateFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39017,7 +39014,7 @@ func GetSSMManagedInstancePatchState(ctx context.Context, d *plugin.QueryData, _
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMManagedInstancePatchStatePaginator(essdk.BuildFilter(d.EqualsQuals, getSSMManagedInstancePatchStateFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSSMManagedInstancePatchStatePaginator(essdk.BuildFilter(d.QueryContext, getSSMManagedInstancePatchStateFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39153,7 +39150,7 @@ func ListECSTaskDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewECSTaskDefinitionPaginator(essdk.BuildFilter(d.EqualsQuals, listECSTaskDefinitionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewECSTaskDefinitionPaginator(essdk.BuildFilter(d.QueryContext, listECSTaskDefinitionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39211,7 +39208,7 @@ func GetECSTaskDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewECSTaskDefinitionPaginator(essdk.BuildFilter(d.EqualsQuals, getECSTaskDefinitionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewECSTaskDefinitionPaginator(essdk.BuildFilter(d.QueryContext, getECSTaskDefinitionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39341,7 +39338,7 @@ func ListECSCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewECSClusterPaginator(essdk.BuildFilter(d.EqualsQuals, listECSClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewECSClusterPaginator(essdk.BuildFilter(d.QueryContext, listECSClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39393,7 +39390,7 @@ func GetECSCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewECSClusterPaginator(essdk.BuildFilter(d.EqualsQuals, getECSClusterFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewECSClusterPaginator(essdk.BuildFilter(d.QueryContext, getECSClusterFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39539,7 +39536,7 @@ func ListECSService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewECSServicePaginator(essdk.BuildFilter(d.EqualsQuals, listECSServiceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewECSServicePaginator(essdk.BuildFilter(d.QueryContext, listECSServiceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39607,7 +39604,7 @@ func GetECSService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewECSServicePaginator(essdk.BuildFilter(d.EqualsQuals, getECSServiceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewECSServicePaginator(essdk.BuildFilter(d.QueryContext, getECSServiceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39739,7 +39736,7 @@ func ListECSContainerInstance(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewECSContainerInstancePaginator(essdk.BuildFilter(d.EqualsQuals, listECSContainerInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewECSContainerInstancePaginator(essdk.BuildFilter(d.QueryContext, listECSContainerInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39793,7 +39790,7 @@ func GetECSContainerInstance(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewECSContainerInstancePaginator(essdk.BuildFilter(d.EqualsQuals, getECSContainerInstanceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewECSContainerInstancePaginator(essdk.BuildFilter(d.QueryContext, getECSContainerInstanceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39910,7 +39907,7 @@ func ListECSTaskSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewECSTaskSetPaginator(essdk.BuildFilter(d.EqualsQuals, listECSTaskSetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewECSTaskSetPaginator(essdk.BuildFilter(d.QueryContext, listECSTaskSetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39949,7 +39946,7 @@ func GetECSTaskSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewECSTaskSetPaginator(essdk.BuildFilter(d.EqualsQuals, getECSTaskSetFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewECSTaskSetPaginator(essdk.BuildFilter(d.QueryContext, getECSTaskSetFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40100,7 +40097,7 @@ func ListECSTask(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewECSTaskPaginator(essdk.BuildFilter(d.EqualsQuals, listECSTaskFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewECSTaskPaginator(essdk.BuildFilter(d.QueryContext, listECSTaskFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40172,7 +40169,7 @@ func GetECSTask(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewECSTaskPaginator(essdk.BuildFilter(d.EqualsQuals, getECSTaskFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewECSTaskPaginator(essdk.BuildFilter(d.QueryContext, getECSTaskFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40305,7 +40302,7 @@ func ListEFSFileSystem(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEFSFileSystemPaginator(essdk.BuildFilter(d.EqualsQuals, listEFSFileSystemFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEFSFileSystemPaginator(essdk.BuildFilter(d.QueryContext, listEFSFileSystemFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40361,7 +40358,7 @@ func GetEFSFileSystem(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEFSFileSystemPaginator(essdk.BuildFilter(d.EqualsQuals, getEFSFileSystemFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEFSFileSystemPaginator(essdk.BuildFilter(d.QueryContext, getEFSFileSystemFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40485,7 +40482,7 @@ func ListEFSAccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEFSAccessPointPaginator(essdk.BuildFilter(d.EqualsQuals, listEFSAccessPointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEFSAccessPointPaginator(essdk.BuildFilter(d.QueryContext, listEFSAccessPointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40531,7 +40528,7 @@ func GetEFSAccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEFSAccessPointPaginator(essdk.BuildFilter(d.EqualsQuals, getEFSAccessPointFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEFSAccessPointPaginator(essdk.BuildFilter(d.QueryContext, getEFSAccessPointFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40657,7 +40654,7 @@ func ListEFSMountTarget(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEFSMountTargetPaginator(essdk.BuildFilter(d.EqualsQuals, listEFSMountTargetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEFSMountTargetPaginator(essdk.BuildFilter(d.QueryContext, listEFSMountTargetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40705,7 +40702,7 @@ func GetEFSMountTarget(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEFSMountTargetPaginator(essdk.BuildFilter(d.EqualsQuals, getEFSMountTargetFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEFSMountTargetPaginator(essdk.BuildFilter(d.QueryContext, getEFSMountTargetFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40835,7 +40832,7 @@ func ListEKSCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEKSClusterPaginator(essdk.BuildFilter(d.EqualsQuals, listEKSClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEKSClusterPaginator(essdk.BuildFilter(d.QueryContext, listEKSClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40887,7 +40884,7 @@ func GetEKSCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEKSClusterPaginator(essdk.BuildFilter(d.EqualsQuals, getEKSClusterFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEKSClusterPaginator(essdk.BuildFilter(d.QueryContext, getEKSClusterFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41012,7 +41009,7 @@ func ListEKSAddon(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEKSAddonPaginator(essdk.BuildFilter(d.EqualsQuals, listEKSAddonFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEKSAddonPaginator(essdk.BuildFilter(d.QueryContext, listEKSAddonFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41059,7 +41056,7 @@ func GetEKSAddon(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEKSAddonPaginator(essdk.BuildFilter(d.EqualsQuals, getEKSAddonFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEKSAddonPaginator(essdk.BuildFilter(d.QueryContext, getEKSAddonFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41197,7 +41194,7 @@ func ListEKSNodegroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEKSNodegroupPaginator(essdk.BuildFilter(d.EqualsQuals, listEKSNodegroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEKSNodegroupPaginator(essdk.BuildFilter(d.QueryContext, listEKSNodegroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41257,7 +41254,7 @@ func GetEKSNodegroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEKSNodegroupPaginator(essdk.BuildFilter(d.EqualsQuals, getEKSNodegroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEKSNodegroupPaginator(essdk.BuildFilter(d.QueryContext, getEKSNodegroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41378,7 +41375,7 @@ func ListEKSAddonVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEKSAddonVersionPaginator(essdk.BuildFilter(d.EqualsQuals, listEKSAddonVersionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEKSAddonVersionPaginator(essdk.BuildFilter(d.QueryContext, listEKSAddonVersionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41421,7 +41418,7 @@ func GetEKSAddonVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEKSAddonVersionPaginator(essdk.BuildFilter(d.EqualsQuals, getEKSAddonVersionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEKSAddonVersionPaginator(essdk.BuildFilter(d.QueryContext, getEKSAddonVersionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41545,7 +41542,7 @@ func ListEKSFargateProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEKSFargateProfilePaginator(essdk.BuildFilter(d.EqualsQuals, listEKSFargateProfileFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEKSFargateProfilePaginator(essdk.BuildFilter(d.QueryContext, listEKSFargateProfileFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41591,7 +41588,7 @@ func GetEKSFargateProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEKSFargateProfilePaginator(essdk.BuildFilter(d.EqualsQuals, getEKSFargateProfileFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEKSFargateProfilePaginator(essdk.BuildFilter(d.QueryContext, getEKSFargateProfileFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41721,7 +41718,7 @@ func ListWAFv2WebACL(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWAFv2WebACLPaginator(essdk.BuildFilter(d.EqualsQuals, listWAFv2WebACLFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWAFv2WebACLPaginator(essdk.BuildFilter(d.QueryContext, listWAFv2WebACLFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41774,7 +41771,7 @@ func GetWAFv2WebACL(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFv2WebACLPaginator(essdk.BuildFilter(d.EqualsQuals, getWAFv2WebACLFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWAFv2WebACLPaginator(essdk.BuildFilter(d.QueryContext, getWAFv2WebACLFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41900,7 +41897,7 @@ func ListWAFv2IPSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWAFv2IPSetPaginator(essdk.BuildFilter(d.EqualsQuals, listWAFv2IPSetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWAFv2IPSetPaginator(essdk.BuildFilter(d.QueryContext, listWAFv2IPSetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41949,7 +41946,7 @@ func GetWAFv2IPSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFv2IPSetPaginator(essdk.BuildFilter(d.EqualsQuals, getWAFv2IPSetFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWAFv2IPSetPaginator(essdk.BuildFilter(d.QueryContext, getWAFv2IPSetFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42075,7 +42072,7 @@ func ListWAFv2RegexPatternSet(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWAFv2RegexPatternSetPaginator(essdk.BuildFilter(d.EqualsQuals, listWAFv2RegexPatternSetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWAFv2RegexPatternSetPaginator(essdk.BuildFilter(d.QueryContext, listWAFv2RegexPatternSetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42124,7 +42121,7 @@ func GetWAFv2RegexPatternSet(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFv2RegexPatternSetPaginator(essdk.BuildFilter(d.EqualsQuals, getWAFv2RegexPatternSetFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWAFv2RegexPatternSetPaginator(essdk.BuildFilter(d.QueryContext, getWAFv2RegexPatternSetFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42251,7 +42248,7 @@ func ListWAFv2RuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWAFv2RuleGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listWAFv2RuleGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWAFv2RuleGroupPaginator(essdk.BuildFilter(d.QueryContext, listWAFv2RuleGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42301,7 +42298,7 @@ func GetWAFv2RuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFv2RuleGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getWAFv2RuleGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWAFv2RuleGroupPaginator(essdk.BuildFilter(d.QueryContext, getWAFv2RuleGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42435,7 +42432,7 @@ func ListKMSKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKMSKeyPaginator(essdk.BuildFilter(d.EqualsQuals, listKMSKeyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKMSKeyPaginator(essdk.BuildFilter(d.QueryContext, listKMSKeyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42491,7 +42488,7 @@ func GetKMSKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKMSKeyPaginator(essdk.BuildFilter(d.EqualsQuals, getKMSKeyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewKMSKeyPaginator(essdk.BuildFilter(d.QueryContext, getKMSKeyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42611,7 +42608,7 @@ func ListKMSAlias(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKMSAliasPaginator(essdk.BuildFilter(d.EqualsQuals, listKMSAliasFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKMSAliasPaginator(essdk.BuildFilter(d.QueryContext, listKMSAliasFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42653,7 +42650,7 @@ func GetKMSAlias(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKMSAliasPaginator(essdk.BuildFilter(d.EqualsQuals, getKMSAliasFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewKMSAliasPaginator(essdk.BuildFilter(d.QueryContext, getKMSAliasFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42805,7 +42802,7 @@ func ListLambdaFunction(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLambdaFunctionPaginator(essdk.BuildFilter(d.EqualsQuals, listLambdaFunctionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLambdaFunctionPaginator(essdk.BuildFilter(d.QueryContext, listLambdaFunctionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42879,7 +42876,7 @@ func GetLambdaFunction(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLambdaFunctionPaginator(essdk.BuildFilter(d.EqualsQuals, getLambdaFunctionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewLambdaFunctionPaginator(essdk.BuildFilter(d.QueryContext, getLambdaFunctionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43017,7 +43014,7 @@ func ListLambdaFunctionVersion(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLambdaFunctionVersionPaginator(essdk.BuildFilter(d.EqualsQuals, listLambdaFunctionVersionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLambdaFunctionVersionPaginator(essdk.BuildFilter(d.QueryContext, listLambdaFunctionVersionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43077,7 +43074,7 @@ func GetLambdaFunctionVersion(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLambdaFunctionVersionPaginator(essdk.BuildFilter(d.EqualsQuals, getLambdaFunctionVersionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewLambdaFunctionVersionPaginator(essdk.BuildFilter(d.QueryContext, getLambdaFunctionVersionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43201,7 +43198,7 @@ func ListLambdaAlias(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLambdaAliasPaginator(essdk.BuildFilter(d.EqualsQuals, listLambdaAliasFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLambdaAliasPaginator(essdk.BuildFilter(d.QueryContext, listLambdaAliasFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43248,7 +43245,7 @@ func GetLambdaAlias(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLambdaAliasPaginator(essdk.BuildFilter(d.EqualsQuals, getLambdaAliasFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewLambdaAliasPaginator(essdk.BuildFilter(d.QueryContext, getLambdaAliasFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43372,7 +43369,7 @@ func ListLambdaLayer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLambdaLayerPaginator(essdk.BuildFilter(d.EqualsQuals, listLambdaLayerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLambdaLayerPaginator(essdk.BuildFilter(d.QueryContext, listLambdaLayerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43418,7 +43415,7 @@ func GetLambdaLayer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLambdaLayerPaginator(essdk.BuildFilter(d.EqualsQuals, getLambdaLayerFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewLambdaLayerPaginator(essdk.BuildFilter(d.QueryContext, getLambdaLayerFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43546,7 +43543,7 @@ func ListLambdaLayerVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLambdaLayerVersionPaginator(essdk.BuildFilter(d.EqualsQuals, listLambdaLayerVersionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLambdaLayerVersionPaginator(essdk.BuildFilter(d.QueryContext, listLambdaLayerVersionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43596,7 +43593,7 @@ func GetLambdaLayerVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLambdaLayerVersionPaginator(essdk.BuildFilter(d.EqualsQuals, getLambdaLayerVersionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewLambdaLayerVersionPaginator(essdk.BuildFilter(d.QueryContext, getLambdaLayerVersionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43722,7 +43719,7 @@ func ListS3AccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewS3AccessPointPaginator(essdk.BuildFilter(d.EqualsQuals, listS3AccessPointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewS3AccessPointPaginator(essdk.BuildFilter(d.QueryContext, listS3AccessPointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43771,7 +43768,7 @@ func GetS3AccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewS3AccessPointPaginator(essdk.BuildFilter(d.EqualsQuals, getS3AccessPointFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewS3AccessPointPaginator(essdk.BuildFilter(d.QueryContext, getS3AccessPointFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43885,7 +43882,7 @@ func ListCostExplorerByAccountMonthly(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCostExplorerByAccountMonthlyPaginator(essdk.BuildFilter(d.EqualsQuals, listCostExplorerByAccountMonthlyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerByAccountMonthlyPaginator(essdk.BuildFilter(d.QueryContext, listCostExplorerByAccountMonthlyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43921,7 +43918,7 @@ func GetCostExplorerByAccountMonthly(ctx context.Context, d *plugin.QueryData, _
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerByAccountMonthlyPaginator(essdk.BuildFilter(d.EqualsQuals, getCostExplorerByAccountMonthlyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCostExplorerByAccountMonthlyPaginator(essdk.BuildFilter(d.QueryContext, getCostExplorerByAccountMonthlyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44035,7 +44032,7 @@ func ListCostExplorerByServiceMonthly(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCostExplorerByServiceMonthlyPaginator(essdk.BuildFilter(d.EqualsQuals, listCostExplorerByServiceMonthlyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerByServiceMonthlyPaginator(essdk.BuildFilter(d.QueryContext, listCostExplorerByServiceMonthlyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44071,7 +44068,7 @@ func GetCostExplorerByServiceMonthly(ctx context.Context, d *plugin.QueryData, _
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerByServiceMonthlyPaginator(essdk.BuildFilter(d.EqualsQuals, getCostExplorerByServiceMonthlyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCostExplorerByServiceMonthlyPaginator(essdk.BuildFilter(d.QueryContext, getCostExplorerByServiceMonthlyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44186,7 +44183,7 @@ func ListCostExplorerByRecordTypeMonthly(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCostExplorerByRecordTypeMonthlyPaginator(essdk.BuildFilter(d.EqualsQuals, listCostExplorerByRecordTypeMonthlyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerByRecordTypeMonthlyPaginator(essdk.BuildFilter(d.QueryContext, listCostExplorerByRecordTypeMonthlyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44223,7 +44220,7 @@ func GetCostExplorerByRecordTypeMonthly(ctx context.Context, d *plugin.QueryData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerByRecordTypeMonthlyPaginator(essdk.BuildFilter(d.EqualsQuals, getCostExplorerByRecordTypeMonthlyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCostExplorerByRecordTypeMonthlyPaginator(essdk.BuildFilter(d.QueryContext, getCostExplorerByRecordTypeMonthlyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44338,7 +44335,7 @@ func ListCostExplorerByServiceUsageTypeMonthly(ctx context.Context, d *plugin.Qu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCostExplorerByServiceUsageTypeMonthlyPaginator(essdk.BuildFilter(d.EqualsQuals, listCostExplorerByServiceUsageTypeMonthlyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerByServiceUsageTypeMonthlyPaginator(essdk.BuildFilter(d.QueryContext, listCostExplorerByServiceUsageTypeMonthlyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44375,7 +44372,7 @@ func GetCostExplorerByServiceUsageTypeMonthly(ctx context.Context, d *plugin.Que
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerByServiceUsageTypeMonthlyPaginator(essdk.BuildFilter(d.EqualsQuals, getCostExplorerByServiceUsageTypeMonthlyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCostExplorerByServiceUsageTypeMonthlyPaginator(essdk.BuildFilter(d.QueryContext, getCostExplorerByServiceUsageTypeMonthlyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44491,7 +44488,7 @@ func ListCostExplorerForcastMonthly(ctx context.Context, d *plugin.QueryData, _ 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCostExplorerForcastMonthlyPaginator(essdk.BuildFilter(d.EqualsQuals, listCostExplorerForcastMonthlyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerForcastMonthlyPaginator(essdk.BuildFilter(d.QueryContext, listCostExplorerForcastMonthlyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44529,7 +44526,7 @@ func GetCostExplorerForcastMonthly(ctx context.Context, d *plugin.QueryData, _ *
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerForcastMonthlyPaginator(essdk.BuildFilter(d.EqualsQuals, getCostExplorerForcastMonthlyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCostExplorerForcastMonthlyPaginator(essdk.BuildFilter(d.QueryContext, getCostExplorerForcastMonthlyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44643,7 +44640,7 @@ func ListCostExplorerByAccountDaily(ctx context.Context, d *plugin.QueryData, _ 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCostExplorerByAccountDailyPaginator(essdk.BuildFilter(d.EqualsQuals, listCostExplorerByAccountDailyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerByAccountDailyPaginator(essdk.BuildFilter(d.QueryContext, listCostExplorerByAccountDailyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44679,7 +44676,7 @@ func GetCostExplorerByAccountDaily(ctx context.Context, d *plugin.QueryData, _ *
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerByAccountDailyPaginator(essdk.BuildFilter(d.EqualsQuals, getCostExplorerByAccountDailyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCostExplorerByAccountDailyPaginator(essdk.BuildFilter(d.QueryContext, getCostExplorerByAccountDailyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44793,7 +44790,7 @@ func ListCostExplorerByServiceDaily(ctx context.Context, d *plugin.QueryData, _ 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCostExplorerByServiceDailyPaginator(essdk.BuildFilter(d.EqualsQuals, listCostExplorerByServiceDailyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerByServiceDailyPaginator(essdk.BuildFilter(d.QueryContext, listCostExplorerByServiceDailyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44829,7 +44826,7 @@ func GetCostExplorerByServiceDaily(ctx context.Context, d *plugin.QueryData, _ *
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerByServiceDailyPaginator(essdk.BuildFilter(d.EqualsQuals, getCostExplorerByServiceDailyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCostExplorerByServiceDailyPaginator(essdk.BuildFilter(d.QueryContext, getCostExplorerByServiceDailyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44944,7 +44941,7 @@ func ListCostExplorerByRecordTypeDaily(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCostExplorerByRecordTypeDailyPaginator(essdk.BuildFilter(d.EqualsQuals, listCostExplorerByRecordTypeDailyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerByRecordTypeDailyPaginator(essdk.BuildFilter(d.QueryContext, listCostExplorerByRecordTypeDailyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44981,7 +44978,7 @@ func GetCostExplorerByRecordTypeDaily(ctx context.Context, d *plugin.QueryData, 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerByRecordTypeDailyPaginator(essdk.BuildFilter(d.EqualsQuals, getCostExplorerByRecordTypeDailyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCostExplorerByRecordTypeDailyPaginator(essdk.BuildFilter(d.QueryContext, getCostExplorerByRecordTypeDailyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45096,7 +45093,7 @@ func ListCostExplorerByServiceUsageTypeDaily(ctx context.Context, d *plugin.Quer
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCostExplorerByServiceUsageTypeDailyPaginator(essdk.BuildFilter(d.EqualsQuals, listCostExplorerByServiceUsageTypeDailyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerByServiceUsageTypeDailyPaginator(essdk.BuildFilter(d.QueryContext, listCostExplorerByServiceUsageTypeDailyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45133,7 +45130,7 @@ func GetCostExplorerByServiceUsageTypeDaily(ctx context.Context, d *plugin.Query
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerByServiceUsageTypeDailyPaginator(essdk.BuildFilter(d.EqualsQuals, getCostExplorerByServiceUsageTypeDailyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCostExplorerByServiceUsageTypeDailyPaginator(essdk.BuildFilter(d.QueryContext, getCostExplorerByServiceUsageTypeDailyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45249,7 +45246,7 @@ func ListCostExplorerForcastDaily(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCostExplorerForcastDailyPaginator(essdk.BuildFilter(d.EqualsQuals, listCostExplorerForcastDailyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerForcastDailyPaginator(essdk.BuildFilter(d.QueryContext, listCostExplorerForcastDailyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45287,7 +45284,7 @@ func GetCostExplorerForcastDaily(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerForcastDailyPaginator(essdk.BuildFilter(d.EqualsQuals, getCostExplorerForcastDailyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCostExplorerForcastDailyPaginator(essdk.BuildFilter(d.QueryContext, getCostExplorerForcastDailyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45418,7 +45415,7 @@ func ListECRRepository(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewECRRepositoryPaginator(essdk.BuildFilter(d.EqualsQuals, listECRRepositoryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewECRRepositoryPaginator(essdk.BuildFilter(d.QueryContext, listECRRepositoryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45471,7 +45468,7 @@ func GetECRRepository(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewECRRepositoryPaginator(essdk.BuildFilter(d.EqualsQuals, getECRRepositoryFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewECRRepositoryPaginator(essdk.BuildFilter(d.QueryContext, getECRRepositoryFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45596,7 +45593,7 @@ func ListECRImage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewECRImagePaginator(essdk.BuildFilter(d.EqualsQuals, listECRImageFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewECRImagePaginator(essdk.BuildFilter(d.QueryContext, listECRImageFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45643,7 +45640,7 @@ func GetECRImage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewECRImagePaginator(essdk.BuildFilter(d.EqualsQuals, getECRImageFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewECRImagePaginator(essdk.BuildFilter(d.QueryContext, getECRImageFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45768,7 +45765,7 @@ func ListECRPublicRepository(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewECRPublicRepositoryPaginator(essdk.BuildFilter(d.EqualsQuals, listECRPublicRepositoryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewECRPublicRepositoryPaginator(essdk.BuildFilter(d.QueryContext, listECRPublicRepositoryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45815,7 +45812,7 @@ func GetECRPublicRepository(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewECRPublicRepositoryPaginator(essdk.BuildFilter(d.EqualsQuals, getECRPublicRepositoryFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewECRPublicRepositoryPaginator(essdk.BuildFilter(d.QueryContext, getECRPublicRepositoryFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45932,7 +45929,7 @@ func ListECRPublicRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewECRPublicRegistryPaginator(essdk.BuildFilter(d.EqualsQuals, listECRPublicRegistryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewECRPublicRegistryPaginator(essdk.BuildFilter(d.QueryContext, listECRPublicRegistryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45971,7 +45968,7 @@ func GetECRPublicRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewECRPublicRegistryPaginator(essdk.BuildFilter(d.EqualsQuals, getECRPublicRegistryFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewECRPublicRegistryPaginator(essdk.BuildFilter(d.QueryContext, getECRPublicRegistryFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46092,7 +46089,7 @@ func ListEventBridgeBus(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEventBridgeBusPaginator(essdk.BuildFilter(d.EqualsQuals, listEventBridgeBusFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEventBridgeBusPaginator(essdk.BuildFilter(d.QueryContext, listEventBridgeBusFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46135,7 +46132,7 @@ func GetEventBridgeBus(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEventBridgeBusPaginator(essdk.BuildFilter(d.EqualsQuals, getEventBridgeBusFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEventBridgeBusPaginator(essdk.BuildFilter(d.QueryContext, getEventBridgeBusFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46262,7 +46259,7 @@ func ListEventBridgeRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewEventBridgeRulePaginator(essdk.BuildFilter(d.EqualsQuals, listEventBridgeRuleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewEventBridgeRulePaginator(essdk.BuildFilter(d.QueryContext, listEventBridgeRuleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46311,7 +46308,7 @@ func GetEventBridgeRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewEventBridgeRulePaginator(essdk.BuildFilter(d.EqualsQuals, getEventBridgeRuleFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewEventBridgeRulePaginator(essdk.BuildFilter(d.QueryContext, getEventBridgeRuleFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46429,7 +46426,7 @@ func ListAppStreamApplication(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAppStreamApplicationPaginator(essdk.BuildFilter(d.EqualsQuals, listAppStreamApplicationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAppStreamApplicationPaginator(essdk.BuildFilter(d.QueryContext, listAppStreamApplicationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46469,7 +46466,7 @@ func GetAppStreamApplication(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAppStreamApplicationPaginator(essdk.BuildFilter(d.EqualsQuals, getAppStreamApplicationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewAppStreamApplicationPaginator(essdk.BuildFilter(d.QueryContext, getAppStreamApplicationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46587,7 +46584,7 @@ func ListAppStreamStack(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAppStreamStackPaginator(essdk.BuildFilter(d.EqualsQuals, listAppStreamStackFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAppStreamStackPaginator(essdk.BuildFilter(d.QueryContext, listAppStreamStackFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46627,7 +46624,7 @@ func GetAppStreamStack(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAppStreamStackPaginator(essdk.BuildFilter(d.EqualsQuals, getAppStreamStackFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewAppStreamStackPaginator(essdk.BuildFilter(d.QueryContext, getAppStreamStackFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46768,7 +46765,7 @@ func ListAppStreamFleet(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAppStreamFleetPaginator(essdk.BuildFilter(d.EqualsQuals, listAppStreamFleetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAppStreamFleetPaginator(essdk.BuildFilter(d.QueryContext, listAppStreamFleetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46831,7 +46828,7 @@ func GetAppStreamFleet(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAppStreamFleetPaginator(essdk.BuildFilter(d.EqualsQuals, getAppStreamFleetFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewAppStreamFleetPaginator(essdk.BuildFilter(d.QueryContext, getAppStreamFleetFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46964,7 +46961,7 @@ func ListAppStreamImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAppStreamImagePaginator(essdk.BuildFilter(d.EqualsQuals, listAppStreamImageFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAppStreamImagePaginator(essdk.BuildFilter(d.QueryContext, listAppStreamImageFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47019,7 +47016,7 @@ func GetAppStreamImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAppStreamImagePaginator(essdk.BuildFilter(d.EqualsQuals, getAppStreamImageFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewAppStreamImagePaginator(essdk.BuildFilter(d.QueryContext, getAppStreamImageFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47150,7 +47147,7 @@ func ListAthenaWorkGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAthenaWorkGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listAthenaWorkGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAthenaWorkGroupPaginator(essdk.BuildFilter(d.QueryContext, listAthenaWorkGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47203,7 +47200,7 @@ func GetAthenaWorkGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAthenaWorkGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getAthenaWorkGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewAthenaWorkGroupPaginator(essdk.BuildFilter(d.QueryContext, getAthenaWorkGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47349,7 +47346,7 @@ func ListAthenaQueryExecution(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAthenaQueryExecutionPaginator(essdk.BuildFilter(d.EqualsQuals, listAthenaQueryExecutionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAthenaQueryExecutionPaginator(essdk.BuildFilter(d.QueryContext, listAthenaQueryExecutionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47418,7 +47415,7 @@ func GetAthenaQueryExecution(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAthenaQueryExecutionPaginator(essdk.BuildFilter(d.EqualsQuals, getAthenaQueryExecutionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewAthenaQueryExecutionPaginator(essdk.BuildFilter(d.QueryContext, getAthenaQueryExecutionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47547,7 +47544,7 @@ func ListKinesisStream(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKinesisStreamPaginator(essdk.BuildFilter(d.EqualsQuals, listKinesisStreamFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKinesisStreamPaginator(essdk.BuildFilter(d.QueryContext, listKinesisStreamFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47598,7 +47595,7 @@ func GetKinesisStream(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKinesisStreamPaginator(essdk.BuildFilter(d.EqualsQuals, getKinesisStreamFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewKinesisStreamPaginator(essdk.BuildFilter(d.QueryContext, getKinesisStreamFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47723,7 +47720,7 @@ func ListKinesisVideoStream(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKinesisVideoStreamPaginator(essdk.BuildFilter(d.EqualsQuals, listKinesisVideoStreamFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKinesisVideoStreamPaginator(essdk.BuildFilter(d.QueryContext, listKinesisVideoStreamFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47770,7 +47767,7 @@ func GetKinesisVideoStream(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKinesisVideoStreamPaginator(essdk.BuildFilter(d.EqualsQuals, getKinesisVideoStreamFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewKinesisVideoStreamPaginator(essdk.BuildFilter(d.QueryContext, getKinesisVideoStreamFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47890,7 +47887,7 @@ func ListKinesisConsumer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKinesisConsumerPaginator(essdk.BuildFilter(d.EqualsQuals, listKinesisConsumerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKinesisConsumerPaginator(essdk.BuildFilter(d.QueryContext, listKinesisConsumerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47932,7 +47929,7 @@ func GetKinesisConsumer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKinesisConsumerPaginator(essdk.BuildFilter(d.EqualsQuals, getKinesisConsumerFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewKinesisConsumerPaginator(essdk.BuildFilter(d.QueryContext, getKinesisConsumerFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48060,7 +48057,7 @@ func ListKinesisAnalyticsV2Application(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKinesisAnalyticsV2ApplicationPaginator(essdk.BuildFilter(d.EqualsQuals, listKinesisAnalyticsV2ApplicationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKinesisAnalyticsV2ApplicationPaginator(essdk.BuildFilter(d.QueryContext, listKinesisAnalyticsV2ApplicationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48110,7 +48107,7 @@ func GetKinesisAnalyticsV2Application(ctx context.Context, d *plugin.QueryData, 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKinesisAnalyticsV2ApplicationPaginator(essdk.BuildFilter(d.EqualsQuals, getKinesisAnalyticsV2ApplicationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewKinesisAnalyticsV2ApplicationPaginator(essdk.BuildFilter(d.QueryContext, getKinesisAnalyticsV2ApplicationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48237,7 +48234,7 @@ func ListGlacierVault(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGlacierVaultPaginator(essdk.BuildFilter(d.EqualsQuals, listGlacierVaultFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGlacierVaultPaginator(essdk.BuildFilter(d.QueryContext, listGlacierVaultFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48286,7 +48283,7 @@ func GetGlacierVault(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGlacierVaultPaginator(essdk.BuildFilter(d.EqualsQuals, getGlacierVaultFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGlacierVaultPaginator(essdk.BuildFilter(d.QueryContext, getGlacierVaultFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48416,7 +48413,7 @@ func ListWorkspacesWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWorkspacesWorkspacePaginator(essdk.BuildFilter(d.EqualsQuals, listWorkspacesWorkspaceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWorkspacesWorkspacePaginator(essdk.BuildFilter(d.QueryContext, listWorkspacesWorkspaceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48468,7 +48465,7 @@ func GetWorkspacesWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWorkspacesWorkspacePaginator(essdk.BuildFilter(d.EqualsQuals, getWorkspacesWorkspaceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWorkspacesWorkspacePaginator(essdk.BuildFilter(d.QueryContext, getWorkspacesWorkspaceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48584,7 +48581,7 @@ func ListWorkspacesBundle(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWorkspacesBundlePaginator(essdk.BuildFilter(d.EqualsQuals, listWorkspacesBundleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWorkspacesBundlePaginator(essdk.BuildFilter(d.QueryContext, listWorkspacesBundleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48622,7 +48619,7 @@ func GetWorkspacesBundle(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWorkspacesBundlePaginator(essdk.BuildFilter(d.EqualsQuals, getWorkspacesBundleFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWorkspacesBundlePaginator(essdk.BuildFilter(d.QueryContext, getWorkspacesBundleFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48739,7 +48736,7 @@ func ListKeyspacesKeyspace(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKeyspacesKeyspacePaginator(essdk.BuildFilter(d.EqualsQuals, listKeyspacesKeyspaceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKeyspacesKeyspacePaginator(essdk.BuildFilter(d.QueryContext, listKeyspacesKeyspaceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48778,7 +48775,7 @@ func GetKeyspacesKeyspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKeyspacesKeyspacePaginator(essdk.BuildFilter(d.EqualsQuals, getKeyspacesKeyspaceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewKeyspacesKeyspacePaginator(essdk.BuildFilter(d.QueryContext, getKeyspacesKeyspaceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48895,7 +48892,7 @@ func ListKeyspacesTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKeyspacesTablePaginator(essdk.BuildFilter(d.EqualsQuals, listKeyspacesTableFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKeyspacesTablePaginator(essdk.BuildFilter(d.QueryContext, listKeyspacesTableFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48934,7 +48931,7 @@ func GetKeyspacesTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKeyspacesTablePaginator(essdk.BuildFilter(d.EqualsQuals, getKeyspacesTableFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewKeyspacesTablePaginator(essdk.BuildFilter(d.QueryContext, getKeyspacesTableFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49051,7 +49048,7 @@ func ListGrafanaWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGrafanaWorkspacePaginator(essdk.BuildFilter(d.EqualsQuals, listGrafanaWorkspaceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGrafanaWorkspacePaginator(essdk.BuildFilter(d.QueryContext, listGrafanaWorkspaceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49090,7 +49087,7 @@ func GetGrafanaWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGrafanaWorkspacePaginator(essdk.BuildFilter(d.EqualsQuals, getGrafanaWorkspaceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGrafanaWorkspacePaginator(essdk.BuildFilter(d.QueryContext, getGrafanaWorkspaceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49208,7 +49205,7 @@ func ListAMPWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAMPWorkspacePaginator(essdk.BuildFilter(d.EqualsQuals, listAMPWorkspaceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAMPWorkspacePaginator(essdk.BuildFilter(d.QueryContext, listAMPWorkspaceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49248,7 +49245,7 @@ func GetAMPWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAMPWorkspacePaginator(essdk.BuildFilter(d.EqualsQuals, getAMPWorkspaceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewAMPWorkspacePaginator(essdk.BuildFilter(d.QueryContext, getAMPWorkspaceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49366,7 +49363,7 @@ func ListKafkaCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewKafkaClusterPaginator(essdk.BuildFilter(d.EqualsQuals, listKafkaClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewKafkaClusterPaginator(essdk.BuildFilter(d.QueryContext, listKafkaClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49406,7 +49403,7 @@ func GetKafkaCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewKafkaClusterPaginator(essdk.BuildFilter(d.EqualsQuals, getKafkaClusterFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewKafkaClusterPaginator(essdk.BuildFilter(d.QueryContext, getKafkaClusterFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49524,7 +49521,7 @@ func ListMWAAEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMWAAEnvironmentPaginator(essdk.BuildFilter(d.EqualsQuals, listMWAAEnvironmentFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewMWAAEnvironmentPaginator(essdk.BuildFilter(d.QueryContext, listMWAAEnvironmentFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49564,7 +49561,7 @@ func GetMWAAEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewMWAAEnvironmentPaginator(essdk.BuildFilter(d.EqualsQuals, getMWAAEnvironmentFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewMWAAEnvironmentPaginator(essdk.BuildFilter(d.QueryContext, getMWAAEnvironmentFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49681,7 +49678,7 @@ func ListMemoryDbCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMemoryDbClusterPaginator(essdk.BuildFilter(d.EqualsQuals, listMemoryDbClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewMemoryDbClusterPaginator(essdk.BuildFilter(d.QueryContext, listMemoryDbClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49720,7 +49717,7 @@ func GetMemoryDbCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewMemoryDbClusterPaginator(essdk.BuildFilter(d.EqualsQuals, getMemoryDbClusterFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewMemoryDbClusterPaginator(essdk.BuildFilter(d.QueryContext, getMemoryDbClusterFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49839,7 +49836,7 @@ func ListMQBroker(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMQBrokerPaginator(essdk.BuildFilter(d.EqualsQuals, listMQBrokerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewMQBrokerPaginator(essdk.BuildFilter(d.QueryContext, listMQBrokerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49880,7 +49877,7 @@ func GetMQBroker(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewMQBrokerPaginator(essdk.BuildFilter(d.EqualsQuals, getMQBrokerFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewMQBrokerPaginator(essdk.BuildFilter(d.QueryContext, getMQBrokerFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49998,7 +49995,7 @@ func ListNeptuneDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNeptuneDatabasePaginator(essdk.BuildFilter(d.EqualsQuals, listNeptuneDatabaseFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNeptuneDatabasePaginator(essdk.BuildFilter(d.QueryContext, listNeptuneDatabaseFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50038,7 +50035,7 @@ func GetNeptuneDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNeptuneDatabasePaginator(essdk.BuildFilter(d.EqualsQuals, getNeptuneDatabaseFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewNeptuneDatabasePaginator(essdk.BuildFilter(d.QueryContext, getNeptuneDatabaseFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50191,7 +50188,7 @@ func ListNeptuneDatabaseCluster(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNeptuneDatabaseClusterPaginator(essdk.BuildFilter(d.EqualsQuals, listNeptuneDatabaseClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNeptuneDatabaseClusterPaginator(essdk.BuildFilter(d.QueryContext, listNeptuneDatabaseClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50267,7 +50264,7 @@ func GetNeptuneDatabaseCluster(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNeptuneDatabaseClusterPaginator(essdk.BuildFilter(d.EqualsQuals, getNeptuneDatabaseClusterFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewNeptuneDatabaseClusterPaginator(essdk.BuildFilter(d.QueryContext, getNeptuneDatabaseClusterFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50407,7 +50404,7 @@ func ListOpenSearchDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewOpenSearchDomainPaginator(essdk.BuildFilter(d.EqualsQuals, listOpenSearchDomainFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewOpenSearchDomainPaginator(essdk.BuildFilter(d.QueryContext, listOpenSearchDomainFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50469,7 +50466,7 @@ func GetOpenSearchDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewOpenSearchDomainPaginator(essdk.BuildFilter(d.EqualsQuals, getOpenSearchDomainFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewOpenSearchDomainPaginator(essdk.BuildFilter(d.QueryContext, getOpenSearchDomainFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50584,7 +50581,7 @@ func ListSESConfigurationSet(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSESConfigurationSetPaginator(essdk.BuildFilter(d.EqualsQuals, listSESConfigurationSetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSESConfigurationSetPaginator(essdk.BuildFilter(d.QueryContext, listSESConfigurationSetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50621,7 +50618,7 @@ func GetSESConfigurationSet(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSESConfigurationSetPaginator(essdk.BuildFilter(d.EqualsQuals, getSESConfigurationSetFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSESConfigurationSetPaginator(essdk.BuildFilter(d.QueryContext, getSESConfigurationSetFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50737,7 +50734,7 @@ func ListSESIdentity(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSESIdentityPaginator(essdk.BuildFilter(d.EqualsQuals, listSESIdentityFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSESIdentityPaginator(essdk.BuildFilter(d.QueryContext, listSESIdentityFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50774,7 +50771,7 @@ func GetSESIdentity(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSESIdentityPaginator(essdk.BuildFilter(d.EqualsQuals, getSESIdentityFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSESIdentityPaginator(essdk.BuildFilter(d.QueryContext, getSESIdentityFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50911,7 +50908,7 @@ func ListCloudFormationStack(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudFormationStackPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudFormationStackFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFormationStackPaginator(essdk.BuildFilter(d.QueryContext, listCloudFormationStackFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50970,7 +50967,7 @@ func GetCloudFormationStack(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFormationStackPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudFormationStackFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudFormationStackPaginator(essdk.BuildFilter(d.QueryContext, getCloudFormationStackFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51092,7 +51089,7 @@ func ListCloudFormationStackSet(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudFormationStackSetPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudFormationStackSetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFormationStackSetPaginator(essdk.BuildFilter(d.QueryContext, listCloudFormationStackSetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51136,7 +51133,7 @@ func GetCloudFormationStackSet(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFormationStackSetPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudFormationStackSetFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudFormationStackSetPaginator(essdk.BuildFilter(d.QueryContext, getCloudFormationStackSetFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51262,7 +51259,7 @@ func ListCloudFormationStackResource(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudFormationStackResourcePaginator(essdk.BuildFilter(d.EqualsQuals, listCloudFormationStackResourceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFormationStackResourcePaginator(essdk.BuildFilter(d.QueryContext, listCloudFormationStackResourceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51309,7 +51306,7 @@ func GetCloudFormationStackResource(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFormationStackResourcePaginator(essdk.BuildFilter(d.EqualsQuals, getCloudFormationStackResourceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudFormationStackResourcePaginator(essdk.BuildFilter(d.QueryContext, getCloudFormationStackResourceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51434,7 +51431,7 @@ func ListCodeCommitRepository(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCodeCommitRepositoryPaginator(essdk.BuildFilter(d.EqualsQuals, listCodeCommitRepositoryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCodeCommitRepositoryPaginator(essdk.BuildFilter(d.QueryContext, listCodeCommitRepositoryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51481,7 +51478,7 @@ func GetCodeCommitRepository(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeCommitRepositoryPaginator(essdk.BuildFilter(d.EqualsQuals, getCodeCommitRepositoryFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCodeCommitRepositoryPaginator(essdk.BuildFilter(d.QueryContext, getCodeCommitRepositoryFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51606,7 +51603,7 @@ func ListCodePipelinePipeline(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCodePipelinePipelinePaginator(essdk.BuildFilter(d.EqualsQuals, listCodePipelinePipelineFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCodePipelinePipelinePaginator(essdk.BuildFilter(d.QueryContext, listCodePipelinePipelineFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51653,7 +51650,7 @@ func GetCodePipelinePipeline(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCodePipelinePipelinePaginator(essdk.BuildFilter(d.EqualsQuals, getCodePipelinePipelineFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCodePipelinePipelinePaginator(essdk.BuildFilter(d.QueryContext, getCodePipelinePipelineFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51796,7 +51793,7 @@ func ListDirectoryServiceDirectory(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDirectoryServiceDirectoryPaginator(essdk.BuildFilter(d.EqualsQuals, listDirectoryServiceDirectoryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDirectoryServiceDirectoryPaginator(essdk.BuildFilter(d.QueryContext, listDirectoryServiceDirectoryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51861,7 +51858,7 @@ func GetDirectoryServiceDirectory(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDirectoryServiceDirectoryPaginator(essdk.BuildFilter(d.EqualsQuals, getDirectoryServiceDirectoryFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDirectoryServiceDirectoryPaginator(essdk.BuildFilter(d.QueryContext, getDirectoryServiceDirectoryFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51984,7 +51981,7 @@ func ListDirectoryServiceCertificate(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDirectoryServiceCertificatePaginator(essdk.BuildFilter(d.EqualsQuals, listDirectoryServiceCertificateFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDirectoryServiceCertificatePaginator(essdk.BuildFilter(d.QueryContext, listDirectoryServiceCertificateFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52030,7 +52027,7 @@ func GetDirectoryServiceCertificate(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDirectoryServiceCertificatePaginator(essdk.BuildFilter(d.EqualsQuals, getDirectoryServiceCertificateFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDirectoryServiceCertificatePaginator(essdk.BuildFilter(d.QueryContext, getDirectoryServiceCertificateFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52147,7 +52144,7 @@ func ListDirectoryServiceLogSubscription(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDirectoryServiceLogSubscriptionPaginator(essdk.BuildFilter(d.EqualsQuals, listDirectoryServiceLogSubscriptionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDirectoryServiceLogSubscriptionPaginator(essdk.BuildFilter(d.QueryContext, listDirectoryServiceLogSubscriptionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52186,7 +52183,7 @@ func GetDirectoryServiceLogSubscription(ctx context.Context, d *plugin.QueryData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDirectoryServiceLogSubscriptionPaginator(essdk.BuildFilter(d.EqualsQuals, getDirectoryServiceLogSubscriptionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDirectoryServiceLogSubscriptionPaginator(essdk.BuildFilter(d.QueryContext, getDirectoryServiceLogSubscriptionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52303,7 +52300,7 @@ func ListSSOAdminInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSSOAdminInstancePaginator(essdk.BuildFilter(d.EqualsQuals, listSSOAdminInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSSOAdminInstancePaginator(essdk.BuildFilter(d.QueryContext, listSSOAdminInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52342,7 +52339,7 @@ func GetSSOAdminInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSSOAdminInstancePaginator(essdk.BuildFilter(d.EqualsQuals, getSSOAdminInstanceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSSOAdminInstancePaginator(essdk.BuildFilter(d.QueryContext, getSSOAdminInstanceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52460,7 +52457,7 @@ func ListSSOAdminAccountAssignment(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSSOAdminAccountAssignmentPaginator(essdk.BuildFilter(d.EqualsQuals, listSSOAdminAccountAssignmentFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSSOAdminAccountAssignmentPaginator(essdk.BuildFilter(d.QueryContext, listSSOAdminAccountAssignmentFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52500,7 +52497,7 @@ func GetSSOAdminAccountAssignment(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSSOAdminAccountAssignmentPaginator(essdk.BuildFilter(d.EqualsQuals, getSSOAdminAccountAssignmentFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSSOAdminAccountAssignmentPaginator(essdk.BuildFilter(d.QueryContext, getSSOAdminAccountAssignmentFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52619,7 +52616,7 @@ func ListWAFRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWAFRulePaginator(essdk.BuildFilter(d.EqualsQuals, listWAFRuleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWAFRulePaginator(essdk.BuildFilter(d.QueryContext, listWAFRuleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52660,7 +52657,7 @@ func GetWAFRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFRulePaginator(essdk.BuildFilter(d.EqualsQuals, getWAFRuleFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWAFRulePaginator(essdk.BuildFilter(d.QueryContext, getWAFRuleFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52778,7 +52775,7 @@ func ListWAFRegionalRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWAFRegionalRulePaginator(essdk.BuildFilter(d.EqualsQuals, listWAFRegionalRuleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWAFRegionalRulePaginator(essdk.BuildFilter(d.QueryContext, listWAFRegionalRuleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52818,7 +52815,7 @@ func GetWAFRegionalRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFRegionalRulePaginator(essdk.BuildFilter(d.EqualsQuals, getWAFRegionalRuleFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWAFRegionalRulePaginator(essdk.BuildFilter(d.QueryContext, getWAFRegionalRuleFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52940,7 +52937,7 @@ func ListWAFRateBasedRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWAFRateBasedRulePaginator(essdk.BuildFilter(d.EqualsQuals, listWAFRateBasedRuleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWAFRateBasedRulePaginator(essdk.BuildFilter(d.QueryContext, listWAFRateBasedRuleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52984,7 +52981,7 @@ func GetWAFRateBasedRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFRateBasedRulePaginator(essdk.BuildFilter(d.EqualsQuals, getWAFRateBasedRuleFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWAFRateBasedRulePaginator(essdk.BuildFilter(d.QueryContext, getWAFRateBasedRuleFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -53108,7 +53105,7 @@ func ListWAFWebAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWAFWebAclPaginator(essdk.BuildFilter(d.EqualsQuals, listWAFWebAclFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWAFWebAclPaginator(essdk.BuildFilter(d.QueryContext, listWAFWebAclFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -53154,7 +53151,7 @@ func GetWAFWebAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFWebAclPaginator(essdk.BuildFilter(d.EqualsQuals, getWAFWebAclFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWAFWebAclPaginator(essdk.BuildFilter(d.QueryContext, getWAFWebAclFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -53292,7 +53289,7 @@ func ListWellArchitectedWorkload(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWellArchitectedWorkloadPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedWorkloadFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedWorkloadPaginator(essdk.BuildFilter(d.QueryContext, listWellArchitectedWorkloadFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -53352,7 +53349,7 @@ func GetWellArchitectedWorkload(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedWorkloadPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedWorkloadFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWellArchitectedWorkloadPaginator(essdk.BuildFilter(d.QueryContext, getWellArchitectedWorkloadFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -53484,7 +53481,7 @@ func ListWellArchitectedAnswer(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWellArchitectedAnswerPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedAnswerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedAnswerPaginator(essdk.BuildFilter(d.QueryContext, listWellArchitectedAnswerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -53538,7 +53535,7 @@ func GetWellArchitectedAnswer(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedAnswerPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedAnswerFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWellArchitectedAnswerPaginator(essdk.BuildFilter(d.QueryContext, getWellArchitectedAnswerFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -53666,7 +53663,7 @@ func ListWellArchitectedCheckDetail(ctx context.Context, d *plugin.QueryData, _ 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWellArchitectedCheckDetailPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedCheckDetailFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedCheckDetailPaginator(essdk.BuildFilter(d.QueryContext, listWellArchitectedCheckDetailFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -53716,7 +53713,7 @@ func GetWellArchitectedCheckDetail(ctx context.Context, d *plugin.QueryData, _ *
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedCheckDetailPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedCheckDetailFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWellArchitectedCheckDetailPaginator(essdk.BuildFilter(d.QueryContext, getWellArchitectedCheckDetailFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -53842,7 +53839,7 @@ func ListWellArchitectedCheckSummary(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWellArchitectedCheckSummaryPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedCheckSummaryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedCheckSummaryPaginator(essdk.BuildFilter(d.QueryContext, listWellArchitectedCheckSummaryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -53890,7 +53887,7 @@ func GetWellArchitectedCheckSummary(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedCheckSummaryPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedCheckSummaryFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWellArchitectedCheckSummaryPaginator(essdk.BuildFilter(d.QueryContext, getWellArchitectedCheckSummaryFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54013,7 +54010,7 @@ func ListWellArchitectedCheckConsolidatedReport(ctx context.Context, d *plugin.Q
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWellArchitectedCheckConsolidatedReportPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedCheckConsolidatedReportFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedCheckConsolidatedReportPaginator(essdk.BuildFilter(d.QueryContext, listWellArchitectedCheckConsolidatedReportFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54058,7 +54055,7 @@ func GetWellArchitectedCheckConsolidatedReport(ctx context.Context, d *plugin.Qu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedCheckConsolidatedReportPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedCheckConsolidatedReportFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWellArchitectedCheckConsolidatedReportPaginator(essdk.BuildFilter(d.QueryContext, getWellArchitectedCheckConsolidatedReportFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54185,7 +54182,7 @@ func ListWellArchitectedLens(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWellArchitectedLensPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedLensFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedLensPaginator(essdk.BuildFilter(d.QueryContext, listWellArchitectedLensFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54234,7 +54231,7 @@ func GetWellArchitectedLens(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedLensPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedLensFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWellArchitectedLensPaginator(essdk.BuildFilter(d.QueryContext, getWellArchitectedLensFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54357,7 +54354,7 @@ func ListWellArchitectedLensReview(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWellArchitectedLensReviewPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedLensReviewFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedLensReviewPaginator(essdk.BuildFilter(d.QueryContext, listWellArchitectedLensReviewFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54402,7 +54399,7 @@ func GetWellArchitectedLensReview(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedLensReviewPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedLensReviewFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWellArchitectedLensReviewPaginator(essdk.BuildFilter(d.QueryContext, getWellArchitectedLensReviewFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54526,7 +54523,7 @@ func ListWellArchitectedLensReviewImprovement(ctx context.Context, d *plugin.Que
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWellArchitectedLensReviewImprovementPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedLensReviewImprovementFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedLensReviewImprovementPaginator(essdk.BuildFilter(d.QueryContext, listWellArchitectedLensReviewImprovementFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54572,7 +54569,7 @@ func GetWellArchitectedLensReviewImprovement(ctx context.Context, d *plugin.Quer
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedLensReviewImprovementPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedLensReviewImprovementFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWellArchitectedLensReviewImprovementPaginator(essdk.BuildFilter(d.QueryContext, getWellArchitectedLensReviewImprovementFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54690,7 +54687,7 @@ func ListWellArchitectedLensReviewReport(ctx context.Context, d *plugin.QueryDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWellArchitectedLensReviewReportPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedLensReviewReportFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedLensReviewReportPaginator(essdk.BuildFilter(d.QueryContext, listWellArchitectedLensReviewReportFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54730,7 +54727,7 @@ func GetWellArchitectedLensReviewReport(ctx context.Context, d *plugin.QueryData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedLensReviewReportPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedLensReviewReportFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWellArchitectedLensReviewReportPaginator(essdk.BuildFilter(d.QueryContext, getWellArchitectedLensReviewReportFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54851,7 +54848,7 @@ func ListWellArchitectedLensShare(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWellArchitectedLensSharePaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedLensShareFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedLensSharePaginator(essdk.BuildFilter(d.QueryContext, listWellArchitectedLensShareFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54894,7 +54891,7 @@ func GetWellArchitectedLensShare(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedLensSharePaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedLensShareFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWellArchitectedLensSharePaginator(essdk.BuildFilter(d.QueryContext, getWellArchitectedLensShareFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55012,7 +55009,7 @@ func ListWellArchitectedMilestone(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWellArchitectedMilestonePaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedMilestoneFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedMilestonePaginator(essdk.BuildFilter(d.QueryContext, listWellArchitectedMilestoneFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55052,7 +55049,7 @@ func GetWellArchitectedMilestone(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedMilestonePaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedMilestoneFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWellArchitectedMilestonePaginator(essdk.BuildFilter(d.QueryContext, getWellArchitectedMilestoneFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55172,7 +55169,7 @@ func ListWellArchitectedNotification(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWellArchitectedNotificationPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedNotificationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedNotificationPaginator(essdk.BuildFilter(d.QueryContext, listWellArchitectedNotificationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55214,7 +55211,7 @@ func GetWellArchitectedNotification(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedNotificationPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedNotificationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWellArchitectedNotificationPaginator(essdk.BuildFilter(d.QueryContext, getWellArchitectedNotificationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55336,7 +55333,7 @@ func ListWellArchitectedShareInvitation(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWellArchitectedShareInvitationPaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedShareInvitationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedShareInvitationPaginator(essdk.BuildFilter(d.QueryContext, listWellArchitectedShareInvitationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55380,7 +55377,7 @@ func GetWellArchitectedShareInvitation(ctx context.Context, d *plugin.QueryData,
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedShareInvitationPaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedShareInvitationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWellArchitectedShareInvitationPaginator(essdk.BuildFilter(d.QueryContext, getWellArchitectedShareInvitationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55501,7 +55498,7 @@ func ListWellArchitectedWorkloadShare(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWellArchitectedWorkloadSharePaginator(essdk.BuildFilter(d.EqualsQuals, listWellArchitectedWorkloadShareFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedWorkloadSharePaginator(essdk.BuildFilter(d.QueryContext, listWellArchitectedWorkloadShareFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55544,7 +55541,7 @@ func GetWellArchitectedWorkloadShare(ctx context.Context, d *plugin.QueryData, _
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedWorkloadSharePaginator(essdk.BuildFilter(d.EqualsQuals, getWellArchitectedWorkloadShareFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWellArchitectedWorkloadSharePaginator(essdk.BuildFilter(d.QueryContext, getWellArchitectedWorkloadShareFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55669,7 +55666,7 @@ func ListWAFRegionalWebAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWAFRegionalWebAclPaginator(essdk.BuildFilter(d.EqualsQuals, listWAFRegionalWebAclFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWAFRegionalWebAclPaginator(essdk.BuildFilter(d.QueryContext, listWAFRegionalWebAclFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55716,7 +55713,7 @@ func GetWAFRegionalWebAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFRegionalWebAclPaginator(essdk.BuildFilter(d.EqualsQuals, getWAFRegionalWebAclFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWAFRegionalWebAclPaginator(essdk.BuildFilter(d.QueryContext, getWAFRegionalWebAclFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55838,7 +55835,7 @@ func ListWAFRegionalRuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewWAFRegionalRuleGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listWAFRegionalRuleGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewWAFRegionalRuleGroupPaginator(essdk.BuildFilter(d.QueryContext, listWAFRegionalRuleGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55882,7 +55879,7 @@ func GetWAFRegionalRuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFRegionalRuleGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getWAFRegionalRuleGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewWAFRegionalRuleGroupPaginator(essdk.BuildFilter(d.QueryContext, getWAFRegionalRuleGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56009,7 +56006,7 @@ func ListRoute53HostedZone(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRoute53HostedZonePaginator(essdk.BuildFilter(d.EqualsQuals, listRoute53HostedZoneFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53HostedZonePaginator(essdk.BuildFilter(d.QueryContext, listRoute53HostedZoneFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56058,7 +56055,7 @@ func GetRoute53HostedZone(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53HostedZonePaginator(essdk.BuildFilter(d.EqualsQuals, getRoute53HostedZoneFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRoute53HostedZonePaginator(essdk.BuildFilter(d.QueryContext, getRoute53HostedZoneFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56182,7 +56179,7 @@ func ListRoute53HealthCheck(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRoute53HealthCheckPaginator(essdk.BuildFilter(d.EqualsQuals, listRoute53HealthCheckFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53HealthCheckPaginator(essdk.BuildFilter(d.QueryContext, listRoute53HealthCheckFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56228,7 +56225,7 @@ func GetRoute53HealthCheck(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53HealthCheckPaginator(essdk.BuildFilter(d.EqualsQuals, getRoute53HealthCheckFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRoute53HealthCheckPaginator(essdk.BuildFilter(d.QueryContext, getRoute53HealthCheckFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56360,7 +56357,7 @@ func ListRoute53ResolverResolverRule(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRoute53ResolverResolverRulePaginator(essdk.BuildFilter(d.EqualsQuals, listRoute53ResolverResolverRuleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53ResolverResolverRulePaginator(essdk.BuildFilter(d.QueryContext, listRoute53ResolverResolverRuleFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56414,7 +56411,7 @@ func GetRoute53ResolverResolverRule(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53ResolverResolverRulePaginator(essdk.BuildFilter(d.EqualsQuals, getRoute53ResolverResolverRuleFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRoute53ResolverResolverRulePaginator(essdk.BuildFilter(d.QueryContext, getRoute53ResolverResolverRuleFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56544,7 +56541,7 @@ func ListRoute53ResolverEndpoint(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRoute53ResolverEndpointPaginator(essdk.BuildFilter(d.EqualsQuals, listRoute53ResolverEndpointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53ResolverEndpointPaginator(essdk.BuildFilter(d.QueryContext, listRoute53ResolverEndpointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56596,7 +56593,7 @@ func GetRoute53ResolverEndpoint(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53ResolverEndpointPaginator(essdk.BuildFilter(d.EqualsQuals, getRoute53ResolverEndpointFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRoute53ResolverEndpointPaginator(essdk.BuildFilter(d.QueryContext, getRoute53ResolverEndpointFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56735,7 +56732,7 @@ func ListRoute53Domain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRoute53DomainPaginator(essdk.BuildFilter(d.EqualsQuals, listRoute53DomainFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53DomainPaginator(essdk.BuildFilter(d.QueryContext, listRoute53DomainFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56796,7 +56793,7 @@ func GetRoute53Domain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53DomainPaginator(essdk.BuildFilter(d.EqualsQuals, getRoute53DomainFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRoute53DomainPaginator(essdk.BuildFilter(d.QueryContext, getRoute53DomainFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56924,7 +56921,7 @@ func ListRoute53Record(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRoute53RecordPaginator(essdk.BuildFilter(d.EqualsQuals, listRoute53RecordFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53RecordPaginator(essdk.BuildFilter(d.QueryContext, listRoute53RecordFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56974,7 +56971,7 @@ func GetRoute53Record(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53RecordPaginator(essdk.BuildFilter(d.EqualsQuals, getRoute53RecordFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRoute53RecordPaginator(essdk.BuildFilter(d.QueryContext, getRoute53RecordFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57095,7 +57092,7 @@ func ListRoute53TrafficPolicy(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRoute53TrafficPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, listRoute53TrafficPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53TrafficPolicyPaginator(essdk.BuildFilter(d.QueryContext, listRoute53TrafficPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57138,7 +57135,7 @@ func GetRoute53TrafficPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53TrafficPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, getRoute53TrafficPolicyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRoute53TrafficPolicyPaginator(essdk.BuildFilter(d.QueryContext, getRoute53TrafficPolicyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57262,7 +57259,7 @@ func ListRoute53TrafficPolicyInstance(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRoute53TrafficPolicyInstancePaginator(essdk.BuildFilter(d.EqualsQuals, listRoute53TrafficPolicyInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53TrafficPolicyInstancePaginator(essdk.BuildFilter(d.QueryContext, listRoute53TrafficPolicyInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57308,7 +57305,7 @@ func GetRoute53TrafficPolicyInstance(ctx context.Context, d *plugin.QueryData, _
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53TrafficPolicyInstancePaginator(essdk.BuildFilter(d.EqualsQuals, getRoute53TrafficPolicyInstanceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRoute53TrafficPolicyInstancePaginator(essdk.BuildFilter(d.QueryContext, getRoute53TrafficPolicyInstanceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57426,7 +57423,7 @@ func ListRoute53QueryLog(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRoute53QueryLogPaginator(essdk.BuildFilter(d.EqualsQuals, listRoute53QueryLogFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53QueryLogPaginator(essdk.BuildFilter(d.QueryContext, listRoute53QueryLogFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57466,7 +57463,7 @@ func GetRoute53QueryLog(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53QueryLogPaginator(essdk.BuildFilter(d.EqualsQuals, getRoute53QueryLogFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRoute53QueryLogPaginator(essdk.BuildFilter(d.QueryContext, getRoute53QueryLogFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57591,7 +57588,7 @@ func ListRoute53ResolverQueryLogConfig(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRoute53ResolverQueryLogConfigPaginator(essdk.BuildFilter(d.EqualsQuals, listRoute53ResolverQueryLogConfigFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53ResolverQueryLogConfigPaginator(essdk.BuildFilter(d.QueryContext, listRoute53ResolverQueryLogConfigFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57638,7 +57635,7 @@ func GetRoute53ResolverQueryLogConfig(ctx context.Context, d *plugin.QueryData, 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53ResolverQueryLogConfigPaginator(essdk.BuildFilter(d.EqualsQuals, getRoute53ResolverQueryLogConfigFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRoute53ResolverQueryLogConfigPaginator(essdk.BuildFilter(d.QueryContext, getRoute53ResolverQueryLogConfigFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57757,7 +57754,7 @@ func ListBatchComputeEnvironment(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewBatchComputeEnvironmentPaginator(essdk.BuildFilter(d.EqualsQuals, listBatchComputeEnvironmentFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewBatchComputeEnvironmentPaginator(essdk.BuildFilter(d.QueryContext, listBatchComputeEnvironmentFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57798,7 +57795,7 @@ func GetBatchComputeEnvironment(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewBatchComputeEnvironmentPaginator(essdk.BuildFilter(d.EqualsQuals, getBatchComputeEnvironmentFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewBatchComputeEnvironmentPaginator(essdk.BuildFilter(d.QueryContext, getBatchComputeEnvironmentFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57916,7 +57913,7 @@ func ListBatchJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewBatchJobPaginator(essdk.BuildFilter(d.EqualsQuals, listBatchJobFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewBatchJobPaginator(essdk.BuildFilter(d.QueryContext, listBatchJobFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57956,7 +57953,7 @@ func GetBatchJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewBatchJobPaginator(essdk.BuildFilter(d.EqualsQuals, getBatchJobFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewBatchJobPaginator(essdk.BuildFilter(d.QueryContext, getBatchJobFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58075,7 +58072,7 @@ func ListBatchJobQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewBatchJobQueuePaginator(essdk.BuildFilter(d.EqualsQuals, listBatchJobQueueFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewBatchJobQueuePaginator(essdk.BuildFilter(d.QueryContext, listBatchJobQueueFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58117,7 +58114,7 @@ func GetBatchJobQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewBatchJobQueuePaginator(essdk.BuildFilter(d.EqualsQuals, getBatchJobQueueFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewBatchJobQueuePaginator(essdk.BuildFilter(d.QueryContext, getBatchJobQueueFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58244,7 +58241,7 @@ func ListCodeArtifactRepository(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCodeArtifactRepositoryPaginator(essdk.BuildFilter(d.EqualsQuals, listCodeArtifactRepositoryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCodeArtifactRepositoryPaginator(essdk.BuildFilter(d.QueryContext, listCodeArtifactRepositoryFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58293,7 +58290,7 @@ func GetCodeArtifactRepository(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeArtifactRepositoryPaginator(essdk.BuildFilter(d.EqualsQuals, getCodeArtifactRepositoryFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCodeArtifactRepositoryPaginator(essdk.BuildFilter(d.QueryContext, getCodeArtifactRepositoryFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58421,7 +58418,7 @@ func ListCodeArtifactDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCodeArtifactDomainPaginator(essdk.BuildFilter(d.EqualsQuals, listCodeArtifactDomainFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCodeArtifactDomainPaginator(essdk.BuildFilter(d.QueryContext, listCodeArtifactDomainFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58471,7 +58468,7 @@ func GetCodeArtifactDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeArtifactDomainPaginator(essdk.BuildFilter(d.EqualsQuals, getCodeArtifactDomainFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCodeArtifactDomainPaginator(essdk.BuildFilter(d.QueryContext, getCodeArtifactDomainFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58608,7 +58605,7 @@ func ListCodeDeployDeploymentGroup(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCodeDeployDeploymentGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listCodeDeployDeploymentGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCodeDeployDeploymentGroupPaginator(essdk.BuildFilter(d.QueryContext, listCodeDeployDeploymentGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58667,7 +58664,7 @@ func GetCodeDeployDeploymentGroup(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeDeployDeploymentGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getCodeDeployDeploymentGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCodeDeployDeploymentGroupPaginator(essdk.BuildFilter(d.QueryContext, getCodeDeployDeploymentGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58788,7 +58785,7 @@ func ListCodeDeployApplication(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCodeDeployApplicationPaginator(essdk.BuildFilter(d.EqualsQuals, listCodeDeployApplicationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCodeDeployApplicationPaginator(essdk.BuildFilter(d.QueryContext, listCodeDeployApplicationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58831,7 +58828,7 @@ func GetCodeDeployApplication(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeDeployApplicationPaginator(essdk.BuildFilter(d.EqualsQuals, getCodeDeployApplicationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCodeDeployApplicationPaginator(essdk.BuildFilter(d.QueryContext, getCodeDeployApplicationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58953,7 +58950,7 @@ func ListCodeDeployDeploymentConfig(ctx context.Context, d *plugin.QueryData, _ 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCodeDeployDeploymentConfigPaginator(essdk.BuildFilter(d.EqualsQuals, listCodeDeployDeploymentConfigFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCodeDeployDeploymentConfigPaginator(essdk.BuildFilter(d.QueryContext, listCodeDeployDeploymentConfigFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58998,7 +58995,7 @@ func GetCodeDeployDeploymentConfig(ctx context.Context, d *plugin.QueryData, _ *
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeDeployDeploymentConfigPaginator(essdk.BuildFilter(d.EqualsQuals, getCodeDeployDeploymentConfigFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCodeDeployDeploymentConfigPaginator(essdk.BuildFilter(d.QueryContext, getCodeDeployDeploymentConfigFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59117,7 +59114,7 @@ func ListCodeStarProject(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCodeStarProjectPaginator(essdk.BuildFilter(d.EqualsQuals, listCodeStarProjectFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCodeStarProjectPaginator(essdk.BuildFilter(d.QueryContext, listCodeStarProjectFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59158,7 +59155,7 @@ func GetCodeStarProject(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeStarProjectPaginator(essdk.BuildFilter(d.EqualsQuals, getCodeStarProjectFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCodeStarProjectPaginator(essdk.BuildFilter(d.QueryContext, getCodeStarProjectFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59274,7 +59271,7 @@ func ListDirectConnectConnection(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDirectConnectConnectionPaginator(essdk.BuildFilter(d.EqualsQuals, listDirectConnectConnectionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDirectConnectConnectionPaginator(essdk.BuildFilter(d.QueryContext, listDirectConnectConnectionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59312,7 +59309,7 @@ func GetDirectConnectConnection(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDirectConnectConnectionPaginator(essdk.BuildFilter(d.EqualsQuals, getDirectConnectConnectionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDirectConnectConnectionPaginator(essdk.BuildFilter(d.QueryContext, getDirectConnectConnectionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59428,7 +59425,7 @@ func ListDirectConnectGateway(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDirectConnectGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, listDirectConnectGatewayFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDirectConnectGatewayPaginator(essdk.BuildFilter(d.QueryContext, listDirectConnectGatewayFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59466,7 +59463,7 @@ func GetDirectConnectGateway(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDirectConnectGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, getDirectConnectGatewayFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDirectConnectGatewayPaginator(essdk.BuildFilter(d.QueryContext, getDirectConnectGatewayFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59594,7 +59591,7 @@ func ListNetworkFirewallFirewall(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkFirewallFirewallPaginator(essdk.BuildFilter(d.EqualsQuals, listNetworkFirewallFirewallFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNetworkFirewallFirewallPaginator(essdk.BuildFilter(d.QueryContext, listNetworkFirewallFirewallFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59645,7 +59642,7 @@ func GetNetworkFirewallFirewall(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNetworkFirewallFirewallPaginator(essdk.BuildFilter(d.EqualsQuals, getNetworkFirewallFirewallFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewNetworkFirewallFirewallPaginator(essdk.BuildFilter(d.QueryContext, getNetworkFirewallFirewallFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59773,7 +59770,7 @@ func ListNetworkFirewallFirewallPolicy(ctx context.Context, d *plugin.QueryData,
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkFirewallFirewallPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, listNetworkFirewallFirewallPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNetworkFirewallFirewallPolicyPaginator(essdk.BuildFilter(d.QueryContext, listNetworkFirewallFirewallPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59823,7 +59820,7 @@ func GetNetworkFirewallFirewallPolicy(ctx context.Context, d *plugin.QueryData, 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNetworkFirewallFirewallPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, getNetworkFirewallFirewallPolicyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewNetworkFirewallFirewallPolicyPaginator(essdk.BuildFilter(d.QueryContext, getNetworkFirewallFirewallPolicyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59952,7 +59949,7 @@ func ListNetworkFirewallRuleGroup(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewNetworkFirewallRuleGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listNetworkFirewallRuleGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewNetworkFirewallRuleGroupPaginator(essdk.BuildFilter(d.QueryContext, listNetworkFirewallRuleGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60003,7 +60000,7 @@ func GetNetworkFirewallRuleGroup(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewNetworkFirewallRuleGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getNetworkFirewallRuleGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewNetworkFirewallRuleGroupPaginator(essdk.BuildFilter(d.QueryContext, getNetworkFirewallRuleGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60120,7 +60117,7 @@ func ListOpsWorksCMServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewOpsWorksCMServerPaginator(essdk.BuildFilter(d.EqualsQuals, listOpsWorksCMServerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewOpsWorksCMServerPaginator(essdk.BuildFilter(d.QueryContext, listOpsWorksCMServerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60159,7 +60156,7 @@ func GetOpsWorksCMServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewOpsWorksCMServerPaginator(essdk.BuildFilter(d.EqualsQuals, getOpsWorksCMServerFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewOpsWorksCMServerPaginator(essdk.BuildFilter(d.QueryContext, getOpsWorksCMServerFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60276,7 +60273,7 @@ func ListOrganizationsOrganization(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewOrganizationsOrganizationPaginator(essdk.BuildFilter(d.EqualsQuals, listOrganizationsOrganizationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewOrganizationsOrganizationPaginator(essdk.BuildFilter(d.QueryContext, listOrganizationsOrganizationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60315,7 +60312,7 @@ func GetOrganizationsOrganization(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewOrganizationsOrganizationPaginator(essdk.BuildFilter(d.EqualsQuals, getOrganizationsOrganizationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewOrganizationsOrganizationPaginator(essdk.BuildFilter(d.QueryContext, getOrganizationsOrganizationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60438,7 +60435,7 @@ func ListOrganizationsAccount(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewOrganizationsAccountPaginator(essdk.BuildFilter(d.EqualsQuals, listOrganizationsAccountFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewOrganizationsAccountPaginator(essdk.BuildFilter(d.QueryContext, listOrganizationsAccountFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60483,7 +60480,7 @@ func GetOrganizationsAccount(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewOrganizationsAccountPaginator(essdk.BuildFilter(d.EqualsQuals, getOrganizationsAccountFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewOrganizationsAccountPaginator(essdk.BuildFilter(d.QueryContext, getOrganizationsAccountFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60605,7 +60602,7 @@ func ListOrganizationsPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewOrganizationsPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, listOrganizationsPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewOrganizationsPolicyPaginator(essdk.BuildFilter(d.QueryContext, listOrganizationsPolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60649,7 +60646,7 @@ func GetOrganizationsPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewOrganizationsPolicyPaginator(essdk.BuildFilter(d.EqualsQuals, getOrganizationsPolicyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewOrganizationsPolicyPaginator(essdk.BuildFilter(d.QueryContext, getOrganizationsPolicyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60772,7 +60769,7 @@ func ListPinPointApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPinPointAppPaginator(essdk.BuildFilter(d.EqualsQuals, listPinPointAppFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewPinPointAppPaginator(essdk.BuildFilter(d.QueryContext, listPinPointAppFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60817,7 +60814,7 @@ func GetPinPointApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewPinPointAppPaginator(essdk.BuildFilter(d.EqualsQuals, getPinPointAppFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewPinPointAppPaginator(essdk.BuildFilter(d.QueryContext, getPinPointAppFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60947,7 +60944,7 @@ func ListPipesPipe(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewPipesPipePaginator(essdk.BuildFilter(d.EqualsQuals, listPipesPipeFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewPipesPipePaginator(essdk.BuildFilter(d.QueryContext, listPipesPipeFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60999,7 +60996,7 @@ func GetPipesPipe(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewPipesPipePaginator(essdk.BuildFilter(d.EqualsQuals, getPipesPipeFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewPipesPipePaginator(essdk.BuildFilter(d.QueryContext, getPipesPipeFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61115,7 +61112,7 @@ func ListResourceExplorer2Index(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewResourceExplorer2IndexPaginator(essdk.BuildFilter(d.EqualsQuals, listResourceExplorer2IndexFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewResourceExplorer2IndexPaginator(essdk.BuildFilter(d.QueryContext, listResourceExplorer2IndexFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61153,7 +61150,7 @@ func GetResourceExplorer2Index(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewResourceExplorer2IndexPaginator(essdk.BuildFilter(d.EqualsQuals, getResourceExplorer2IndexFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewResourceExplorer2IndexPaginator(essdk.BuildFilter(d.QueryContext, getResourceExplorer2IndexFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61268,7 +61265,7 @@ func ListResourceExplorer2SupportedResourceType(ctx context.Context, d *plugin.Q
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewResourceExplorer2SupportedResourceTypePaginator(essdk.BuildFilter(d.EqualsQuals, listResourceExplorer2SupportedResourceTypeFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewResourceExplorer2SupportedResourceTypePaginator(essdk.BuildFilter(d.QueryContext, listResourceExplorer2SupportedResourceTypeFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61305,7 +61302,7 @@ func GetResourceExplorer2SupportedResourceType(ctx context.Context, d *plugin.Qu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewResourceExplorer2SupportedResourceTypePaginator(essdk.BuildFilter(d.EqualsQuals, getResourceExplorer2SupportedResourceTypeFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewResourceExplorer2SupportedResourceTypePaginator(essdk.BuildFilter(d.QueryContext, getResourceExplorer2SupportedResourceTypeFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61430,7 +61427,7 @@ func ListStepFunctionsStateMachine(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStepFunctionsStateMachinePaginator(essdk.BuildFilter(d.EqualsQuals, listStepFunctionsStateMachineFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStepFunctionsStateMachinePaginator(essdk.BuildFilter(d.QueryContext, listStepFunctionsStateMachineFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61477,7 +61474,7 @@ func GetStepFunctionsStateMachine(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStepFunctionsStateMachinePaginator(essdk.BuildFilter(d.EqualsQuals, getStepFunctionsStateMachineFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewStepFunctionsStateMachinePaginator(essdk.BuildFilter(d.QueryContext, getStepFunctionsStateMachineFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61629,7 +61626,7 @@ func ListStepFunctionsStateMachineExecutionHistories(ctx context.Context, d *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStepFunctionsStateMachineExecutionHistoriesPaginator(essdk.BuildFilter(d.EqualsQuals, listStepFunctionsStateMachineExecutionHistoriesFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStepFunctionsStateMachineExecutionHistoriesPaginator(essdk.BuildFilter(d.QueryContext, listStepFunctionsStateMachineExecutionHistoriesFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61703,7 +61700,7 @@ func GetStepFunctionsStateMachineExecutionHistories(ctx context.Context, d *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStepFunctionsStateMachineExecutionHistoriesPaginator(essdk.BuildFilter(d.EqualsQuals, getStepFunctionsStateMachineExecutionHistoriesFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewStepFunctionsStateMachineExecutionHistoriesPaginator(essdk.BuildFilter(d.QueryContext, getStepFunctionsStateMachineExecutionHistoriesFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61829,7 +61826,7 @@ func ListStepFunctionsStateMachineExecution(ctx context.Context, d *plugin.Query
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStepFunctionsStateMachineExecutionPaginator(essdk.BuildFilter(d.EqualsQuals, listStepFunctionsStateMachineExecutionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStepFunctionsStateMachineExecutionPaginator(essdk.BuildFilter(d.QueryContext, listStepFunctionsStateMachineExecutionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61877,7 +61874,7 @@ func GetStepFunctionsStateMachineExecution(ctx context.Context, d *plugin.QueryD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStepFunctionsStateMachineExecutionPaginator(essdk.BuildFilter(d.EqualsQuals, getStepFunctionsStateMachineExecutionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewStepFunctionsStateMachineExecutionPaginator(essdk.BuildFilter(d.QueryContext, getStepFunctionsStateMachineExecutionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62005,7 +62002,7 @@ func ListSimSpaceWeaverSimulation(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSimSpaceWeaverSimulationPaginator(essdk.BuildFilter(d.EqualsQuals, listSimSpaceWeaverSimulationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSimSpaceWeaverSimulationPaginator(essdk.BuildFilter(d.QueryContext, listSimSpaceWeaverSimulationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62055,7 +62052,7 @@ func GetSimSpaceWeaverSimulation(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSimSpaceWeaverSimulationPaginator(essdk.BuildFilter(d.EqualsQuals, getSimSpaceWeaverSimulationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSimSpaceWeaverSimulationPaginator(essdk.BuildFilter(d.QueryContext, getSimSpaceWeaverSimulationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62171,7 +62168,7 @@ func ListACMPCACertificateAuthority(ctx context.Context, d *plugin.QueryData, _ 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewACMPCACertificateAuthorityPaginator(essdk.BuildFilter(d.EqualsQuals, listACMPCACertificateAuthorityFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewACMPCACertificateAuthorityPaginator(essdk.BuildFilter(d.QueryContext, listACMPCACertificateAuthorityFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62209,7 +62206,7 @@ func GetACMPCACertificateAuthority(ctx context.Context, d *plugin.QueryData, _ *
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewACMPCACertificateAuthorityPaginator(essdk.BuildFilter(d.EqualsQuals, getACMPCACertificateAuthorityFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewACMPCACertificateAuthorityPaginator(essdk.BuildFilter(d.QueryContext, getACMPCACertificateAuthorityFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62326,7 +62323,7 @@ func ListShieldProtectionGroup(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewShieldProtectionGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listShieldProtectionGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewShieldProtectionGroupPaginator(essdk.BuildFilter(d.QueryContext, listShieldProtectionGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62365,7 +62362,7 @@ func GetShieldProtectionGroup(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewShieldProtectionGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getShieldProtectionGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewShieldProtectionGroupPaginator(essdk.BuildFilter(d.QueryContext, getShieldProtectionGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62483,7 +62480,7 @@ func ListStorageGatewayStorageGateway(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewStorageGatewayStorageGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, listStorageGatewayStorageGatewayFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewStorageGatewayStorageGatewayPaginator(essdk.BuildFilter(d.QueryContext, listStorageGatewayStorageGatewayFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62523,7 +62520,7 @@ func GetStorageGatewayStorageGateway(ctx context.Context, d *plugin.QueryData, _
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageGatewayStorageGatewayPaginator(essdk.BuildFilter(d.EqualsQuals, getStorageGatewayStorageGatewayFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewStorageGatewayStorageGatewayPaginator(essdk.BuildFilter(d.QueryContext, getStorageGatewayStorageGatewayFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62641,7 +62638,7 @@ func ListImageBuilderImage(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewImageBuilderImagePaginator(essdk.BuildFilter(d.EqualsQuals, listImageBuilderImageFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewImageBuilderImagePaginator(essdk.BuildFilter(d.QueryContext, listImageBuilderImageFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62681,7 +62678,7 @@ func GetImageBuilderImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewImageBuilderImagePaginator(essdk.BuildFilter(d.EqualsQuals, getImageBuilderImageFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewImageBuilderImagePaginator(essdk.BuildFilter(d.QueryContext, getImageBuilderImageFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62801,7 +62798,7 @@ func ListAccountAlternateContact(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAccountAlternateContactPaginator(essdk.BuildFilter(d.EqualsQuals, listAccountAlternateContactFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAccountAlternateContactPaginator(essdk.BuildFilter(d.QueryContext, listAccountAlternateContactFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62843,7 +62840,7 @@ func GetAccountAlternateContact(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAccountAlternateContactPaginator(essdk.BuildFilter(d.EqualsQuals, getAccountAlternateContactFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewAccountAlternateContactPaginator(essdk.BuildFilter(d.QueryContext, getAccountAlternateContactFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62970,7 +62967,7 @@ func ListAccountContact(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAccountContactPaginator(essdk.BuildFilter(d.EqualsQuals, listAccountContactFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAccountContactPaginator(essdk.BuildFilter(d.QueryContext, listAccountContactFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63019,7 +63016,7 @@ func GetAccountContact(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAccountContactPaginator(essdk.BuildFilter(d.EqualsQuals, getAccountContactFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewAccountContactPaginator(essdk.BuildFilter(d.QueryContext, getAccountContactFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63158,7 +63155,7 @@ func ListAmplifyApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAmplifyAppPaginator(essdk.BuildFilter(d.EqualsQuals, listAmplifyAppFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAmplifyAppPaginator(essdk.BuildFilter(d.QueryContext, listAmplifyAppFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63219,7 +63216,7 @@ func GetAmplifyApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAmplifyAppPaginator(essdk.BuildFilter(d.EqualsQuals, getAmplifyAppFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewAmplifyAppPaginator(essdk.BuildFilter(d.QueryContext, getAmplifyAppFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63339,7 +63336,7 @@ func ListAppConfigApplication(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAppConfigApplicationPaginator(essdk.BuildFilter(d.EqualsQuals, listAppConfigApplicationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAppConfigApplicationPaginator(essdk.BuildFilter(d.QueryContext, listAppConfigApplicationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63381,7 +63378,7 @@ func GetAppConfigApplication(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAppConfigApplicationPaginator(essdk.BuildFilter(d.EqualsQuals, getAppConfigApplicationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewAppConfigApplicationPaginator(essdk.BuildFilter(d.QueryContext, getAppConfigApplicationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63512,7 +63509,7 @@ func ListAuditManagerAssessment(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAuditManagerAssessmentPaginator(essdk.BuildFilter(d.EqualsQuals, listAuditManagerAssessmentFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAuditManagerAssessmentPaginator(essdk.BuildFilter(d.QueryContext, listAuditManagerAssessmentFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63566,7 +63563,7 @@ func GetAuditManagerAssessment(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAuditManagerAssessmentPaginator(essdk.BuildFilter(d.EqualsQuals, getAuditManagerAssessmentFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewAuditManagerAssessmentPaginator(essdk.BuildFilter(d.QueryContext, getAuditManagerAssessmentFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63696,7 +63693,7 @@ func ListAuditManagerControl(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAuditManagerControlPaginator(essdk.BuildFilter(d.EqualsQuals, listAuditManagerControlFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAuditManagerControlPaginator(essdk.BuildFilter(d.QueryContext, listAuditManagerControlFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63749,7 +63746,7 @@ func GetAuditManagerControl(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAuditManagerControlPaginator(essdk.BuildFilter(d.EqualsQuals, getAuditManagerControlFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewAuditManagerControlPaginator(essdk.BuildFilter(d.QueryContext, getAuditManagerControlFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63882,7 +63879,7 @@ func ListAuditManagerEvidence(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAuditManagerEvidencePaginator(essdk.BuildFilter(d.EqualsQuals, listAuditManagerEvidenceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAuditManagerEvidencePaginator(essdk.BuildFilter(d.QueryContext, listAuditManagerEvidenceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63937,7 +63934,7 @@ func GetAuditManagerEvidence(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAuditManagerEvidencePaginator(essdk.BuildFilter(d.EqualsQuals, getAuditManagerEvidenceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewAuditManagerEvidencePaginator(essdk.BuildFilter(d.QueryContext, getAuditManagerEvidenceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64071,7 +64068,7 @@ func ListAuditManagerEvidenceFolder(ctx context.Context, d *plugin.QueryData, _ 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAuditManagerEvidenceFolderPaginator(essdk.BuildFilter(d.EqualsQuals, listAuditManagerEvidenceFolderFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAuditManagerEvidenceFolderPaginator(essdk.BuildFilter(d.QueryContext, listAuditManagerEvidenceFolderFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64127,7 +64124,7 @@ func GetAuditManagerEvidenceFolder(ctx context.Context, d *plugin.QueryData, _ *
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAuditManagerEvidenceFolderPaginator(essdk.BuildFilter(d.EqualsQuals, getAuditManagerEvidenceFolderFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewAuditManagerEvidenceFolderPaginator(essdk.BuildFilter(d.QueryContext, getAuditManagerEvidenceFolderFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64258,7 +64255,7 @@ func ListAuditManagerFramework(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewAuditManagerFrameworkPaginator(essdk.BuildFilter(d.EqualsQuals, listAuditManagerFrameworkFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewAuditManagerFrameworkPaginator(essdk.BuildFilter(d.QueryContext, listAuditManagerFrameworkFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64312,7 +64309,7 @@ func GetAuditManagerFramework(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewAuditManagerFrameworkPaginator(essdk.BuildFilter(d.EqualsQuals, getAuditManagerFrameworkFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewAuditManagerFrameworkPaginator(essdk.BuildFilter(d.QueryContext, getAuditManagerFrameworkFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64440,7 +64437,7 @@ func ListCloudSearchDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewCloudSearchDomainPaginator(essdk.BuildFilter(d.EqualsQuals, listCloudSearchDomainFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewCloudSearchDomainPaginator(essdk.BuildFilter(d.QueryContext, listCloudSearchDomainFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64490,7 +64487,7 @@ func GetCloudSearchDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudSearchDomainPaginator(essdk.BuildFilter(d.EqualsQuals, getCloudSearchDomainFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewCloudSearchDomainPaginator(essdk.BuildFilter(d.QueryContext, getCloudSearchDomainFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64616,7 +64613,7 @@ func ListDLMLifecyclePolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDLMLifecyclePolicyPaginator(essdk.BuildFilter(d.EqualsQuals, listDLMLifecyclePolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDLMLifecyclePolicyPaginator(essdk.BuildFilter(d.QueryContext, listDLMLifecyclePolicyFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64665,7 +64662,7 @@ func GetDLMLifecyclePolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDLMLifecyclePolicyPaginator(essdk.BuildFilter(d.EqualsQuals, getDLMLifecyclePolicyFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDLMLifecyclePolicyPaginator(essdk.BuildFilter(d.QueryContext, getDLMLifecyclePolicyFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64814,7 +64811,7 @@ func ListDocDBCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDocDBClusterPaginator(essdk.BuildFilter(d.EqualsQuals, listDocDBClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDocDBClusterPaginator(essdk.BuildFilter(d.QueryContext, listDocDBClusterFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64885,7 +64882,7 @@ func GetDocDBCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDocDBClusterPaginator(essdk.BuildFilter(d.EqualsQuals, getDocDBClusterFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDocDBClusterPaginator(essdk.BuildFilter(d.QueryContext, getDocDBClusterFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65035,7 +65032,7 @@ func ListDocDBClusterInstance(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewDocDBClusterInstancePaginator(essdk.BuildFilter(d.EqualsQuals, listDocDBClusterInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewDocDBClusterInstancePaginator(essdk.BuildFilter(d.QueryContext, listDocDBClusterInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65107,7 +65104,7 @@ func GetDocDBClusterInstance(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewDocDBClusterInstancePaginator(essdk.BuildFilter(d.EqualsQuals, getDocDBClusterInstanceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewDocDBClusterInstancePaginator(essdk.BuildFilter(d.QueryContext, getDocDBClusterInstanceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65233,7 +65230,7 @@ func ListGlobalAcceleratorAccelerator(ctx context.Context, d *plugin.QueryData, 
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGlobalAcceleratorAcceleratorPaginator(essdk.BuildFilter(d.EqualsQuals, listGlobalAcceleratorAcceleratorFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGlobalAcceleratorAcceleratorPaginator(essdk.BuildFilter(d.QueryContext, listGlobalAcceleratorAcceleratorFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65281,7 +65278,7 @@ func GetGlobalAcceleratorAccelerator(ctx context.Context, d *plugin.QueryData, _
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGlobalAcceleratorAcceleratorPaginator(essdk.BuildFilter(d.EqualsQuals, getGlobalAcceleratorAcceleratorFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGlobalAcceleratorAcceleratorPaginator(essdk.BuildFilter(d.QueryContext, getGlobalAcceleratorAcceleratorFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65407,7 +65404,7 @@ func ListGlobalAcceleratorEndpointGroup(ctx context.Context, d *plugin.QueryData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGlobalAcceleratorEndpointGroupPaginator(essdk.BuildFilter(d.EqualsQuals, listGlobalAcceleratorEndpointGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGlobalAcceleratorEndpointGroupPaginator(essdk.BuildFilter(d.QueryContext, listGlobalAcceleratorEndpointGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65455,7 +65452,7 @@ func GetGlobalAcceleratorEndpointGroup(ctx context.Context, d *plugin.QueryData,
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGlobalAcceleratorEndpointGroupPaginator(essdk.BuildFilter(d.EqualsQuals, getGlobalAcceleratorEndpointGroupFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGlobalAcceleratorEndpointGroupPaginator(essdk.BuildFilter(d.QueryContext, getGlobalAcceleratorEndpointGroupFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65575,7 +65572,7 @@ func ListGlobalAcceleratorListener(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGlobalAcceleratorListenerPaginator(essdk.BuildFilter(d.EqualsQuals, listGlobalAcceleratorListenerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGlobalAcceleratorListenerPaginator(essdk.BuildFilter(d.QueryContext, listGlobalAcceleratorListenerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65617,7 +65614,7 @@ func GetGlobalAcceleratorListener(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGlobalAcceleratorListenerPaginator(essdk.BuildFilter(d.EqualsQuals, getGlobalAcceleratorListenerFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGlobalAcceleratorListenerPaginator(essdk.BuildFilter(d.QueryContext, getGlobalAcceleratorListenerFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65740,7 +65737,7 @@ func ListGlueCatalogDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGlueCatalogDatabasePaginator(essdk.BuildFilter(d.EqualsQuals, listGlueCatalogDatabaseFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGlueCatalogDatabasePaginator(essdk.BuildFilter(d.QueryContext, listGlueCatalogDatabaseFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65785,7 +65782,7 @@ func GetGlueCatalogDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGlueCatalogDatabasePaginator(essdk.BuildFilter(d.EqualsQuals, getGlueCatalogDatabaseFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGlueCatalogDatabasePaginator(essdk.BuildFilter(d.QueryContext, getGlueCatalogDatabaseFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65919,7 +65916,7 @@ func ListGlueCatalogTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGlueCatalogTablePaginator(essdk.BuildFilter(d.EqualsQuals, listGlueCatalogTableFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGlueCatalogTablePaginator(essdk.BuildFilter(d.QueryContext, listGlueCatalogTableFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65975,7 +65972,7 @@ func GetGlueCatalogTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGlueCatalogTablePaginator(essdk.BuildFilter(d.EqualsQuals, getGlueCatalogTableFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGlueCatalogTablePaginator(essdk.BuildFilter(d.QueryContext, getGlueCatalogTableFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66100,7 +66097,7 @@ func ListGlueConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGlueConnectionPaginator(essdk.BuildFilter(d.EqualsQuals, listGlueConnectionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGlueConnectionPaginator(essdk.BuildFilter(d.QueryContext, listGlueConnectionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66147,7 +66144,7 @@ func GetGlueConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGlueConnectionPaginator(essdk.BuildFilter(d.EqualsQuals, getGlueConnectionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGlueConnectionPaginator(essdk.BuildFilter(d.QueryContext, getGlueConnectionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66282,7 +66279,7 @@ func ListGlueCrawler(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGlueCrawlerPaginator(essdk.BuildFilter(d.EqualsQuals, listGlueCrawlerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGlueCrawlerPaginator(essdk.BuildFilter(d.QueryContext, listGlueCrawlerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66339,7 +66336,7 @@ func GetGlueCrawler(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGlueCrawlerPaginator(essdk.BuildFilter(d.EqualsQuals, getGlueCrawlerFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGlueCrawlerPaginator(essdk.BuildFilter(d.QueryContext, getGlueCrawlerFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66454,7 +66451,7 @@ func ListGlueDataCatalogEncryptionSettings(ctx context.Context, d *plugin.QueryD
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGlueDataCatalogEncryptionSettingsPaginator(essdk.BuildFilter(d.EqualsQuals, listGlueDataCatalogEncryptionSettingsFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGlueDataCatalogEncryptionSettingsPaginator(essdk.BuildFilter(d.QueryContext, listGlueDataCatalogEncryptionSettingsFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66491,7 +66488,7 @@ func GetGlueDataCatalogEncryptionSettings(ctx context.Context, d *plugin.QueryDa
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGlueDataCatalogEncryptionSettingsPaginator(essdk.BuildFilter(d.EqualsQuals, getGlueDataCatalogEncryptionSettingsFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGlueDataCatalogEncryptionSettingsPaginator(essdk.BuildFilter(d.QueryContext, getGlueDataCatalogEncryptionSettingsFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66615,7 +66612,7 @@ func ListGlueDataQualityRuleset(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGlueDataQualityRulesetPaginator(essdk.BuildFilter(d.EqualsQuals, listGlueDataQualityRulesetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGlueDataQualityRulesetPaginator(essdk.BuildFilter(d.QueryContext, listGlueDataQualityRulesetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66661,7 +66658,7 @@ func GetGlueDataQualityRuleset(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGlueDataQualityRulesetPaginator(essdk.BuildFilter(d.EqualsQuals, getGlueDataQualityRulesetFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGlueDataQualityRulesetPaginator(essdk.BuildFilter(d.QueryContext, getGlueDataQualityRulesetFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66801,7 +66798,7 @@ func ListGlueDevEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGlueDevEndpointPaginator(essdk.BuildFilter(d.EqualsQuals, listGlueDevEndpointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGlueDevEndpointPaginator(essdk.BuildFilter(d.QueryContext, listGlueDevEndpointFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66863,7 +66860,7 @@ func GetGlueDevEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGlueDevEndpointPaginator(essdk.BuildFilter(d.EqualsQuals, getGlueDevEndpointFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGlueDevEndpointPaginator(essdk.BuildFilter(d.QueryContext, getGlueDevEndpointFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67000,7 +66997,7 @@ func ListGlueJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGlueJobPaginator(essdk.BuildFilter(d.EqualsQuals, listGlueJobFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGlueJobPaginator(essdk.BuildFilter(d.QueryContext, listGlueJobFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67059,7 +67056,7 @@ func GetGlueJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGlueJobPaginator(essdk.BuildFilter(d.EqualsQuals, getGlueJobFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGlueJobPaginator(essdk.BuildFilter(d.QueryContext, getGlueJobFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67179,7 +67176,7 @@ func ListGlueSecurityConfiguration(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewGlueSecurityConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, listGlueSecurityConfigurationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewGlueSecurityConfigurationPaginator(essdk.BuildFilter(d.QueryContext, listGlueSecurityConfigurationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67221,7 +67218,7 @@ func GetGlueSecurityConfiguration(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewGlueSecurityConfigurationPaginator(essdk.BuildFilter(d.EqualsQuals, getGlueSecurityConfigurationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewGlueSecurityConfigurationPaginator(essdk.BuildFilter(d.QueryContext, getGlueSecurityConfigurationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67345,7 +67342,7 @@ func ListHealthEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewHealthEventPaginator(essdk.BuildFilter(d.EqualsQuals, listHealthEventFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewHealthEventPaginator(essdk.BuildFilter(d.QueryContext, listHealthEventFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67391,7 +67388,7 @@ func GetHealthEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewHealthEventPaginator(essdk.BuildFilter(d.EqualsQuals, getHealthEventFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewHealthEventPaginator(essdk.BuildFilter(d.QueryContext, getHealthEventFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67512,7 +67509,7 @@ func ListHealthAffectedEntity(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewHealthAffectedEntityPaginator(essdk.BuildFilter(d.EqualsQuals, listHealthAffectedEntityFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewHealthAffectedEntityPaginator(essdk.BuildFilter(d.QueryContext, listHealthAffectedEntityFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67555,7 +67552,7 @@ func GetHealthAffectedEntity(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewHealthAffectedEntityPaginator(essdk.BuildFilter(d.EqualsQuals, getHealthAffectedEntityFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewHealthAffectedEntityPaginator(essdk.BuildFilter(d.QueryContext, getHealthAffectedEntityFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67685,7 +67682,7 @@ func ListInspectorAssessmentRun(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewInspectorAssessmentRunPaginator(essdk.BuildFilter(d.EqualsQuals, listInspectorAssessmentRunFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewInspectorAssessmentRunPaginator(essdk.BuildFilter(d.QueryContext, listInspectorAssessmentRunFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67737,7 +67734,7 @@ func GetInspectorAssessmentRun(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewInspectorAssessmentRunPaginator(essdk.BuildFilter(d.EqualsQuals, getInspectorAssessmentRunFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewInspectorAssessmentRunPaginator(essdk.BuildFilter(d.QueryContext, getInspectorAssessmentRunFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67857,7 +67854,7 @@ func ListInspectorAssessmentTarget(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewInspectorAssessmentTargetPaginator(essdk.BuildFilter(d.EqualsQuals, listInspectorAssessmentTargetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewInspectorAssessmentTargetPaginator(essdk.BuildFilter(d.QueryContext, listInspectorAssessmentTargetFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67899,7 +67896,7 @@ func GetInspectorAssessmentTarget(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewInspectorAssessmentTargetPaginator(essdk.BuildFilter(d.EqualsQuals, getInspectorAssessmentTargetFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewInspectorAssessmentTargetPaginator(essdk.BuildFilter(d.QueryContext, getInspectorAssessmentTargetFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68026,7 +68023,7 @@ func ListInspectorAssessmentTemplate(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewInspectorAssessmentTemplatePaginator(essdk.BuildFilter(d.EqualsQuals, listInspectorAssessmentTemplateFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewInspectorAssessmentTemplatePaginator(essdk.BuildFilter(d.QueryContext, listInspectorAssessmentTemplateFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68075,7 +68072,7 @@ func GetInspectorAssessmentTemplate(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewInspectorAssessmentTemplatePaginator(essdk.BuildFilter(d.EqualsQuals, getInspectorAssessmentTemplateFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewInspectorAssessmentTemplatePaginator(essdk.BuildFilter(d.QueryContext, getInspectorAssessmentTemplateFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68196,7 +68193,7 @@ func ListInspectorExclusion(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewInspectorExclusionPaginator(essdk.BuildFilter(d.EqualsQuals, listInspectorExclusionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewInspectorExclusionPaginator(essdk.BuildFilter(d.QueryContext, listInspectorExclusionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68239,7 +68236,7 @@ func GetInspectorExclusion(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewInspectorExclusionPaginator(essdk.BuildFilter(d.EqualsQuals, getInspectorExclusionFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewInspectorExclusionPaginator(essdk.BuildFilter(d.QueryContext, getInspectorExclusionFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68374,7 +68371,7 @@ func ListInspectorFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewInspectorFindingPaginator(essdk.BuildFilter(d.EqualsQuals, listInspectorFindingFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewInspectorFindingPaginator(essdk.BuildFilter(d.QueryContext, listInspectorFindingFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68431,7 +68428,7 @@ func GetInspectorFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewInspectorFindingPaginator(essdk.BuildFilter(d.EqualsQuals, getInspectorFindingFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewInspectorFindingPaginator(essdk.BuildFilter(d.QueryContext, getInspectorFindingFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68563,7 +68560,7 @@ func ListInspector2Coverage(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewInspector2CoveragePaginator(essdk.BuildFilter(d.EqualsQuals, listInspector2CoverageFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewInspector2CoveragePaginator(essdk.BuildFilter(d.QueryContext, listInspector2CoverageFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68616,7 +68613,7 @@ func GetInspector2Coverage(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewInspector2CoveragePaginator(essdk.BuildFilter(d.EqualsQuals, getInspector2CoverageFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewInspector2CoveragePaginator(essdk.BuildFilter(d.QueryContext, getInspector2CoverageFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68731,7 +68728,7 @@ func ListInspector2CoverageStatistic(ctx context.Context, d *plugin.QueryData, _
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewInspector2CoverageStatisticPaginator(essdk.BuildFilter(d.EqualsQuals, listInspector2CoverageStatisticFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewInspector2CoverageStatisticPaginator(essdk.BuildFilter(d.QueryContext, listInspector2CoverageStatisticFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68768,7 +68765,7 @@ func GetInspector2CoverageStatistic(ctx context.Context, d *plugin.QueryData, _ 
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewInspector2CoverageStatisticPaginator(essdk.BuildFilter(d.EqualsQuals, getInspector2CoverageStatisticFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewInspector2CoverageStatisticPaginator(essdk.BuildFilter(d.QueryContext, getInspector2CoverageStatisticFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68886,7 +68883,7 @@ func ListInspector2Member(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewInspector2MemberPaginator(essdk.BuildFilter(d.EqualsQuals, listInspector2MemberFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewInspector2MemberPaginator(essdk.BuildFilter(d.QueryContext, listInspector2MemberFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68926,7 +68923,7 @@ func GetInspector2Member(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewInspector2MemberPaginator(essdk.BuildFilter(d.EqualsQuals, getInspector2MemberFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewInspector2MemberPaginator(essdk.BuildFilter(d.QueryContext, getInspector2MemberFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69090,7 +69087,7 @@ func ListInspector2Finding(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewInspector2FindingPaginator(essdk.BuildFilter(d.EqualsQuals, listInspector2FindingFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewInspector2FindingPaginator(essdk.BuildFilter(d.QueryContext, listInspector2FindingFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69176,7 +69173,7 @@ func GetInspector2Finding(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewInspector2FindingPaginator(essdk.BuildFilter(d.EqualsQuals, getInspector2FindingFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewInspector2FindingPaginator(essdk.BuildFilter(d.QueryContext, getInspector2FindingFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69305,7 +69302,7 @@ func ListFirehoseDeliveryStream(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewFirehoseDeliveryStreamPaginator(essdk.BuildFilter(d.EqualsQuals, listFirehoseDeliveryStreamFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewFirehoseDeliveryStreamPaginator(essdk.BuildFilter(d.QueryContext, listFirehoseDeliveryStreamFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69356,7 +69353,7 @@ func GetFirehoseDeliveryStream(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewFirehoseDeliveryStreamPaginator(essdk.BuildFilter(d.EqualsQuals, getFirehoseDeliveryStreamFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewFirehoseDeliveryStreamPaginator(essdk.BuildFilter(d.QueryContext, getFirehoseDeliveryStreamFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69494,7 +69491,7 @@ func ListLightsailInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewLightsailInstancePaginator(essdk.BuildFilter(d.EqualsQuals, listLightsailInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewLightsailInstancePaginator(essdk.BuildFilter(d.QueryContext, listLightsailInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69554,7 +69551,7 @@ func GetLightsailInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewLightsailInstancePaginator(essdk.BuildFilter(d.EqualsQuals, getLightsailInstanceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewLightsailInstancePaginator(essdk.BuildFilter(d.QueryContext, getLightsailInstanceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69686,7 +69683,7 @@ func ListMacie2ClassificationJob(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMacie2ClassificationJobPaginator(essdk.BuildFilter(d.EqualsQuals, listMacie2ClassificationJobFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewMacie2ClassificationJobPaginator(essdk.BuildFilter(d.QueryContext, listMacie2ClassificationJobFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69740,7 +69737,7 @@ func GetMacie2ClassificationJob(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewMacie2ClassificationJobPaginator(essdk.BuildFilter(d.EqualsQuals, getMacie2ClassificationJobFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewMacie2ClassificationJobPaginator(essdk.BuildFilter(d.QueryContext, getMacie2ClassificationJobFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69864,7 +69861,7 @@ func ListMediaStoreContainer(ctx context.Context, d *plugin.QueryData, _ *plugin
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMediaStoreContainerPaginator(essdk.BuildFilter(d.EqualsQuals, listMediaStoreContainerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewMediaStoreContainerPaginator(essdk.BuildFilter(d.QueryContext, listMediaStoreContainerFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69910,7 +69907,7 @@ func GetMediaStoreContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewMediaStoreContainerPaginator(essdk.BuildFilter(d.EqualsQuals, getMediaStoreContainerFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewMediaStoreContainerPaginator(essdk.BuildFilter(d.QueryContext, getMediaStoreContainerFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70035,7 +70032,7 @@ func ListMgnApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewMgnApplicationPaginator(essdk.BuildFilter(d.EqualsQuals, listMgnApplicationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewMgnApplicationPaginator(essdk.BuildFilter(d.QueryContext, listMgnApplicationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70082,7 +70079,7 @@ func GetMgnApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewMgnApplicationPaginator(essdk.BuildFilter(d.EqualsQuals, getMgnApplicationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewMgnApplicationPaginator(essdk.BuildFilter(d.QueryContext, getMgnApplicationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70202,7 +70199,7 @@ func ListSecurityLakeDataLake(ctx context.Context, d *plugin.QueryData, _ *plugi
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityLakeDataLakePaginator(essdk.BuildFilter(d.EqualsQuals, listSecurityLakeDataLakeFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityLakeDataLakePaginator(essdk.BuildFilter(d.QueryContext, listSecurityLakeDataLakeFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70244,7 +70241,7 @@ func GetSecurityLakeDataLake(ctx context.Context, d *plugin.QueryData, _ *plugin
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityLakeDataLakePaginator(essdk.BuildFilter(d.EqualsQuals, getSecurityLakeDataLakeFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityLakeDataLakePaginator(essdk.BuildFilter(d.QueryContext, getSecurityLakeDataLakeFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70373,7 +70370,7 @@ func ListSecurityLakeSubscriber(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewSecurityLakeSubscriberPaginator(essdk.BuildFilter(d.EqualsQuals, listSecurityLakeSubscriberFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityLakeSubscriberPaginator(essdk.BuildFilter(d.QueryContext, listSecurityLakeSubscriberFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70425,7 +70422,7 @@ func GetSecurityLakeSubscriber(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityLakeSubscriberPaginator(essdk.BuildFilter(d.EqualsQuals, getSecurityLakeSubscriberFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewSecurityLakeSubscriberPaginator(essdk.BuildFilter(d.QueryContext, getSecurityLakeSubscriberFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70550,7 +70547,7 @@ func ListRamPrincipalAssociation(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRamPrincipalAssociationPaginator(essdk.BuildFilter(d.EqualsQuals, listRamPrincipalAssociationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRamPrincipalAssociationPaginator(essdk.BuildFilter(d.QueryContext, listRamPrincipalAssociationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70597,7 +70594,7 @@ func GetRamPrincipalAssociation(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRamPrincipalAssociationPaginator(essdk.BuildFilter(d.EqualsQuals, getRamPrincipalAssociationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRamPrincipalAssociationPaginator(essdk.BuildFilter(d.QueryContext, getRamPrincipalAssociationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70722,7 +70719,7 @@ func ListRamResourceAssociation(ctx context.Context, d *plugin.QueryData, _ *plu
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewRamResourceAssociationPaginator(essdk.BuildFilter(d.EqualsQuals, listRamResourceAssociationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewRamResourceAssociationPaginator(essdk.BuildFilter(d.QueryContext, listRamResourceAssociationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70769,7 +70766,7 @@ func GetRamResourceAssociation(ctx context.Context, d *plugin.QueryData, _ *plug
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewRamResourceAssociationPaginator(essdk.BuildFilter(d.EqualsQuals, getRamResourceAssociationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewRamResourceAssociationPaginator(essdk.BuildFilter(d.QueryContext, getRamResourceAssociationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70898,7 +70895,7 @@ func ListServerlessApplicationRepositoryApplication(ctx context.Context, d *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewServerlessApplicationRepositoryApplicationPaginator(essdk.BuildFilter(d.EqualsQuals, listServerlessApplicationRepositoryApplicationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewServerlessApplicationRepositoryApplicationPaginator(essdk.BuildFilter(d.QueryContext, listServerlessApplicationRepositoryApplicationFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70949,7 +70946,7 @@ func GetServerlessApplicationRepositoryApplication(ctx context.Context, d *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewServerlessApplicationRepositoryApplicationPaginator(essdk.BuildFilter(d.EqualsQuals, getServerlessApplicationRepositoryApplicationFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewServerlessApplicationRepositoryApplicationPaginator(essdk.BuildFilter(d.QueryContext, getServerlessApplicationRepositoryApplicationFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71079,7 +71076,7 @@ func ListServiceQuotasServiceQuotaChangeRequest(ctx context.Context, d *plugin.Q
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewServiceQuotasServiceQuotaChangeRequestPaginator(essdk.BuildFilter(d.EqualsQuals, listServiceQuotasServiceQuotaChangeRequestFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewServiceQuotasServiceQuotaChangeRequestPaginator(essdk.BuildFilter(d.QueryContext, listServiceQuotasServiceQuotaChangeRequestFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71131,7 +71128,7 @@ func GetServiceQuotasServiceQuotaChangeRequest(ctx context.Context, d *plugin.Qu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewServiceQuotasServiceQuotaChangeRequestPaginator(essdk.BuildFilter(d.EqualsQuals, getServiceQuotasServiceQuotaChangeRequestFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewServiceQuotasServiceQuotaChangeRequestPaginator(essdk.BuildFilter(d.QueryContext, getServiceQuotasServiceQuotaChangeRequestFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71260,7 +71257,7 @@ func ListServiceCatalogProduct(ctx context.Context, d *plugin.QueryData, _ *plug
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewServiceCatalogProductPaginator(essdk.BuildFilter(d.EqualsQuals, listServiceCatalogProductFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewServiceCatalogProductPaginator(essdk.BuildFilter(d.QueryContext, listServiceCatalogProductFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71311,7 +71308,7 @@ func GetServiceCatalogProduct(ctx context.Context, d *plugin.QueryData, _ *plugi
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewServiceCatalogProductPaginator(essdk.BuildFilter(d.EqualsQuals, getServiceCatalogProductFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewServiceCatalogProductPaginator(essdk.BuildFilter(d.QueryContext, getServiceCatalogProductFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71436,7 +71433,7 @@ func ListServiceCatalogPortfolio(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewServiceCatalogPortfolioPaginator(essdk.BuildFilter(d.EqualsQuals, listServiceCatalogPortfolioFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewServiceCatalogPortfolioPaginator(essdk.BuildFilter(d.QueryContext, listServiceCatalogPortfolioFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71483,7 +71480,7 @@ func GetServiceCatalogPortfolio(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewServiceCatalogPortfolioPaginator(essdk.BuildFilter(d.EqualsQuals, getServiceCatalogPortfolioFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewServiceCatalogPortfolioPaginator(essdk.BuildFilter(d.QueryContext, getServiceCatalogPortfolioFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71612,7 +71609,7 @@ func ListServiceDiscoveryService(ctx context.Context, d *plugin.QueryData, _ *pl
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewServiceDiscoveryServicePaginator(essdk.BuildFilter(d.EqualsQuals, listServiceDiscoveryServiceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewServiceDiscoveryServicePaginator(essdk.BuildFilter(d.QueryContext, listServiceDiscoveryServiceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71663,7 +71660,7 @@ func GetServiceDiscoveryService(ctx context.Context, d *plugin.QueryData, _ *plu
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewServiceDiscoveryServicePaginator(essdk.BuildFilter(d.EqualsQuals, getServiceDiscoveryServiceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewServiceDiscoveryServicePaginator(essdk.BuildFilter(d.QueryContext, getServiceDiscoveryServiceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71789,7 +71786,7 @@ func ListServiceDiscoveryNamespace(ctx context.Context, d *plugin.QueryData, _ *
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewServiceDiscoveryNamespacePaginator(essdk.BuildFilter(d.EqualsQuals, listServiceDiscoveryNamespaceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewServiceDiscoveryNamespacePaginator(essdk.BuildFilter(d.QueryContext, listServiceDiscoveryNamespaceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71837,7 +71834,7 @@ func GetServiceDiscoveryNamespace(ctx context.Context, d *plugin.QueryData, _ *p
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewServiceDiscoveryNamespacePaginator(essdk.BuildFilter(d.EqualsQuals, getServiceDiscoveryNamespaceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewServiceDiscoveryNamespacePaginator(essdk.BuildFilter(d.QueryContext, getServiceDiscoveryNamespaceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71961,7 +71958,7 @@ func ListServiceDiscoveryInstance(ctx context.Context, d *plugin.QueryData, _ *p
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.NewServiceDiscoveryInstancePaginator(essdk.BuildFilter(d.EqualsQuals, listServiceDiscoveryInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.NewServiceDiscoveryInstancePaginator(essdk.BuildFilter(d.QueryContext, listServiceDiscoveryInstanceFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -72007,7 +72004,7 @@ func GetServiceDiscoveryInstance(ctx context.Context, d *plugin.QueryData, _ *pl
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.NewServiceDiscoveryInstancePaginator(essdk.BuildFilter(d.EqualsQuals, getServiceDiscoveryInstanceFilters, "aws", *cfg.AccountID), &limit)
+	paginator, err := k.NewServiceDiscoveryInstancePaginator(essdk.BuildFilter(d.QueryContext, getServiceDiscoveryInstanceFilters, "aws", *cfg.AccountID), &limit)
 	if err != nil {
 		return nil, err
 	}
