@@ -72,7 +72,6 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 		if resource.Description == nil {
 			return nil
 		}
-
 		descriptionJSON, err := json.Marshal(resource.Description)
 		if err != nil {
 			return err
@@ -81,6 +80,9 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 		if partition == "" {
 			partition = "aws"
 		}
+		resource.Account = job.AccountID
+		resource.Type = strings.ToLower(job.ResourceType)
+		resource.Partition = partition
 		awsMetadata := awsmodel.Metadata{
 			Name:         resource.Name,
 			AccountID:    job.AccountID,
