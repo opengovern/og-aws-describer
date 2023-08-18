@@ -44775,6 +44775,7 @@ func (p CostExplorerByServiceDailyPaginator) NextPage(ctx context.Context) ([]Co
 }
 
 var listCostExplorerByServiceDailyFilters = map[string]string{
+	"cost_source":      "description.Dimension2",
 	"kaytu_account_id": "metadata.SourceID",
 	"service":          "description.Dimension1",
 }
@@ -44810,6 +44811,7 @@ func ListCostExplorerByServiceDaily(ctx context.Context, d *plugin.QueryData, _ 
 }
 
 var getCostExplorerByServiceDailyFilters = map[string]string{
+	"cost_source":      "description.Dimension2",
 	"kaytu_account_id": "metadata.SourceID",
 	"service":          "description.Dimension1",
 }

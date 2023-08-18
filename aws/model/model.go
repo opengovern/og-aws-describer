@@ -2412,6 +2412,8 @@ type CostExplorerByAccountDailyDescription struct {
 }
 
 //index:aws_costexplorer_byservicedaily
+//listfilter:service=description.Dimension1
+//listfilter:cost_source=description.Dimension2
 type CostExplorerByServiceDailyDescription struct {
 	CostExplorerRow
 }
