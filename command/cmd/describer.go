@@ -38,6 +38,7 @@ var describerCmd = &cobra.Command{
 			enums.DescribeTriggerTypeManual,
 			accountID,
 			nil,
+			accountID,
 			accessKey,
 			secretKey,
 			"",

@@ -70,6 +70,7 @@ func Command() *cobra.Command {
 				describe2.DescribeTriggerTypeManual,
 				awsAccount,
 				regions,
+				awsAccount,
 				awsAccessKey,
 				awsSecretKey,
 				awsSessionToken,

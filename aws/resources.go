@@ -96,6 +96,7 @@ func GetResources(
 	triggerType enums.DescribeTriggerType,
 	accountId string,
 	regions []string,
+	credAccountId,
 	accessKey,
 	secretKey,
 	sessionToken,
@@ -104,8 +105,14 @@ func GetResources(
 	includeDisabledRegions bool,
 	stream *describer.StreamSender,
 ) (*Resources, error) {
-	assumeRoleArn := GetRoleArnFromName(accountId, assumeRoleName)
-	cfg, err := GetConfig(ctx, accessKey, secretKey, sessionToken, assumeRoleArn, externalId)
+	var err error
+	var cfg aws.Config
+	if accountId != credAccountId {
+		assumeRoleArn := GetRoleArnFromName(accountId, assumeRoleName)
+		cfg, err = GetConfig(ctx, accessKey, secretKey, sessionToken, assumeRoleArn, externalId)
+	} else {
+		cfg, err = GetConfig(ctx, accessKey, secretKey, sessionToken, "", nil)
+	}
 	if err != nil {
 		return nil, err
 	}
