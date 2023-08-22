@@ -140,7 +140,7 @@ require (
 	github.com/gocarina/gocsv v0.0.0-20211203214250-4735fba0c1d9
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/hashicorp/go-hclog v1.4.0
-	github.com/kaytu-io/kaytu-util v0.0.0-20230816163651-5b67b2813b2a
+	github.com/kaytu-io/kaytu-util v0.0.0-20230822101604-7d81664d74f9
 	github.com/kaytu-io/steampipe-plugin-aws v0.0.0-20230811120426-73f90dd681ed
 	github.com/manifoldco/promptui v0.9.0
 	github.com/spf13/cobra v1.7.0
