@@ -14,8 +14,8 @@ import (
 )
 
 var (
-	checkAttachedPolicies                                        bool
-	resourceType, accessKey, accountID, secretKey, assumeRoleArn string
+	checkAttachedPolicies                                                    bool
+	resourceType, accessKey, accountID, secretKey, assumeRoleArn, externalId string
 )
 
 // describerCmd represents the describer command
@@ -24,7 +24,11 @@ var describerCmd = &cobra.Command{
 	Short: "A brief description of your command",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		logger, _ := zap.NewProduction()
-		cfg, err := aws.GetConfig(context.Background(), accessKey, secretKey, "", assumeRoleArn, nil)
+		externalIdPtr := &externalId
+		if externalId == "" {
+			externalIdPtr = nil
+		}
+		cfg, err := aws.GetConfig(context.Background(), accessKey, secretKey, "", assumeRoleArn, externalIdPtr)
 		if checkAttachedPolicies {
 			isAttached, err := aws.CheckAttachedPolicy(logger, cfg, "", aws.SecurityAuditPolicyARN)
 			fmt.Println("IsAttached", isAttached)
@@ -43,7 +47,7 @@ var describerCmd = &cobra.Command{
 			secretKey,
 			"",
 			assumeRoleArn,
-			nil,
+			externalIdPtr,
 			false,
 			nil,
 		)
@@ -66,4 +70,5 @@ func init() {
 	describerCmd.Flags().StringVar(&accessKey, "accessKey", "", "Access key")
 	describerCmd.Flags().StringVar(&secretKey, "secretKey", "", "Secret key")
 	describerCmd.Flags().StringVar(&assumeRoleArn, "assumeRoleArn", "", "Assume role arn")
+	describerCmd.Flags().StringVar(&externalId, "externalId", "", "externalId")
 }
