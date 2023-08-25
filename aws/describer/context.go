@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"go.uber.org/zap"
 
 	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
 )
@@ -30,6 +31,14 @@ func GetDescribeContext(ctx context.Context) DescribeContext {
 		panic("context key not found")
 	}
 	return describe
+}
+
+func GetLoggerFromContext(ctx context.Context) *zap.Logger {
+	logger, ok := ctx.Value("logger").(*zap.Logger)
+	if !ok {
+		return zap.NewNop()
+	}
+	return logger
 }
 
 func WithTriggerType(ctx context.Context, tt enums.DescribeTriggerType) context.Context {

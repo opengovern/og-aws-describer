@@ -98,6 +98,7 @@ func GetResources(ctx context.Context, logger *zap.Logger,
 	includeDisabledRegions bool, stream *describer.StreamSender) (*Resources, error) {
 	var err error
 	var cfg aws.Config
+	logger.Info("Getting resources", zap.String("resourceType", resourceType), zap.String("triggerType", string(triggerType)), zap.String("accountId", accountId))
 	if accountId != credAccountId {
 		assumeRoleArn := GetRoleArnFromName(accountId, assumeRoleName)
 		cfg, err = GetConfig(ctx, accessKey, secretKey, sessionToken, assumeRoleArn, externalId)
@@ -107,6 +108,7 @@ func GetResources(ctx context.Context, logger *zap.Logger,
 	if err != nil {
 		return nil, err
 	}
+	logger.Info("Got config", zap.String("region", cfg.Region))
 
 	if len(regions) == 0 {
 		cfgClone := cfg.Copy()
@@ -133,7 +135,8 @@ func GetResources(ctx context.Context, logger *zap.Logger,
 		return regions[i] < regions[j]
 	})
 
-	resources, err := describe(ctx, cfg, accountId, regions, resourceType, triggerType, stream)
+	logger.Info("starting describe")
+	resources, err := describe(ctx, logger, cfg, accountId, regions, resourceType, triggerType, stream)
 	if err != nil {
 		return nil, err
 	}
@@ -199,11 +202,12 @@ func describeSingle(
 	return resourceTypeObject.GetDescriber(ctx, cfg, account, regions, resourceType, fields, triggerType)
 }
 
-func describe(ctx context.Context, cfg aws.Config, account string, regions []string, resourceType string, triggerType enums.DescribeTriggerType, stream *describer.StreamSender) (*Resources, error) {
+func describe(ctx context.Context, logger *zap.Logger, cfg aws.Config, account string, regions []string, resourceType string, triggerType enums.DescribeTriggerType, stream *describer.StreamSender) (*Resources, error) {
 	resourceTypeObject, ok := resourceTypes[resourceType]
 	if !ok {
 		return nil, fmt.Errorf("unsupported resource type: %s", resourceType)
 	}
+	ctx = context.WithValue(ctx, "logger", logger)
 
 	return resourceTypeObject.ListDescriber(ctx, cfg, account, regions, resourceType, triggerType, stream)
 }
