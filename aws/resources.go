@@ -98,7 +98,6 @@ func GetResources(ctx context.Context, logger *zap.Logger,
 	includeDisabledRegions bool, stream *describer.StreamSender) (*Resources, error) {
 	var err error
 	var cfg aws.Config
-	logger.Info("Getting resources", zap.String("resourceType", resourceType), zap.String("triggerType", string(triggerType)), zap.String("accountId", accountId))
 	if accountId != credAccountId {
 		assumeRoleArn := GetRoleArnFromName(accountId, assumeRoleName)
 		cfg, err = GetConfig(ctx, accessKey, secretKey, sessionToken, assumeRoleArn, externalId)
@@ -108,7 +107,6 @@ func GetResources(ctx context.Context, logger *zap.Logger,
 	if err != nil {
 		return nil, err
 	}
-	logger.Info("Got config", zap.String("region", cfg.Region))
 
 	if len(regions) == 0 {
 		cfgClone := cfg.Copy()
@@ -135,7 +133,6 @@ func GetResources(ctx context.Context, logger *zap.Logger,
 		return regions[i] < regions[j]
 	})
 
-	logger.Info("starting describe")
 	resources, err := describe(ctx, logger, cfg, accountId, regions, resourceType, triggerType, stream)
 	if err != nil {
 		return nil, err

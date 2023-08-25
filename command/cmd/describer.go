@@ -41,7 +41,6 @@ var describerCmd = &cobra.Command{
 			fmt.Println("Error", err)
 			return nil
 		}
-		logger.Info("getting resources")
 		output, err := aws.GetResources(
 			context.Background(), logger,
 			resourceType, enums.DescribeTriggerTypeManual,

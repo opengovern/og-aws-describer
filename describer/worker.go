@@ -162,7 +162,7 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 		ctx, logger,
 		job.ResourceType, job.TriggerType,
 		job.AccountID,
-		creds.Regions, creds.AccountID, creds.AccessKey, creds.SecretKey, creds.SessionToken, creds.AssumeRoleARN, creds.ExternalID,
+		creds.Regions, creds.AccountID, creds.AccessKey, creds.SecretKey, creds.SessionToken, creds.AssumeRoleName, creds.ExternalID,
 		false, clientStream)
 	if err != nil {
 		return nil, fmt.Errorf("AWS: %w", err)
