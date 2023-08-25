@@ -14,8 +14,8 @@ import (
 )
 
 var (
-	checkAttachedPolicies                                                    bool
-	resourceType, accessKey, accountID, secretKey, assumeRoleArn, externalId string
+	checkAttachedPolicies                                                                         bool
+	resourceType, accountID, accessKey, credentialAccountId, secretKey, assumeRoleArn, externalId string
 )
 
 // describerCmd represents the describer command
@@ -28,32 +28,30 @@ var describerCmd = &cobra.Command{
 		if externalId == "" {
 			externalIdPtr = nil
 		}
+
+		logger.Info("getting config")
 		cfg, err := aws.GetConfig(context.Background(), accessKey, secretKey, "", assumeRoleArn, externalIdPtr)
+		if err != nil {
+			return fmt.Errorf("AWS: %w", err)
+		}
+		logger.Info("got config")
 		if checkAttachedPolicies {
 			isAttached, err := aws.CheckAttachedPolicy(logger, cfg, "", aws.SecurityAuditPolicyARN)
 			fmt.Println("IsAttached", isAttached)
 			fmt.Println("Error", err)
 			return nil
 		}
-
+		logger.Info("getting resources")
 		output, err := aws.GetResources(
-			context.Background(),
-			resourceType,
-			enums.DescribeTriggerTypeManual,
-			accountID,
-			nil,
-			accountID,
-			accessKey,
-			secretKey,
-			"",
-			assumeRoleArn,
-			externalIdPtr,
-			false,
-			nil,
-		)
+			context.Background(), logger,
+			resourceType, enums.DescribeTriggerTypeManual,
+			accountID, nil,
+			credentialAccountId, accessKey, secretKey, "", assumeRoleArn, externalIdPtr,
+			false, nil)
 		if err != nil {
 			return fmt.Errorf("AWS: %w", err)
 		}
+		logger.Info("got resources")
 		js, err := json.Marshal(output)
 		if err != nil {
 			return err
@@ -69,6 +67,7 @@ func init() {
 	describerCmd.Flags().StringVar(&accountID, "accountID", "", "AccountID")
 	describerCmd.Flags().StringVar(&accessKey, "accessKey", "", "Access key")
 	describerCmd.Flags().StringVar(&secretKey, "secretKey", "", "Secret key")
-	describerCmd.Flags().StringVar(&assumeRoleArn, "assumeRoleArn", "", "Assume role arn")
+	describerCmd.Flags().StringVar(&assumeRoleArn, "assumeRoleName", "", "Assume role name")
 	describerCmd.Flags().StringVar(&externalId, "externalId", "", "externalId")
+	describerCmd.Flags().StringVar(&credentialAccountId, "credentialAccountId", "", "Credential account id")
 }

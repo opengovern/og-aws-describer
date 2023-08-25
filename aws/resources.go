@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"go.uber.org/zap"
 	"sort"
 
 	"github.com/aws/smithy-go"
@@ -90,21 +91,11 @@ type Resources struct {
 	ErrorCode string
 }
 
-func GetResources(
-	ctx context.Context,
-	resourceType string,
-	triggerType enums.DescribeTriggerType,
-	accountId string,
-	regions []string,
-	credAccountId,
-	accessKey,
-	secretKey,
-	sessionToken,
-	assumeRoleName string,
-	externalId *string,
-	includeDisabledRegions bool,
-	stream *describer.StreamSender,
-) (*Resources, error) {
+func GetResources(ctx context.Context, logger *zap.Logger,
+	resourceType string, triggerType enums.DescribeTriggerType,
+	accountId string, regions []string,
+	credAccountId, accessKey, secretKey, sessionToken, assumeRoleName string, externalId *string,
+	includeDisabledRegions bool, stream *describer.StreamSender) (*Resources, error) {
 	var err error
 	var cfg aws.Config
 	if accountId != credAccountId {

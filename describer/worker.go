@@ -159,20 +159,11 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 	clientStream := (*describer.StreamSender)(&f)
 
 	output, err := aws.GetResources(
-		ctx,
-		job.ResourceType,
-		job.TriggerType,
+		ctx, logger,
+		job.ResourceType, job.TriggerType,
 		job.AccountID,
-		creds.Regions,
-		creds.AccountID,
-		creds.AccessKey,
-		creds.SecretKey,
-		creds.SessionToken,
-		creds.AssumeRoleARN,
-		creds.ExternalID,
-		false,
-		clientStream,
-	)
+		creds.Regions, creds.AccountID, creds.AccessKey, creds.SecretKey, creds.SessionToken, creds.AssumeRoleARN, creds.ExternalID,
+		false, clientStream)
 	if err != nil {
 		return nil, fmt.Errorf("AWS: %w", err)
 	}
