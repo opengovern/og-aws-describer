@@ -650,7 +650,7 @@ func S3AccountSetting(ctx context.Context, cfg aws.Config, stream *StreamSender)
 	return values, nil
 }
 
-func S3Object(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+func S3Object(ctx context.Context, cfg aws.Config, regions []string, stream *StreamSender) (map[string][]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := s3.NewFromConfig(cfg)
 	buckets, err := client.ListBuckets(ctx, &s3.ListBucketsInput{})
@@ -723,10 +723,10 @@ func S3Object(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 			}
 		}
 	}
-	return values, nil
+	return map[string][]Resource{describeCtx.Region: values}, nil
 }
 
-func S3BucketIntelligentTieringConfiguration(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+func S3BucketIntelligentTieringConfiguration(ctx context.Context, cfg aws.Config, regions []string, stream *StreamSender) (map[string][]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 
 	client := s3.NewFromConfig(cfg)
@@ -761,10 +761,10 @@ func S3BucketIntelligentTieringConfiguration(ctx context.Context, cfg aws.Config
 		}
 	}
 
-	return values, nil
+	return map[string][]Resource{describeCtx.Region: values}, nil
 }
 
-func S3MultiRegionAccessPoint(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+func S3MultiRegionAccessPoint(ctx context.Context, cfg aws.Config, regions []string, stream *StreamSender) (map[string][]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	accountId, err := STSAccount(ctx, cfg)
 	if err != nil {
@@ -804,5 +804,5 @@ func S3MultiRegionAccessPoint(ctx context.Context, cfg aws.Config, stream *Strea
 		}
 	}
 
-	return values, nil
+	return map[string][]Resource{describeCtx.Region: values}, nil
 }

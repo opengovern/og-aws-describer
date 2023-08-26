@@ -36,6 +36,7 @@ type ResourceType struct {
 	TerraformServiceName string
 
 	FastDiscovery bool
+	CostDiscovery bool
 	Summarize     bool
 }
 
@@ -526,7 +527,6 @@ func SequentialDescribeS3(describe func(context.Context, aws.Config, []string, *
 
 			if resources != nil {
 				output.Resources = resources
-
 			}
 
 			// Stop describing as soon as one region has returned a successful response
