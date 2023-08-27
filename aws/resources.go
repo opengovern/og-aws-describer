@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"go.uber.org/zap"
 	"sort"
+	"strings"
 
 	"github.com/aws/smithy-go"
 
@@ -99,7 +100,7 @@ func GetResources(ctx context.Context, logger *zap.Logger,
 	includeDisabledRegions bool, stream *describer.StreamSender) (*Resources, error) {
 	var err error
 	var cfg aws.Config
-	if accountId != credAccountId {
+	if accountId != credAccountId && !strings.HasPrefix(strings.ToLower(resourceType), "aws::costexplorer") {
 		assumeRoleArn := GetRoleArnFromName(accountId, assumeRoleName)
 		cfg, err = GetConfig(ctx, accessKey, secretKey, sessionToken, assumeRoleArn, externalId)
 	} else {
