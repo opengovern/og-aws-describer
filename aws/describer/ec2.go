@@ -1286,6 +1286,7 @@ func eC2InstanceHandle(ctx context.Context, v types.Instance, client *ec2.Client
 		types.InstanceAttributeNameUserData,
 		types.InstanceAttributeNameInstanceInitiatedShutdownBehavior,
 		types.InstanceAttributeNameDisableApiTermination,
+		types.InstanceAttributeNameSriovNetSupport,
 	}
 
 	for _, attr := range attrs {
@@ -1304,6 +1305,8 @@ func eC2InstanceHandle(ctx context.Context, v types.Instance, client *ec2.Client
 			desc.Attributes.InstanceInitiatedShutdownBehavior = aws.ToString(output.InstanceInitiatedShutdownBehavior.Value)
 		case types.InstanceAttributeNameDisableApiTermination:
 			desc.Attributes.DisableApiTermination = aws.ToBool(output.DisableApiTermination.Value)
+		case types.InstanceAttributeNameSriovNetSupport:
+			desc.Instance.SriovNetSupport = output.SriovNetSupport.Value
 		}
 	}
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":instance/" + *v.InstanceId
