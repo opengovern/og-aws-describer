@@ -488,69 +488,6 @@ func SequentialDescribeGlobal(describe func(context.Context, aws.Config, *descri
 	}
 }
 
-// Sequentially describe the resources. If anyone of the regions fails, it will move on to the next region.
-// This utility is specific to S3 usecase.
-func SequentialDescribeS3(describe func(context.Context, aws.Config, []string, *describer.StreamSender) (map[string][]describer.Resource, error)) ResourceDescriber {
-	return func(ctx context.Context, cfg aws.Config, account string, regions []string, rType string, triggerType enums.DescribeTriggerType, stream *describer.StreamSender) (*Resources, error) {
-		output := Resources{
-			Resources: make(map[string][]describer.Resource, len(regions)),
-			Errors:    make(map[string]string, len(regions)),
-		}
-
-		for _, region := range regions {
-			// Make a shallow copy and override the default region
-			rCfg := cfg.Copy()
-			rCfg.Region = region
-
-			partition, _ := PartitionOf(region)
-			ctx = describer.WithDescribeContext(ctx, describer.DescribeContext{
-				AccountID:   account,
-				Region:      region,
-				KaytuRegion: region,
-				Partition:   partition,
-			})
-			ctx = describer.WithTriggerType(ctx, triggerType)
-			resources, err := describe(ctx, rCfg, regions, stream)
-			if err != nil {
-				if !IsUnsupportedOrInvalidError(rType, region, err) {
-					errCode := ""
-					if err != nil {
-						var ae smithy.APIError
-						if errors.As(err, &ae) {
-							errCode = ae.ErrorCode()
-						}
-					}
-					output.Errors[region] = err.Error()
-					output.ErrorCode = errCode
-				}
-				continue
-			}
-
-			if resources != nil {
-				output.Resources = resources
-			}
-
-			// Stop describing as soon as one region has returned a successful response
-			break
-		}
-
-		for region, resources := range output.Resources {
-			partition, _ := PartitionOf(region)
-
-			for j, resource := range resources {
-				resource.Account = account
-				resource.Region = region
-				resource.Partition = partition
-				resource.Type = rType
-
-				output.Resources[region][j] = resource
-			}
-		}
-
-		return &output, nil
-	}
-}
-
 func GetResourceTypeByTerraform(terraformType string) string {
 	for t, v := range resourceTypes {
 		for _, name := range v.TerraformName {
