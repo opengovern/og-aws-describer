@@ -37,124 +37,60 @@ type s3bucketResult struct {
 // S3Bucket describe S3 buckets.
 // ListBuckets returns buckets in all regions. However, this function categorizes the buckets based
 // on their location constaint, aka the regions they reside in.
-func S3Bucket(ctx context.Context, cfg aws.Config, regions []string, stream *StreamSender) (map[string][]Resource, error) {
-	regionalValues := make(map[string][]Resource, len(regions))
-	for _, r := range regions {
-		regionalValues[r] = make([]Resource, 0)
-	}
-
+func S3Bucket(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	client := s3.NewFromConfig(cfg)
 	output, err := client.ListBuckets(ctx, &s3.ListBucketsInput{})
 	if err != nil {
 		return nil, fmt.Errorf("error listing buckets: %w", err)
 	}
 
-	done := make(chan interface{})
-	jobChan := make(chan types.Bucket, len(output.Buckets)+1)
-	resultChan := make(chan s3bucketResult, len(output.Buckets)+1)
+	var values []Resource
 
-	describer := func(bucket types.Bucket) {
+	for _, bucket := range output.Buckets {
 		region, err := getBucketLocation(ctx, client, bucket)
 		if err != nil {
-			resultChan <- s3bucketResult{
-				Err:    err,
-				Bucket: bucket,
-			}
-			return
-		}
-
-		if !isIncludedInRegions(regions, region) {
-			resultChan <- s3bucketResult{
-				Bucket: bucket,
-			}
-			return
+			return nil, fmt.Errorf("error getting bucket location: %w", err)
 		}
 
 		desc, err := getBucketDescription(ctx, cfg, bucket, region)
 		if err != nil {
-			resultChan <- s3bucketResult{
-				Bucket: bucket,
-				Err:    err,
+			return nil, fmt.Errorf("error getting bucket description: %w", err)
+		}
+
+		resource := s3BucketHandle(ctx, region, desc, bucket)
+
+		if stream != nil {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
 			}
-			return
-		}
-
-		resultChan <- s3bucketResult{
-			Resource: s3BucketHandle(ctx, desc, bucket),
-			Region:   region,
-			Bucket:   bucket,
+		} else {
+			values = append(values, resource)
 		}
 	}
-
-	worker := func() {
-		for {
-			select {
-			case j := <-jobChan:
-				describer(j)
-			case <-done:
-				return
-			}
-		}
-	}
-
-	for i := 0; i < s3BucketNoOfWorkers; i++ {
-		go worker()
-	}
-
-	for _, bucket := range output.Buckets {
-		jobChan <- bucket
-	}
-
-	var globalErr error
-	for range output.Buckets {
-		res := <-resultChan
-		if res.Err != nil {
-			globalErr = res.Err
-		} else if res.Region != "" {
-			if _, ok := regionalValues[res.Region]; ok {
-				regionalValues[res.Region] = append(regionalValues[res.Region], res.Resource)
-			}
-		}
-	}
-
-	for i := 0; i < s3BucketNoOfWorkers; i++ {
-		done <- i
-	}
-	if stream != nil {
-		for _, v := range regionalValues {
-			for _, resource := range v {
-				if err := (*stream)(resource); err != nil {
-					return regionalValues, err
-				}
-			}
-		}
-		return map[string][]Resource{}, nil
-	}
-	return regionalValues, globalErr
+	return values, nil
 }
-func s3BucketHandle(ctx context.Context, desc *model.S3BucketDescription, bucket types.Bucket) Resource {
+func s3BucketHandle(ctx context.Context, region string, desc *model.S3BucketDescription, bucket types.Bucket) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := "arn:" + describeCtx.Partition + ":s3:::" + *bucket.Name
 	resource := Resource{
-		Region:      describeCtx.Region,
+		Region:      region,
 		ARN:         arn,
 		Name:        *bucket.Name,
 		Description: desc,
 	}
 	return resource
 }
-func GetS3Bucket(ctx context.Context, cfg aws.Config, regions []string, fields map[string]string) (map[string][]Resource, error) {
+func GetS3Bucket(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	bucketName := fields["buketName"]
-	regionalValues := make(map[string][]Resource, len(regions))
-	for _, r := range regions {
-		regionalValues[r] = make([]Resource, 0)
-	}
 
 	client := s3.NewFromConfig(cfg)
 	output, err := client.ListBuckets(ctx, &s3.ListBucketsInput{})
 	if err != nil {
 		return nil, fmt.Errorf("error listing buckets: %w", err)
 	}
+
+	var values []Resource
+
 	for _, bucket := range output.Buckets {
 		if *bucket.Name != bucketName {
 			continue
@@ -165,19 +101,15 @@ func GetS3Bucket(ctx context.Context, cfg aws.Config, regions []string, fields m
 			return nil, err
 		}
 
-		if !isIncludedInRegions(regions, region) {
-			return nil, fmt.Errorf("not included in regions %s", *bucket.Name)
-		}
-
 		desc, err := getBucketDescription(ctx, cfg, bucket, region)
-		if err != nil {
+		if err != nil && isErr(err, "") {
 			return nil, err
 		}
 
-		resource := s3BucketHandle(ctx, desc, bucket)
-		regionalValues[region] = append(regionalValues[region], resource)
+		resource := s3BucketHandle(ctx, region, desc, bucket)
+		values = append(values, resource)
 	}
-	return regionalValues, nil
+	return values, nil
 }
 
 func getBucketLocation(ctx context.Context, client *s3.Client, bucket types.Bucket) (string, error) {
@@ -265,12 +197,12 @@ func getBucketDescription(ctx context.Context, cfg aws.Config, bucket types.Buck
 	}
 
 	bucketwebsites, err := rClient.GetBucketWebsite(ctx, &s3.GetBucketWebsiteInput{Bucket: bucket.Name})
-	if err != nil {
+	if err != nil && !isErr(err, "NoSuchWebsiteConfiguration") {
 		return nil, err
 	}
 
 	bucketOwnershipControls, err := rClient.GetBucketOwnershipControls(ctx, &s3.GetBucketOwnershipControlsInput{Bucket: bucket.Name})
-	if err != nil {
+	if err != nil && !isErr(err, "OwnershipControlsNotFoundError") {
 		return nil, err
 	}
 
@@ -650,7 +582,7 @@ func S3AccountSetting(ctx context.Context, cfg aws.Config, stream *StreamSender)
 	return values, nil
 }
 
-func S3Object(ctx context.Context, cfg aws.Config, regions []string, stream *StreamSender) (map[string][]Resource, error) {
+func S3Object(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := s3.NewFromConfig(cfg)
 	buckets, err := client.ListBuckets(ctx, &s3.ListBucketsInput{})
@@ -659,7 +591,12 @@ func S3Object(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 	}
 	var values []Resource
 	for _, bucket := range buckets.Buckets {
-		paginator := s3.NewListObjectsV2Paginator(client, &s3.ListObjectsV2Input{})
+		region, err := getBucketLocation(ctx, client, bucket)
+		if err != nil {
+			return nil, err
+		}
+		regionalClient := s3.NewFromConfig(cfg, func(o *s3.Options) { o.Region = region })
+		paginator := s3.NewListObjectsV2Paginator(regionalClient, &s3.ListObjectsV2Input{})
 		for paginator.HasMorePages() {
 			page, err := paginator.NextPage(ctx)
 			if err != nil {
@@ -667,7 +604,7 @@ func S3Object(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 			}
 			for _, v := range page.Contents {
 
-				object, err := client.GetObject(ctx, &s3.GetObjectInput{
+				object, err := regionalClient.GetObject(ctx, &s3.GetObjectInput{
 					Bucket: aws.String(*bucket.Name),
 					Key:    v.Key,
 				})
@@ -676,7 +613,7 @@ func S3Object(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 				}
 				arn := "arn:" + describeCtx.Partition + ":s3:::" + *bucket.Name + "/" + *v.Key
 
-				objectAttributes, err := client.GetObjectAttributes(ctx, &s3.GetObjectAttributesInput{
+				objectAttributes, err := regionalClient.GetObjectAttributes(ctx, &s3.GetObjectAttributesInput{
 					Bucket:           aws.String(*bucket.Name),
 					Key:              v.Key,
 					ObjectAttributes: []types.ObjectAttributes{types.ObjectAttributesChecksum, types.ObjectAttributesObjectParts},
@@ -685,7 +622,7 @@ func S3Object(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 					return nil, err
 				}
 
-				objectAcl, err := client.GetObjectAcl(ctx, &s3.GetObjectAclInput{
+				objectAcl, err := regionalClient.GetObjectAcl(ctx, &s3.GetObjectAclInput{
 					Bucket: aws.String(*bucket.Name),
 					Key:    v.Key,
 				})
@@ -693,7 +630,7 @@ func S3Object(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 					return nil, err
 				}
 
-				tags, err := client.GetObjectTagging(ctx, &s3.GetObjectTaggingInput{
+				tags, err := regionalClient.GetObjectTagging(ctx, &s3.GetObjectTaggingInput{
 					Bucket: aws.String(*bucket.Name),
 					Key:    v.Key,
 				})
@@ -702,7 +639,7 @@ func S3Object(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 				}
 
 				resource := Resource{
-					Region: describeCtx.Region,
+					Region: region,
 					ARN:    arn,
 					Description: model.S3ObjectDescription{
 						Object:           object,
@@ -723,12 +660,10 @@ func S3Object(ctx context.Context, cfg aws.Config, regions []string, stream *Str
 			}
 		}
 	}
-	return map[string][]Resource{describeCtx.Region: values}, nil
+	return values, nil
 }
 
-func S3BucketIntelligentTieringConfiguration(ctx context.Context, cfg aws.Config, regions []string, stream *StreamSender) (map[string][]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-
+func S3BucketIntelligentTieringConfiguration(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	client := s3.NewFromConfig(cfg)
 	buckets, err := client.ListBuckets(ctx, &s3.ListBucketsInput{})
 	if err != nil {
@@ -736,7 +671,12 @@ func S3BucketIntelligentTieringConfiguration(ctx context.Context, cfg aws.Config
 	}
 	var values []Resource
 	for _, bucket := range buckets.Buckets {
-		conf, err := client.ListBucketIntelligentTieringConfigurations(ctx, &s3.ListBucketIntelligentTieringConfigurationsInput{
+		region, err := getBucketLocation(ctx, client, bucket)
+		if err != nil {
+			return nil, err
+		}
+		regionalClient := s3.NewFromConfig(cfg, func(o *s3.Options) { o.Region = region })
+		conf, err := regionalClient.ListBucketIntelligentTieringConfigurations(ctx, &s3.ListBucketIntelligentTieringConfigurationsInput{
 			Bucket: bucket.Name,
 		})
 		if err != nil {
@@ -744,7 +684,7 @@ func S3BucketIntelligentTieringConfiguration(ctx context.Context, cfg aws.Config
 		}
 		for _, v := range conf.IntelligentTieringConfigurationList {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: region,
 				ID:     *v.Id,
 				Description: model.S3BucketIntelligentTieringConfigurationDescription{
 					BucketName:                      *bucket.Name,
@@ -761,10 +701,10 @@ func S3BucketIntelligentTieringConfiguration(ctx context.Context, cfg aws.Config
 		}
 	}
 
-	return map[string][]Resource{describeCtx.Region: values}, nil
+	return values, nil
 }
 
-func S3MultiRegionAccessPoint(ctx context.Context, cfg aws.Config, regions []string, stream *StreamSender) (map[string][]Resource, error) {
+func S3MultiRegionAccessPoint(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	accountId, err := STSAccount(ctx, cfg)
 	if err != nil {
@@ -804,5 +744,5 @@ func S3MultiRegionAccessPoint(ctx context.Context, cfg aws.Config, regions []str
 		}
 	}
 
-	return map[string][]Resource{describeCtx.Region: values}, nil
+	return values, nil
 }
