@@ -50,6 +50,9 @@ func CertificateManagerCertificate(ctx context.Context, cfg aws.Config, stream *
 				CertificateArn: v.CertificateArn,
 			})
 			if err != nil {
+				if isErr(err, "AccessDeniedException") {
+					return nil, nil
+				}
 				return nil, err
 			}
 

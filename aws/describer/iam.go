@@ -1099,6 +1099,9 @@ func IAMUser(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 		for _, v := range page.Users {
 			resource, err := iAMUserHandle(ctx, cfg, v)
 			if err != nil {
+				if isErr(err, "NoSuchEntity") {
+					return nil, nil
+				}
 				return nil, err
 			}
 			emptyResource := Resource{}

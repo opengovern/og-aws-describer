@@ -148,7 +148,7 @@ func elasticBeanstalkApplicationHandle(ctx context.Context, cfg aws.Config, item
 		ResourceArn: item.ApplicationArn,
 	})
 	if err != nil {
-		if !isErr(err, "ResourceNotFoundException") {
+		if !isErr(err, "ResourceNotFoundException") && !isErr(err, "InsufficientPrivilegesException") {
 			return Resource{}, err
 		}
 		tags = &elasticbeanstalk.ListTagsForResourceOutput{}

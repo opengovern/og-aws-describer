@@ -54,6 +54,9 @@ func S3Bucket(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 
 		desc, err := getBucketDescription(ctx, cfg, bucket, region)
 		if err != nil {
+			if isErr(err, "AccessDenied") {
+				return nil, nil
+			}
 			return nil, fmt.Errorf("error getting bucket description: %w", err)
 		}
 
