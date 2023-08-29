@@ -222,7 +222,7 @@ func getBucketDescription(ctx context.Context, cfg aws.Config, bucket types.Buck
 			MFADelete: o2.MFADelete,
 			Status:    o2.Status,
 		},
-		LifecycleRules:                    o6.Rules,
+		LifecycleRules:                    o6,
 		LoggingEnabled:                    o7.LoggingEnabled,
 		ServerSideEncryptionConfiguration: o3.ServerSideEncryptionConfiguration,
 		ObjectLockConfiguration:           o10.ObjectLockConfiguration,
