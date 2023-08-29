@@ -15248,7 +15248,7 @@ var listEC2InstanceFilters = map[string]string{
 	"tpm_support":                                "description.Instance.TpmSupport",
 	"usage_operation":                            "description.Instance.UsageOperation",
 	"usage_operation_update_time":                "description.Instance.UsageOperationUpdateTime",
-	"user_data":                                  "description.Attributes.UserData",
+	"user_data":                                  "description.LaunchTemplateData.UserData",
 	"virtualization_type":                        "description.Instance.VirtualizationType",
 	"vpc_id":                                     "description.Instance.VpcId",
 }
@@ -15351,7 +15351,7 @@ var getEC2InstanceFilters = map[string]string{
 	"tpm_support":                                "description.Instance.TpmSupport",
 	"usage_operation":                            "description.Instance.UsageOperation",
 	"usage_operation_update_time":                "description.Instance.UsageOperationUpdateTime",
-	"user_data":                                  "description.Attributes.UserData",
+	"user_data":                                  "description.LaunchTemplateData.UserData",
 	"virtualization_type":                        "description.Instance.VirtualizationType",
 	"vpc_id":                                     "description.Instance.VpcId",
 }
