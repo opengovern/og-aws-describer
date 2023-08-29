@@ -2,7 +2,6 @@ package describer
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"strings"
@@ -185,11 +184,6 @@ func getBucketDescription(ctx context.Context, cfg aws.Config, bucket types.Buck
 	}
 
 	o11, err := getBucketTagging(ctx, rClient, bucket)
-	if err != nil {
-		return nil, err
-	}
-
-	replicationJson, err := json.Marshal(o9.ReplicationConfiguration)
 	if err != nil {
 		return nil, err
 	}
