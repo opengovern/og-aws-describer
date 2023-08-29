@@ -149,7 +149,7 @@ func route53HostedZoneHandle(ctx context.Context, cfg aws.Config, v types.Hosted
 			HostedZoneId: &id,
 		})
 		if err != nil {
-			if !isErr(err, "NoSuchHostedZone") {
+			if !isErr(err, "NoSuchHostedZone") && !isErr(err, "AccessDenied") {
 				return Resource{}, err
 			}
 			dnsSec = &route53.GetDNSSECOutput{}

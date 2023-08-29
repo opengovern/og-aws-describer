@@ -1299,8 +1299,6 @@ func eC2InstanceHandle(ctx context.Context, v types.Instance, client *ec2.Client
 		}
 
 		switch attr {
-		case types.InstanceAttributeNameUserData:
-			desc.Attributes.UserData = aws.ToString(output.UserData.Value)
 		case types.InstanceAttributeNameInstanceInitiatedShutdownBehavior:
 			desc.Attributes.InstanceInitiatedShutdownBehavior = aws.ToString(output.InstanceInitiatedShutdownBehavior.Value)
 		case types.InstanceAttributeNameDisableApiTermination:

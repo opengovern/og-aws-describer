@@ -88,7 +88,11 @@ func KMSKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resour
 				KeyId: v.KeyId,
 			})
 			if err != nil {
-				return nil, err
+				if isErr(err, "AccessDeniedException") {
+					return nil, nil
+				} else {
+					return nil, err
+				}
 			}
 
 			aliasPaginator := kms.NewListAliasesPaginator(client, &kms.ListAliasesInput{
@@ -188,7 +192,11 @@ func GetKMSKey(ctx context.Context, cfg aws.Config, fields map[string]string) ([
 		KeyId: &id,
 	})
 	if err != nil {
-		return nil, err
+		if isErr(err, "AccessDeniedException") {
+			return nil, nil
+		} else {
+			return nil, err
+		}
 	}
 	v := key.KeyMetadata
 

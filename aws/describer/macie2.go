@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/macie2"
@@ -17,7 +18,7 @@ func Macie2ClassificationJob(ctx context.Context, cfg aws.Config, stream *Stream
 			NextToken: prevToken,
 		})
 		if err != nil {
-			if isErr(err, "AccessDeniedException") {
+			if isErr(err, "AccessDeniedException") || strings.Contains(err.Error(), "AccessDeniedException") {
 				return
 			} else {
 				return nil, err
@@ -27,7 +28,7 @@ func Macie2ClassificationJob(ctx context.Context, cfg aws.Config, stream *Stream
 		for _, jobSummary := range classificationJobs.Items {
 			resource, err := macie2ClassificationJobHandle(ctx, cfg, *jobSummary.JobId)
 			if err != nil {
-				if isErr(err, "AccessDeniedException") {
+				if isErr(err, "AccessDeniedException") || strings.Contains(err.Error(), "AccessDeniedException") {
 					return nil, nil
 				} else {
 					return nil, err

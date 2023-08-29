@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/organizations"
 	"github.com/gocarina/gocsv"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
+	"strings"
 )
 
 const (
@@ -343,10 +344,14 @@ func IAMPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Res
 				VersionId: v.DefaultVersionId,
 			})
 			if err != nil {
-				return nil, err
+				if isErr(err, "AccessDenied") || strings.Contains(err.Error(), "AccessDenied") {
+					return nil, nil
+				} else {
+					return nil, err
+				}
 			}
 
-			resource := iAMPolicyHandle(ctx, v, version)
+			resource := iAMPolicyHandle(ctx, v, version.PolicyVersion)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -358,7 +363,7 @@ func IAMPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Res
 	}
 	return values, nil
 }
-func iAMPolicyHandle(ctx context.Context, v types.Policy, version *iam.GetPolicyVersionOutput) Resource {
+func iAMPolicyHandle(ctx context.Context, v types.Policy, version *types.PolicyVersion) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -366,7 +371,7 @@ func iAMPolicyHandle(ctx context.Context, v types.Policy, version *iam.GetPolicy
 		Name:   *v.PolicyName,
 		Description: model.IAMPolicyDescription{
 			Policy:        v,
-			PolicyVersion: *version.PolicyVersion,
+			PolicyVersion: *version,
 		},
 	}
 	return resource
@@ -386,10 +391,14 @@ func GetIAMPolicy(ctx context.Context, cfg aws.Config, fields map[string]string)
 		VersionId: v.DefaultVersionId,
 	})
 	if err != nil {
-		return nil, err
+		if isErr(err, "AccessDenied") || strings.Contains(err.Error(), "AccessDenied") {
+			return nil, nil
+		} else {
+			return nil, err
+		}
 	}
 
-	resource := iAMPolicyHandle(ctx, *v, version)
+	resource := iAMPolicyHandle(ctx, *v, version.PolicyVersion)
 	values = append(values, resource)
 
 	return values, nil
@@ -403,22 +412,34 @@ func IAMGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			if isErr(err, "GetGroupNotFound") || isErr(err, "InvalidParameterValue") || isErr(err, "AccessDenied") {
+				return nil, nil
+			}
 			return nil, err
 		}
 
 		for _, v := range page.Groups {
 			users, err := getGroupUsers(ctx, client, v.GroupName)
 			if err != nil {
+				if isErr(err, "getGroupUsersNotFound") || isErr(err, "InvalidParameterValue") || isErr(err, "AccessDenied") {
+					return nil, nil
+				}
 				return nil, err
 			}
 
 			policies, err := getGroupPolicies(ctx, client, v.GroupName)
 			if err != nil {
+				if isErr(err, "getGroupPoliciesNotFound") || isErr(err, "InvalidParameterValue") || isErr(err, "AccessDenied") {
+					return nil, nil
+				}
 				return nil, err
 			}
 
 			aPolicies, err := getGroupAttachedPolicyArns(ctx, client, v.GroupName)
 			if err != nil {
+				if isErr(err, "getGroupAttachedPolicyArnsNotFound") || isErr(err, "InvalidParameterValue") || isErr(err, "AccessDenied") {
+					return nil, nil
+				}
 				return nil, err
 			}
 
@@ -459,7 +480,7 @@ func GetIAMGroup(ctx context.Context, cfg aws.Config, fields map[string]string) 
 	})
 	v := groupOut.Group
 	if err != nil {
-		if isErr(err, "GetGroupNotFound") || isErr(err, "InvalidParameterValue") {
+		if isErr(err, "GetGroupNotFound") || isErr(err, "InvalidParameterValue") || isErr(err, "AccessDenied") {
 			return nil, nil
 		}
 		return nil, err
@@ -467,7 +488,7 @@ func GetIAMGroup(ctx context.Context, cfg aws.Config, fields map[string]string) 
 
 	users, err := getGroupUsers(ctx, client, v.GroupName)
 	if err != nil {
-		if isErr(err, "getGroupUsersNotFound") || isErr(err, "InvalidParameterValue") {
+		if isErr(err, "getGroupUsersNotFound") || isErr(err, "InvalidParameterValue") || isErr(err, "AccessDenied") {
 			return nil, nil
 		}
 		return nil, err
@@ -475,7 +496,7 @@ func GetIAMGroup(ctx context.Context, cfg aws.Config, fields map[string]string) 
 
 	policies, err := getGroupPolicies(ctx, client, v.GroupName)
 	if err != nil {
-		if isErr(err, "getGroupPoliciesNotFound") || isErr(err, "InvalidParameterValue") {
+		if isErr(err, "getGroupPoliciesNotFound") || isErr(err, "InvalidParameterValue") || isErr(err, "AccessDenied") {
 			return nil, nil
 		}
 		return nil, err
@@ -483,7 +504,7 @@ func GetIAMGroup(ctx context.Context, cfg aws.Config, fields map[string]string) 
 
 	aPolicies, err := getGroupAttachedPolicyArns(ctx, client, v.GroupName)
 	if err != nil {
-		if isErr(err, "getGroupAttachedPolicyArnsNotFound") || isErr(err, "InvalidParameterValue") {
+		if isErr(err, "getGroupAttachedPolicyArnsNotFound") || isErr(err, "InvalidParameterValue") || isErr(err, "AccessDenied") {
 			return nil, nil
 		}
 		return nil, err
@@ -842,7 +863,11 @@ func IAMRole(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 
 			policies, err := getRolePolicies(ctx, client, v.RoleName)
 			if err != nil {
-				return nil, err
+				if isErr(err, "AccessDenied") || strings.Contains(err.Error(), "AccessDenied") {
+					return nil, nil
+				} else {
+					return nil, err
+				}
 			}
 
 			aPolicies, err := getRoleAttachedPolicyArns(ctx, client, v.RoleName)
@@ -1074,6 +1099,9 @@ func IAMUser(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 		for _, v := range page.Users {
 			resource, err := iAMUserHandle(ctx, cfg, v)
 			if err != nil {
+				if isErr(err, "NoSuchEntity") {
+					return nil, nil
+				}
 				return nil, err
 			}
 			emptyResource := Resource{}
