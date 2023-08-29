@@ -933,7 +933,6 @@ type EC2InstanceDescription struct {
 	Instance       *ec2.Instance
 	InstanceStatus *ec2.InstanceStatus
 	Attributes     struct {
-		UserData                          string
 		InstanceInitiatedShutdownBehavior string
 		DisableApiTermination             bool
 	}
