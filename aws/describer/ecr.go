@@ -27,7 +27,7 @@ func ECRPublicRepository(ctx context.Context, cfg aws.Config, stream *StreamSend
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
-			if isErr(err, "RepositoryNotFoundException") || isErr(err, "RepositoryPolicyNotFoundException") || isErr(err, "LifecyclePolicyNotFoundException") {
+			if isErr(err, "RepositoryNotFoundException") || isErr(err, "RepositoryPolicyNotFoundException") || isErr(err, "LifecyclePolicyNotFoundException") || isErr(err, "AccessDeniedException") {
 				continue
 			}
 			return nil, err
@@ -41,7 +41,7 @@ func ECRPublicRepository(ctx context.Context, cfg aws.Config, stream *StreamSend
 			for imagePaginator.HasMorePages() {
 				imagePage, err := imagePaginator.NextPage(ctx)
 				if err != nil {
-					if isErr(err, "RepositoryNotFoundException") || isErr(err, "RepositoryPolicyNotFoundException") || isErr(err, "LifecyclePolicyNotFoundException") {
+					if isErr(err, "RepositoryNotFoundException") || isErr(err, "RepositoryPolicyNotFoundException") || isErr(err, "LifecyclePolicyNotFoundException") || isErr(err, "AccessDeniedException") {
 						continue
 					}
 					return nil, err
@@ -203,7 +203,7 @@ func ECRRepository(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
-			if isErr(err, "RepositoryNotFoundException") || isErr(err, "RepositoryPolicyNotFoundException") || isErr(err, "LifecyclePolicyNotFoundException") {
+			if isErr(err, "RepositoryNotFoundException") || isErr(err, "RepositoryPolicyNotFoundException") || isErr(err, "LifecyclePolicyNotFoundException") || isErr(err, "AccessDeniedException") {
 				continue
 			}
 			return nil, err
@@ -234,7 +234,7 @@ func eCRRepositoryHandle(ctx context.Context, cfg aws.Config, v types.Repository
 		RepositoryName: v.RepositoryName,
 	})
 	if err != nil {
-		if !isErr(err, "RepositoryNotFoundException") && !isErr(err, "RepositoryPolicyNotFoundException") && !isErr(err, "LifecyclePolicyNotFoundException") {
+		if !isErr(err, "RepositoryNotFoundException") && !isErr(err, "RepositoryPolicyNotFoundException") && !isErr(err, "LifecyclePolicyNotFoundException") || isErr(err, "AccessDeniedException") {
 			return Resource{}, err
 		}
 	}

@@ -3,6 +3,7 @@ package describer
 import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/service/elasticbeanstalk/types"
+	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/elasticbeanstalk"
@@ -114,7 +115,7 @@ func ElasticBeanstalkApplication(ctx context.Context, cfg aws.Config, stream *St
 	client := elasticbeanstalk.NewFromConfig(cfg)
 	out, err := client.DescribeApplications(ctx, &elasticbeanstalk.DescribeApplicationsInput{})
 	if err != nil {
-		if !isErr(err, "ResourceNotFoundException") {
+		if !isErr(err, "ResourceNotFoundException") && !isErr(err, "InsufficientPrivilegesException") && !strings.Contains(err.Error(), "Access Denied") {
 			return nil, err
 		}
 		return nil, nil
