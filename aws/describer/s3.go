@@ -189,11 +189,6 @@ func getBucketDescription(ctx context.Context, cfg aws.Config, bucket types.Buck
 		return nil, err
 	}
 
-	rulesJson, err := json.Marshal(o6.Rules)
-	if err != nil {
-		return nil, err
-	}
-
 	replicationJson, err := json.Marshal(o9.ReplicationConfiguration)
 	if err != nil {
 		return nil, err
@@ -233,7 +228,7 @@ func getBucketDescription(ctx context.Context, cfg aws.Config, bucket types.Buck
 			MFADelete: o2.MFADelete,
 			Status:    o2.Status,
 		},
-		LifecycleRules:                    string(rulesJson),
+		LifecycleRules:                    o6.Rules,
 		LoggingEnabled:                    o7.LoggingEnabled,
 		ServerSideEncryptionConfiguration: o3.ServerSideEncryptionConfiguration,
 		ObjectLockConfiguration:           o10.ObjectLockConfiguration,
