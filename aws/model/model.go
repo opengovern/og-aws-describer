@@ -1840,7 +1840,7 @@ type S3BucketDescription struct {
 		MFADelete s3.MFADeleteStatus
 		Status    s3.BucketVersioningStatus
 	}
-	LifecycleRules                    *s3types.GetBucketLifecycleConfigurationOutput
+	LifecycleRules                    string
 	LoggingEnabled                    *s3.LoggingEnabled
 	ServerSideEncryptionConfiguration *s3.ServerSideEncryptionConfiguration
 	ObjectLockConfiguration           *s3.ObjectLockConfiguration
