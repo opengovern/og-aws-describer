@@ -1844,7 +1844,7 @@ type S3BucketDescription struct {
 	LoggingEnabled                    *s3.LoggingEnabled
 	ServerSideEncryptionConfiguration *s3.ServerSideEncryptionConfiguration
 	ObjectLockConfiguration           *s3.ObjectLockConfiguration
-	ReplicationConfiguration          string
+	ReplicationConfiguration          *s3.ReplicationConfiguration
 	Tags                              []s3.Tag
 	Region                            string
 	BucketWebsite                     *s3types.GetBucketWebsiteOutput

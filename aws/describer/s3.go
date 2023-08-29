@@ -232,7 +232,7 @@ func getBucketDescription(ctx context.Context, cfg aws.Config, bucket types.Buck
 		LoggingEnabled:                    o7.LoggingEnabled,
 		ServerSideEncryptionConfiguration: o3.ServerSideEncryptionConfiguration,
 		ObjectLockConfiguration:           o10.ObjectLockConfiguration,
-		ReplicationConfiguration:          string(replicationJson),
+		ReplicationConfiguration:          o9.ReplicationConfiguration,
 		Tags:                              o11.TagSet,
 		Region:                            region,
 		BucketWebsite:                     bucketwebsites,
