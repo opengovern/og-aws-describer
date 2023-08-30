@@ -29,6 +29,7 @@ jobs:
             ${{ runner.os }}-go-
       - run: git config --global url.https://$GH_ACCESS_TOKEN@github.com/kaytu-io.insteadOf https://github.com/kaytu-io
       - name: Build app
+        working-directory: ./steampipe-plugin-aws
         run: make build
       - name: Pack build
         run: |
@@ -37,8 +38,23 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: steampipe-plugin-aws
-          path: build.tar
+          path: ./steampipe-plugin-aws/build.tar
           retention-days: 1
+      - name: Tag version
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.GH_ACCESS_TOKEN }}
+          release_branches: main
+          tag_prefix: v
+      - name: Set latest tag output
+        id: set_latest_tag
+        run: |
+          if [[ -z "${{ steps.tag_version.outputs.new_tag }}" ]]; then
+            echo "latest_tag=${{ steps.tag_version.outputs.new_tag }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "latest_tag=${{ steps.tag_version.outputs.previous_tag }}" >> "$GITHUB_OUTPUT"
+          fi
   deploy:
     needs:
       - build
@@ -74,5 +90,5 @@ jobs:
           tags: |
             ${{ vars.DOCKER_REGISTRY }}/steampipe-plugin-aws:0.0.1
             ${{ vars.DOCKER_REGISTRY }}/steampipe-plugin-aws:0.0.1-${{ github.run_id }}
-          file: docker/Dockerfile
+          file: steampipe-plugin-aws/docker/Dockerfile
           context: .
