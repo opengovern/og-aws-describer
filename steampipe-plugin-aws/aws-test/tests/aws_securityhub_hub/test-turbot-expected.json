@@ -1,0 +1,10 @@
+[
+  {
+    "account_id": "{{ output.aws_account.value }}",
+    "akas": [
+      "{{ output.arn.value }}"
+    ],
+    "partition": "aws",
+    "region": "{{ output.aws_region.value }}"
+  }
+]

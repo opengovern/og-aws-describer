@@ -1,0 +1,12 @@
+[
+  {
+    "id": "{{ output.resource_id.value }}",
+    "tags_src": [
+      {
+        "Key": "Name",
+        "Value": "{{resourceName}}"
+      }
+    ],
+    "title": "{{resourceName}}"
+  }
+]
