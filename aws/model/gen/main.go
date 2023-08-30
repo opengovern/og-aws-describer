@@ -283,7 +283,7 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 						tableFile = v
 					}
 					plugin := "steampipe-plugin-aws/aws"
-					fileName := "../../../" + plugin + "/" + tableFile
+					fileName := "../../" + plugin + "/" + tableFile
 					tableFileSet := token.NewFileSet()
 					tableNode, err := parser.ParseFile(tableFileSet, fileName, nil, parser.ParseComments)
 					if err != nil {
