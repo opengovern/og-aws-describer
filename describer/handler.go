@@ -68,6 +68,13 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		}
 	}
 
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Printf("There is a Panic: %v", r)
+		}
+		logger.Sync()
+	}()
+
 	if input.WorkspaceName == "" {
 		return fmt.Errorf("workspace name is required")
 	}

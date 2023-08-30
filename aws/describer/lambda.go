@@ -29,7 +29,7 @@ func LambdaFunction(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			if v.FunctionName == nil {
 				continue
 			}
-			resource, err := lambdaFunctionHandle(ctx, cfg, v)
+			resource, err := lambdaFunctionHandle(ctx, client, v)
 			if err != nil {
 				return nil, err
 			}
@@ -50,9 +50,8 @@ func LambdaFunction(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 
 	return values, nil
 }
-func lambdaFunctionHandle(ctx context.Context, cfg aws.Config, v types.FunctionConfiguration) (Resource, error) {
+func lambdaFunctionHandle(ctx context.Context, client *lambda.Client, v types.FunctionConfiguration) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
-	client := lambda.NewFromConfig(cfg)
 
 	listUrlConfig, err := client.ListFunctionUrlConfigs(ctx, &lambda.ListFunctionUrlConfigsInput{
 		FunctionName: v.FunctionName,
@@ -119,7 +118,7 @@ func GetLambdaFunction(ctx context.Context, cfg aws.Config, fields map[string]st
 
 	var values []Resource
 
-	resource, err := lambdaFunctionHandle(ctx, cfg, *out.Configuration)
+	resource, err := lambdaFunctionHandle(ctx, client, *out.Configuration)
 	if err != nil {
 		return nil, err
 	}

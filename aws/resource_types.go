@@ -1,10 +1,9 @@
-package aws
 
+package aws
 import (
 	"github.com/kaytu-io/kaytu-aws-describer/aws/describer"
 	"github.com/kaytu-io/kaytu-util/pkg/source"
 )
-
 var resourceTypes = map[string]ResourceType{
 
 	"AWS::Redshift::Snapshot": {
@@ -2548,7 +2547,7 @@ var resourceTypes = map[string]ResourceType{
 		Tags:                 map[string][]string{},
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2TransitGateway),
-		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2TransitGateway),
+		GetDescriber:          ParallelDescribeRegionalSingleResource(describer.GetEC2TransitGateway),
 		TerraformName:        []string{"aws_ec2_transit_gateway"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        true,
@@ -4257,7 +4256,7 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "fsx",
 		ListDescriber:        ParallelDescribeRegional(describer.FSXFileSystem),
 		GetDescriber:         nil,
-		TerraformName:        []string{"aws_fsx_ontap_file_system", "aws_fsx_openzfs_file_system"},
+		TerraformName:        []string{"aws_fsx_ontap_file_system","aws_fsx_openzfs_file_system"},
 		TerraformServiceName: "fsx",
 		FastDiscovery:        false,
 		Summarize:            true,
@@ -4495,7 +4494,7 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VolumeSnapshot),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2VolumeSnapshot),
-		TerraformName:        []string{"aws_ebs_snapshot", "aws_ebs_snapshot_copy"},
+		TerraformName:        []string{"aws_ebs_snapshot","aws_ebs_snapshot_copy"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
 		Summarize:            true,
@@ -4579,7 +4578,7 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "ElasticLoadBalancing",
 		ListDescriber:        ParallelDescribeRegional(describer.ElasticLoadBalancingLoadBalancer),
 		GetDescriber:         nil,
-		TerraformName:        []string{"aws_lb", "aws_elb"},
+		TerraformName:        []string{"aws_lb","aws_elb"},
 		TerraformServiceName: "elb",
 		FastDiscovery:        false,
 		Summarize:            true,
@@ -4722,7 +4721,7 @@ var resourceTypes = map[string]ResourceType{
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		CostDiscovery:        true,
+		CostDiscovery:		  true,
 		Summarize:            true,
 	},
 
@@ -5448,7 +5447,7 @@ var resourceTypes = map[string]ResourceType{
 		ServiceName:          "ServiceDiscovery",
 		ListDescriber:        ParallelDescribeRegional(describer.ServiceDiscoveryNamespace),
 		GetDescriber:         nil,
-		TerraformName:        []string{"aws_service_discovery_http_namespace", "aws_service_discovery_dns_namespace", "aws_service_discovery_private_dns_namespace", "aws_service_discovery_public_dns_namespace"},
+		TerraformName:        []string{"aws_service_discovery_http_namespace","aws_service_discovery_dns_namespace","aws_service_discovery_private_dns_namespace","aws_service_discovery_public_dns_namespace"},
 		TerraformServiceName: "service_discovery",
 		FastDiscovery:        false,
 		Summarize:            true,
