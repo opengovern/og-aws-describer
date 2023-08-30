@@ -198,13 +198,13 @@ func tableAwsLambdaFunction(_ context.Context) *plugin.Table {
 				Name:        "policy",
 				Description: "The resource-based iam policy of Lambda function.",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Policy").Transform(transform.UnmarshalYAML),
+				Transform:   transform.FromField("Description.Policy.Policy"),
 			},
 			{
 				Name:        "policy_std",
 				Description: "Contains the policy in a canonical form for easier searching.",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Policy").Transform(unescape).Transform(policyToCanonical),
+				Transform:   transform.FromField("Description.Policy.Policy").Transform(policyToCanonical),
 			},
 			{
 				Name:        "tracing_config",

@@ -326,6 +326,10 @@ func unescape(ctx context.Context, d *transform.TransformData) (interface{}, err
 
 	// get the value of policy safely
 	inputStr := types.SafeString(d.Value)
+	if inputStr == "" {
+		inputByte, _ := json.Marshal(d.Value)
+		inputStr = string(inputByte)
+	}
 
 	data, err := url.QueryUnescape(inputStr)
 	if err != nil {
@@ -342,7 +346,8 @@ func policyToCanonical(ctx context.Context, d *transform.TransformData) (interfa
 
 	data := types.SafeString(d.Value)
 	if data == "" {
-		return nil, nil
+		dataByte, _ := json.Marshal(d.Value)
+		data = string(dataByte)
 	}
 
 	newPolicy, err := canonicalPolicy(data)
