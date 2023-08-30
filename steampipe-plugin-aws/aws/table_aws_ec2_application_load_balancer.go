@@ -155,6 +155,21 @@ func listELBV2LoadBalancer(t string) plugin.HydrateFunc {
 				StringValue: t,
 			},
 		}
+		d.QueryContext.UnsafeQuals["type"] = &proto.Quals{
+			Quals: []*proto.Qual{
+				{
+					FieldName: "type",
+					Operator: &proto.Qual_StringValue{
+						StringValue: "=",
+					},
+					Value: &proto.QualValue{
+						Value: &proto.QualValue_StringValue{
+							StringValue: t,
+						},
+					},
+				},
+			},
+		}
 
 		return kaytu.ListElasticLoadBalancingV2LoadBalancer(ctx, d, h)
 	}
@@ -165,6 +180,21 @@ func getELBV2LoadBalancer(t string) plugin.HydrateFunc {
 		d.EqualsQuals["type"] = &proto.QualValue{
 			Value: &proto.QualValue_StringValue{
 				StringValue: t,
+			},
+		}
+		d.QueryContext.UnsafeQuals["type"] = &proto.Quals{
+			Quals: []*proto.Qual{
+				{
+					FieldName: "type",
+					Operator: &proto.Qual_StringValue{
+						StringValue: "=",
+					},
+					Value: &proto.QualValue{
+						Value: &proto.QualValue_StringValue{
+							StringValue: t,
+						},
+					},
+				},
 			},
 		}
 
