@@ -2437,11 +2437,12 @@ type CostExplorerForcastDailyDescription struct {
 //index:aws_ecr_repository
 //getfilter:repository_name=description.Repository.RepositoryName
 type ECRRepositoryDescription struct {
-	Repository      ecr.Repository
-	LifecyclePolicy *ecrop.GetLifecyclePolicyOutput
-	ImageDetails    []ecr.ImageDetail
-	Policy          *ecrop.GetRepositoryPolicyOutput
-	Tags            []ecr.Tag
+	Repository                      ecr.Repository
+	LifecyclePolicy                 *ecrop.GetLifecyclePolicyOutput
+	ImageDetails                    []ecr.ImageDetail
+	Policy                          *ecrop.GetRepositoryPolicyOutput
+	RepositoryScanningConfiguration *ecrop.BatchGetRepositoryScanningConfigurationOutput
+	Tags                            []ecr.Tag
 }
 
 //index:aws_ecr_image

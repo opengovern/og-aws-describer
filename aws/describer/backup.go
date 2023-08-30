@@ -201,18 +201,13 @@ func BackupVault(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 		}
 
 		for _, v := range page.BackupVaultList {
-			notification := &backup.GetBackupVaultNotificationsOutput{}
-			//TODO-Saleh getting rid of this to prevent error in describe job
-			//notification, err := client.GetBackupVaultNotifications(ctx, &backup.GetBackupVaultNotificationsInput{
-			//	BackupVaultName: v.BackupVaultName,
-			//})
-			//if err != nil {
-			//	if isErr(err, "ResourceNotFoundException") || isErr(err, "InvalidParameter") {
-			//		notification = &backup.GetBackupVaultNotificationsOutput{}
-			//	} else {
-			//		return nil, err
-			//	}
-			//}
+			notification, err := client.GetBackupVaultNotifications(ctx, &backup.GetBackupVaultNotificationsInput{
+				BackupVaultName: v.BackupVaultName,
+			})
+			if err != nil {
+				//Ignore error (otherwise for missing ones it won't work)
+				notification = &backup.GetBackupVaultNotificationsOutput{}
+			}
 			resource, err := backupVaultHandle(ctx, cfg, v, notification)
 			if err != nil {
 				return nil, err

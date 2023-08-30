@@ -263,6 +263,15 @@ func eCRRepositoryHandle(ctx context.Context, cfg aws.Config, v types.Repository
 		}
 	}
 
+	repositoryScanningConfiguration, err := client.BatchGetRepositoryScanningConfiguration(ctx, &ecr.BatchGetRepositoryScanningConfigurationInput{
+		RepositoryNames: []string{*v.RepositoryName},
+	})
+	if err != nil {
+		if !isErr(err, "RepositoryNotFoundException") && !isErr(err, "RepositoryPolicyNotFoundException") && !isErr(err, "LifecyclePolicyNotFoundException") {
+			return Resource{}, err
+		}
+	}
+
 	tagsOutput, err := client.ListTagsForResource(ctx, &ecr.ListTagsForResourceInput{
 		ResourceArn: v.RepositoryArn,
 	})
@@ -279,11 +288,12 @@ func eCRRepositoryHandle(ctx context.Context, cfg aws.Config, v types.Repository
 		ARN:    *v.RepositoryArn,
 		Name:   *v.RepositoryName,
 		Description: model.ECRRepositoryDescription{
-			Repository:      v,
-			LifecyclePolicy: lifeCyclePolicyOutput,
-			ImageDetails:    imageDetails,
-			Policy:          policyOutput,
-			Tags:            tagsOutput.Tags,
+			Repository:                      v,
+			LifecyclePolicy:                 lifeCyclePolicyOutput,
+			ImageDetails:                    imageDetails,
+			Policy:                          policyOutput,
+			RepositoryScanningConfiguration: repositoryScanningConfiguration,
+			Tags:                            tagsOutput.Tags,
 		},
 	}
 	return resource, nil
