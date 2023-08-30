@@ -92,4 +92,4 @@ jobs:
             ${{ vars.DOCKER_REGISTRY }}/steampipe-plugin-aws:0.0.1
             ${{ vars.DOCKER_REGISTRY }}/steampipe-plugin-aws:0.0.1-${{ github.run_id }}
           file: steampipe-plugin-aws/docker/Dockerfile
-          context: steampipe-plugin-aws
+          context: .
