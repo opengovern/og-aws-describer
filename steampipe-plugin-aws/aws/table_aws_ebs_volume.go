@@ -46,7 +46,7 @@ func tableAwsEBSVolume(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) specifying the volume.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getEBSVolumeARN),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "volume_type",
@@ -162,7 +162,7 @@ func tableAwsEBSVolume(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getEBSVolumeARN).Transform(transform.EnsureStringArray),
+				Transform:   transform.FromField("ARN").Transform(transform.EnsureStringArray),
 			},
 		}),
 	}
@@ -173,16 +173,6 @@ func tableAwsEBSVolume(_ context.Context) *plugin.Table {
 // needed by other files
 
 //// HYDRATE FUNCTIONS
-
-//// TRANSFORM FUNCTIONS
-
-func getEBSVolumeARN(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	volume := d.HydrateItem.(kaytu.EC2Volume).Description.Volume
-	metadata := d.HydrateItem.(kaytu.EC2Volume).Metadata
-
-	arn := "arn:" + metadata.Partition + ":ec2:" + metadata.Region + ":" + metadata.AccountID + ":volume/" + *volume.VolumeId
-	return arn, nil
-}
 
 //// TRANSFORM FUNCTIONS
 

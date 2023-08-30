@@ -36,7 +36,7 @@ func tableAwsEc2ClassicLoadBalancer(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) specifying the classic load balancer.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getEc2ClassicLoadBalancerARN),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "scheme",
@@ -248,7 +248,7 @@ func tableAwsEc2ClassicLoadBalancer(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getEc2ClassicLoadBalancerARN).Transform(transform.EnsureStringArray),
+				Transform:   transform.FromField("ARN").Transform(transform.EnsureStringArray),
 			},
 		}),
 	}
@@ -257,18 +257,6 @@ func tableAwsEc2ClassicLoadBalancer(_ context.Context) *plugin.Table {
 //// LIST FUNCTION
 
 //// HYDRATE FUNCTIONS
-
-//// TRANSFORM FUNCTIONS
-
-func getEc2ClassicLoadBalancerARN(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	classicLoadBalancer := d.HydrateItem.(kaytu.ElasticLoadBalancingLoadBalancer).Description.LoadBalancer
-	metadata := d.HydrateItem.(kaytu.ElasticLoadBalancingLoadBalancer).Metadata
-
-	// Build ARN
-	arn := "arn:" + metadata.Partition + ":elasticloadbalancing:" + metadata.Region + ":" + metadata.AccountID + ":loadbalancer/" + *classicLoadBalancer.LoadBalancerName
-
-	return arn, nil
-}
 
 //// TRANSFORM FUNCTIONS
 

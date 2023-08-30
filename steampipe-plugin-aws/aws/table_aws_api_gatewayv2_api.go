@@ -2,8 +2,6 @@ package aws
 
 import (
 	"context"
-	"fmt"
-
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -84,18 +82,7 @@ func tableAwsAPIGatewayV2Api(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getApiGatewayV2APIArn).Transform(arnToAkas)},
+				Transform:   transform.FromField("ARN").Transform(arnToAkas)},
 		}),
 	}
-}
-
-//// TRANSFORM FUNCTION
-
-func getApiGatewayV2APIArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	api := d.HydrateItem.(kaytu.ApiGatewayV2API).Description.API
-	metadata := d.HydrateItem.(kaytu.ApiGatewayV2API).Metadata
-	//akas := []string{"arn:" + commonColumnData.Partition + ":apigateway:" + region + "::/apis/" + id}
-
-	arn := fmt.Sprintf("arn:%s:apigateway:%s::/apis/%s", metadata.Partition, metadata.Region, *api.ApiId)
-	return arn, nil
 }

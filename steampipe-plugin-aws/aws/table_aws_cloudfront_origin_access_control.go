@@ -2,8 +2,6 @@ package aws
 
 import (
 	"context"
-	"fmt"
-
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -36,7 +34,7 @@ func tableAwsCloudFrontOriginAccessControl(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) of the origin access control",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getCloudFrontOriginAccessControlArn)},
+				Transform:   transform.FromField("ARN")},
 			{
 				Name:        "title",
 				Description: resourceInterfaceDescription("title"),
@@ -52,7 +50,7 @@ func tableAwsCloudFrontOriginAccessControl(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getCloudFrontOriginAccessControlArn).Transform(arnToAkas),
+				Transform:   transform.FromField("ARN").Transform(arnToAkas),
 			},
 		}),
 	}
@@ -63,12 +61,4 @@ func tableAwsCloudFrontOriginAccessControl(_ context.Context) *plugin.Table {
 func getCloudFrontOriginAccessControlTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	tags := d.HydrateItem.(kaytu.CloudFrontOriginAccessControl).Description.Tags
 	return cloudfrontV2TagsToMap(tags)
-}
-
-func getCloudFrontOriginAccessControlArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	originAccessControl := d.HydrateItem.(kaytu.CloudFrontOriginAccessControl).Description.OriginAccessControl
-	metadata := d.HydrateItem.(kaytu.CloudFrontOriginAccessControl).Metadata
-
-	arn := fmt.Sprintf("arn:%s:cloudfront::%s:origin-access-control/%s", metadata.Partition, metadata.AccountID, *originAccessControl.Id) //TODO: this is fake ARN, find out the real one's format
-	return arn, nil
 }

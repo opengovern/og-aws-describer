@@ -36,8 +36,7 @@ func tableAwsRedshiftCluster(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) specifying the cluster.",
 				Type:        proto.ColumnType_STRING,
-				Hydrate:     getRedshiftClusterARN,
-				Transform:   transform.FromValue(),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "cluster_namespace_arn",
@@ -301,27 +300,13 @@ func tableAwsRedshiftCluster(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Hydrate:     getRedshiftClusterARN,
-				Transform:   transform.FromValue().Transform(transform.EnsureStringArray),
+				Transform:   transform.FromField("ARN").Transform(transform.EnsureStringArray),
 			},
 		}),
 	}
 }
 
 //// LIST FUNCTION
-
-//// HYDRATE FUNCTIONS
-
-func getRedshiftClusterARN(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("getRedshiftClusterARN")
-	cluster := h.Item.(kaytu.RedshiftCluster).Description.Cluster
-	metadata := h.Item.(kaytu.RedshiftCluster).Metadata
-	region := d.EqualsQualString(matrixKeyRegion)
-
-	arn := "arn:" + metadata.Partition + ":redshift:" + region + ":" + metadata.AccountID + ":cluster:" + *cluster.ClusterIdentifier
-
-	return arn, nil
-}
 
 //// TRANSFORM FUNCTIONS
 

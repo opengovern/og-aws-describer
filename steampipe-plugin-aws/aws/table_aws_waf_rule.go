@@ -2,8 +2,6 @@ package aws
 
 import (
 	"context"
-	"fmt"
-
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -65,19 +63,9 @@ func tableAwsWAFRule(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getWafRuleArn).Transform(arnToAkas)},
+				Transform:   transform.FromField("ARN").Transform(arnToAkas)},
 		}),
 	}
-}
-
-//// TRANSFORM FUNCTION
-
-func getWafRuleArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	rule := d.HydrateItem.(kaytu.WAFRule).Description.Rule
-	metadata := d.HydrateItem.(kaytu.WAFRule).Metadata
-
-	arn := fmt.Sprintf("arn:%s:waf::%s:rule/%s", metadata.Partition, metadata.AccountID, *rule.RuleId)
-	return arn, nil
 }
 
 func wafRuleTagListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {

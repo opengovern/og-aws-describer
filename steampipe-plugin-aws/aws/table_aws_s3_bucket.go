@@ -32,7 +32,7 @@ func tableAwsS3Bucket(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The ARN of the AWS S3 Bucket.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getBucketARN),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "creation_date",
@@ -172,7 +172,7 @@ func tableAwsS3Bucket(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getBucketARN).Transform(transform.EnsureStringArray),
+				Transform:   transform.FromField("ARN").Transform(transform.EnsureStringArray),
 			},
 			{
 				Name:        "region",
@@ -187,15 +187,6 @@ func tableAwsS3Bucket(_ context.Context) *plugin.Table {
 //// LIST FUNCTION
 
 //// HYDRATE FUNCTIONS
-
-func getBucketARN(_ context.Context, d *transform.TransformData) (any, error) {
-	bucket := d.HydrateItem.(kaytu.S3Bucket).Description.Bucket
-	metadata := d.HydrateItem.(kaytu.S3Bucket).Metadata
-
-	arn := "arn:" + metadata.Partition + ":s3:::" + *bucket.Name
-
-	return arn, nil
-}
 
 func getS3BucketLifecycleRules(_ context.Context, d *transform.TransformData) (any, error) {
 	bucket := d.HydrateItem.(kaytu.S3Bucket).Description

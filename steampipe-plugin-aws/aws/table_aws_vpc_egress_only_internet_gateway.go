@@ -2,7 +2,6 @@ package aws
 
 import (
 	"context"
-	"fmt"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -58,20 +57,12 @@ func tableAwsVpcEgressOnlyIGW(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getEc2EgressOnlyIGWArn).Transform(arnToAkas)},
+				Transform:   transform.FromField("ARN").Transform(arnToAkas)},
 		}),
 	}
 }
 
 //// TRANSFORM FUNCTIONS
-
-func getEc2EgressOnlyIGWArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	egressOnlyInternetGateway := d.HydrateItem.(kaytu.EC2EgressOnlyInternetGateway).Description.EgressOnlyInternetGateway
-	metadata := d.HydrateItem.(kaytu.EC2EgressOnlyInternetGateway).Metadata
-
-	arn := fmt.Sprintf("arn:%s:ec2:%s:%s:egress-only-internet-gateway/%s", metadata.Partition, metadata.Region, metadata.AccountID, *egressOnlyInternetGateway.EgressOnlyInternetGatewayId)
-	return arn, nil
-}
 
 func egressOnlyIGWApiDataToTurbotData(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	egw := d.HydrateItem.(kaytu.EC2EgressOnlyInternetGateway).Description.EgressOnlyInternetGateway

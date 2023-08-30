@@ -2,8 +2,6 @@ package aws
 
 import (
 	"context"
-	"fmt"
-
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -36,7 +34,7 @@ func tableAwsGrafanaWorkspace(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) of the workspace",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getGrafanaWorkspaceArn)},
+				Transform:   transform.FromField("ARN")},
 			{
 				Name:        "title",
 				Description: resourceInterfaceDescription("title"),
@@ -52,18 +50,8 @@ func tableAwsGrafanaWorkspace(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getGrafanaWorkspaceArn).Transform(arnToAkas),
+				Transform:   transform.FromField("ARN").Transform(arnToAkas),
 			},
 		}),
 	}
-}
-
-//// TRANSFORM FUNCTIONS
-
-func getGrafanaWorkspaceArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	workspace := d.HydrateItem.(kaytu.GrafanaWorkspace).Description.Workspace
-	metadata := d.HydrateItem.(kaytu.GrafanaWorkspace).Metadata
-
-	arn := fmt.Sprintf("arn:%s:grafana:%s:%s:/workspaces/%s", metadata.Partition, metadata.Region, metadata.AccountID, *workspace.Id)
-	return arn, nil
 }

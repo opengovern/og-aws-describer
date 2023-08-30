@@ -38,7 +38,7 @@ func tableAwsVpcNetworkACL(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) specifying the network ACL.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getVpcNetworkACLARN),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "is_default",
@@ -92,26 +92,10 @@ func tableAwsVpcNetworkACL(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getVpcNetworkACLARN).Transform(transform.EnsureStringArray),
+				Transform:   transform.FromField("ARN").Transform(transform.EnsureStringArray),
 			},
 		}),
 	}
-}
-
-//// LIST FUNCTION
-
-//// HYDRATE FUNCTIONS
-
-//// TRANSFORM FUNCTIONS
-
-func getVpcNetworkACLARN(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	networkACL := d.HydrateItem.(kaytu.EC2NetworkAcl).Description.NetworkAcl
-	metadata := d.HydrateItem.(kaytu.EC2NetworkAcl).Metadata
-
-	// Get data for turbot defined properties
-	arn := "arn:" + metadata.Partition + ":ec2:" + metadata.Region + ":" + metadata.AccountID + ":network-acl/" + *networkACL.NetworkAclId
-
-	return arn, nil
 }
 
 //// TRANSFORM FUNCTIONS

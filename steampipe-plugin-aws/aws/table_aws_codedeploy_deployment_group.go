@@ -2,8 +2,6 @@ package aws
 
 import (
 	"context"
-	"fmt"
-
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -28,7 +26,7 @@ func tableAwsCodeDeployDeploymentGroup(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) of the deployment group",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getCodeDeployDeploymentGroupArn)},
+				Transform:   transform.FromField("ARN")},
 			{
 				Name:        "application_name",
 				Description: "The application name.",
@@ -161,7 +159,7 @@ func tableAwsCodeDeployDeploymentGroup(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getCodeDeployDeploymentGroupArn).Transform(arnToAkas),
+				Transform:   transform.FromField("ARN").Transform(arnToAkas),
 			},
 		}),
 	}
@@ -172,12 +170,4 @@ func tableAwsCodeDeployDeploymentGroup(_ context.Context) *plugin.Table {
 func getCodeDeployDeploymentGroupTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	tags := d.HydrateItem.(kaytu.CodeDeployDeploymentGroup).Description.Tags
 	return codeDeployV2TagsToMap(tags)
-}
-
-func getCodeDeployDeploymentGroupArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	deploymentGroup := d.HydrateItem.(kaytu.CodeDeployDeploymentGroup).Description.DeploymentGroup
-	metadata := d.HydrateItem.(kaytu.CodeDeployDeploymentGroup).Metadata
-
-	arn := fmt.Sprintf("arn:%s:codedeploy:%s:%s:deploymentgroup:%s/%s", metadata.Partition, metadata.Region, metadata.AccountID, *deploymentGroup.ApplicationName, *deploymentGroup.DeploymentGroupName)
-	return arn, nil
 }

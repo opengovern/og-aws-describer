@@ -47,8 +47,7 @@ func tableAwsSSMAssociation(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) specifying the association.",
 				Type:        proto.ColumnType_STRING,
-				Hydrate:     getSSMAssociationARN,
-				Transform:   transform.FromValue(),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "document_name",
@@ -163,24 +162,13 @@ func tableAwsSSMAssociation(_ context.Context) *plugin.Table {
 				Name:        "title",
 				Description: resourceInterfaceDescription("title"),
 				Type:        proto.ColumnType_STRING,
-
-				Transform: transform.FromField("Description.AssociationItem.Name")},
+				Transform:   transform.FromField("Description.AssociationItem.Name")},
 			{
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Hydrate:     getSSMAssociationARN,
-				Transform:   transform.FromValue().Transform(transform.EnsureStringArray),
+				Transform:   transform.FromField("ARN").Transform(transform.EnsureStringArray),
 			},
 		}),
 	}
-}
-
-func getSSMAssociationARN(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	region := d.EqualsQualString(matrixKeyRegion)
-	associationData := h.Item.(kaytu.SSMAssociation)
-
-	arn := "arn:" + associationData.Metadata.Partition + ":ssm:" + region + ":" + associationData.Metadata.AccountID + ":association/" + *associationData.Description.Association.AssociationDescription.AssociationId
-
-	return arn, nil
 }

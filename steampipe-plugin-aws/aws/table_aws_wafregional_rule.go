@@ -2,7 +2,6 @@ package aws
 
 import (
 	"context"
-	"fmt"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -41,7 +40,7 @@ func tableAwsWAFRegionalRule(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) of the rule",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getWAFRegionalRuleArn)},
+				Transform:   transform.FromField("ARN")},
 			{
 				Name:        "title",
 				Description: resourceInterfaceDescription("title"),
@@ -67,7 +66,7 @@ func tableAwsWAFRegionalRule(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getWAFRegionalRuleArn).Transform(arnToAkas),
+				Transform:   transform.FromField("ARN").Transform(arnToAkas),
 			},
 		}),
 	}
@@ -78,12 +77,4 @@ func tableAwsWAFRegionalRule(_ context.Context) *plugin.Table {
 func getWAFRegionalRuleTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	tags := d.HydrateItem.(kaytu.WAFRegionalRule).Description.Tags
 	return wafRegionalV2TagsToMap(tags)
-}
-
-func getWAFRegionalRuleArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	rule := d.HydrateItem.(kaytu.WAFRegionalRule).Description.Rule
-	metadata := d.HydrateItem.(kaytu.WAFRegionalRule).Metadata
-
-	arn := fmt.Sprintf("arn:%s:waf-regional:%s:%s:rule/%s", metadata.Partition, metadata.Region, metadata.AccountID, *rule.RuleId)
-	return arn, nil
 }

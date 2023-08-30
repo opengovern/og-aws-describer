@@ -2,7 +2,6 @@ package aws
 
 import (
 	"context"
-	"fmt"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -112,19 +111,9 @@ func tableAwsRoute53Zone(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getRoute53HostedZoneArn).Transform(arnToAkas)},
+				Transform:   transform.FromField("ARN").Transform(arnToAkas)},
 		}),
 	}
-}
-
-//// TRANSFORM FUNCTIONS
-
-func getRoute53HostedZoneArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	zoneDescription := d.HydrateItem.(kaytu.Route53HostedZone).Description
-	metadata := d.HydrateItem.(kaytu.Route53HostedZone).Metadata
-
-	arn := fmt.Sprintf("arn:%s:route53:::hostedzone/%s", metadata.Partition, zoneDescription.ID)
-	return arn, nil
 }
 
 func route53HostedZoneTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {

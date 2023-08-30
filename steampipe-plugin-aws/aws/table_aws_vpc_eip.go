@@ -46,7 +46,7 @@ func tableAwsVpcEip(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) specifying the VPC EIP.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getVpcEipARN),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "public_ip",
@@ -146,26 +146,10 @@ func tableAwsVpcEip(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getVpcEipARN).Transform(transform.EnsureStringArray),
+				Transform:   transform.FromField("ARN").Transform(transform.EnsureStringArray),
 			},
 		}),
 	}
-}
-
-//// LIST FUNCTION
-
-//// HYDRATE FUNCTIONS
-
-//// TRANSFORM FUNCTIONS
-
-func getVpcEipARN(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	eip := d.HydrateItem.(kaytu.EC2EIP).Description.Address
-	metadata := d.HydrateItem.(kaytu.EC2EIP).Metadata
-
-	// Get resource arn
-	arn := "arn:" + metadata.Partition + ":ec2:" + metadata.Region + ":" + metadata.AccountID + ":eip/" + *eip.AllocationId
-
-	return arn, nil
 }
 
 //// TRANSFORM FUNCTIONS

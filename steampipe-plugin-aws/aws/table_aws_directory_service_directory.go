@@ -2,8 +2,6 @@ package aws
 
 import (
 	"context"
-	"fmt"
-
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -48,7 +46,7 @@ func tableAwsDirectoryServiceDirectory(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) that uniquely identifies the directory.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getDirectoryServiceDirectoryArn),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "stage",
@@ -202,21 +200,13 @@ func tableAwsDirectoryServiceDirectory(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getDirectoryServiceDirectoryArn).Transform(arnToAkas),
+				Transform:   transform.FromField("ARN").Transform(arnToAkas),
 			},
 		}),
 	}
 }
 
 //// TRANSFORM FUNCTIONS
-
-func getDirectoryServiceDirectoryArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	directory := d.HydrateItem.(kaytu.DirectoryServiceDirectory).Description.Directory
-	metadata := d.HydrateItem.(kaytu.DirectoryServiceDirectory).Metadata
-
-	arn := fmt.Sprintf("arn:%s:ds:%s:%s:directory/%s", metadata.Partition, metadata.Region, metadata.AccountID, *directory.DirectoryId)
-	return arn, nil
-}
 
 func directoryServiceDirectoryTurbotData(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	tags := d.HydrateItem.(kaytu.DirectoryServiceDirectory).Description.Tags

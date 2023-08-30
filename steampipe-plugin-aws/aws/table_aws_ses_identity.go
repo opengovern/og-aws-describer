@@ -2,8 +2,6 @@ package aws
 
 import (
 	"context"
-	"fmt"
-
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -31,7 +29,7 @@ func tableAwsSESIdentity(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) of the identity",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getSESIdentityArn)},
+				Transform:   transform.FromField("ARN")},
 			{
 				Name:        "title",
 				Description: resourceInterfaceDescription("title"),
@@ -47,7 +45,7 @@ func tableAwsSESIdentity(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getSESIdentityArn).Transform(arnToAkas),
+				Transform:   transform.FromField("ARN").Transform(arnToAkas),
 			},
 		}),
 	}
@@ -58,12 +56,4 @@ func tableAwsSESIdentity(_ context.Context) *plugin.Table {
 func getSESIdentityTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	tags := d.HydrateItem.(kaytu.SESIdentity).Description.Tags
 	return sesV2TagsToMap(tags)
-}
-
-func getSESIdentityArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	identity := d.HydrateItem.(kaytu.SESIdentity).Description.Identity
-	metadata := d.HydrateItem.(kaytu.SESIdentity).Metadata
-
-	arn := fmt.Sprintf("arn:%s:ses:%s:%s:identity/%s", metadata.Partition, metadata.Region, metadata.AccountID, identity)
-	return arn, nil
 }

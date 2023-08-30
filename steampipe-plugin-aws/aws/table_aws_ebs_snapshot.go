@@ -74,8 +74,7 @@ func tableAwsEBSSnapshot(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) specifying the snapshot.",
 				Type:        proto.ColumnType_STRING,
-				Hydrate:     getEBSSnapshotARN,
-				Transform:   transform.FromValue(),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "state",
@@ -166,28 +165,13 @@ func tableAwsEBSSnapshot(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Hydrate:     getEBSSnapshotARN,
-				Transform:   transform.FromValue().Transform(transform.EnsureStringArray),
+				Transform:   transform.FromField("ARN").Transform(transform.EnsureStringArray),
 			},
 		}),
 	}
 }
 
 //// LIST FUNCTION
-
-//// HYDRATE FUNCTIONS
-
-func getEBSSnapshotARN(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("getEBSSnapshotARN")
-	region := d.EqualsQualString(matrixKeyRegion)
-	snapshotData := h.Item.(kaytu.EC2VolumeSnapshot).Description.Snapshot
-	metadata := h.Item.(kaytu.EC2VolumeSnapshot).Metadata
-
-	// Get the resource arn
-	arn := "arn:" + metadata.Partition + ":ec2:" + region + ":" + *snapshotData.OwnerId + ":snapshot/" + *snapshotData.SnapshotId
-
-	return arn, nil
-}
 
 //// TRANSFORM FUNCTIONS
 

@@ -2,8 +2,6 @@ package aws
 
 import (
 	"context"
-	"strings"
-
 	"github.com/aws/aws-sdk-go-v2/service/ssm/types"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -51,7 +49,7 @@ func tableAwsSSMDocument(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) of the document.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getAwsSSMDocumentArn),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "approved_version",
@@ -196,8 +194,7 @@ func tableAwsSSMDocument(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-
-				Transform: transform.FromField("Description.Document.Document.Parameters")},
+				Transform:   transform.FromField("ARN").Transform(arnToAkas)},
 			{
 				Name:        "tags",
 				Description: resourceInterfaceDescription("tags"),
@@ -238,19 +235,4 @@ func ssmDocumentTagListToTurbotTags(ctx context.Context, d *transform.TransformD
 	}
 
 	return turbotTagsMap, nil
-}
-
-func getAwsSSMDocumentArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	document := d.HydrateItem.(kaytu.SSMDocument).Description.Document
-	metadata := d.HydrateItem.(kaytu.SESConfigurationSet).Metadata
-
-	arn := "arn:" + metadata.Partition + ":ssm:" + metadata.Region + ":" + metadata.AccountID + ":document"
-
-	if strings.HasPrefix(*document.Document.Name, "/") {
-		arn = arn + *document.Document.Name
-	} else {
-		arn = arn + "/" + *document.Document.Name
-	}
-
-	return arn, nil
 }

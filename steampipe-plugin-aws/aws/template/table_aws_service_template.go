@@ -51,7 +51,7 @@ func tableAws{{.Service}}{{.Name}}(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) of the {{.NameLowerCase}}",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.{{.Name}}.ARN")}, // or generate it below
+				Transform:   transform.FromField("ARN")},
 			{
 				Name:        "title",
 				Description: resourceInterfaceDescription("title"),
@@ -67,7 +67,7 @@ func tableAws{{.Service}}{{.Name}}(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.{{.Name}}.ARN").Transform(arnToAkas), // or generate it below (keep the Transform(arnToTurbotAkas) or use Transform(transform.EnsureStringArray))
+				Transform:   transform.FromField("ARN").Transform(arnToAkas),
 			},
 		}),
 	}
@@ -78,14 +78,6 @@ func tableAws{{.Service}}{{.Name}}(_ context.Context) *plugin.Table {
 func get{{.Service}}{{.Name}}TurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	tags := d.HydrateItem.(kaytu.{{.Service}}{{.Name}}).Description.{{.Name}}.Tags
 	return ec2V2TagsToMap(tags)
-}
-
-func get{{.Service}}{{.Name}}Arn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	{{.Name}} := d.HydrateItem.(kaytu.{{.Service}}{{.Name}}).Description.{{.Name}}
-	metadata := d.HydrateItem.(kaytu.{{.Service}}{{.Name}}).Metadata
-
-	arn := fmt.Sprintf("") //TODO generate the arn
-	return arn, nil
 }
 `
 

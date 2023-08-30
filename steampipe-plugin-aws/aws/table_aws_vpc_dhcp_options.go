@@ -2,7 +2,6 @@ package aws
 
 import (
 	"context"
-	"fmt"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
@@ -92,19 +91,9 @@ func tableAwsVpcDhcpOptions(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getEc2DhcpOptionsArn).Transform(arnToAkas)},
+				Transform:   transform.FromField("ARN").Transform(arnToAkas)},
 		}),
 	}
-}
-
-//// TRANSFORM FUNCTIONS
-
-func getEc2DhcpOptionsArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	dhcpOptions := d.HydrateItem.(kaytu.EC2DhcpOptions).Description.DhcpOptions
-	metadata := d.HydrateItem.(kaytu.EC2DhcpOptions).Metadata
-
-	arn := fmt.Sprintf("arn:%s:ec2:%s:%s:dhcp-options/%s", metadata.Partition, metadata.Region, metadata.AccountID, *dhcpOptions.DhcpOptionsId)
-	return arn, nil
 }
 
 func dhcpConfigurationToStringSlice(_ context.Context, d *transform.TransformData) (interface{}, error) {

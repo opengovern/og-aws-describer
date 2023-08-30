@@ -2,7 +2,6 @@ package aws
 
 import (
 	"context"
-	"fmt"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -79,20 +78,12 @@ func tableAwsEc2TransitGatewayRouteTable(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getEc2TransitGatewayRouteTableArn).Transform(arnToAkas)},
+				Transform:   transform.FromField("ARN").Transform(arnToAkas)},
 		}),
 	}
 }
 
 //// TRANSFORM FUNCTIONS
-
-func getEc2TransitGatewayRouteTableArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	routeTable := d.HydrateItem.(kaytu.EC2TransitGatewayRouteTable).Description.TransitGatewayRouteTable
-	metadata := d.HydrateItem.(kaytu.EC2TransitGatewayRouteTable).Metadata
-
-	arn := fmt.Sprintf("arn:%s:ec2:%s:%s:transit-gateway-route-table/%s", metadata.Partition, metadata.Region, metadata.AccountID, *routeTable.TransitGatewayRouteTableId)
-	return arn, nil
-}
 
 func getEc2TransitGatewayRouteTableTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	data := d.HydrateItem.(kaytu.EC2TransitGatewayRouteTable).Description.TransitGatewayRouteTable

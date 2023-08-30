@@ -40,8 +40,7 @@ func tableAwsConfigConfigurationRecorder(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) of the configuration recorder.",
 				Type:        proto.ColumnType_STRING,
-				Hydrate:     getAwsConfigurationRecorderARN,
-				Transform:   transform.FromValue(),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "recording_group",
@@ -72,8 +71,7 @@ func tableAwsConfigConfigurationRecorder(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Hydrate:     getAwsConfigurationRecorderARN,
-				Transform:   transform.FromValue().Transform(transform.EnsureStringArray),
+				Transform:   transform.FromField("ARN").Transform(transform.EnsureStringArray),
 			},
 			{
 				Name:        "title",
@@ -83,21 +81,4 @@ func tableAwsConfigConfigurationRecorder(_ context.Context) *plugin.Table {
 			},
 		}),
 	}
-}
-
-//// LIST FUNCTION
-
-//// HYDRATE FUNCTIONS
-
-//// TRANSFORM FUNCTIONS
-
-func getAwsConfigurationRecorderARN(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	region := d.EqualsQualString(matrixKeyRegion)
-
-	configurationRecorder := h.Item.(kaytu.ConfigConfigurationRecorder).Description.ConfigurationRecorder
-	metadata := h.Item.(kaytu.ConfigConfigurationRecorder).Metadata
-
-	arn := "arn:" + metadata.Partition + ":config:" + region + ":" + metadata.AccountID + ":config-recorder" + "/" + *configurationRecorder.Name
-
-	return arn, nil
 }

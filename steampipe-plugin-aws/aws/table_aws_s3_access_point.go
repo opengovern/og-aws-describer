@@ -42,7 +42,7 @@ func tableAwsS3AccessPoint(_ context.Context) *plugin.Table {
 				Name:        "access_point_arn",
 				Description: "Amazon Resource Name (ARN) of the access point.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getAccessPointArn),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "bucket_name",
@@ -113,18 +113,8 @@ func tableAwsS3AccessPoint(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getAccessPointArn).Transform(arnToAkas),
+				Transform:   transform.FromField("ARN").Transform(arnToAkas),
 			},
 		}),
 	}
-}
-
-// // LIST FUNCTION
-func getAccessPointArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	metadata := d.HydrateItem.(kaytu.S3AccessPoint).Metadata
-	accessPoint := d.HydrateItem.(kaytu.S3AccessPoint).Description.AccessPoint
-
-	arn := "arn:" + metadata.Partition + ":s3:" + metadata.Region + ":" + metadata.AccountID + ":accesspoint/" + *accessPoint.Name
-
-	return arn, nil
 }

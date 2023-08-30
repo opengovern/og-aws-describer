@@ -3,7 +3,6 @@ package aws
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	go_kit_packs "github.com/turbot/go-kit/types"
 	"net/url"
 
@@ -113,20 +112,12 @@ func tableAwsAPIGatewayRestAPI(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getApiGatewayRestAPIArn).Transform(arnToAkas)},
+				Transform:   transform.FromField("ARN").Transform(arnToAkas)},
 		}),
 	}
 }
 
 //// TRANSFORM FUNCTION
-
-func getApiGatewayRestAPIArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	api := d.HydrateItem.(kaytu.ApiGatewayRestAPI).Description.RestAPI
-	metadata := d.HydrateItem.(kaytu.ApiGatewayRestAPI).Metadata
-
-	arn := fmt.Sprintf("arn:%s:apigateway:%s::/restapis/%s", metadata.Partition, metadata.Region, *api.Id)
-	return arn, nil
-}
 
 // unmarshalJSON :: parse the yaml-encoded data and return the result
 func unmarshalJSON(ctx context.Context, d *transform.TransformData) (interface{}, error) {

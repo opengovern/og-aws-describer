@@ -125,12 +125,3 @@ func getVpcEndpointServiceTurbotTags(_ context.Context, d *transform.TransformDa
 	endpointService := d.HydrateItem.(kaytu.EC2VPCEndpointService).Description.VpcEndpointService
 	return ec2V2TagsToMap(endpointService.Tags)
 }
-
-//func getVpcEndpointServiceArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-//	vpcEndpointService := d.HydrateItem.(kaytu.EC2VPCEndpointService).Description.VpcEndpointService
-//	metadata := d.HydrateItem.(kaytu.EC2VPCEndpointService).Metadata
-//	splitServiceName := strings.Split(*vpcEndpointService.ServiceName, ".")
-//
-//	arn := fmt.Sprintf("arn:%s:ec2:%s:%s:vpc-endpoint-service/%s", metadata.Partition, metadata.Region, metadata.AccountID, splitServiceName[len(splitServiceName)-1])
-//	return arn, nil
-//}

@@ -2,7 +2,6 @@ package aws
 
 import (
 	"context"
-	"fmt"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -39,7 +38,7 @@ func tableAwsCodeDeployApplication(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) specifying the application.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getCodeDeployApplicationArn)},
+				Transform:   transform.FromField("ARN")},
 			{
 				Name:        "compute_platform",
 				Description: "The destination platform type for deployment of the application (Lambda or Server).",
@@ -82,7 +81,7 @@ func tableAwsCodeDeployApplication(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getCodeDeployApplicationArn).Transform(arnToAkas),
+				Transform:   transform.FromField("ARN").Transform(arnToAkas),
 			},
 		}),
 	}
@@ -93,12 +92,4 @@ func tableAwsCodeDeployApplication(_ context.Context) *plugin.Table {
 func getCodeDeployApplicationTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	tags := d.HydrateItem.(kaytu.CodeDeployApplication).Description.Tags
 	return codeDeployV2TagsToMap(tags)
-}
-
-func getCodeDeployApplicationArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	application := d.HydrateItem.(kaytu.CodeDeployApplication).Description.Application
-	metadata := d.HydrateItem.(kaytu.CodeDeployApplication).Metadata
-
-	arn := fmt.Sprintf("arn:%s:codedeploy:%s:%s:application:%s", metadata.Partition, metadata.Region, metadata.AccountID, *application.ApplicationName)
-	return arn, nil
 }

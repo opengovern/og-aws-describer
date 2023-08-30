@@ -61,7 +61,7 @@ func tableAwsEc2Instance(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) specifying the instance.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getEc2InstanceARN),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "instance_type",
@@ -496,22 +496,13 @@ func tableAwsEc2Instance(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getEc2InstanceARN).Transform(transform.EnsureStringArray),
+				Transform:   transform.FromField("ARN").Transform(transform.EnsureStringArray),
 			},
 		}),
 	}
 }
 
 //// TRANSFORM FUNCTIONS
-
-func getEc2InstanceARN(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("getEc2InstanceARN")
-	instance := d.HydrateItem.(kaytu.EC2Instance).Description.Instance
-	metadata := d.HydrateItem.(kaytu.EC2Instance).Metadata
-
-	arn := "arn:" + metadata.Partition + ":ec2:" + metadata.Region + ":" + metadata.AccountID + ":instance/" + *instance.InstanceId
-	return arn, nil
-}
 
 func getEc2InstanceTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	desc := d.HydrateItem.(kaytu.EC2Instance).Description

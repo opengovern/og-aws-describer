@@ -2,8 +2,6 @@ package aws
 
 import (
 	"context"
-	"fmt"
-
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -221,20 +219,12 @@ func tableAwsRedshiftSnapshot(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getRedshiftSnapshotArn).Transform(arnToAkas)},
+				Transform:   transform.FromField("ARN").Transform(arnToAkas)},
 		}),
 	}
 }
 
 //// TRANSFORM FUNCTIONS
-
-func getRedshiftSnapshotArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	snapshot := d.HydrateItem.(kaytu.RedshiftSnapshot).Description.Snapshot
-	metadata := d.HydrateItem.(kaytu.RedshiftSnapshot).Metadata
-
-	arn := fmt.Sprintf("arn:%s:redshift:%s:%s:snapshot:%s/%s", metadata.Partition, metadata.Region, metadata.AccountID, *snapshot.ClusterIdentifier, *snapshot.SnapshotIdentifier)
-	return arn, nil
-}
 
 func redshiftSnapshotTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	snapshot := d.HydrateItem.(kaytu.RedshiftSnapshot).Description.Snapshot

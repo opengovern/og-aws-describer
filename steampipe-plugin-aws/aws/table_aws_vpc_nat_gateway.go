@@ -39,7 +39,7 @@ func tableAwsVpcNatGateway(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) specifying the NAT gateway.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getVpcNatGatewayARN),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "nat_gateway_addresses",
@@ -117,24 +117,10 @@ func tableAwsVpcNatGateway(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getVpcNatGatewayARN).Transform(transform.EnsureStringArray),
+				Transform:   transform.FromField("ARN").Transform(transform.EnsureStringArray),
 			},
 		}),
 	}
-}
-
-//// LIST FUNCTION
-
-//// HYDRATE FUNCTIONS
-
-//// TRANSFORM FUNCTIONS
-
-func getVpcNatGatewayARN(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	natGateway := d.HydrateItem.(kaytu.EC2NatGateway).Description.NatGateway
-	metadata := d.HydrateItem.(kaytu.EC2NatGateway).Metadata
-
-	arn := "arn:" + metadata.Partition + ":ec2:" + metadata.Region + ":" + metadata.AccountID + ":natgateway/" + *natGateway.NatGatewayId
-	return arn, nil
 }
 
 //// TRANSFORM FUNCTIONS

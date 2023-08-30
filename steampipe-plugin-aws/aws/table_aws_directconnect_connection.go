@@ -2,8 +2,6 @@ package aws
 
 import (
 	"context"
-	"fmt"
-
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -36,7 +34,7 @@ func tableAwsDirectConnectConnection(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) of the connection",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getDirectConnectConnectionArn)},
+				Transform:   transform.FromField("ARN")},
 			{
 				Name:        "title",
 				Description: resourceInterfaceDescription("title"),
@@ -52,7 +50,7 @@ func tableAwsDirectConnectConnection(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getDirectConnectConnectionArn).Transform(arnToAkas),
+				Transform:   transform.FromField("ARN").Transform(arnToAkas),
 			},
 		}),
 	}
@@ -63,12 +61,4 @@ func tableAwsDirectConnectConnection(_ context.Context) *plugin.Table {
 func getDirectConnectConnectionTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	tags := d.HydrateItem.(kaytu.DirectConnectConnection).Description.Connection.Tags
 	return directConnectV2TagsToMap(tags)
-}
-
-func getDirectConnectConnectionArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	connection := d.HydrateItem.(kaytu.DirectConnectConnection).Description.Connection
-	metadata := d.HydrateItem.(kaytu.DirectConnectConnection).Metadata
-
-	arn := fmt.Sprintf("arn:%s:directconnect:%s:%s:dxcon/%s", metadata.Partition, metadata.Region, metadata.AccountID, *connection.ConnectionId)
-	return arn, nil
 }

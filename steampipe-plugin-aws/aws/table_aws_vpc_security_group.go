@@ -45,7 +45,7 @@ func tableAwsVpcSecurityGroup(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) specifying the security group.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getVpcSecurityGroupARN),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "description",
@@ -101,25 +101,10 @@ func tableAwsVpcSecurityGroup(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getVpcSecurityGroupARN).Transform(transform.EnsureStringArray),
+				Transform:   transform.FromField("ARN").Transform(transform.EnsureStringArray),
 			},
 		}),
 	}
-}
-
-//// LIST FUNCTION
-
-//// HYDRATE FUNCTIONS
-
-//// TRANSFORM FUNCTIONS
-
-func getVpcSecurityGroupARN(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	securityGroup := d.HydrateItem.(kaytu.EC2SecurityGroup).Description.SecurityGroup
-	metadata := d.HydrateItem.(kaytu.EC2SecurityGroup).Metadata
-
-	arn := "arn:" + metadata.Partition + ":ec2:" + metadata.Region + ":" + metadata.AccountID + ":security-group/" + *securityGroup.GroupId
-
-	return arn, nil
 }
 
 func getVpcSecurityGroupTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {

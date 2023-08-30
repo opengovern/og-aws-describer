@@ -2,7 +2,6 @@ package aws
 
 import (
 	"context"
-	"fmt"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -46,7 +45,7 @@ func tableAwsWorkspace(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The arn of the WorkSpace.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getWorkspacesWorkspaceArn),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "bundle_id",
@@ -133,19 +132,10 @@ func tableAwsWorkspace(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getWorkspacesWorkspaceArn).Transform(arnToAkas),
+				Transform:   transform.FromField("ARN").Transform(arnToAkas),
 			},
 		}),
 	}
-}
-
-// // TRANSFORM FUNCTION
-func getWorkspacesWorkspaceArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	workspace := d.HydrateItem.(kaytu.WorkspacesWorkspace).Description.Workspace
-	metadata := d.HydrateItem.(kaytu.WorkspacesWorkspace).Metadata
-
-	arn := fmt.Sprintf("arn:%s:workspaces:%s:%s:workspace/%s", metadata.Partition, metadata.Region, metadata.AccountID, *workspace.WorkspaceId)
-	return arn, nil
 }
 
 func workspaceTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {

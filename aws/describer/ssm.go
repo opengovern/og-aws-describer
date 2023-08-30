@@ -3,6 +3,7 @@ package describer
 import (
 	"context"
 	"errors"
+	"fmt"
 	"github.com/aws/smithy-go"
 	"strings"
 
@@ -219,10 +220,12 @@ func SSMAssociation(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 				return nil, err
 			}
 
+			arn := fmt.Sprintf("arn:%s:ssm:%s:%s:association/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.AssociationId)
 			resource := Resource{
 				Region: describeCtx.Region,
 				ID:     *v.AssociationId,
 				Name:   *v.Name,
+				ARN:    arn,
 				Description: model.SSMAssociationDescription{
 					AssociationItem: v,
 					Association:     out,
@@ -276,10 +279,18 @@ func SSMDocument(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 				return nil, err
 			}
 
+			arn := fmt.Sprintf("arn:%s:ssm:%s:%s:document", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID)
+			if strings.HasPrefix(*v.Name, "/") {
+				arn += *v.Name
+			} else {
+				arn += "/" + *v.Name
+			}
+
 			resource := Resource{
 				Region: describeCtx.Region,
 				ID:     *v.Name,
 				Name:   *v.Name,
+				ARN:    arn,
 				Description: model.SSMDocumentDescription{
 					DocumentIdentifier: v,
 					Document:           data,

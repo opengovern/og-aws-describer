@@ -47,7 +47,7 @@ func tableAwsVpcVpnConnection(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) specifying the VPN connection.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getVpcVpnConnectionARN),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "state",
@@ -132,26 +132,10 @@ func tableAwsVpcVpnConnection(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getVpcVpnConnectionARN).Transform(transform.EnsureStringArray),
+				Transform:   transform.FromField("ARN").Transform(transform.EnsureStringArray),
 			},
 		}),
 	}
-}
-
-//// LIST FUNCTION
-
-//// HYDRATE FUNCTIONS
-
-//// TRANSFORM FUNCTIONS
-
-func getVpcVpnConnectionARN(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	vpnConnection := d.HydrateItem.(kaytu.EC2VPNConnection).Description.VpnConnection
-	metadata := d.HydrateItem.(kaytu.EC2VPNConnection).Metadata
-
-	// Build ARN
-	arn := "arn:" + metadata.Partition + ":ec2:" + metadata.Region + ":" + metadata.AccountID + ":vpn-connection/" + *vpnConnection.VpnConnectionId
-
-	return arn, nil
 }
 
 //// TRANSFORM FUNCTIONS

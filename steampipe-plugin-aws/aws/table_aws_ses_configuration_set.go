@@ -2,8 +2,6 @@ package aws
 
 import (
 	"context"
-	"fmt"
-
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -31,7 +29,7 @@ func tableAwsSESConfigurationSet(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) of the configuration set",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getSESConfigurationSerArn)},
+				Transform:   transform.FromField("ARN")},
 			{
 				Name:        "title",
 				Description: resourceInterfaceDescription("title"),
@@ -41,18 +39,8 @@ func tableAwsSESConfigurationSet(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getSESConfigurationSerArn).Transform(arnToAkas),
+				Transform:   transform.FromField("ARN").Transform(arnToAkas),
 			},
 		}),
 	}
-}
-
-//// TRANSFORM FUNCTIONS
-
-func getSESConfigurationSerArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	configurationSet := d.HydrateItem.(kaytu.SESConfigurationSet).Description.ConfigurationSet
-	metadata := d.HydrateItem.(kaytu.SESConfigurationSet).Metadata
-
-	arn := fmt.Sprintf("arn:%s:ses:%s:%s:configuration-set/%s", metadata.Partition, metadata.Region, metadata.AccountID, *configurationSet.Name)
-	return arn, nil
 }

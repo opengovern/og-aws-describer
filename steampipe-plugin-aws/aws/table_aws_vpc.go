@@ -46,7 +46,7 @@ func tableAwsVpc(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) specifying the vpc.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getVpcARN),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "cidr_block",
@@ -120,25 +120,10 @@ func tableAwsVpc(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getVpcARN).Transform(transform.EnsureStringArray),
+				Transform:   transform.FromField("ARN").Transform(transform.EnsureStringArray),
 			},
 		}),
 	}
-}
-
-//// LIST FUNCTION
-
-//// HYDRATE FUNCTIONS
-
-//// TRANSFORM FUNCTIONS
-
-func getVpcARN(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	vpc := d.HydrateItem.(kaytu.EC2Vpc).Description.Vpc
-	metadata := d.HydrateItem.(kaytu.EC2Vpc).Metadata
-
-	arn := "arn:" + metadata.Partition + ":ec2:" + metadata.Region + ":" + metadata.AccountID + ":vpc/" + *vpc.VpcId
-
-	return arn, nil
 }
 
 //// TRANSFORM FUNCTIONS

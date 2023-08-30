@@ -45,8 +45,7 @@ func tableAwsGuardDutyDetector(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) specifying the detector.",
 				Type:        proto.ColumnType_STRING,
-				Hydrate:     getGuardDutyDetectorARN,
-				Transform:   transform.FromValue(),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "status",
@@ -103,24 +102,8 @@ func tableAwsGuardDutyDetector(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Hydrate:     getGuardDutyDetectorARN,
-				Transform:   transform.FromValue().Transform(transform.EnsureStringArray),
+				Transform:   transform.FromField("ARN").Transform(transform.EnsureStringArray),
 			},
 		}),
 	}
-}
-
-//// LIST FUNCTION
-
-//// HYDRATE FUNCTIONS
-
-func getGuardDutyDetectorARN(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	plugin.Logger(ctx).Trace("getGuardDutyDetectorARN")
-	region := d.EqualsQualString(matrixKeyRegion)
-	data := h.Item.(kaytu.GuardDutyDetector).Description
-	metadata := h.Item.(kaytu.GuardDutyDetector).Metadata
-
-	arn := "arn:" + metadata.Partition + ":guardduty:" + region + ":" + metadata.AccountID + ":detector/" + data.DetectorId
-
-	return arn, nil
 }

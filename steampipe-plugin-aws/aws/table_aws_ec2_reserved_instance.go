@@ -51,7 +51,7 @@ func tableAwsEc2ReservedInstance(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) specifying the instance.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getEC2ReservedInstanceARN),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "instance_type",
@@ -155,21 +155,13 @@ func tableAwsEc2ReservedInstance(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getEC2ReservedInstanceARN).Transform(transform.EnsureStringArray),
+				Transform:   transform.FromField("ARN").Transform(transform.EnsureStringArray),
 			},
 		}),
 	}
 }
 
 //// TRANSFORM FUNCTION
-
-func getEC2ReservedInstanceARN(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	instance := d.HydrateItem.(kaytu.EC2ReservedInstances).Description.ReservedInstances
-	metadata := d.HydrateItem.(kaytu.EC2ReservedInstances).Metadata
-
-	arn := "arn:" + metadata.Partition + ":ec2:" + metadata.Region + ":" + metadata.AccountID + ":reserved-instances/" + *instance.ReservedInstancesId
-	return arn, nil
-}
 
 func getEc2ReservedInstanceTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	instance := d.HydrateItem.(kaytu.EC2ReservedInstances).Description.ReservedInstances

@@ -2,8 +2,6 @@ package aws
 
 import (
 	"context"
-	"fmt"
-
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -31,7 +29,7 @@ func tableAwsEc2Host(_ context.Context) *plugin.Table {
 				Name:        "host_arn",
 				Description: "The Amazon Resource Name (ARN) of the host",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(getEc2HostArn)},
+				Transform:   transform.FromField("ARN")},
 			{
 				Name:        "title",
 				Description: resourceInterfaceDescription("title"),
@@ -47,7 +45,7 @@ func tableAwsEc2Host(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getEc2HostArn).Transform(arnToAkas),
+				Transform:   transform.FromField("ARN").Transform(arnToAkas),
 			},
 		}),
 	}
@@ -58,11 +56,4 @@ func tableAwsEc2Host(_ context.Context) *plugin.Table {
 func getEc2HostTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	tags := d.HydrateItem.(kaytu.EC2Host).Description.Host.Tags
 	return ec2V2TagsToMap(tags)
-}
-
-func getEc2HostArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	host := d.HydrateItem.(kaytu.EC2Host).Description.Host
-	metadata := d.HydrateItem.(kaytu.EC2Host).Metadata
-	arn := fmt.Sprintf("arn:%s:ec2:%s:%s:dedicated-host/%s", metadata.Partition, metadata.Region, metadata.AccountID, *host.HostId)
-	return arn, nil
 }
