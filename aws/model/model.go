@@ -2300,7 +2300,7 @@ type KMSAliasDescription struct {
 //getfilter:name=description.Function.Configuration.FunctionName
 type LambdaFunctionDescription struct {
 	Function  *lambdaop.GetFunctionOutput
-	UrlConfig lambda.FunctionUrlConfig
+	UrlConfig []lambda.FunctionUrlConfig
 	Policy    *lambdaop.GetPolicyOutput
 }
 

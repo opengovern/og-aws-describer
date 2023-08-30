@@ -4,14 +4,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/aws/smithy-go"
-	"log"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/lambda"
 	"github.com/aws/aws-sdk-go-v2/service/lambda/types"
 	"github.com/aws/aws-sdk-go/aws/awserr"
-	_ "github.com/aws/smithy-go"
+	"github.com/aws/smithy-go"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 )
 
@@ -29,43 +26,44 @@ func LambdaFunction(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 		}
 
 		for _, v := range page.Functions {
-
-			listUrlConfig, err := client.ListFunctionUrlConfigs(ctx, &lambda.ListFunctionUrlConfigsInput{
-				FunctionName: v.FunctionName,
-			})
+			if v.FunctionName == nil {
+				continue
+			}
+			resource, err := lambdaFunctionHandle(ctx, cfg, v)
 			if err != nil {
-				if isErr(err, "ListFunctionUrlConfigsNotFound") || isErr(err, "InvalidParameterValue") {
-					return nil, nil
-				}
 				return nil, err
 			}
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				continue
+			}
 
-			for _, l := range listUrlConfig.FunctionUrlConfigs {
-				resource, err := lambdaFunctionHandle(ctx, cfg, v, l)
-				if err != nil {
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
 					return nil, err
 				}
-				emptyResource := Resource{}
-				if err == nil && resource == emptyResource {
-					return nil, nil
-				}
-
-				if stream != nil {
-					if err := (*stream)(resource); err != nil {
-						return nil, err
-					}
-				} else {
-					values = append(values, resource)
-				}
+			} else {
+				values = append(values, resource)
 			}
 		}
 	}
 
 	return values, nil
 }
-func lambdaFunctionHandle(ctx context.Context, cfg aws.Config, v types.FunctionConfiguration, l types.FunctionUrlConfig) (Resource, error) {
+func lambdaFunctionHandle(ctx context.Context, cfg aws.Config, v types.FunctionConfiguration) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := lambda.NewFromConfig(cfg)
+
+	listUrlConfig, err := client.ListFunctionUrlConfigs(ctx, &lambda.ListFunctionUrlConfigsInput{
+		FunctionName: v.FunctionName,
+	})
+	if err != nil {
+		if isErr(err, "ListFunctionUrlConfigsNotFound") || isErr(err, "InvalidParameterValue") {
+			listUrlConfig = &lambda.ListFunctionUrlConfigsOutput{}
+		} else {
+			return Resource{}, nil
+		}
+	}
 
 	policy, err := client.GetPolicy(ctx, &lambda.GetPolicyInput{
 		FunctionName: v.FunctionName,
@@ -78,7 +76,6 @@ func lambdaFunctionHandle(ctx context.Context, cfg aws.Config, v types.FunctionC
 		}
 
 		if awsErr, ok := err.(awserr.Error); ok {
-			log.Println("Describe Lambda Error:", awsErr.Code(), awsErr.Message())
 			if awsErr.Code() == "ResourceNotFoundException" {
 				policy = &lambda.GetPolicyOutput{}
 				err = nil
@@ -103,7 +100,7 @@ func lambdaFunctionHandle(ctx context.Context, cfg aws.Config, v types.FunctionC
 		Name:   *v.FunctionName,
 		Description: model.LambdaFunctionDescription{
 			Function:  function,
-			UrlConfig: l,
+			UrlConfig: listUrlConfig.FunctionUrlConfigs,
 			Policy:    policy,
 		},
 	}
@@ -122,27 +119,15 @@ func GetLambdaFunction(ctx context.Context, cfg aws.Config, fields map[string]st
 
 	var values []Resource
 
-	listUrlConfig, err := client.ListFunctionUrlConfigs(ctx, &lambda.ListFunctionUrlConfigsInput{
-		FunctionName: out.Configuration.FunctionName,
-	})
+	resource, err := lambdaFunctionHandle(ctx, cfg, *out.Configuration)
 	if err != nil {
-		if isErr(err, "ListFunctionUrlConfigsNotFound") || isErr(err, "InvalidParameterValue") {
-			return nil, nil
-		}
 		return nil, err
 	}
-
-	for _, l := range listUrlConfig.FunctionUrlConfigs {
-		resource, err := lambdaFunctionHandle(ctx, cfg, *out.Configuration, l)
-		if err != nil {
-			return nil, err
-		}
-		emptyResource := Resource{}
-		if err == nil && resource == emptyResource {
-			return nil, nil
-		}
-		values = append(values, resource)
+	emptyResource := Resource{}
+	if err == nil && resource == emptyResource {
+		return nil, nil
 	}
+	values = append(values, resource)
 
 	return values, nil
 }

@@ -206,7 +206,7 @@ func describe(ctx context.Context, logger *zap.Logger, cfg aws.Config, account s
 	if !ok {
 		return nil, fmt.Errorf("unsupported resource type: %s", resourceType)
 	}
-	ctx = context.WithValue(ctx, "logger", logger)
+	ctx = describer.WithLogger(ctx, logger)
 
 	return resourceTypeObject.ListDescriber(ctx, cfg, account, regions, resourceType, triggerType, stream)
 }

@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -60,7 +61,7 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 	var err error
 	logger := zap.NewNop()
 
-	if debug := os.Getenv("DEBUG"); debug == "true" {
+	if debug := strings.TrimSpace(os.Getenv("DEBUG")); debug == "true" {
 		logger, err = zap.NewProduction()
 		if err != nil {
 			return err
