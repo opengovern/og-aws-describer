@@ -72,7 +72,7 @@ func tableAwsEcrRepository(_ context.Context) *plugin.Table {
 			{
 				Name:        "encryption_configuration",
 				Description: "The encryption configuration for the repository.",
-				Hydrate:     kaytu.GetECRRepository,
+				Transform:   transform.FromField("Description.Repository.EncryptionConfiguration"),
 				Type:        proto.ColumnType_JSON,
 			},
 			{
