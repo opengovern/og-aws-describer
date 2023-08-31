@@ -312,6 +312,9 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 							if columnName != "" && transformer != "" {
 								transformer = strings.ToLower(transformer[:1]) + transformer[1:]
+								if !strings.Contains(transformer, ".") {
+									transformer = strings.ToLower(transformer)
+								}
 								s.GetFilters[columnName] = transformer
 								s.ListFilters[columnName] = transformer
 							}
