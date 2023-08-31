@@ -2,6 +2,7 @@ package aws
 
 import (
 	"context"
+	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/docdb"
@@ -247,7 +248,7 @@ func tableAwsDocDBClusterInstance(_ context.Context) *plugin.Table {
 				Name:        "tags",
 				Description: resourceInterfaceDescription("tags"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Tags").Transform(DocDBClusterInstanceTagListToTurbotTags),
+				Transform:   transform.From(DocDBClusterInstanceTagListToTurbotTags),
 			},
 			{
 				Name:        "title",
@@ -330,7 +331,7 @@ func listDocDBClusterInstances(ctx context.Context, d *plugin.QueryData, _ *plug
 //// TRANSFORM FUNCTIONS
 
 func DocDBClusterInstanceTagListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.([]types.Tag)
+	tags := d.HydrateItem.(kaytu.DocDBClusterInstance).Description.Tags
 
 	// Mapping the resource tags inside turbotTags
 	var turbotTagsMap map[string]string

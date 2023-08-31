@@ -2,7 +2,6 @@ package aws
 
 import (
 	"context"
-
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -310,8 +309,7 @@ func tableAwsRDSDBCluster(_ context.Context) *plugin.Table {
 				Name:        "title",
 				Description: resourceInterfaceDescription("title"),
 				Type:        proto.ColumnType_STRING,
-
-				Transform: transform.FromField("Description.DBCluster.DBClusterIdentifier")},
+				Transform:   transform.FromField("Description.DBCluster.DBClusterIdentifier")},
 			{
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
