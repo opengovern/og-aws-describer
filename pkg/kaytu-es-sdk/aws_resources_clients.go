@@ -639,6 +639,7 @@ func (p ApiGatewayRestAPIPaginator) NextPage(ctx context.Context) ([]ApiGatewayR
 }
 
 var listApiGatewayRestAPIFilters = map[string]string{
+	"akas":                         "aRN",
 	"api_id":                       "description.RestAPI.Id",
 	"api_key_source":               "description.RestAPI.ApiKeySource",
 	"binary_media_types":           "description.RestAPI.BinaryMediaTypes",
@@ -688,6 +689,7 @@ func ListApiGatewayRestAPI(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 var getApiGatewayRestAPIFilters = map[string]string{
+	"akas":                         "aRN",
 	"api_id":                       "description.RestAPI.Id",
 	"api_key_source":               "description.RestAPI.ApiKeySource",
 	"binary_media_types":           "description.RestAPI.BinaryMediaTypes",
@@ -1325,6 +1327,7 @@ func (p ApiGatewayV2APIPaginator) NextPage(ctx context.Context) ([]ApiGatewayV2A
 }
 
 var listApiGatewayV2APIFilters = map[string]string{
+	"akas":                         "aRN",
 	"api_endpoint":                 "description.API.ApiEndpoint",
 	"api_id":                       "description.API.ApiId",
 	"api_key_selection_expression": "description.API.ApiKeySelectionExpression",
@@ -1369,6 +1372,7 @@ func ListApiGatewayV2API(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 var getApiGatewayV2APIFilters = map[string]string{
+	"akas":                         "aRN",
 	"api_endpoint":                 "description.API.ApiEndpoint",
 	"api_id":                       "description.API.ApiId",
 	"api_key_selection_expression": "description.API.ApiKeySelectionExpression",
@@ -4761,6 +4765,8 @@ func (p GuardDutyDetectorPaginator) NextPage(ctx context.Context) ([]GuardDutyDe
 }
 
 var listGuardDutyDetectorFilters = map[string]string{
+	"akas":                         "aRN",
+	"arn":                          "aRN",
 	"created_at":                   "description.Detector.CreatedAt",
 	"data_sources":                 "description.Detector.DataSources",
 	"detector_id":                  "description.DetectorId",
@@ -4804,6 +4810,8 @@ func ListGuardDutyDetector(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 var getGuardDutyDetectorFilters = map[string]string{
+	"akas":                         "aRN",
+	"arn":                          "aRN",
 	"created_at":                   "description.Detector.CreatedAt",
 	"data_sources":                 "description.Detector.DataSources",
 	"detector_id":                  "description.DetectorId",
@@ -7490,6 +7498,8 @@ func (p CloudFrontOriginAccessControlPaginator) NextPage(ctx context.Context) ([
 }
 
 var listCloudFrontOriginAccessControlFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"id":               "description.OriginAccessControl.Id",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.OriginAccessControl.Name",
@@ -7527,6 +7537,8 @@ func ListCloudFrontOriginAccessControl(ctx context.Context, d *plugin.QueryData,
 }
 
 var getCloudFrontOriginAccessControlFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"id":               "description.OriginAccessControl.Id",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.OriginAccessControl.Name",
@@ -10402,6 +10414,8 @@ func (p ConfigConfigurationRecorderPaginator) NextPage(ctx context.Context) ([]C
 }
 
 var listConfigConfigurationRecorderFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ConfigurationRecorder.Name",
 	"recording_group":  "description.ConfigurationRecorder.RecordingGroup",
@@ -10442,6 +10456,8 @@ func ListConfigConfigurationRecorder(ctx context.Context, d *plugin.QueryData, _
 }
 
 var getConfigConfigurationRecorderFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ConfigurationRecorder.Name",
 	"recording_group":  "description.ConfigurationRecorder.RecordingGroup",
@@ -13610,6 +13626,8 @@ func (p EC2VolumeSnapshotPaginator) NextPage(ctx context.Context) ([]EC2VolumeSn
 }
 
 var listEC2VolumeSnapshotFilters = map[string]string{
+	"akas":                      "aRN",
+	"arn":                       "aRN",
 	"create_volume_permissions": "description.CreateVolumePermissions",
 	"data_encryption_key_id":    "description.Snapshot.DataEncryptionKeyId",
 	"description":               "description.Snapshot.Description",
@@ -13660,6 +13678,8 @@ func ListEC2VolumeSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 var getEC2VolumeSnapshotFilters = map[string]string{
+	"akas":                      "aRN",
+	"arn":                       "aRN",
 	"create_volume_permissions": "description.CreateVolumePermissions",
 	"data_encryption_key_id":    "description.Snapshot.DataEncryptionKeyId",
 	"description":               "description.Snapshot.Description",
@@ -14802,6 +14822,8 @@ func (p EC2VolumePaginator) NextPage(ctx context.Context) ([]EC2Volume, error) {
 }
 
 var listEC2VolumeFilters = map[string]string{
+	"akas":                 "aRN",
+	"arn":                  "aRN",
 	"attachments":          "description.Volume.Attachments",
 	"auto_enable_io":       "description.Attributes.AutoEnableIO",
 	"availability_zone":    "description.Volume.AvailabilityZone",
@@ -14853,6 +14875,8 @@ func ListEC2Volume(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 }
 
 var getEC2VolumeFilters = map[string]string{
+	"akas":                 "aRN",
+	"arn":                  "aRN",
 	"attachments":          "description.Volume.Attachments",
 	"auto_enable_io":       "description.Attributes.AutoEnableIO",
 	"availability_zone":    "description.Volume.AvailabilityZone",
@@ -15181,76 +15205,78 @@ func (p EC2InstancePaginator) NextPage(ctx context.Context) ([]EC2Instance, erro
 }
 
 var listEC2InstanceFilters = map[string]string{
-	"ami_launch_index":                           "description.Instance.AmiLaunchIndex",
-	"architecture":                               "description.Instance.Architecture",
-	"block_device_mappings":                      "description.Instance.BlockDeviceMappings",
-	"boot_mode":                                  "description.Instance.BootMode",
-	"capacity_reservation_id":                    "description.Instance.CapacityReservationId",
-	"capacity_reservation_specification":         "description.Instance.CapacityReservationSpecification",
-	"client_token":                               "description.Instance.ClientToken",
-	"cpu_options_core_count":                     "description.Instance.CpuOptions.CoreCount",
-	"cpu_options_threads_per_core":               "description.Instance.CpuOptions.ThreadsPerCore",
-	"disable_api_termination":                    "description.Attributes.DisableApiTermination",
-	"ebs_optimized":                              "description.Instance.EbsOptimized",
-	"elastic_gpu_associations":                   "description.Instance.ElasticGpuAssociations",
+	"akas":                               "aRN",
+	"ami_launch_index":                   "description.Instance.AmiLaunchIndex",
+	"architecture":                       "description.Instance.Architecture",
+	"arn":                                "aRN",
+	"block_device_mappings":              "description.Instance.BlockDeviceMappings",
+	"boot_mode":                          "description.Instance.BootMode",
+	"capacity_reservation_id":            "description.Instance.CapacityReservationId",
+	"capacity_reservation_specification": "description.Instance.CapacityReservationSpecification",
+	"client_token":                       "description.Instance.ClientToken",
+	"cpu_options_core_count":             "description.Instance.CpuOptions.CoreCount",
+	"cpu_options_threads_per_core":       "description.Instance.CpuOptions.ThreadsPerCore",
+	"disable_api_termination":            "description.Attributes.DisableApiTermination",
+	"ebs_optimized":                      "description.Instance.EbsOptimized",
+	"elastic_gpu_associations":           "description.Instance.ElasticGpuAssociations",
 	"elastic_inference_accelerator_associations": "description.Instance.ElasticInferenceAcceleratorAssociations",
-	"ena_support":                                "description.Instance.EnaSupport",
-	"enclave_options":                            "description.Instance.EnclaveOptions",
-	"hibernation_options":                        "description.Instance.HibernationOptions",
-	"hypervisor":                                 "description.Instance.Hypervisor",
-	"iam_instance_profile_arn":                   "description.Instance.IamInstanceProfile.Arn",
-	"iam_instance_profile_id":                    "description.Instance.IamInstanceProfile.Id",
-	"image_id":                                   "description.Instance.ImageId",
-	"instance_id":                                "description.Instance.InstanceId",
-	"instance_initiated_shutdown_behavior":       "description.Attributes.InstanceInitiatedShutdownBehavior",
-	"instance_lifecycle":                         "description.Instance.InstanceLifecycle",
-	"instance_state":                             "description.Instance.State.Name",
-	"instance_status":                            "description.Attributes.InstanceStatus",
-	"instance_type":                              "description.Instance.InstanceType",
-	"kaytu_account_id":                           "metadata.SourceID",
-	"kernel_id":                                  "description.Instance.KernelId",
-	"key_name":                                   "description.Instance.KeyName",
-	"launch_template_data":                       "description.LaunchTemplateData",
-	"launch_time":                                "description.Instance.LaunchTime",
-	"licenses":                                   "description.Instance.Licenses",
-	"maintenance_options":                        "description.Instance.MaintenanceOptions",
-	"metadata_options":                           "description.Instance.MetadataOptions",
-	"monitoring_state":                           "description.Instance.Monitoring.State",
-	"network_interfaces":                         "description.Instance.NetworkInterfaces",
-	"outpost_arn":                                "description.Instance.OutpostArn",
-	"placement_affinity":                         "description.Instance.Placement.Affinity",
-	"placement_availability_zone":                "description.Instance.Placement.AvailabilityZone",
-	"placement_group_id":                         "description.Instance.Placement.GroupId",
-	"placement_group_name":                       "description.Instance.Placement.GroupName",
-	"placement_host_id":                          "description.Instance.Placement.HostId",
-	"placement_host_resource_group_arn":          "description.Instance.Placement.HostResourceGroupArn",
-	"placement_partition_number":                 "description.Instance.Placement.PartitionNumber",
-	"placement_tenancy":                          "description.Instance.Placement.Tenancy",
-	"platform":                                   "description.Instance.Platform",
-	"platform_details":                           "description.Instance.PlatformDetails",
-	"private_dns_name":                           "description.Instance.PrivateDnsName",
-	"private_dns_name_options":                   "description.Instance.PrivateDnsNameOptions",
-	"private_ip_address":                         "description.Instance.PrivateIpAddress",
-	"product_codes":                              "description.Instance.ProductCodes",
-	"public_dns_name":                            "description.Instance.PublicDnsName",
-	"public_ip_address":                          "description.Instance.PublicIpAddress",
-	"ram_disk_id":                                "description.Instance.RamdiskId",
-	"root_device_name":                           "description.Instance.RootDeviceName",
-	"root_device_type":                           "description.Instance.RootDeviceType",
-	"security_groups":                            "description.Instance.SecurityGroups",
-	"source_dest_check":                          "description.Instance.SourceDestCheck",
-	"spot_instance_request_id":                   "description.Instance.SpotInstanceRequestId",
-	"sriov_net_support":                          "description.Instance.SriovNetSupport",
-	"state_code":                                 "description.Instance.State.Code",
-	"state_transition_reason":                    "description.Instance.StateTransitionReason",
-	"subnet_id":                                  "description.Instance.SubnetId",
-	"tags_src":                                   "description.Instance.Tags",
-	"tpm_support":                                "description.Instance.TpmSupport",
-	"usage_operation":                            "description.Instance.UsageOperation",
-	"usage_operation_update_time":                "description.Instance.UsageOperationUpdateTime",
-	"user_data":                                  "description.LaunchTemplateData.UserData",
-	"virtualization_type":                        "description.Instance.VirtualizationType",
-	"vpc_id":                                     "description.Instance.VpcId",
+	"ena_support":                          "description.Instance.EnaSupport",
+	"enclave_options":                      "description.Instance.EnclaveOptions",
+	"hibernation_options":                  "description.Instance.HibernationOptions",
+	"hypervisor":                           "description.Instance.Hypervisor",
+	"iam_instance_profile_arn":             "description.Instance.IamInstanceProfile.Arn",
+	"iam_instance_profile_id":              "description.Instance.IamInstanceProfile.Id",
+	"image_id":                             "description.Instance.ImageId",
+	"instance_id":                          "description.Instance.InstanceId",
+	"instance_initiated_shutdown_behavior": "description.Attributes.InstanceInitiatedShutdownBehavior",
+	"instance_lifecycle":                   "description.Instance.InstanceLifecycle",
+	"instance_state":                       "description.Instance.State.Name",
+	"instance_status":                      "description.Attributes.InstanceStatus",
+	"instance_type":                        "description.Instance.InstanceType",
+	"kaytu_account_id":                     "metadata.SourceID",
+	"kernel_id":                            "description.Instance.KernelId",
+	"key_name":                             "description.Instance.KeyName",
+	"launch_template_data":                 "description.LaunchTemplateData",
+	"launch_time":                          "description.Instance.LaunchTime",
+	"licenses":                             "description.Instance.Licenses",
+	"maintenance_options":                  "description.Instance.MaintenanceOptions",
+	"metadata_options":                     "description.Instance.MetadataOptions",
+	"monitoring_state":                     "description.Instance.Monitoring.State",
+	"network_interfaces":                   "description.Instance.NetworkInterfaces",
+	"outpost_arn":                          "description.Instance.OutpostArn",
+	"placement_affinity":                   "description.Instance.Placement.Affinity",
+	"placement_availability_zone":          "description.Instance.Placement.AvailabilityZone",
+	"placement_group_id":                   "description.Instance.Placement.GroupId",
+	"placement_group_name":                 "description.Instance.Placement.GroupName",
+	"placement_host_id":                    "description.Instance.Placement.HostId",
+	"placement_host_resource_group_arn":    "description.Instance.Placement.HostResourceGroupArn",
+	"placement_partition_number":           "description.Instance.Placement.PartitionNumber",
+	"placement_tenancy":                    "description.Instance.Placement.Tenancy",
+	"platform":                             "description.Instance.Platform",
+	"platform_details":                     "description.Instance.PlatformDetails",
+	"private_dns_name":                     "description.Instance.PrivateDnsName",
+	"private_dns_name_options":             "description.Instance.PrivateDnsNameOptions",
+	"private_ip_address":                   "description.Instance.PrivateIpAddress",
+	"product_codes":                        "description.Instance.ProductCodes",
+	"public_dns_name":                      "description.Instance.PublicDnsName",
+	"public_ip_address":                    "description.Instance.PublicIpAddress",
+	"ram_disk_id":                          "description.Instance.RamdiskId",
+	"root_device_name":                     "description.Instance.RootDeviceName",
+	"root_device_type":                     "description.Instance.RootDeviceType",
+	"security_groups":                      "description.Instance.SecurityGroups",
+	"source_dest_check":                    "description.Instance.SourceDestCheck",
+	"spot_instance_request_id":             "description.Instance.SpotInstanceRequestId",
+	"sriov_net_support":                    "description.Instance.SriovNetSupport",
+	"state_code":                           "description.Instance.State.Code",
+	"state_transition_reason":              "description.Instance.StateTransitionReason",
+	"subnet_id":                            "description.Instance.SubnetId",
+	"tags_src":                             "description.Instance.Tags",
+	"tpm_support":                          "description.Instance.TpmSupport",
+	"usage_operation":                      "description.Instance.UsageOperation",
+	"usage_operation_update_time":          "description.Instance.UsageOperationUpdateTime",
+	"user_data":                            "description.LaunchTemplateData.UserData",
+	"virtualization_type":                  "description.Instance.VirtualizationType",
+	"vpc_id":                               "description.Instance.VpcId",
 }
 
 func ListEC2Instance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -15284,76 +15310,78 @@ func ListEC2Instance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 var getEC2InstanceFilters = map[string]string{
-	"ami_launch_index":                           "description.Instance.AmiLaunchIndex",
-	"architecture":                               "description.Instance.Architecture",
-	"block_device_mappings":                      "description.Instance.BlockDeviceMappings",
-	"boot_mode":                                  "description.Instance.BootMode",
-	"capacity_reservation_id":                    "description.Instance.CapacityReservationId",
-	"capacity_reservation_specification":         "description.Instance.CapacityReservationSpecification",
-	"client_token":                               "description.Instance.ClientToken",
-	"cpu_options_core_count":                     "description.Instance.CpuOptions.CoreCount",
-	"cpu_options_threads_per_core":               "description.Instance.CpuOptions.ThreadsPerCore",
-	"disable_api_termination":                    "description.Attributes.DisableApiTermination",
-	"ebs_optimized":                              "description.Instance.EbsOptimized",
-	"elastic_gpu_associations":                   "description.Instance.ElasticGpuAssociations",
+	"akas":                               "aRN",
+	"ami_launch_index":                   "description.Instance.AmiLaunchIndex",
+	"architecture":                       "description.Instance.Architecture",
+	"arn":                                "aRN",
+	"block_device_mappings":              "description.Instance.BlockDeviceMappings",
+	"boot_mode":                          "description.Instance.BootMode",
+	"capacity_reservation_id":            "description.Instance.CapacityReservationId",
+	"capacity_reservation_specification": "description.Instance.CapacityReservationSpecification",
+	"client_token":                       "description.Instance.ClientToken",
+	"cpu_options_core_count":             "description.Instance.CpuOptions.CoreCount",
+	"cpu_options_threads_per_core":       "description.Instance.CpuOptions.ThreadsPerCore",
+	"disable_api_termination":            "description.Attributes.DisableApiTermination",
+	"ebs_optimized":                      "description.Instance.EbsOptimized",
+	"elastic_gpu_associations":           "description.Instance.ElasticGpuAssociations",
 	"elastic_inference_accelerator_associations": "description.Instance.ElasticInferenceAcceleratorAssociations",
-	"ena_support":                                "description.Instance.EnaSupport",
-	"enclave_options":                            "description.Instance.EnclaveOptions",
-	"hibernation_options":                        "description.Instance.HibernationOptions",
-	"hypervisor":                                 "description.Instance.Hypervisor",
-	"iam_instance_profile_arn":                   "description.Instance.IamInstanceProfile.Arn",
-	"iam_instance_profile_id":                    "description.Instance.IamInstanceProfile.Id",
-	"image_id":                                   "description.Instance.ImageId",
-	"instance_id":                                "description.Instance.InstanceId",
-	"instance_initiated_shutdown_behavior":       "description.Attributes.InstanceInitiatedShutdownBehavior",
-	"instance_lifecycle":                         "description.Instance.InstanceLifecycle",
-	"instance_state":                             "description.Instance.State.Name",
-	"instance_status":                            "description.Attributes.InstanceStatus",
-	"instance_type":                              "description.Instance.InstanceType",
-	"kaytu_account_id":                           "metadata.SourceID",
-	"kernel_id":                                  "description.Instance.KernelId",
-	"key_name":                                   "description.Instance.KeyName",
-	"launch_template_data":                       "description.LaunchTemplateData",
-	"launch_time":                                "description.Instance.LaunchTime",
-	"licenses":                                   "description.Instance.Licenses",
-	"maintenance_options":                        "description.Instance.MaintenanceOptions",
-	"metadata_options":                           "description.Instance.MetadataOptions",
-	"monitoring_state":                           "description.Instance.Monitoring.State",
-	"network_interfaces":                         "description.Instance.NetworkInterfaces",
-	"outpost_arn":                                "description.Instance.OutpostArn",
-	"placement_affinity":                         "description.Instance.Placement.Affinity",
-	"placement_availability_zone":                "description.Instance.Placement.AvailabilityZone",
-	"placement_group_id":                         "description.Instance.Placement.GroupId",
-	"placement_group_name":                       "description.Instance.Placement.GroupName",
-	"placement_host_id":                          "description.Instance.Placement.HostId",
-	"placement_host_resource_group_arn":          "description.Instance.Placement.HostResourceGroupArn",
-	"placement_partition_number":                 "description.Instance.Placement.PartitionNumber",
-	"placement_tenancy":                          "description.Instance.Placement.Tenancy",
-	"platform":                                   "description.Instance.Platform",
-	"platform_details":                           "description.Instance.PlatformDetails",
-	"private_dns_name":                           "description.Instance.PrivateDnsName",
-	"private_dns_name_options":                   "description.Instance.PrivateDnsNameOptions",
-	"private_ip_address":                         "description.Instance.PrivateIpAddress",
-	"product_codes":                              "description.Instance.ProductCodes",
-	"public_dns_name":                            "description.Instance.PublicDnsName",
-	"public_ip_address":                          "description.Instance.PublicIpAddress",
-	"ram_disk_id":                                "description.Instance.RamdiskId",
-	"root_device_name":                           "description.Instance.RootDeviceName",
-	"root_device_type":                           "description.Instance.RootDeviceType",
-	"security_groups":                            "description.Instance.SecurityGroups",
-	"source_dest_check":                          "description.Instance.SourceDestCheck",
-	"spot_instance_request_id":                   "description.Instance.SpotInstanceRequestId",
-	"sriov_net_support":                          "description.Instance.SriovNetSupport",
-	"state_code":                                 "description.Instance.State.Code",
-	"state_transition_reason":                    "description.Instance.StateTransitionReason",
-	"subnet_id":                                  "description.Instance.SubnetId",
-	"tags_src":                                   "description.Instance.Tags",
-	"tpm_support":                                "description.Instance.TpmSupport",
-	"usage_operation":                            "description.Instance.UsageOperation",
-	"usage_operation_update_time":                "description.Instance.UsageOperationUpdateTime",
-	"user_data":                                  "description.LaunchTemplateData.UserData",
-	"virtualization_type":                        "description.Instance.VirtualizationType",
-	"vpc_id":                                     "description.Instance.VpcId",
+	"ena_support":                          "description.Instance.EnaSupport",
+	"enclave_options":                      "description.Instance.EnclaveOptions",
+	"hibernation_options":                  "description.Instance.HibernationOptions",
+	"hypervisor":                           "description.Instance.Hypervisor",
+	"iam_instance_profile_arn":             "description.Instance.IamInstanceProfile.Arn",
+	"iam_instance_profile_id":              "description.Instance.IamInstanceProfile.Id",
+	"image_id":                             "description.Instance.ImageId",
+	"instance_id":                          "description.Instance.InstanceId",
+	"instance_initiated_shutdown_behavior": "description.Attributes.InstanceInitiatedShutdownBehavior",
+	"instance_lifecycle":                   "description.Instance.InstanceLifecycle",
+	"instance_state":                       "description.Instance.State.Name",
+	"instance_status":                      "description.Attributes.InstanceStatus",
+	"instance_type":                        "description.Instance.InstanceType",
+	"kaytu_account_id":                     "metadata.SourceID",
+	"kernel_id":                            "description.Instance.KernelId",
+	"key_name":                             "description.Instance.KeyName",
+	"launch_template_data":                 "description.LaunchTemplateData",
+	"launch_time":                          "description.Instance.LaunchTime",
+	"licenses":                             "description.Instance.Licenses",
+	"maintenance_options":                  "description.Instance.MaintenanceOptions",
+	"metadata_options":                     "description.Instance.MetadataOptions",
+	"monitoring_state":                     "description.Instance.Monitoring.State",
+	"network_interfaces":                   "description.Instance.NetworkInterfaces",
+	"outpost_arn":                          "description.Instance.OutpostArn",
+	"placement_affinity":                   "description.Instance.Placement.Affinity",
+	"placement_availability_zone":          "description.Instance.Placement.AvailabilityZone",
+	"placement_group_id":                   "description.Instance.Placement.GroupId",
+	"placement_group_name":                 "description.Instance.Placement.GroupName",
+	"placement_host_id":                    "description.Instance.Placement.HostId",
+	"placement_host_resource_group_arn":    "description.Instance.Placement.HostResourceGroupArn",
+	"placement_partition_number":           "description.Instance.Placement.PartitionNumber",
+	"placement_tenancy":                    "description.Instance.Placement.Tenancy",
+	"platform":                             "description.Instance.Platform",
+	"platform_details":                     "description.Instance.PlatformDetails",
+	"private_dns_name":                     "description.Instance.PrivateDnsName",
+	"private_dns_name_options":             "description.Instance.PrivateDnsNameOptions",
+	"private_ip_address":                   "description.Instance.PrivateIpAddress",
+	"product_codes":                        "description.Instance.ProductCodes",
+	"public_dns_name":                      "description.Instance.PublicDnsName",
+	"public_ip_address":                    "description.Instance.PublicIpAddress",
+	"ram_disk_id":                          "description.Instance.RamdiskId",
+	"root_device_name":                     "description.Instance.RootDeviceName",
+	"root_device_type":                     "description.Instance.RootDeviceType",
+	"security_groups":                      "description.Instance.SecurityGroups",
+	"source_dest_check":                    "description.Instance.SourceDestCheck",
+	"spot_instance_request_id":             "description.Instance.SpotInstanceRequestId",
+	"sriov_net_support":                    "description.Instance.SriovNetSupport",
+	"state_code":                           "description.Instance.State.Code",
+	"state_transition_reason":              "description.Instance.StateTransitionReason",
+	"subnet_id":                            "description.Instance.SubnetId",
+	"tags_src":                             "description.Instance.Tags",
+	"tpm_support":                          "description.Instance.TpmSupport",
+	"usage_operation":                      "description.Instance.UsageOperation",
+	"usage_operation_update_time":          "description.Instance.UsageOperationUpdateTime",
+	"user_data":                            "description.LaunchTemplateData.UserData",
+	"virtualization_type":                  "description.Instance.VirtualizationType",
+	"vpc_id":                               "description.Instance.VpcId",
 }
 
 func GetEC2Instance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -15467,6 +15495,8 @@ func (p EC2VpcPaginator) NextPage(ctx context.Context) ([]EC2Vpc, error) {
 }
 
 var listEC2VpcFilters = map[string]string{
+	"akas":                            "aRN",
+	"arn":                             "aRN",
 	"cidr_block":                      "description.Vpc.CidrBlock",
 	"cidr_block_association_set":      "description.Vpc.CidrBlockAssociationSet",
 	"dhcp_options_id":                 "description.Vpc.DhcpOptionsId",
@@ -15511,6 +15541,8 @@ func ListEC2Vpc(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 }
 
 var getEC2VpcFilters = map[string]string{
+	"akas":                            "aRN",
+	"arn":                             "aRN",
 	"cidr_block":                      "description.Vpc.CidrBlock",
 	"cidr_block_association_set":      "description.Vpc.CidrBlockAssociationSet",
 	"dhcp_options_id":                 "description.Vpc.DhcpOptionsId",
@@ -16369,6 +16401,8 @@ func (p EC2SecurityGroupPaginator) NextPage(ctx context.Context) ([]EC2SecurityG
 }
 
 var listEC2SecurityGroupFilters = map[string]string{
+	"akas":                  "aRN",
+	"arn":                   "aRN",
 	"description":           "description.SecurityGroup.Description",
 	"group_id":              "description.SecurityGroup.GroupId",
 	"group_name":            "description.SecurityGroup.GroupName",
@@ -16412,6 +16446,8 @@ func ListEC2SecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getEC2SecurityGroupFilters = map[string]string{
+	"akas":                  "aRN",
+	"arn":                   "aRN",
 	"description":           "description.SecurityGroup.Description",
 	"group_id":              "description.SecurityGroup.GroupId",
 	"group_name":            "description.SecurityGroup.GroupName",
@@ -16535,7 +16571,9 @@ func (p EC2EIPPaginator) NextPage(ctx context.Context) ([]EC2EIP, error) {
 }
 
 var listEC2EIPFilters = map[string]string{
+	"akas":                       "aRN",
 	"allocation_id":              "description.Address.AllocationId",
+	"arn":                        "aRN",
 	"association_id":             "description.Address.AssociationId",
 	"carrier_ip":                 "description.Address.CarrierIp",
 	"customer_owned_ip":          "description.Address.CustomerOwnedIp",
@@ -16584,7 +16622,9 @@ func ListEC2EIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 }
 
 var getEC2EIPFilters = map[string]string{
+	"akas":                       "aRN",
 	"allocation_id":              "description.SecurityGroup.AllocationId",
+	"arn":                        "aRN",
 	"association_id":             "description.Address.AssociationId",
 	"carrier_ip":                 "description.Address.CarrierIp",
 	"customer_owned_ip":          "description.Address.CustomerOwnedIp",
@@ -16869,6 +16909,8 @@ func (p EC2NetworkAclPaginator) NextPage(ctx context.Context) ([]EC2NetworkAcl, 
 }
 
 var listEC2NetworkAclFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"associations":     "description.NetworkAcl.Associations",
 	"entries":          "description.NetworkAcl.Entries",
 	"is_default":       "description.NetworkAcl.IsDefault",
@@ -16910,6 +16952,8 @@ func ListEC2NetworkAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 }
 
 var getEC2NetworkAclFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"associations":     "description.NetworkAcl.Associations",
 	"entries":          "description.NetworkAcl.Entries",
 	"is_default":       "description.NetworkAcl.IsDefault",
@@ -17031,6 +17075,8 @@ func (p EC2VPNConnectionPaginator) NextPage(ctx context.Context) ([]EC2VPNConnec
 }
 
 var listEC2VPNConnectionFilters = map[string]string{
+	"akas":                           "aRN",
+	"arn":                            "aRN",
 	"category":                       "description.VpnConnection.Category",
 	"customer_gateway_configuration": "description.VpnConnection.CustomerGatewayConfiguration",
 	"customer_gateway_id":            "description.VpnConnection.CustomerGatewayId",
@@ -17077,6 +17123,8 @@ func ListEC2VPNConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getEC2VPNConnectionFilters = map[string]string{
+	"akas":                           "aRN",
+	"arn":                            "aRN",
 	"category":                       "description.VpnConnection.Category",
 	"customer_gateway_configuration": "description.VpnConnection.CustomerGatewayConfiguration",
 	"customer_gateway_id":            "description.VpnConnection.CustomerGatewayId",
@@ -17369,6 +17417,8 @@ func (p EC2NatGatewayPaginator) NextPage(ctx context.Context) ([]EC2NatGateway, 
 }
 
 var listEC2NatGatewayFilters = map[string]string{
+	"akas":                  "aRN",
+	"arn":                   "aRN",
 	"create_time":           "description.NatGateway.CreateTime",
 	"delete_time":           "description.NatGateway.DeleteTime",
 	"failure_code":          "description.NatGateway.FailureCode",
@@ -17414,6 +17464,8 @@ func ListEC2NatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 }
 
 var getEC2NatGatewayFilters = map[string]string{
+	"akas":                  "aRN",
+	"arn":                   "aRN",
 	"create_time":           "description.NatGateway.CreateTime",
 	"delete_time":           "description.NatGateway.DeleteTime",
 	"failure_code":          "description.NatGateway.FailureCode",
@@ -18599,6 +18651,8 @@ func (p EC2ReservedInstancesPaginator) NextPage(ctx context.Context) ([]EC2Reser
 }
 
 var listEC2ReservedInstancesFilters = map[string]string{
+	"akas":                             "aRN",
+	"arn":                              "aRN",
 	"availability_zone":                "description.ReservedInstances.AvailabilityZone",
 	"currency_code":                    "description.ReservedInstances.CurrencyCode",
 	"duration":                         "description.ReservedInstances.Duration",
@@ -18652,6 +18706,8 @@ func ListEC2ReservedInstances(ctx context.Context, d *plugin.QueryData, _ *plugi
 }
 
 var getEC2ReservedInstancesFilters = map[string]string{
+	"akas":                             "aRN",
+	"arn":                              "aRN",
 	"availability_zone":                "description.ReservedInstances.AvailabilityZone",
 	"currency_code":                    "description.ReservedInstances.CurrencyCode",
 	"duration":                         "description.ReservedInstances.Duration",
@@ -18941,6 +18997,8 @@ func (p EC2FleetPaginator) NextPage(ctx context.Context) ([]EC2Fleet, error) {
 }
 
 var listEC2FleetFilters = map[string]string{
+	"akas":             "aRN",
+	"fleet_arn":        "aRN",
 	"fleet_id":         "description.Fleet.FleetId",
 	"kaytu_account_id": "metadata.SourceID",
 	"title":            "description.Fleet.FleetId",
@@ -18977,6 +19035,8 @@ func ListEC2Fleet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 }
 
 var getEC2FleetFilters = map[string]string{
+	"akas":             "aRN",
+	"fleet_arn":        "aRN",
 	"fleet_id":         "description.Fleet.FleetId",
 	"kaytu_account_id": "metadata.SourceID",
 	"title":            "description.Fleet.FleetId",
@@ -19093,6 +19153,8 @@ func (p EC2HostPaginator) NextPage(ctx context.Context) ([]EC2Host, error) {
 }
 
 var listEC2HostFilters = map[string]string{
+	"akas":             "aRN",
+	"host_arn":         "aRN",
 	"host_id":          "description.Host.HostId",
 	"kaytu_account_id": "metadata.SourceID",
 	"title":            "description.Host.HostId",
@@ -19129,6 +19191,8 @@ func ListEC2Host(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 }
 
 var getEC2HostFilters = map[string]string{
+	"akas":             "aRN",
+	"host_arn":         "aRN",
 	"host_id":          "description.Host.HostId",
 	"kaytu_account_id": "metadata.SourceID",
 	"title":            "description.Host.HostId",
@@ -19245,6 +19309,8 @@ func (p EC2PlacementGroupPaginator) NextPage(ctx context.Context) ([]EC2Placemen
 }
 
 var listEC2PlacementGroupFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"group_id":         "description.PlacementGroup.GroupId",
 	"group_name":       "description.PlacementGroup.GroupName",
 	"kaytu_account_id": "metadata.SourceID",
@@ -19282,6 +19348,8 @@ func ListEC2PlacementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 var getEC2PlacementGroupFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"group_id":         "description.PlacementGroup.GroupId",
 	"group_name":       "description.PlacementGroup.GroupName",
 	"kaytu_account_id": "metadata.SourceID",
@@ -19583,6 +19651,7 @@ func (p EC2TransitGatewayRouteTablePaginator) NextPage(ctx context.Context) ([]E
 }
 
 var listEC2TransitGatewayRouteTableFilters = map[string]string{
+	"akas":                            "aRN",
 	"creation_time":                   "description.TransitGatewayRouteTable.CreationTime",
 	"default_association_route_table": "description.TransitGatewayRouteTable.DefaultAssociationRouteTable",
 	"default_propagation_route_table": "description.TransitGatewayRouteTable.DefaultPropagationRouteTable",
@@ -19624,6 +19693,7 @@ func ListEC2TransitGatewayRouteTable(ctx context.Context, d *plugin.QueryData, _
 }
 
 var getEC2TransitGatewayRouteTableFilters = map[string]string{
+	"akas":                            "aRN",
 	"creation_time":                   "description.TransitGatewayRouteTable.CreationTime",
 	"default_association_route_table": "description.TransitGatewayRouteTable.DefaultAssociationRouteTable",
 	"default_propagation_route_table": "description.TransitGatewayRouteTable.DefaultPropagationRouteTable",
@@ -19745,6 +19815,7 @@ func (p EC2DhcpOptionsPaginator) NextPage(ctx context.Context) ([]EC2DhcpOptions
 }
 
 var listEC2DhcpOptionsFilters = map[string]string{
+	"akas":                 "aRN",
 	"dhcp_options_id":      "description.DhcpOptions.DhcpOptionsId",
 	"domain_name":          "description.DhcpOptions.DhcpConfigurations",
 	"domain_name_servers":  "description.DhcpOptions.DhcpConfigurations",
@@ -19787,6 +19858,7 @@ func ListEC2DhcpOptions(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getEC2DhcpOptionsFilters = map[string]string{
+	"akas":                 "aRN",
 	"dhcp_options_id":      "description.DhcpOptions.DhcpOptionsId",
 	"domain_name":          "description.DhcpOptions.DhcpConfigurations",
 	"domain_name_servers":  "description.DhcpOptions.DhcpConfigurations",
@@ -19909,6 +19981,7 @@ func (p EC2EgressOnlyInternetGatewayPaginator) NextPage(ctx context.Context) ([]
 }
 
 var listEC2EgressOnlyInternetGatewayFilters = map[string]string{
+	"akas":             "aRN",
 	"attachments":      "description.EgressOnlyInternetGateway.Attachments",
 	"id":               "description.EgressOnlyInternetGateway.EgressOnlyInternetGatewayId",
 	"kaytu_account_id": "metadata.SourceID",
@@ -19946,6 +20019,7 @@ func ListEC2EgressOnlyInternetGateway(ctx context.Context, d *plugin.QueryData, 
 }
 
 var getEC2EgressOnlyInternetGatewayFilters = map[string]string{
+	"akas":             "aRN",
 	"attachments":      "description.EgressOnlyInternetGateway.Attachments",
 	"id":               "description.EgressOnlyInternetGateway.EgressOnlyInternetGatewayId",
 	"kaytu_account_id": "metadata.SourceID",
@@ -22808,7 +22882,9 @@ var listElasticLoadBalancingLoadBalancerFilters = map[string]string{
 	"access_log_s3_bucket_name":         "description.Attributes.AccessLog.S3BucketName",
 	"access_log_s3_bucket_prefix":       "description.Attributes.AccessLog.S3BucketPrefix",
 	"additional_attributes":             "description.Attributes.AdditionalAttributes",
+	"akas":                              "aRN",
 	"app_cookie_stickiness_policies":    "description.LoadBalancer.Policies.AppCookieStickinessPolicies",
+	"arn":                               "aRN",
 	"availability_zones":                "description.LoadBalancer.AvailabilityZones",
 	"backend_server_descriptions":       "description.LoadBalancer.BackendServerDescriptions",
 	"canonical_hosted_zone_name":        "description.LoadBalancer.CanonicalHostedZoneName",
@@ -22876,7 +22952,9 @@ var getElasticLoadBalancingLoadBalancerFilters = map[string]string{
 	"access_log_s3_bucket_name":         "description.Attributes.AccessLog.S3BucketName",
 	"access_log_s3_bucket_prefix":       "description.Attributes.AccessLog.S3BucketPrefix",
 	"additional_attributes":             "description.Attributes.AdditionalAttributes",
+	"akas":                              "aRN",
 	"app_cookie_stickiness_policies":    "description.LoadBalancer.Policies.AppCookieStickinessPolicies",
+	"arn":                               "aRN",
 	"availability_zones":                "description.LoadBalancer.AvailabilityZones",
 	"backend_server_descriptions":       "description.LoadBalancer.BackendServerDescriptions",
 	"canonical_hosted_zone_name":        "description.LoadBalancer.CanonicalHostedZoneName",
@@ -28791,7 +28869,7 @@ var listRDSDBClusterFilters = map[string]string{
 	"activity_stream_status":              "description.DBCluster.ActivityStreamStatus",
 	"akas":                                "description.DBCluster.DBClusterArn",
 	"allocated_storage":                   "description.DBCluster.AllocatedStorage",
-	"arn":                                 "dBClusterArn",
+	"arn":                                 "aRN",
 	"associated_roles":                    "description.DBCluster.AssociatedRoles",
 	"availability_zones":                  "description.DBCluster.AvailabilityZones",
 	"backtrack_consumed_change_records":   "description.DBCluster.BacktrackConsumedChangeRecords",
@@ -28880,7 +28958,7 @@ var getRDSDBClusterFilters = map[string]string{
 	"activity_stream_status":              "description.DBCluster.ActivityStreamStatus",
 	"akas":                                "description.DBCluster.DBClusterArn",
 	"allocated_storage":                   "description.DBCluster.AllocatedStorage",
-	"arn":                                 "dBClusterArn",
+	"arn":                                 "aRN",
 	"associated_roles":                    "description.DBCluster.AssociatedRoles",
 	"availability_zones":                  "description.DBCluster.AvailabilityZones",
 	"backtrack_consumed_change_records":   "description.DBCluster.BacktrackConsumedChangeRecords",
@@ -31304,7 +31382,9 @@ func (p RedshiftClusterPaginator) NextPage(ctx context.Context) ([]RedshiftClust
 }
 
 var listRedshiftClusterFilters = map[string]string{
+	"akas":                                        "aRN",
 	"allow_version_upgrade":                       "description.Cluster.AllowVersionUpgrade",
+	"arn":                                         "aRN",
 	"automated_snapshot_retention_period":         "description.Cluster.AutomatedSnapshotRetentionPeriod",
 	"availability_zone":                           "description.Cluster.AvailabilityZone",
 	"availability_zone_relocation_status":         "description.Cluster.AvailabilityZoneRelocationStatus",
@@ -31389,7 +31469,9 @@ func ListRedshiftCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 var getRedshiftClusterFilters = map[string]string{
+	"akas":                                        "aRN",
 	"allow_version_upgrade":                       "description.Cluster.AllowVersionUpgrade",
+	"arn":                                         "aRN",
 	"automated_snapshot_retention_period":         "description.Cluster.AutomatedSnapshotRetentionPeriod",
 	"availability_zone":                           "description.Cluster.AvailabilityZone",
 	"availability_zone_relocation_status":         "description.Cluster.AvailabilityZoneRelocationStatus",
@@ -32072,11 +32154,12 @@ func (p RedshiftSnapshotPaginator) NextPage(ctx context.Context) ([]RedshiftSnap
 var listRedshiftSnapshotFilters = map[string]string{
 	"accounts_with_restore_access":                 "description.Snapshot.AccountsWithRestoreAccess",
 	"actual_incremental_backup_size_in_mega_bytes": "description.Snapshot.ActualIncrementalBackupSizeInMegaBytes",
-	"availability_zone":                            "description.Snapshot.AvailabilityZone",
-	"backup_progress_in_mega-bytes":                "description.Snapshot.BackupProgressInMegaBytes",
-	"cluster_create_time":                          "description.Snapshot.ClusterCreateTime",
-	"cluster_identifier":                           "description.Snapshot.ClusterIdentifier",
-	"cluster_version":                              "description.Snapshot.ClusterVersion",
+	"akas":                          "aRN",
+	"availability_zone":             "description.Snapshot.AvailabilityZone",
+	"backup_progress_in_mega-bytes": "description.Snapshot.BackupProgressInMegaBytes",
+	"cluster_create_time":           "description.Snapshot.ClusterCreateTime",
+	"cluster_identifier":            "description.Snapshot.ClusterIdentifier",
+	"cluster_version":               "description.Snapshot.ClusterVersion",
 	"current_backup_rate_in_mega_bytes_per_second": "description.Snapshot.CurrentBackupRateInMegaBytesPerSecond",
 	"db_name":                          "description.Snapshot.DBName",
 	"elapsed_time_in_seconds":          "description.Snapshot.ElapsedTimeInSeconds",
@@ -32141,11 +32224,12 @@ func ListRedshiftSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 var getRedshiftSnapshotFilters = map[string]string{
 	"accounts_with_restore_access":                 "description.Snapshot.AccountsWithRestoreAccess",
 	"actual_incremental_backup_size_in_mega_bytes": "description.Snapshot.ActualIncrementalBackupSizeInMegaBytes",
-	"availability_zone":                            "description.Snapshot.AvailabilityZone",
-	"backup_progress_in_mega-bytes":                "description.Snapshot.BackupProgressInMegaBytes",
-	"cluster_create_time":                          "description.Snapshot.ClusterCreateTime",
-	"cluster_identifier":                           "description.Snapshot.ClusterIdentifier",
-	"cluster_version":                              "description.Snapshot.ClusterVersion",
+	"akas":                          "aRN",
+	"availability_zone":             "description.Snapshot.AvailabilityZone",
+	"backup_progress_in_mega-bytes": "description.Snapshot.BackupProgressInMegaBytes",
+	"cluster_create_time":           "description.Snapshot.ClusterCreateTime",
+	"cluster_identifier":            "description.Snapshot.ClusterIdentifier",
+	"cluster_version":               "description.Snapshot.ClusterVersion",
 	"current_backup_rate_in_mega_bytes_per_second": "description.Snapshot.CurrentBackupRateInMegaBytesPerSecond",
 	"db_name":                          "description.Snapshot.DBName",
 	"elapsed_time_in_seconds":          "description.Snapshot.ElapsedTimeInSeconds",
@@ -33349,6 +33433,8 @@ func (p S3BucketPaginator) NextPage(ctx context.Context) ([]S3Bucket, error) {
 
 var listS3BucketFilters = map[string]string{
 	"acl":                                  "description.BucketAcl",
+	"akas":                                 "aRN",
+	"arn":                                  "aRN",
 	"block_public_acls":                    "description.PublicAccessBlockConfiguration.BlockPublicAcls",
 	"block_public_policy":                  "description.PublicAccessBlockConfiguration.BlockPublicPolicy",
 	"bucket_policy_is_public":              "description.PolicyStatus.IsPublic",
@@ -33405,6 +33491,8 @@ func ListS3Bucket(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 
 var getS3BucketFilters = map[string]string{
 	"acl":                                  "description.BucketAcl",
+	"akas":                                 "aRN",
+	"arn":                                  "aRN",
 	"block_public_acls":                    "description.PublicAccessBlockConfiguration.BlockPublicAcls",
 	"block_public_policy":                  "description.PublicAccessBlockConfiguration.BlockPublicPolicy",
 	"bucket_policy_is_public":              "description.PolicyStatus.IsPublic",
@@ -37306,7 +37394,9 @@ func (p SSMAssociationPaginator) NextPage(ctx context.Context) ([]SSMAssociation
 }
 
 var listSSMAssociationFilters = map[string]string{
+	"akas":                             "aRN",
 	"apply_only_at_cron_interval":      "description.Association.AssociationDescription.ApplyOnlyAtCronInterval",
+	"arn":                              "aRN",
 	"association_id":                   "description.AssociationItem.AssociationId",
 	"association_name":                 "description.AssociationItem.AssociationName",
 	"association_version":              "description.AssociationItem.AssociationVersion",
@@ -37364,7 +37454,9 @@ func ListSSMAssociation(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 }
 
 var getSSMAssociationFilters = map[string]string{
+	"akas":                             "aRN",
 	"apply_only_at_cron_interval":      "description.Association.AssociationDescription.ApplyOnlyAtCronInterval",
+	"arn":                              "aRN",
 	"association_id":                   "description.AssociationItem.AssociationId",
 	"association_name":                 "description.AssociationItem.AssociationName",
 	"association_version":              "description.AssociationItem.AssociationVersion",
@@ -37504,8 +37596,9 @@ func (p SSMDocumentPaginator) NextPage(ctx context.Context) ([]SSMDocument, erro
 var listSSMDocumentFilters = map[string]string{
 	"account_ids":               "description.Permissions.AccountIds",
 	"account_sharing_info_list": "description.Permissions.AccountSharingInfoList",
-	"akas":                      "description.Document.Document.Parameters",
+	"akas":                      "aRN",
 	"approved_version":          "description.Document.Document.ApprovedVersion",
+	"arn":                       "aRN",
 	"attachments_information":   "description.Document.Document.AttachmentsInformation",
 	"author":                    "description.Document.Document.Author",
 	"created_date":              "description.Document.Document.CreatedDate",
@@ -37571,8 +37664,9 @@ func ListSSMDocument(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 var getSSMDocumentFilters = map[string]string{
 	"account_ids":               "description.Permissions.AccountIds",
 	"account_sharing_info_list": "description.Permissions.AccountSharingInfoList",
-	"akas":                      "description.Document.Document.Parameters",
+	"akas":                      "aRN",
 	"approved_version":          "description.Document.Document.ApprovedVersion",
+	"arn":                       "aRN",
 	"attachments_information":   "description.Document.Document.AttachmentsInformation",
 	"author":                    "description.Document.Document.Author",
 	"created_date":              "description.Document.Document.CreatedDate",
@@ -42768,8 +42862,8 @@ var listLambdaFunctionFilters = map[string]string{
 	"memory_size":                    "description.Function.Configuration.MemorySize",
 	"name":                           "description.Function.Configuration.FunctionName",
 	"package_type":                   "description.Function.Configuration.PackageType",
-	"policy":                         "description.Policy",
-	"policy_std":                     "description.Policy",
+	"policy":                         "description.Policy.Policy",
+	"policy_std":                     "description.Policy.Policy",
 	"reserved_concurrent_executions": "description.Function.Concurrency.ReservedConcurrentExecutions",
 	"revision_id":                    "description.Policy.RevisionId",
 	"role":                           "description.Function.Configuration.Role",
@@ -42841,8 +42935,8 @@ var getLambdaFunctionFilters = map[string]string{
 	"memory_size":                    "description.Function.Configuration.MemorySize",
 	"name":                           "description.Function.Configuration.FunctionName",
 	"package_type":                   "description.Function.Configuration.PackageType",
-	"policy":                         "description.Policy",
-	"policy_std":                     "description.Policy",
+	"policy":                         "description.Policy.Policy",
+	"policy_std":                     "description.Policy.Policy",
 	"reserved_concurrent_executions": "description.Function.Concurrency.ReservedConcurrentExecutions",
 	"revision_id":                    "description.Policy.RevisionId",
 	"role":                           "description.Function.Configuration.Role",
@@ -43690,7 +43784,9 @@ func (p S3AccessPointPaginator) NextPage(ctx context.Context) ([]S3AccessPoint, 
 }
 
 var listS3AccessPointFilters = map[string]string{
+	"access_point_arn":              "aRN",
 	"access_point_policy_is_public": "description.PolicyStatus.IsPublic",
+	"akas":                          "aRN",
 	"block_public_acls":             "description.AccessPoint.PublicAccessBlockConfiguration.BlockPublicAcls",
 	"block_public_policy":           "description.AccessPoint.PublicAccessBlockConfiguration.BlockPublicPolicy",
 	"bucket_name":                   "description.AccessPoint.Bucket",
@@ -43737,7 +43833,9 @@ func ListS3AccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 }
 
 var getS3AccessPointFilters = map[string]string{
+	"access_point_arn":              "aRN",
 	"access_point_policy_is_public": "description.PolicyStatus.IsPublic",
+	"akas":                          "aRN",
 	"block_public_acls":             "description.AccessPoint.PublicAccessBlockConfiguration.BlockPublicAcls",
 	"block_public_policy":           "description.AccessPoint.PublicAccessBlockConfiguration.BlockPublicPolicy",
 	"bucket_name":                   "description.AccessPoint.Bucket",
@@ -48384,6 +48482,8 @@ func (p WorkspacesWorkspacePaginator) NextPage(ctx context.Context) ([]Workspace
 }
 
 var listWorkspacesWorkspaceFilters = map[string]string{
+	"akas":                           "aRN",
+	"arn":                            "aRN",
 	"bundle_id":                      "description.Workspace.BundleId",
 	"directory_id":                   "description.Workspace.DirectoryId",
 	"error_code":                     "description.Workspace.ErrorCode",
@@ -48435,6 +48535,8 @@ func ListWorkspacesWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin
 }
 
 var getWorkspacesWorkspaceFilters = map[string]string{
+	"akas":                           "aRN",
+	"arn":                            "aRN",
 	"bundle_id":                      "description.Workspace.BundleId",
 	"directory_id":                   "description.Workspace.DirectoryId",
 	"error_code":                     "description.Workspace.ErrorCode",
@@ -48566,6 +48668,8 @@ func (p WorkspacesBundlePaginator) NextPage(ctx context.Context) ([]WorkspacesBu
 }
 
 var listWorkspacesBundleFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"bundle_id":        "description.Bundle.BundleId",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Bundle.Name",
@@ -48603,6 +48707,8 @@ func ListWorkspacesBundle(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getWorkspacesBundleFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"bundle_id":        "description.Bundle.BundleId",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Bundle.Name",
@@ -49032,6 +49138,8 @@ func (p GrafanaWorkspacePaginator) NextPage(ctx context.Context) ([]GrafanaWorks
 }
 
 var listGrafanaWorkspaceFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"id":               "description.Workspace.Id",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Workspace.Name",
@@ -49070,6 +49178,8 @@ func ListGrafanaWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getGrafanaWorkspaceFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"id":               "description.Workspace.Id",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Workspace.Name",
@@ -50567,6 +50677,8 @@ func (p SESConfigurationSetPaginator) NextPage(ctx context.Context) ([]SESConfig
 }
 
 var listSESConfigurationSetFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ConfigurationSet.Name",
 	"title":            "description.ConfigurationSet.Name",
@@ -50603,6 +50715,8 @@ func ListSESConfigurationSet(ctx context.Context, d *plugin.QueryData, _ *plugin
 }
 
 var getSESConfigurationSetFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.ConfigurationSet.Name",
 	"title":            "description.ConfigurationSet.Name",
@@ -50719,6 +50833,8 @@ func (p SESIdentityPaginator) NextPage(ctx context.Context) ([]SESIdentity, erro
 }
 
 var listSESIdentityFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"identity_name":    "description.Identity.Name",
 	"identity_type":    "description.Identity.IdentityType",
 	"kaytu_account_id": "metadata.SourceID",
@@ -50756,6 +50872,8 @@ func ListSESIdentity(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 var getSESIdentityFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"identity_name":    "description.Identity.IdentityName",
 	"kaytu_account_id": "metadata.SourceID",
 	"title":            "description.Identity.Name",
@@ -51752,7 +51870,9 @@ func (p DirectoryServiceDirectoryPaginator) NextPage(ctx context.Context) ([]Dir
 
 var listDirectoryServiceDirectoryFilters = map[string]string{
 	"access_url":                           "description.Directory.AccessUrl",
+	"akas":                                 "aRN",
 	"alias":                                "description.Directory.Alias",
+	"arn":                                  "aRN",
 	"connect_settings":                     "description.Directory.ConnectSettings",
 	"description":                          "description.Directory.Description",
 	"desired_number_of_domain_controllers": "description.Directory.DesiredNumberOfDomainControllers",
@@ -51816,7 +51936,9 @@ func ListDirectoryServiceDirectory(ctx context.Context, d *plugin.QueryData, _ *
 
 var getDirectoryServiceDirectoryFilters = map[string]string{
 	"access_url":                           "description.Directory.AccessUrl",
+	"akas":                                 "aRN",
 	"alias":                                "description.Directory.Alias",
+	"arn":                                  "aRN",
 	"connect_settings":                     "description.Directory.ConnectSettings",
 	"description":                          "description.Directory.Description",
 	"desired_number_of_domain_controllers": "description.Directory.DesiredNumberOfDomainControllers",
@@ -52598,6 +52720,7 @@ func (p WAFRulePaginator) NextPage(ctx context.Context) ([]WAFRule, error) {
 }
 
 var listWAFRuleFilters = map[string]string{
+	"akas":             "aRN",
 	"kaytu_account_id": "metadata.SourceID",
 	"metric_name":      "description.Rule.MetricName",
 	"name":             "description.Rule.Name",
@@ -52638,6 +52761,7 @@ func ListWAFRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 }
 
 var getWAFRuleFilters = map[string]string{
+	"akas":             "aRN",
 	"kaytu_account_id": "metadata.SourceID",
 	"metric_name":      "description.Rule.MetricName",
 	"name":             "description.Rule.Name",
@@ -52758,6 +52882,8 @@ func (p WAFRegionalRulePaginator) NextPage(ctx context.Context) ([]WAFRegionalRu
 }
 
 var listWAFRegionalRuleFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"kaytu_account_id": "metadata.SourceID",
 	"metric_name":      "description.Rule.MetricName",
 	"name":             "description.Rule.Name",
@@ -52797,6 +52923,8 @@ func ListWAFRegionalRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 var getWAFRegionalRuleFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"kaytu_account_id": "metadata.SourceID",
 	"metric_name":      "description.Rule.MetricName",
 	"name":             "description.Rule.Name",
@@ -55980,6 +56108,7 @@ func (p Route53HostedZonePaginator) NextPage(ctx context.Context) ([]Route53Host
 }
 
 var listRoute53HostedZoneFilters = map[string]string{
+	"akas":                       "aRN",
 	"caller_reference":           "description.HostedZone.CallerReference",
 	"comment":                    "description.HostedZone.Config.Comment",
 	"dnssec_key_signing_keys":    "description.DNSSec.KeySigningKeys",
@@ -56028,6 +56157,7 @@ func ListRoute53HostedZone(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 var getRoute53HostedZoneFilters = map[string]string{
+	"akas":                       "aRN",
 	"caller_reference":           "description.HostedZone.CallerReference",
 	"comment":                    "description.HostedZone.Config.Comment",
 	"dnssec_key_signing_keys":    "description.DNSSec.KeySigningKeys",
@@ -58569,8 +58699,10 @@ func (p CodeDeployDeploymentGroupPaginator) NextPage(ctx context.Context) ([]Cod
 }
 
 var listCodeDeployDeploymentGroupFilters = map[string]string{
+	"akas":                                "aRN",
 	"alarm_configuration":                 "description.DeploymentGroup.AlarmConfiguration",
 	"application_name":                    "description.DeploymentGroup.ApplicationName",
+	"arn":                                 "aRN",
 	"auto_rollback_configuration":         "description.DeploymentGroup.AutoRollbackConfiguration",
 	"auto_scaling_groups":                 "description.DeploymentGroup.AutoScalingGroups",
 	"blue_green_deployment_configuration": "description.DeploymentGroup.BlueGreenDeploymentConfiguration",
@@ -58627,8 +58759,10 @@ func ListCodeDeployDeploymentGroup(ctx context.Context, d *plugin.QueryData, _ *
 }
 
 var getCodeDeployDeploymentGroupFilters = map[string]string{
+	"akas":                                "aRN",
 	"alarm_configuration":                 "description.DeploymentGroup.AlarmConfiguration",
 	"application_name":                    "description.DeploymentGroup.ApplicationName",
+	"arn":                                 "aRN",
 	"auto_rollback_configuration":         "description.DeploymentGroup.AutoRollbackConfiguration",
 	"auto_scaling_groups":                 "description.DeploymentGroup.AutoScalingGroups",
 	"blue_green_deployment_configuration": "description.DeploymentGroup.BlueGreenDeploymentConfiguration",
@@ -58765,8 +58899,10 @@ func (p CodeDeployApplicationPaginator) NextPage(ctx context.Context) ([]CodeDep
 }
 
 var listCodeDeployApplicationFilters = map[string]string{
+	"akas":                "aRN",
 	"application_id":      "description.Application.ApplicationId",
 	"application_name":    "description.Application.ApplicationName",
+	"arn":                 "aRN",
 	"compute_platform":    "description.Application.ComputePlatform",
 	"create_time":         "description.Application.CreateTime",
 	"github_account_name": "description.Application.GitHubAccountName",
@@ -58807,8 +58943,10 @@ func ListCodeDeployApplication(ctx context.Context, d *plugin.QueryData, _ *plug
 }
 
 var getCodeDeployApplicationFilters = map[string]string{
+	"akas":                "aRN",
 	"application_id":      "description.Application.ApplicationId",
 	"application_name":    "description.Application.ApplicationName",
+	"arn":                 "aRN",
 	"compute_platform":    "description.Application.ComputePlatform",
 	"create_time":         "description.Application.CreateTime",
 	"github_account_name": "description.Application.GitHubAccountName",
@@ -59256,6 +59394,8 @@ func (p DirectConnectConnectionPaginator) NextPage(ctx context.Context) ([]Direc
 }
 
 var listDirectConnectConnectionFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"connection_id":    "description.Connection.ConnectionId",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Connection.ConnectionName",
@@ -59293,6 +59433,8 @@ func ListDirectConnectConnection(ctx context.Context, d *plugin.QueryData, _ *pl
 }
 
 var getDirectConnectConnectionFilters = map[string]string{
+	"akas":             "aRN",
+	"arn":              "aRN",
 	"connection_id":    "description.Connection.ConnectionId",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.Connection.ConnectionName",
@@ -59410,6 +59552,8 @@ func (p DirectConnectGatewayPaginator) NextPage(ctx context.Context) ([]DirectCo
 }
 
 var listDirectConnectGatewayFilters = map[string]string{
+	"akas":                      "aRN",
+	"arn":                       "aRN",
 	"direct_connect_gateway_id": "description.Gateway.DirectConnectGatewayId",
 	"kaytu_account_id":          "metadata.SourceID",
 	"name":                      "description.Gateway.DirectConnectGatewayName",
@@ -59447,6 +59591,8 @@ func ListDirectConnectGateway(ctx context.Context, d *plugin.QueryData, _ *plugi
 }
 
 var getDirectConnectGatewayFilters = map[string]string{
+	"akas":                      "aRN",
+	"arn":                       "aRN",
 	"direct_connect_gateway_id": "description.Gateway.DirectConnectGatewayId",
 	"kaytu_account_id":          "metadata.SourceID",
 	"name":                      "description.Gateway.DirectConnectGatewayName",
@@ -65016,7 +65162,6 @@ var listDocDBClusterInstanceFilters = map[string]string{
 	"status_infos":                    "description.DBInstance.StatusInfos",
 	"storage_encrypted":               "description.DBInstance.StorageEncrypted",
 	"subnets":                         "description.DBInstance.DBSubnetGroup.Subnets",
-	"tags":                            "description.Tags",
 	"tags_src":                        "description.Tags",
 	"title":                           "description.DBInstance.DBInstanceIdentifier",
 	"vpc_id":                          "description.DBInstance.DBSubnetGroup.VpcId",
@@ -65087,7 +65232,6 @@ var getDocDBClusterInstanceFilters = map[string]string{
 	"status_infos":                    "description.DBInstance.StatusInfos",
 	"storage_encrypted":               "description.DBInstance.StorageEncrypted",
 	"subnets":                         "description.DBInstance.DBSubnetGroup.Subnets",
-	"tags":                            "description.Tags",
 	"tags_src":                        "description.Tags",
 	"title":                           "description.DBInstance.DBInstanceIdentifier",
 	"vpc_id":                          "description.DBInstance.DBSubnetGroup.VpcId",
