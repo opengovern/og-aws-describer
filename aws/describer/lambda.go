@@ -14,9 +14,7 @@ import (
 
 func LambdaFunction(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	client := lambda.NewFromConfig(cfg)
-	paginator := lambda.NewListFunctionsPaginator(client, &lambda.ListFunctionsInput{
-		FunctionVersion: types.FunctionVersionAll,
-	})
+	paginator := lambda.NewListFunctionsPaginator(client, &lambda.ListFunctionsInput{})
 
 	var values []Resource
 	for paginator.HasMorePages() {
