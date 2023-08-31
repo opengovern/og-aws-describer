@@ -39,7 +39,7 @@ func tableAwsRDSDBCluster(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) for the DB Cluster.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("DBClusterArn"),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "status",
