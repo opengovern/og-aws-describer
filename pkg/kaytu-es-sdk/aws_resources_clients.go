@@ -16588,7 +16588,7 @@ var listEC2EIPFilters = map[string]string{
 	"public_ip":                  "description.Address.PublicIp",
 	"public_ipv4_pool":           "description.Address.PublicIpv4Pool",
 	"tags_src":                   "description.Address.Tags",
-	"title":                      "description.Address.AssociationId",
+	"title":                      "description.Address.AllocationId",
 }
 
 func ListEC2EIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -16639,7 +16639,7 @@ var getEC2EIPFilters = map[string]string{
 	"public_ip":                  "description.Address.PublicIp",
 	"public_ipv4_pool":           "description.Address.PublicIpv4Pool",
 	"tags_src":                   "description.Address.Tags",
-	"title":                      "description.Address.AssociationId",
+	"title":                      "description.Address.AllocationId",
 }
 
 func GetEC2EIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
