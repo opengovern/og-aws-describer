@@ -43,7 +43,7 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
-func ec2V2TagsToMap(tags []ec2types.Tag) (*map[string]string, error) {
+func ec2V2TagsToMap(tags []ec2types.Tag) (map[string]string, error) {
 	var turbotTagsMap map[string]string
 	if tags == nil {
 		return nil, nil
@@ -51,13 +51,13 @@ func ec2V2TagsToMap(tags []ec2types.Tag) (*map[string]string, error) {
 
 	turbotTagsMap = map[string]string{}
 	for _, i := range tags {
-		if i.Key != nil || i.Value != nil {
+		if i.Key == nil || i.Value == nil {
 			continue
 		}
 		turbotTagsMap[*i.Key] = *i.Value
 	}
 
-	return &turbotTagsMap, nil
+	return turbotTagsMap, nil
 }
 
 func ecrpublicV2TagsToMap(tags []ecrpublictypes.Tag) (*map[string]string, error) {

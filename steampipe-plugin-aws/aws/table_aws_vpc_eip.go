@@ -139,7 +139,7 @@ func tableAwsVpcEip(_ context.Context) *plugin.Table {
 				Name:        "title",
 				Description: resourceInterfaceDescription("title"),
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Address.AssociationId"),
+				Transform:   transform.FromField("Description.Address.AllocationId"),
 			},
 			{
 				// EIPs in EC2-Classic have no valid ARN, so no valid AKAs either
