@@ -1706,7 +1706,8 @@ type RDSDBEventSubscriptionDescription struct {
 //getfilter:db_instance_identifier=description.DBInstance.DBInstanceIdentifier
 type RDSDBInstanceDescription struct {
 	DBInstance         rds.DBInstance
-	PendingMaintenance rds.ResourcePendingMaintenanceActions
+	PendingMaintenance []rds.ResourcePendingMaintenanceActions
+	Certificate        []rds.Certificate
 }
 
 //index:aws_rds_dbsnapshot

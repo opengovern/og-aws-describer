@@ -321,7 +321,7 @@ func tableAwsRDSDBInstance(_ context.Context) *plugin.Table {
 				Name:        "certificate",
 				Description: "The CA certificate associated with the DB instance.",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.DBInstance.CACertificateIdentifier")},
+				Transform:   transform.FromField("Description.Certificate")},
 			{
 				Name:        "db_parameter_groups",
 				Description: "A list of DB parameter groups applied to this DB instance.",
@@ -351,7 +351,7 @@ func tableAwsRDSDBInstance(_ context.Context) *plugin.Table {
 				Name:        "pending_maintenance_actions",
 				Description: "A list that provides details about the pending maintenance actions for the resource.",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.PendingMaintenance.PendingMaintenanceActionDetails")},
+				Transform:   transform.FromField("Description.PendingMaintenance")},
 			{
 				Name:        "processor_features",
 				Description: "The number of CPU cores and the number of threads per core for the DB instance class of the DB instance.",

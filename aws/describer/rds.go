@@ -225,33 +225,45 @@ func RDSDBInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 		}
 
 		for _, v := range page.DBInstances {
-			pendingMaintenance, err := client.DescribePendingMaintenanceActions(ctx, &rds.DescribePendingMaintenanceActionsInput{
-				ResourceIdentifier: v.DBInstanceArn,
-			})
+			resource, err := rDSDBInstanceHandle(ctx, client, v)
 			if err != nil {
-				if isErr(err, "DescribePendingMaintenanceActionsNotFound") || isErr(err, "InvalidParameterValue") {
-					return nil, nil
-				}
-				return nil, nil
+				return nil, err
 			}
-			for _, pendingM := range pendingMaintenance.PendingMaintenanceActions {
-				resource := rDSDBInstanceHandle(ctx, v, pendingM)
-				values = append(values, resource)
-				if stream != nil {
-					if err := (*stream)(resource); err != nil {
-						return nil, err
-					}
-				} else {
-					values = append(values, resource)
+			if resource == nil {
+				continue
+			}
+			if stream != nil {
+				if err := (*stream)(*resource); err != nil {
+					return nil, err
 				}
+			} else {
+				values = append(values, *resource)
 			}
 		}
 	}
 
 	return values, nil
 }
-func rDSDBInstanceHandle(ctx context.Context, v types.DBInstance, pendingM types.ResourcePendingMaintenanceActions) Resource {
+func rDSDBInstanceHandle(ctx context.Context, client *rds.Client, v types.DBInstance) (*Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+	pendingMaintenance, err := client.DescribePendingMaintenanceActions(ctx, &rds.DescribePendingMaintenanceActionsInput{
+		ResourceIdentifier: v.DBInstanceArn,
+	})
+	if err != nil {
+		if isErr(err, "DescribePendingMaintenanceActionsNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, nil
+	}
+	certificate, err := client.DescribeCertificates(ctx, &rds.DescribeCertificatesInput{
+		CertificateIdentifier: v.CACertificateIdentifier,
+	})
+	if err != nil {
+		if isErr(err, "DescribeCertificatesNotFound") || isErr(err, "InvalidParameterValue") {
+			return nil, nil
+		}
+		return nil, nil
+	}
 
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -259,10 +271,11 @@ func rDSDBInstanceHandle(ctx context.Context, v types.DBInstance, pendingM types
 		Name:   *v.DBInstanceIdentifier,
 		Description: model.RDSDBInstanceDescription{
 			DBInstance:         v,
-			PendingMaintenance: pendingM,
+			PendingMaintenance: pendingMaintenance.PendingMaintenanceActions,
+			Certificate:        certificate.Certificates,
 		},
 	}
-	return resource
+	return &resource, nil
 }
 func GetRDSDBInstance(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	dbInstanceId := fields["id"]
@@ -280,19 +293,15 @@ func GetRDSDBInstance(ctx context.Context, cfg aws.Config, fields map[string]str
 
 	var values []Resource
 	for _, v := range out.DBInstances {
-		pendingMaintenance, err := client.DescribePendingMaintenanceActions(ctx, &rds.DescribePendingMaintenanceActionsInput{
-			ResourceIdentifier: v.DBInstanceArn,
-		})
+		resource, err := rDSDBInstanceHandle(ctx, client, v)
 		if err != nil {
-			if isErr(err, "DescribePendingMaintenanceActionsNotFound") || isErr(err, "InvalidParameterValue") {
-				return nil, nil
-			}
-			return nil, nil
+			return nil, err
 		}
-		for _, pendingM := range pendingMaintenance.PendingMaintenanceActions {
-			resource := rDSDBInstanceHandle(ctx, v, pendingM)
-			values = append(values, resource)
+		if resource == nil {
+			continue
 		}
+
+		values = append(values, *resource)
 	}
 	return values, nil
 }
