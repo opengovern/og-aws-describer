@@ -95,7 +95,7 @@ func tableAwsVpcSecurityGroup(_ context.Context) *plugin.Table {
 				Name:        "title",
 				Description: resourceInterfaceDescription("title"),
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("GroupName"),
+				Transform:   transform.FromField("Description.SecurityGroup.GroupName"),
 			},
 			{
 				Name:        "akas",

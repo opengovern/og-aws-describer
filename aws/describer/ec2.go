@@ -2100,7 +2100,7 @@ func EC2SecurityGroup(ctx context.Context, cfg aws.Config, stream *StreamSender)
 }
 func eC2SecurityGroupHandle(ctx context.Context, v types.SecurityGroup) Resource {
 	describeCtx := GetDescribeContext(ctx)
-	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":security-group/" + *v.GroupId
+	arn := fmt.Sprintf("arn:%s:ec2:%s:%s:security-group/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.GroupId)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    arn,

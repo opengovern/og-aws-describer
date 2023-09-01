@@ -153,6 +153,7 @@ func IAMAccountPasswordPolicy(ctx context.Context, cfg aws.Config, stream *Strea
 	}
 	return values, nil
 }
+
 func iAMAccountPasswordPolicyHandle(ctx context.Context, cfg aws.Config) (Resource, error) {
 	client := iam.NewFromConfig(cfg)
 	describeCtx := GetDescribeContext(ctx)
@@ -184,6 +185,7 @@ func iAMAccountPasswordPolicyHandle(ctx context.Context, cfg aws.Config) (Resour
 	}
 	return resource, nil
 }
+
 func GetIAMAccountPasswordPolicy(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	var values []Resource
 	resource, err := iAMAccountPasswordPolicyHandle(ctx, cfg)
@@ -227,6 +229,7 @@ func IAMAccessKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 
 	return values, nil
 }
+
 func iAMAccessKeyHandle(ctx context.Context, cfg aws.Config, v types.AccessKeyMetadata) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
@@ -252,6 +255,7 @@ func iAMAccessKeyHandle(ctx context.Context, cfg aws.Config, v types.AccessKeyMe
 	}
 	return resource, nil
 }
+
 func GetIAMAccessKey(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	userName := fields["name"]
 	var values []Resource
@@ -363,6 +367,7 @@ func IAMPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Res
 	}
 	return values, nil
 }
+
 func iAMPolicyHandle(ctx context.Context, v types.Policy, version *types.PolicyVersion) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
@@ -376,6 +381,7 @@ func iAMPolicyHandle(ctx context.Context, v types.Policy, version *types.PolicyV
 	}
 	return resource
 }
+
 func GetIAMPolicy(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	arn := fields["arn"]
 	client := iam.NewFromConfig(cfg)
@@ -456,6 +462,7 @@ func IAMGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 
 	return values, nil
 }
+
 func iAMGroupHandle(ctx context.Context, v types.Group, aPolicies []string, policies []model.InlinePolicy, users []types.User) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
@@ -471,6 +478,7 @@ func iAMGroupHandle(ctx context.Context, v types.Group, aPolicies []string, poli
 	}
 	return resource
 }
+
 func GetIAMGroup(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	var values []Resource
 	groupName := fields["name"]
@@ -532,6 +540,7 @@ func getGroupUsers(ctx context.Context, client *iam.Client, groupname *string) (
 
 	return users, nil
 }
+
 func getGroupPolicies(ctx context.Context, client *iam.Client, groupname *string) ([]model.InlinePolicy, error) {
 	paginator := iam.NewListGroupPoliciesPaginator(client, &iam.ListGroupPoliciesInput{
 		GroupName: groupname,
@@ -562,6 +571,7 @@ func getGroupPolicies(ctx context.Context, client *iam.Client, groupname *string
 
 	return policies, nil
 }
+
 func getGroupAttachedPolicyArns(ctx context.Context, client *iam.Client, groupname *string) ([]string, error) {
 	paginator := iam.NewListAttachedGroupPoliciesPaginator(client, &iam.ListAttachedGroupPoliciesInput{
 		GroupName: groupname,
@@ -856,51 +866,65 @@ func IAMRole(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 		}
 
 		for _, v := range page.Roles {
-			profiles, err := getRoleInstanceProfileArns(ctx, client, v.RoleName)
+			resource, err := iAMRoleHandle(ctx, client, v)
 			if err != nil {
-				return nil, err
+				continue
 			}
-
-			policies, err := getRolePolicies(ctx, client, v.RoleName)
-			if err != nil {
-				if isErr(err, "AccessDenied") || strings.Contains(err.Error(), "AccessDenied") {
-					return nil, nil
-				} else {
-					return nil, err
-				}
+			if resource == nil {
+				continue
 			}
-
-			aPolicies, err := getRoleAttachedPolicyArns(ctx, client, v.RoleName)
-			if err != nil {
-				return nil, err
-			}
-
-			resource := iAMRoleHandle(ctx, v, profiles, policies, aPolicies)
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
 		}
 	}
 	return values, nil
 }
-func iAMRoleHandle(ctx context.Context, v types.Role, profiles []string, policies []model.InlinePolicy, aPolicies []string) Resource {
+func iAMRoleHandle(ctx context.Context, client *iam.Client, v types.Role) (*Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
+	role, err := client.GetRole(ctx, &iam.GetRoleInput{
+		RoleName: v.RoleName,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	profiles, err := getRoleInstanceProfileArns(ctx, client, v.RoleName)
+	if err != nil {
+		return nil, err
+	}
+
+	policies, err := getRolePolicies(ctx, client, v.RoleName)
+	if err != nil {
+		if isErr(err, "AccessDenied") || strings.Contains(err.Error(), "AccessDenied") {
+			return nil, nil
+		} else {
+			return nil, err
+		}
+	}
+
+	aPolicies, err := getRoleAttachedPolicyArns(ctx, client, v.RoleName)
+	if err != nil {
+		return nil, err
+	}
+
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *v.Arn,
 		Name:   *v.RoleName,
 		Description: model.IAMRoleDescription{
-			Role:                v,
+			Role:                *role.Role,
 			InstanceProfileArns: profiles,
 			InlinePolicies:      policies,
 			AttachedPolicyArns:  aPolicies,
 		},
 	}
-	return resource
+	return &resource, nil
 }
 func GetIAMRole(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	pathPrefix := fields["path"]
@@ -917,23 +941,14 @@ func GetIAMRole(ctx context.Context, cfg aws.Config, fields map[string]string) (
 
 	var values []Resource
 	for _, v := range out.Roles {
-		profiles, err := getRoleInstanceProfileArns(ctx, client, v.RoleName)
+		resource, err := iAMRoleHandle(ctx, client, v)
 		if err != nil {
-			return nil, err
+			continue
 		}
-
-		policies, err := getRolePolicies(ctx, client, v.RoleName)
-		if err != nil {
-			return nil, err
+		if resource == nil {
+			continue
 		}
-
-		aPolicies, err := getRoleAttachedPolicyArns(ctx, client, v.RoleName)
-		if err != nil {
-			return nil, err
-		}
-
-		resource := iAMRoleHandle(ctx, v, profiles, policies, aPolicies)
-		values = append(values, resource)
+		values = append(values, *resource)
 	}
 	return values, nil
 }
