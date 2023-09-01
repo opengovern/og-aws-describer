@@ -40,7 +40,7 @@ func tableAwsEksNodeGroup(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) associated with the managed node group.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("NodegroupArn"),
+				Transform:   transform.FromField("Description.Nodegroup.NodegroupArn"),
 			},
 			{
 				Name:        "cluster_name",

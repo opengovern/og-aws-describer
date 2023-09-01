@@ -891,6 +891,8 @@ github.com/jstemmer/go-junit-report v0.9.1/go.mod h1:Brl9GWCQeLvo8nXZwPNNblvFj/X
 github.com/jtolds/gls v4.20.0+incompatible h1:xdiiI2gbIgH/gLH7ADydsJ1uDOEzR8yvV7C0MuV77Wo=
 github.com/kaytu-io/kaytu-util v0.0.0-20230901110802-c2e01bc28d9f h1:Ja+g4ruph564aLDwt6safvP8VdeS+IFQPKVZNf9SVys=
 github.com/kaytu-io/kaytu-util v0.0.0-20230901110802-c2e01bc28d9f/go.mod h1:gMvfwNPyjsR7Ev5itFiH+o2h+cyE/F8vP0COU18anLc=
+github.com/kaytu-io/kaytu-util v0.0.0-20230901113556-bcf9c526e128 h1:QubSaww0lGXjQP8oZc4U5Gf1c7YMRR/DR+IMkSUxjcg=
+github.com/kaytu-io/kaytu-util v0.0.0-20230901113556-bcf9c526e128/go.mod h1:gMvfwNPyjsR7Ev5itFiH+o2h+cyE/F8vP0COU18anLc=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 github.com/klauspost/compress v1.15.11 h1:Lcadnb3RKGin4FYM/orgq0qde+nc15E5Cbqg4B9Sx9c=
