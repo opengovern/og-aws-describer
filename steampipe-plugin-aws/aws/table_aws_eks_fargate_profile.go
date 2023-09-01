@@ -20,8 +20,7 @@ func tableAwsEksFargateProfile(_ context.Context) *plugin.Table {
 			Hydrate:    kaytu.GetEKSFargateProfile,
 		},
 		List: &plugin.ListConfig{
-			ParentHydrate: kaytu.ListEKSCluster,
-			Hydrate:       kaytu.ListEKSFargateProfile,
+			Hydrate: kaytu.ListEKSFargateProfile,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "cluster_name",
