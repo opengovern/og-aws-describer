@@ -326,6 +326,9 @@ func unescape(ctx context.Context, d *transform.TransformData) (interface{}, err
 
 	// get the value of policy safely
 	inputStr := types.SafeString(d.Value)
+	if inputStr == "\"\"" {
+		inputStr = ""
+	}
 	if inputStr == "" {
 		inputByte, _ := json.Marshal(d.Value)
 		inputStr = string(inputByte)
