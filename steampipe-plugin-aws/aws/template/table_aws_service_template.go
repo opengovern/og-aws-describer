@@ -11,7 +11,7 @@ import (
 
 var table = Table{
 	Service: "EC2",
-	Name:    "LaunchTemplate",
+	Name:    "LocalGateway",
 }
 
 const awsTableServiceTemplate = `
@@ -36,7 +36,7 @@ func tableAws{{.Service}}{{.Name}}(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.List{{.Service}}{{.Name}},
 		},
-		Columns: awskaytuRegionalColumns([]*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "id",
 				Description: "The id of the {{.NameLowerCase}}.",

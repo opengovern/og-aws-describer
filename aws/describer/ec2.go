@@ -15,6 +15,75 @@ import (
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 )
 
+func EC2ElasticIP(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	var values []Resource
+	describeCtx := GetDescribeContext(ctx)
+	client := ec2.NewFromConfig(cfg)
+
+	addrs, err := client.DescribeAddresses(ctx, &ec2.DescribeAddressesInput{})
+	if err != nil {
+		return nil, err
+	}
+
+	for _, addr := range addrs.Addresses {
+		resource := Resource{
+			ID:     *addr.AllocationId,
+			Region: describeCtx.KaytuRegion,
+			Description: model.EC2ElasticIPDescription{
+				Address: addr,
+			},
+		}
+
+		if stream != nil {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
+			}
+		} else {
+			values = append(values, resource)
+		}
+	}
+
+	return values, nil
+}
+
+func EC2LocalGateway(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := ec2.NewFromConfig(cfg)
+	paginator := ec2.NewDescribeLocalGatewaysPaginator(client, &ec2.DescribeLocalGatewaysInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page.LocalGateways {
+			resource := eC2LocalGatewayHandle(ctx, v)
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}
+func eC2LocalGatewayHandle(ctx context.Context, v types.LocalGateway) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":local-gateway/" + *v.LocalGatewayId
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		Name:   *v.LocalGatewayId,
+		Description: model.EC2LocalGatewayDescription{
+			LocalGateway: v,
+		},
+	}
+	return resource
+}
+
 func EC2VolumeSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	var values []Resource
 	client := ec2.NewFromConfig(cfg)

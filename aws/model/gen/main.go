@@ -267,8 +267,10 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 				GetFilters:  map[string]string{},
 				ListFilters: map[string]string{},
 			}
+			exists := false
 			for _, resourceType := range resourceTypes {
 				if resourceType.Model == s.Name {
+					exists = true
 					var stopWordsRe = regexp.MustCompile(`\W+`)
 					index := stopWordsRe.ReplaceAllString(resourceType.ResourceName, "_")
 					index = strings.ToLower(index)
@@ -324,6 +326,9 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 					})
 				}
 			}
+			if !exists {
+				fmt.Println("resourceType not found", s.Name)
+			}
 
 			if decl.Doc != nil {
 				for _, c := range decl.Doc.List {
@@ -345,6 +350,8 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 			if s.Index != "" {
 				sources = append(sources, s)
+			} else {
+				fmt.Println("ignoring due to empty index", s)
 			}
 		}
 

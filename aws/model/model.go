@@ -3,6 +3,12 @@
 package model
 
 import (
+	"github.com/aws/aws-sdk-go-v2/service/opensearchserverless"
+	types6 "github.com/aws/aws-sdk-go-v2/service/opensearchserverless/types"
+	"github.com/aws/aws-sdk-go-v2/service/resourcegroups"
+	types4 "github.com/aws/aws-sdk-go-v2/service/resourcegroups/types"
+	"github.com/aws/aws-sdk-go-v2/service/timestreamwrite"
+	types5 "github.com/aws/aws-sdk-go-v2/service/timestreamwrite/types"
 	"time"
 
 	accessanalyzer "github.com/aws/aws-sdk-go-v2/service/accessanalyzer/types"
@@ -846,6 +852,11 @@ type EC2VolumeSnapshotDescription struct {
 	CreateVolumePermissions []ec2.CreateVolumePermission
 }
 
+//index:aws_ec2_elasticip
+type EC2ElasticIPDescription struct {
+	Address ec2.Address
+}
+
 //index:aws_ec2_customergateway
 //getfilter:customer_gateway_id=description.CustomerGateway.CustomerGatewayId
 //listfilter:ip_address=description.CustomerGateway.IpAddress
@@ -1039,6 +1050,12 @@ type EC2RouteTableDescription struct {
 //getfilter:nat_gateway_id=description.NatGateway.NatGatewayId
 type EC2NatGatewayDescription struct {
 	NatGateway ec2.NatGateway
+}
+
+//index:aws_ec2_localgateway
+//getfilter:id=description.LocalGateway.LocalGatewayId
+type EC2LocalGatewayDescription struct {
+	LocalGateway ec2.LocalGateway
 }
 
 //index:aws_ec2_region
@@ -3247,6 +3264,36 @@ type PinPointAppDescription struct {
 type PipesPipeDescription struct {
 	PipeOutput *pipesop.DescribePipeOutput
 	Pipe       pipes.Pipe
+}
+
+// ===================  ResourceGroups ===================
+
+//index:aws_resourcegroups_group
+//getfilter:name=description.GroupIdentifier.GroupName
+type ResourceGroupsGroupDescription struct {
+	GroupIdentifier types4.GroupIdentifier
+	Resources       []types4.ListGroupResourcesItem
+	Tags            *resourcegroups.GetTagsOutput
+}
+
+// ===================  OpenSearchServerless ===================
+
+//index:aws_opensearchserverless_collection
+//getfilter:name=description.CollectionSummary.Name
+type OpenSearchServerlessCollectionDescription struct {
+	CollectionSummary types6.CollectionSummary
+	Collection        types6.CollectionDetail
+	Tags              *opensearchserverless.ListTagsForResourceOutput
+}
+
+// ===================  Timestream ===================
+
+//index:aws_timestream_database
+//getfilter:arn=description.Database.Arn
+//getfilter:name=description.Database.DatabaseName
+type TimestreamDatabaseDescription struct {
+	Database types5.Database
+	Tags     *timestreamwrite.ListTagsForResourceOutput
 }
 
 // ===================  ResourceExplorer2 ===================

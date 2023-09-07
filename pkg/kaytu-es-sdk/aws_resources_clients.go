@@ -13732,6 +13732,160 @@ func GetEC2VolumeSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 
 // ==========================  END: EC2VolumeSnapshot =============================
 
+// ==========================  START: EC2ElasticIP =============================
+
+type EC2ElasticIP struct {
+	Description   aws.EC2ElasticIPDescription `json:"description"`
+	Metadata      aws.Metadata                `json:"metadata"`
+	ResourceJobID int                         `json:"resource_job_id"`
+	SourceJobID   int                         `json:"source_job_id"`
+	ResourceType  string                      `json:"resource_type"`
+	SourceType    string                      `json:"source_type"`
+	ID            string                      `json:"id"`
+	ARN           string                      `json:"arn"`
+	SourceID      string                      `json:"source_id"`
+}
+
+type EC2ElasticIPHit struct {
+	ID      string        `json:"_id"`
+	Score   float64       `json:"_score"`
+	Index   string        `json:"_index"`
+	Type    string        `json:"_type"`
+	Version int64         `json:"_version,omitempty"`
+	Source  EC2ElasticIP  `json:"_source"`
+	Sort    []interface{} `json:"sort"`
+}
+
+type EC2ElasticIPHits struct {
+	Total essdk.SearchTotal `json:"total"`
+	Hits  []EC2ElasticIPHit `json:"hits"`
+}
+
+type EC2ElasticIPSearchResponse struct {
+	PitID string           `json:"pit_id"`
+	Hits  EC2ElasticIPHits `json:"hits"`
+}
+
+type EC2ElasticIPPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewEC2ElasticIPPaginator(filters []essdk.BoolFilter, limit *int64) (EC2ElasticIPPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_ec2_elasticip", filters, limit)
+	if err != nil {
+		return EC2ElasticIPPaginator{}, err
+	}
+
+	p := EC2ElasticIPPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p EC2ElasticIPPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p EC2ElasticIPPaginator) NextPage(ctx context.Context) ([]EC2ElasticIP, error) {
+	var response EC2ElasticIPSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []EC2ElasticIP
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listEC2ElasticIPFilters = map[string]string{
+	"akas":             "description.Address.AllocationId",
+	"id":               "description.Address.AllocationId",
+	"kaytu_account_id": "metadata.SourceID",
+	"title":            "description.Address.AllocationId",
+}
+
+func ListEC2ElasticIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListEC2ElasticIP")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewEC2ElasticIPPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2ElasticIPFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getEC2ElasticIPFilters = map[string]string{
+	"akas":             "description.Address.AllocationId",
+	"id":               "description.Address.AllocationId",
+	"kaytu_account_id": "metadata.SourceID",
+	"title":            "description.Address.AllocationId",
+}
+
+func GetEC2ElasticIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetEC2ElasticIP")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewEC2ElasticIPPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2ElasticIPFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: EC2ElasticIP =============================
+
 // ==========================  START: EC2CustomerGateway =============================
 
 type EC2CustomerGateway struct {
@@ -16411,7 +16565,7 @@ var listEC2SecurityGroupFilters = map[string]string{
 	"kaytu_account_id":      "metadata.SourceID",
 	"owner_id":              "description.SecurityGroup.OwnerId",
 	"tags_src":              "description.SecurityGroup.Tags",
-	"title":                 "groupname",
+	"title":                 "description.SecurityGroup.GroupName",
 	"vpc_id":                "description.SecurityGroup.VpcId",
 }
 
@@ -16456,7 +16610,7 @@ var getEC2SecurityGroupFilters = map[string]string{
 	"kaytu_account_id":      "metadata.SourceID",
 	"owner_id":              "description.SecurityGroup.OwnerId",
 	"tags_src":              "description.SecurityGroup.Tags",
-	"title":                 "groupname",
+	"title":                 "description.SecurityGroup.GroupName",
 	"vpc_id":                "description.SecurityGroup.VpcId",
 }
 
@@ -17512,6 +17666,162 @@ func GetEC2NatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 }
 
 // ==========================  END: EC2NatGateway =============================
+
+// ==========================  START: EC2LocalGateway =============================
+
+type EC2LocalGateway struct {
+	Description   aws.EC2LocalGatewayDescription `json:"description"`
+	Metadata      aws.Metadata                   `json:"metadata"`
+	ResourceJobID int                            `json:"resource_job_id"`
+	SourceJobID   int                            `json:"source_job_id"`
+	ResourceType  string                         `json:"resource_type"`
+	SourceType    string                         `json:"source_type"`
+	ID            string                         `json:"id"`
+	ARN           string                         `json:"arn"`
+	SourceID      string                         `json:"source_id"`
+}
+
+type EC2LocalGatewayHit struct {
+	ID      string          `json:"_id"`
+	Score   float64         `json:"_score"`
+	Index   string          `json:"_index"`
+	Type    string          `json:"_type"`
+	Version int64           `json:"_version,omitempty"`
+	Source  EC2LocalGateway `json:"_source"`
+	Sort    []interface{}   `json:"sort"`
+}
+
+type EC2LocalGatewayHits struct {
+	Total essdk.SearchTotal    `json:"total"`
+	Hits  []EC2LocalGatewayHit `json:"hits"`
+}
+
+type EC2LocalGatewaySearchResponse struct {
+	PitID string              `json:"pit_id"`
+	Hits  EC2LocalGatewayHits `json:"hits"`
+}
+
+type EC2LocalGatewayPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewEC2LocalGatewayPaginator(filters []essdk.BoolFilter, limit *int64) (EC2LocalGatewayPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_ec2_localgateway", filters, limit)
+	if err != nil {
+		return EC2LocalGatewayPaginator{}, err
+	}
+
+	p := EC2LocalGatewayPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p EC2LocalGatewayPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p EC2LocalGatewayPaginator) NextPage(ctx context.Context) ([]EC2LocalGateway, error) {
+	var response EC2LocalGatewaySearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []EC2LocalGateway
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listEC2LocalGatewayFilters = map[string]string{
+	"akas":             "arn",
+	"arn":              "arn",
+	"id":               "description.LocalGateway.LocalGatewayId",
+	"kaytu_account_id": "metadata.SourceID",
+	"title":            "description.LocalGateway.LocalGatewayId",
+}
+
+func ListEC2LocalGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListEC2LocalGateway")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewEC2LocalGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2LocalGatewayFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getEC2LocalGatewayFilters = map[string]string{
+	"akas":             "arn",
+	"arn":              "arn",
+	"id":               "description.LocalGateway.LocalGatewayId",
+	"kaytu_account_id": "metadata.SourceID",
+	"title":            "description.LocalGateway.LocalGatewayId",
+}
+
+func GetEC2LocalGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetEC2LocalGateway")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewEC2LocalGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2LocalGatewayFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: EC2LocalGateway =============================
 
 // ==========================  START: EC2Region =============================
 
@@ -41249,7 +41559,7 @@ func (p EKSNodegroupPaginator) NextPage(ctx context.Context) ([]EKSNodegroup, er
 var listEKSNodegroupFilters = map[string]string{
 	"akas":             "description.Nodegroup.NodegroupArn",
 	"ami_type":         "description.Nodegroup.AmiType",
-	"arn":              "nodegrouparn",
+	"arn":              "description.Nodegroup.NodegroupArn",
 	"capacity_type":    "description.Nodegroup.CapacityType",
 	"cluster_name":     "description.Nodegroup.ClusterName",
 	"created_at":       "description.Nodegroup.CreatedAt",
@@ -41308,7 +41618,7 @@ func ListEKSNodegroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 var getEKSNodegroupFilters = map[string]string{
 	"akas":             "description.Nodegroup.NodegroupArn",
 	"ami_type":         "description.Nodegroup.AmiType",
-	"arn":              "nodegrouparn",
+	"arn":              "description.Nodegroup.NodegroupArn",
 	"capacity_type":    "description.Nodegroup.CapacityType",
 	"cluster_name":     "description.Nodegroup.ClusterName",
 	"created_at":       "description.Nodegroup.CreatedAt",
@@ -61164,6 +61474,480 @@ func GetPipesPipe(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 }
 
 // ==========================  END: PipesPipe =============================
+
+// ==========================  START: ResourceGroupsGroup =============================
+
+type ResourceGroupsGroup struct {
+	Description   aws.ResourceGroupsGroupDescription `json:"description"`
+	Metadata      aws.Metadata                       `json:"metadata"`
+	ResourceJobID int                                `json:"resource_job_id"`
+	SourceJobID   int                                `json:"source_job_id"`
+	ResourceType  string                             `json:"resource_type"`
+	SourceType    string                             `json:"source_type"`
+	ID            string                             `json:"id"`
+	ARN           string                             `json:"arn"`
+	SourceID      string                             `json:"source_id"`
+}
+
+type ResourceGroupsGroupHit struct {
+	ID      string              `json:"_id"`
+	Score   float64             `json:"_score"`
+	Index   string              `json:"_index"`
+	Type    string              `json:"_type"`
+	Version int64               `json:"_version,omitempty"`
+	Source  ResourceGroupsGroup `json:"_source"`
+	Sort    []interface{}       `json:"sort"`
+}
+
+type ResourceGroupsGroupHits struct {
+	Total essdk.SearchTotal        `json:"total"`
+	Hits  []ResourceGroupsGroupHit `json:"hits"`
+}
+
+type ResourceGroupsGroupSearchResponse struct {
+	PitID string                  `json:"pit_id"`
+	Hits  ResourceGroupsGroupHits `json:"hits"`
+}
+
+type ResourceGroupsGroupPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewResourceGroupsGroupPaginator(filters []essdk.BoolFilter, limit *int64) (ResourceGroupsGroupPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_resourcegroups_groups", filters, limit)
+	if err != nil {
+		return ResourceGroupsGroupPaginator{}, err
+	}
+
+	p := ResourceGroupsGroupPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p ResourceGroupsGroupPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p ResourceGroupsGroupPaginator) NextPage(ctx context.Context) ([]ResourceGroupsGroup, error) {
+	var response ResourceGroupsGroupSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []ResourceGroupsGroup
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listResourceGroupsGroupFilters = map[string]string{
+	"akas":             "description.GroupIdentifier.GroupArn",
+	"arn":              "description.GroupIdentifier.GroupArn",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.GroupIdentifier.GroupName",
+	"tags":             "description.Tags",
+	"title":            "description.GroupIdentifier.GroupName",
+}
+
+func ListResourceGroupsGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListResourceGroupsGroup")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewResourceGroupsGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listResourceGroupsGroupFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getResourceGroupsGroupFilters = map[string]string{
+	"akas":             "description.GroupIdentifier.GroupArn",
+	"arn":              "description.GroupIdentifier.GroupArn",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.GroupIdentifier.GroupName",
+	"tags":             "description.Tags",
+	"title":            "description.GroupIdentifier.GroupName",
+}
+
+func GetResourceGroupsGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetResourceGroupsGroup")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewResourceGroupsGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getResourceGroupsGroupFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: ResourceGroupsGroup =============================
+
+// ==========================  START: OpenSearchServerlessCollection =============================
+
+type OpenSearchServerlessCollection struct {
+	Description   aws.OpenSearchServerlessCollectionDescription `json:"description"`
+	Metadata      aws.Metadata                                  `json:"metadata"`
+	ResourceJobID int                                           `json:"resource_job_id"`
+	SourceJobID   int                                           `json:"source_job_id"`
+	ResourceType  string                                        `json:"resource_type"`
+	SourceType    string                                        `json:"source_type"`
+	ID            string                                        `json:"id"`
+	ARN           string                                        `json:"arn"`
+	SourceID      string                                        `json:"source_id"`
+}
+
+type OpenSearchServerlessCollectionHit struct {
+	ID      string                         `json:"_id"`
+	Score   float64                        `json:"_score"`
+	Index   string                         `json:"_index"`
+	Type    string                         `json:"_type"`
+	Version int64                          `json:"_version,omitempty"`
+	Source  OpenSearchServerlessCollection `json:"_source"`
+	Sort    []interface{}                  `json:"sort"`
+}
+
+type OpenSearchServerlessCollectionHits struct {
+	Total essdk.SearchTotal                   `json:"total"`
+	Hits  []OpenSearchServerlessCollectionHit `json:"hits"`
+}
+
+type OpenSearchServerlessCollectionSearchResponse struct {
+	PitID string                             `json:"pit_id"`
+	Hits  OpenSearchServerlessCollectionHits `json:"hits"`
+}
+
+type OpenSearchServerlessCollectionPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewOpenSearchServerlessCollectionPaginator(filters []essdk.BoolFilter, limit *int64) (OpenSearchServerlessCollectionPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_opensearchserverless_collection", filters, limit)
+	if err != nil {
+		return OpenSearchServerlessCollectionPaginator{}, err
+	}
+
+	p := OpenSearchServerlessCollectionPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p OpenSearchServerlessCollectionPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p OpenSearchServerlessCollectionPaginator) NextPage(ctx context.Context) ([]OpenSearchServerlessCollection, error) {
+	var response OpenSearchServerlessCollectionSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []OpenSearchServerlessCollection
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listOpenSearchServerlessCollectionFilters = map[string]string{
+	"akas":             "description.CollectionSummary.Arn",
+	"arn":              "description.CollectionSummary.Arn",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.Collection.Name",
+	"tags":             "description.Collection.Tags",
+	"title":            "description.CollectionSummary.Name",
+}
+
+func ListOpenSearchServerlessCollection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListOpenSearchServerlessCollection")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewOpenSearchServerlessCollectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOpenSearchServerlessCollectionFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getOpenSearchServerlessCollectionFilters = map[string]string{
+	"akas":             "description.CollectionSummary.Arn",
+	"arn":              "description.CollectionSummary.Arn",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.CollectionSummary.Name",
+	"tags":             "description.Collection.Tags",
+	"title":            "description.CollectionSummary.Name",
+}
+
+func GetOpenSearchServerlessCollection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetOpenSearchServerlessCollection")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewOpenSearchServerlessCollectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOpenSearchServerlessCollectionFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: OpenSearchServerlessCollection =============================
+
+// ==========================  START: TimestreamDatabase =============================
+
+type TimestreamDatabase struct {
+	Description   aws.TimestreamDatabaseDescription `json:"description"`
+	Metadata      aws.Metadata                      `json:"metadata"`
+	ResourceJobID int                               `json:"resource_job_id"`
+	SourceJobID   int                               `json:"source_job_id"`
+	ResourceType  string                            `json:"resource_type"`
+	SourceType    string                            `json:"source_type"`
+	ID            string                            `json:"id"`
+	ARN           string                            `json:"arn"`
+	SourceID      string                            `json:"source_id"`
+}
+
+type TimestreamDatabaseHit struct {
+	ID      string             `json:"_id"`
+	Score   float64            `json:"_score"`
+	Index   string             `json:"_index"`
+	Type    string             `json:"_type"`
+	Version int64              `json:"_version,omitempty"`
+	Source  TimestreamDatabase `json:"_source"`
+	Sort    []interface{}      `json:"sort"`
+}
+
+type TimestreamDatabaseHits struct {
+	Total essdk.SearchTotal       `json:"total"`
+	Hits  []TimestreamDatabaseHit `json:"hits"`
+}
+
+type TimestreamDatabaseSearchResponse struct {
+	PitID string                 `json:"pit_id"`
+	Hits  TimestreamDatabaseHits `json:"hits"`
+}
+
+type TimestreamDatabasePaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewTimestreamDatabasePaginator(filters []essdk.BoolFilter, limit *int64) (TimestreamDatabasePaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_timestream_database", filters, limit)
+	if err != nil {
+		return TimestreamDatabasePaginator{}, err
+	}
+
+	p := TimestreamDatabasePaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p TimestreamDatabasePaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p TimestreamDatabasePaginator) NextPage(ctx context.Context) ([]TimestreamDatabase, error) {
+	var response TimestreamDatabaseSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []TimestreamDatabase
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listTimestreamDatabaseFilters = map[string]string{
+	"akas":             "description.Database.Arn",
+	"arn":              "description.Database.Arn",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.Database.DatabaseName",
+	"tags":             "description.Tags",
+	"title":            "description.Database.DatabaseName",
+}
+
+func ListTimestreamDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListTimestreamDatabase")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewTimestreamDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, listTimestreamDatabaseFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getTimestreamDatabaseFilters = map[string]string{
+	"akas":             "description.Database.Arn",
+	"arn":              "description.Database.Arn",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.Database.DatabaseName",
+	"tags":             "description.Tags",
+	"title":            "description.Database.DatabaseName",
+}
+
+func GetTimestreamDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetTimestreamDatabase")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewTimestreamDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, getTimestreamDatabaseFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: TimestreamDatabase =============================
 
 // ==========================  START: ResourceExplorer2Index =============================
 

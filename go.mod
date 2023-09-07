@@ -94,6 +94,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/networkfirewall v1.20.3
 	github.com/aws/aws-sdk-go-v2/service/oam v1.1.11
 	github.com/aws/aws-sdk-go-v2/service/opensearch v1.10.12
+	github.com/aws/aws-sdk-go-v2/service/opensearchserverless v1.4.5
 	github.com/aws/aws-sdk-go-v2/service/opsworkscm v1.15.0
 	github.com/aws/aws-sdk-go-v2/service/organizations v1.16.8
 	github.com/aws/aws-sdk-go-v2/service/pinpoint v1.19.1
@@ -104,6 +105,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/redshift v1.26.10
 	github.com/aws/aws-sdk-go-v2/service/redshiftserverless v1.2.13
 	github.com/aws/aws-sdk-go-v2/service/resourceexplorer2 v1.2.13
+	github.com/aws/aws-sdk-go-v2/service/resourcegroups v1.15.5
 	github.com/aws/aws-sdk-go-v2/service/resourcegroupstaggingapi v1.14.11
 	github.com/aws/aws-sdk-go-v2/service/route53 v1.24.0
 	github.com/aws/aws-sdk-go-v2/service/route53domains v1.14.10
@@ -131,6 +133,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sts v1.19.0
 	github.com/aws/aws-sdk-go-v2/service/support v1.11.0
 	github.com/aws/aws-sdk-go-v2/service/synthetics v1.9.1
+	github.com/aws/aws-sdk-go-v2/service/timestreamwrite v1.18.5
 	github.com/aws/aws-sdk-go-v2/service/waf v1.11.19
 	github.com/aws/aws-sdk-go-v2/service/wafregional v1.12.18
 	github.com/aws/aws-sdk-go-v2/service/wafv2 v1.22.9
@@ -175,7 +178,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/internal/v4a v1.0.16 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.9.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.1.9 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.7.8 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.7.35 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.27 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.13.8 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sso v1.12.10 // indirect
