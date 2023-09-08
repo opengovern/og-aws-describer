@@ -10,8 +10,8 @@ import (
 )
 
 var table = Table{
-	Service: "EC2",
-	Name:    "LocalGateway",
+	Service: "SESv2",
+	Name:    "EmailIdentity",
 }
 
 const awsTableServiceTemplate = `

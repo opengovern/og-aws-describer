@@ -2708,6 +2708,20 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
+	"AWS::SESv2::EmailIdentities": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::SESv2::EmailIdentities",
+		ResourceLabel:        "SESv2 EmailIdentities",
+		Tags:                 map[string][]string{},
+		ServiceName:          "SESv2",
+		ListDescriber:        ParallelDescribeRegional(describer.SESv2EmailIdentities),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_sesv2_email_identity"},
+		TerraformServiceName: "sesv2",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
 	"AWS::WAF::Rule": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAF::Rule",

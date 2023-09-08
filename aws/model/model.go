@@ -2728,6 +2728,12 @@ type SESIdentityDescription struct {
 	ARN                    string
 }
 
+type SESv2EmailIdentityDescription struct {
+	ARN      string
+	Identity types.IdentityInfo
+	Tags     []types.Tag
+}
+
 //  ===================  CloudFormation  ===================
 
 //index:aws_cloudformation_stack

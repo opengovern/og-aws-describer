@@ -68,6 +68,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"aws_timestream_database":                                      tableAwsTimestreamDatabase(ctx),
 			"aws_ec2_elasticip":                                            tableAwsEC2ElasticIP(ctx),
 			"aws_ec2_localgateway":                                         tableAwsEC2LocalGateway(ctx),
+			"aws_sesv2_emailidentity":                                      tableAwsSESv2EmailIdentity(ctx),
 			"aws_appconfig_application":                                    tableAwsAppConfigApplication(ctx),
 			"aws_appstream_fleet":                                          tableAwsAppstreamFleet(ctx),
 			"aws_appstream_image":                                          tableAwsAppStreamImage(ctx),

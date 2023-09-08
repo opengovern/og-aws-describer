@@ -7,6 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/ses"
 	"github.com/aws/aws-sdk-go-v2/service/ses/types"
 	"github.com/aws/aws-sdk-go-v2/service/sesv2"
+	sesv2types "github.com/aws/aws-sdk-go-v2/service/sesv2/types"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 )
 
@@ -121,15 +122,51 @@ func SESIdentity(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 
 	return values, nil
 }
-func sESIdentityHandle(ctx context.Context, cfg aws.Config, v string) (Resource, error) {
+
+func SESv2EmailIdentities(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := sesv2.NewFromConfig(cfg)
+	paginator := sesv2.NewListEmailIdentitiesPaginator(client, &sesv2.ListEmailIdentitiesInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page.EmailIdentities {
+
+			resource, err := sESv2EmailIdentitiesHandle(ctx, cfg, v)
+			emptyResource := Resource{}
+			if err == nil && resource == emptyResource {
+				return nil, nil
+			}
+			if err != nil {
+				return nil, err
+			}
+
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+
+func sESv2EmailIdentitiesHandle(ctx context.Context, cfg aws.Config, v sesv2types.IdentityInfo) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 
-	client := ses.NewFromConfig(cfg)
-	clientv2 := sesv2.NewFromConfig(cfg)
+	client := sesv2.NewFromConfig(cfg)
 
-	arn := fmt.Sprintf("arn:%s:ses:%s:%s:identity/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, v)
+	arn := fmt.Sprintf("arn:%s:sesv2:%s:%s:identity/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, v)
 
-	tags, err := clientv2.ListTagsForResource(ctx, &sesv2.ListTagsForResourceInput{
+	tags, err := client.ListTagsForResource(ctx, &sesv2.ListTagsForResourceInput{
 		ResourceArn: &arn,
 	})
 	if err != nil {
@@ -138,6 +175,26 @@ func sESIdentityHandle(ctx context.Context, cfg aws.Config, v string) (Resource,
 		}
 		return Resource{}, err
 	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		Name:   *v.IdentityName,
+		Description: model.SESv2EmailIdentityDescription{
+			ARN:      arn,
+			Identity: v,
+			Tags:     tags.Tags,
+		},
+	}
+	return resource, nil
+}
+
+func sESIdentityHandle(ctx context.Context, cfg aws.Config, v string) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+
+	client := ses.NewFromConfig(cfg)
+
+	arn := fmt.Sprintf("arn:%s:ses:%s:%s:identity/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, v)
 
 	identity, err := client.GetIdentityVerificationAttributes(ctx, &ses.GetIdentityVerificationAttributesInput{
 		Identities: []string{v},
@@ -190,7 +247,6 @@ func sESIdentityHandle(ctx context.Context, cfg aws.Config, v string) (Resource,
 			IdentityMail:           identityMail.MailFromDomainAttributes,
 			VerificationAttributes: identity.VerificationAttributes[v],
 			NotificationAttributes: notif.NotificationAttributes[v],
-			Tags:                   tags.Tags,
 		},
 	}
 	return resource, nil

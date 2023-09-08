@@ -51222,6 +51222,162 @@ func GetSESIdentity(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 // ==========================  END: SESIdentity =============================
 
+// ==========================  START: SESv2EmailIdentity =============================
+
+type SESv2EmailIdentity struct {
+	Description   aws.SESv2EmailIdentityDescription `json:"description"`
+	Metadata      aws.Metadata                      `json:"metadata"`
+	ResourceJobID int                               `json:"resource_job_id"`
+	SourceJobID   int                               `json:"source_job_id"`
+	ResourceType  string                            `json:"resource_type"`
+	SourceType    string                            `json:"source_type"`
+	ID            string                            `json:"id"`
+	ARN           string                            `json:"arn"`
+	SourceID      string                            `json:"source_id"`
+}
+
+type SESv2EmailIdentityHit struct {
+	ID      string             `json:"_id"`
+	Score   float64            `json:"_score"`
+	Index   string             `json:"_index"`
+	Type    string             `json:"_type"`
+	Version int64              `json:"_version,omitempty"`
+	Source  SESv2EmailIdentity `json:"_source"`
+	Sort    []interface{}      `json:"sort"`
+}
+
+type SESv2EmailIdentityHits struct {
+	Total essdk.SearchTotal       `json:"total"`
+	Hits  []SESv2EmailIdentityHit `json:"hits"`
+}
+
+type SESv2EmailIdentitySearchResponse struct {
+	PitID string                 `json:"pit_id"`
+	Hits  SESv2EmailIdentityHits `json:"hits"`
+}
+
+type SESv2EmailIdentityPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewSESv2EmailIdentityPaginator(filters []essdk.BoolFilter, limit *int64) (SESv2EmailIdentityPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_sesv2_emailidentities", filters, limit)
+	if err != nil {
+		return SESv2EmailIdentityPaginator{}, err
+	}
+
+	p := SESv2EmailIdentityPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p SESv2EmailIdentityPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p SESv2EmailIdentityPaginator) NextPage(ctx context.Context) ([]SESv2EmailIdentity, error) {
+	var response SESv2EmailIdentitySearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []SESv2EmailIdentity
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listSESv2EmailIdentityFilters = map[string]string{
+	"akas":  "description.ARN",
+	"arn":   "description.ARN",
+	"name":  "description.Identity.IdentityName",
+	"tags":  "description.Identity.Tags",
+	"title": "description.Identity.IdentityName",
+}
+
+func ListSESv2EmailIdentity(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListSESv2EmailIdentity")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	paginator, err := k.NewSESv2EmailIdentityPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSESv2EmailIdentityFilters, "aws", *cfg.AccountID), d.QueryContext.Limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	return nil, nil
+}
+
+var getSESv2EmailIdentityFilters = map[string]string{
+	"akas":  "description.ARN",
+	"arn":   "description.ARN",
+	"name":  "description.Identity.IdentityName",
+	"tags":  "description.Identity.Tags",
+	"title": "description.Identity.IdentityName",
+}
+
+func GetSESv2EmailIdentity(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetSESv2EmailIdentity")
+
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	limit := int64(1)
+	paginator, err := k.NewSESv2EmailIdentityPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSESv2EmailIdentityFilters, "aws", *cfg.AccountID), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: SESv2EmailIdentity =============================
+
 // ==========================  START: CloudFormationStack =============================
 
 type CloudFormationStack struct {
