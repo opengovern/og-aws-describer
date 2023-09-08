@@ -150,10 +150,16 @@ func tableAwsEc2ApplicationLoadBalancer(_ context.Context) *plugin.Table {
 
 func listELBV2LoadBalancer(t string) plugin.HydrateFunc {
 	return func(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+		if d.EqualsQuals == nil {
+			d.EqualsQuals = make(map[string]*proto.QualValue)
+		}
 		d.EqualsQuals["type"] = &proto.QualValue{
 			Value: &proto.QualValue_StringValue{
 				StringValue: t,
 			},
+		}
+		if d.QueryContext.UnsafeQuals == nil {
+			d.QueryContext.UnsafeQuals = make(map[string]*proto.Quals)
 		}
 		d.QueryContext.UnsafeQuals["type"] = &proto.Quals{
 			Quals: []*proto.Qual{
@@ -177,10 +183,16 @@ func listELBV2LoadBalancer(t string) plugin.HydrateFunc {
 
 func getELBV2LoadBalancer(t string) plugin.HydrateFunc {
 	return func(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+		if d.EqualsQuals == nil {
+			d.EqualsQuals = make(map[string]*proto.QualValue)
+		}
 		d.EqualsQuals["type"] = &proto.QualValue{
 			Value: &proto.QualValue_StringValue{
 				StringValue: t,
 			},
+		}
+		if d.QueryContext.UnsafeQuals == nil {
+			d.QueryContext.UnsafeQuals = make(map[string]*proto.Quals)
 		}
 		d.QueryContext.UnsafeQuals["type"] = &proto.Quals{
 			Quals: []*proto.Qual{
