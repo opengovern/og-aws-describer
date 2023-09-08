@@ -13,7 +13,7 @@ func tableAwsEC2ElasticIP(_ context.Context) *plugin.Table {
 		Name:        "aws_ec2_elasticip",
 		Description: "AWS EC2 ElasticIP",
 		Get: &plugin.GetConfig{
-			KeyColumns: plugin.SingleColumn("arn"), //TODO: change this to the primary key columns in model.go
+			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
 			Hydrate:    kaytu.GetEC2ElasticIP,
 		},
 		List: &plugin.ListConfig{
