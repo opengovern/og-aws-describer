@@ -31,7 +31,7 @@ func tableAwsOrganizationsPolicy(_ context.Context) *plugin.Table {
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidInputException"}),
 			},
 		},
-		Columns: awsGlobalRegionColumns([]*plugin.Column{
+		Columns: awsKaytuColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Description: "The friendly name of the policy.",
