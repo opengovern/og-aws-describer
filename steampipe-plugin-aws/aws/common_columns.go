@@ -176,7 +176,7 @@ func commonAwsKaytuColumns() []*plugin.Column {
 		{
 			Name:        "account_id",
 			Type:        proto.ColumnType_STRING,
-			Transform:   transform.FromField("Metadata.AccountID").Transform(transform.FieldValueCamelCase),
+			Transform:   transform.FromField("Metadata.AccountID"),
 			Description: "The AWS Account ID in which the resource is located.",
 		},
 		{
