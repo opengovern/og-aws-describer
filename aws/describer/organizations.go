@@ -146,10 +146,30 @@ func OrganizationsAccount(ctx context.Context, cfg aws.Config, stream *StreamSen
 }
 
 func OrganizationsPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	var values []Resource
+	for _, pType := range []types.PolicyType{types.PolicyTypeServiceControlPolicy, types.PolicyTypeTagPolicy,
+		types.PolicyTypeBackupPolicy, types.PolicyTypeAiservicesOptOutPolicy} {
+		resources, err := getOrganizationsPolicyByType(ctx, cfg, pType)
+		if err != nil {
+			return nil, err
+		}
+		for _, resource := range resources {
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+	return values, nil
+}
+
+func getOrganizationsPolicyByType(ctx context.Context, cfg aws.Config, policyType types.PolicyType) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := organizations.NewFromConfig(cfg)
-
-	paginator := organizations.NewListPoliciesPaginator(client, &organizations.ListPoliciesInput{})
+	paginator := organizations.NewListPoliciesPaginator(client, &organizations.ListPoliciesInput{Filter: policyType})
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -174,13 +194,7 @@ func OrganizationsPolicy(ctx context.Context, cfg aws.Config, stream *StreamSend
 					Policy: *policy.Policy,
 				},
 			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
+			values = append(values, resource)
 		}
 	}
 

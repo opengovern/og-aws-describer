@@ -1016,7 +1016,7 @@ func WAFRegionalWebACL(ctx context.Context, cfg aws.Config, stream *StreamSender
 					WebACL:               webAcl.WebACL,
 					AssociatedResources:  resources.ResourceArns,
 					LoggingConfiguration: op2.LoggingConfiguration,
-					Tags:                 webAclTags.TagInfoForResource,
+					Tags:                 webAclTags.TagInfoForResource.TagList,
 				},
 			}
 			if stream != nil {

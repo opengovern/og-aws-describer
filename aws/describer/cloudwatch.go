@@ -287,8 +287,9 @@ func CloudWatchLogsLogGroup(ctx context.Context, cfg aws.Config, stream *StreamS
 		}
 
 		for _, v := range page.LogGroups {
+			logGroupArn := strings.TrimSuffix(*v.Arn, ":*")
 			tags, err := client.ListTagsForResource(ctx, &cloudwatchlogs.ListTagsForResourceInput{
-				ResourceArn: v.Arn,
+				ResourceArn: aws.String(logGroupArn),
 			})
 			if err != nil {
 				return nil, err

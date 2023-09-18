@@ -86,10 +86,39 @@ func ServiceDiscoveryNamespace(ctx context.Context, cfg aws.Config, stream *Stre
 	return values, nil
 }
 func ServiceDiscoveryInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := servicediscovery.NewFromConfig(cfg)
+
+	paginator := servicediscovery.NewListServicesPaginator(client, &servicediscovery.ListServicesInput{})
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.Services {
+			resources, err := getServiceDiscoveryInstances(ctx, cfg, v.Id)
+			if err != nil {
+				return nil, err
+			}
+			for _, resource := range resources {
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
+func getServiceDiscoveryInstances(ctx context.Context, cfg aws.Config, id *string) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := servicediscovery.NewFromConfig(cfg)
 
-	paginator := servicediscovery.NewListInstancesPaginator(client, &servicediscovery.ListInstancesInput{})
+	paginator := servicediscovery.NewListInstancesPaginator(client, &servicediscovery.ListInstancesInput{ServiceId: id})
 	var values []Resource
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
@@ -105,13 +134,7 @@ func ServiceDiscoveryInstance(ctx context.Context, cfg aws.Config, stream *Strea
 					Instance: v,
 				},
 			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
+			values = append(values, resource)
 		}
 	}
 	return values, nil

@@ -198,7 +198,35 @@ func GetIAMAccountPasswordPolicy(ctx context.Context, cfg aws.Config, fields map
 
 func IAMAccessKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	client := iam.NewFromConfig(cfg)
-	paginator := iam.NewListAccessKeysPaginator(client, &iam.ListAccessKeysInput{})
+	usersPaginator := iam.NewListUsersPaginator(client, &iam.ListUsersInput{}, nil)
+	var values []Resource
+	for usersPaginator.HasMorePages() {
+		page, err := usersPaginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, user := range page.Users {
+			resources, err := getIAMUserAccessKeys(ctx, cfg, user)
+			if err != nil {
+				return nil, err
+			}
+			for _, resource := range resources {
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
+func getIAMUserAccessKeys(ctx context.Context, cfg aws.Config, user types.User) ([]Resource, error) {
+	client := iam.NewFromConfig(cfg)
+	paginator := iam.NewListAccessKeysPaginator(client, &iam.ListAccessKeysInput{UserName: user.UserName})
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -216,14 +244,7 @@ func IAMAccessKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 			if err == nil && resource == emptyResource {
 				return nil, nil
 			}
-
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
+			values = append(values, resource)
 		}
 	}
 
