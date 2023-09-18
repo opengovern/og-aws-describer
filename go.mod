@@ -1,6 +1,8 @@
 module github.com/kaytu-io/kaytu-aws-describer
 
-go 1.19
+go 1.21
+
+toolchain go1.21.0
 
 require (
 	github.com/aws/aws-lambda-go v1.13.3
@@ -146,7 +148,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/golang/protobuf v1.5.3
 	github.com/hashicorp/go-hclog v1.4.0
-	github.com/kaytu-io/kaytu-util v0.0.0-20230901113556-bcf9c526e128
+	github.com/kaytu-io/kaytu-util v0.0.0-20230909233654-d1d27d2e49ef
 	github.com/manifoldco/promptui v0.9.0
 	github.com/spf13/cobra v1.7.0
 	github.com/turbot/go-kit v0.6.0

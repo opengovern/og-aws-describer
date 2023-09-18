@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/wellarchitected"
+	"github.com/aws/aws-sdk-go-v2/service/wellarchitected/types"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 	"reflect"
 )
@@ -271,28 +272,36 @@ func WellArchitectedConsolidatedReport(ctx context.Context, cfg aws.Config, stre
 	describeCtx := GetDescribeContext(ctx)
 	client := wellarchitected.NewFromConfig(cfg)
 	var values []Resource
-	input := &wellarchitected.GetConsolidatedReportInput{
-		IncludeSharedResources: true,
-	}
-	sharedValues, err := WellArchitectedConsolidatedReportHelper(ctx, cfg, stream, client, describeCtx, input)
-	if err != nil {
-		if isErr(err, "AccessDeniedException") {
-			return nil, nil
-		} else {
+	for _, rFormat := range []types.ReportFormat{types.ReportFormatPdf, types.ReportFormatJson} {
+		input := &wellarchitected.GetConsolidatedReportInput{
+			IncludeSharedResources: true,
+			Format:                 rFormat,
+		}
+		sharedValues, err := WellArchitectedConsolidatedReportHelper(ctx, cfg, stream, client, describeCtx, input)
+		if err != nil {
+			if isErr(err, "AccessDeniedException") {
+				return nil, nil
+			} else {
+				return nil, err
+			}
+		}
+		input2 := &wellarchitected.GetConsolidatedReportInput{
+			IncludeSharedResources: false,
+			Format:                 rFormat,
+		}
+		notSharedValues, err := WellArchitectedConsolidatedReportHelper(ctx, cfg, stream, client, describeCtx, input2)
+		if err != nil {
 			return nil, err
 		}
-	}
-	input2 := &wellarchitected.GetConsolidatedReportInput{
-		IncludeSharedResources: true,
-	}
-	notSharedValues, err := WellArchitectedConsolidatedReportHelper(ctx, cfg, stream, client, describeCtx, input2)
-	if err != nil {
-		return nil, err
-	}
-	values = append(values, sharedValues...)
-	for _, value := range notSharedValues {
-		if !Contains(values, value) {
-			values = append(values, value)
+		for _, value := range sharedValues {
+			if !Contains(values, value) {
+				values = append(values, value)
+			}
+		}
+		for _, value := range notSharedValues {
+			if !Contains(values, value) {
+				values = append(values, value)
+			}
 		}
 	}
 	return values, nil

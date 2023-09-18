@@ -594,7 +594,7 @@ func S3Object(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 			return nil, err
 		}
 		regionalClient := s3.NewFromConfig(cfg, func(o *s3.Options) { o.Region = region })
-		paginator := s3.NewListObjectsV2Paginator(regionalClient, &s3.ListObjectsV2Input{})
+		paginator := s3.NewListObjectsV2Paginator(regionalClient, &s3.ListObjectsV2Input{Bucket: bucket.Name})
 		for paginator.HasMorePages() {
 			page, err := paginator.NextPage(ctx)
 			if err != nil {
@@ -719,6 +719,9 @@ func S3MultiRegionAccessPoint(ctx context.Context, cfg aws.Config, stream *Strea
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			if isErr(err, "PermanentRedirect") {
+				return nil, nil
+			}
 			return nil, err
 		}
 		for _, report := range page.AccessPoints {

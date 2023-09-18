@@ -2968,7 +2968,7 @@ type WAFRegionalWebAclDescription struct {
 	WebACL               *wafregional.WebACL
 	AssociatedResources  []string
 	LoggingConfiguration *wafregional.LoggingConfiguration
-	Tags                 *wafregional.TagInfoForResource
+	Tags                 []wafregional.Tag
 }
 
 //index:aws_wafregional_rulegroup
