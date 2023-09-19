@@ -28,9 +28,6 @@ func tableAwsHealthAffectedEntity(_ context.Context) *plugin.Table {
 				{Name: "last_updated_time", Require: plugin.Optional, Operators: []string{">", ">=", "<", "<=", "="}},
 			},
 		},
-		Get: &plugin.GetConfig{
-			Hydrate: kaytu.GetHealthAffectedEntity,
-		},
 		GetMatrixItemFunc: SupportedRegionMatrix(healthv1.EndpointsID),
 		Columns: awsGlobalRegionColumns([]*plugin.Column{
 			{
