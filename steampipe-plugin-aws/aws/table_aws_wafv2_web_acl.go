@@ -39,6 +39,12 @@ func tableAwsWafv2WebAcl(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("Description.WebACL.ARN"),
 			},
 			{
+				Name:        "associated_resources",
+				Description: "The array of Amazon Resource Names (ARNs) of the associated resources.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.AssociatedResources"),
+			},
+			{
 				Name:        "id",
 				Description: "The unique identifier for the Web ACL.",
 				Type:        proto.ColumnType_STRING,

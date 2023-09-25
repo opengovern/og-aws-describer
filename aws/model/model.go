@@ -3,6 +3,7 @@
 package model
 
 import (
+	dynamodb2 "github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/opensearchserverless"
 	types6 "github.com/aws/aws-sdk-go-v2/service/opensearchserverless/types"
 	"github.com/aws/aws-sdk-go-v2/service/resourcegroups"
@@ -763,9 +764,10 @@ type DMSReplicationInstanceDescription struct {
 //getfilter:name=description.Table.TableName
 //listfilter:name=description.Table.TableName
 type DynamoDbTableDescription struct {
-	Table            *dynamodb.TableDescription
-	ContinuousBackup *dynamodb.ContinuousBackupsDescription
-	Tags             []dynamodb.Tag
+	Table                *dynamodb.TableDescription
+	ContinuousBackup     *dynamodb.ContinuousBackupsDescription
+	Tags                 []dynamodb.Tag
+	StreamingDestination *dynamodb2.DescribeKinesisStreamingDestinationOutput
 }
 
 //index:aws_dynamodb_globalsecondaryindex
@@ -2261,6 +2263,7 @@ type WAFv2WebACLDescription struct {
 	LoggingConfiguration *wafv2.LoggingConfiguration
 	TagInfoForResource   *wafv2.TagInfoForResource
 	LockToken            *string
+	AssociatedResources  []string
 }
 
 //index:aws_wafv2_ipset

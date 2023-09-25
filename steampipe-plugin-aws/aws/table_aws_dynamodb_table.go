@@ -137,7 +137,7 @@ func tableAwsDynamoDBTable(_ context.Context) *plugin.Table {
 				Name:        "streaming_destination",
 				Description: "Provides information about the status of Kinesis streaming.",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Table.StreamSpecification")},
+				Transform:   transform.FromField("Description.StreamingDestination")},
 			{
 				Name:        "point_in_time_recovery_description",
 				Description: "The description of the point in time recovery settings applied to the table.",

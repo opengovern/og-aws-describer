@@ -10912,7 +10912,7 @@ func (p ConfigRulePaginator) NextPage(ctx context.Context) ([]ConfigRule, error)
 var listConfigRuleFilters = map[string]string{
 	"akas":                        "description.Rule.ConfigRuleArn",
 	"arn":                         "configrulearn",
-	"compliance_by_config_rule":   "description.Compliance.ConfigRuleName",
+	"compliance_by_config_rule":   "description.Compliance",
 	"created_by":                  "description.Rule.CreatedBy",
 	"description":                 "description.Rule.Description",
 	"evaluation_modes":            "description.Rule.EvaluationModes",
@@ -10961,7 +10961,7 @@ func ListConfigRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 var getConfigRuleFilters = map[string]string{
 	"akas":                        "description.Rule.ConfigRuleArn",
 	"arn":                         "configrulearn",
-	"compliance_by_config_rule":   "description.Compliance.ConfigRuleName",
+	"compliance_by_config_rule":   "description.Compliance",
 	"created_by":                  "description.Rule.CreatedBy",
 	"description":                 "description.Rule.Description",
 	"evaluation_modes":            "description.Rule.EvaluationModes",
@@ -12131,7 +12131,7 @@ var listDynamoDbTableFilters = map[string]string{
 	"point_in_time_recovery_description": "description.ContinuousBackup.PointInTimeRecoveryDescription",
 	"read_capacity":                      "description.Table.ProvisionedThroughput.ReadCapacityUnits",
 	"sse_description":                    "description.Table.SSEDescription",
-	"streaming_destination":              "description.Table.StreamSpecification",
+	"streaming_destination":              "description.StreamingDestination",
 	"table_class":                        "description.Table.TableClassSummary.TableClass",
 	"table_id":                           "description.Table.TableId",
 	"table_size_bytes":                   "description.Table.TableSizeBytes",
@@ -12189,7 +12189,7 @@ var getDynamoDbTableFilters = map[string]string{
 	"point_in_time_recovery_description": "description.ContinuousBackup.PointInTimeRecoveryDescription",
 	"read_capacity":                      "description.Table.ProvisionedThroughput.ReadCapacityUnits",
 	"sse_description":                    "description.Table.SSEDescription",
-	"streaming_destination":              "description.Table.StreamSpecification",
+	"streaming_destination":              "description.StreamingDestination",
 	"table_class":                        "description.Table.TableClassSummary.TableClass",
 	"table_id":                           "description.Table.TableId",
 	"table_size_bytes":                   "description.Table.TableSizeBytes",
@@ -24883,7 +24883,7 @@ func (p AutoScalingGroupPaginator) NextPage(ctx context.Context) ([]AutoScalingG
 }
 
 var listAutoScalingGroupFilters = map[string]string{
-	"akas":                                        "autoscalinggrouparn",
+	"akas":                                        "description.AutoScalingGroup.AutoScalingGroupARN",
 	"autoscaling_group_arn":                       "description.AutoScalingGroup.AutoScalingGroupARN",
 	"availability_zones":                          "description.AutoScalingGroup.AvailabilityZones",
 	"created_time":                                "description.AutoScalingGroup.CreatedTime",
@@ -24922,7 +24922,7 @@ var listAutoScalingGroupFilters = map[string]string{
 	"tags_src":                                 "description.AutoScalingGroup.Tags",
 	"target_group_arns":                        "description.AutoScalingGroup.TargetGroupARNs",
 	"termination_policies":                     "description.AutoScalingGroup.TerminationPolicies",
-	"title":                                    "autoscalinggroupname",
+	"title":                                    "description.AutoScalingGroup.AutoScalingGroupName",
 	"vpc_zone_identifier":                      "description.AutoScalingGroup.VPCZoneIdentifier",
 }
 
@@ -24957,7 +24957,7 @@ func ListAutoScalingGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getAutoScalingGroupFilters = map[string]string{
-	"akas":                                        "autoscalinggrouparn",
+	"akas":                                        "description.AutoScalingGroup.AutoScalingGroupARN",
 	"autoscaling_group_arn":                       "description.AutoScalingGroup.AutoScalingGroupARN",
 	"availability_zones":                          "description.AutoScalingGroup.AvailabilityZones",
 	"created_time":                                "description.AutoScalingGroup.CreatedTime",
@@ -24996,7 +24996,7 @@ var getAutoScalingGroupFilters = map[string]string{
 	"tags_src":                                 "description.AutoScalingGroup.Tags",
 	"target_group_arns":                        "description.AutoScalingGroup.TargetGroupARNs",
 	"termination_policies":                     "description.AutoScalingGroup.TerminationPolicies",
-	"title":                                    "autoscalinggroupname",
+	"title":                                    "description.AutoScalingGroup.AutoScalingGroupName",
 	"vpc_zone_identifier":                      "description.AutoScalingGroup.VPCZoneIdentifier",
 }
 
@@ -27991,7 +27991,7 @@ func (p IAMPolicyPaginator) NextPage(ctx context.Context) ([]IAMPolicy, error) {
 }
 
 var listIAMPolicyFilters = map[string]string{
-	"akas":                             "arn",
+	"akas":                             "description.Policy.Arn",
 	"arn":                              "description.Policy.Arn",
 	"attachment_count":                 "description.Policy.AttachmentCount",
 	"create_date":                      "description.Policy.CreateDate",
@@ -28006,7 +28006,7 @@ var listIAMPolicyFilters = map[string]string{
 	"policy_id":                        "description.Policy.PolicyId",
 	"policy_std":                       "description.PolicyVersion.Document",
 	"tags_src":                         "description.Policy.Tags",
-	"title":                            "description.Policy.IsAttachable",
+	"title":                            "description.Policy.PolicyName",
 	"update_date":                      "description.Policy.UpdateDate",
 }
 
@@ -28041,7 +28041,7 @@ func ListIAMPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 }
 
 var getIAMPolicyFilters = map[string]string{
-	"akas":                             "arn",
+	"akas":                             "description.Policy.Arn",
 	"arn":                              "description.Policy.Arn",
 	"attachment_count":                 "description.Policy.AttachmentCount",
 	"create_date":                      "description.Policy.CreateDate",
@@ -28056,7 +28056,7 @@ var getIAMPolicyFilters = map[string]string{
 	"policy_id":                        "description.Policy.PolicyId",
 	"policy_std":                       "description.PolicyVersion.Document",
 	"tags_src":                         "description.Policy.Tags",
-	"title":                            "description.Policy.IsAttachable",
+	"title":                            "description.Policy.PolicyName",
 	"update_date":                      "description.Policy.UpdateDate",
 }
 
@@ -39518,7 +39518,7 @@ var listECSTaskDefinitionFilters = map[string]string{
 	"akas":                     "description.TaskDefinition.TaskDefinitionArn",
 	"compatibilities":          "description.TaskDefinition.Compatibilities",
 	"container_definitions":    "description.TaskDefinition.ContainerDefinitions",
-	"cpu":                      "taskDefinition.Cpu",
+	"cpu":                      "description.TaskDefinition.Cpu",
 	"execution_role_arn":       "description.TaskDefinition.ExecutionRoleArn",
 	"family":                   "description.TaskDefinition.Family",
 	"inference_accelerators":   "description.TaskDefinition.InferenceAccelerators",
@@ -39575,7 +39575,7 @@ var getECSTaskDefinitionFilters = map[string]string{
 	"akas":                     "description.TaskDefinition.TaskDefinitionArn",
 	"compatibilities":          "description.TaskDefinition.Compatibilities",
 	"container_definitions":    "description.TaskDefinition.ContainerDefinitions",
-	"cpu":                      "taskDefinition.Cpu",
+	"cpu":                      "description.TaskDefinition.Cpu",
 	"execution_role_arn":       "description.TaskDefinition.ExecutionRoleArn",
 	"family":                   "description.TaskDefinition.Family",
 	"inference_accelerators":   "description.TaskDefinition.InferenceAccelerators",
@@ -41394,7 +41394,7 @@ var listEKSAddonFilters = map[string]string{
 	"health_issues":            "description.Addon.Health.Issues",
 	"kaytu_account_id":         "metadata.SourceID",
 	"modified_at":              "description.Addon.ModifiedAt",
-	"service_account_role_arn": "serviceaccountrolearn",
+	"service_account_role_arn": "description.Addon.ServiceAccountRoleArn",
 	"status":                   "description.Addon.Status",
 	"tags":                     "description.Addon.Tags",
 	"title":                    "description.Addon.AddonName",
@@ -41440,7 +41440,7 @@ var getEKSAddonFilters = map[string]string{
 	"health_issues":            "description.Addon.Health.Issues",
 	"kaytu_account_id":         "metadata.SourceID",
 	"modified_at":              "description.Addon.ModifiedAt",
-	"service_account_role_arn": "serviceaccountrolearn",
+	"service_account_role_arn": "description.Addon.ServiceAccountRoleArn",
 	"status":                   "description.Addon.Status",
 	"tags":                     "description.Addon.Tags",
 	"title":                    "description.Addon.AddonName",
@@ -42091,6 +42091,7 @@ func (p WAFv2WebACLPaginator) NextPage(ctx context.Context) ([]WAFv2WebACL, erro
 var listWAFv2WebACLFilters = map[string]string{
 	"akas":                        "description.WebACL.ARN",
 	"arn":                         "description.WebACL.ARN",
+	"associated_resources":        "description.AssociatedResources",
 	"capacity":                    "description.WebACL.Capacity",
 	"default_action":              "description.WebACL.DefaultAction",
 	"description":                 "description.WebACL.Description",
@@ -42142,6 +42143,7 @@ func ListWAFv2WebACL(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 var getWAFv2WebACLFilters = map[string]string{
 	"akas":                        "description.WebACL.ARN",
 	"arn":                         "description.WebACL.ARN",
+	"associated_resources":        "description.AssociatedResources",
 	"capacity":                    "description.WebACL.Capacity",
 	"default_action":              "description.WebACL.DefaultAction",
 	"description":                 "description.WebACL.Description",

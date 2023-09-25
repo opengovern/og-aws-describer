@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"strings"
 
 	"github.com/aws/smithy-go"
@@ -370,6 +371,50 @@ func wAFv2WebACLHandle(ctx context.Context, cfg aws.Config, v types.WebACLSummar
 		return Resource{}, err
 	}
 
+	var associatedResources []string
+	locationType := strings.Split(strings.Split(*v.ARN, ":")[5], "/")[0]
+	if locationType == "global" {
+		cfClient := cloudfront.NewFromConfig(cfg)
+
+		output, err := cfClient.ListDistributionsByWebACLId(ctx, &cloudfront.ListDistributionsByWebACLIdInput{
+			WebACLId: v.Id,
+		})
+		if err != nil {
+			return Resource{}, err
+		}
+
+		if output.DistributionList != nil {
+			if len(output.DistributionList.Items) > 0 {
+				for _, item := range output.DistributionList.Items {
+					associatedResources = append(associatedResources, *item.ARN)
+				}
+			}
+		}
+	} else {
+		param := &wafv2.ListResourcesForWebACLInput{
+			WebACLArn: v.ARN,
+		}
+		resourceTypes := []types.ResourceType{types.ResourceTypeApplicationLoadBalancer, types.ResourceTypeApiGateway, types.ResourceTypeAppsync, types.ResourceTypeCognitioUserPool}
+		for _, resourceType := range resourceTypes {
+			param.ResourceType = resourceType
+			op, err := client.ListResourcesForWebACL(ctx, param)
+			if err != nil {
+				plugin.Logger(ctx).Error("aws_wafv2_web_acl.listAssociatedResourcesByResourceType", "api_error", err)
+				var ae smithy.APIError
+				if errors.As(err, &ae) {
+					if ae.ErrorCode() == "WAFNonexistentItemException" {
+						op = &wafv2.ListResourcesForWebACLOutput{}
+					} else {
+						return Resource{}, err
+					}
+				} else {
+					return Resource{}, err
+				}
+			}
+			associatedResources = append(associatedResources, op.ResourceArns...)
+		}
+	}
+
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *v.ARN,
@@ -380,6 +425,7 @@ func wAFv2WebACLHandle(ctx context.Context, cfg aws.Config, v types.WebACLSummar
 			LoggingConfiguration: logC.LoggingConfiguration,
 			TagInfoForResource:   tags.TagInfoForResource,
 			LockToken:            v.LockToken,
+			AssociatedResources:  associatedResources,
 		},
 	}
 	return resource, nil

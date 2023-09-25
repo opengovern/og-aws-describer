@@ -70,6 +70,16 @@ func DynamoDbTableHandle(ctx context.Context, cfg aws.Config, tableName string) 
 		return Resource{}, err
 	}
 
+	streamingDestination, err := client.DescribeKinesisStreamingDestination(ctx, &dynamodb.DescribeKinesisStreamingDestinationInput{
+		TableName: &tableName,
+	})
+	if err != nil {
+		if isErr(err, "ListTagsOfResourceNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+
 	tags, err := client.ListTagsOfResource(ctx, &dynamodb.ListTagsOfResourceInput{
 		ResourceArn: v.Table.TableArn,
 	})
@@ -85,9 +95,10 @@ func DynamoDbTableHandle(ctx context.Context, cfg aws.Config, tableName string) 
 		ARN:    *v.Table.TableArn,
 		Name:   *v.Table.TableName,
 		Description: model.DynamoDbTableDescription{
-			Table:            v.Table,
-			ContinuousBackup: continuousBackup.ContinuousBackupsDescription,
-			Tags:             tags.Tags,
+			Table:                v.Table,
+			ContinuousBackup:     continuousBackup.ContinuousBackupsDescription,
+			Tags:                 tags.Tags,
+			StreamingDestination: streamingDestination,
 		},
 	}
 
