@@ -42,7 +42,7 @@ func tableAwsSSMManagedInstance(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) specifying the instance.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("ARN").Transform(arnToAkas),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "resource_type",

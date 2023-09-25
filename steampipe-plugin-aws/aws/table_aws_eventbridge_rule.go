@@ -73,7 +73,7 @@ func tableAwsEventBridgeRule(_ context.Context) *plugin.Table {
 				Name:        "name_prefix",
 				Description: "Specifying this limits the results to only those event rules with names that start with the specified prefix.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Rule.ScheduleExpression")},
+				Transform:   transform.FromField("Description.Rule.Name")},
 			{
 				Name:        "targets",
 				Description: "The targets assigned to the rule.",

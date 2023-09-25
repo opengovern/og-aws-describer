@@ -246,12 +246,11 @@ func tableAwsEc2NetworkInterface(_ context.Context) *plugin.Table {
 //// HYDRATE FUNCTIONS
 
 func getAwsEc2NetworkInterfaceAkas(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	region := d.EqualsQualString(matrixKeyRegion)
 	networkInterface := h.Item.(kaytu.EC2NetworkInterface).Description.NetworkInterface
 	metadata := h.Item.(kaytu.EC2NetworkInterface).Metadata
 
 	// Get data for turbot defined properties
-	akas := []string{"arn:" + metadata.Partition + ":ec2:" + region + ":" + metadata.AccountID + ":network-interface/" + *networkInterface.NetworkInterfaceId}
+	akas := []string{"arn:" + metadata.Partition + ":ec2:" + metadata.Region + ":" + metadata.AccountID + ":network-interface/" + *networkInterface.NetworkInterfaceId}
 
 	return akas, nil
 }

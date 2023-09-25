@@ -47,6 +47,13 @@ func tableAwsSqsQueue(_ context.Context) *plugin.Table {
 				Default:     false,
 			},
 			{
+				Name:        "fifo_throughput_limit",
+				Description: "Specifies whether the FIFO queue throughput quota applies to the entire queue or per message group.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Attributes.FifoThroughputLimit"),
+				Default:     false,
+			},
+			{
 				Name:        "delay_seconds",
 				Description: "The default delay on the queue in seconds.",
 				Type:        proto.ColumnType_STRING,

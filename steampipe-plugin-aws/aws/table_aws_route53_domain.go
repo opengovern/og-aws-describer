@@ -32,7 +32,7 @@ func tableAwsRoute53Domain(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) specifying the domain.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("ARN").Transform(arnToAkas),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "abuse_contact_email",
