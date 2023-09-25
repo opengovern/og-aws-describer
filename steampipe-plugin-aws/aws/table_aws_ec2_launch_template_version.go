@@ -3,6 +3,7 @@ package aws
 import (
 	"context"
 	"fmt"
+	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
@@ -195,7 +196,7 @@ func tableAwsEc2LaunchTemplateVersion(_ context.Context) *plugin.Table {
 //// LIST FUNCTION
 
 func listEc2LaunchTemplateVersions(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	launchTemplate := h.Item.(types.LaunchTemplate)
+	launchTemplate := h.Item.(model.EC2LaunchTemplateVersionDescription).LaunchTemplateVersion
 	launchTemplateName := d.EqualsQualString("launch_template_name")
 	launchTemplateId := d.EqualsQualString("launch_template_id")
 

@@ -136,13 +136,13 @@ func tableAwsIamPolicy(_ context.Context) *plugin.Table {
 				Name:        "title",
 				Description: resourceInterfaceDescription("title"),
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Policy.IsAttachable"),
+				Transform:   transform.FromField("Description.Policy.PolicyName"),
 			},
 			{
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Arn").Transform(arnToAkas),
+				Transform:   transform.FromField("Description.Policy.Arn").Transform(arnToAkas),
 			},
 		}),
 	}

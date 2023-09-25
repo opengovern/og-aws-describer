@@ -72,7 +72,7 @@ func tableAwsEksAddon(_ context.Context) *plugin.Table {
 				Name:        "service_account_role_arn",
 				Description: "The Amazon Resource Name (ARN) of the IAM role that is bound to the Kubernetes service account used by the add-on.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("ServiceAccountRoleArn"),
+				Transform:   transform.FromField("Description.Addon.ServiceAccountRoleArn"),
 			},
 			{
 				Name:        "health_issues",

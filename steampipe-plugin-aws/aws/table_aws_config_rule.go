@@ -73,7 +73,7 @@ func tableAwsConfigRule(_ context.Context) *plugin.Table {
 				Name:        "compliance_by_config_rule",
 				Description: "The compliance information of the config rule.",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Compliance.ConfigRuleName")},
+				Transform:   transform.FromField("Description.Compliance")},
 			{
 				Name:        "evaluation_modes",
 				Description: "The modes the Config rule can be evaluated in. The valid values are distinct objects. By default, the value is Detective evaluation mode only.",

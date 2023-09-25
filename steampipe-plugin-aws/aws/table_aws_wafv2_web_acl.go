@@ -123,7 +123,6 @@ func tableAwsWafv2WebAcl(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.WebACL.ARN").Transform(transform.EnsureStringArray),
 			},
-
 			// AWS standard columns
 			{
 				Name:        "region",
@@ -173,11 +172,9 @@ func webAclTagListToTurbotTags(ctx context.Context, d *transform.TransformData) 
 func webAclRegion(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	data := d.HydrateItem.(kaytu.WAFv2WebACL).Description
 	loc := strings.Split(strings.Split(*data.WebACL.ARN, ":")[5], "/")[0]
-
-	region := d.MatrixItem[matrixKeyRegion]
-
 	if loc == "global" {
 		return "global", nil
 	}
+	region := d.HydrateItem.(kaytu.WAFv2WebACL).Metadata.Region
 	return region, nil
 }

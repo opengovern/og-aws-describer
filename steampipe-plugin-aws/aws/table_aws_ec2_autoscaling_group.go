@@ -262,13 +262,13 @@ func tableAwsEc2ASG(_ context.Context) *plugin.Table {
 				Name:        "title",
 				Description: resourceInterfaceDescription("title"),
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("AutoScalingGroupName"),
+				Transform:   transform.FromField("Description.AutoScalingGroup.AutoScalingGroupName"),
 			},
 			{
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("AutoScalingGroupARN").Transform(arnToAkas),
+				Transform:   transform.FromField("Description.AutoScalingGroup.AutoScalingGroupARN").Transform(arnToAkas),
 			},
 		}),
 	}

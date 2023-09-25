@@ -37,7 +37,7 @@ func tableAwsEcsTaskDefinition(_ context.Context) *plugin.Table {
 				Name:        "cpu",
 				Description: "The number of cpu units used by the task.",
 				Type:        proto.ColumnType_INT,
-				Transform:   transform.FromField("TaskDefinition.Cpu"),
+				Transform:   transform.FromField("Description.TaskDefinition.Cpu"),
 			},
 			{
 				Name:        "status",
