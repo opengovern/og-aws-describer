@@ -16,7 +16,7 @@ func tableAwsSSMParameter(_ context.Context) *plugin.Table {
 		Name:        "aws_ssm_parameter",
 		Description: "AWS SSM Parameter",
 		Get: &plugin.GetConfig{
-			KeyColumns: plugin.SingleColumn("name"),
+			//KeyColumns: plugin.SingleColumn("name"),
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationException"}),
 			},
@@ -24,12 +24,12 @@ func tableAwsSSMParameter(_ context.Context) *plugin.Table {
 		},
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListSSMParameter,
-			KeyColumns: []*plugin.KeyColumn{
-				{Name: "type", Require: plugin.Optional},
-				{Name: "key_id", Require: plugin.Optional},
-				{Name: "tier", Require: plugin.Optional},
-				{Name: "data_type", Require: plugin.Optional},
-			},
+			//KeyColumns: []*plugin.KeyColumn{
+			//	{Name: "type", Require: plugin.Optional},
+			//	{Name: "key_id", Require: plugin.Optional},
+			//	{Name: "tier", Require: plugin.Optional},
+			//	{Name: "data_type", Require: plugin.Optional},
+			//},
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
@@ -129,13 +129,17 @@ func tableAwsSSMParameter(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-
-				Transform: transform.FromField("Description.Parameter.ARN")},
+				Transform:   transform.FromField("Description.Parameter.ARN").Transform(makeJson)},
 		}),
 	}
 }
 
 //// TRANSFORM FUNCTIONS
+
+func makeJson(ctx context.Context, d *transform.TransformData) (interface{}, error) {
+	arn := d.Value.(*string)
+	return []string{*arn}, nil
+}
 
 func ssmTagListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	tagList := d.Value.([]types.Tag)

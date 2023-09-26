@@ -2988,70 +2988,63 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 
 	client := ec2.NewFromConfig(cfg)
 	var values []Resource
-	err := PaginateRetrieveAll(func(prevToken *string) (nextToken *string, err error) {
-		output, err := client.DescribeVpcEndpointServices(ctx, &ec2.DescribeVpcEndpointServicesInput{
-			NextToken: prevToken,
+	output, err := client.DescribeVpcEndpointServices(ctx, &ec2.DescribeVpcEndpointServicesInput{})
+	if err != nil {
+		return nil, err
+	}
+
+	for _, v := range output.ServiceDetails {
+		splitServiceName := strings.Split(*v.ServiceName, ".")
+		arn := fmt.Sprintf("arn:%s:ec2:%s:%s:vpc-endpoint-service/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, splitServiceName[len(splitServiceName)-1])
+
+		paginator := ec2.NewDescribeVpcEndpointServicePermissionsPaginator(client, &ec2.DescribeVpcEndpointServicePermissionsInput{
+			ServiceId: v.ServiceId,
+		})
+
+		var allowedPrincipals []types.AllowedPrincipal
+		for paginator.HasMorePages() {
+			permissions, err := paginator.NextPage(ctx)
+			if err != nil {
+				if !strings.Contains(err.Error(), "NotFound") {
+					return nil, err
+				}
+
+				allowedPrincipals = append(allowedPrincipals, permissions.AllowedPrincipals...)
+			}
+		}
+
+		op, err := client.DescribeVpcEndpointConnections(ctx, &ec2.DescribeVpcEndpointConnectionsInput{
+			Filters: []types.Filter{
+				{
+					Name:   aws.String("service-id"),
+					Values: []string{*v.ServiceId},
+				},
+			},
 		})
 		if err != nil {
 			return nil, err
 		}
 
-		for _, v := range output.ServiceDetails {
-			splitServiceName := strings.Split(*v.ServiceName, ".")
-			arn := fmt.Sprintf("arn:%s:ec2:%s:%s:vpc-endpoint-service/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, splitServiceName[len(splitServiceName)-1])
-
-			paginator := ec2.NewDescribeVpcEndpointServicePermissionsPaginator(client, &ec2.DescribeVpcEndpointServicePermissionsInput{
-				ServiceId: v.ServiceId,
-			})
-
-			var allowedPrincipals []types.AllowedPrincipal
-			for paginator.HasMorePages() {
-				permissions, err := paginator.NextPage(ctx)
-				if err != nil {
-					if err != nil {
-						if !strings.Contains(err.Error(), "NotFound") {
-							return nil, err
-						}
-					}
-
-					allowedPrincipals = append(allowedPrincipals, permissions.AllowedPrincipals...)
-				}
-			}
-
-			op, err := client.DescribeVpcEndpointConnections(ctx, &ec2.DescribeVpcEndpointConnectionsInput{
-				Filters: []types.Filter{
-					{
-						Name:   aws.String("service-id"),
-						Values: []string{*v.ServiceId},
-					},
-				},
-			})
-			if err != nil {
+		resource := Resource{
+			Region: describeCtx.KaytuRegion,
+			ARN:    arn,
+			Name:   *v.ServiceName,
+			Description: model.EC2VPCEndpointServiceDescription{
+				VpcEndpointService:     v,
+				AllowedPrincipals:      allowedPrincipals,
+				VpcEndpointConnections: op.VpcEndpointConnections,
+			},
+		}
+		if stream != nil {
+			if err := (*stream)(resource); err != nil {
 				return nil, err
 			}
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    arn,
-				Name:   *v.ServiceName,
-				Description: model.EC2VPCEndpointServiceDescription{
-					VpcEndpointService:     v,
-					AllowedPrincipals:      allowedPrincipals,
-					VpcEndpointConnections: op.VpcEndpointConnections,
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-
+		} else {
+			values = append(values, resource)
 		}
 
-		return output.NextToken, nil
-	})
+	}
+
 	if err != nil {
 		return nil, err
 	}

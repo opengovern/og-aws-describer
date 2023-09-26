@@ -2151,6 +2151,7 @@ type ECSClusterDescription struct {
 //index:aws_ecs_service
 type ECSServiceDescription struct {
 	Service ecs.Service
+	Tags    []ecs.Tag
 }
 
 //index:aws_ecs_containerinstance
@@ -2305,6 +2306,7 @@ type KMSKeyDescription struct {
 	KeyRotationEnabled bool
 	Policy             *string
 	Tags               []kms.Tag
+	Title              string
 }
 
 //index:aws_kms_alias

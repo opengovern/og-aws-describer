@@ -2,6 +2,7 @@ package aws
 
 import (
 	"context"
+	"github.com/aws/aws-sdk-go-v2/service/ecs/types"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -202,7 +203,7 @@ func tableAwsEcsService(_ context.Context) *plugin.Table {
 				Name:        "tags_src",
 				Description: "The metadata that you apply to the service to help you categorize and organize them.",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Service.Tags"),
+				Transform:   transform.FromField("Description.Tags"),
 			},
 
 			// Steampipe standard columns
@@ -216,7 +217,7 @@ func tableAwsEcsService(_ context.Context) *plugin.Table {
 				Name:        "tags",
 				Description: resourceInterfaceDescription("tags"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(getEcsServiceTurbotTags),
+				Transform:   transform.FromField("Description.Tags").Transform(getEcsServiceTurbotTags),
 			},
 			{
 				Name:        "akas",
@@ -234,7 +235,7 @@ func tableAwsEcsService(_ context.Context) *plugin.Table {
 
 func getEcsServiceTurbotTags(_ context.Context, d *transform.TransformData) (interface{},
 	error) {
-	tags := d.HydrateItem.(kaytu.ECSService).Description.Service.Tags
+	tags := d.HydrateItem.([]types.Tag)
 
 	if len(tags) == 0 {
 		return nil, nil

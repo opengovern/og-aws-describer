@@ -31,6 +31,11 @@ func tableAwsElasticsearchDomain(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("Description.Domain.DomainName"),
 			},
 			{
+				Name:        "engine_type",
+				Description: "Specifies the EngineType of the domain.",
+				Type:        proto.ColumnType_STRING,
+			},
+			{
 				Name:        "domain_id",
 				Description: "The id of the domain.",
 				Type:        proto.ColumnType_STRING,
@@ -49,10 +54,10 @@ func tableAwsElasticsearchDomain(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("Description.Domain.ElasticsearchVersion"),
 			},
 			{
-				Name:        "endpoint",
-				Description: "The Elasticsearch domain endpoint that use to submit index and search requests.",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Domain.Endpoint"),
+				Name:        "endpoints",
+				Description: "The Elasticsearch domain endpoints that use to submit index and search requests.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Domain.Endpoints"),
 			},
 			{
 				Name:        "access_policies",

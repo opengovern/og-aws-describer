@@ -3,6 +3,7 @@ package aws
 import (
 	"context"
 	"fmt"
+	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/wafregional"
@@ -20,14 +21,14 @@ func tableAwsWafRegionalWebAcl(_ context.Context) *plugin.Table {
 		Name:        "aws_wafregional_web_acl",
 		Description: "AWS WAF Regional Web ACL",
 		Get: &plugin.GetConfig{
-			KeyColumns: plugin.AllColumns([]string{"web_acl_id"}),
+			//KeyColumns: plugin.AllColumns([]string{"web_acl_id"}),
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"WAFNonexistentItemException", "WAFInvalidParameterException"}),
 			},
-			Hydrate: getWafRegionalWebAcl,
+			Hydrate: kaytu.GetWAFRegionalWebAcl,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: listWafRegionalWebAcls,
+			Hydrate: kaytu.ListWAFRegionalWebAcl,
 		},
 		GetMatrixItemFunc: SupportedRegionMatrix(wafregionalv1.EndpointsID),
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

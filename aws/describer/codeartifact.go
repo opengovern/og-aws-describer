@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/codeartifact"
@@ -55,16 +56,23 @@ func codeArtifactRepositoryHandle(ctx context.Context, cfg aws.Config, v types.R
 		}
 		return Resource{}, err
 	}
-	policy, err := client.GetRepositoryPermissionsPolicy(ctx, &codeartifact.GetRepositoryPermissionsPolicyInput{
+	var policy types.ResourcePolicy
+	policyOutput, err := client.GetRepositoryPermissionsPolicy(ctx, &codeartifact.GetRepositoryPermissionsPolicyInput{
 		Domain:      v.DomainName,
 		Repository:  v.Name,
 		DomainOwner: v.DomainOwner,
 	})
 	if err != nil {
-		if isErr(err, "GetRepositoryPermissionsPolicyNotFound") || isErr(err, "InvalidParameterValue") {
-			return Resource{}, nil
+		if strings.Contains(err.Error(), "ResourceNotFoundException") {
+			policy = types.ResourcePolicy{}
+		} else {
+			if isErr(err, "GetRepositoryPermissionsPolicyNotFound") || isErr(err, "InvalidParameterValue") {
+				return Resource{}, nil
+			}
+			return Resource{}, err
 		}
-		return Resource{}, err
+	} else {
+		policy = *policyOutput.Policy
 	}
 	description, err := client.DescribeRepository(ctx, &codeartifact.DescribeRepositoryInput{
 		Domain:      v.Name,
@@ -108,7 +116,7 @@ func codeArtifactRepositoryHandle(ctx context.Context, cfg aws.Config, v types.R
 		Name:   *v.Name,
 		Description: model.CodeArtifactRepositoryDescription{
 			Repository:  v,
-			Policy:      *policy.Policy,
+			Policy:      policy,
 			Description: *description.Repository,
 			Endpoints:   resultData,
 			Tags:        tags.Tags,
@@ -212,8 +220,8 @@ func CodeArtifactDomainHandle(ctx context.Context, cfg aws.Config, v types.Domai
 	}
 
 	policy, err := client.GetDomainPermissionsPolicy(ctx, &codeartifact.GetDomainPermissionsPolicyInput{
-		Domain:      v.Name,
-		DomainOwner: v.Owner,
+		Domain:      aws.String(*v.Name),
+		DomainOwner: aws.String(*v.Owner),
 	})
 	if err != nil {
 		if isErr(err, "ResourceNotFoundException") {

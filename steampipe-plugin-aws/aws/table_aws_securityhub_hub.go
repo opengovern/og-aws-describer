@@ -63,7 +63,7 @@ func tableAwsSecurityHub(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("HubArn").Transform(arnToAkas),
+				Transform:   transform.FromField("ARN").Transform(arnToAkas),
 			},
 		}),
 	}

@@ -131,7 +131,7 @@ func tableAwsKmsKey(ctx context.Context) *plugin.Table {
 				Description: resourceInterfaceDescription("title"),
 				Type:        proto.ColumnType_STRING,
 
-				Transform: transform.FromField("Description.Metadata.KeyId")},
+				Transform: transform.FromField("Description.Title")},
 			{
 				Name:        "tags",
 				Description: resourceInterfaceDescription("tags"),

@@ -88,7 +88,7 @@ type OpenIDConnectProvider struct {
 //// TRANSFORM FUNCTION
 
 func openIDConnectTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(OpenIDConnectProvider)
+	tags := d.HydrateItem.(kaytu.IAMOpenIdConnectProvider).Description
 	var turbotTagsMap map[string]string
 	if len(tags.Tags) > 0 {
 		turbotTagsMap = map[string]string{}

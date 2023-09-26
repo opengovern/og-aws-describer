@@ -86,7 +86,7 @@ func tableAwsCodeDeployDeploymentGroup(_ context.Context) *plugin.Table {
 				Name:        "ec2_tag_filters",
 				Description: "The Amazon EC2 tags on which to filter. The deployment group includes EC2 instances with any of the specified tags.",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.DeploymentGroup.ApplicationName")},
+				Transform:   transform.FromField("Description.DeploymentGroup.Ec2TagFilters")},
 			{
 				Name:        "ec2_tag_set",
 				Description: "Information about groups of tags applied to an Amazon EC2 instance.",
