@@ -101,7 +101,7 @@ func tableAwsCloudFrontDistribution(_ context.Context) *plugin.Table {
 				Name:        "last_modified_time",
 				Description: "The date and time the Distribution was last modified.",
 				Type:        proto.ColumnType_TIMESTAMP,
-				Transform:   transform.FromField("Description.Distribution.DistributionConfig.LastModifiedTime"),
+				Transform:   transform.FromField("Description.Distribution.LastModifiedTime"),
 			},
 			{
 				Name:        "price_class",

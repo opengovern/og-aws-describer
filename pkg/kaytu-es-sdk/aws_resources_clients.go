@@ -3476,7 +3476,7 @@ var listESDomainFilters = map[string]string{
 	"elasticsearch_version":        "description.Domain.ElasticsearchVersion",
 	"enabled":                      "description.Domain.NodeToNodeEncryptionOptions.Enabled",
 	"encryption_at_rest_options":   "description.Domain.EncryptionAtRestOptions",
-	"endpoint":                     "description.Domain.Endpoint",
+	"endpoints":                    "description.Domain.Endpoints",
 	"kaytu_account_id":             "metadata.SourceID",
 	"log_publishing_options":       "description.Domain.LogPublishingOptions",
 	"policy_std":                   "description.Domain.AccessPolicies",
@@ -3538,7 +3538,7 @@ var getESDomainFilters = map[string]string{
 	"elasticsearch_version":        "description.Domain.ElasticsearchVersion",
 	"enabled":                      "description.Domain.NodeToNodeEncryptionOptions.Enabled",
 	"encryption_at_rest_options":   "description.Domain.EncryptionAtRestOptions",
-	"endpoint":                     "description.Domain.Endpoint",
+	"endpoints":                    "description.Domain.Endpoints",
 	"kaytu_account_id":             "metadata.SourceID",
 	"log_publishing_options":       "description.Domain.LogPublishingOptions",
 	"policy_std":                   "description.Domain.AccessPolicies",
@@ -7150,7 +7150,7 @@ var listCloudFrontDistributionFilters = map[string]string{
 	"in_progress_invalidation_batches": "description.Distribution.InProgressInvalidationBatches",
 	"is_ipv6_enabled":                  "description.Distribution.DistributionConfig.IsIPV6Enabled",
 	"kaytu_account_id":                 "metadata.SourceID",
-	"last_modified_time":               "description.Distribution.DistributionConfig.LastModifiedTime",
+	"last_modified_time":               "description.Distribution.LastModifiedTime",
 	"logging":                          "description.Distribution.DistributionConfig.Logging",
 	"origin_groups":                    "description.Distribution.DistributionConfig.OriginGroups",
 	"origins":                          "description.Distribution.DistributionConfig.Origins.Items",
@@ -7214,7 +7214,7 @@ var getCloudFrontDistributionFilters = map[string]string{
 	"in_progress_invalidation_batches": "description.Distribution.InProgressInvalidationBatches",
 	"is_ipv6_enabled":                  "description.Distribution.DistributionConfig.IsIPV6Enabled",
 	"kaytu_account_id":                 "metadata.SourceID",
-	"last_modified_time":               "description.Distribution.DistributionConfig.LastModifiedTime",
+	"last_modified_time":               "description.Distribution.LastModifiedTime",
 	"logging":                          "description.Distribution.DistributionConfig.Logging",
 	"origin_groups":                    "description.Distribution.DistributionConfig.OriginGroups",
 	"origins":                          "description.Distribution.DistributionConfig.Origins.Items",
@@ -8512,11 +8512,11 @@ var listCloudWatchAlarmFilters = map[string]string{
 	"state_reason_data":                     "description.MetricAlarm.StateReasonData",
 	"state_updated_timestamp":               "description.MetricAlarm.StateUpdatedTimestamp",
 	"state_value":                           "description.MetricAlarm.StateValue",
-	"statistic":                             "description.MetricAlarm.ExtendedStatistic",
+	"statistic":                             "description.MetricAlarm.Statistic",
 	"tags_src":                              "description.Tags",
 	"threshold":                             "description.MetricAlarm.Threshold",
 	"threshold_metric_id":                   "description.MetricAlarm.ThresholdMetricId",
-	"title":                                 "description.MetricAlarm.ActionsEnabled",
+	"title":                                 "description.MetricAlarm.AlarmName",
 	"treat_missing_data":                    "description.MetricAlarm.TreatMissingData",
 	"unit":                                  "description.MetricAlarm.Unit",
 }
@@ -8576,11 +8576,11 @@ var getCloudWatchAlarmFilters = map[string]string{
 	"state_reason_data":                     "description.MetricAlarm.StateReasonData",
 	"state_updated_timestamp":               "description.MetricAlarm.StateUpdatedTimestamp",
 	"state_value":                           "description.MetricAlarm.StateValue",
-	"statistic":                             "description.MetricAlarm.ExtendedStatistic",
+	"statistic":                             "description.MetricAlarm.Statistic",
 	"tags_src":                              "description.Tags",
 	"threshold":                             "description.MetricAlarm.Threshold",
 	"threshold_metric_id":                   "description.MetricAlarm.ThresholdMetricId",
-	"title":                                 "description.MetricAlarm.ActionsEnabled",
+	"title":                                 "description.MetricAlarm.AlarmName",
 	"treat_missing_data":                    "description.MetricAlarm.TreatMissingData",
 	"unit":                                  "description.MetricAlarm.Unit",
 }
@@ -16189,7 +16189,7 @@ func (p EC2SubnetPaginator) NextPage(ctx context.Context) ([]EC2Subnet, error) {
 }
 
 var listEC2SubnetFilters = map[string]string{
-	"akas":                            "subnetarn",
+	"akas":                            "description.Subnet.SubnetArn",
 	"assign_ipv6_address_on_creation": "description.Subnet.AssignIpv6AddressOnCreation",
 	"availability_zone":               "description.Subnet.AvailabilityZone",
 	"availability_zone_id":            "description.Subnet.AvailabilityZoneId",
@@ -16242,7 +16242,7 @@ func ListEC2Subnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 }
 
 var getEC2SubnetFilters = map[string]string{
-	"akas":                            "subnetarn",
+	"akas":                            "description.Subnet.SubnetArn",
 	"assign_ipv6_address_on_creation": "description.Subnet.AssignIpv6AddressOnCreation",
 	"availability_zone":               "description.Subnet.AvailabilityZone",
 	"availability_zone_id":            "description.Subnet.AvailabilityZoneId",
@@ -29766,7 +29766,7 @@ func (p RDSDBParameterGroupPaginator) NextPage(ctx context.Context) ([]RDSDBPara
 
 var listRDSDBParameterGroupFilters = map[string]string{
 	"akas":                      "description.DBParameterGroup.DBParameterGroupArn",
-	"arn":                       "dbparametergrouparn",
+	"arn":                       "arn",
 	"db_parameter_group_family": "description.DBParameterGroup.DBParameterGroupFamily",
 	"description":               "description.DBParameterGroup.Description",
 	"kaytu_account_id":          "metadata.SourceID",
@@ -29808,7 +29808,7 @@ func ListRDSDBParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 var getRDSDBParameterGroupFilters = map[string]string{
 	"akas":                      "description.DBParameterGroup.DBParameterGroupArn",
-	"arn":                       "dbparametergrouparn",
+	"arn":                       "arn",
 	"db_parameter_group_family": "description.DBParameterGroup.DBParameterGroupFamily",
 	"description":               "description.DBParameterGroup.Description",
 	"kaytu_account_id":          "metadata.SourceID",
@@ -33564,6 +33564,7 @@ var listSQSQueueFilters = map[string]string{
 	"content_based_deduplication": "description.Attributes.ContentBasedDeduplication",
 	"delay_seconds":               "description.Attributes.DelaySeconds",
 	"fifo_queue":                  "description.Attributes.FifoQueue",
+	"fifo_throughput_limit":       "description.Attributes.FifoThroughputLimit",
 	"kaytu_account_id":            "metadata.SourceID",
 	"kms_master_key_id":           "description.Attributes.KmsMasterKeyId",
 	"max_message_size":            "description.Attributes.MaximumMessageSize",
@@ -33615,6 +33616,7 @@ var getSQSQueueFilters = map[string]string{
 	"content_based_deduplication": "description.Attributes.ContentBasedDeduplication",
 	"delay_seconds":               "description.Attributes.DelaySeconds",
 	"fifo_queue":                  "description.Attributes.FifoQueue",
+	"fifo_throughput_limit":       "description.Attributes.FifoThroughputLimit",
 	"kaytu_account_id":            "metadata.SourceID",
 	"kms_master_key_id":           "description.Attributes.KmsMasterKeyId",
 	"max_message_size":            "description.Attributes.MaximumMessageSize",
@@ -35981,7 +35983,7 @@ func (p SecurityHubHubPaginator) NextPage(ctx context.Context) ([]SecurityHubHub
 
 var listSecurityHubHubFilters = map[string]string{
 	"administrator_account": "description.AdministratorAccount",
-	"akas":                  "hubarn",
+	"akas":                  "arn",
 	"auto_enable_controls":  "description.Hub.AutoEnableControls",
 	"hub_arn":               "description.Hub.HubArn",
 	"kaytu_account_id":      "metadata.SourceID",
@@ -36021,7 +36023,7 @@ func ListSecurityHubHub(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 
 var getSecurityHubHubFilters = map[string]string{
 	"administrator_account": "description.AdministratorAccount",
-	"akas":                  "hubarn",
+	"akas":                  "arn",
 	"auto_enable_controls":  "description.Hub.AutoEnableControls",
 	"hub_arn":               "description.Hub.HubArn",
 	"kaytu_account_id":      "metadata.SourceID",
@@ -39921,7 +39923,8 @@ var listECSServiceFilters = map[string]string{
 	"service_name":                      "description.Service.ServiceName",
 	"service_registries":                "description.Service.ServiceRegistries",
 	"status":                            "description.Service.Status",
-	"tags_src":                          "description.Service.Tags",
+	"tags":                              "description.Tags",
+	"tags_src":                          "description.Tags",
 	"task_definition":                   "description.Service.TaskDefinition",
 	"task_sets":                         "description.Service.TaskSets",
 	"title":                             "description.Service.ServiceName",
@@ -39988,7 +39991,8 @@ var getECSServiceFilters = map[string]string{
 	"service_name":                      "description.Service.ServiceName",
 	"service_registries":                "description.Service.ServiceRegistries",
 	"status":                            "description.Service.Status",
-	"tags_src":                          "description.Service.Tags",
+	"tags":                              "description.Tags",
+	"tags_src":                          "description.Tags",
 	"task_definition":                   "description.Service.TaskDefinition",
 	"task_sets":                         "description.Service.TaskSets",
 	"title":                             "description.Service.ServiceName",
@@ -42821,7 +42825,7 @@ var listKMSKeyFilters = map[string]string{
 	"policy_std":               "description.Policy",
 	"tags":                     "description.Tags",
 	"tags_src":                 "description.Tags",
-	"title":                    "description.Metadata.KeyId",
+	"title":                    "description.Title",
 	"valid_to":                 "description.Metadata.ValidTo",
 }
 
@@ -42876,7 +42880,7 @@ var getKMSKeyFilters = map[string]string{
 	"policy_std":               "description.Policy",
 	"tags":                     "description.Tags",
 	"tags_src":                 "description.Tags",
-	"title":                    "description.Metadata.KeyId",
+	"title":                    "description.Title",
 	"valid_to":                 "description.Metadata.ValidTo",
 }
 
@@ -46700,7 +46704,7 @@ var getEventBridgeRuleFilters = map[string]string{
 	"kaytu_account_id": "metadata.SourceID",
 	"managed_by":       "description.Rule.ManagedBy",
 	"name":             "description.Rule.Name",
-	"name_prefix":      "description.Rule.ScheduleExpression",
+	"name_prefix":      "description.Rule.Name",
 	"state":            "description.Rule.State",
 	"tags":             "description.Tags",
 	"tags_src":         "description.Tags",
@@ -50807,7 +50811,7 @@ var listOpenSearchDomainFilters = map[string]string{
 	"engine_version":             "description.Domain.EngineVersion",
 	"kaytu_account_id":           "metadata.SourceID",
 	"log_publishing_options":     "description.Domain.LogPublishingOptions",
-	"node_to_node_encryption_options_enabled": "description.Domain.NodeToNodeEncryptionOptions",
+	"node_to_node_encryption_options_enabled": "description.Domain.NodeToNodeEncryptionOptions.Enabled",
 	"processing":               "description.Domain.Processing",
 	"service_software_options": "description.Domain.ServiceSoftwareOptions",
 	"snapshot_options":         "description.Domain.SnapshotOptions",
@@ -50868,7 +50872,7 @@ var getOpenSearchDomainFilters = map[string]string{
 	"engine_version":             "description.Domain.EngineVersion",
 	"kaytu_account_id":           "metadata.SourceID",
 	"log_publishing_options":     "description.Domain.LogPublishingOptions",
-	"node_to_node_encryption_options_enabled": "description.Domain.NodeToNodeEncryptionOptions",
+	"node_to_node_encryption_options_enabled": "description.Domain.NodeToNodeEncryptionOptions.Enabled",
 	"processing":               "description.Domain.Processing",
 	"service_software_options": "description.Domain.ServiceSoftwareOptions",
 	"snapshot_options":         "description.Domain.SnapshotOptions",
@@ -59002,7 +59006,6 @@ var listCodeArtifactDomainFilters = map[string]string{
 	"repository_count": "description.Domain.RepositoryCount",
 	"s3_bucket_arn":    "description.Domain.S3BucketArn",
 	"status":           "description.Domain.Status",
-	"tags":             "description.Tags",
 	"tags_src":         "description.Tags",
 	"title":            "description.Domain.Name",
 }
@@ -59051,7 +59054,6 @@ var getCodeArtifactDomainFilters = map[string]string{
 	"repository_count": "description.Domain.RepositoryCount",
 	"s3_bucket_arn":    "description.Domain.S3BucketArn",
 	"status":           "description.Domain.Status",
-	"tags":             "description.Tags",
 	"tags_src":         "description.Tags",
 	"title":            "description.Domain.Name",
 }
@@ -59179,7 +59181,7 @@ var listCodeDeployDeploymentGroupFilters = map[string]string{
 	"deployment_group_id":                 "description.DeploymentGroup.DeploymentGroupId",
 	"deployment_group_name":               "description.DeploymentGroup.DeploymentGroupName",
 	"deployment_style":                    "description.DeploymentGroup.DeploymentStyle",
-	"ec2_tag_filters":                     "description.DeploymentGroup.ApplicationName",
+	"ec2_tag_filters":                     "description.DeploymentGroup.Ec2TagFilters",
 	"ec2_tag_set":                         "description.DeploymentGroup.Ec2TagSet",
 	"ecs_services":                        "description.DeploymentGroup.EcsServices",
 	"kaytu_account_id":                    "metadata.SourceID",
@@ -59239,7 +59241,7 @@ var getCodeDeployDeploymentGroupFilters = map[string]string{
 	"deployment_group_id":                 "description.DeploymentGroup.DeploymentGroupId",
 	"deployment_group_name":               "description.DeploymentGroup.DeploymentGroupName",
 	"deployment_style":                    "description.DeploymentGroup.DeploymentStyle",
-	"ec2_tag_filters":                     "description.DeploymentGroup.ApplicationName",
+	"ec2_tag_filters":                     "description.DeploymentGroup.Ec2TagFilters",
 	"ec2_tag_set":                         "description.DeploymentGroup.Ec2TagSet",
 	"ecs_services":                        "description.DeploymentGroup.EcsServices",
 	"kaytu_account_id":                    "metadata.SourceID",

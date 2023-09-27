@@ -162,7 +162,10 @@ func ECSService(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 			}
 
 			for _, v := range output.Services {
-				resource := eCSServiceHandle(ctx, v)
+				resource, err := eCSServiceHandle(ctx, v, client)
+				if err != nil {
+					return nil, err
+				}
 				if stream != nil {
 					if err := (*stream)(resource); err != nil {
 						return nil, err
@@ -176,7 +179,15 @@ func ECSService(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 
 	return values, nil
 }
-func eCSServiceHandle(ctx context.Context, v types.Service) Resource {
+func eCSServiceHandle(ctx context.Context, v types.Service, client *ecs.Client) (Resource, error) {
+	params := &ecs.ListTagsForResourceInput{
+		ResourceArn: v.ServiceArn,
+	}
+
+	response, err := client.ListTagsForResource(ctx, params)
+	if err != nil {
+		return Resource{}, err
+	}
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -184,9 +195,10 @@ func eCSServiceHandle(ctx context.Context, v types.Service) Resource {
 		Name:   *v.ServiceName,
 		Description: model.ECSServiceDescription{
 			Service: v,
+			Tags:    response.Tags,
 		},
 	}
-	return resource
+	return resource, err
 }
 func GetECSService(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	cluster := fields["cluster"]
@@ -206,7 +218,11 @@ func GetECSService(ctx context.Context, cfg aws.Config, fields map[string]string
 	}
 
 	for _, v := range output.Services {
-		values = append(values, eCSServiceHandle(ctx, v))
+		resource, err := eCSServiceHandle(ctx, v, client)
+		if err != nil {
+			return nil, err
+		}
+		values = append(values, resource)
 	}
 
 	return values, nil

@@ -16,8 +16,8 @@ func tableAwsAppAutoScalingTarget(_ context.Context) *plugin.Table {
 		Name:        "aws_appautoscaling_target",
 		Description: "AWS Application Auto Scaling Target",
 		Get: &plugin.GetConfig{
-			KeyColumns: plugin.AllColumns([]string{"service_namespace", "resource_id"}),
-			Hydrate:    kaytu.GetApplicationAutoScalingTarget,
+			//KeyColumns: plugin.AllColumns([]string{"service_namespace", "resource_id"}),
+			Hydrate: kaytu.GetApplicationAutoScalingTarget,
 		},
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListApplicationAutoScalingTarget,

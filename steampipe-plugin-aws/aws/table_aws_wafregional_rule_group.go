@@ -2,6 +2,7 @@ package aws
 
 import (
 	"context"
+	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/service/wafregional"
 	"github.com/aws/aws-sdk-go-v2/service/wafregional/types"
@@ -17,14 +18,14 @@ func tableAwsWafRegionalRuleGroup(_ context.Context) *plugin.Table {
 		Name:        "aws_wafregional_rule_group",
 		Description: "AWS WAF Regional Rule Group",
 		Get: &plugin.GetConfig{
-			KeyColumns: plugin.AllColumns([]string{"rule_group_id"}),
+			//KeyColumns: plugin.AllColumns([]string{"rule_group_id"}),
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NonexistentItemException", "WAFNonexistentItemException"}),
 			},
-			Hydrate: getWafRegionalRuleGroup,
+			Hydrate: kaytu.GetWAFRegionalRuleGroup,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: listWafRegionalRuleGroups,
+			Hydrate: kaytu.ListWAFRegionalRuleGroup,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

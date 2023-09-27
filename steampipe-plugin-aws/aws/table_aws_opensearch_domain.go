@@ -76,7 +76,7 @@ func tableAwsOpenSearchDomain(_ context.Context) *plugin.Table {
 				Name:        "node_to_node_encryption_options_enabled",
 				Description: "Specifies the status of the node to node encryption status.",
 				Type:        proto.ColumnType_BOOL,
-				Transform:   transform.FromField("Description.Domain.NodeToNodeEncryptionOptions")},
+				Transform:   transform.FromField("Description.Domain.NodeToNodeEncryptionOptions.Enabled")},
 			{
 				Name:        "advanced_options",
 				Description: "Specifies the status of the advanced options.",

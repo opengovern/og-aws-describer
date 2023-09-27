@@ -139,7 +139,7 @@ func tableAwsCloudWatchAlarm(_ context.Context) *plugin.Table {
 				Name:        "statistic",
 				Description: "The statistic for the metric associated with the alarm, other than percentile.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.MetricAlarm.ExtendedStatistic"),
+				Transform:   transform.FromField("Description.MetricAlarm.Statistic"),
 			},
 			{
 				Name:        "threshold",
@@ -207,7 +207,7 @@ func tableAwsCloudWatchAlarm(_ context.Context) *plugin.Table {
 				Name:        "title",
 				Description: resourceInterfaceDescription("title"),
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.MetricAlarm.ActionsEnabled"),
+				Transform:   transform.FromField("Description.MetricAlarm.AlarmName"),
 			},
 			{
 				Name:        "tags",

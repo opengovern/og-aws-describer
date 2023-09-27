@@ -17,12 +17,12 @@ func tableAwsRoute53Record(_ context.Context) *plugin.Table {
 		Name:        "aws_route53_record",
 		Description: "AWS Route53 Record",
 		List: &plugin.ListConfig{
-			KeyColumns: []*plugin.KeyColumn{
-				{Name: "zone_id", Require: plugin.Required},
-				{Name: "name", Require: plugin.Optional},
-				{Name: "set_identifier", Require: plugin.Optional},
-				{Name: "type", Require: plugin.Optional},
-			},
+			//KeyColumns: []*plugin.KeyColumn{
+			//	{Name: "zone_id", Require: plugin.Required},
+			//	{Name: "name", Require: plugin.Optional},
+			//	{Name: "set_identifier", Require: plugin.Optional},
+			//	{Name: "type", Require: plugin.Optional},
+			//},
 			Hydrate: kaytu.ListRoute53Record,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NoSuchHostedZone"}),

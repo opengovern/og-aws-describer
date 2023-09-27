@@ -36,7 +36,7 @@ func tableAwsRDSDBParameterGroup(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) for the DB parameter group.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("DBParameterGroupArn"),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "description",

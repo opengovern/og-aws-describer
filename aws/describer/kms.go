@@ -156,6 +156,12 @@ func KMSKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resour
 					return nil, err
 				}
 			}
+			var title string
+			if len(keyAlias) > 0 {
+				title = *keyAlias[0].AliasName
+			} else {
+				title = *key.KeyMetadata.KeyId
+			}
 
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
@@ -167,6 +173,7 @@ func KMSKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resour
 					KeyRotationEnabled: rotationStatus.KeyRotationEnabled,
 					Policy:             policy.Policy,
 					Tags:               tags.Tags,
+					Title:              title,
 				},
 			}
 			if stream != nil {

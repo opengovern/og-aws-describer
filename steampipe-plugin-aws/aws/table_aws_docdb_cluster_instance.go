@@ -24,15 +24,15 @@ func tableAwsDocDBClusterInstance(_ context.Context) *plugin.Table {
 		Name:        "aws_docdb_cluster_instance",
 		Description: "AWS DocumentDB Cluster Instance",
 		List: &plugin.ListConfig{
-			Hydrate: listDocDBClusterInstances,
+			Hydrate: kaytu.ListDocDBClusterInstance,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameterValue", "DBInstanceNotFound"}),
 			},
-			KeyColumns: []*plugin.KeyColumn{
-				{Name: "db_cluster_identifier", Require: plugin.Optional},
-				{Name: "db_instance_identifier", Require: plugin.Optional},
-				{Name: "db_instance_arn", Require: plugin.Optional},
-			},
+			//KeyColumns: []*plugin.KeyColumn{
+			//	{Name: "db_cluster_identifier", Require: plugin.Optional},
+			//	{Name: "db_instance_identifier", Require: plugin.Optional},
+			//	{Name: "db_instance_arn", Require: plugin.Optional},
+			//},
 		},
 		GetMatrixItemFunc: SupportedRegionMatrix(docdbv1.EndpointsID),
 		Columns: awsRegionalColumns([]*plugin.Column{

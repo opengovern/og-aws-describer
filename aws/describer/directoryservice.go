@@ -2,7 +2,9 @@ package describer
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"github.com/aws/smithy-go"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/directoryservice"
@@ -112,6 +114,12 @@ func DirectoryServiceCertificate(ctx context.Context, cfg aws.Config, stream *St
 				DirectoryId: v.DirectoryId,
 			})
 			if err != nil {
+				var ae smithy.APIError
+				if errors.As(err, &ae) {
+					if ae.ErrorCode() == "UnsupportedOperationException" {
+						return nil, nil
+					}
+				}
 				if !isErr(err, "InvalidParameterValueException") && !isErr(err, "ResourceNotFoundFault") && !isErr(err, "EntityDoesNotExistException") {
 					return nil, err
 				}

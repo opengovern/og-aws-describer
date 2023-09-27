@@ -105,7 +105,7 @@ func tableAwsCodeArtifactDomain(_ context.Context) *plugin.Table {
 				Name:        "tags",
 				Description: resourceInterfaceDescription("tags"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Tags").Transform(codeArtifactDomainTurbotTags),
+				Transform:   transform.From(codeArtifactDomainTurbotTags),
 			},
 			{
 				Name:        "akas",
@@ -119,7 +119,7 @@ func tableAwsCodeArtifactDomain(_ context.Context) *plugin.Table {
 
 //// TRANSFORM FUNCTIONS
 
-func codeArtifactDomainTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
+func codeArtifactDomainTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	tags := d.HydrateItem.(kaytu.CodeArtifactDomain).Description.Tags
 
 	// Mapping the resource tags inside turbotTags
