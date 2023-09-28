@@ -155,7 +155,7 @@ func List{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	}
 	k := Client{Client: ke}
 
-	paginator, err := k.New{{ .Name }}Paginator(essdk.BuildFilter(ctx, d.QueryContext, list{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID), d.QueryContext.Limit)
+	paginator, err := k.New{{ .Name }}Paginator(essdk.BuildFilter(ctx, d.QueryContext, list{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID, cfg.EncodedResourceGroupFilters), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -192,7 +192,7 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	k := Client{Client: ke}
 
 	limit := int64(1)
-	paginator, err := k.New{{ .Name }}Paginator(essdk.BuildFilter(ctx, d.QueryContext, get{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID), &limit)
+	paginator, err := k.New{{ .Name }}Paginator(essdk.BuildFilter(ctx, d.QueryContext, get{{ .Name }}Filters, "{{ .SourceType }}", *cfg.AccountID, cfg.EncodedResourceGroupFilters), &limit)
 	if err != nil {
 		return nil, err
 	}
