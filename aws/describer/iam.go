@@ -313,15 +313,21 @@ func IAMCredentialReport(ctx context.Context, cfg aws.Config, stream *StreamSend
 	client := iam.NewFromConfig(cfg)
 	output, err := client.GetCredentialReport(ctx, &iam.GetCredentialReportInput{})
 	if err != nil {
+		if isErr(err, (&types.CredentialReportNotReadyException{}).ErrorCode()) {
+			time.Sleep(10 * time.Second)
+			return IAMCredentialReport(ctx, cfg, stream)
+		}
+
 		if isErr(err, (&types.CredentialReportNotPresentException{}).ErrorCode()) ||
-			isErr(err, (&types.CredentialReportExpiredException{}).ErrorCode()) ||
-			isErr(err, (&types.CredentialReportNotPresentException{}).ErrorCode()) {
+			isErr(err, (&types.CredentialReportExpiredException{}).ErrorCode()) {
+
 			out, err := client.GenerateCredentialReport(ctx, &iam.GenerateCredentialReportInput{})
 			if err != nil {
 				return nil, fmt.Errorf("failure while generating credential report: %v", err)
 			}
+
 			if out.State != types.ReportStateTypeComplete {
-				time.Sleep(30 * time.Second)
+				time.Sleep(10 * time.Second)
 				return IAMCredentialReport(ctx, cfg, stream)
 			}
 		}
