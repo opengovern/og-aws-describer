@@ -36,7 +36,7 @@ func tableAwsAPIGatewayStage(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) of the  stage.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("ARN").Transform(arnToAkas),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "rest_api_id",

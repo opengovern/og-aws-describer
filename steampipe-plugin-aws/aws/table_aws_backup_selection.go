@@ -46,7 +46,7 @@ func tableAwsBackupSelection(_ context.Context) *plugin.Table {
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) specifying the backup selection.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("ARN").Transform(arnToAkas),
+				Transform:   transform.FromField("ARN"),
 			},
 			{
 				Name:        "creation_date",

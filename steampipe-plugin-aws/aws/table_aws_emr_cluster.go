@@ -43,6 +43,11 @@ func tableAwsEmrCluster(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.Cluster.ClusterArn")},
 			{
+				Name:        "state",
+				Description: "The current state of the cluster.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Cluster.Status.State")},
+			{
 				Name:        "status",
 				Description: "The current status details about the cluster.",
 				Type:        proto.ColumnType_JSON,

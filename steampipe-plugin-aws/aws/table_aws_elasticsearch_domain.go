@@ -34,6 +34,7 @@ func tableAwsElasticsearchDomain(_ context.Context) *plugin.Table {
 				Name:        "engine_type",
 				Description: "Specifies the EngineType of the domain.",
 				Type:        proto.ColumnType_STRING,
+				Default:     "elasticsearch",
 			},
 			{
 				Name:        "domain_id",
