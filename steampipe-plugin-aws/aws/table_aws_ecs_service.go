@@ -2,7 +2,6 @@ package aws
 
 import (
 	"context"
-	"github.com/aws/aws-sdk-go-v2/service/ecs/types"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -233,9 +232,8 @@ func tableAwsEcsService(_ context.Context) *plugin.Table {
 
 //// TRANSFORM FUNCTIONS
 
-func getEcsServiceTurbotTags(_ context.Context, d *transform.TransformData) (interface{},
-	error) {
-	tags := d.HydrateItem.([]types.Tag)
+func getEcsServiceTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
+	tags := d.HydrateItem.(kaytu.ECSService).Description.Tags
 
 	if len(tags) == 0 {
 		return nil, nil
