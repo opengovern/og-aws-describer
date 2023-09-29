@@ -10,6 +10,7 @@ import (
 	"github.com/gocarina/gocsv"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 	"strings"
+	"time"
 )
 
 const (
@@ -315,7 +316,14 @@ func IAMCredentialReport(ctx context.Context, cfg aws.Config, stream *StreamSend
 		if isErr(err, (&types.CredentialReportNotPresentException{}).ErrorCode()) ||
 			isErr(err, (&types.CredentialReportExpiredException{}).ErrorCode()) ||
 			isErr(err, (&types.CredentialReportNotPresentException{}).ErrorCode()) {
-			return nil, nil
+			out, err := client.GenerateCredentialReport(ctx, &iam.GenerateCredentialReportInput{})
+			if err != nil {
+				return nil, fmt.Errorf("failure while generating credential report: %v", err)
+			}
+			if out.State != types.ReportStateTypeComplete {
+				time.Sleep(30 * time.Second)
+				return IAMCredentialReport(ctx, cfg, stream)
+			}
 		}
 		return nil, err
 	}
@@ -1135,9 +1143,6 @@ func IAMUser(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 		for _, v := range page.Users {
 			resource, err := iAMUserHandle(ctx, cfg, v)
 			if err != nil {
-				if isErr(err, "NoSuchEntity") {
-					return nil, nil
-				}
 				return nil, err
 			}
 			emptyResource := Resource{}
@@ -1157,27 +1162,36 @@ func IAMUser(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 
 	return values, nil
 }
+
 func iAMUserHandle(ctx context.Context, cfg aws.Config, v types.User) (Resource, error) {
 	client := iam.NewFromConfig(cfg)
 	describeCtx := GetDescribeContext(ctx)
 	policies, err := getUserPolicies(ctx, client, v.UserName)
 	if err != nil {
-		return Resource{}, err
+		if !isErr(err, "GetLoginProfileNotFound") && !isErr(err, "InvalidParameterValue") && !isErr(err, "NoSuchEntity") {
+			return Resource{}, err
+		}
 	}
 
 	aPolicies, err := getUserAttachedPolicyArns(ctx, client, v.UserName)
 	if err != nil {
-		return Resource{}, err
+		if !isErr(err, "GetLoginProfileNotFound") && !isErr(err, "InvalidParameterValue") && !isErr(err, "NoSuchEntity") {
+			return Resource{}, err
+		}
 	}
 
 	groups, err := getUserGroups(ctx, client, v.UserName)
 	if err != nil {
-		return Resource{}, err
+		if !isErr(err, "GetLoginProfileNotFound") && !isErr(err, "InvalidParameterValue") && !isErr(err, "NoSuchEntity") {
+			return Resource{}, err
+		}
 	}
 
 	devices, err := getUserMFADevices(ctx, client, v.UserName)
 	if err != nil {
-		return Resource{}, err
+		if !isErr(err, "GetLoginProfileNotFound") && !isErr(err, "InvalidParameterValue") && !isErr(err, "NoSuchEntity") {
+			return Resource{}, err
+		}
 	}
 
 	var loginProfile types.LoginProfile
@@ -1185,10 +1199,9 @@ func iAMUserHandle(ctx context.Context, cfg aws.Config, v types.User) (Resource,
 		UserName: v.UserName,
 	})
 	if err != nil {
-		if isErr(err, "GetLoginProfileNotFound") || isErr(err, "InvalidParameterValue") || isErr(err, "NoSuchEntity") {
-			loginProfile = types.LoginProfile{}
+		if !isErr(err, "GetLoginProfileNotFound") && !isErr(err, "InvalidParameterValue") && !isErr(err, "NoSuchEntity") {
+			return Resource{}, err
 		}
-		return Resource{}, err
 	} else {
 		loginProfile = *getLoginProfile.LoginProfile
 	}
