@@ -1028,20 +1028,6 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
-	"AWS::EKS::AddonVersion": {
-		Connector:            source.CloudAWS,
-		ResourceName:         "AWS::EKS::AddonVersion",
-		ResourceLabel:        "",
-		Tags:                 map[string][]string{},
-		ServiceName:          "EKS",
-		ListDescriber:        ParallelDescribeRegional(describer.EKSAddonVersion),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-		Summarize:            true,
-	},
-
 	"AWS::ApiGatewayV2::Api": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ApiGatewayV2::Api",
@@ -3100,20 +3086,6 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
-	"AWS::EC2::InstanceAvailability": {
-		Connector:            source.CloudAWS,
-		ResourceName:         "AWS::EC2::InstanceAvailability",
-		ResourceLabel:        "",
-		Tags:                 map[string][]string{},
-		ServiceName:          "EC2",
-		ListDescriber:        ParallelDescribeRegional(describer.EC2InstanceAvailability),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-		Summarize:            true,
-	},
-
 	"AWS::EC2::ReservedInstances": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::ReservedInstances",
@@ -3502,20 +3474,6 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"aws_globalaccelerator_accelerator"},
 		TerraformServiceName: "globalaccelerator",
-		FastDiscovery:        false,
-		Summarize:            true,
-	},
-
-	"AWS::CloudWatch::Metric": {
-		Connector:            source.CloudAWS,
-		ResourceName:         "AWS::CloudWatch::Metric",
-		ResourceLabel:        "",
-		Tags:                 map[string][]string{},
-		ServiceName:          "CloudWatch",
-		ListDescriber:        ParallelDescribeRegional(describer.CloudWatchMetrics),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
 		FastDiscovery:        false,
 		Summarize:            true,
 	},
@@ -5040,20 +4998,6 @@ var resourceTypes = map[string]ResourceType{
 		Tags:                 map[string][]string{},
 		ServiceName:          "Mgn",
 		ListDescriber:        ParallelDescribeRegional(describer.MGNApplication),
-		GetDescriber:         nil,
-		TerraformName:        []string{},
-		TerraformServiceName: "",
-		FastDiscovery:        false,
-		Summarize:            true,
-	},
-
-	"AWS::ResourceExplorer2::SupportedResourceType": {
-		Connector:            source.CloudAWS,
-		ResourceName:         "AWS::ResourceExplorer2::SupportedResourceType",
-		ResourceLabel:        "",
-		Tags:                 map[string][]string{},
-		ServiceName:          "ResourceExplorer2",
-		ListDescriber:        ParallelDescribeRegional(describer.ResourceExplorer2SupportedResourceType),
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
