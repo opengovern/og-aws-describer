@@ -320,6 +320,10 @@ func CostByServiceLastDay(ctx context.Context, cfg aws.Config, stream *StreamSen
 	describeCtx := GetDescribeContext(ctx)
 	triggerType := GetTriggerTypeFromContext(ctx)
 	startDate := time.Now().AddDate(0, 0, -7)
+	if time.Now().Day() == 6 {
+		startDate = time.Now().AddDate(0, 0, -31)
+	}
+
 	if triggerType == enums.DescribeTriggerTypeInitialDiscovery {
 		startDate = time.Now().AddDate(0, -3, -7)
 	} else if triggerType == enums.DescribeTriggerTypeCostFullDiscovery {
