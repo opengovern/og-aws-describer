@@ -393,6 +393,9 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 func extractTransformer(cl *ast.CallExpr) string {
 	if sl, ok := cl.Fun.(*ast.SelectorExpr); ok {
+		if sl.Sel.Name == "Transform" {
+			return ""
+		}
 		if call, ok := sl.X.(*ast.CallExpr); ok {
 			return extractTransformer(call)
 		}
