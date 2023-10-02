@@ -75,7 +75,7 @@ jobs:
           else
             echo "latest_tag=${{ steps.tag_version.outputs.previous_tag }}" >> "$GITHUB_OUTPUT"
           fi
-  deploy:
+  deploy-plugin:
     needs:
       - build
     runs-on: ubuntu-latest
@@ -112,6 +112,18 @@ jobs:
             ${{ vars.DOCKER_REGISTRY }}/steampipe-plugin-aws:${{ needs.build.outputs.latest_tag }}
           file: steampipe-plugin-aws/docker/Dockerfile
           context: .
+  deploy-lambda-describer:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment:
+        name: ${{ github.ref_name }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
       - name: Download lambda describer artifact
         uses: actions/download-artifact@v3
         with:
@@ -120,6 +132,11 @@ jobs:
       - name: Unpack lambda describer artifact
         run: |
           tar -xvf build.tar
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
       - name: Build and push Docker images for lambda describer
         uses: docker/build-push-action@v4.1.1
         with:
