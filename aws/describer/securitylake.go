@@ -8,6 +8,7 @@ import (
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 )
 
+// SecurityLakeDataLake TODO: new sdk version available but a field is missing
 func SecurityLakeDataLake(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := securitylake.NewFromConfig(cfg)
