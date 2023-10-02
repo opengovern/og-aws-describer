@@ -37,18 +37,31 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
       - run: git config --global url.https://$GH_ACCESS_TOKEN@github.com/kaytu-io.insteadOf https://github.com/kaytu-io
-      - name: Build app
+      - name: Build plugin app
         working-directory: ./steampipe-plugin-aws
         run: make build
-      - name: Pack build
+      - name: Pack plugin build
         working-directory: ./steampipe-plugin-aws
         run: |
           tar -cvf build.tar build
-      - name: Upload artifact
+      - name: Upload plugin artifact
         uses: actions/upload-artifact@v3
         with:
           name: steampipe-plugin-aws
           path: ./steampipe-plugin-aws/build.tar
+          retention-days: 1
+      - name: Build lambda describer app
+        working-directory: .
+        run: make build
+      - name: Pack lambda describer build
+        working-directory: .
+        run: |
+          tar -cvf build.tar build
+      - name: Upload lambda describer artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: kaytu-aws-describer
+          path: ./build.tar
           retention-days: 1
       - name: Set latest tag output
         id: set_latest_tag
@@ -70,12 +83,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Download artifact
+      - name: Download plugin artifact
         uses: actions/download-artifact@v3
         with:
           name: steampipe-plugin-aws
           path: .
-      - name: Unpack artifact
+      - name: Unpack plugin artifact
         run: |
           tar -xvf build.tar
       - name: Configure AWS credentials
@@ -95,6 +108,14 @@ jobs:
             ${{ vars.DOCKER_REGISTRY }}/steampipe-plugin-aws:${{ needs.build.outputs.latest_tag }}
           file: steampipe-plugin-aws/docker/Dockerfile
           context: .
+      - name: Download lambda describer artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: kaytu-aws-describer
+          path: .
+      - name: Unpack lambda describer artifact
+        run: |
+          tar -xvf build.tar
       - name: Build and push Docker images for lambda describer
         uses: docker/build-push-action@v4.1.1
         with:

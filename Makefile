@@ -1,13 +1,9 @@
 .PHONY: build build-cli docker
 
 build:
-	export CGO_ENABLED=0
 	export GOOS=linux
 	export GOARCH=amd64
 	CC=/usr/bin/musl-gcc GOPRIVATE="github.com/kaytu-io" GOOS=linux GOARCH=amd64 go build -v -ldflags "-linkmode external -extldflags '-static' -s -w" -tags musl -tags lambda.norpc -o ./build/kaytu-aws-describer ./main.go
-	cd build && zip ./kaytu-aws-describer.zip ./kaytu-aws-describer
-	aws s3 cp ./build/kaytu-aws-describer.zip s3://lambda-describe-binary/kaytu-aws-describer.zip --cli-read-timeout 300
-	aws lambda update-function-code --function-name kaytu-aws-describer --region us-east-2 --s3-bucket lambda-describe-binary --s3-key kaytu-aws-describer.zip --no-cli-pager --no-cli-auto-prompt
 
 docker:
 	docker build -t kaytu-aws-describer:latest .
