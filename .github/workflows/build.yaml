@@ -137,6 +137,9 @@ jobs:
         with:
           aws-region: ${{ vars.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      - uses: docker/login-action@v2
+        with:
+          registry: ${{ vars.DOCKER_REGISTRY }}
       - name: Build and push Docker images for lambda describer
         uses: docker/build-push-action@v4.1.1
         with:
