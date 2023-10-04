@@ -157,6 +157,6 @@ jobs:
       - name: AWS Lambda Deploy
         uses: appleboy/lambda-action@v0.1.9
         with:
-          aws_region: ${{ vars.AWS_REGION }}
+          aws_region: "${{ vars.AWS_REGION }}"
           function_name: kaytu-aws-describer
-          image_uri: ${{ vars.DOCKER_REGISTRY }}/kaytu-aws-describer:${{ needs.build.outputs.latest_tag }}
+          image_uri: "${{ vars.DOCKER_REGISTRY }}/kaytu-aws-describer:${{ needs.build.outputs.latest_tag }}"
