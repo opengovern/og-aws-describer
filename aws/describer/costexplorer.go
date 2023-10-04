@@ -320,7 +320,7 @@ func CostByServiceLastDay(ctx context.Context, cfg aws.Config, stream *StreamSen
 	describeCtx := GetDescribeContext(ctx)
 	triggerType := GetTriggerTypeFromContext(ctx)
 	startDate := time.Now().AddDate(0, 0, -7)
-	if time.Now().Day() == 6 || time.Now().Day() == 4 {
+	if time.Now().Day() == 6 || time.Now().Day() == 7 {
 		startDate = time.Now().AddDate(0, 0, -31)
 	}
 
