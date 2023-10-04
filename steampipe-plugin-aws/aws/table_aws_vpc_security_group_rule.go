@@ -102,13 +102,11 @@ func tableAwsVpcSecurityGroupRule(_ context.Context) *plugin.Table {
 				Description: "The IPv4 CIDR range. It can be either a CIDR range or a source security group, not both. A single IPv4 address is denoted by /32 prefix length.",
 				Type:        proto.ColumnType_CIDR,
 				Transform:   transform.FromField("Description.IPRange.CidrIp")},
-
 			{
 				Name:        "cidr_ipv4",
 				Description: "The IPv4 CIDR range.",
 				Type:        proto.ColumnType_CIDR,
-				//error
-			},
+				Transform:   transform.FromField("Description.IPRange.CidrIp")},
 			{
 				Name:        "cidr_ipv6",
 				Description: "The IPv6 CIDR range. It can be either a CIDR range or a source security group, not both. A single IPv6 address is denoted by /128 prefix length.",
