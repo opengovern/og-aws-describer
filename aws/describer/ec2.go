@@ -2289,9 +2289,14 @@ func EC2SecurityGroupRule(ctx context.Context, cfg aws.Config, stream *StreamSen
 	}
 	for _, desc := range descArr {
 		resource := eC2SecurityGroupRuleHandle(ctx, desc)
-		values = append(values, resource)
+		if stream != nil {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
+			}
+		} else {
+			values = append(values, resource)
+		}
 	}
-
 	return values, nil
 }
 func eC2SecurityGroupRuleHandle(ctx context.Context, desc model.EC2SecurityGroupRuleDescription) Resource {

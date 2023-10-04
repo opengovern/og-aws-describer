@@ -9,7 +9,7 @@ docker:
 	docker build -t kaytu-aws-describer:latest .
 
 aws-update:
-	aws lambda update-function-code --function-name kaytu-aws-describer --image-uri 435670955331.dkr.ecr.us-east-2.amazonaws.com/kaytu-aws-describer:latest
+	aws lambda update-function-code --function-name kaytu-aws-describer --image-uri 435670955331.dkr.ecr.us-east-2.amazonaws.com/kaytu-aws-describer:latest --region us-east-2
 
 build-cli:
 	export CGO_ENABLED=0
