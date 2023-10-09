@@ -124,12 +124,12 @@ func tableAwsSSMManagedInstancePatchState(_ context.Context) *plugin.Table {
 				Name:        "snapshot_id",
 				Description: "The ID of the patch baseline snapshot used during the patching operation when this compliance data was collected.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.PatchState.UnreportedNotApplicableCount")},
+				Transform:   transform.FromField("Description.PatchState.SnapshotId")},
 			{
 				Name:        "unreported_not_applicable_count",
 				Description: "The number of patches beyond the supported limit of NotApplicableCount that aren't reported by name to Inventory. Inventory is a capability of Amazon Web Services Systems Manager.",
 				Type:        proto.ColumnType_INT,
-				Transform:   transform.FromField("Description.PatchState.SnapshotId")},
+				Transform:   transform.FromField("Description.PatchState.UnreportedNotApplicableCount")},
 
 			// Steampipe standard columns
 			{

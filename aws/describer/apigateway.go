@@ -472,17 +472,13 @@ func ApiGatewayV2API(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 	client := apigatewayv2.NewFromConfig(cfg)
 
 	var values []Resource
-	err := PaginateRetrieveAll(func(prevToken *string) (nextToken *string, err error) {
-		output, err := client.GetApis(ctx, &apigatewayv2.GetApisInput{
-			NextToken: prevToken,
-		})
+	pagesLeft := true
+	params := &apigatewayv2.GetApisInput{}
+	for pagesLeft {
+		output, err := client.GetApis(ctx, params)
 		if err != nil {
-			if isErr(err, "NotFoundException") {
-				return nil, nil
-			}
 			return nil, err
 		}
-
 		for _, api := range output.Items {
 			resource := apiGatewayV2APIHandle(ctx, api)
 			if stream != nil {
@@ -493,17 +489,16 @@ func ApiGatewayV2API(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 				values = append(values, resource)
 			}
 		}
-		return output.NextToken, nil
-	})
-	if err != nil {
-		if isErr(err, "NotFoundException") {
-			return nil, nil
+		if output.NextToken != nil {
+			pagesLeft = true
+			params.NextToken = output.NextToken
+		} else {
+			pagesLeft = false
 		}
-		return nil, err
 	}
-
 	return values, nil
 }
+
 func apiGatewayV2APIHandle(ctx context.Context, api typesv2.Api) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := fmt.Sprintf("arn:%s:apigateway:%s::/apis/%s", describeCtx.Partition, describeCtx.Region, *api.ApiId)

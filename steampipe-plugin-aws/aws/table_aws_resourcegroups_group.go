@@ -39,7 +39,7 @@ func tableAwsResourceGroupsGroup(_ context.Context) *plugin.Table {
 				Name:        "tags",
 				Description: resourceInterfaceDescription("tags"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Tags"), // probably needs a transform function
+				Transform:   transform.From(getresourceGroupGroupTag), // probably needs a transform function
 			},
 			{
 				Name:        "akas",
@@ -49,4 +49,18 @@ func tableAwsResourceGroupsGroup(_ context.Context) *plugin.Table {
 			},
 		}),
 	}
+}
+
+func getresourceGroupGroupTag(_ context.Context, d *transform.TransformData) (interface{}, error) {
+	snapshot := d.HydrateItem.(kaytu.ResourceGroupsGroup).Description.Tags
+
+	// Get the resource tags
+	if snapshot.Tags != nil {
+		turbotTagsMap := map[string]string{}
+		for key, value := range snapshot.Tags {
+			turbotTagsMap[key] = value
+		}
+		return turbotTagsMap, nil
+	}
+	return nil, nil
 }

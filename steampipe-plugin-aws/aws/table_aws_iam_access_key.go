@@ -83,9 +83,8 @@ func tableAwsIamAccessKey(_ context.Context) *plugin.Table {
 //// HYDRATE FUNCTIONS
 
 func getIamAccessKeyAka(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	accessKey := d.HydrateItem.(kaytu.IAMAccessKey).Description.AccessKey
-	metadata := d.HydrateItem.(kaytu.IAMAccessKey).Metadata
+	arn := d.HydrateItem.(kaytu.IAMAccessKey).ARN
 
-	aka := []string{"arn:" + metadata.Partition + ":iam::" + metadata.AccountID + ":user/" + *accessKey.UserName + "/accesskey/" + *accessKey.AccessKeyId}
+	aka := []string{arn}
 	return aka, nil
 }

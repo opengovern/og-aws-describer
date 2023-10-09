@@ -43,7 +43,7 @@ func tableAwsEcrImage(_ context.Context) *plugin.Table {
 				Name:        "image_uri",
 				Description: "The URI for the image.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.ImageScanFinding.Uri")},
+				Transform:   transform.FromField("Description.ImageUri")},
 			{
 				Name:        "image_manifest_media_type",
 				Description: "The media type of the image manifest.",
