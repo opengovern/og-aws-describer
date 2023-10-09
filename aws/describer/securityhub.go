@@ -2,10 +2,14 @@ package describer
 
 import (
 	"context"
+	"fmt"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/securityhub"
 	"github.com/aws/aws-sdk-go-v2/service/securityhub/types"
+	"github.com/aws/smithy-go/middleware"
+	smithyhttp "github.com/aws/smithy-go/transport/http"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
+	"strconv"
 )
 
 func SecurityHubHub(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -326,10 +330,41 @@ func GetSecurityHubInsight(ctx context.Context, cfg aws.Config, fields map[strin
 }
 
 func SecurityHubMember(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	client := securityhub.NewFromConfig(cfg)
+	params := &securityhub.ListMembersInput{
+		OnlyAssociated: false,
+	}
+	myMiddleware := middleware.SerializeMiddlewareFunc(
+		"AssociatedMembers",
+		func(ctx context.Context, input middleware.SerializeInput, next middleware.SerializeHandler) (
+			output middleware.SerializeOutput,
+			metadata middleware.Metadata,
+			err error) {
+			req, ok := input.Request.(*smithyhttp.Request)
+			if !ok {
+				return output, metadata, fmt.Errorf("unexpected transport: %T", input.Request)
+			}
+
+			params, ok = input.Parameters.(*securityhub.ListMembersInput)
+			if !ok {
+				return output, metadata, fmt.Errorf("unexpected input type: %T", input.Parameters)
+			}
+
+			query := req.URL.Query()
+			query.Set("OnlyAssociated", strconv.FormatBool(false))
+			req.URL.RawQuery = query.Encode()
+			return next.HandleSerialize(ctx, input)
+		},
+	)
+	client := securityhub.NewFromConfig(cfg, func(options *securityhub.Options) {
+		options.APIOptions = append(options.APIOptions, func(stack *middleware.Stack) error {
+			return stack.Serialize.Insert(myMiddleware, "OperationSerializer", middleware.After)
+		})
+	})
 
 	var values []Resource
-	paginator := securityhub.NewListMembersPaginator(client, &securityhub.ListMembersInput{})
+	paginator := securityhub.NewListMembersPaginator(client, params, func(o *securityhub.ListMembersPaginatorOptions) {
+		o.StopOnDuplicateToken = true
+	})
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {

@@ -78,8 +78,16 @@ func tableAwsHealthAffectedEntity(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Entity.EntityArn").Transform(transform.EnsureStringArray),
+				Transform:   transform.From(getHealthAffectedEntityAkas),
 			},
 		}),
 	}
+}
+
+func getHealthAffectedEntityAkas(ctx context.Context, d *transform.TransformData) (interface{}, error) {
+	clusterTags := d.HydrateItem.(kaytu.HealthAffectedEntity)
+	if clusterTags.Description.Entity.EntityArn != nil {
+		return []string{*clusterTags.Description.Entity.EntityArn}, nil
+	}
+	return nil, nil
 }

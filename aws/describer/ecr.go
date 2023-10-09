@@ -424,51 +424,20 @@ func ECRImage(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 }
 func eCRImageHandle(ctx context.Context, cfg aws.Config, image types.ImageDetail, repository types.Repository) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
-	client := ecr.NewFromConfig(cfg)
-	desc := model.ECRImageDescription{
-		Image:       image,
-		Repository:  repository,
-		ImageDigest: image.ImageDigest,
-	}
-	if len(image.ImageTags) > 0 {
-		desc.ImageTag = &image.ImageTags[0]
+	var uri string
+	if len(image.ImageTags) == 0 {
+		uri = describeCtx.AccountID + ".dkr.ecr." + describeCtx.Region + ".amazonaws.com/" + *image.RepositoryName + "@" + *image.ImageDigest
 	}
 
-	findingsPaginator := ecr.NewDescribeImageScanFindingsPaginator(client, &ecr.DescribeImageScanFindingsInput{
-		RepositoryName: repository.RepositoryName,
-		ImageId: &types.ImageIdentifier{
-			ImageDigest: image.ImageDigest,
-		},
-	})
-
-	// List call
-	for findingsPaginator.HasMorePages() {
-		output, err := findingsPaginator.NextPage(ctx)
-		if err != nil {
-			if isErr(err, "ScanNotFoundException") {
-				break
-			}
-			return Resource{}, err
-		}
-
-		for _, finding := range output.ImageScanFindings.Findings {
-			desc.ImageScanFinding = finding
-			if output.ImageScanStatus != nil {
-				desc.ImageScanStatus = *output.ImageScanStatus
-			}
-			if output.ImageScanFindings.ImageScanCompletedAt != nil {
-				desc.ImageScanCompletedAt = output.ImageScanFindings.ImageScanCompletedAt
-			}
-			if output.ImageScanFindings.VulnerabilitySourceUpdatedAt != nil {
-				desc.VulnerabilitySourceUpdatedAt = output.ImageScanFindings.VulnerabilitySourceUpdatedAt
-			}
-		}
-	}
+	uri = describeCtx.AccountID + ".dkr.ecr." + describeCtx.Region + ".amazonaws.com/" + *image.RepositoryName + ":" + image.ImageTags[0]
 
 	resource := Resource{
-		Region:      describeCtx.KaytuRegion,
-		Name:        fmt.Sprintf("%s:%s", *repository.RepositoryArn, *image.ImageDigest),
-		Description: desc,
+		Region: describeCtx.KaytuRegion,
+		Name:   fmt.Sprintf("%s:%s", *repository.RepositoryArn, *image.ImageDigest),
+		Description: model.ECRImageDescription{
+			Image:    image,
+			ImageUri: uri,
+		},
 	}
 	return resource, nil
 }

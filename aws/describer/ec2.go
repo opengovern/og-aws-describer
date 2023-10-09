@@ -452,7 +452,7 @@ func EC2ClientVpnEndpoint(ctx context.Context, cfg aws.Config, stream *StreamSen
 	describeCtx := GetDescribeContext(ctx)
 	client := ec2.NewFromConfig(cfg)
 	paginator := ec2.NewDescribeClientVpnEndpointsPaginator(client, &ec2.DescribeClientVpnEndpointsInput{})
-	client.DescribeClientVpnEndpoints(ctx, &ec2.DescribeClientVpnEndpointsInput{})
+
 	var values []Resource
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
@@ -3004,6 +3004,8 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 
 		paginator := ec2.NewDescribeVpcEndpointServicePermissionsPaginator(client, &ec2.DescribeVpcEndpointServicePermissionsInput{
 			ServiceId: v.ServiceId,
+		}, func(o *ec2.DescribeVpcEndpointServicePermissionsPaginatorOptions) {
+			o.StopOnDuplicateToken = true
 		})
 
 		var allowedPrincipals []types.AllowedPrincipal
@@ -3013,9 +3015,8 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 				if !strings.Contains(err.Error(), "NotFound") {
 					return nil, err
 				}
-
-				allowedPrincipals = append(allowedPrincipals, permissions.AllowedPrincipals...)
 			}
+			allowedPrincipals = append(allowedPrincipals, permissions.AllowedPrincipals...)
 		}
 
 		op, err := client.DescribeVpcEndpointConnections(ctx, &ec2.DescribeVpcEndpointConnectionsInput{
@@ -3029,6 +3030,10 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 		if err != nil {
 			return nil, err
 		}
+		var vpcEndpointConnections []types.VpcEndpointConnection
+		if op.VpcEndpointConnections != nil && len(op.VpcEndpointConnections) > 0 {
+			vpcEndpointConnections = op.VpcEndpointConnections
+		}
 
 		resource := Resource{
 			Region: describeCtx.KaytuRegion,
@@ -3037,7 +3042,7 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 			Description: model.EC2VPCEndpointServiceDescription{
 				VpcEndpointService:     v,
 				AllowedPrincipals:      allowedPrincipals,
-				VpcEndpointConnections: op.VpcEndpointConnections,
+				VpcEndpointConnections: vpcEndpointConnections,
 			},
 		}
 		if stream != nil {

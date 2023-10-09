@@ -3,6 +3,7 @@ package describer
 import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/service/acmpca/types"
+	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/acm"
@@ -43,6 +44,9 @@ func CertificateManagerCertificate(ctx context.Context, cfg aws.Config, stream *
 				CertificateArn: v.CertificateArn,
 			})
 			if err != nil {
+				if strings.Contains(err.Error(), "not yet issued") {
+					continue
+				}
 				return nil, err
 			}
 
