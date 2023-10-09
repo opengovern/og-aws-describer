@@ -38845,9 +38845,9 @@ var listSSMManagedInstancePatchStateFilters = map[string]string{
 	"patch_group":                           "description.PatchState.PatchGroup",
 	"reboot_option":                         "description.PatchState.RebootOption",
 	"security_non_compliant_count":          "description.PatchState.SecurityNonCompliantCount",
-	"snapshot_id":                           "description.PatchState.UnreportedNotApplicableCount",
+	"snapshot_id":                           "description.PatchState.SnapshotId",
 	"title":                                 "description.PatchState.BaselineId",
-	"unreported_not_applicable_count":       "description.PatchState.SnapshotId",
+	"unreported_not_applicable_count":       "description.PatchState.UnreportedNotApplicableCount",
 }
 
 func ListSSMManagedInstancePatchState(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -38901,9 +38901,9 @@ var getSSMManagedInstancePatchStateFilters = map[string]string{
 	"patch_group":                           "description.PatchState.PatchGroup",
 	"reboot_option":                         "description.PatchState.RebootOption",
 	"security_non_compliant_count":          "description.PatchState.SecurityNonCompliantCount",
-	"snapshot_id":                           "description.PatchState.UnreportedNotApplicableCount",
+	"snapshot_id":                           "description.PatchState.SnapshotId",
 	"title":                                 "description.PatchState.BaselineId",
-	"unreported_not_applicable_count":       "description.PatchState.SnapshotId",
+	"unreported_not_applicable_count":       "description.PatchState.UnreportedNotApplicableCount",
 }
 
 func GetSSMManagedInstancePatchState(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -45395,7 +45395,7 @@ var listECRImageFilters = map[string]string{
 	"image_scan_status":           "description.Image.ImageScanStatus",
 	"image_size_in_bytes":         "description.Image.ImageSizeInBytes",
 	"image_tags":                  "description.Image.ImageTags",
-	"image_uri":                   "description.ImageScanFinding.Uri",
+	"image_uri":                   "description.ImageUri",
 	"kaytu_account_id":            "metadata.SourceID",
 	"last_recorded_pull_time":     "description.Image.LastRecordedPullTime",
 	"registry_id":                 "description.Image.RegistryId",
@@ -45441,7 +45441,7 @@ var getECRImageFilters = map[string]string{
 	"image_scan_status":           "description.Image.ImageScanStatus",
 	"image_size_in_bytes":         "description.Image.ImageSizeInBytes",
 	"image_tags":                  "description.Image.ImageTags",
-	"image_uri":                   "description.ImageScanFinding.Uri",
+	"image_uri":                   "description.ImageUri",
 	"kaytu_account_id":            "metadata.SourceID",
 	"last_recorded_pull_time":     "description.Image.LastRecordedPullTime",
 	"registry_id":                 "description.Image.RegistryId",
@@ -60934,7 +60934,6 @@ var listResourceGroupsGroupFilters = map[string]string{
 	"arn":              "description.GroupIdentifier.GroupArn",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.GroupIdentifier.GroupName",
-	"tags":             "description.Tags",
 	"title":            "description.GroupIdentifier.GroupName",
 }
 
@@ -60972,7 +60971,6 @@ var getResourceGroupsGroupFilters = map[string]string{
 	"arn":              "description.GroupIdentifier.GroupArn",
 	"kaytu_account_id": "metadata.SourceID",
 	"name":             "description.GroupIdentifier.GroupName",
-	"tags":             "description.Tags",
 	"title":            "description.GroupIdentifier.GroupName",
 }
 
