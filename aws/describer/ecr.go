@@ -427,9 +427,9 @@ func eCRImageHandle(ctx context.Context, cfg aws.Config, image types.ImageDetail
 	var uri string
 	if len(image.ImageTags) == 0 {
 		uri = describeCtx.AccountID + ".dkr.ecr." + describeCtx.Region + ".amazonaws.com/" + *image.RepositoryName + "@" + *image.ImageDigest
+	} else {
+		uri = describeCtx.AccountID + ".dkr.ecr." + describeCtx.Region + ".amazonaws.com/" + *image.RepositoryName + ":" + image.ImageTags[0]
 	}
-
-	uri = describeCtx.AccountID + ".dkr.ecr." + describeCtx.Region + ".amazonaws.com/" + *image.RepositoryName + ":" + image.ImageTags[0]
 
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,

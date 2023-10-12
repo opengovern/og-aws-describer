@@ -227,6 +227,9 @@ func IAMAccessKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 
 func getIAMUserAccessKeys(ctx context.Context, cfg aws.Config, user types.User) ([]Resource, error) {
 	client := iam.NewFromConfig(cfg)
+	if user.UserName == nil {
+		return nil, nil
+	}
 	paginator := iam.NewListAccessKeysPaginator(client, &iam.ListAccessKeysInput{UserName: user.UserName},
 		func(o *iam.ListAccessKeysPaginatorOptions) {
 			o.StopOnDuplicateToken = true
@@ -243,10 +246,6 @@ func getIAMUserAccessKeys(ctx context.Context, cfg aws.Config, user types.User) 
 			resource, err := iAMAccessKeyHandle(ctx, cfg, v)
 			if err != nil {
 				return nil, err
-			}
-			emptyResource := Resource{}
-			if err == nil && resource == emptyResource {
-				continue
 			}
 			values = append(values, resource)
 		}
@@ -274,7 +273,7 @@ func iAMAccessKeyHandle(ctx context.Context, cfg aws.Config, v types.AccessKeyMe
 		ARN:    arn,
 		Name:   *v.UserName,
 		Description: model.IAMAccessKeyDescription{
-			AccessKeyLastUsed: *lastUsed.AccessKeyLastUsed,
+			AccessKeyLastUsed: lastUsed.AccessKeyLastUsed,
 			AccessKey:         v,
 		},
 	}

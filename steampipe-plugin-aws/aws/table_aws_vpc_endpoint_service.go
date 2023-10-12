@@ -123,5 +123,9 @@ func tableAwsVpcEndpointService(_ context.Context) *plugin.Table {
 
 func getVpcEndpointServiceTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	endpointService := d.HydrateItem.(kaytu.EC2VPCEndpointService).Description.VpcEndpointService
-	return ec2V2TagsToMap(endpointService.Tags)
+	if endpointService.Tags != nil {
+		return ec2V2TagsToMap(endpointService.Tags)
+	} else {
+		return nil, nil
+	}
 }
