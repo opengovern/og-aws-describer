@@ -185,5 +185,6 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		break
 	}
 
+	logger.Info("job done", zap.Uint("jobID", input.DescribeJob.JobID))
 	return err
 }
