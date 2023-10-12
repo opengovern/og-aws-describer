@@ -10,6 +10,7 @@ import (
 	smithyhttp "github.com/aws/smithy-go/transport/http"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 	"strconv"
+	"strings"
 )
 
 func SecurityHubHub(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -369,6 +370,9 @@ func SecurityHubMember(ctx context.Context, cfg aws.Config, stream *StreamSender
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
 			if isErr(err, "InvalidAccessException") || isErr(err, "InvalidInputException") {
+				return nil, nil
+			}
+			if strings.Contains(err.Error(), "no such resource found") {
 				return nil, nil
 			}
 			return nil, err

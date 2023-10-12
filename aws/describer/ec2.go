@@ -3031,8 +3031,10 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 			return nil, err
 		}
 		var vpcEndpointConnections []types.VpcEndpointConnection
-		if op.VpcEndpointConnections != nil && len(op.VpcEndpointConnections) > 0 {
-			vpcEndpointConnections = op.VpcEndpointConnections
+		if op.VpcEndpointConnections != nil {
+			if len(op.VpcEndpointConnections) > 0 {
+				vpcEndpointConnections = op.VpcEndpointConnections
+			}
 		}
 
 		resource := Resource{

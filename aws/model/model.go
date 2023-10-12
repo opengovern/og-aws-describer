@@ -1529,7 +1529,7 @@ type IAMAccountSummaryDescription struct {
 //index:aws_iam_accesskey
 type IAMAccessKeyDescription struct {
 	AccessKey         iam.AccessKeyMetadata
-	AccessKeyLastUsed iam.AccessKeyLastUsed
+	AccessKeyLastUsed *iam.AccessKeyLastUsed
 }
 
 //index:aws_iam_accountpasswordpolicy
