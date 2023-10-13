@@ -5202,9 +5202,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
-	"AWS:SecurityLake::DataLake": {
+	"AWS::SecurityLake::DataLake": {
 		Connector:            source.CloudAWS,
-		ResourceName:         "AWS:SecurityLake::DataLake",
+		ResourceName:         "AWS::SecurityLake::DataLake",
 		ResourceLabel:        "",
 		Tags:                 map[string][]string{},
 		ServiceName:          "SecurityLake",
@@ -5216,9 +5216,9 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
-	"AWS:SecurityLake::Subscriber": {
+	"AWS::SecurityLake::Subscriber": {
 		Connector:            source.CloudAWS,
-		ResourceName:         "AWS:SecurityLake::Subscriber",
+		ResourceName:         "AWS::SecurityLake::Subscriber",
 		ResourceLabel:        "",
 		Tags:                 map[string][]string{},
 		ServiceName:          "SecurityLake",
