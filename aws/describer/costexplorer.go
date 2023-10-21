@@ -357,7 +357,7 @@ func CostByServiceLastDay(ctx context.Context, cfg aws.Config, stream *StreamSen
 		resource := Resource{
 			Region:      describeCtx.Region,
 			ID:          "service-" + *cost.Dimension1 + "-cost-" + *cost.PeriodEnd,
-			Description: model.CostExplorerByServiceDailyDescription{CostExplorerRow: cost, CostDate: costDate},
+			Description: model.CostExplorerByServiceDailyDescription{CostExplorerRow: cost, CostDateMillis: costDate.UnixMilli()},
 		}
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {

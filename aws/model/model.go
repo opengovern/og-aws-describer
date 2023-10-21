@@ -2438,7 +2438,7 @@ type CostExplorerByAccountDailyDescription struct {
 //listfilter:cost_source=description.Dimension2
 type CostExplorerByServiceDailyDescription struct {
 	CostExplorerRow
-	CostDate time.Time
+	CostDateMillis int64
 }
 
 //index:aws_costexplorer_byrecordtypedaily
