@@ -2438,6 +2438,7 @@ type CostExplorerByAccountDailyDescription struct {
 //listfilter:cost_source=description.Dimension2
 type CostExplorerByServiceDailyDescription struct {
 	CostExplorerRow
+	CostDate time.Time
 }
 
 //index:aws_costexplorer_byrecordtypedaily

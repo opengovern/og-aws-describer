@@ -320,7 +320,7 @@ func CostByServiceLastDay(ctx context.Context, cfg aws.Config, stream *StreamSen
 	describeCtx := GetDescribeContext(ctx)
 	triggerType := GetTriggerTypeFromContext(ctx)
 	startDate := time.Now().AddDate(0, 0, -7)
-	if time.Now().Day() == 6 {
+	if time.Now().Day() == 6 || 1 == 1 {
 		y, m, _ := time.Now().Date()
 		startDate = time.Date(y, m, 1, 0, 0, 0, 0, time.UTC).AddDate(0, -1, 0)
 	}
@@ -341,10 +341,23 @@ func CostByServiceLastDay(ctx context.Context, cfg aws.Config, stream *StreamSen
 		if cost.Dimension1 == nil {
 			continue
 		}
+
+		tStart, err := time.Parse("2006-01-02", *cost.PeriodStart)
+		if err != nil {
+			return nil, err
+		}
+		tEnd, err := time.Parse("2006-01-02", *cost.PeriodEnd)
+		if err != nil {
+			return nil, err
+		}
+
+		diff := tEnd.Sub(tStart) / 2
+		costDate := tStart.Add(diff)
+
 		resource := Resource{
 			Region:      describeCtx.Region,
 			ID:          "service-" + *cost.Dimension1 + "-cost-" + *cost.PeriodEnd,
-			Description: model.CostExplorerByServiceDailyDescription{CostExplorerRow: cost},
+			Description: model.CostExplorerByServiceDailyDescription{CostExplorerRow: cost, CostDate: costDate},
 		}
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {
