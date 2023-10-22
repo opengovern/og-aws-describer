@@ -1,7 +1,7 @@
 .PHONY: install build clean
 
 build:
-	GOPRIVATE="github.com/kaytu-io" CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -o ./build/steampipe-plugin-aws.plugin *.go
+	GOPRIVATE="github.com/kaytu-io" CC=/usr/bin/musl-gcc GOPRIVATE="github.com/kaytu-io" GOOS=linux GOARCH=amd64 go build -v -o ./build/steampipe-plugin-aws.plugin *.go
 
 docker-build:
 	docker build -f docker/Dockerfile . -t steampipe-plugin-aws:0.0.1
