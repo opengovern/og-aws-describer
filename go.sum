@@ -899,8 +899,8 @@ github.com/jstemmer/go-junit-report v0.0.0-20190106144839-af01ea7f8024/go.mod h1
 github.com/jstemmer/go-junit-report v0.9.1/go.mod h1:Brl9GWCQeLvo8nXZwPNNblvFj/XSXhF0NWZEnDohbsk=
 github.com/jtolds/gls v4.20.0+incompatible h1:xdiiI2gbIgH/gLH7ADydsJ1uDOEzR8yvV7C0MuV77Wo=
 github.com/jtolds/gls v4.20.0+incompatible/go.mod h1:QJZ7F/aHp+rZTRtaJ1ow/lLfFfVYBRgL+9YlvaHOwJU=
-github.com/kaytu-io/kaytu-util v0.0.0-20231022154831-135e1cebb39b h1:rMgimEyPqzh5wh9/jLvQRUer882lZMxGsj9HUaC/vU8=
-github.com/kaytu-io/kaytu-util v0.0.0-20231022154831-135e1cebb39b/go.mod h1:piF79F4EajeTzJwJyEbO9jVG3WIdqJCwSyNYc65RGFk=
+github.com/kaytu-io/kaytu-util v0.0.0-20231024104520-b62284d4f03a h1:U388nDFbGPot9LWpAxuPm6mejNq2wWjp/3G8LTMfymU=
+github.com/kaytu-io/kaytu-util v0.0.0-20231024104520-b62284d4f03a/go.mod h1:piF79F4EajeTzJwJyEbO9jVG3WIdqJCwSyNYc65RGFk=
 github.com/kisielk/errcheck v1.2.0/go.mod h1:/BMXB+zMLi60iA8Vv6Ksmxu/1UDYcXs4uQLJ+jE2L00=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
