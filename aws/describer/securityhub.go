@@ -57,15 +57,20 @@ func securityHubHubHandle(ctx context.Context, cfg aws.Config, out *securityhub.
 		return Resource{}, err
 	}
 
+	desc := model.SecurityHubHubDescription{
+		Hub:  out,
+		Tags: tags.Tags,
+	}
+	if data.Administrator != nil {
+		desc.AdministratorAccount = *data.Administrator
+	}
 	resource := Resource{
-		Region: describeCtx.KaytuRegion,
-		ARN:    *out.HubArn,
-		Name:   nameFromArn(*out.HubArn),
-		Description: model.SecurityHubHubDescription{
-			Hub:                  out,
-			AdministratorAccount: *data.Administrator,
-			Tags:                 tags.Tags,
-		},
+		Region:      describeCtx.KaytuRegion,
+		Description: desc,
+	}
+	if out.HubArn != nil {
+		resource.ARN = *out.HubArn
+		resource.Name = nameFromArn(*out.HubArn)
 	}
 	return resource, nil
 }

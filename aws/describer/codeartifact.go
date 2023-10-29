@@ -220,8 +220,8 @@ func CodeArtifactDomainHandle(ctx context.Context, cfg aws.Config, v types.Domai
 	}
 
 	policy, err := client.GetDomainPermissionsPolicy(ctx, &codeartifact.GetDomainPermissionsPolicyInput{
-		Domain:      aws.String(*v.Name),
-		DomainOwner: aws.String(*v.Owner),
+		Domain:      v.Name,
+		DomainOwner: v.Owner,
 	})
 	if err != nil {
 		if isErr(err, "ResourceNotFoundException") {
@@ -234,13 +234,16 @@ func CodeArtifactDomainHandle(ctx context.Context, cfg aws.Config, v types.Domai
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *v.Arn,
-		Name:   *v.Name,
 		Description: model.CodeArtifactDomainDescription{
 			Domain: *domain.Domain,
 			Policy: *policy.Policy,
 			Tags:   tags.Tags,
 		},
 	}
+	if v.Name != nil {
+		resource.Name = *v.Name
+	}
+
 	return resource, nil
 }
 func GetCodeArtifactDomain(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {

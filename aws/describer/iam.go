@@ -243,7 +243,7 @@ func getIAMUserAccessKeys(ctx context.Context, cfg aws.Config, user types.User) 
 		}
 
 		for _, v := range page.AccessKeyMetadata {
-			resource, err := iAMAccessKeyHandle(ctx, cfg, v)
+			resource, err := iAMAccessKeyHandle(ctx, cfg, user, v)
 			if err != nil {
 				return nil, err
 			}
@@ -254,7 +254,7 @@ func getIAMUserAccessKeys(ctx context.Context, cfg aws.Config, user types.User) 
 	return values, nil
 }
 
-func iAMAccessKeyHandle(ctx context.Context, cfg aws.Config, v types.AccessKeyMetadata) (Resource, error) {
+func iAMAccessKeyHandle(ctx context.Context, cfg aws.Config, user types.User, v types.AccessKeyMetadata) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := iam.NewFromConfig(cfg)
 	lastUsed, err := client.GetAccessKeyLastUsed(ctx, &iam.GetAccessKeyLastUsedInput{
@@ -266,16 +266,29 @@ func iAMAccessKeyHandle(ctx context.Context, cfg aws.Config, v types.AccessKeyMe
 		}
 		return Resource{}, err
 	}
-
-	arn := "arn:" + describeCtx.Partition + ":iam::" + describeCtx.AccountID + ":user/" + *v.UserName + "/accesskey/" + *v.AccessKeyId
+	username := describeCtx.AccountID
+	if user.UserName != nil {
+		username = *v.UserName
+	} else if v.UserName != nil {
+		username = *v.UserName
+	} else if user.UserId != nil {
+		username = *user.UserId
+	}
+	arn := "arn:" + describeCtx.Partition + ":iam::" + describeCtx.AccountID + ":user/" + username + "/accesskey/" + *v.AccessKeyId
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    arn,
-		Name:   *v.UserName,
 		Description: model.IAMAccessKeyDescription{
 			AccessKeyLastUsed: lastUsed.AccessKeyLastUsed,
 			AccessKey:         v,
 		},
+	}
+	if user.UserName != nil {
+		resource.Name = *user.UserName
+	} else if v.UserName != nil {
+		resource.Name = *v.UserName
+	} else if user.UserId != nil {
+		resource.Name = *user.UserId
 	}
 	return resource, nil
 }
@@ -296,7 +309,7 @@ func GetIAMAccessKey(ctx context.Context, cfg aws.Config, fields map[string]stri
 	}
 
 	for _, v := range accessKeys.AccessKeyMetadata {
-		resource, err := iAMAccessKeyHandle(ctx, cfg, v)
+		resource, err := iAMAccessKeyHandle(ctx, cfg, types.User{UserName: &userName}, v)
 		if err != nil {
 			return nil, err
 		}
