@@ -186,11 +186,14 @@ func tableAwsEC2ClientVPNEndpoint(_ context.Context) *plugin.Table {
 
 //// TRANSFORM FUNCTIONS
 
-func getEC2ClientVPNEndpointTurbotTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
+func getEC2ClientVPNEndpointTurbotTitle(_ context.Context, d *transform.TransformData) (any, error) {
 	data := d.HydrateItem.(types.ClientVpnEndpoint)
 	title := data.ClientVpnEndpointId
 	if data.Tags != nil {
 		for _, i := range data.Tags {
+			if i.Key == nil {
+				continue
+			}
 			if *i.Key == "Name" {
 				title = i.Value
 			}
