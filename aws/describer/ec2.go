@@ -2999,8 +2999,15 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 	}
 
 	for _, v := range output.ServiceDetails {
-		splitServiceName := strings.Split(*v.ServiceName, ".")
-		arn := fmt.Sprintf("arn:%s:ec2:%s:%s:vpc-endpoint-service/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, splitServiceName[len(splitServiceName)-1])
+		arn := ""
+		if v.ServiceName != nil {
+			splitServiceName := strings.Split(*v.ServiceName, ".")
+			arn = fmt.Sprintf("arn:%s:ec2:%s:%s:vpc-endpoint-service/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, splitServiceName[len(splitServiceName)-1])
+		} else if v.ServiceId != nil {
+			arn = fmt.Sprintf("arn:%s:ec2:%s:%s:vpc-endpoint-service/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.ServiceId)
+		} else {
+			continue
+		}
 
 		paginator := ec2.NewDescribeVpcEndpointServicePermissionsPaginator(client, &ec2.DescribeVpcEndpointServicePermissionsInput{
 			ServiceId: v.ServiceId,
@@ -3040,12 +3047,14 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 		resource := Resource{
 			Region: describeCtx.KaytuRegion,
 			ARN:    arn,
-			Name:   *v.ServiceName,
 			Description: model.EC2VPCEndpointServiceDescription{
 				VpcEndpointService:     v,
 				AllowedPrincipals:      allowedPrincipals,
 				VpcEndpointConnections: vpcEndpointConnections,
 			},
+		}
+		if v.ServiceName != nil {
+			resource.Name = *v.ServiceName
 		}
 		if stream != nil {
 			if err := (*stream)(resource); err != nil {

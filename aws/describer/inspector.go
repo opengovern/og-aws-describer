@@ -455,12 +455,12 @@ func Inspector2Finding(ctx context.Context, cfg aws.Config, stream *StreamSender
 			if err != nil {
 				return nil, err
 			}
-			for _, resource := range finding.Resources {
+			for _, v := range finding.Resources {
 				resource := Resource{
 					Region: describeCtx.KaytuRegion,
 					Description: model.Inspector2FindingDescription{
 						Finding:  finding,
-						Resource: resource,
+						Resource: v,
 					},
 				}
 				if stream != nil {
