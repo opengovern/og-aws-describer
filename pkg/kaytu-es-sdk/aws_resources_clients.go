@@ -128,8 +128,12 @@ func ListAccessAnalyzerAnalyzer(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewAccessAnalyzerAnalyzerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAccessAnalyzerAnalyzerFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewAccessAnalyzerAnalyzerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAccessAnalyzerAnalyzerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -186,9 +190,13 @@ func GetAccessAnalyzerAnalyzer(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewAccessAnalyzerAnalyzerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAccessAnalyzerAnalyzerFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAccessAnalyzerAnalyzerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAccessAnalyzerAnalyzerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -333,8 +341,12 @@ func ListApiGatewayStage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewApiGatewayStagePaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayStageFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayStagePaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayStageFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -400,9 +412,13 @@ func GetApiGatewayStage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayStagePaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayStageFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewApiGatewayStagePaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayStageFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -546,8 +562,12 @@ func ListApiGatewayV2Stage(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewApiGatewayV2StagePaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayV2StageFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayV2StagePaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayV2StageFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -613,9 +633,13 @@ func GetApiGatewayV2Stage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayV2StagePaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayV2StageFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewApiGatewayV2StagePaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayV2StageFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -753,8 +777,12 @@ func ListApiGatewayRestAPI(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewApiGatewayRestAPIPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayRestAPIFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayRestAPIPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayRestAPIFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -813,9 +841,13 @@ func GetApiGatewayRestAPI(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayRestAPIPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayRestAPIFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewApiGatewayRestAPIPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayRestAPIFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -950,8 +982,12 @@ func ListApiGatewayApiKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewApiGatewayApiKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayApiKeyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayApiKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayApiKeyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1007,9 +1043,13 @@ func GetApiGatewayApiKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayApiKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayApiKeyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewApiGatewayApiKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayApiKeyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1143,8 +1183,12 @@ func ListApiGatewayUsagePlan(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewApiGatewayUsagePlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayUsagePlanFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayUsagePlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayUsagePlanFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1199,9 +1243,13 @@ func GetApiGatewayUsagePlan(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayUsagePlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayUsagePlanFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewApiGatewayUsagePlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayUsagePlanFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1336,8 +1384,12 @@ func ListApiGatewayAuthorizer(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewApiGatewayAuthorizerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayAuthorizerFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayAuthorizerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayAuthorizerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1393,9 +1445,13 @@ func GetApiGatewayAuthorizer(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayAuthorizerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayAuthorizerFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewApiGatewayAuthorizerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayAuthorizerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1530,8 +1586,12 @@ func ListApiGatewayV2API(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewApiGatewayV2APIPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayV2APIFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayV2APIPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayV2APIFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1587,9 +1647,13 @@ func GetApiGatewayV2API(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayV2APIPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayV2APIFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewApiGatewayV2APIPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayV2APIFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1720,8 +1784,12 @@ func ListApiGatewayV2DomainName(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewApiGatewayV2DomainNamePaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayV2DomainNameFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayV2DomainNamePaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayV2DomainNameFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1773,9 +1841,13 @@ func GetApiGatewayV2DomainName(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayV2DomainNamePaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayV2DomainNameFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewApiGatewayV2DomainNamePaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayV2DomainNameFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1901,8 +1973,12 @@ func ListApiGatewayDomainName(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewApiGatewayDomainNamePaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayDomainNameFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayDomainNamePaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayDomainNameFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -1950,9 +2026,13 @@ func GetApiGatewayDomainName(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayDomainNamePaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayDomainNameFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewApiGatewayDomainNamePaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayDomainNameFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2091,8 +2171,12 @@ func ListApiGatewayV2Route(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewApiGatewayV2RoutePaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayV2RouteFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayV2RoutePaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayV2RouteFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2153,9 +2237,13 @@ func GetApiGatewayV2Route(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayV2RoutePaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayV2RouteFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewApiGatewayV2RoutePaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayV2RouteFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2302,8 +2390,12 @@ func ListApiGatewayV2Integration(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewApiGatewayV2IntegrationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayV2IntegrationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewApiGatewayV2IntegrationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApiGatewayV2IntegrationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2371,9 +2463,13 @@ func GetApiGatewayV2Integration(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewApiGatewayV2IntegrationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayV2IntegrationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewApiGatewayV2IntegrationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApiGatewayV2IntegrationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2522,8 +2618,12 @@ func ListElasticBeanstalkEnvironment(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewElasticBeanstalkEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElasticBeanstalkEnvironmentFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewElasticBeanstalkEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElasticBeanstalkEnvironmentFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2593,9 +2693,13 @@ func GetElasticBeanstalkEnvironment(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewElasticBeanstalkEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElasticBeanstalkEnvironmentFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewElasticBeanstalkEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElasticBeanstalkEnvironmentFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2730,8 +2834,12 @@ func ListElasticBeanstalkApplication(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewElasticBeanstalkApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElasticBeanstalkApplicationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewElasticBeanstalkApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElasticBeanstalkApplicationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2787,9 +2895,13 @@ func GetElasticBeanstalkApplication(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewElasticBeanstalkApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElasticBeanstalkApplicationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewElasticBeanstalkApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElasticBeanstalkApplicationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -2938,8 +3050,12 @@ func ListElastiCacheReplicationGroup(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewElastiCacheReplicationGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElastiCacheReplicationGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewElastiCacheReplicationGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElastiCacheReplicationGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3009,9 +3125,13 @@ func GetElastiCacheReplicationGroup(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewElastiCacheReplicationGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElastiCacheReplicationGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewElastiCacheReplicationGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElastiCacheReplicationGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3162,8 +3282,12 @@ func ListElastiCacheCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewElastiCacheClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElastiCacheClusterFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewElastiCacheClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElastiCacheClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3235,9 +3359,13 @@ func GetElastiCacheCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewElastiCacheClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElastiCacheClusterFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewElastiCacheClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElastiCacheClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3367,8 +3495,12 @@ func ListElastiCacheParameterGroup(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewElastiCacheParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElastiCacheParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewElastiCacheParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElastiCacheParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3419,9 +3551,13 @@ func GetElastiCacheParameterGroup(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewElastiCacheParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElastiCacheParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewElastiCacheParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElastiCacheParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3560,8 +3696,12 @@ func ListElastiCacheReservedCacheNode(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewElastiCacheReservedCacheNodePaginator(essdk.BuildFilter(ctx, d.QueryContext, listElastiCacheReservedCacheNodeFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewElastiCacheReservedCacheNodePaginator(essdk.BuildFilter(ctx, d.QueryContext, listElastiCacheReservedCacheNodeFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3621,9 +3761,13 @@ func GetElastiCacheReservedCacheNode(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewElastiCacheReservedCacheNodePaginator(essdk.BuildFilter(ctx, d.QueryContext, getElastiCacheReservedCacheNodeFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewElastiCacheReservedCacheNodePaginator(essdk.BuildFilter(ctx, d.QueryContext, getElastiCacheReservedCacheNodeFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3754,8 +3898,12 @@ func ListElastiCacheSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewElastiCacheSubnetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElastiCacheSubnetGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewElastiCacheSubnetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElastiCacheSubnetGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3807,9 +3955,13 @@ func GetElastiCacheSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewElastiCacheSubnetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElastiCacheSubnetGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewElastiCacheSubnetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElastiCacheSubnetGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -3960,8 +4112,12 @@ func ListESDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewESDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, listESDomainFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewESDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, listESDomainFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4033,9 +4189,13 @@ func GetESDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewESDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, getESDomainFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewESDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, getESDomainFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4192,8 +4352,12 @@ func ListEMRCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEMRClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEMRClusterFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEMRClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEMRClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4271,9 +4435,13 @@ func GetEMRCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEMRClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEMRClusterFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEMRClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEMRClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4414,8 +4582,12 @@ func ListEMRInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEMRInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEMRInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEMRInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEMRInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4477,9 +4649,13 @@ func GetEMRInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEMRInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEMRInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEMRInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEMRInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4617,8 +4793,12 @@ func ListEMRInstanceFleet(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEMRInstanceFleetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEMRInstanceFleetFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEMRInstanceFleetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEMRInstanceFleetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4677,9 +4857,13 @@ func GetEMRInstanceFleet(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEMRInstanceFleetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEMRInstanceFleetFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEMRInstanceFleetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEMRInstanceFleetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4825,8 +5009,12 @@ func ListEMRInstanceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEMRInstanceGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEMRInstanceGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEMRInstanceGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEMRInstanceGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -4893,9 +5081,13 @@ func GetEMRInstanceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEMRInstanceGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEMRInstanceGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEMRInstanceGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEMRInstanceGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5025,8 +5217,12 @@ func ListEMRBlockPublicAccessConfiguration(ctx context.Context, d *plugin.QueryD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEMRBlockPublicAccessConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEMRBlockPublicAccessConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEMRBlockPublicAccessConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEMRBlockPublicAccessConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5077,9 +5273,13 @@ func GetEMRBlockPublicAccessConfiguration(ctx context.Context, d *plugin.QueryDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEMRBlockPublicAccessConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEMRBlockPublicAccessConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEMRBlockPublicAccessConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEMRBlockPublicAccessConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5218,8 +5418,12 @@ func ListGuardDutyFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGuardDutyFindingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGuardDutyFindingFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGuardDutyFindingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGuardDutyFindingFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5279,9 +5483,13 @@ func GetGuardDutyFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGuardDutyFindingPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGuardDutyFindingFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGuardDutyFindingPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGuardDutyFindingFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5416,8 +5624,12 @@ func ListGuardDutyDetector(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGuardDutyDetectorPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGuardDutyDetectorFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGuardDutyDetectorPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGuardDutyDetectorFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5473,9 +5685,13 @@ func GetGuardDutyDetector(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGuardDutyDetectorPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGuardDutyDetectorFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGuardDutyDetectorPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGuardDutyDetectorFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5608,8 +5824,12 @@ func ListGuardDutyFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGuardDutyFilterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGuardDutyFilterFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGuardDutyFilterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGuardDutyFilterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5663,9 +5883,13 @@ func GetGuardDutyFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGuardDutyFilterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGuardDutyFilterFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGuardDutyFilterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGuardDutyFilterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5798,8 +6022,12 @@ func ListGuardDutyIPSet(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGuardDutyIPSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGuardDutyIPSetFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGuardDutyIPSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGuardDutyIPSetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5853,9 +6081,13 @@ func GetGuardDutyIPSet(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGuardDutyIPSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGuardDutyIPSetFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGuardDutyIPSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGuardDutyIPSetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -5988,8 +6220,12 @@ func ListGuardDutyMember(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGuardDutyMemberPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGuardDutyMemberFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGuardDutyMemberPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGuardDutyMemberFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6043,9 +6279,13 @@ func GetGuardDutyMember(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGuardDutyMemberPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGuardDutyMemberFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGuardDutyMemberPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGuardDutyMemberFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6177,8 +6417,12 @@ func ListGuardDutyPublishingDestination(ctx context.Context, d *plugin.QueryData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGuardDutyPublishingDestinationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGuardDutyPublishingDestinationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGuardDutyPublishingDestinationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGuardDutyPublishingDestinationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6231,9 +6475,13 @@ func GetGuardDutyPublishingDestination(ctx context.Context, d *plugin.QueryData,
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGuardDutyPublishingDestinationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGuardDutyPublishingDestinationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGuardDutyPublishingDestinationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGuardDutyPublishingDestinationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6366,8 +6614,12 @@ func ListGuardDutyThreatIntelSet(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGuardDutyThreatIntelSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGuardDutyThreatIntelSetFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGuardDutyThreatIntelSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGuardDutyThreatIntelSetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6421,9 +6673,13 @@ func GetGuardDutyThreatIntelSet(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGuardDutyThreatIntelSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGuardDutyThreatIntelSetFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGuardDutyThreatIntelSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGuardDutyThreatIntelSetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6559,8 +6815,12 @@ func ListBackupPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewBackupPlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBackupPlanFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewBackupPlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBackupPlanFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6617,9 +6877,13 @@ func GetBackupPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewBackupPlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBackupPlanFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewBackupPlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBackupPlanFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6754,8 +7018,12 @@ func ListBackupSelection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewBackupSelectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBackupSelectionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewBackupSelectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBackupSelectionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6811,9 +7079,13 @@ func GetBackupSelection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewBackupSelectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBackupSelectionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewBackupSelectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBackupSelectionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -6948,8 +7220,12 @@ func ListBackupVault(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewBackupVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBackupVaultFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewBackupVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBackupVaultFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7005,9 +7281,13 @@ func GetBackupVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewBackupVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBackupVaultFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewBackupVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBackupVaultFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7151,8 +7431,12 @@ func ListBackupRecoveryPoint(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewBackupRecoveryPointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBackupRecoveryPointFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewBackupRecoveryPointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBackupRecoveryPointFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7217,9 +7501,13 @@ func GetBackupRecoveryPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewBackupRecoveryPointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBackupRecoveryPointFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewBackupRecoveryPointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBackupRecoveryPointFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7347,8 +7635,12 @@ func ListBackupProtectedResource(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewBackupProtectedResourcePaginator(essdk.BuildFilter(ctx, d.QueryContext, listBackupProtectedResourceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewBackupProtectedResourcePaginator(essdk.BuildFilter(ctx, d.QueryContext, listBackupProtectedResourceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7397,9 +7689,13 @@ func GetBackupProtectedResource(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewBackupProtectedResourcePaginator(essdk.BuildFilter(ctx, d.QueryContext, getBackupProtectedResourceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewBackupProtectedResourcePaginator(essdk.BuildFilter(ctx, d.QueryContext, getBackupProtectedResourceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7533,8 +7829,12 @@ func ListBackupFramework(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewBackupFrameworkPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBackupFrameworkFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewBackupFrameworkPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBackupFrameworkFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7589,9 +7889,13 @@ func GetBackupFramework(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewBackupFrameworkPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBackupFrameworkFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewBackupFrameworkPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBackupFrameworkFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7725,8 +8029,12 @@ func ListBackupLegalHold(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewBackupLegalHoldPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBackupLegalHoldFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewBackupLegalHoldPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBackupLegalHoldFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7781,9 +8089,13 @@ func GetBackupLegalHold(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewBackupLegalHoldPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBackupLegalHoldFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewBackupLegalHoldPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBackupLegalHoldFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7918,8 +8230,12 @@ func ListBackupReportPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewBackupReportPlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBackupReportPlanFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewBackupReportPlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBackupReportPlanFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -7976,9 +8292,13 @@ func GetBackupReportPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewBackupReportPlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBackupReportPlanFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewBackupReportPlanPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBackupReportPlanFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8132,8 +8452,12 @@ func ListCloudFrontDistribution(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudFrontDistributionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFrontDistributionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFrontDistributionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFrontDistributionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8208,9 +8532,13 @@ func GetCloudFrontDistribution(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFrontDistributionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFrontDistributionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudFrontDistributionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFrontDistributionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8340,8 +8668,12 @@ func ListCloudFrontStreamingDistribution(ctx context.Context, d *plugin.QueryDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudFrontStreamingDistributionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFrontStreamingDistributionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFrontStreamingDistributionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFrontStreamingDistributionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8392,9 +8724,13 @@ func GetCloudFrontStreamingDistribution(ctx context.Context, d *plugin.QueryData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFrontStreamingDistributionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFrontStreamingDistributionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudFrontStreamingDistributionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFrontStreamingDistributionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8523,8 +8859,12 @@ func ListCloudFrontOriginAccessControl(ctx context.Context, d *plugin.QueryData,
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudFrontOriginAccessControlPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFrontOriginAccessControlFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFrontOriginAccessControlPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFrontOriginAccessControlFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8574,9 +8914,13 @@ func GetCloudFrontOriginAccessControl(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFrontOriginAccessControlPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFrontOriginAccessControlFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudFrontOriginAccessControlPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFrontOriginAccessControlFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8711,8 +9055,12 @@ func ListCloudFrontCachePolicy(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudFrontCachePolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFrontCachePolicyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFrontCachePolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFrontCachePolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8768,9 +9116,13 @@ func GetCloudFrontCachePolicy(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFrontCachePolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFrontCachePolicyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudFrontCachePolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFrontCachePolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8902,8 +9254,12 @@ func ListCloudFrontFunction(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudFrontFunctionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFrontFunctionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFrontFunctionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFrontFunctionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -8956,9 +9312,13 @@ func GetCloudFrontFunction(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFrontFunctionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFrontFunctionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudFrontFunctionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFrontFunctionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9089,8 +9449,12 @@ func ListCloudFrontOriginAccessIdentity(ctx context.Context, d *plugin.QueryData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudFrontOriginAccessIdentityPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFrontOriginAccessIdentityFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFrontOriginAccessIdentityPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFrontOriginAccessIdentityFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9142,9 +9506,13 @@ func GetCloudFrontOriginAccessIdentity(ctx context.Context, d *plugin.QueryData,
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFrontOriginAccessIdentityPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFrontOriginAccessIdentityFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudFrontOriginAccessIdentityPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFrontOriginAccessIdentityFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9278,8 +9646,12 @@ func ListCloudFrontOriginRequestPolicy(ctx context.Context, d *plugin.QueryData,
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudFrontOriginRequestPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFrontOriginRequestPolicyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFrontOriginRequestPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFrontOriginRequestPolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9334,9 +9706,13 @@ func GetCloudFrontOriginRequestPolicy(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFrontOriginRequestPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFrontOriginRequestPolicyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudFrontOriginRequestPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFrontOriginRequestPolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9468,8 +9844,12 @@ func ListCloudFrontResponseHeadersPolicy(ctx context.Context, d *plugin.QueryDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudFrontResponseHeadersPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFrontResponseHeadersPolicyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFrontResponseHeadersPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFrontResponseHeadersPolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9522,9 +9902,13 @@ func GetCloudFrontResponseHeadersPolicy(ctx context.Context, d *plugin.QueryData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFrontResponseHeadersPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFrontResponseHeadersPolicyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudFrontResponseHeadersPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFrontResponseHeadersPolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9678,8 +10062,12 @@ func ListCloudWatchAlarm(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudWatchAlarmPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudWatchAlarmFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudWatchAlarmPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudWatchAlarmFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9754,9 +10142,13 @@ func GetCloudWatchAlarm(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudWatchAlarmPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudWatchAlarmFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudWatchAlarmPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudWatchAlarmFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9885,8 +10277,12 @@ func ListCloudWatchLogEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudWatchLogEventPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudWatchLogEventFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudWatchLogEventPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudWatchLogEventFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -9935,9 +10331,13 @@ func GetCloudWatchLogEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudWatchLogEventPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudWatchLogEventFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudWatchLogEventPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudWatchLogEventFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10065,8 +10465,12 @@ func ListCloudWatchLogResourcePolicy(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudWatchLogResourcePolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudWatchLogResourcePolicyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudWatchLogResourcePolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudWatchLogResourcePolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10115,9 +10519,13 @@ func GetCloudWatchLogResourcePolicy(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudWatchLogResourcePolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudWatchLogResourcePolicyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudWatchLogResourcePolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudWatchLogResourcePolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10247,8 +10655,12 @@ func ListCloudWatchLogStream(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudWatchLogStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudWatchLogStreamFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudWatchLogStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudWatchLogStreamFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10299,9 +10711,13 @@ func GetCloudWatchLogStream(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudWatchLogStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudWatchLogStreamFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudWatchLogStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudWatchLogStreamFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10433,8 +10849,12 @@ func ListCloudWatchLogSubscriptionFilter(ctx context.Context, d *plugin.QueryDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudWatchLogSubscriptionFilterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudWatchLogSubscriptionFilterFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudWatchLogSubscriptionFilterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudWatchLogSubscriptionFilterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10487,9 +10907,13 @@ func GetCloudWatchLogSubscriptionFilter(ctx context.Context, d *plugin.QueryData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudWatchLogSubscriptionFilterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudWatchLogSubscriptionFilterFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudWatchLogSubscriptionFilterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudWatchLogSubscriptionFilterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10618,8 +11042,12 @@ func ListCloudWatchMetric(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudWatchMetricPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudWatchMetricFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudWatchMetricPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudWatchMetricFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10669,9 +11097,13 @@ func GetCloudWatchMetric(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudWatchMetricPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudWatchMetricFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudWatchMetricPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudWatchMetricFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10806,8 +11238,12 @@ func ListCloudWatchLogsLogGroup(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudWatchLogsLogGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudWatchLogsLogGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudWatchLogsLogGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudWatchLogsLogGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10863,9 +11299,13 @@ func GetCloudWatchLogsLogGroup(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudWatchLogsLogGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudWatchLogsLogGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudWatchLogsLogGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudWatchLogsLogGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -10996,8 +11436,12 @@ func ListCloudWatchLogsMetricFilter(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudWatchLogsMetricFilterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudWatchLogsMetricFilterFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudWatchLogsMetricFilterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudWatchLogsMetricFilterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11047,9 +11491,13 @@ func GetCloudWatchLogsMetricFilter(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudWatchLogsMetricFilterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudWatchLogsMetricFilterFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudWatchLogsMetricFilterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudWatchLogsMetricFilterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11201,8 +11649,12 @@ func ListCodeBuildProject(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCodeBuildProjectPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeBuildProjectFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCodeBuildProjectPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeBuildProjectFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11275,9 +11727,13 @@ func GetCodeBuildProject(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeBuildProjectPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeBuildProjectFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCodeBuildProjectPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeBuildProjectFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11405,8 +11861,12 @@ func ListCodeBuildSourceCredential(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCodeBuildSourceCredentialPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeBuildSourceCredentialFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCodeBuildSourceCredentialPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeBuildSourceCredentialFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11455,9 +11915,13 @@ func GetCodeBuildSourceCredential(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeBuildSourceCredentialPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeBuildSourceCredentialFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCodeBuildSourceCredentialPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeBuildSourceCredentialFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11614,8 +12078,12 @@ func ListCodeBuildBuild(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCodeBuildBuildPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeBuildBuildFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCodeBuildBuildPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeBuildBuildFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11693,9 +12161,13 @@ func GetCodeBuildBuild(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeBuildBuildPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeBuildBuildFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCodeBuildBuildPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeBuildBuildFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11827,8 +12299,12 @@ func ListConfigConfigurationRecorder(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewConfigConfigurationRecorderPaginator(essdk.BuildFilter(ctx, d.QueryContext, listConfigConfigurationRecorderFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewConfigConfigurationRecorderPaginator(essdk.BuildFilter(ctx, d.QueryContext, listConfigConfigurationRecorderFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -11881,9 +12357,13 @@ func GetConfigConfigurationRecorder(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewConfigConfigurationRecorderPaginator(essdk.BuildFilter(ctx, d.QueryContext, getConfigConfigurationRecorderFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewConfigConfigurationRecorderPaginator(essdk.BuildFilter(ctx, d.QueryContext, getConfigConfigurationRecorderFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12014,8 +12494,12 @@ func ListConfigAggregationAuthorization(ctx context.Context, d *plugin.QueryData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewConfigAggregationAuthorizationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listConfigAggregationAuthorizationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewConfigAggregationAuthorizationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listConfigAggregationAuthorizationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12067,9 +12551,13 @@ func GetConfigAggregationAuthorization(ctx context.Context, d *plugin.QueryData,
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewConfigAggregationAuthorizationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getConfigAggregationAuthorizationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewConfigAggregationAuthorizationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getConfigAggregationAuthorizationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12203,8 +12691,12 @@ func ListConfigConformancePack(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewConfigConformancePackPaginator(essdk.BuildFilter(ctx, d.QueryContext, listConfigConformancePackFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewConfigConformancePackPaginator(essdk.BuildFilter(ctx, d.QueryContext, listConfigConformancePackFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12259,9 +12751,13 @@ func GetConfigConformancePack(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewConfigConformancePackPaginator(essdk.BuildFilter(ctx, d.QueryContext, getConfigConformancePackFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewConfigConformancePackPaginator(essdk.BuildFilter(ctx, d.QueryContext, getConfigConformancePackFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12400,8 +12896,12 @@ func ListConfigRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewConfigRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listConfigRuleFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewConfigRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listConfigRuleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12461,9 +12961,13 @@ func GetConfigRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewConfigRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getConfigRuleFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewConfigRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getConfigRuleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12591,8 +13095,12 @@ func ListConfigRetentionConfiguration(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewConfigRetentionConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listConfigRetentionConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewConfigRetentionConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listConfigRetentionConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12641,9 +13149,13 @@ func GetConfigRetentionConfiguration(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewConfigRetentionConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getConfigRetentionConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewConfigRetentionConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getConfigRetentionConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12787,8 +13299,12 @@ func ListDAXCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDAXClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDAXClusterFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDAXClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDAXClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12853,9 +13369,13 @@ func GetDAXCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDAXClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDAXClusterFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDAXClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDAXClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -12983,8 +13503,12 @@ func ListDAXParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDAXParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDAXParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDAXParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDAXParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13033,9 +13557,13 @@ func GetDAXParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDAXParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDAXParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDAXParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDAXParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13171,8 +13699,12 @@ func ListDAXParameter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDAXParameterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDAXParameterFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDAXParameterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDAXParameterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13229,9 +13761,13 @@ func GetDAXParameter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDAXParameterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDAXParameterFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDAXParameterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDAXParameterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13361,8 +13897,12 @@ func ListDAXSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDAXSubnetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDAXSubnetGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDAXSubnetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDAXSubnetGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13413,9 +13953,13 @@ func GetDAXSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDAXSubnetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDAXSubnetGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDAXSubnetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDAXSubnetGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13565,8 +14109,12 @@ func ListDMSReplicationInstance(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDMSReplicationInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDMSReplicationInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDMSReplicationInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDMSReplicationInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13637,9 +14185,13 @@ func GetDMSReplicationInstance(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDMSReplicationInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDMSReplicationInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDMSReplicationInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDMSReplicationInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13786,8 +14338,12 @@ func ListDynamoDbTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDynamoDbTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDynamoDbTableFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDynamoDbTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDynamoDbTableFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13855,9 +14411,13 @@ func GetDynamoDbTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDynamoDbTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDynamoDbTableFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDynamoDbTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDynamoDbTableFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -13985,8 +14545,12 @@ func ListDynamoDbGlobalSecondaryIndex(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDynamoDbGlobalSecondaryIndexPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDynamoDbGlobalSecondaryIndexFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDynamoDbGlobalSecondaryIndexPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDynamoDbGlobalSecondaryIndexFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14035,9 +14599,13 @@ func GetDynamoDbGlobalSecondaryIndex(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDynamoDbGlobalSecondaryIndexPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDynamoDbGlobalSecondaryIndexFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDynamoDbGlobalSecondaryIndexPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDynamoDbGlobalSecondaryIndexFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14165,8 +14733,12 @@ func ListDynamoDbLocalSecondaryIndex(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDynamoDbLocalSecondaryIndexPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDynamoDbLocalSecondaryIndexFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDynamoDbLocalSecondaryIndexPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDynamoDbLocalSecondaryIndexFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14215,9 +14787,13 @@ func GetDynamoDbLocalSecondaryIndex(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDynamoDbLocalSecondaryIndexPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDynamoDbLocalSecondaryIndexFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDynamoDbLocalSecondaryIndexPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDynamoDbLocalSecondaryIndexFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14345,8 +14921,12 @@ func ListDynamoDbStream(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDynamoDbStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDynamoDbStreamFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDynamoDbStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDynamoDbStreamFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14395,9 +14975,13 @@ func GetDynamoDbStream(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDynamoDbStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDynamoDbStreamFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDynamoDbStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDynamoDbStreamFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14533,8 +15117,12 @@ func ListDynamoDbBackup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDynamoDbBackupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDynamoDbBackupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDynamoDbBackupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDynamoDbBackupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14591,9 +15179,13 @@ func GetDynamoDbBackup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDynamoDbBackupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDynamoDbBackupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDynamoDbBackupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDynamoDbBackupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14724,8 +15316,12 @@ func ListDynamoDbGlobalTable(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDynamoDbGlobalTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDynamoDbGlobalTableFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDynamoDbGlobalTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDynamoDbGlobalTableFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14777,9 +15373,13 @@ func GetDynamoDbGlobalTable(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDynamoDbGlobalTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDynamoDbGlobalTableFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDynamoDbGlobalTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDynamoDbGlobalTableFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14923,8 +15523,12 @@ func ListDynamoDbTableExport(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDynamoDbTableExportPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDynamoDbTableExportFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDynamoDbTableExportPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDynamoDbTableExportFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -14989,9 +15593,13 @@ func GetDynamoDbTableExport(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDynamoDbTableExportPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDynamoDbTableExportFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDynamoDbTableExportPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDynamoDbTableExportFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15124,8 +15732,12 @@ func ListOAMLink(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewOAMLinkPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOAMLinkFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewOAMLinkPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOAMLinkFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15179,9 +15791,13 @@ func GetOAMLink(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewOAMLinkPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOAMLinkFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewOAMLinkPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOAMLinkFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15311,8 +15927,12 @@ func ListOAMSink(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewOAMSinkPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOAMSinkFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewOAMSinkPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOAMSinkFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15363,9 +15983,13 @@ func GetOAMSink(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewOAMSinkPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOAMSinkFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewOAMSinkPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOAMSinkFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15507,8 +16131,12 @@ func ListEC2VolumeSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2VolumeSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VolumeSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VolumeSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VolumeSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15571,9 +16199,13 @@ func GetEC2VolumeSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VolumeSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VolumeSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2VolumeSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VolumeSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15700,8 +16332,12 @@ func ListEC2ElasticIP(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2ElasticIPPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2ElasticIPFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2ElasticIPPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2ElasticIPFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15749,9 +16385,13 @@ func GetEC2ElasticIP(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2ElasticIPPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2ElasticIPFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2ElasticIPPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2ElasticIPFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15885,8 +16525,12 @@ func ListEC2CustomerGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2CustomerGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2CustomerGatewayFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2CustomerGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2CustomerGatewayFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -15941,9 +16585,13 @@ func GetEC2CustomerGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2CustomerGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2CustomerGatewayFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2CustomerGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2CustomerGatewayFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16074,8 +16722,12 @@ func ListEC2VerifiedAccessInstance(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2VerifiedAccessInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VerifiedAccessInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VerifiedAccessInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VerifiedAccessInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16127,9 +16779,13 @@ func GetEC2VerifiedAccessInstance(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VerifiedAccessInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VerifiedAccessInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2VerifiedAccessInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VerifiedAccessInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16272,8 +16928,12 @@ func ListEC2VerifiedAccessEndpoint(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2VerifiedAccessEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VerifiedAccessEndpointFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VerifiedAccessEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VerifiedAccessEndpointFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16337,9 +16997,13 @@ func GetEC2VerifiedAccessEndpoint(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VerifiedAccessEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VerifiedAccessEndpointFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2VerifiedAccessEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VerifiedAccessEndpointFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16473,8 +17137,12 @@ func ListEC2VerifiedAccessGroup(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2VerifiedAccessGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VerifiedAccessGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VerifiedAccessGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VerifiedAccessGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16529,9 +17197,13 @@ func GetEC2VerifiedAccessGroup(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VerifiedAccessGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VerifiedAccessGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2VerifiedAccessGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VerifiedAccessGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16666,8 +17338,12 @@ func ListEC2VerifiedAccessTrustProvider(ctx context.Context, d *plugin.QueryData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2VerifiedAccessTrustProviderPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VerifiedAccessTrustProviderFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VerifiedAccessTrustProviderPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VerifiedAccessTrustProviderFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16723,9 +17399,13 @@ func GetEC2VerifiedAccessTrustProvider(ctx context.Context, d *plugin.QueryData,
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VerifiedAccessTrustProviderPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VerifiedAccessTrustProviderFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2VerifiedAccessTrustProviderPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VerifiedAccessTrustProviderFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16857,8 +17537,12 @@ func ListEC2VPNGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2VPNGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VPNGatewayFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VPNGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VPNGatewayFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -16911,9 +17595,13 @@ func GetEC2VPNGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VPNGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VPNGatewayFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2VPNGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VPNGatewayFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17056,8 +17744,12 @@ func ListEC2Volume(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2VolumePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VolumeFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VolumePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VolumeFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17121,9 +17813,13 @@ func GetEC2Volume(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VolumePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VolumeFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2VolumePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VolumeFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17270,8 +17966,12 @@ func ListEC2ClientVpnEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2ClientVpnEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2ClientVpnEndpointFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2ClientVpnEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2ClientVpnEndpointFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17340,9 +18040,13 @@ func GetEC2ClientVpnEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2ClientVpnEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2ClientVpnEndpointFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2ClientVpnEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2ClientVpnEndpointFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17536,8 +18240,12 @@ func ListEC2Instance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2InstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2InstanceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2InstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2InstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17652,9 +18360,13 @@ func GetEC2Instance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2InstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2InstanceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2InstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2InstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17790,8 +18502,12 @@ func ListEC2Vpc(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2VpcPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VpcFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VpcPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VpcFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -17848,9 +18564,13 @@ func GetEC2Vpc(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VpcPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VpcFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2VpcPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VpcFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18009,8 +18729,12 @@ func ListEC2NetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2NetworkInterfacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2NetworkInterfaceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2NetworkInterfacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2NetworkInterfaceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18090,9 +18814,13 @@ func GetEC2NetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2NetworkInterfacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2NetworkInterfaceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2NetworkInterfacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2NetworkInterfaceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18219,8 +18947,12 @@ func ListEC2RegionalSettings(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2RegionalSettingsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2RegionalSettingsFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2RegionalSettingsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2RegionalSettingsFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18268,9 +19000,13 @@ func GetEC2RegionalSettings(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2RegionalSettingsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2RegionalSettingsFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2RegionalSettingsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2RegionalSettingsFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18412,8 +19148,12 @@ func ListEC2Subnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2SubnetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2SubnetFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2SubnetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2SubnetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18476,9 +19216,13 @@ func GetEC2Subnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2SubnetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2SubnetFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2SubnetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2SubnetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18617,8 +19361,12 @@ func ListEC2VPCEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2VPCEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VPCEndpointFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VPCEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VPCEndpointFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18678,9 +19426,13 @@ func GetEC2VPCEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VPCEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VPCEndpointFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2VPCEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VPCEndpointFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18815,8 +19567,12 @@ func ListEC2SecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2SecurityGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2SecurityGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2SecurityGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2SecurityGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -18872,9 +19628,13 @@ func GetEC2SecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2SecurityGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2SecurityGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2SecurityGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2SecurityGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19015,8 +19775,12 @@ func ListEC2EIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2EIPPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2EIPFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2EIPPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2EIPFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19078,9 +19842,13 @@ func GetEC2EIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2EIPPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2EIPFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2EIPPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2EIPFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19209,8 +19977,12 @@ func ListEC2InternetGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2InternetGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2InternetGatewayFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2InternetGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2InternetGatewayFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19260,9 +20032,13 @@ func GetEC2InternetGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2InternetGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2InternetGatewayFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2InternetGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2InternetGatewayFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19395,8 +20171,12 @@ func ListEC2NetworkAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2NetworkAclPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2NetworkAclFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2NetworkAclPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2NetworkAclFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19450,9 +20230,13 @@ func GetEC2NetworkAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2NetworkAclPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2NetworkAclFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2NetworkAclPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2NetworkAclFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19590,8 +20374,12 @@ func ListEC2VPNConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2VPNConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VPNConnectionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VPNConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VPNConnectionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19650,9 +20438,13 @@ func GetEC2VPNConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VPNConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VPNConnectionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2VPNConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VPNConnectionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19785,8 +20577,12 @@ func ListEC2RouteTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2RouteTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2RouteTableFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2RouteTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2RouteTableFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19840,9 +20636,13 @@ func GetEC2RouteTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2RouteTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2RouteTableFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2RouteTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2RouteTableFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -19979,8 +20779,12 @@ func ListEC2NatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2NatGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2NatGatewayFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2NatGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2NatGatewayFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20038,9 +20842,13 @@ func GetEC2NatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2NatGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2NatGatewayFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2NatGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2NatGatewayFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20168,8 +20976,12 @@ func ListEC2LocalGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2LocalGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2LocalGatewayFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2LocalGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2LocalGatewayFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20218,9 +21030,13 @@ func GetEC2LocalGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2LocalGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2LocalGatewayFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2LocalGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2LocalGatewayFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20351,8 +21167,12 @@ func ListEC2Region(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2RegionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2RegionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2RegionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2RegionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20404,9 +21224,13 @@ func GetEC2Region(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2RegionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2RegionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2RegionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2RegionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20541,8 +21365,12 @@ func ListEC2AvailabilityZone(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2AvailabilityZonePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2AvailabilityZoneFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2AvailabilityZonePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2AvailabilityZoneFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20598,9 +21426,13 @@ func GetEC2AvailabilityZone(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2AvailabilityZonePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2AvailabilityZoneFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2AvailabilityZonePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2AvailabilityZoneFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20739,8 +21571,12 @@ func ListEC2FlowLog(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2FlowLogPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2FlowLogFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2FlowLogPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2FlowLogFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20800,9 +21636,13 @@ func GetEC2FlowLog(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2FlowLogPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2FlowLogFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2FlowLogPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2FlowLogFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -20947,8 +21787,12 @@ func ListEC2CapacityReservation(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2CapacityReservationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2CapacityReservationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2CapacityReservationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2CapacityReservationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21014,9 +21858,13 @@ func GetEC2CapacityReservation(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2CapacityReservationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2CapacityReservationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2CapacityReservationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2CapacityReservationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21146,8 +21994,12 @@ func ListEC2KeyPair(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2KeyPairPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2KeyPairFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2KeyPairPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2KeyPairFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21198,9 +22050,13 @@ func GetEC2KeyPair(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2KeyPairPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2KeyPairFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2KeyPairPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2KeyPairFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21352,8 +22208,12 @@ func ListEC2AMI(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2AMIPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2AMIFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2AMIPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2AMIFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21426,9 +22286,13 @@ func GetEC2AMI(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2AMIPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2AMIFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2AMIPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2AMIFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21573,8 +22437,12 @@ func ListEC2ReservedInstances(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2ReservedInstancesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2ReservedInstancesFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2ReservedInstancesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2ReservedInstancesFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21640,9 +22508,13 @@ func GetEC2ReservedInstances(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2ReservedInstancesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2ReservedInstancesFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2ReservedInstancesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2ReservedInstancesFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21770,8 +22642,12 @@ func ListEC2CapacityReservationFleet(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2CapacityReservationFleetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2CapacityReservationFleetFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2CapacityReservationFleetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2CapacityReservationFleetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21820,9 +22696,13 @@ func GetEC2CapacityReservationFleet(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2CapacityReservationFleetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2CapacityReservationFleetFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2CapacityReservationFleetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2CapacityReservationFleetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -21950,8 +22830,12 @@ func ListEC2Fleet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2FleetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2FleetFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2FleetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2FleetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22000,9 +22884,13 @@ func GetEC2Fleet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2FleetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2FleetFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2FleetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2FleetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22130,8 +23018,12 @@ func ListEC2Host(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2HostPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2HostFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2HostPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2HostFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22180,9 +23072,13 @@ func GetEC2Host(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2HostPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2HostFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2HostPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2HostFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22311,8 +23207,12 @@ func ListEC2PlacementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2PlacementGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2PlacementGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2PlacementGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2PlacementGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22362,9 +23262,13 @@ func GetEC2PlacementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2PlacementGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2PlacementGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2PlacementGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2PlacementGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22506,8 +23410,12 @@ func ListEC2TransitGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2TransitGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2TransitGatewayFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2TransitGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2TransitGatewayFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22570,9 +23478,13 @@ func GetEC2TransitGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2TransitGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2TransitGatewayFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2TransitGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2TransitGatewayFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22704,8 +23616,12 @@ func ListEC2TransitGatewayRouteTable(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2TransitGatewayRouteTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2TransitGatewayRouteTableFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2TransitGatewayRouteTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2TransitGatewayRouteTableFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22758,9 +23674,13 @@ func GetEC2TransitGatewayRouteTable(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2TransitGatewayRouteTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2TransitGatewayRouteTableFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2TransitGatewayRouteTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2TransitGatewayRouteTableFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22893,8 +23813,12 @@ func ListEC2DhcpOptions(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2DhcpOptionsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2DhcpOptionsFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2DhcpOptionsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2DhcpOptionsFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -22948,9 +23872,13 @@ func GetEC2DhcpOptions(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2DhcpOptionsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2DhcpOptionsFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2DhcpOptionsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2DhcpOptionsFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23078,8 +24006,12 @@ func ListEC2EgressOnlyInternetGateway(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2EgressOnlyInternetGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2EgressOnlyInternetGatewayFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2EgressOnlyInternetGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2EgressOnlyInternetGatewayFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23128,9 +24060,13 @@ func GetEC2EgressOnlyInternetGateway(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2EgressOnlyInternetGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2EgressOnlyInternetGatewayFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2EgressOnlyInternetGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2EgressOnlyInternetGatewayFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23275,8 +24211,12 @@ func ListEC2VpcPeeringConnection(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2VpcPeeringConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VpcPeeringConnectionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VpcPeeringConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VpcPeeringConnectionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23342,9 +24282,13 @@ func GetEC2VpcPeeringConnection(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VpcPeeringConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VpcPeeringConnectionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2VpcPeeringConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VpcPeeringConnectionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23494,8 +24438,12 @@ func ListEC2SecurityGroupRule(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2SecurityGroupRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2SecurityGroupRuleFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2SecurityGroupRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2SecurityGroupRuleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23566,9 +24514,13 @@ func GetEC2SecurityGroupRule(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2SecurityGroupRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2SecurityGroupRuleFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2SecurityGroupRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2SecurityGroupRuleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23696,8 +24648,12 @@ func ListEC2IpamPool(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2IpamPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2IpamPoolFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2IpamPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2IpamPoolFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23746,9 +24702,13 @@ func GetEC2IpamPool(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2IpamPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2IpamPoolFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2IpamPoolPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2IpamPoolFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23876,8 +24836,12 @@ func ListEC2Ipam(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2IpamPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2IpamFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2IpamPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2IpamFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -23926,9 +24890,13 @@ func GetEC2Ipam(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2IpamPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2IpamFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2IpamPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2IpamFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24068,8 +25036,12 @@ func ListEC2VPCEndpointService(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2VPCEndpointServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VPCEndpointServiceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2VPCEndpointServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2VPCEndpointServiceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24130,9 +25102,13 @@ func GetEC2VPCEndpointService(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2VPCEndpointServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VPCEndpointServiceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2VPCEndpointServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2VPCEndpointServiceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24261,8 +25237,12 @@ func ListEC2InstanceAvailability(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2InstanceAvailabilityPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2InstanceAvailabilityFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2InstanceAvailabilityPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2InstanceAvailabilityFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24312,9 +25292,13 @@ func GetEC2InstanceAvailability(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2InstanceAvailabilityPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2InstanceAvailabilityFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2InstanceAvailabilityPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2InstanceAvailabilityFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24460,8 +25444,12 @@ func ListEC2InstanceType(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2InstanceTypePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2InstanceTypeFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2InstanceTypePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2InstanceTypeFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24528,9 +25516,13 @@ func GetEC2InstanceType(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2InstanceTypePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2InstanceTypeFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2InstanceTypePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2InstanceTypeFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24666,8 +25658,12 @@ func ListEC2ManagedPrefixList(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2ManagedPrefixListPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2ManagedPrefixListFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2ManagedPrefixListPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2ManagedPrefixListFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24724,9 +25720,13 @@ func GetEC2ManagedPrefixList(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2ManagedPrefixListPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2ManagedPrefixListFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2ManagedPrefixListPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2ManagedPrefixListFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24853,8 +25853,12 @@ func ListEC2ManagedPrefixListEntry(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2ManagedPrefixListEntryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2ManagedPrefixListEntryFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2ManagedPrefixListEntryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2ManagedPrefixListEntryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -24902,9 +25906,13 @@ func GetEC2ManagedPrefixListEntry(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2ManagedPrefixListEntryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2ManagedPrefixListEntryFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2ManagedPrefixListEntryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2ManagedPrefixListEntryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25036,8 +26044,12 @@ func ListEC2TransitGatewayRoute(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2TransitGatewayRoutePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2TransitGatewayRouteFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2TransitGatewayRoutePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2TransitGatewayRouteFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25090,9 +26102,13 @@ func GetEC2TransitGatewayRoute(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2TransitGatewayRoutePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2TransitGatewayRouteFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2TransitGatewayRoutePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2TransitGatewayRouteFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25228,8 +26244,12 @@ func ListEC2TransitGatewayAttachment(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2TransitGatewayAttachmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2TransitGatewayAttachmentFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2TransitGatewayAttachmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2TransitGatewayAttachmentFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25286,9 +26306,13 @@ func GetEC2TransitGatewayAttachment(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2TransitGatewayAttachmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2TransitGatewayAttachmentFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2TransitGatewayAttachmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2TransitGatewayAttachmentFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25422,8 +26446,12 @@ func ListEC2LaunchTemplate(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2LaunchTemplatePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2LaunchTemplateFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2LaunchTemplatePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2LaunchTemplateFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25478,9 +26506,13 @@ func GetEC2LaunchTemplate(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2LaunchTemplatePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2LaunchTemplateFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2LaunchTemplatePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2LaunchTemplateFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25623,8 +26655,12 @@ func ListEC2LaunchTemplateVersion(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEC2LaunchTemplateVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2LaunchTemplateVersionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEC2LaunchTemplateVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEC2LaunchTemplateVersionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25688,9 +26724,13 @@ func GetEC2LaunchTemplateVersion(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEC2LaunchTemplateVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2LaunchTemplateVersionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEC2LaunchTemplateVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEC2LaunchTemplateVersionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25819,8 +26859,12 @@ func ListElasticLoadBalancingV2SslPolicy(ctx context.Context, d *plugin.QueryDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewElasticLoadBalancingV2SslPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElasticLoadBalancingV2SslPolicyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewElasticLoadBalancingV2SslPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElasticLoadBalancingV2SslPolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -25871,9 +26915,13 @@ func GetElasticLoadBalancingV2SslPolicy(ctx context.Context, d *plugin.QueryData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewElasticLoadBalancingV2SslPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElasticLoadBalancingV2SslPolicyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewElasticLoadBalancingV2SslPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElasticLoadBalancingV2SslPolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26001,8 +27049,12 @@ func ListElasticLoadBalancingV2TargetGroup(ctx context.Context, d *plugin.QueryD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewElasticLoadBalancingV2TargetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElasticLoadBalancingV2TargetGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewElasticLoadBalancingV2TargetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElasticLoadBalancingV2TargetGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26052,9 +27104,13 @@ func GetElasticLoadBalancingV2TargetGroup(ctx context.Context, d *plugin.QueryDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewElasticLoadBalancingV2TargetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElasticLoadBalancingV2TargetGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewElasticLoadBalancingV2TargetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElasticLoadBalancingV2TargetGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26196,8 +27252,12 @@ func ListElasticLoadBalancingV2LoadBalancer(ctx context.Context, d *plugin.Query
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewElasticLoadBalancingV2LoadBalancerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElasticLoadBalancingV2LoadBalancerFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewElasticLoadBalancingV2LoadBalancerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElasticLoadBalancingV2LoadBalancerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26260,9 +27320,13 @@ func GetElasticLoadBalancingV2LoadBalancer(ctx context.Context, d *plugin.QueryD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewElasticLoadBalancingV2LoadBalancerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElasticLoadBalancingV2LoadBalancerFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewElasticLoadBalancingV2LoadBalancerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElasticLoadBalancingV2LoadBalancerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26422,8 +27486,12 @@ func ListElasticLoadBalancingLoadBalancer(ctx context.Context, d *plugin.QueryDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewElasticLoadBalancingLoadBalancerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElasticLoadBalancingLoadBalancerFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewElasticLoadBalancingLoadBalancerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElasticLoadBalancingLoadBalancerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26504,9 +27572,13 @@ func GetElasticLoadBalancingLoadBalancer(ctx context.Context, d *plugin.QueryDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewElasticLoadBalancingLoadBalancerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElasticLoadBalancingLoadBalancerFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewElasticLoadBalancingLoadBalancerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElasticLoadBalancingLoadBalancerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26639,8 +27711,12 @@ func ListElasticLoadBalancingV2Listener(ctx context.Context, d *plugin.QueryData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewElasticLoadBalancingV2ListenerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElasticLoadBalancingV2ListenerFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewElasticLoadBalancingV2ListenerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listElasticLoadBalancingV2ListenerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26694,9 +27770,13 @@ func GetElasticLoadBalancingV2Listener(ctx context.Context, d *plugin.QueryData,
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewElasticLoadBalancingV2ListenerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElasticLoadBalancingV2ListenerFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewElasticLoadBalancingV2ListenerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getElasticLoadBalancingV2ListenerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26823,8 +27903,12 @@ func ListElasticLoadBalancingV2Rule(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewElasticLoadBalancingV2RulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listElasticLoadBalancingV2RuleFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewElasticLoadBalancingV2RulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listElasticLoadBalancingV2RuleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -26872,9 +27956,13 @@ func GetElasticLoadBalancingV2Rule(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewElasticLoadBalancingV2RulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getElasticLoadBalancingV2RuleFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewElasticLoadBalancingV2RulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getElasticLoadBalancingV2RuleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27019,8 +28107,12 @@ func ListFSXFileSystem(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewFSXFileSystemPaginator(essdk.BuildFilter(ctx, d.QueryContext, listFSXFileSystemFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewFSXFileSystemPaginator(essdk.BuildFilter(ctx, d.QueryContext, listFSXFileSystemFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27086,9 +28178,13 @@ func GetFSXFileSystem(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewFSXFileSystemPaginator(essdk.BuildFilter(ctx, d.QueryContext, getFSXFileSystemFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewFSXFileSystemPaginator(essdk.BuildFilter(ctx, d.QueryContext, getFSXFileSystemFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27217,8 +28313,12 @@ func ListFSXStorageVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewFSXStorageVirtualMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listFSXStorageVirtualMachineFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewFSXStorageVirtualMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listFSXStorageVirtualMachineFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27268,9 +28368,13 @@ func GetFSXStorageVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewFSXStorageVirtualMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, getFSXStorageVirtualMachineFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewFSXStorageVirtualMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, getFSXStorageVirtualMachineFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27398,8 +28502,12 @@ func ListFSXTask(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewFSXTaskPaginator(essdk.BuildFilter(ctx, d.QueryContext, listFSXTaskFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewFSXTaskPaginator(essdk.BuildFilter(ctx, d.QueryContext, listFSXTaskFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27448,9 +28556,13 @@ func GetFSXTask(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewFSXTaskPaginator(essdk.BuildFilter(ctx, d.QueryContext, getFSXTaskFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewFSXTaskPaginator(essdk.BuildFilter(ctx, d.QueryContext, getFSXTaskFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27579,8 +28691,12 @@ func ListFSXVolume(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewFSXVolumePaginator(essdk.BuildFilter(ctx, d.QueryContext, listFSXVolumeFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewFSXVolumePaginator(essdk.BuildFilter(ctx, d.QueryContext, listFSXVolumeFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27630,9 +28746,13 @@ func GetFSXVolume(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewFSXVolumePaginator(essdk.BuildFilter(ctx, d.QueryContext, getFSXVolumeFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewFSXVolumePaginator(essdk.BuildFilter(ctx, d.QueryContext, getFSXVolumeFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27761,8 +28881,12 @@ func ListFSXSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewFSXSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, listFSXSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewFSXSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, listFSXSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27812,9 +28936,13 @@ func GetFSXSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewFSXSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, getFSXSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewFSXSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, getFSXSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -27948,8 +29076,12 @@ func ListApplicationAutoScalingTarget(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewApplicationAutoScalingTargetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApplicationAutoScalingTargetFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewApplicationAutoScalingTargetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApplicationAutoScalingTargetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28004,9 +29136,13 @@ func GetApplicationAutoScalingTarget(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewApplicationAutoScalingTargetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApplicationAutoScalingTargetFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewApplicationAutoScalingTargetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApplicationAutoScalingTargetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28142,8 +29278,12 @@ func ListApplicationAutoScalingPolicy(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewApplicationAutoScalingPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApplicationAutoScalingPolicyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewApplicationAutoScalingPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listApplicationAutoScalingPolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28200,9 +29340,13 @@ func GetApplicationAutoScalingPolicy(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewApplicationAutoScalingPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApplicationAutoScalingPolicyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewApplicationAutoScalingPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getApplicationAutoScalingPolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28366,8 +29510,12 @@ func ListAutoScalingGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewAutoScalingGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAutoScalingGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewAutoScalingGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAutoScalingGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28452,9 +29600,13 @@ func GetAutoScalingGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewAutoScalingGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAutoScalingGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAutoScalingGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAutoScalingGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28601,8 +29753,12 @@ func ListAutoScalingLaunchConfiguration(ctx context.Context, d *plugin.QueryData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewAutoScalingLaunchConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAutoScalingLaunchConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewAutoScalingLaunchConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAutoScalingLaunchConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28670,9 +29826,13 @@ func GetAutoScalingLaunchConfiguration(ctx context.Context, d *plugin.QueryData,
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewAutoScalingLaunchConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAutoScalingLaunchConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAutoScalingLaunchConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAutoScalingLaunchConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28823,8 +29983,12 @@ func ListCertificateManagerCertificate(ctx context.Context, d *plugin.QueryData,
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCertificateManagerCertificatePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCertificateManagerCertificateFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCertificateManagerCertificatePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCertificateManagerCertificateFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -28896,9 +30060,13 @@ func GetCertificateManagerCertificate(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCertificateManagerCertificatePaginator(essdk.BuildFilter(ctx, d.QueryContext, getCertificateManagerCertificateFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCertificateManagerCertificatePaginator(essdk.BuildFilter(ctx, d.QueryContext, getCertificateManagerCertificateFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29054,8 +30222,12 @@ func ListCloudTrailTrail(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudTrailTrailPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudTrailTrailFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudTrailTrailPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudTrailTrailFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29132,9 +30304,13 @@ func GetCloudTrailTrail(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudTrailTrailPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudTrailTrailFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudTrailTrailPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudTrailTrailFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29267,8 +30443,12 @@ func ListCloudTrailChannel(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudTrailChannelPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudTrailChannelFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudTrailChannelPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudTrailChannelFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29322,9 +30502,13 @@ func GetCloudTrailChannel(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudTrailChannelPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudTrailChannelFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudTrailChannelPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudTrailChannelFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29460,8 +30644,12 @@ func ListCloudTrailEventDataStore(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudTrailEventDataStorePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudTrailEventDataStoreFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudTrailEventDataStorePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudTrailEventDataStoreFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29518,9 +30706,13 @@ func GetCloudTrailEventDataStore(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudTrailEventDataStorePaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudTrailEventDataStoreFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudTrailEventDataStorePaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudTrailEventDataStoreFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29655,8 +30847,12 @@ func ListCloudTrailImport(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudTrailImportPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudTrailImportFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudTrailImportPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudTrailImportFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29712,9 +30908,13 @@ func GetCloudTrailImport(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudTrailImportPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudTrailImportFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudTrailImportPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudTrailImportFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29852,8 +31052,12 @@ func ListCloudTrailQuery(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudTrailQueryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudTrailQueryFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudTrailQueryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudTrailQueryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -29912,9 +31116,13 @@ func GetCloudTrailQuery(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudTrailQueryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudTrailQueryFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudTrailQueryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudTrailQueryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30047,8 +31255,12 @@ func ListCloudTrailTrailEvent(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudTrailTrailEventPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudTrailTrailEventFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudTrailTrailEventPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudTrailTrailEventFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30101,9 +31313,13 @@ func GetCloudTrailTrailEvent(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudTrailTrailEventPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudTrailTrailEventFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudTrailTrailEventPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudTrailTrailEventFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30236,8 +31452,12 @@ func ListIAMAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewIAMAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMAccountFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewIAMAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMAccountFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30291,9 +31511,13 @@ func GetIAMAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMAccountFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewIAMAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMAccountFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30450,8 +31674,12 @@ func ListIAMAccountSummary(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewIAMAccountSummaryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMAccountSummaryFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewIAMAccountSummaryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMAccountSummaryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30529,9 +31757,13 @@ func GetIAMAccountSummary(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMAccountSummaryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMAccountSummaryFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewIAMAccountSummaryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMAccountSummaryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30664,8 +31896,12 @@ func ListIAMAccessKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewIAMAccessKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMAccessKeyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewIAMAccessKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMAccessKeyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30719,9 +31955,13 @@ func GetIAMAccessKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMAccessKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMAccessKeyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewIAMAccessKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMAccessKeyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30856,8 +32096,12 @@ func ListIAMAccountPasswordPolicy(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewIAMAccountPasswordPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMAccountPasswordPolicyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewIAMAccountPasswordPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMAccountPasswordPolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -30913,9 +32157,13 @@ func GetIAMAccountPasswordPolicy(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMAccountPasswordPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMAccountPasswordPolicyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewIAMAccountPasswordPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMAccountPasswordPolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31055,8 +32303,12 @@ func ListIAMUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewIAMUserPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMUserFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewIAMUserPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMUserFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31117,9 +32369,13 @@ func GetIAMUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMUserPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMUserFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewIAMUserPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMUserFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31253,8 +32509,12 @@ func ListIAMGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewIAMGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewIAMGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31309,9 +32569,13 @@ func GetIAMGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewIAMGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31452,8 +32716,12 @@ func ListIAMRole(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewIAMRolePaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMRoleFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewIAMRolePaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMRoleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31515,9 +32783,13 @@ func GetIAMRole(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMRolePaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMRoleFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewIAMRolePaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMRoleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31653,8 +32925,12 @@ func ListIAMServerCertificate(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewIAMServerCertificatePaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMServerCertificateFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewIAMServerCertificatePaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMServerCertificateFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31711,9 +32987,13 @@ func GetIAMServerCertificate(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMServerCertificatePaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMServerCertificateFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewIAMServerCertificatePaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMServerCertificateFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31850,8 +33130,12 @@ func ListIAMPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewIAMPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMPolicyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewIAMPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMPolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -31909,9 +33193,13 @@ func GetIAMPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMPolicyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewIAMPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMPolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32058,8 +33346,12 @@ func ListIAMCredentialReport(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewIAMCredentialReportPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMCredentialReportFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewIAMCredentialReportPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMCredentialReportFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32127,9 +33419,13 @@ func GetIAMCredentialReport(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMCredentialReportPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMCredentialReportFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewIAMCredentialReportPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMCredentialReportFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32261,8 +33557,12 @@ func ListIAMVirtualMFADevice(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewIAMVirtualMFADevicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMVirtualMFADeviceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewIAMVirtualMFADevicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMVirtualMFADeviceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32315,9 +33615,13 @@ func GetIAMVirtualMFADevice(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMVirtualMFADevicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMVirtualMFADeviceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewIAMVirtualMFADevicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMVirtualMFADeviceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32446,8 +33750,12 @@ func ListIAMPolicyAttachment(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewIAMPolicyAttachmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMPolicyAttachmentFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewIAMPolicyAttachmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMPolicyAttachmentFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32498,9 +33806,13 @@ func GetIAMPolicyAttachment(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMPolicyAttachmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMPolicyAttachmentFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewIAMPolicyAttachmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMPolicyAttachmentFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32630,8 +33942,12 @@ func ListIAMSamlProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewIAMSamlProviderPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMSamlProviderFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewIAMSamlProviderPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMSamlProviderFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32682,9 +33998,13 @@ func GetIAMSamlProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMSamlProviderPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMSamlProviderFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewIAMSamlProviderPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMSamlProviderFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32816,8 +34136,12 @@ func ListIAMServiceSpecificCredential(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewIAMServiceSpecificCredentialPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMServiceSpecificCredentialFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewIAMServiceSpecificCredentialPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMServiceSpecificCredentialFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -32870,9 +34194,13 @@ func GetIAMServiceSpecificCredential(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMServiceSpecificCredentialPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMServiceSpecificCredentialFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewIAMServiceSpecificCredentialPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMServiceSpecificCredentialFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33002,8 +34330,12 @@ func ListIAMOpenIdConnectProvider(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewIAMOpenIdConnectProviderPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMOpenIdConnectProviderFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewIAMOpenIdConnectProviderPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMOpenIdConnectProviderFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33054,9 +34386,13 @@ func GetIAMOpenIdConnectProvider(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewIAMOpenIdConnectProviderPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMOpenIdConnectProviderFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewIAMOpenIdConnectProviderPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMOpenIdConnectProviderFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33235,8 +34571,12 @@ func ListRDSDBCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRDSDBClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBClusterFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33336,9 +34676,13 @@ func GetRDSDBCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBClusterFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRDSDBClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33470,8 +34814,12 @@ func ListRDSDBClusterParameterGroup(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRDSDBClusterParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBClusterParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBClusterParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBClusterParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33524,9 +34872,13 @@ func GetRDSDBClusterParameterGroup(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBClusterParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBClusterParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRDSDBClusterParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBClusterParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33661,8 +35013,12 @@ func ListRDSOptionGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRDSOptionGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSOptionGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRDSOptionGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSOptionGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33718,9 +35074,13 @@ func GetRDSOptionGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSOptionGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSOptionGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRDSOptionGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSOptionGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33852,8 +35212,12 @@ func ListRDSDBParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRDSDBParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -33906,9 +35270,13 @@ func GetRDSDBParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRDSDBParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34050,8 +35418,12 @@ func ListRDSDBProxy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRDSDBProxyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBProxyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBProxyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBProxyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34114,9 +35486,13 @@ func GetRDSDBProxy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBProxyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBProxyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRDSDBProxyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBProxyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34249,8 +35625,12 @@ func ListRDSDBSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRDSDBSubnetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBSubnetGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBSubnetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBSubnetGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34304,9 +35684,13 @@ func GetRDSDBSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBSubnetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBSubnetGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRDSDBSubnetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBSubnetGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34454,8 +35838,12 @@ func ListRDSDBClusterSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRDSDBClusterSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBClusterSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBClusterSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBClusterSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34524,9 +35912,13 @@ func GetRDSDBClusterSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBClusterSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBClusterSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRDSDBClusterSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBClusterSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34661,8 +36053,12 @@ func ListRDSDBEventSubscription(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRDSDBEventSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBEventSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBEventSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBEventSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34718,9 +36114,13 @@ func GetRDSDBEventSubscription(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBEventSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBEventSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRDSDBEventSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBEventSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -34915,8 +36315,12 @@ func ListRDSDBInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRDSDBInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35032,9 +36436,13 @@ func GetRDSDBInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRDSDBInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35190,8 +36598,12 @@ func ListRDSDBSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRDSDBSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35268,9 +36680,13 @@ func GetRDSDBSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRDSDBSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35398,8 +36814,12 @@ func ListRDSGlobalCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRDSGlobalClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSGlobalClusterFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRDSGlobalClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSGlobalClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35448,9 +36868,13 @@ func GetRDSGlobalCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSGlobalClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSGlobalClusterFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRDSGlobalClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSGlobalClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35592,8 +37016,12 @@ func ListRDSReservedDBInstance(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRDSReservedDBInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSReservedDBInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRDSReservedDBInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSReservedDBInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35656,9 +37084,13 @@ func GetRDSReservedDBInstance(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSReservedDBInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSReservedDBInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRDSReservedDBInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSReservedDBInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35810,8 +37242,12 @@ func ListRDSDBInstanceAutomatedBackup(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRDSDBInstanceAutomatedBackupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBInstanceAutomatedBackupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRDSDBInstanceAutomatedBackupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBInstanceAutomatedBackupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -35885,9 +37321,13 @@ func GetRDSDBInstanceAutomatedBackup(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRDSDBInstanceAutomatedBackupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBInstanceAutomatedBackupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRDSDBInstanceAutomatedBackupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBInstanceAutomatedBackupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36064,8 +37504,12 @@ func ListRedshiftCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRedshiftClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedshiftClusterFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRedshiftClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedshiftClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36163,9 +37607,13 @@ func GetRedshiftCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRedshiftClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedshiftClusterFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRedshiftClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedshiftClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36302,8 +37750,12 @@ func ListRedshiftEventSubscription(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRedshiftEventSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedshiftEventSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRedshiftEventSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedshiftEventSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36361,9 +37813,13 @@ func GetRedshiftEventSubscription(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRedshiftEventSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedshiftEventSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRedshiftEventSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedshiftEventSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36503,8 +37959,12 @@ func ListRedshiftServerlessWorkgroup(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRedshiftServerlessWorkgroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedshiftServerlessWorkgroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRedshiftServerlessWorkgroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedshiftServerlessWorkgroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36565,9 +38025,13 @@ func GetRedshiftServerlessWorkgroup(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRedshiftServerlessWorkgroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedshiftServerlessWorkgroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRedshiftServerlessWorkgroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedshiftServerlessWorkgroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36698,8 +38162,12 @@ func ListRedshiftClusterParameterGroup(ctx context.Context, d *plugin.QueryData,
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRedshiftClusterParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedshiftClusterParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRedshiftClusterParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedshiftClusterParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36751,9 +38219,13 @@ func GetRedshiftClusterParameterGroup(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRedshiftClusterParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedshiftClusterParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRedshiftClusterParameterGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedshiftClusterParameterGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36913,8 +38385,12 @@ func ListRedshiftSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRedshiftSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedshiftSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRedshiftSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedshiftSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -36995,9 +38471,13 @@ func GetRedshiftSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRedshiftSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedshiftSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRedshiftSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedshiftSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37135,8 +38615,12 @@ func ListRedshiftServerlessNamespace(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRedshiftServerlessNamespacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedshiftServerlessNamespaceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRedshiftServerlessNamespacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedshiftServerlessNamespaceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37195,9 +38679,13 @@ func GetRedshiftServerlessNamespace(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRedshiftServerlessNamespacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedshiftServerlessNamespaceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRedshiftServerlessNamespacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedshiftServerlessNamespaceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37325,8 +38813,12 @@ func ListRedshiftServerlessSnapshot(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRedshiftServerlessSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedshiftServerlessSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRedshiftServerlessSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedshiftServerlessSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37375,9 +38867,13 @@ func GetRedshiftServerlessSnapshot(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRedshiftServerlessSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedshiftServerlessSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRedshiftServerlessSnapshotPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedshiftServerlessSnapshotFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37509,8 +39005,12 @@ func ListRedshiftSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRedshiftSubnetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedshiftSubnetGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRedshiftSubnetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRedshiftSubnetGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37563,9 +39063,13 @@ func GetRedshiftSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRedshiftSubnetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedshiftSubnetGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRedshiftSubnetGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRedshiftSubnetGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37713,8 +39217,12 @@ func ListSNSTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSNSTopicPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSNSTopicFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSNSTopicPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSNSTopicFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37783,9 +39291,13 @@ func GetSNSTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSNSTopicPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSNSTopicFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSNSTopicPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSNSTopicFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37918,8 +39430,12 @@ func ListSNSSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSNSSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSNSSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSNSSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSNSSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -37973,9 +39489,13 @@ func GetSNSSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSNSSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSNSSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSNSSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSNSSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38113,8 +39633,12 @@ func ListSQSQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSQSQueuePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSQSQueueFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSQSQueuePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSQSQueueFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38173,9 +39697,13 @@ func GetSQSQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSQSQueuePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSQSQueueFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSQSQueuePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSQSQueueFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38320,8 +39848,12 @@ func ListS3Bucket(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewS3BucketPaginator(essdk.BuildFilter(ctx, d.QueryContext, listS3BucketFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewS3BucketPaginator(essdk.BuildFilter(ctx, d.QueryContext, listS3BucketFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38387,9 +39919,13 @@ func GetS3Bucket(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewS3BucketPaginator(essdk.BuildFilter(ctx, d.QueryContext, getS3BucketFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewS3BucketPaginator(essdk.BuildFilter(ctx, d.QueryContext, getS3BucketFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38518,8 +40054,12 @@ func ListS3AccountSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewS3AccountSettingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listS3AccountSettingFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewS3AccountSettingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listS3AccountSettingFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38569,9 +40109,13 @@ func GetS3AccountSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewS3AccountSettingPaginator(essdk.BuildFilter(ctx, d.QueryContext, getS3AccountSettingFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewS3AccountSettingPaginator(essdk.BuildFilter(ctx, d.QueryContext, getS3AccountSettingFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38741,8 +40285,12 @@ func ListS3Object(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewS3ObjectPaginator(essdk.BuildFilter(ctx, d.QueryContext, listS3ObjectFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewS3ObjectPaginator(essdk.BuildFilter(ctx, d.QueryContext, listS3ObjectFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38833,9 +40381,13 @@ func GetS3Object(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewS3ObjectPaginator(essdk.BuildFilter(ctx, d.QueryContext, getS3ObjectFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewS3ObjectPaginator(essdk.BuildFilter(ctx, d.QueryContext, getS3ObjectFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -38966,8 +40518,12 @@ func ListS3BucketIntelligentTieringConfiguration(ctx context.Context, d *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewS3BucketIntelligentTieringConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listS3BucketIntelligentTieringConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewS3BucketIntelligentTieringConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listS3BucketIntelligentTieringConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39019,9 +40575,13 @@ func GetS3BucketIntelligentTieringConfiguration(ctx context.Context, d *plugin.Q
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewS3BucketIntelligentTieringConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getS3BucketIntelligentTieringConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewS3BucketIntelligentTieringConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getS3BucketIntelligentTieringConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39153,8 +40713,12 @@ func ListS3MultiRegionAccessPoint(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewS3MultiRegionAccessPointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listS3MultiRegionAccessPointFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewS3MultiRegionAccessPointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listS3MultiRegionAccessPointFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39207,9 +40771,13 @@ func GetS3MultiRegionAccessPoint(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewS3MultiRegionAccessPointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getS3MultiRegionAccessPointFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewS3MultiRegionAccessPointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getS3MultiRegionAccessPointFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39342,8 +40910,12 @@ func ListSageMakerEndpointConfiguration(ctx context.Context, d *plugin.QueryData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSageMakerEndpointConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSageMakerEndpointConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSageMakerEndpointConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSageMakerEndpointConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39397,9 +40969,13 @@ func GetSageMakerEndpointConfiguration(ctx context.Context, d *plugin.QueryData,
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSageMakerEndpointConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSageMakerEndpointConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSageMakerEndpointConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSageMakerEndpointConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39536,8 +41112,12 @@ func ListSageMakerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSageMakerAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSageMakerAppFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSageMakerAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSageMakerAppFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39595,9 +41175,13 @@ func GetSageMakerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSageMakerAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSageMakerAppFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSageMakerAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSageMakerAppFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39742,8 +41326,12 @@ func ListSageMakerDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSageMakerDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSageMakerDomainFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSageMakerDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSageMakerDomainFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39809,9 +41397,13 @@ func GetSageMakerDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSageMakerDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSageMakerDomainFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSageMakerDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSageMakerDomainFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -39958,8 +41550,12 @@ func ListSageMakerNotebookInstance(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSageMakerNotebookInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSageMakerNotebookInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSageMakerNotebookInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSageMakerNotebookInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40027,9 +41623,13 @@ func GetSageMakerNotebookInstance(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSageMakerNotebookInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSageMakerNotebookInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSageMakerNotebookInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSageMakerNotebookInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40165,8 +41765,12 @@ func ListSageMakerModel(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSageMakerModelPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSageMakerModelFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSageMakerModelPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSageMakerModelFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40223,9 +41827,13 @@ func GetSageMakerModel(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSageMakerModelPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSageMakerModelFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSageMakerModelPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSageMakerModelFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40391,8 +41999,12 @@ func ListSageMakerTrainingJob(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSageMakerTrainingJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSageMakerTrainingJobFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSageMakerTrainingJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSageMakerTrainingJobFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40479,9 +42091,13 @@ func GetSageMakerTrainingJob(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSageMakerTrainingJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSageMakerTrainingJobFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSageMakerTrainingJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSageMakerTrainingJobFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40625,8 +42241,12 @@ func ListSecretsManagerSecret(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSecretsManagerSecretPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecretsManagerSecretFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSecretsManagerSecretPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecretsManagerSecretFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40691,9 +42311,13 @@ func GetSecretsManagerSecret(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSecretsManagerSecretPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecretsManagerSecretFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSecretsManagerSecretPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecretsManagerSecretFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40823,8 +42447,12 @@ func ListSecurityHubHub(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSecurityHubHubPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityHubHubFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityHubHubPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityHubHubFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -40875,9 +42503,13 @@ func GetSecurityHubHub(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityHubHubPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityHubHubFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSecurityHubHubPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityHubHubFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41006,8 +42638,12 @@ func ListSecurityHubActionTarget(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSecurityHubActionTargetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityHubActionTargetFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityHubActionTargetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityHubActionTargetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41057,9 +42693,13 @@ func GetSecurityHubActionTarget(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityHubActionTargetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityHubActionTargetFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSecurityHubActionTargetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityHubActionTargetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41222,8 +42862,12 @@ func ListSecurityHubFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSecurityHubFindingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityHubFindingFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityHubFindingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityHubFindingFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41307,9 +42951,13 @@ func GetSecurityHubFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityHubFindingPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityHubFindingFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSecurityHubFindingPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityHubFindingFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41438,8 +43086,12 @@ func ListSecurityHubFindingAggregator(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSecurityHubFindingAggregatorPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityHubFindingAggregatorFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityHubFindingAggregatorPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityHubFindingAggregatorFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41489,9 +43141,13 @@ func GetSecurityHubFindingAggregator(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityHubFindingAggregatorPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityHubFindingAggregatorFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSecurityHubFindingAggregatorPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityHubFindingAggregatorFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41621,8 +43277,12 @@ func ListSecurityHubInsight(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSecurityHubInsightPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityHubInsightFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityHubInsightPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityHubInsightFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41673,9 +43333,13 @@ func GetSecurityHubInsight(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityHubInsightPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityHubInsightFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSecurityHubInsightPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityHubInsightFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41808,8 +43472,12 @@ func ListSecurityHubMember(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSecurityHubMemberPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityHubMemberFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityHubMemberPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityHubMemberFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -41863,9 +43531,13 @@ func GetSecurityHubMember(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityHubMemberPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityHubMemberFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSecurityHubMemberPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityHubMemberFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42000,8 +43672,12 @@ func ListSecurityHubProduct(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSecurityHubProductPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityHubProductFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityHubProductPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityHubProductFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42057,9 +43733,13 @@ func GetSecurityHubProduct(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityHubProductPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityHubProductFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSecurityHubProductPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityHubProductFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42194,8 +43874,12 @@ func ListSecurityHubStandardsControl(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSecurityHubStandardsControlPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityHubStandardsControlFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityHubStandardsControlPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityHubStandardsControlFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42251,9 +43935,13 @@ func GetSecurityHubStandardsControl(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityHubStandardsControlPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityHubStandardsControlFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSecurityHubStandardsControlPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityHubStandardsControlFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42388,8 +44076,12 @@ func ListSecurityHubStandardsSubscription(ctx context.Context, d *plugin.QueryDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSecurityHubStandardsSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityHubStandardsSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityHubStandardsSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityHubStandardsSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42445,9 +44137,13 @@ func GetSecurityHubStandardsSubscription(ctx context.Context, d *plugin.QueryDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityHubStandardsSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityHubStandardsSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSecurityHubStandardsSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityHubStandardsSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42592,8 +44288,12 @@ func ListSSMManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSSMManagedInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMManagedInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSSMManagedInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMManagedInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42659,9 +44359,13 @@ func GetSSMManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMManagedInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMManagedInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSSMManagedInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMManagedInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42811,8 +44515,12 @@ func ListSSMAssociation(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSSMAssociationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMAssociationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSSMAssociationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMAssociationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -42883,9 +44591,13 @@ func GetSSMAssociation(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMAssociationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMAssociationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSSMAssociationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMAssociationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43042,8 +44754,12 @@ func ListSSMDocument(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSSMDocumentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMDocumentFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSSMDocumentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMDocumentFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43120,9 +44836,13 @@ func GetSSMDocument(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMDocumentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMDocumentFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSSMDocumentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMDocumentFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43252,8 +44972,12 @@ func ListSSMDocumentPermission(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSSMDocumentPermissionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMDocumentPermissionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSSMDocumentPermissionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMDocumentPermissionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43304,9 +45028,13 @@ func GetSSMDocumentPermission(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMDocumentPermissionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMDocumentPermissionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSSMDocumentPermissionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMDocumentPermissionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43438,8 +45166,12 @@ func ListSSMInventory(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSSMInventoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMInventoryFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSSMInventoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMInventoryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43492,9 +45224,13 @@ func GetSSMInventory(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMInventoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMInventoryFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSSMInventoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMInventoryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43625,8 +45361,12 @@ func ListSSMInventoryEntry(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSSMInventoryEntryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMInventoryEntryFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSSMInventoryEntryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMInventoryEntryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43678,9 +45418,13 @@ func GetSSMInventoryEntry(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMInventoryEntryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMInventoryEntryFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSSMInventoryEntryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMInventoryEntryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43825,8 +45569,12 @@ func ListSSMMaintenanceWindow(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSSMMaintenanceWindowPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMMaintenanceWindowFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSSMMaintenanceWindowPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMMaintenanceWindowFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -43892,9 +45640,13 @@ func GetSSMMaintenanceWindow(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMMaintenanceWindowPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMMaintenanceWindowFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSSMMaintenanceWindowPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMMaintenanceWindowFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44034,8 +45786,12 @@ func ListSSMParameter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSSMParameterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMParameterFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSSMParameterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMParameterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44096,9 +45852,13 @@ func GetSSMParameter(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMParameterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMParameterFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSSMParameterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMParameterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44240,8 +46000,12 @@ func ListSSMPatchBaseline(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSSMPatchBaselinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMPatchBaselineFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSSMPatchBaselinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMPatchBaselineFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44305,9 +46069,13 @@ func GetSSMPatchBaseline(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMPatchBaselinePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMPatchBaselineFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSSMPatchBaselinePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMPatchBaselineFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44441,8 +46209,12 @@ func ListSSMManagedInstanceCompliance(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSSMManagedInstanceCompliancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMManagedInstanceComplianceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSSMManagedInstanceCompliancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMManagedInstanceComplianceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44497,9 +46269,13 @@ func GetSSMManagedInstanceCompliance(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMManagedInstanceCompliancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMManagedInstanceComplianceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSSMManagedInstanceCompliancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMManagedInstanceComplianceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44646,8 +46422,12 @@ func ListSSMManagedInstancePatchState(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSSMManagedInstancePatchStatePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMManagedInstancePatchStateFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSSMManagedInstancePatchStatePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSMManagedInstancePatchStateFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44715,9 +46495,13 @@ func GetSSMManagedInstancePatchState(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSSMManagedInstancePatchStatePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMManagedInstancePatchStateFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSSMManagedInstancePatchStatePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSMManagedInstancePatchStateFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44864,8 +46648,12 @@ func ListECSTaskDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewECSTaskDefinitionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listECSTaskDefinitionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewECSTaskDefinitionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listECSTaskDefinitionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -44933,9 +46721,13 @@ func GetECSTaskDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewECSTaskDefinitionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getECSTaskDefinitionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewECSTaskDefinitionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getECSTaskDefinitionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45075,8 +46867,12 @@ func ListECSCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewECSClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listECSClusterFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewECSClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listECSClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45137,9 +46933,13 @@ func GetECSCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewECSClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getECSClusterFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewECSClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getECSClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45296,8 +47096,12 @@ func ListECSService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewECSServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listECSServiceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewECSServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listECSServiceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45375,9 +47179,13 @@ func GetECSService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewECSServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getECSServiceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewECSServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getECSServiceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45520,8 +47328,12 @@ func ListECSContainerInstance(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewECSContainerInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listECSContainerInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewECSContainerInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listECSContainerInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45585,9 +47397,13 @@ func GetECSContainerInstance(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewECSContainerInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getECSContainerInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewECSContainerInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getECSContainerInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45715,8 +47531,12 @@ func ListECSTaskSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewECSTaskSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listECSTaskSetFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewECSTaskSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listECSTaskSetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45765,9 +47585,13 @@ func GetECSTaskSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewECSTaskSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getECSTaskSetFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewECSTaskSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getECSTaskSetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -45929,8 +47753,12 @@ func ListECSTask(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewECSTaskPaginator(essdk.BuildFilter(ctx, d.QueryContext, listECSTaskFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewECSTaskPaginator(essdk.BuildFilter(ctx, d.QueryContext, listECSTaskFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46012,9 +47840,13 @@ func GetECSTask(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewECSTaskPaginator(essdk.BuildFilter(ctx, d.QueryContext, getECSTaskFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewECSTaskPaginator(essdk.BuildFilter(ctx, d.QueryContext, getECSTaskFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46155,8 +47987,12 @@ func ListEFSFileSystem(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEFSFileSystemPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEFSFileSystemFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEFSFileSystemPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEFSFileSystemFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46219,9 +48055,13 @@ func GetEFSFileSystem(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEFSFileSystemPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEFSFileSystemFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEFSFileSystemPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEFSFileSystemFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46356,8 +48196,12 @@ func ListEFSAccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEFSAccessPointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEFSAccessPointFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEFSAccessPointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEFSAccessPointFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46413,9 +48257,13 @@ func GetEFSAccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEFSAccessPointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEFSAccessPointFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEFSAccessPointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEFSAccessPointFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46552,8 +48400,12 @@ func ListEFSMountTarget(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEFSMountTargetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEFSMountTargetFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEFSMountTargetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEFSMountTargetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46611,9 +48463,13 @@ func GetEFSMountTarget(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEFSMountTargetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEFSMountTargetFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEFSMountTargetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEFSMountTargetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46754,8 +48610,12 @@ func ListEKSCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEKSClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEKSClusterFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEKSClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEKSClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46817,9 +48677,13 @@ func GetEKSCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEKSClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEKSClusterFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEKSClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEKSClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -46955,8 +48819,12 @@ func ListEKSAddon(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEKSAddonPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEKSAddonFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEKSAddonPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEKSAddonFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47013,9 +48881,13 @@ func GetEKSAddon(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEKSAddonPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEKSAddonFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEKSAddonPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEKSAddonFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47164,8 +49036,12 @@ func ListEKSNodegroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEKSNodegroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEKSNodegroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEKSNodegroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEKSNodegroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47235,9 +49111,13 @@ func GetEKSNodegroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEKSNodegroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEKSNodegroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEKSNodegroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEKSNodegroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47369,8 +49249,12 @@ func ListEKSAddonVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEKSAddonVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEKSAddonVersionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEKSAddonVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEKSAddonVersionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47423,9 +49307,13 @@ func GetEKSAddonVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEKSAddonVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEKSAddonVersionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEKSAddonVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEKSAddonVersionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47560,8 +49448,12 @@ func ListEKSFargateProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEKSFargateProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEKSFargateProfileFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEKSFargateProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEKSFargateProfileFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47617,9 +49509,13 @@ func GetEKSFargateProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEKSFargateProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEKSFargateProfileFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEKSFargateProfilePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEKSFargateProfileFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47760,8 +49656,12 @@ func ListWAFv2WebACL(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWAFv2WebACLPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFv2WebACLFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWAFv2WebACLPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFv2WebACLFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47824,9 +49724,13 @@ func GetWAFv2WebACL(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFv2WebACLPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFv2WebACLFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWAFv2WebACLPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFv2WebACLFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47962,8 +49866,12 @@ func ListWAFv2IPSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWAFv2IPSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFv2IPSetFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWAFv2IPSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFv2IPSetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48021,9 +49929,13 @@ func GetWAFv2IPSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFv2IPSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFv2IPSetFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWAFv2IPSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFv2IPSetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48157,8 +50069,12 @@ func ListWAFv2RegexPatternSet(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWAFv2RegexPatternSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFv2RegexPatternSetFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWAFv2RegexPatternSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFv2RegexPatternSetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48214,9 +50130,13 @@ func GetWAFv2RegexPatternSet(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFv2RegexPatternSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFv2RegexPatternSetFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWAFv2RegexPatternSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFv2RegexPatternSetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48353,8 +50273,12 @@ func ListWAFv2RuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWAFv2RuleGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFv2RuleGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWAFv2RuleGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFv2RuleGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48413,9 +50337,13 @@ func GetWAFv2RuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFv2RuleGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFv2RuleGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWAFv2RuleGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFv2RuleGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48558,8 +50486,12 @@ func ListKMSKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewKMSKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKMSKeyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewKMSKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKMSKeyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48623,9 +50555,13 @@ func GetKMSKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewKMSKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKMSKeyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewKMSKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKMSKeyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48756,8 +50692,12 @@ func ListKMSAlias(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewKMSAliasPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKMSAliasFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewKMSAliasPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKMSAliasFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48809,9 +50749,13 @@ func GetKMSAlias(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewKMSAliasPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKMSAliasFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewKMSAliasPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKMSAliasFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -48973,8 +50917,12 @@ func ListLambdaFunction(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewLambdaFunctionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLambdaFunctionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewLambdaFunctionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLambdaFunctionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49057,9 +51005,13 @@ func GetLambdaFunction(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewLambdaFunctionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLambdaFunctionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewLambdaFunctionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLambdaFunctionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49207,8 +51159,12 @@ func ListLambdaFunctionVersion(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewLambdaFunctionVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLambdaFunctionVersionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewLambdaFunctionVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLambdaFunctionVersionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49277,9 +51233,13 @@ func GetLambdaFunctionVersion(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewLambdaFunctionVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLambdaFunctionVersionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewLambdaFunctionVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLambdaFunctionVersionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49413,8 +51373,12 @@ func ListLambdaAlias(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewLambdaAliasPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLambdaAliasFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewLambdaAliasPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLambdaAliasFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49470,9 +51434,13 @@ func GetLambdaAlias(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewLambdaAliasPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLambdaAliasFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewLambdaAliasPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLambdaAliasFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49607,8 +51575,12 @@ func ListLambdaLayer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewLambdaLayerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLambdaLayerFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewLambdaLayerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLambdaLayerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49664,9 +51636,13 @@ func GetLambdaLayer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewLambdaLayerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLambdaLayerFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewLambdaLayerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLambdaLayerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49804,8 +51780,12 @@ func ListLambdaLayerVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewLambdaLayerVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLambdaLayerVersionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewLambdaLayerVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listLambdaLayerVersionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -49864,9 +51844,13 @@ func GetLambdaLayerVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewLambdaLayerVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLambdaLayerVersionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewLambdaLayerVersionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getLambdaLayerVersionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50003,8 +51987,12 @@ func ListS3AccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewS3AccessPointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listS3AccessPointFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewS3AccessPointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listS3AccessPointFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50063,9 +52051,13 @@ func GetS3AccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewS3AccessPointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getS3AccessPointFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewS3AccessPointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getS3AccessPointFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50191,8 +52183,12 @@ func ListCostExplorerByAccountMonthly(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCostExplorerByAccountMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerByAccountMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerByAccountMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerByAccountMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50239,9 +52235,13 @@ func GetCostExplorerByAccountMonthly(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerByAccountMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerByAccountMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCostExplorerByAccountMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerByAccountMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50367,8 +52367,12 @@ func ListCostExplorerByServiceMonthly(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCostExplorerByServiceMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerByServiceMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerByServiceMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerByServiceMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50415,9 +52419,13 @@ func GetCostExplorerByServiceMonthly(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerByServiceMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerByServiceMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCostExplorerByServiceMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerByServiceMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50544,8 +52552,12 @@ func ListCostExplorerByRecordTypeMonthly(ctx context.Context, d *plugin.QueryDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCostExplorerByRecordTypeMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerByRecordTypeMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerByRecordTypeMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerByRecordTypeMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50593,9 +52605,13 @@ func GetCostExplorerByRecordTypeMonthly(ctx context.Context, d *plugin.QueryData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerByRecordTypeMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerByRecordTypeMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCostExplorerByRecordTypeMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerByRecordTypeMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50722,8 +52738,12 @@ func ListCostExplorerByServiceUsageTypeMonthly(ctx context.Context, d *plugin.Qu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCostExplorerByServiceUsageTypeMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerByServiceUsageTypeMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerByServiceUsageTypeMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerByServiceUsageTypeMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50771,9 +52791,13 @@ func GetCostExplorerByServiceUsageTypeMonthly(ctx context.Context, d *plugin.Que
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerByServiceUsageTypeMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerByServiceUsageTypeMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCostExplorerByServiceUsageTypeMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerByServiceUsageTypeMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50901,8 +52925,12 @@ func ListCostExplorerForcastMonthly(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCostExplorerForcastMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerForcastMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerForcastMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerForcastMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -50951,9 +52979,13 @@ func GetCostExplorerForcastMonthly(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerForcastMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerForcastMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCostExplorerForcastMonthlyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerForcastMonthlyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51079,8 +53111,12 @@ func ListCostExplorerByAccountDaily(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCostExplorerByAccountDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerByAccountDailyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerByAccountDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerByAccountDailyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51127,9 +53163,13 @@ func GetCostExplorerByAccountDaily(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerByAccountDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerByAccountDailyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCostExplorerByAccountDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerByAccountDailyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51256,8 +53296,12 @@ func ListCostExplorerByServiceDaily(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCostExplorerByServiceDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerByServiceDailyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerByServiceDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerByServiceDailyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51305,9 +53349,13 @@ func GetCostExplorerByServiceDaily(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerByServiceDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerByServiceDailyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCostExplorerByServiceDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerByServiceDailyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51434,8 +53482,12 @@ func ListCostExplorerByRecordTypeDaily(ctx context.Context, d *plugin.QueryData,
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCostExplorerByRecordTypeDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerByRecordTypeDailyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerByRecordTypeDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerByRecordTypeDailyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51483,9 +53535,13 @@ func GetCostExplorerByRecordTypeDaily(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerByRecordTypeDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerByRecordTypeDailyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCostExplorerByRecordTypeDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerByRecordTypeDailyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51612,8 +53668,12 @@ func ListCostExplorerByServiceUsageTypeDaily(ctx context.Context, d *plugin.Quer
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCostExplorerByServiceUsageTypeDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerByServiceUsageTypeDailyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerByServiceUsageTypeDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerByServiceUsageTypeDailyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51661,9 +53721,13 @@ func GetCostExplorerByServiceUsageTypeDaily(ctx context.Context, d *plugin.Query
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerByServiceUsageTypeDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerByServiceUsageTypeDailyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCostExplorerByServiceUsageTypeDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerByServiceUsageTypeDailyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51791,8 +53855,12 @@ func ListCostExplorerForcastDaily(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCostExplorerForcastDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerForcastDailyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCostExplorerForcastDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCostExplorerForcastDailyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51841,9 +53909,13 @@ func GetCostExplorerForcastDaily(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCostExplorerForcastDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerForcastDailyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCostExplorerForcastDailyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCostExplorerForcastDailyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -51984,8 +54056,12 @@ func ListECRRepository(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewECRRepositoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listECRRepositoryFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewECRRepositoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listECRRepositoryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52047,9 +54123,13 @@ func GetECRRepository(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewECRRepositoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getECRRepositoryFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewECRRepositoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getECRRepositoryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52186,8 +54266,12 @@ func ListECRImage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewECRImagePaginator(essdk.BuildFilter(ctx, d.QueryContext, listECRImageFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewECRImagePaginator(essdk.BuildFilter(ctx, d.QueryContext, listECRImageFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52245,9 +54329,13 @@ func GetECRImage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewECRImagePaginator(essdk.BuildFilter(ctx, d.QueryContext, getECRImageFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewECRImagePaginator(essdk.BuildFilter(ctx, d.QueryContext, getECRImageFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52381,8 +54469,12 @@ func ListECRPublicRepository(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewECRPublicRepositoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listECRPublicRepositoryFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewECRPublicRepositoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listECRPublicRepositoryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52437,9 +54529,13 @@ func GetECRPublicRepository(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewECRPublicRepositoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getECRPublicRepositoryFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewECRPublicRepositoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getECRPublicRepositoryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52567,8 +54663,12 @@ func ListECRPublicRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewECRPublicRegistryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listECRPublicRegistryFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewECRPublicRegistryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listECRPublicRegistryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52617,9 +54717,13 @@ func GetECRPublicRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewECRPublicRegistryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getECRPublicRegistryFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewECRPublicRegistryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getECRPublicRegistryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52749,8 +54853,12 @@ func ListEventBridgeBus(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEventBridgeBusPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEventBridgeBusFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEventBridgeBusPaginator(essdk.BuildFilter(ctx, d.QueryContext, listEventBridgeBusFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52801,9 +54909,13 @@ func GetEventBridgeBus(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEventBridgeBusPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEventBridgeBusFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEventBridgeBusPaginator(essdk.BuildFilter(ctx, d.QueryContext, getEventBridgeBusFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52940,8 +55052,12 @@ func ListEventBridgeRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewEventBridgeRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEventBridgeRuleFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewEventBridgeRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listEventBridgeRuleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -52999,9 +55115,13 @@ func GetEventBridgeRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewEventBridgeRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEventBridgeRuleFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewEventBridgeRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getEventBridgeRuleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -53130,8 +55250,12 @@ func ListAppStreamApplication(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewAppStreamApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppStreamApplicationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewAppStreamApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppStreamApplicationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -53181,9 +55305,13 @@ func GetAppStreamApplication(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewAppStreamApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppStreamApplicationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAppStreamApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppStreamApplicationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -53312,8 +55440,12 @@ func ListAppStreamStack(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewAppStreamStackPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppStreamStackFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewAppStreamStackPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppStreamStackFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -53363,9 +55495,13 @@ func GetAppStreamStack(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewAppStreamStackPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppStreamStackFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAppStreamStackPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppStreamStackFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -53517,8 +55653,12 @@ func ListAppStreamFleet(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewAppStreamFleetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppStreamFleetFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewAppStreamFleetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppStreamFleetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -53591,9 +55731,13 @@ func GetAppStreamFleet(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewAppStreamFleetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppStreamFleetFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAppStreamFleetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppStreamFleetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -53737,8 +55881,12 @@ func ListAppStreamImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewAppStreamImagePaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppStreamImageFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewAppStreamImagePaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppStreamImageFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -53803,9 +55951,13 @@ func GetAppStreamImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewAppStreamImagePaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppStreamImageFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAppStreamImagePaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppStreamImageFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -53947,8 +56099,12 @@ func ListAthenaWorkGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewAthenaWorkGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAthenaWorkGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewAthenaWorkGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAthenaWorkGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54011,9 +56167,13 @@ func GetAthenaWorkGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewAthenaWorkGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAthenaWorkGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAthenaWorkGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAthenaWorkGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54171,8 +56331,12 @@ func ListAthenaQueryExecution(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewAthenaQueryExecutionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAthenaQueryExecutionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewAthenaQueryExecutionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAthenaQueryExecutionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54252,9 +56416,13 @@ func GetAthenaQueryExecution(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewAthenaQueryExecutionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAthenaQueryExecutionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAthenaQueryExecutionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAthenaQueryExecutionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54393,8 +56561,12 @@ func ListKinesisStream(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewKinesisStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKinesisStreamFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewKinesisStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKinesisStreamFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54454,9 +56626,13 @@ func GetKinesisStream(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewKinesisStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKinesisStreamFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewKinesisStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKinesisStreamFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54592,8 +56768,12 @@ func ListKinesisVideoStream(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewKinesisVideoStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKinesisVideoStreamFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewKinesisVideoStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKinesisVideoStreamFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54650,9 +56830,13 @@ func GetKinesisVideoStream(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewKinesisVideoStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKinesisVideoStreamFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewKinesisVideoStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKinesisVideoStreamFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54783,8 +56967,12 @@ func ListKinesisConsumer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewKinesisConsumerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKinesisConsumerFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewKinesisConsumerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKinesisConsumerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54836,9 +57024,13 @@ func GetKinesisConsumer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewKinesisConsumerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKinesisConsumerFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewKinesisConsumerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKinesisConsumerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -54976,8 +57168,12 @@ func ListKinesisAnalyticsV2Application(ctx context.Context, d *plugin.QueryData,
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewKinesisAnalyticsV2ApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKinesisAnalyticsV2ApplicationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewKinesisAnalyticsV2ApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKinesisAnalyticsV2ApplicationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55036,9 +57232,13 @@ func GetKinesisAnalyticsV2Application(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewKinesisAnalyticsV2ApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKinesisAnalyticsV2ApplicationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewKinesisAnalyticsV2ApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKinesisAnalyticsV2ApplicationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55174,8 +57374,12 @@ func ListGlacierVault(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGlacierVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlacierVaultFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGlacierVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlacierVaultFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55232,9 +57436,13 @@ func GetGlacierVault(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGlacierVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlacierVaultFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGlacierVaultPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlacierVaultFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55377,8 +57585,12 @@ func ListWorkspacesWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWorkspacesWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listWorkspacesWorkspaceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWorkspacesWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listWorkspacesWorkspaceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55442,9 +57654,13 @@ func GetWorkspacesWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWorkspacesWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getWorkspacesWorkspaceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWorkspacesWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getWorkspacesWorkspaceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55573,8 +57789,12 @@ func ListWorkspacesBundle(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWorkspacesBundlePaginator(essdk.BuildFilter(ctx, d.QueryContext, listWorkspacesBundleFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWorkspacesBundlePaginator(essdk.BuildFilter(ctx, d.QueryContext, listWorkspacesBundleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55624,9 +57844,13 @@ func GetWorkspacesBundle(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWorkspacesBundlePaginator(essdk.BuildFilter(ctx, d.QueryContext, getWorkspacesBundleFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWorkspacesBundlePaginator(essdk.BuildFilter(ctx, d.QueryContext, getWorkspacesBundleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55754,8 +57978,12 @@ func ListKeyspacesKeyspace(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewKeyspacesKeyspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyspacesKeyspaceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewKeyspacesKeyspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyspacesKeyspaceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55804,9 +58032,13 @@ func GetKeyspacesKeyspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewKeyspacesKeyspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getKeyspacesKeyspaceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewKeyspacesKeyspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getKeyspacesKeyspaceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55934,8 +58166,12 @@ func ListKeyspacesTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewKeyspacesTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyspacesTableFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewKeyspacesTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, listKeyspacesTableFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -55984,9 +58220,13 @@ func GetKeyspacesTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewKeyspacesTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, getKeyspacesTableFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewKeyspacesTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, getKeyspacesTableFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56116,8 +58356,12 @@ func ListGrafanaWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGrafanaWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listGrafanaWorkspaceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGrafanaWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listGrafanaWorkspaceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56168,9 +58412,13 @@ func GetGrafanaWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGrafanaWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getGrafanaWorkspaceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGrafanaWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getGrafanaWorkspaceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56299,8 +58547,12 @@ func ListAMPWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewAMPWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listAMPWorkspaceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewAMPWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listAMPWorkspaceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56350,9 +58602,13 @@ func GetAMPWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewAMPWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getAMPWorkspaceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAMPWorkspacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getAMPWorkspaceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56481,8 +58737,12 @@ func ListKafkaCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewKafkaClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKafkaClusterFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewKafkaClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKafkaClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56532,9 +58792,13 @@ func GetKafkaCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewKafkaClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKafkaClusterFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewKafkaClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKafkaClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56663,8 +58927,12 @@ func ListMWAAEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewMWAAEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMWAAEnvironmentFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewMWAAEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMWAAEnvironmentFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56714,9 +58982,13 @@ func GetMWAAEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewMWAAEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMWAAEnvironmentFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewMWAAEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMWAAEnvironmentFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56844,8 +59116,12 @@ func ListMemoryDbCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewMemoryDbClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMemoryDbClusterFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewMemoryDbClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMemoryDbClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -56894,9 +59170,13 @@ func GetMemoryDbCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewMemoryDbClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMemoryDbClusterFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewMemoryDbClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMemoryDbClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57026,8 +59306,12 @@ func ListMQBroker(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewMQBrokerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMQBrokerFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewMQBrokerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMQBrokerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57078,9 +59362,13 @@ func GetMQBroker(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewMQBrokerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMQBrokerFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewMQBrokerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMQBrokerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57209,8 +59497,12 @@ func ListNeptuneDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewNeptuneDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, listNeptuneDatabaseFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewNeptuneDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, listNeptuneDatabaseFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57260,9 +59552,13 @@ func GetNeptuneDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewNeptuneDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, getNeptuneDatabaseFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewNeptuneDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, getNeptuneDatabaseFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57425,8 +59721,12 @@ func ListNeptuneDatabaseCluster(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewNeptuneDatabaseClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNeptuneDatabaseClusterFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewNeptuneDatabaseClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNeptuneDatabaseClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57511,9 +59811,13 @@ func GetNeptuneDatabaseCluster(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewNeptuneDatabaseClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNeptuneDatabaseClusterFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewNeptuneDatabaseClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNeptuneDatabaseClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57664,8 +59968,12 @@ func ListOpenSearchDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewOpenSearchDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOpenSearchDomainFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewOpenSearchDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOpenSearchDomainFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57737,9 +60045,13 @@ func GetOpenSearchDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewOpenSearchDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOpenSearchDomainFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewOpenSearchDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOpenSearchDomainFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57867,8 +60179,12 @@ func ListSESConfigurationSet(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSESConfigurationSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSESConfigurationSetFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSESConfigurationSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSESConfigurationSetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -57917,9 +60233,13 @@ func GetSESConfigurationSet(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSESConfigurationSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSESConfigurationSetFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSESConfigurationSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSESConfigurationSetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58048,8 +60368,12 @@ func ListSESIdentity(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSESIdentityPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSESIdentityFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSESIdentityPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSESIdentityFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58098,9 +60422,13 @@ func GetSESIdentity(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSESIdentityPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSESIdentityFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSESIdentityPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSESIdentityFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58228,8 +60556,12 @@ func ListSESv2EmailIdentity(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSESv2EmailIdentityPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSESv2EmailIdentityFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSESv2EmailIdentityPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSESv2EmailIdentityFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58278,9 +60610,13 @@ func GetSESv2EmailIdentity(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSESv2EmailIdentityPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSESv2EmailIdentityFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSESv2EmailIdentityPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSESv2EmailIdentityFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58426,8 +60762,12 @@ func ListCloudFormationStack(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudFormationStackPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFormationStackFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFormationStackPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFormationStackFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58494,9 +60834,13 @@ func GetCloudFormationStack(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFormationStackPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFormationStackFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudFormationStackPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFormationStackFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58629,8 +60973,12 @@ func ListCloudFormationStackSet(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudFormationStackSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFormationStackSetFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFormationStackSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFormationStackSetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58684,9 +61032,13 @@ func GetCloudFormationStackSet(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFormationStackSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFormationStackSetFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudFormationStackSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFormationStackSetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58823,8 +61175,12 @@ func ListCloudFormationStackResource(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudFormationStackResourcePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFormationStackResourceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudFormationStackResourcePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudFormationStackResourceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -58881,9 +61237,13 @@ func GetCloudFormationStackResource(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudFormationStackResourcePaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFormationStackResourceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudFormationStackResourcePaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudFormationStackResourceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59019,8 +61379,12 @@ func ListCodeCommitRepository(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCodeCommitRepositoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeCommitRepositoryFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCodeCommitRepositoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeCommitRepositoryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59077,9 +61441,13 @@ func GetCodeCommitRepository(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeCommitRepositoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeCommitRepositoryFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCodeCommitRepositoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeCommitRepositoryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59215,8 +61583,12 @@ func ListCodePipelinePipeline(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCodePipelinePipelinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodePipelinePipelineFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCodePipelinePipelinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodePipelinePipelineFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59273,9 +61645,13 @@ func GetCodePipelinePipeline(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCodePipelinePipelinePaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodePipelinePipelineFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCodePipelinePipelinePaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodePipelinePipelineFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59431,8 +61807,12 @@ func ListDirectoryServiceDirectory(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDirectoryServiceDirectoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDirectoryServiceDirectoryFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDirectoryServiceDirectoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDirectoryServiceDirectoryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59509,9 +61889,13 @@ func GetDirectoryServiceDirectory(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDirectoryServiceDirectoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDirectoryServiceDirectoryFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDirectoryServiceDirectoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDirectoryServiceDirectoryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59646,8 +62030,12 @@ func ListDirectoryServiceCertificate(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDirectoryServiceCertificatePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDirectoryServiceCertificateFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDirectoryServiceCertificatePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDirectoryServiceCertificateFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59704,9 +62092,13 @@ func GetDirectoryServiceCertificate(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDirectoryServiceCertificatePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDirectoryServiceCertificateFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDirectoryServiceCertificatePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDirectoryServiceCertificateFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59835,8 +62227,12 @@ func ListDirectoryServiceLogSubscription(ctx context.Context, d *plugin.QueryDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDirectoryServiceLogSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDirectoryServiceLogSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDirectoryServiceLogSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDirectoryServiceLogSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -59886,9 +62282,13 @@ func GetDirectoryServiceLogSubscription(ctx context.Context, d *plugin.QueryData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDirectoryServiceLogSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDirectoryServiceLogSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDirectoryServiceLogSubscriptionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDirectoryServiceLogSubscriptionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60016,8 +62416,12 @@ func ListSSOAdminInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSSOAdminInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSOAdminInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSSOAdminInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSOAdminInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60066,9 +62470,13 @@ func GetSSOAdminInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSSOAdminInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSOAdminInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSSOAdminInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSOAdminInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60198,8 +62606,12 @@ func ListSSOAdminAccountAssignment(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSSOAdminAccountAssignmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSOAdminAccountAssignmentFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSSOAdminAccountAssignmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSOAdminAccountAssignmentFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60250,9 +62662,13 @@ func GetSSOAdminAccountAssignment(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSSOAdminAccountAssignmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSOAdminAccountAssignmentFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSSOAdminAccountAssignmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSOAdminAccountAssignmentFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60383,8 +62799,12 @@ func ListWAFRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWAFRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFRuleFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWAFRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFRuleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60436,9 +62856,13 @@ func GetWAFRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFRuleFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWAFRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFRuleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60569,8 +62993,12 @@ func ListWAFRegionalRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWAFRegionalRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFRegionalRuleFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWAFRegionalRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFRegionalRuleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60622,9 +63050,13 @@ func GetWAFRegionalRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFRegionalRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFRegionalRuleFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWAFRegionalRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFRegionalRuleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60758,8 +63190,12 @@ func ListWAFRateBasedRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWAFRateBasedRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFRateBasedRuleFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWAFRateBasedRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFRateBasedRuleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60814,9 +63250,13 @@ func GetWAFRateBasedRule(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFRateBasedRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFRateBasedRuleFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWAFRateBasedRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFRateBasedRuleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -60950,8 +63390,12 @@ func ListWAFWebAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWAFWebAclPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFWebAclFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWAFWebAclPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFWebAclFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61006,9 +63450,13 @@ func GetWAFWebAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFWebAclPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFWebAclFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWAFWebAclPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFWebAclFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61157,8 +63605,12 @@ func ListWellArchitectedWorkload(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWellArchitectedWorkloadPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedWorkloadFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedWorkloadPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedWorkloadFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61228,9 +63680,13 @@ func GetWellArchitectedWorkload(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedWorkloadPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedWorkloadFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWellArchitectedWorkloadPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedWorkloadFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61374,8 +63830,12 @@ func ListWellArchitectedAnswer(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWellArchitectedAnswerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedAnswerFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedAnswerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedAnswerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61440,9 +63900,13 @@ func GetWellArchitectedAnswer(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedAnswerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedAnswerFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWellArchitectedAnswerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedAnswerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61582,8 +64046,12 @@ func ListWellArchitectedCheckDetail(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWellArchitectedCheckDetailPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedCheckDetailFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedCheckDetailPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedCheckDetailFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61644,9 +64112,13 @@ func GetWellArchitectedCheckDetail(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedCheckDetailPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedCheckDetailFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWellArchitectedCheckDetailPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedCheckDetailFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61784,8 +64256,12 @@ func ListWellArchitectedCheckSummary(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWellArchitectedCheckSummaryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedCheckSummaryFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedCheckSummaryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedCheckSummaryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61844,9 +64320,13 @@ func GetWellArchitectedCheckSummary(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedCheckSummaryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedCheckSummaryFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWellArchitectedCheckSummaryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedCheckSummaryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -61981,8 +64461,12 @@ func ListWellArchitectedCheckConsolidatedReport(ctx context.Context, d *plugin.Q
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWellArchitectedCheckConsolidatedReportPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedCheckConsolidatedReportFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedCheckConsolidatedReportPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedCheckConsolidatedReportFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62038,9 +64522,13 @@ func GetWellArchitectedCheckConsolidatedReport(ctx context.Context, d *plugin.Qu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedCheckConsolidatedReportPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedCheckConsolidatedReportFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWellArchitectedCheckConsolidatedReportPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedCheckConsolidatedReportFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62177,8 +64665,12 @@ func ListWellArchitectedLens(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWellArchitectedLensPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedLensFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedLensPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedLensFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62236,9 +64728,13 @@ func GetWellArchitectedLens(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedLensPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedLensFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWellArchitectedLensPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedLensFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62373,8 +64869,12 @@ func ListWellArchitectedLensReview(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWellArchitectedLensReviewPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedLensReviewFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedLensReviewPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedLensReviewFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62430,9 +64930,13 @@ func GetWellArchitectedLensReview(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedLensReviewPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedLensReviewFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWellArchitectedLensReviewPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedLensReviewFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62568,8 +65072,12 @@ func ListWellArchitectedLensReviewImprovement(ctx context.Context, d *plugin.Que
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWellArchitectedLensReviewImprovementPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedLensReviewImprovementFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedLensReviewImprovementPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedLensReviewImprovementFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62626,9 +65134,13 @@ func GetWellArchitectedLensReviewImprovement(ctx context.Context, d *plugin.Quer
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedLensReviewImprovementPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedLensReviewImprovementFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWellArchitectedLensReviewImprovementPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedLensReviewImprovementFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62758,8 +65270,12 @@ func ListWellArchitectedLensReviewReport(ctx context.Context, d *plugin.QueryDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWellArchitectedLensReviewReportPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedLensReviewReportFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedLensReviewReportPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedLensReviewReportFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62810,9 +65326,13 @@ func GetWellArchitectedLensReviewReport(ctx context.Context, d *plugin.QueryData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedLensReviewReportPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedLensReviewReportFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWellArchitectedLensReviewReportPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedLensReviewReportFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -62945,8 +65465,12 @@ func ListWellArchitectedLensShare(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWellArchitectedLensSharePaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedLensShareFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedLensSharePaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedLensShareFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63000,9 +65524,13 @@ func GetWellArchitectedLensShare(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedLensSharePaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedLensShareFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWellArchitectedLensSharePaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedLensShareFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63132,8 +65660,12 @@ func ListWellArchitectedMilestone(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWellArchitectedMilestonePaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedMilestoneFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedMilestonePaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedMilestoneFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63184,9 +65716,13 @@ func GetWellArchitectedMilestone(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedMilestonePaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedMilestoneFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWellArchitectedMilestonePaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedMilestoneFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63318,8 +65854,12 @@ func ListWellArchitectedNotification(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWellArchitectedNotificationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedNotificationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedNotificationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedNotificationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63372,9 +65912,13 @@ func GetWellArchitectedNotification(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedNotificationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedNotificationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWellArchitectedNotificationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedNotificationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63508,8 +66052,12 @@ func ListWellArchitectedShareInvitation(ctx context.Context, d *plugin.QueryData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWellArchitectedShareInvitationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedShareInvitationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedShareInvitationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedShareInvitationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63564,9 +66112,13 @@ func GetWellArchitectedShareInvitation(ctx context.Context, d *plugin.QueryData,
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedShareInvitationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedShareInvitationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWellArchitectedShareInvitationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedShareInvitationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63699,8 +66251,12 @@ func ListWellArchitectedWorkloadShare(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWellArchitectedWorkloadSharePaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedWorkloadShareFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWellArchitectedWorkloadSharePaginator(essdk.BuildFilter(ctx, d.QueryContext, listWellArchitectedWorkloadShareFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63754,9 +66310,13 @@ func GetWellArchitectedWorkloadShare(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWellArchitectedWorkloadSharePaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedWorkloadShareFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWellArchitectedWorkloadSharePaginator(essdk.BuildFilter(ctx, d.QueryContext, getWellArchitectedWorkloadShareFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63892,8 +66452,12 @@ func ListWAFRegionalWebAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWAFRegionalWebAclPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFRegionalWebAclFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWAFRegionalWebAclPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFRegionalWebAclFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -63950,9 +66514,13 @@ func GetWAFRegionalWebAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFRegionalWebAclPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFRegionalWebAclFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWAFRegionalWebAclPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFRegionalWebAclFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64086,8 +66654,12 @@ func ListWAFRegionalRuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewWAFRegionalRuleGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFRegionalRuleGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewWAFRegionalRuleGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listWAFRegionalRuleGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64142,9 +66714,13 @@ func GetWAFRegionalRuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewWAFRegionalRuleGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFRegionalRuleGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewWAFRegionalRuleGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getWAFRegionalRuleGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64283,8 +66859,12 @@ func ListRoute53HostedZone(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRoute53HostedZonePaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53HostedZoneFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53HostedZonePaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53HostedZoneFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64344,9 +66924,13 @@ func GetRoute53HostedZone(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53HostedZonePaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53HostedZoneFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRoute53HostedZonePaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53HostedZoneFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64481,8 +67065,12 @@ func ListRoute53HealthCheck(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRoute53HealthCheckPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53HealthCheckFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53HealthCheckPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53HealthCheckFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64538,9 +67126,13 @@ func GetRoute53HealthCheck(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53HealthCheckPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53HealthCheckFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRoute53HealthCheckPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53HealthCheckFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64683,8 +67275,12 @@ func ListRoute53ResolverResolverRule(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRoute53ResolverResolverRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53ResolverResolverRuleFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53ResolverResolverRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53ResolverResolverRuleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64748,9 +67344,13 @@ func GetRoute53ResolverResolverRule(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53ResolverResolverRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53ResolverResolverRuleFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRoute53ResolverResolverRulePaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53ResolverResolverRuleFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64890,8 +67490,12 @@ func ListRoute53ResolverEndpoint(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRoute53ResolverEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53ResolverEndpointFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53ResolverEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53ResolverEndpointFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -64952,9 +67556,13 @@ func GetRoute53ResolverEndpoint(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53ResolverEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53ResolverEndpointFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRoute53ResolverEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53ResolverEndpointFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65103,8 +67711,12 @@ func ListRoute53Domain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRoute53DomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53DomainFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53DomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53DomainFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65174,9 +67786,13 @@ func GetRoute53Domain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53DomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53DomainFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRoute53DomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53DomainFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65315,8 +67931,12 @@ func ListRoute53Record(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRoute53RecordPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53RecordFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53RecordPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53RecordFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65376,9 +67996,13 @@ func GetRoute53Record(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53RecordPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53RecordFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRoute53RecordPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53RecordFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65510,8 +68134,12 @@ func ListRoute53TrafficPolicy(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRoute53TrafficPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53TrafficPolicyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53TrafficPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53TrafficPolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65564,9 +68192,13 @@ func GetRoute53TrafficPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53TrafficPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53TrafficPolicyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRoute53TrafficPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53TrafficPolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65701,8 +68333,12 @@ func ListRoute53TrafficPolicyInstance(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRoute53TrafficPolicyInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53TrafficPolicyInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53TrafficPolicyInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53TrafficPolicyInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65758,9 +68394,13 @@ func GetRoute53TrafficPolicyInstance(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53TrafficPolicyInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53TrafficPolicyInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRoute53TrafficPolicyInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53TrafficPolicyInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65889,8 +68529,12 @@ func ListRoute53QueryLog(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRoute53QueryLogPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53QueryLogFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53QueryLogPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53QueryLogFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -65940,9 +68584,13 @@ func GetRoute53QueryLog(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53QueryLogPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53QueryLogFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRoute53QueryLogPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53QueryLogFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66078,8 +68726,12 @@ func ListRoute53ResolverQueryLogConfig(ctx context.Context, d *plugin.QueryData,
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRoute53ResolverQueryLogConfigPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53ResolverQueryLogConfigFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRoute53ResolverQueryLogConfigPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRoute53ResolverQueryLogConfigFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66136,9 +68788,13 @@ func GetRoute53ResolverQueryLogConfig(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRoute53ResolverQueryLogConfigPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53ResolverQueryLogConfigFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRoute53ResolverQueryLogConfigPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRoute53ResolverQueryLogConfigFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66268,8 +68924,12 @@ func ListBatchComputeEnvironment(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewBatchComputeEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBatchComputeEnvironmentFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewBatchComputeEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBatchComputeEnvironmentFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66320,9 +68980,13 @@ func GetBatchComputeEnvironment(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewBatchComputeEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBatchComputeEnvironmentFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewBatchComputeEnvironmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBatchComputeEnvironmentFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66451,8 +69115,12 @@ func ListBatchJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewBatchJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBatchJobFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewBatchJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, listBatchJobFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66502,9 +69170,13 @@ func GetBatchJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewBatchJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBatchJobFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewBatchJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, getBatchJobFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66634,8 +69306,12 @@ func ListBatchJobQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewBatchJobQueuePaginator(essdk.BuildFilter(ctx, d.QueryContext, listBatchJobQueueFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewBatchJobQueuePaginator(essdk.BuildFilter(ctx, d.QueryContext, listBatchJobQueueFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66687,9 +69363,13 @@ func GetBatchJobQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewBatchJobQueuePaginator(essdk.BuildFilter(ctx, d.QueryContext, getBatchJobQueueFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewBatchJobQueuePaginator(essdk.BuildFilter(ctx, d.QueryContext, getBatchJobQueueFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66827,8 +69507,12 @@ func ListCodeArtifactRepository(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCodeArtifactRepositoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeArtifactRepositoryFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCodeArtifactRepositoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeArtifactRepositoryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -66887,9 +69571,13 @@ func GetCodeArtifactRepository(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeArtifactRepositoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeArtifactRepositoryFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCodeArtifactRepositoryPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeArtifactRepositoryFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67026,8 +69714,12 @@ func ListCodeArtifactDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCodeArtifactDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeArtifactDomainFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCodeArtifactDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeArtifactDomainFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67085,9 +69777,13 @@ func GetCodeArtifactDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeArtifactDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeArtifactDomainFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCodeArtifactDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeArtifactDomainFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67237,8 +69933,12 @@ func ListCodeDeployDeploymentGroup(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCodeDeployDeploymentGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeDeployDeploymentGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCodeDeployDeploymentGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeDeployDeploymentGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67309,9 +70009,13 @@ func GetCodeDeployDeploymentGroup(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeDeployDeploymentGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeDeployDeploymentGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCodeDeployDeploymentGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeDeployDeploymentGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67445,8 +70149,12 @@ func ListCodeDeployApplication(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCodeDeployApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeDeployApplicationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCodeDeployApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeDeployApplicationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67501,9 +70209,13 @@ func GetCodeDeployApplication(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeDeployApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeDeployApplicationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCodeDeployApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeDeployApplicationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67635,8 +70347,12 @@ func ListCodeDeployDeploymentConfig(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCodeDeployDeploymentConfigPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeDeployDeploymentConfigFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCodeDeployDeploymentConfigPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeDeployDeploymentConfigFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67690,9 +70406,13 @@ func GetCodeDeployDeploymentConfig(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeDeployDeploymentConfigPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeDeployDeploymentConfigFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCodeDeployDeploymentConfigPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeDeployDeploymentConfigFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67822,8 +70542,12 @@ func ListCodeStarProject(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCodeStarProjectPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeStarProjectFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCodeStarProjectPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCodeStarProjectFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -67874,9 +70598,13 @@ func GetCodeStarProject(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCodeStarProjectPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeStarProjectFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCodeStarProjectPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCodeStarProjectFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68005,8 +70733,12 @@ func ListDirectConnectConnection(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDirectConnectConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDirectConnectConnectionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDirectConnectConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDirectConnectConnectionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68056,9 +70788,13 @@ func GetDirectConnectConnection(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDirectConnectConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDirectConnectConnectionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDirectConnectConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDirectConnectConnectionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68187,8 +70923,12 @@ func ListDirectConnectGateway(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDirectConnectGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDirectConnectGatewayFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDirectConnectGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDirectConnectGatewayFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68238,9 +70978,13 @@ func GetDirectConnectGateway(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDirectConnectGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDirectConnectGatewayFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDirectConnectGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDirectConnectGatewayFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68379,8 +71123,12 @@ func ListNetworkFirewallFirewall(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewNetworkFirewallFirewallPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkFirewallFirewallFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewNetworkFirewallFirewallPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkFirewallFirewallFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68441,9 +71189,13 @@ func GetNetworkFirewallFirewall(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewNetworkFirewallFirewallPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkFirewallFirewallFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewNetworkFirewallFirewallPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkFirewallFirewallFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68581,8 +71333,12 @@ func ListNetworkFirewallFirewallPolicy(ctx context.Context, d *plugin.QueryData,
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewNetworkFirewallFirewallPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkFirewallFirewallPolicyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewNetworkFirewallFirewallPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkFirewallFirewallPolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68641,9 +71397,13 @@ func GetNetworkFirewallFirewallPolicy(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewNetworkFirewallFirewallPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkFirewallFirewallPolicyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewNetworkFirewallFirewallPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkFirewallFirewallPolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68782,8 +71542,12 @@ func ListNetworkFirewallRuleGroup(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewNetworkFirewallRuleGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkFirewallRuleGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewNetworkFirewallRuleGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listNetworkFirewallRuleGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68843,9 +71607,13 @@ func GetNetworkFirewallRuleGroup(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewNetworkFirewallRuleGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkFirewallRuleGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewNetworkFirewallRuleGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getNetworkFirewallRuleGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -68973,8 +71741,12 @@ func ListOpsWorksCMServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewOpsWorksCMServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOpsWorksCMServerFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewOpsWorksCMServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOpsWorksCMServerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69023,9 +71795,13 @@ func GetOpsWorksCMServer(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewOpsWorksCMServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOpsWorksCMServerFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewOpsWorksCMServerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOpsWorksCMServerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69153,8 +71929,12 @@ func ListOrganizationsOrganization(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewOrganizationsOrganizationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOrganizationsOrganizationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewOrganizationsOrganizationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOrganizationsOrganizationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69203,9 +71983,13 @@ func GetOrganizationsOrganization(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewOrganizationsOrganizationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOrganizationsOrganizationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewOrganizationsOrganizationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOrganizationsOrganizationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69339,8 +72123,12 @@ func ListOrganizationsAccount(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewOrganizationsAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOrganizationsAccountFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewOrganizationsAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOrganizationsAccountFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69395,9 +72183,13 @@ func GetOrganizationsAccount(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewOrganizationsAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOrganizationsAccountFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewOrganizationsAccountPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOrganizationsAccountFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69530,8 +72322,12 @@ func ListOrganizationsPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewOrganizationsPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOrganizationsPolicyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewOrganizationsPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOrganizationsPolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69585,9 +72381,13 @@ func GetOrganizationsPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewOrganizationsPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOrganizationsPolicyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewOrganizationsPolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOrganizationsPolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69721,8 +72521,12 @@ func ListPinPointApp(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewPinPointAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPinPointAppFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewPinPointAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, listPinPointAppFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69777,9 +72581,13 @@ func GetPinPointApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewPinPointAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPinPointAppFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewPinPointAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, getPinPointAppFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69920,8 +72728,12 @@ func ListPipesPipe(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewPipesPipePaginator(essdk.BuildFilter(ctx, d.QueryContext, listPipesPipeFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewPipesPipePaginator(essdk.BuildFilter(ctx, d.QueryContext, listPipesPipeFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -69983,9 +72795,13 @@ func GetPipesPipe(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewPipesPipePaginator(essdk.BuildFilter(ctx, d.QueryContext, getPipesPipeFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewPipesPipePaginator(essdk.BuildFilter(ctx, d.QueryContext, getPipesPipeFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70113,8 +72929,12 @@ func ListResourceGroupsGroup(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewResourceGroupsGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listResourceGroupsGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewResourceGroupsGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listResourceGroupsGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70163,9 +72983,13 @@ func GetResourceGroupsGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewResourceGroupsGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getResourceGroupsGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewResourceGroupsGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getResourceGroupsGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70294,8 +73118,12 @@ func ListOpenSearchServerlessCollection(ctx context.Context, d *plugin.QueryData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewOpenSearchServerlessCollectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOpenSearchServerlessCollectionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewOpenSearchServerlessCollectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOpenSearchServerlessCollectionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70345,9 +73173,13 @@ func GetOpenSearchServerlessCollection(ctx context.Context, d *plugin.QueryData,
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewOpenSearchServerlessCollectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOpenSearchServerlessCollectionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewOpenSearchServerlessCollectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOpenSearchServerlessCollectionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70476,8 +73308,12 @@ func ListTimestreamDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewTimestreamDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, listTimestreamDatabaseFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewTimestreamDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, listTimestreamDatabaseFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70527,9 +73363,13 @@ func GetTimestreamDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewTimestreamDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, getTimestreamDatabaseFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewTimestreamDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, getTimestreamDatabaseFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70657,8 +73497,12 @@ func ListResourceExplorer2Index(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewResourceExplorer2IndexPaginator(essdk.BuildFilter(ctx, d.QueryContext, listResourceExplorer2IndexFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewResourceExplorer2IndexPaginator(essdk.BuildFilter(ctx, d.QueryContext, listResourceExplorer2IndexFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70707,9 +73551,13 @@ func GetResourceExplorer2Index(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewResourceExplorer2IndexPaginator(essdk.BuildFilter(ctx, d.QueryContext, getResourceExplorer2IndexFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewResourceExplorer2IndexPaginator(essdk.BuildFilter(ctx, d.QueryContext, getResourceExplorer2IndexFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70836,8 +73684,12 @@ func ListResourceExplorer2SupportedResourceType(ctx context.Context, d *plugin.Q
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewResourceExplorer2SupportedResourceTypePaginator(essdk.BuildFilter(ctx, d.QueryContext, listResourceExplorer2SupportedResourceTypeFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewResourceExplorer2SupportedResourceTypePaginator(essdk.BuildFilter(ctx, d.QueryContext, listResourceExplorer2SupportedResourceTypeFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -70885,9 +73737,13 @@ func GetResourceExplorer2SupportedResourceType(ctx context.Context, d *plugin.Qu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewResourceExplorer2SupportedResourceTypePaginator(essdk.BuildFilter(ctx, d.QueryContext, getResourceExplorer2SupportedResourceTypeFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewResourceExplorer2SupportedResourceTypePaginator(essdk.BuildFilter(ctx, d.QueryContext, getResourceExplorer2SupportedResourceTypeFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71023,8 +73879,12 @@ func ListStepFunctionsStateMachine(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewStepFunctionsStateMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listStepFunctionsStateMachineFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewStepFunctionsStateMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, listStepFunctionsStateMachineFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71081,9 +73941,13 @@ func GetStepFunctionsStateMachine(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewStepFunctionsStateMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, getStepFunctionsStateMachineFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewStepFunctionsStateMachinePaginator(essdk.BuildFilter(ctx, d.QueryContext, getStepFunctionsStateMachineFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71247,8 +74111,12 @@ func ListStepFunctionsStateMachineExecutionHistories(ctx context.Context, d *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewStepFunctionsStateMachineExecutionHistoriesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStepFunctionsStateMachineExecutionHistoriesFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewStepFunctionsStateMachineExecutionHistoriesPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStepFunctionsStateMachineExecutionHistoriesFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71333,9 +74201,13 @@ func GetStepFunctionsStateMachineExecutionHistories(ctx context.Context, d *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewStepFunctionsStateMachineExecutionHistoriesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getStepFunctionsStateMachineExecutionHistoriesFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewStepFunctionsStateMachineExecutionHistoriesPaginator(essdk.BuildFilter(ctx, d.QueryContext, getStepFunctionsStateMachineExecutionHistoriesFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71472,8 +74344,12 @@ func ListStepFunctionsStateMachineExecution(ctx context.Context, d *plugin.Query
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewStepFunctionsStateMachineExecutionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStepFunctionsStateMachineExecutionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewStepFunctionsStateMachineExecutionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStepFunctionsStateMachineExecutionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71531,9 +74407,13 @@ func GetStepFunctionsStateMachineExecution(ctx context.Context, d *plugin.QueryD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewStepFunctionsStateMachineExecutionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getStepFunctionsStateMachineExecutionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewStepFunctionsStateMachineExecutionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getStepFunctionsStateMachineExecutionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71671,8 +74551,12 @@ func ListSimSpaceWeaverSimulation(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSimSpaceWeaverSimulationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSimSpaceWeaverSimulationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSimSpaceWeaverSimulationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSimSpaceWeaverSimulationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71731,9 +74615,13 @@ func GetSimSpaceWeaverSimulation(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSimSpaceWeaverSimulationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSimSpaceWeaverSimulationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSimSpaceWeaverSimulationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSimSpaceWeaverSimulationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71860,8 +74748,12 @@ func ListACMPCACertificateAuthority(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewACMPCACertificateAuthorityPaginator(essdk.BuildFilter(ctx, d.QueryContext, listACMPCACertificateAuthorityFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewACMPCACertificateAuthorityPaginator(essdk.BuildFilter(ctx, d.QueryContext, listACMPCACertificateAuthorityFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -71909,9 +74801,13 @@ func GetACMPCACertificateAuthority(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewACMPCACertificateAuthorityPaginator(essdk.BuildFilter(ctx, d.QueryContext, getACMPCACertificateAuthorityFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewACMPCACertificateAuthorityPaginator(essdk.BuildFilter(ctx, d.QueryContext, getACMPCACertificateAuthorityFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -72039,8 +74935,12 @@ func ListShieldProtectionGroup(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewShieldProtectionGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listShieldProtectionGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewShieldProtectionGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listShieldProtectionGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -72089,9 +74989,13 @@ func GetShieldProtectionGroup(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewShieldProtectionGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getShieldProtectionGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewShieldProtectionGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getShieldProtectionGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -72220,8 +75124,12 @@ func ListStorageGatewayStorageGateway(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewStorageGatewayStorageGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageGatewayStorageGatewayFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewStorageGatewayStorageGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, listStorageGatewayStorageGatewayFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -72271,9 +75179,13 @@ func GetStorageGatewayStorageGateway(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewStorageGatewayStorageGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageGatewayStorageGatewayFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewStorageGatewayStorageGatewayPaginator(essdk.BuildFilter(ctx, d.QueryContext, getStorageGatewayStorageGatewayFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -72402,8 +75314,12 @@ func ListImageBuilderImage(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewImageBuilderImagePaginator(essdk.BuildFilter(ctx, d.QueryContext, listImageBuilderImageFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewImageBuilderImagePaginator(essdk.BuildFilter(ctx, d.QueryContext, listImageBuilderImageFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -72453,9 +75369,13 @@ func GetImageBuilderImage(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewImageBuilderImagePaginator(essdk.BuildFilter(ctx, d.QueryContext, getImageBuilderImageFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewImageBuilderImagePaginator(essdk.BuildFilter(ctx, d.QueryContext, getImageBuilderImageFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -72587,8 +75507,12 @@ func ListAccountAlternateContact(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewAccountAlternateContactPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAccountAlternateContactFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewAccountAlternateContactPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAccountAlternateContactFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -72641,9 +75565,13 @@ func GetAccountAlternateContact(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewAccountAlternateContactPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAccountAlternateContactFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAccountAlternateContactPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAccountAlternateContactFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -72782,8 +75710,12 @@ func ListAccountContact(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewAccountContactPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAccountContactFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewAccountContactPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAccountContactFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -72843,9 +75775,13 @@ func GetAccountContact(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewAccountContactPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAccountContactFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAccountContactPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAccountContactFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -72994,8 +75930,12 @@ func ListAmplifyApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewAmplifyAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAmplifyAppFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewAmplifyAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAmplifyAppFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -73065,9 +76005,13 @@ func GetAmplifyApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewAmplifyAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAmplifyAppFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAmplifyAppPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAmplifyAppFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -73197,8 +76141,12 @@ func ListAppConfigApplication(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewAppConfigApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppConfigApplicationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewAppConfigApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAppConfigApplicationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -73249,9 +76197,13 @@ func GetAppConfigApplication(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewAppConfigApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppConfigApplicationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAppConfigApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAppConfigApplicationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -73393,8 +76345,12 @@ func ListAuditManagerAssessment(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewAuditManagerAssessmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAuditManagerAssessmentFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewAuditManagerAssessmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAuditManagerAssessmentFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -73458,9 +76414,13 @@ func GetAuditManagerAssessment(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewAuditManagerAssessmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAuditManagerAssessmentFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAuditManagerAssessmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAuditManagerAssessmentFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -73601,8 +76561,12 @@ func ListAuditManagerControl(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewAuditManagerControlPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAuditManagerControlFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewAuditManagerControlPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAuditManagerControlFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -73665,9 +76629,13 @@ func GetAuditManagerControl(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewAuditManagerControlPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAuditManagerControlFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAuditManagerControlPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAuditManagerControlFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -73810,8 +76778,12 @@ func ListAuditManagerEvidence(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewAuditManagerEvidencePaginator(essdk.BuildFilter(ctx, d.QueryContext, listAuditManagerEvidenceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewAuditManagerEvidencePaginator(essdk.BuildFilter(ctx, d.QueryContext, listAuditManagerEvidenceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -73875,9 +76847,13 @@ func GetAuditManagerEvidence(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewAuditManagerEvidencePaginator(essdk.BuildFilter(ctx, d.QueryContext, getAuditManagerEvidenceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAuditManagerEvidencePaginator(essdk.BuildFilter(ctx, d.QueryContext, getAuditManagerEvidenceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -74021,8 +76997,12 @@ func ListAuditManagerEvidenceFolder(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewAuditManagerEvidenceFolderPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAuditManagerEvidenceFolderFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewAuditManagerEvidenceFolderPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAuditManagerEvidenceFolderFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -74087,9 +77067,13 @@ func GetAuditManagerEvidenceFolder(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewAuditManagerEvidenceFolderPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAuditManagerEvidenceFolderFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAuditManagerEvidenceFolderPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAuditManagerEvidenceFolderFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -74231,8 +77215,12 @@ func ListAuditManagerFramework(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewAuditManagerFrameworkPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAuditManagerFrameworkFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewAuditManagerFrameworkPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAuditManagerFrameworkFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -74296,9 +77284,13 @@ func GetAuditManagerFramework(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewAuditManagerFrameworkPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAuditManagerFrameworkFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewAuditManagerFrameworkPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAuditManagerFrameworkFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -74436,8 +77428,12 @@ func ListCloudSearchDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewCloudSearchDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudSearchDomainFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewCloudSearchDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, listCloudSearchDomainFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -74496,9 +77492,13 @@ func GetCloudSearchDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewCloudSearchDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudSearchDomainFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewCloudSearchDomainPaginator(essdk.BuildFilter(ctx, d.QueryContext, getCloudSearchDomainFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -74635,8 +77635,12 @@ func ListDLMLifecyclePolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDLMLifecyclePolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDLMLifecyclePolicyFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDLMLifecyclePolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDLMLifecyclePolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -74695,9 +77699,13 @@ func GetDLMLifecyclePolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDLMLifecyclePolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDLMLifecyclePolicyFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDLMLifecyclePolicyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDLMLifecyclePolicyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -74856,8 +77864,12 @@ func ListDocDBCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrat
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDocDBClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDocDBClusterFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDocDBClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, listDocDBClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -74937,9 +77949,13 @@ func GetDocDBCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDocDBClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDocDBClusterFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDocDBClusterPaginator(essdk.BuildFilter(ctx, d.QueryContext, getDocDBClusterFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -75099,8 +78115,12 @@ func ListDocDBClusterInstance(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewDocDBClusterInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDocDBClusterInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewDocDBClusterInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listDocDBClusterInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -75181,9 +78201,13 @@ func GetDocDBClusterInstance(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewDocDBClusterInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDocDBClusterInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewDocDBClusterInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getDocDBClusterInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -75320,8 +78344,12 @@ func ListGlobalAcceleratorAccelerator(ctx context.Context, d *plugin.QueryData, 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGlobalAcceleratorAcceleratorPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlobalAcceleratorAcceleratorFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGlobalAcceleratorAcceleratorPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlobalAcceleratorAcceleratorFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -75379,9 +78407,13 @@ func GetGlobalAcceleratorAccelerator(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGlobalAcceleratorAcceleratorPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlobalAcceleratorAcceleratorFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGlobalAcceleratorAcceleratorPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlobalAcceleratorAcceleratorFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -75517,8 +78549,12 @@ func ListGlobalAcceleratorEndpointGroup(ctx context.Context, d *plugin.QueryData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGlobalAcceleratorEndpointGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlobalAcceleratorEndpointGroupFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGlobalAcceleratorEndpointGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlobalAcceleratorEndpointGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -75575,9 +78611,13 @@ func GetGlobalAcceleratorEndpointGroup(ctx context.Context, d *plugin.QueryData,
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGlobalAcceleratorEndpointGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlobalAcceleratorEndpointGroupFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGlobalAcceleratorEndpointGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlobalAcceleratorEndpointGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -75707,8 +78747,12 @@ func ListGlobalAcceleratorListener(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGlobalAcceleratorListenerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlobalAcceleratorListenerFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGlobalAcceleratorListenerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlobalAcceleratorListenerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -75759,9 +78803,13 @@ func GetGlobalAcceleratorListener(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGlobalAcceleratorListenerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlobalAcceleratorListenerFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGlobalAcceleratorListenerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlobalAcceleratorListenerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -75895,8 +78943,12 @@ func ListGlueCatalogDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGlueCatalogDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlueCatalogDatabaseFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGlueCatalogDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlueCatalogDatabaseFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -75951,9 +79003,13 @@ func GetGlueCatalogDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGlueCatalogDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlueCatalogDatabaseFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGlueCatalogDatabasePaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlueCatalogDatabaseFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -76098,8 +79154,12 @@ func ListGlueCatalogTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGlueCatalogTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlueCatalogTableFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGlueCatalogTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlueCatalogTableFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -76165,9 +79225,13 @@ func GetGlueCatalogTable(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGlueCatalogTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlueCatalogTableFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGlueCatalogTablePaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlueCatalogTableFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -76302,8 +79366,12 @@ func ListGlueConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGlueConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlueConnectionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGlueConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlueConnectionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -76359,9 +79427,13 @@ func GetGlueConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGlueConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlueConnectionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGlueConnectionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlueConnectionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -76506,8 +79578,12 @@ func ListGlueCrawler(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGlueCrawlerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlueCrawlerFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGlueCrawlerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlueCrawlerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -76573,9 +79649,13 @@ func GetGlueCrawler(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGlueCrawlerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlueCrawlerFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGlueCrawlerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlueCrawlerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -76702,8 +79782,12 @@ func ListGlueDataCatalogEncryptionSettings(ctx context.Context, d *plugin.QueryD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGlueDataCatalogEncryptionSettingsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlueDataCatalogEncryptionSettingsFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGlueDataCatalogEncryptionSettingsPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlueDataCatalogEncryptionSettingsFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -76751,9 +79835,13 @@ func GetGlueDataCatalogEncryptionSettings(ctx context.Context, d *plugin.QueryDa
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGlueDataCatalogEncryptionSettingsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlueDataCatalogEncryptionSettingsFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGlueDataCatalogEncryptionSettingsPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlueDataCatalogEncryptionSettingsFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -76889,8 +79977,12 @@ func ListGlueDataQualityRuleset(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGlueDataQualityRulesetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlueDataQualityRulesetFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGlueDataQualityRulesetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlueDataQualityRulesetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -76947,9 +80039,13 @@ func GetGlueDataQualityRuleset(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGlueDataQualityRulesetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlueDataQualityRulesetFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGlueDataQualityRulesetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlueDataQualityRulesetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -77099,8 +80195,12 @@ func ListGlueDevEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGlueDevEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlueDevEndpointFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGlueDevEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlueDevEndpointFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -77171,9 +80271,13 @@ func GetGlueDevEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGlueDevEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlueDevEndpointFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGlueDevEndpointPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlueDevEndpointFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -77320,8 +80424,12 @@ func ListGlueJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGlueJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlueJobFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGlueJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlueJobFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -77389,9 +80497,13 @@ func GetGlueJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData)
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGlueJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlueJobFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGlueJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlueJobFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -77522,8 +80634,12 @@ func ListGlueSecurityConfiguration(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewGlueSecurityConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlueSecurityConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewGlueSecurityConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listGlueSecurityConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -77575,9 +80691,13 @@ func GetGlueSecurityConfiguration(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewGlueSecurityConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlueSecurityConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewGlueSecurityConfigurationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getGlueSecurityConfigurationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -77712,8 +80832,12 @@ func ListHealthEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewHealthEventPaginator(essdk.BuildFilter(ctx, d.QueryContext, listHealthEventFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewHealthEventPaginator(essdk.BuildFilter(ctx, d.QueryContext, listHealthEventFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -77769,9 +80893,13 @@ func GetHealthEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewHealthEventPaginator(essdk.BuildFilter(ctx, d.QueryContext, getHealthEventFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewHealthEventPaginator(essdk.BuildFilter(ctx, d.QueryContext, getHealthEventFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -77903,8 +81031,12 @@ func ListHealthAffectedEntity(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewHealthAffectedEntityPaginator(essdk.BuildFilter(ctx, d.QueryContext, listHealthAffectedEntityFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewHealthAffectedEntityPaginator(essdk.BuildFilter(ctx, d.QueryContext, listHealthAffectedEntityFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -77957,9 +81089,13 @@ func GetHealthAffectedEntity(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewHealthAffectedEntityPaginator(essdk.BuildFilter(ctx, d.QueryContext, getHealthAffectedEntityFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewHealthAffectedEntityPaginator(essdk.BuildFilter(ctx, d.QueryContext, getHealthAffectedEntityFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -78100,8 +81236,12 @@ func ListInspectorAssessmentRun(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewInspectorAssessmentRunPaginator(essdk.BuildFilter(ctx, d.QueryContext, listInspectorAssessmentRunFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewInspectorAssessmentRunPaginator(essdk.BuildFilter(ctx, d.QueryContext, listInspectorAssessmentRunFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -78163,9 +81303,13 @@ func GetInspectorAssessmentRun(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewInspectorAssessmentRunPaginator(essdk.BuildFilter(ctx, d.QueryContext, getInspectorAssessmentRunFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewInspectorAssessmentRunPaginator(essdk.BuildFilter(ctx, d.QueryContext, getInspectorAssessmentRunFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -78296,8 +81440,12 @@ func ListInspectorAssessmentTarget(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewInspectorAssessmentTargetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listInspectorAssessmentTargetFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewInspectorAssessmentTargetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listInspectorAssessmentTargetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -78349,9 +81497,13 @@ func GetInspectorAssessmentTarget(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewInspectorAssessmentTargetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getInspectorAssessmentTargetFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewInspectorAssessmentTargetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getInspectorAssessmentTargetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -78488,8 +81640,12 @@ func ListInspectorAssessmentTemplate(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewInspectorAssessmentTemplatePaginator(essdk.BuildFilter(ctx, d.QueryContext, listInspectorAssessmentTemplateFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewInspectorAssessmentTemplatePaginator(essdk.BuildFilter(ctx, d.QueryContext, listInspectorAssessmentTemplateFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -78547,9 +81703,13 @@ func GetInspectorAssessmentTemplate(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewInspectorAssessmentTemplatePaginator(essdk.BuildFilter(ctx, d.QueryContext, getInspectorAssessmentTemplateFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewInspectorAssessmentTemplatePaginator(essdk.BuildFilter(ctx, d.QueryContext, getInspectorAssessmentTemplateFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -78681,8 +81841,12 @@ func ListInspectorExclusion(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewInspectorExclusionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listInspectorExclusionFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewInspectorExclusionPaginator(essdk.BuildFilter(ctx, d.QueryContext, listInspectorExclusionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -78735,9 +81899,13 @@ func GetInspectorExclusion(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewInspectorExclusionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getInspectorExclusionFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewInspectorExclusionPaginator(essdk.BuildFilter(ctx, d.QueryContext, getInspectorExclusionFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -78883,8 +82051,12 @@ func ListInspectorFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewInspectorFindingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listInspectorFindingFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewInspectorFindingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listInspectorFindingFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -78951,9 +82123,13 @@ func GetInspectorFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewInspectorFindingPaginator(essdk.BuildFilter(ctx, d.QueryContext, getInspectorFindingFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewInspectorFindingPaginator(essdk.BuildFilter(ctx, d.QueryContext, getInspectorFindingFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -79096,8 +82272,12 @@ func ListInspector2Coverage(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewInspector2CoveragePaginator(essdk.BuildFilter(ctx, d.QueryContext, listInspector2CoverageFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewInspector2CoveragePaginator(essdk.BuildFilter(ctx, d.QueryContext, listInspector2CoverageFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -79160,9 +82340,13 @@ func GetInspector2Coverage(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewInspector2CoveragePaginator(essdk.BuildFilter(ctx, d.QueryContext, getInspector2CoverageFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewInspector2CoveragePaginator(essdk.BuildFilter(ctx, d.QueryContext, getInspector2CoverageFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -79289,8 +82473,12 @@ func ListInspector2CoverageStatistic(ctx context.Context, d *plugin.QueryData, _
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewInspector2CoverageStatisticPaginator(essdk.BuildFilter(ctx, d.QueryContext, listInspector2CoverageStatisticFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewInspector2CoverageStatisticPaginator(essdk.BuildFilter(ctx, d.QueryContext, listInspector2CoverageStatisticFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -79338,9 +82526,13 @@ func GetInspector2CoverageStatistic(ctx context.Context, d *plugin.QueryData, _ 
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewInspector2CoverageStatisticPaginator(essdk.BuildFilter(ctx, d.QueryContext, getInspector2CoverageStatisticFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewInspector2CoverageStatisticPaginator(essdk.BuildFilter(ctx, d.QueryContext, getInspector2CoverageStatisticFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -79470,8 +82662,12 @@ func ListInspector2Member(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewInspector2MemberPaginator(essdk.BuildFilter(ctx, d.QueryContext, listInspector2MemberFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewInspector2MemberPaginator(essdk.BuildFilter(ctx, d.QueryContext, listInspector2MemberFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -79522,9 +82718,13 @@ func GetInspector2Member(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewInspector2MemberPaginator(essdk.BuildFilter(ctx, d.QueryContext, getInspector2MemberFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewInspector2MemberPaginator(essdk.BuildFilter(ctx, d.QueryContext, getInspector2MemberFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -79698,8 +82898,12 @@ func ListInspector2Finding(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewInspector2FindingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listInspector2FindingFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewInspector2FindingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listInspector2FindingFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -79794,9 +82998,13 @@ func GetInspector2Finding(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewInspector2FindingPaginator(essdk.BuildFilter(ctx, d.QueryContext, getInspector2FindingFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewInspector2FindingPaginator(essdk.BuildFilter(ctx, d.QueryContext, getInspector2FindingFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -79935,8 +83143,12 @@ func ListFirehoseDeliveryStream(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewFirehoseDeliveryStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, listFirehoseDeliveryStreamFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewFirehoseDeliveryStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, listFirehoseDeliveryStreamFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -79996,9 +83208,13 @@ func GetFirehoseDeliveryStream(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewFirehoseDeliveryStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, getFirehoseDeliveryStreamFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewFirehoseDeliveryStreamPaginator(essdk.BuildFilter(ctx, d.QueryContext, getFirehoseDeliveryStreamFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -80146,8 +83362,12 @@ func ListLightsailInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewLightsailInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listLightsailInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewLightsailInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listLightsailInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -80216,9 +83436,13 @@ func GetLightsailInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewLightsailInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getLightsailInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewLightsailInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getLightsailInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -80361,8 +83585,12 @@ func ListMacie2ClassificationJob(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewMacie2ClassificationJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMacie2ClassificationJobFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewMacie2ClassificationJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMacie2ClassificationJobFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -80426,9 +83654,13 @@ func GetMacie2ClassificationJob(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewMacie2ClassificationJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMacie2ClassificationJobFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewMacie2ClassificationJobPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMacie2ClassificationJobFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -80562,8 +83794,12 @@ func ListMediaStoreContainer(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewMediaStoreContainerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMediaStoreContainerFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewMediaStoreContainerPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMediaStoreContainerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -80618,9 +83854,13 @@ func GetMediaStoreContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewMediaStoreContainerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMediaStoreContainerFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewMediaStoreContainerPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMediaStoreContainerFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -80756,8 +83996,12 @@ func ListMgnApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewMgnApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMgnApplicationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewMgnApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listMgnApplicationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -80814,9 +84058,13 @@ func GetMgnApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydra
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewMgnApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMgnApplicationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewMgnApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getMgnApplicationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -80948,8 +84196,12 @@ func ListSecurityLakeDataLake(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSecurityLakeDataLakePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityLakeDataLakeFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityLakeDataLakePaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityLakeDataLakeFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -81002,9 +84254,13 @@ func GetSecurityLakeDataLake(ctx context.Context, d *plugin.QueryData, _ *plugin
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityLakeDataLakePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityLakeDataLakeFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSecurityLakeDataLakePaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityLakeDataLakeFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -81144,8 +84400,12 @@ func ListSecurityLakeSubscriber(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewSecurityLakeSubscriberPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityLakeSubscriberFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewSecurityLakeSubscriberPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSecurityLakeSubscriberFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -81207,9 +84467,13 @@ func GetSecurityLakeSubscriber(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewSecurityLakeSubscriberPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityLakeSubscriberFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewSecurityLakeSubscriberPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSecurityLakeSubscriberFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -81345,8 +84609,12 @@ func ListRamPrincipalAssociation(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRamPrincipalAssociationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRamPrincipalAssociationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRamPrincipalAssociationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRamPrincipalAssociationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -81403,9 +84671,13 @@ func GetRamPrincipalAssociation(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRamPrincipalAssociationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRamPrincipalAssociationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRamPrincipalAssociationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRamPrincipalAssociationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -81541,8 +84813,12 @@ func ListRamResourceAssociation(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewRamResourceAssociationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRamResourceAssociationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewRamResourceAssociationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRamResourceAssociationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -81599,9 +84875,13 @@ func GetRamResourceAssociation(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewRamResourceAssociationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRamResourceAssociationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewRamResourceAssociationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRamResourceAssociationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -81741,8 +85021,12 @@ func ListServerlessApplicationRepositoryApplication(ctx context.Context, d *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewServerlessApplicationRepositoryApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listServerlessApplicationRepositoryApplicationFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewServerlessApplicationRepositoryApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listServerlessApplicationRepositoryApplicationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -81803,9 +85087,13 @@ func GetServerlessApplicationRepositoryApplication(ctx context.Context, d *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewServerlessApplicationRepositoryApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getServerlessApplicationRepositoryApplicationFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewServerlessApplicationRepositoryApplicationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getServerlessApplicationRepositoryApplicationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -81946,8 +85234,12 @@ func ListServiceQuotasServiceQuotaChangeRequest(ctx context.Context, d *plugin.Q
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewServiceQuotasServiceQuotaChangeRequestPaginator(essdk.BuildFilter(ctx, d.QueryContext, listServiceQuotasServiceQuotaChangeRequestFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewServiceQuotasServiceQuotaChangeRequestPaginator(essdk.BuildFilter(ctx, d.QueryContext, listServiceQuotasServiceQuotaChangeRequestFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -82009,9 +85301,13 @@ func GetServiceQuotasServiceQuotaChangeRequest(ctx context.Context, d *plugin.Qu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewServiceQuotasServiceQuotaChangeRequestPaginator(essdk.BuildFilter(ctx, d.QueryContext, getServiceQuotasServiceQuotaChangeRequestFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewServiceQuotasServiceQuotaChangeRequestPaginator(essdk.BuildFilter(ctx, d.QueryContext, getServiceQuotasServiceQuotaChangeRequestFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -82151,8 +85447,12 @@ func ListServiceCatalogProduct(ctx context.Context, d *plugin.QueryData, _ *plug
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewServiceCatalogProductPaginator(essdk.BuildFilter(ctx, d.QueryContext, listServiceCatalogProductFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewServiceCatalogProductPaginator(essdk.BuildFilter(ctx, d.QueryContext, listServiceCatalogProductFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -82213,9 +85513,13 @@ func GetServiceCatalogProduct(ctx context.Context, d *plugin.QueryData, _ *plugi
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewServiceCatalogProductPaginator(essdk.BuildFilter(ctx, d.QueryContext, getServiceCatalogProductFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewServiceCatalogProductPaginator(essdk.BuildFilter(ctx, d.QueryContext, getServiceCatalogProductFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -82351,8 +85655,12 @@ func ListServiceCatalogPortfolio(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewServiceCatalogPortfolioPaginator(essdk.BuildFilter(ctx, d.QueryContext, listServiceCatalogPortfolioFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewServiceCatalogPortfolioPaginator(essdk.BuildFilter(ctx, d.QueryContext, listServiceCatalogPortfolioFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -82409,9 +85717,13 @@ func GetServiceCatalogPortfolio(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewServiceCatalogPortfolioPaginator(essdk.BuildFilter(ctx, d.QueryContext, getServiceCatalogPortfolioFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewServiceCatalogPortfolioPaginator(essdk.BuildFilter(ctx, d.QueryContext, getServiceCatalogPortfolioFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -82551,8 +85863,12 @@ func ListServiceDiscoveryService(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewServiceDiscoveryServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listServiceDiscoveryServiceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewServiceDiscoveryServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, listServiceDiscoveryServiceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -82613,9 +85929,13 @@ func GetServiceDiscoveryService(ctx context.Context, d *plugin.QueryData, _ *plu
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewServiceDiscoveryServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getServiceDiscoveryServiceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewServiceDiscoveryServicePaginator(essdk.BuildFilter(ctx, d.QueryContext, getServiceDiscoveryServiceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -82752,8 +86072,12 @@ func ListServiceDiscoveryNamespace(ctx context.Context, d *plugin.QueryData, _ *
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewServiceDiscoveryNamespacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listServiceDiscoveryNamespaceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewServiceDiscoveryNamespacePaginator(essdk.BuildFilter(ctx, d.QueryContext, listServiceDiscoveryNamespaceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -82811,9 +86135,13 @@ func GetServiceDiscoveryNamespace(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewServiceDiscoveryNamespacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getServiceDiscoveryNamespaceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewServiceDiscoveryNamespacePaginator(essdk.BuildFilter(ctx, d.QueryContext, getServiceDiscoveryNamespaceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
@@ -82949,8 +86277,12 @@ func ListServiceDiscoveryInstance(ctx context.Context, d *plugin.QueryData, _ *p
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
-	paginator, err := k.NewServiceDiscoveryInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listServiceDiscoveryInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), d.QueryContext.Limit)
+	paginator, err := k.NewServiceDiscoveryInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, listServiceDiscoveryInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
 		return nil, err
 	}
@@ -83007,9 +86339,13 @@ func GetServiceDiscoveryInstance(ctx context.Context, d *plugin.QueryData, _ *pl
 	if err != nil {
 		return nil, err
 	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
 
 	limit := int64(1)
-	paginator, err := k.NewServiceDiscoveryInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getServiceDiscoveryInstanceFilters, "aws", accountId, encodedResourceCollectionFilters), &limit)
+	paginator, err := k.NewServiceDiscoveryInstancePaginator(essdk.BuildFilter(ctx, d.QueryContext, getServiceDiscoveryInstanceFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
 	if err != nil {
 		return nil, err
 	}
