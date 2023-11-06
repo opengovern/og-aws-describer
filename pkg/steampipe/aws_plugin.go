@@ -42,15 +42,13 @@ func ExtractTableName(resourceType string) string {
 	return ""
 }
 
-func GetResourceTypeByTableName(tableName string) string {
+func ExtractResourceType(tableName string) string {
 	tableName = strings.ToLower(tableName)
-	for k, v := range awsMap {
-		if tableName == strings.ToLower(v) {
-			return k
-		}
-	}
+	return strings.ToLower(awsReverseMap[tableName])
+}
 
-	return ""
+func GetResourceTypeByTableName(tableName string) string {
+	return ExtractResourceType(tableName)
 }
 
 func Plugin() *plugin.Plugin {
