@@ -1303,6 +1303,7 @@ func IAMPolicyAttachment(ctx context.Context, cfg aws.Config, stream *StreamSend
 				policyUsers = append(policyUsers, attachmentPage.PolicyUsers...)
 			}
 			resource := Resource{
+				ARN:    *policy.Arn,
 				Region: describeCtx.KaytuRegion,
 				Name:   fmt.Sprintf("%s - Attachments", *policy.Arn),
 				Description: model.IAMPolicyAttachmentDescription{
