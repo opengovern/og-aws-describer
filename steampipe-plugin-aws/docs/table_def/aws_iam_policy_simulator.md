@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>principal_arn</td><td>The principal Amazon Resource Name (ARN) for this policy simulation.</td></tr>

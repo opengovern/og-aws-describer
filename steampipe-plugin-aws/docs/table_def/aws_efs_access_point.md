@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>name</td><td>The name of the access point. This is the value of the Name tag.</td></tr>

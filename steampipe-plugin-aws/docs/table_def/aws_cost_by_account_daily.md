@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>linked_account_id</td><td>The AWS Account ID.</td></tr>

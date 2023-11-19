@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>queue_url</td><td>The URL of the Amazon SQS queue.</td></tr>

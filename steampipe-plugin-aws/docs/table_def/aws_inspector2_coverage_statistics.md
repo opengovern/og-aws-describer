@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>total_counts</td><td>The total number for all groups</td></tr>

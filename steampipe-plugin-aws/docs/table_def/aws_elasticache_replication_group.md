@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>replication_group_id</td><td>The identifier for the replication group.</td></tr>

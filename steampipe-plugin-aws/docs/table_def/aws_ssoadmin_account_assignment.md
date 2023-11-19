@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>target_account_id</td><td>The identifier of the AWS account from which to list the assignments.</td></tr>

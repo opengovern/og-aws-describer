@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>topic_arn</td><td>Amazon Resource Name (ARN) of the Topic.</td></tr>

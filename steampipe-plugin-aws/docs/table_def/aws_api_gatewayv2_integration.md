@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>integration_id</td><td>Represents the identifier of an integration.</td></tr>

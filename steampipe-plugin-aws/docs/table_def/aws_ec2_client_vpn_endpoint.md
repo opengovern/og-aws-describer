@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>client_vpn_endpoint_id</td><td>The ID of the client VPN endpoint.</td></tr>

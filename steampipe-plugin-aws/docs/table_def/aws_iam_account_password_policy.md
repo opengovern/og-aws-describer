@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>allow_users_to_change_password</td><td>Specifies whether IAM users are allowed to change their own password.</td></tr>

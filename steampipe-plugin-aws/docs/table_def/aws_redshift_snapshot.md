@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>snapshot_identifier</td><td>The unique identifier of the cluster.</td></tr>

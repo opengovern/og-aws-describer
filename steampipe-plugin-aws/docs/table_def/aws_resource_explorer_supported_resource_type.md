@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>resource_type</td><td>The unique identifier of the resource type.</td></tr>

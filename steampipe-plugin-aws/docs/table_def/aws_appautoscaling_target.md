@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>service_namespace</td><td>The namespace of the AWS service that provides the resource, or a custom-resource.</td></tr>

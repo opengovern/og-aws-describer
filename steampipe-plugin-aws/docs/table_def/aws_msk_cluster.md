@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>arn</td><td>The Amazon Resource Name (ARN) that uniquely identifies the Cluster.</td></tr>

@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>reserved_instance_id</td><td>The ID of the Reserved instance.</td></tr>

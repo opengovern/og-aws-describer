@@ -22,7 +22,9 @@ func TestGenerateDocs(t *testing.T) {
 	}
 
 	for _, table := range plg.TableMap {
-		doc := `<table>
+		doc := `# Columns  
+
+<table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 `
 		for _, column := range table.Columns {

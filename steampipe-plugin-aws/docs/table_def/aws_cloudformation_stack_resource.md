@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>logical_resource_id</td><td>The logical name of the resource specified in the template.</td></tr>

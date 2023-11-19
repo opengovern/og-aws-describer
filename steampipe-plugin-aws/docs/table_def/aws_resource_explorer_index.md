@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>arn</td><td>The Amazon resource name (ARN) of the index.</td></tr>

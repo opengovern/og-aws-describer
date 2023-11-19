@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>rule_group_name</td><td>The descriptive name of the rule group.</td></tr>

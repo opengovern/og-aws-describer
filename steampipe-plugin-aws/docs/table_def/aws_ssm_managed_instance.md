@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>name</td><td>The name assigned to an on-premises server or virtual machine (VM) when it is activated as a Systems Manager managed instance.</td></tr>

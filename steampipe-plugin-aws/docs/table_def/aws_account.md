@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>account_aliases</td><td>A list of aliases associated with the account, if applicable.</td></tr>

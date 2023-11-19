@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>name</td><td>The name for the Resolver rule, which you specified when you created the Resolver rule.</td></tr>

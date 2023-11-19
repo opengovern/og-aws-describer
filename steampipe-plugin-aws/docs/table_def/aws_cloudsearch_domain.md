@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>domain_name</td><td>A string that represents the name of a domain.</td></tr>

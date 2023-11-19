@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>default_ebs_encryption_enabled</td><td>Indicates whether encryption by default is enabled.</td></tr>

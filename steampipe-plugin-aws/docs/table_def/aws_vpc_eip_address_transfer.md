@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>allocation_id</td><td>The allocation ID of an Elastic IP address.</td></tr>

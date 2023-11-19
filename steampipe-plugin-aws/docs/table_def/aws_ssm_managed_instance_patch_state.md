@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>instance_id</td><td>The ID of the managed node the high-level patch compliance information was collected for.</td></tr>

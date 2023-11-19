@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>reserved_cache_node_id</td><td>The unique identifier for the reservation.</td></tr>

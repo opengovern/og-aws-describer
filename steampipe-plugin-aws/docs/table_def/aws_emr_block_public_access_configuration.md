@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>block_public_security_group_rules</td><td>Indicates whether Amazon EMR block public access is enabled (true) or disabled (false).</td></tr>

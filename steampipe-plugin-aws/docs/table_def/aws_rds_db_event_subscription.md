@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>cust_subscription_id</td><td>The RDS event notification subscription Id.</td></tr>

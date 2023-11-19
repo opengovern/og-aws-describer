@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>app_id</td><td>The unique ID of the Amplify app.</td></tr>

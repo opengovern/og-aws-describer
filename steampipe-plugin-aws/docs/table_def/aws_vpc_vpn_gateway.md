@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>vpn_gateway_id</td><td>The ID of the virtual private gateway.</td></tr>

@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>nat_gateway_id</td><td>The ID of the NAT gateway.</td></tr>

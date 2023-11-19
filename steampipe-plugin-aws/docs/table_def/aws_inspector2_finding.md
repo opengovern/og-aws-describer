@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>finding_account_id</td><td>The Amazon Web Services account ID associated with the finding.</td></tr>

@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>filter</td><td>The cloudwatch filter pattern for the search.</td></tr>

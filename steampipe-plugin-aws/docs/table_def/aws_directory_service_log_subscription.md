@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>directory_id</td><td>Identifier (ID) of the directory that you want to associate with the log subscription.</td></tr>

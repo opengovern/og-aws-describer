@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>name</td><td>The name of the database. For Hive compatibility, this is folded to lowercase when it is stored.</td></tr>

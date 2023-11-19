@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>verified_access_trust_provider_id</td><td>The ID of the AWS Verified Access trust provider.</td></tr>

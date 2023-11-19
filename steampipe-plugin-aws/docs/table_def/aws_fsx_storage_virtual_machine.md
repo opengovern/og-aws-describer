@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>storage_virtual_machine_id</td><td>The id of the storage virtual machine.</td></tr>

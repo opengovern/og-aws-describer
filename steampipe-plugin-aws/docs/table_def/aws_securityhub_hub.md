@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>hub_arn</td><td>The ARN of the Hub resource that was retrieved.</td></tr>

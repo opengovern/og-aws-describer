@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>cluster_arn</td><td>The Amazon Resource Name (ARN) that identifies the cluster.</td></tr>

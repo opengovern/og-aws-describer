@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>alias_name</td><td>String that contains the alias. This value begins with alias/.</td></tr>

@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>verified_access_group_id</td><td>The ID of the verified access group.</td></tr>

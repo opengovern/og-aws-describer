@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>backup_vault_name</td><td>The name of a logical container where backups are stored.</td></tr>

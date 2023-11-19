@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>rate_code</td><td>A unique code for a product/ offer/ pricing-tier combination.</td></tr>

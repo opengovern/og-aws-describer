@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>encryption_at_rest</td><td>A list of public keys to be used by the DataCatalogEncryptionSettingss for authentication.</td></tr>

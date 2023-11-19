@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>snapshot_id</td><td>The ID of the snapshot. Each snapshot receives a unique identifier when it is created.</td></tr>

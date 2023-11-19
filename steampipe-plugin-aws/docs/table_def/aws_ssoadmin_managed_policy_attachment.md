@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>permission_set_arn</td><td>The ARN of the permission set.</td></tr>

@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>db_proxy_name</td><td>The identifier for the proxy.</td></tr>

@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>cluster_name</td><td>A user-generated string that you use to identify your cluster.</td></tr>

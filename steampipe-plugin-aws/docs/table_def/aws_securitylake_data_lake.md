@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>encryption_key</td><td>The type of encryption key used by Security Lake to encrypt the lake configuration.</td></tr>

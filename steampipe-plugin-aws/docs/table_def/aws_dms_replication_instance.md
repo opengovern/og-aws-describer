@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>replication_instance_identifier</td><td>The identifier of the replication instance.</td></tr>

@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>legal_hold_id</td><td>ID of specific legal hold on one or more recovery points.</td></tr>

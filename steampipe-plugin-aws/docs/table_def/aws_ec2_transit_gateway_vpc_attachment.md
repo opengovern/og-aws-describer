@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>transit_gateway_attachment_id</td><td>The ID of the transit gateway attachment.</td></tr>

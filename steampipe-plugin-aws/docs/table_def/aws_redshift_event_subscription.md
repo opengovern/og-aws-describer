@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>cust_subscription_id</td><td>The name of the Amazon Redshift event notification subscription.</td></tr>

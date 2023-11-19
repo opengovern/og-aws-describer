@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>db_instance_identifier</td><td>Contains a user-provided database identifier. This identifier is the unique key that identifies an instance.</td></tr>

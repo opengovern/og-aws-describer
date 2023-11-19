@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>direct_connect_gateway_id</td><td>The id of the gateway.</td></tr>

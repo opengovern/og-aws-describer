@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>endpoint_name</td><td>The name of the DevEndpoint.</td></tr>

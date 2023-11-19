@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>instance_id</td><td>The managed node ID targeted by the request to query inventory information.</td></tr>

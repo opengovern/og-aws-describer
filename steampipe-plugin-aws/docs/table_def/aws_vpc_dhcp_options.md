@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>dhcp_options_id</td><td>The ID of the set of DHCP options.</td></tr>

@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>subnet_id</td><td>Contains the unique ID to specify a subnet.</td></tr>

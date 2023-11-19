@@ -1,3 +1,5 @@
+# Columns  
+
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>db_snapshot_identifier</td><td>The friendly name to identify the DB snapshot.</td></tr>
