@@ -41,6 +41,46 @@ type ResourceType struct {
 	Summarize     bool
 }
 
+func (r ResourceType) GetConnector() source.Type {
+	return r.Connector
+}
+
+func (r ResourceType) GetResourceName() string {
+	return r.ResourceName
+}
+
+func (r ResourceType) GetResourceLabel() string {
+	return r.ResourceLabel
+}
+
+func (r ResourceType) GetServiceName() string {
+	return r.ServiceName
+}
+
+func (r ResourceType) GetTags() map[string][]string {
+	return r.Tags
+}
+
+func (r ResourceType) GetTerraformName() []string {
+	return r.TerraformName
+}
+
+func (r ResourceType) GetTerraformServiceName() string {
+	return r.TerraformServiceName
+}
+
+func (r ResourceType) IsFastDiscovery() bool {
+	return r.FastDiscovery
+}
+
+func (r ResourceType) IsCostDiscovery() bool {
+	return r.CostDiscovery
+}
+
+func (r ResourceType) IsSummarized() bool {
+	return r.Summarize
+}
+
 func ListResourceTypes() []string {
 	var list []string
 	for k := range resourceTypes {
