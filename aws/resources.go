@@ -119,7 +119,14 @@ func GetResourceType(resourceType string) (*ResourceType, error) {
 	if r, ok := resourceTypes[resourceType]; ok {
 		return &r, nil
 	}
-
+	resourceType = strings.ToLower(resourceType)
+	for k, v := range resourceTypes {
+		k := strings.ToLower(k)
+		v := v
+		if k == resourceType {
+			return &v, nil
+		}
+	}
 	return nil, fmt.Errorf("resource type %s not found", resourceType)
 }
 
