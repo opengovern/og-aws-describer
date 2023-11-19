@@ -16,7 +16,7 @@
 	<tr><td>engine</td><td>The name of the cache engine (memcached or redis) to be used for this cluster.</td></tr>
 	<tr><td>engine_version</td><td>The version of the cache engine that is used in this cluster.</td></tr>
 	<tr><td>num_cache_nodes</td><td>The number of cache nodes in the cluster.</td></tr>
-	<tr><td>preferred_availability_zone</td><td>The name of the Availability Zone in which the cluster is located or 'Multiple' if the cache nodes are located in different Availability Zones.</td></tr>
+	<tr><td>preferred_availability_zone</td><td>The name of the Availability Zone in which the cluster is located or &#39;Multiple&#39; if the cache nodes are located in different Availability Zones.</td></tr>
 	<tr><td>preferred_maintenance_window</td><td>Specifies the weekly time range during which maintenance on the cluster is performed.</td></tr>
 	<tr><td>replication_group_id</td><td>The replication group to which this cluster belongs.</td></tr>
 	<tr><td>snapshot_retention_limit</td><td>The number of days for which ElastiCache retains automatic cluster snapshots before deleting them.</td></tr>

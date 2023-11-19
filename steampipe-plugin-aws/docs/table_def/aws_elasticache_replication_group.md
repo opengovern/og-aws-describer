@@ -21,7 +21,7 @@
 	<tr><td>configuration_endpoint</td><td>The configuration endpoint for this replication group.</td></tr>
 	<tr><td>global_replication_group_info</td><td>The name of the Global Datastore and role of this replication group in the Global Datastore.</td></tr>
 	<tr><td>member_clusters</td><td>The names of all the cache clusters that are part of this replication group.</td></tr>
-	<tr><td>member_clusters_outpost_arns</td><td>The outpost ARNs of the replication group's member clusters.</td></tr>
+	<tr><td>member_clusters_outpost_arns</td><td>The outpost ARNs of the replication group&#39;s member clusters.</td></tr>
 	<tr><td>node_groups</td><td>A list of node groups in this replication group.</td></tr>
 	<tr><td>pending_modified_values</td><td>A group of settings to be applied to the replication group, either immediately or during the next maintenance window.</td></tr>
 	<tr><td>user_group_ids</td><td>The list of user group IDs that have access to the replication group.</td></tr>

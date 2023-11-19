@@ -10,7 +10,7 @@
 	<tr><td>created_at</td><td>The date and time that the add-on was created.</td></tr>
 	<tr><td>modified_at</td><td>The date and time that the add-on was last modified.</td></tr>
 	<tr><td>service_account_role_arn</td><td>The Amazon Resource Name (ARN) of the IAM role that is bound to the Kubernetes service account used by the add-on.</td></tr>
-	<tr><td>health_issues</td><td>An object that represents the add-on's health issues.</td></tr>
+	<tr><td>health_issues</td><td>An object that represents the add-on&#39;s health issues.</td></tr>
 	<tr><td>title</td><td>Title of the resource.</td></tr>
 	<tr><td>tags</td><td>The metadata that you apply to the cluster to assist with categorization and organization.</td></tr>
 	<tr><td>akas</td><td>Array of globally unique identifier strings (also known as) for the resource.</td></tr>

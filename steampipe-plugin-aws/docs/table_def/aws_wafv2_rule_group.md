@@ -5,7 +5,7 @@
 	<tr><td>name</td><td>The name of the rule group.</td></tr>
 	<tr><td>arn</td><td>The Amazon Resource Name (ARN) of the entity.</td></tr>
 	<tr><td>id</td><td>A unique identifier for the rule group.</td></tr>
-	<tr><td>scope</td><td>Specifies the scope of the rule group. Possible values are: 'REGIONAL' and 'CLOUDFRONT'.</td></tr>
+	<tr><td>scope</td><td>Specifies the scope of the rule group. Possible values are: &#39;REGIONAL&#39; and &#39;CLOUDFRONT&#39;.</td></tr>
 	<tr><td>capacity</td><td>The web ACL capacity units (WCUs) required for this rule group.</td></tr>
 	<tr><td>description</td><td>A description of the rule group that helps with identification.</td></tr>
 	<tr><td>lock_token</td><td>A token used for optimistic locking.</td></tr>

@@ -11,7 +11,7 @@
 	<tr><td>ignore_public_acls</td><td>Specifies whether Amazon S3 should ignore public ACLs for buckets in this account.</td></tr>
 	<tr><td>restrict_public_buckets</td><td>Specifies whether Amazon S3 should restrict public bucket policies for buckets in this account.</td></tr>
 	<tr><td>creation_date</td><td>The date and time when the specified access point was created.</td></tr>
-	<tr><td>network_origin</td><td>Indicates whether this access point allows access from the public internet. If VpcConfiguration is specified for this access point, then NetworkOrigin is VPC, and the access point doesn't allow access from the public internet.</td></tr>
+	<tr><td>network_origin</td><td>Indicates whether this access point allows access from the public internet. If VpcConfiguration is specified for this access point, then NetworkOrigin is VPC, and the access point doesn&#39;t allow access from the public internet.</td></tr>
 	<tr><td>vpc_id</td><td>Specifies the VPC ID from which the access point will only allow connections.</td></tr>
 	<tr><td>policy</td><td>The access point policy associated with the specified access point.</td></tr>
 	<tr><td>policy_std</td><td>Contains the policy in a canonical form for easier searching.</td></tr>

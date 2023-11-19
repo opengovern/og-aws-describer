@@ -3,6 +3,7 @@ package aws
 import (
 	"context"
 	"fmt"
+	"html"
 	"os"
 	"strings"
 	"testing"
@@ -28,8 +29,10 @@ func TestGenerateDocs(t *testing.T) {
 	<tr><td>Column Name</td><td>Description</td></tr>
 `
 		for _, column := range table.Columns {
+			desc := column.Description
+			desc = html.EscapeString(desc)
 			doc += fmt.Sprintf(`	<tr><td>%s</td><td>%s</td></tr>
-`, column.Name, column.Description)
+`, column.Name, desc)
 		}
 
 		doc += "</table>"

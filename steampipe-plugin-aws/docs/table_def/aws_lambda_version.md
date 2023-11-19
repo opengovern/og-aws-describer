@@ -4,18 +4,18 @@
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>version</td><td>The version of the Lambda function.</td></tr>
 	<tr><td>function_name</td><td>The name of the function.</td></tr>
-	<tr><td>arn</td><td>The function's Amazon Resource Name (ARN).</td></tr>
+	<tr><td>arn</td><td>The function&#39;s Amazon Resource Name (ARN).</td></tr>
 	<tr><td>master_arn</td><td>For Lambda@Edge functions, the ARN of the master function.</td></tr>
 	<tr><td>state</td><td>The current state of the function.</td></tr>
-	<tr><td>code_sha_256</td><td>The SHA256 hash of the function's deployment package.</td></tr>
-	<tr><td>code_size</td><td>The size of the function's deployment package, in bytes.</td></tr>
-	<tr><td>description</td><td>The function's description.</td></tr>
+	<tr><td>code_sha_256</td><td>The SHA256 hash of the function&#39;s deployment package.</td></tr>
+	<tr><td>code_size</td><td>The size of the function&#39;s deployment package, in bytes.</td></tr>
+	<tr><td>description</td><td>The function&#39;s description.</td></tr>
 	<tr><td>handler</td><td>The function that Lambda calls to begin executing your function.</td></tr>
 	<tr><td>last_modified</td><td>The date and time that the function was last updated, in ISO-8601 format.</td></tr>
 	<tr><td>last_update_status</td><td>The status of the last update that was performed on the function.</td></tr>
 	<tr><td>last_update_status_reason</td><td>The reason for the last update that was performed on the function.</td></tr>
 	<tr><td>last_update_status_reason_code</td><td>The reason code for the last update that was performed on the function.</td></tr>
-	<tr><td>memory_size</td><td>The memory that's allocated to the function.</td></tr>
+	<tr><td>memory_size</td><td>The memory that&#39;s allocated to the function.</td></tr>
 	<tr><td>revision_id</td><td>The latest updated revision of the function or alias.</td></tr>
 	<tr><td>runtime</td><td>The runtime environment for the Lambda function.</td></tr>
 	<tr><td>timeout</td><td>The amount of time in seconds that Lambda allows a function to run before stopping it.</td></tr>

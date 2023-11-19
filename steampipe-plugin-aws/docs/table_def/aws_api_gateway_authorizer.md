@@ -7,7 +7,7 @@
 	<tr><td>rest_api_id</td><td>The id of the rest api</td></tr>
 	<tr><td>auth_type</td><td>Optional customer-defined field, used in OpenAPI imports and exports without functional impact</td></tr>
 	<tr><td>authorizer_credentials</td><td>Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer</td></tr>
-	<tr><td>authorizer_uri</td><td>Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI</td></tr>
+	<tr><td>authorizer_uri</td><td>Specifies the authorizer&#39;s Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI</td></tr>
 	<tr><td>identity_validation_expression</td><td>A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression</td></tr>
 	<tr><td>identity_source</td><td>The identity source for which authorization is requested</td></tr>
 	<tr><td>provider_arns</td><td>A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer</td></tr>

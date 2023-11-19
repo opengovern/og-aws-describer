@@ -7,7 +7,7 @@
 	<tr><td>arn</td><td>The Amazon Resource Name (ARN) that uniquely identifies the directory.</td></tr>
 	<tr><td>stage</td><td>The current stage of the directory.</td></tr>
 	<tr><td>type</td><td>The directory type.</td></tr>
-	<tr><td>access_url</td><td>The access URL for the directory, such as http://<alias>.awsapps.com.</td></tr>
+	<tr><td>access_url</td><td>The access URL for the directory, such as http://&lt;alias&gt;.awsapps.com.</td></tr>
 	<tr><td>alias</td><td>The alias for the directory.</td></tr>
 	<tr><td>description</td><td>The description for the directory.</td></tr>
 	<tr><td>desired_number_of_domain_controllers</td><td>The desired number of domain controllers in the directory if the directory is Microsoft AD.</td></tr>

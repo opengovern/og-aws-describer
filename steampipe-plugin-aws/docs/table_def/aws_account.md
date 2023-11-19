@@ -6,7 +6,7 @@
 	<tr><td>arn</td><td>The Amazon Resource Name (ARN) specifying the account.</td></tr>
 	<tr><td>organization_id</td><td>The unique identifier (ID) of an organization, if applicable.</td></tr>
 	<tr><td>organization_arn</td><td>The Amazon Resource Name (ARN) of an organization.</td></tr>
-	<tr><td>organization_feature_set</td><td>Specifies the functionality that currently is available to the organization. If set to "ALL", then all features are enabled and policies can be applied to accounts in the organization. If set to "CONSOLIDATED_BILLING", then only consolidated billing functionality is available.</td></tr>
+	<tr><td>organization_feature_set</td><td>Specifies the functionality that currently is available to the organization. If set to &#34;ALL&#34;, then all features are enabled and policies can be applied to accounts in the organization. If set to &#34;CONSOLIDATED_BILLING&#34;, then only consolidated billing functionality is available.</td></tr>
 	<tr><td>organization_master_account_arn</td><td>The Amazon Resource Name (ARN) of the account that is designated as the management account for the organization</td></tr>
 	<tr><td>organization_master_account_email</td><td>The email address that is associated with the AWS account that is designated as the management account for the organization</td></tr>
 	<tr><td>organization_master_account_id</td><td>The unique identifier (ID) of the management account of an organization</td></tr>

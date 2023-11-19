@@ -15,7 +15,7 @@
 	<tr><td>set_identifier</td><td>Unique identifier to differentiate records with routing policies from one another.</td></tr>
 	<tr><td>ttl</td><td>The resource record cache time to live (TTL), in seconds.</td></tr>
 	<tr><td>traffic_policy_instance_id</td><td>The ID of the traffic policy instance that Route 53 created this resource record set for.</td></tr>
-	<tr><td>weight</td><td>Weighted resource record sets only: Among resource record sets that have the same combination of DNS name and type, a value that determines the proportion of DNS queries that Amazon Route 53 responds to using the current resource record set. Route 53 calculates the sum of the weights for the resource record sets that have the same combination of DNS name and type. Route 53 then responds to queries based on the ratio of a resource's weight to the total.</td></tr>
+	<tr><td>weight</td><td>Weighted resource record sets only: Among resource record sets that have the same combination of DNS name and type, a value that determines the proportion of DNS queries that Amazon Route 53 responds to using the current resource record set. Route 53 calculates the sum of the weights for the resource record sets that have the same combination of DNS name and type. Route 53 then responds to queries based on the ratio of a resource&#39;s weight to the total.</td></tr>
 	<tr><td>title</td><td>Title of the resource.</td></tr>
 	<tr><td>akas</td><td>Array of globally unique identifier strings (also known as) for the resource.</td></tr>
 	<tr><td>partition</td><td>The AWS partition in which the resource is located (aws, aws-cn, or aws-us-gov).</td></tr>

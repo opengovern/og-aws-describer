@@ -11,7 +11,7 @@
 	<tr><td>ecr_repository_name</td><td>The name of the Amazon ECR repository.</td></tr>
 	<tr><td>ecr_repository_scan_frequency</td><td>The frequency of scans for an object that contains details about the repository an Amazon ECR image resides in.</td></tr>
 	<tr><td>lambda_function_name</td><td>The name of a function.</td></tr>
-	<tr><td>lambda_function_runtime</td><td>An AWS Lambda function's runtime.</td></tr>
+	<tr><td>lambda_function_runtime</td><td>An AWS Lambda function&#39;s runtime.</td></tr>
 	<tr><td>scan_status_reason</td><td>The reason for the scan.</td></tr>
 	<tr><td>scan_status_code</td><td>The status code of the scan.</td></tr>
 	<tr><td>ec2_platform</td><td>The platform of the instance.</td></tr>

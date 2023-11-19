@@ -3,7 +3,7 @@
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>route_table_id</td><td>The ID of the route table containing the route.</td></tr>
-	<tr><td>state</td><td>The state of the route. The blackhole state indicates that the route's target isn't available (for example, the specified gateway isn't attached to the VPC, or the specified NAT instance has been terminated).</td></tr>
+	<tr><td>state</td><td>The state of the route. The blackhole state indicates that the route&#39;s target isn&#39;t available (for example, the specified gateway isn&#39;t attached to the VPC, or the specified NAT instance has been terminated).</td></tr>
 	<tr><td>destination_cidr_block</td><td>The IPv4 CIDR block used for the destination match.</td></tr>
 	<tr><td>destination_ipv6_cidr_block</td><td>The IPv6 CIDR block used for the destination match.</td></tr>
 	<tr><td>carrier_gateway_id</td><td>The ID of the carrier gateway.</td></tr>

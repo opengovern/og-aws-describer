@@ -11,7 +11,7 @@
 	<tr><td>data_collected</td><td>Boolean value (true or false) that specifies whether the process of collecting data from the agents is completed.</td></tr>
 	<tr><td>duration_in_seconds</td><td>The duration of the assessment run.</td></tr>
 	<tr><td>started_at</td><td>The time when StartAssessmentRun was called.</td></tr>
-	<tr><td>state_changed_at</td><td>The last time when the assessment run's state changed.</td></tr>
+	<tr><td>state_changed_at</td><td>The last time when the assessment run&#39;s state changed.</td></tr>
 	<tr><td>finding_counts</td><td>Provides a total count of generated findings per severity.</td></tr>
 	<tr><td>notifications</td><td>A list of notifications for the event subscriptions.</td></tr>
 	<tr><td>rules_package_arns</td><td>The rules packages selected for the assessment run.</td></tr>

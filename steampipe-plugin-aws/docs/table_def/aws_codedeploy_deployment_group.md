@@ -24,7 +24,7 @@
 	<tr><td>on_premises_tag_set</td><td>Information about groups of tags applied to an on-premises instance.</td></tr>
 	<tr><td>outdated_instances_strategy</td><td>Indicates what happens when new Amazon EC2 instances are launched mid-deployment and do not receive the deployed application revision.</td></tr>
 	<tr><td>tags_src</td><td>A list of tags associated with deployment group.</td></tr>
-	<tr><td>target_revision</td><td>Information about the deployment group's target revision, including type and location.</td></tr>
+	<tr><td>target_revision</td><td>Information about the deployment group&#39;s target revision, including type and location.</td></tr>
 	<tr><td>trigger_configurations</td><td>Information about triggers associated with the deployment group.</td></tr>
 	<tr><td>title</td><td>Title of the resource.</td></tr>
 	<tr><td>tags</td><td>A map of tags for the resource.</td></tr>

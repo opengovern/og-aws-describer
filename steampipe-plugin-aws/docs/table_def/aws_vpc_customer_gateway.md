@@ -5,10 +5,10 @@
 	<tr><td>customer_gateway_id</td><td>The ID of the customer gateway.</td></tr>
 	<tr><td>type</td><td>The type of VPN connection the customer gateway supports (ipsec.1).</td></tr>
 	<tr><td>state</td><td>The current state of the customer gateway (pending | available | deleting | deleted).</td></tr>
-	<tr><td>bgp_asn</td><td>The customer gateway's Border Gateway Protocol (BGP) Autonomous System Number (ASN).</td></tr>
+	<tr><td>bgp_asn</td><td>The customer gateway&#39;s Border Gateway Protocol (BGP) Autonomous System Number (ASN).</td></tr>
 	<tr><td>certificate_arn</td><td>The Amazon Resource Name (ARN) for the customer gateway certificate.</td></tr>
 	<tr><td>device_name</td><td>The name of customer gateway device.</td></tr>
-	<tr><td>ip_address</td><td>The Internet-routable IP address of the customer gateway's outside interface.</td></tr>
+	<tr><td>ip_address</td><td>The Internet-routable IP address of the customer gateway&#39;s outside interface.</td></tr>
 	<tr><td>tags_src</td><td>A list of tags that are attached to customer gateway.</td></tr>
 	<tr><td>tags</td><td>A map of tags for the resource.</td></tr>
 	<tr><td>title</td><td>Title of the resource.</td></tr>

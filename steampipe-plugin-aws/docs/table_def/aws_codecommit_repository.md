@@ -2,14 +2,14 @@
 
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
-	<tr><td>repository_name</td><td>The repository's name.</td></tr>
+	<tr><td>repository_name</td><td>The repository&#39;s name.</td></tr>
 	<tr><td>repository_id</td><td>The ID of the repository.</td></tr>
 	<tr><td>arn</td><td>The Amazon Resource Name (ARN) of the repository.</td></tr>
 	<tr><td>description</td><td>A comment or description about the repository.</td></tr>
 	<tr><td>creation_date</td><td>The date and time the repository was created.</td></tr>
 	<tr><td>clone_url_http</td><td>The URL to use for cloning the repository over HTTPS.</td></tr>
 	<tr><td>clone_url_ssh</td><td>The URL to use for cloning the repository over SSH.</td></tr>
-	<tr><td>default_branch</td><td>The repository's default branch name.</td></tr>
+	<tr><td>default_branch</td><td>The repository&#39;s default branch name.</td></tr>
 	<tr><td>last_modified_date</td><td>The date and time the repository was last modified.</td></tr>
 	<tr><td>title</td><td>Title of the resource.</td></tr>
 	<tr><td>tags</td><td>A map of tags for the resource.</td></tr>

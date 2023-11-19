@@ -5,7 +5,7 @@
 	<tr><td>name</td><td>The name of the accelerator.</td></tr>
 	<tr><td>arn</td><td>The Amazon Resource Name (ARN) of the accelerator.</td></tr>
 	<tr><td>created_time</td><td>The date and time that the accelerator was created.</td></tr>
-	<tr><td>dns_name</td><td>The Domain Name System (DNS) name that Global Accelerator creates that points to your accelerator's static IP addresses.</td></tr>
+	<tr><td>dns_name</td><td>The Domain Name System (DNS) name that Global Accelerator creates that points to your accelerator&#39;s static IP addresses.</td></tr>
 	<tr><td>enabled</td><td>Indicates whether the accelerator is enabled.</td></tr>
 	<tr><td>ip_address_type</td><td>The value for the address type must be IPv4.</td></tr>
 	<tr><td>ip_sets</td><td>The static IP addresses that Global Accelerator associates with the accelerator.</td></tr>

@@ -3,11 +3,11 @@
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>import_id</td><td>The ID of the import.</td></tr>
-	<tr><td>created_timestamp</td><td>The timestamp of the import's creation.</td></tr>
+	<tr><td>created_timestamp</td><td>The timestamp of the import&#39;s creation.</td></tr>
 	<tr><td>import_status</td><td>The status of the import.</td></tr>
 	<tr><td>end_event_time</td><td>Used with EndEventTime to bound a StartImport request, and limit imported trail events to only those events logged within a specified time period.</td></tr>
 	<tr><td>start_event_time</td><td>Used with StartEventTime to bound a StartImport request, and limit imported trail events to only those events logged within a specified time period.</td></tr>
-	<tr><td>updated_timestamp</td><td>The timestamp of the import's last update.</td></tr>
+	<tr><td>updated_timestamp</td><td>The timestamp of the import&#39;s last update.</td></tr>
 	<tr><td>destinations</td><td>The ARN of the destination event data store.</td></tr>
 	<tr><td>import_source</td><td>The source S3 bucket.</td></tr>
 	<tr><td>import_statistics</td><td>Provides statistics for the import.</td></tr>

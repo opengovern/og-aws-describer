@@ -13,7 +13,7 @@
 	<tr><td>cache_cluster_size</td><td>The size of the cache cluster for the stage, if enabled.</td></tr>
 	<tr><td>cache_cluster_status</td><td>The status of the cache cluster for the stage, if enabled.</td></tr>
 	<tr><td>client_certificate_id</td><td>The identifier of a client certificate for an API stage.</td></tr>
-	<tr><td>description</td><td>The stage's description.</td></tr>
+	<tr><td>description</td><td>The stage&#39;s description.</td></tr>
 	<tr><td>documentation_version</td><td>The version of the associated API documentation.</td></tr>
 	<tr><td>last_updated_date</td><td>The timestamp when the stage last updated.</td></tr>
 	<tr><td>canary_settings</td><td>A map of settings for the canary deployment in this stage.</td></tr>

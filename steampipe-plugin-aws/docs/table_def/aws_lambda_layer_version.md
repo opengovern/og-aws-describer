@@ -7,11 +7,11 @@
 	<tr><td>layer_version_arn</td><td>The ARN of the layer version.</td></tr>
 	<tr><td>created_date</td><td>The date that the version was created, in ISO 8601 format.</td></tr>
 	<tr><td>description</td><td>The description of the version.</td></tr>
-	<tr><td>license_info</td><td>The layer's open-source license.</td></tr>
+	<tr><td>license_info</td><td>The layer&#39;s open-source license.</td></tr>
 	<tr><td>revision_id</td><td>A unique identifier for the current revision of the policy.</td></tr>
 	<tr><td>version</td><td>The version number.</td></tr>
 	<tr><td>compatible_architectures</td><td>A list of compatible instruction set architectures.</td></tr>
-	<tr><td>compatible_runtimes</td><td>The layer's compatible runtimes.</td></tr>
+	<tr><td>compatible_runtimes</td><td>The layer&#39;s compatible runtimes.</td></tr>
 	<tr><td>content</td><td>Details about the layer version.</td></tr>
 	<tr><td>policy</td><td>The policy document.</td></tr>
 	<tr><td>policy_std</td><td>Contains the policy document in a canonical form for easier searching.</td></tr>

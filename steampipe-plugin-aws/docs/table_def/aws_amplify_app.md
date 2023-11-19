@@ -12,7 +12,7 @@
 	<tr><td>custom_headers</td><td>Describes the custom HTTP headers for the Amplify app.</td></tr>
 	<tr><td>default_domain</td><td>The default domain for the Amplify app.</td></tr>
 	<tr><td>enable_auto_branch_creation</td><td>Enables automated branch creation for the Amplify app.</td></tr>
-	<tr><td>enable_basic_auth</td><td>Enables basic authorization for the Amplify app's branches.</td></tr>
+	<tr><td>enable_basic_auth</td><td>Enables basic authorization for the Amplify app&#39;s branches.</td></tr>
 	<tr><td>enable_branch_auto_build</td><td>Enables the auto-building of branches for the Amplify app.</td></tr>
 	<tr><td>enable_branch_auto_deletion</td><td>Automatically disconnect a branch in the Amplify Console when you delete a branch from your Git repository.</td></tr>
 	<tr><td>iam_service_role_arn</td><td>The AWS Identity and Access Management (IAM) service role for the Amazon Resource Name (ARN) of the Amplify app.</td></tr>

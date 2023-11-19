@@ -10,7 +10,7 @@
 	<tr><td>flow_log_status</td><td>The status of the flow log (ACTIVE).</td></tr>
 	<tr><td>log_group_name</td><td>The name of the flow log group.</td></tr>
 	<tr><td>resource_id</td><td>The ID of the VPC, subnet, or network interface.</td></tr>
-	<tr><td>traffic_type</td><td>The type of traffic. Valid values are: 'ACCEPT', 'REJECT',  'ALL'.</td></tr>
+	<tr><td>traffic_type</td><td>The type of traffic. Valid values are: &#39;ACCEPT&#39;, &#39;REJECT&#39;,  &#39;ALL&#39;.</td></tr>
 	<tr><td>log_destination_type</td><td>Specifies the type of destination to which the flow log data is published.</td></tr>
 	<tr><td>log_destination</td><td>Specifies the destination to which the flow log data is published.</td></tr>
 	<tr><td>bucket_name</td><td>The name of the destination bucket to which the flow log data is published.</td></tr>

@@ -16,7 +16,7 @@
 	<tr><td>default_route_throttling_rate_limit</td><td>Throttling rate limit for default route settings</td></tr>
 	<tr><td>last_deployment_status_message</td><td>Describes the status of the last deployment of a stage. Supported only for stages with autoDeploy enabled</td></tr>
 	<tr><td>last_updated_date</td><td>The timestamp when the stage was last updated</td></tr>
-	<tr><td>description</td><td>The stage's description</td></tr>
+	<tr><td>description</td><td>The stage&#39;s description</td></tr>
 	<tr><td>access_log_settings</td><td>Access log settings of the stage.</td></tr>
 	<tr><td>stage_variables</td><td>A map that defines the stage variables for a stage resource</td></tr>
 	<tr><td>tags</td><td>A map of tags for the resource.</td></tr>

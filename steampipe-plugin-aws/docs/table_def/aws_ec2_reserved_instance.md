@@ -7,7 +7,7 @@
 	<tr><td>instance_type</td><td>The instance type on which the Reserved Instance can be used.</td></tr>
 	<tr><td>instance_state</td><td>The state of the Reserved Instance purchase.</td></tr>
 	<tr><td>availability_zone</td><td>The Availability Zone in which the Reserved Instance can be used.</td></tr>
-	<tr><td>currency_code</td><td>The currency of the Reserved Instance. It's specified using ISO 4217 standard currency codes. At this time, the only supported currency is USD.</td></tr>
+	<tr><td>currency_code</td><td>The currency of the Reserved Instance. It&#39;s specified using ISO 4217 standard currency codes. At this time, the only supported currency is USD.</td></tr>
 	<tr><td>duration</td><td>The duration of the Reserved Instance, in seconds.</td></tr>
 	<tr><td>end_time</td><td>The time when the Reserved Instance expires.</td></tr>
 	<tr><td>fixed_price</td><td>The purchase price of the Reserved Instance.</td></tr>

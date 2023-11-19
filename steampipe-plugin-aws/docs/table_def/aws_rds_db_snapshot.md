@@ -10,7 +10,7 @@
 	<tr><td>allocated_storage</td><td>Specifies the allocated storage size in gibibytes(GiB).</td></tr>
 	<tr><td>availability_zone</td><td>Specifies the name of the Availability Zone the DB instance was located in, at the time of the DB snapshot.</td></tr>
 	<tr><td>db_instance_identifier</td><td>Specifies the DB instance identifier of the DB instance this DB snapshot was created from.</td></tr>
-	<tr><td>dbi_resource_id</td><td>The identifier for the source DB instance, which can't be changed and which is unique to an AWS Region.</td></tr>
+	<tr><td>dbi_resource_id</td><td>The identifier for the source DB instance, which can&#39;t be changed and which is unique to an AWS Region.</td></tr>
 	<tr><td>encrypted</td><td>Specifies whether the DB snapshot is encrypted, or not.</td></tr>
 	<tr><td>engine</td><td>Specifies the name of the database engine.</td></tr>
 	<tr><td>engine_version</td><td>Specifies the version of the database engine.</td></tr>

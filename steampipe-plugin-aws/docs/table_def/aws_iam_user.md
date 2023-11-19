@@ -7,7 +7,7 @@
 	<tr><td>path</td><td>The path to the user.</td></tr>
 	<tr><td>arn</td><td>The Amazon Resource Name (ARN) that identifies the user.</td></tr>
 	<tr><td>create_date</td><td>The date and time, when the user was created.</td></tr>
-	<tr><td>password_last_used</td><td>The date and time, when the user's password was last used to sign in to an AWS website.</td></tr>
+	<tr><td>password_last_used</td><td>The date and time, when the user&#39;s password was last used to sign in to an AWS website.</td></tr>
 	<tr><td>permissions_boundary_arn</td><td>The ARN of the policy used to set the permissions boundary for the user.</td></tr>
 	<tr><td>permissions_boundary_type</td><td>The permissions boundary usage type that indicates what type of IAM resource is used as the permissions boundary for an entity. This data type can only have a value of Policy.</td></tr>
 	<tr><td>mfa_enabled</td><td>The MFA status of the user.</td></tr>

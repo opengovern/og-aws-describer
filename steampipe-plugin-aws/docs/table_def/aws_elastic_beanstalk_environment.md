@@ -4,7 +4,7 @@
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>environment_name</td><td>The name of this environment.</td></tr>
 	<tr><td>environment_id</td><td>The ID of this environment.</td></tr>
-	<tr><td>arn</td><td>The environment's Amazon Resource Name (ARN).</td></tr>
+	<tr><td>arn</td><td>The environment&#39;s Amazon Resource Name (ARN).</td></tr>
 	<tr><td>description</td><td>Describes this environment.</td></tr>
 	<tr><td>date_created</td><td>The creation date for this environment.</td></tr>
 	<tr><td>abortable_operation_in_progress</td><td>Indicates if there is an in-progress environment configuration update or application version deployment that you can cancel.</td></tr>
@@ -14,7 +14,7 @@
 	<tr><td>endpoint_url</td><td>The URL to the LoadBalancer.</td></tr>
 	<tr><td>health</td><td>The health status of the environment.</td></tr>
 	<tr><td>health_status</td><td>Returns the health status of the application running in your environment.</td></tr>
-	<tr><td>operations_role</td><td>The Amazon Resource Name (ARN) of the environment's operations role.</td></tr>
+	<tr><td>operations_role</td><td>The Amazon Resource Name (ARN) of the environment&#39;s operations role.</td></tr>
 	<tr><td>platform_arn</td><td>The ARN of the platform version.</td></tr>
 	<tr><td>solution_stack_name</td><td>The name of the SolutionStack deployed with this environment.</td></tr>
 	<tr><td>status</td><td>The current operational status of the environment.</td></tr>

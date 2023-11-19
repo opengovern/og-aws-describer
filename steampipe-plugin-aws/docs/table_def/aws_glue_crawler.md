@@ -4,9 +4,9 @@
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>name</td><td>The name of the crawler.</td></tr>
 	<tr><td>arn</td><td>The ARN of the crawler.</td></tr>
-	<tr><td>database_name</td><td>The name of the database in which the crawler's output is stored.</td></tr>
+	<tr><td>database_name</td><td>The name of the database in which the crawler&#39;s output is stored.</td></tr>
 	<tr><td>state</td><td>Indicates whether the crawler is running or pending.</td></tr>
-	<tr><td>role</td><td>The Amazon Resource Name (ARN) of an IAM role that's used to access customer resources, such as Amazon Simple Storage Service (Amazon S3) data.</td></tr>
+	<tr><td>role</td><td>The Amazon Resource Name (ARN) of an IAM role that&#39;s used to access customer resources, such as Amazon Simple Storage Service (Amazon S3) data.</td></tr>
 	<tr><td>creation_time</td><td>The time that the crawler was created.</td></tr>
 	<tr><td>description</td><td>A description of the crawler.</td></tr>
 	<tr><td>crawl_elapsed_time</td><td>If the crawler is running, contains the total time elapsed since the last crawl began.</td></tr>

@@ -9,7 +9,7 @@
 	<tr><td>creation_time</td><td>The time that the file system was created.</td></tr>
 	<tr><td>dns_name</td><td>The DNS name for the file system.</td></tr>
 	<tr><td>file_system_type_version</td><td>The version of your Amazon FSx for Lustre file system, either 2.10 or 2.12.</td></tr>
-	<tr><td>kms_key_id</td><td>The ID of the Key Management Service (KMS) key used to encrypt the file system's.</td></tr>
+	<tr><td>kms_key_id</td><td>The ID of the Key Management Service (KMS) key used to encrypt the file system&#39;s.</td></tr>
 	<tr><td>owner_id</td><td>The AWS account that created the file system.</td></tr>
 	<tr><td>storage_capacity</td><td>The storage capacity of the file system in gibibytes (GiB).</td></tr>
 	<tr><td>storage_type</td><td>The storage type of the file system.</td></tr>

@@ -10,7 +10,7 @@
 	<tr><td>ip_address</td><td>Address at which the file system can be mounted by using the mount target.</td></tr>
 	<tr><td>network_interface_id</td><td>The ID of the network interface that Amazon EFS created when it created the mount target.</td></tr>
 	<tr><td>owner_id</td><td>AWS account ID that owns the resource.</td></tr>
-	<tr><td>subnet_id</td><td>The ID of the mount target's subnet.</td></tr>
+	<tr><td>subnet_id</td><td>The ID of the mount target&#39;s subnet.</td></tr>
 	<tr><td>vpc_id</td><td>The virtual private cloud (VPC) ID that the mount target is configured in.</td></tr>
 	<tr><td>security_groups</td><td>Specifies the security groups currently in effect for a mount target.</td></tr>
 	<tr><td>title</td><td>Title of the resource.</td></tr>

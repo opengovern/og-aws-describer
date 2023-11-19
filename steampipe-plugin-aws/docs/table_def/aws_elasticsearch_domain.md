@@ -17,14 +17,14 @@
 	<tr><td>policy_std</td><td>Contains the policy in a canonical form for easier searching.</td></tr>
 	<tr><td>ebs_options</td><td>Specifies whether EBS-based storage is enabled.</td></tr>
 	<tr><td>advanced_options</td><td>Specifies the status of the AdvancedOptions.</td></tr>
-	<tr><td>advanced_security_options</td><td>Specifies The current status of the Elasticsearch domain's advanced security options.</td></tr>
-	<tr><td>auto_tune_options</td><td>The current status of the Elasticsearch domain's Auto-Tune options.</td></tr>
+	<tr><td>advanced_security_options</td><td>Specifies The current status of the Elasticsearch domain&#39;s advanced security options.</td></tr>
+	<tr><td>auto_tune_options</td><td>The current status of the Elasticsearch domain&#39;s Auto-Tune options.</td></tr>
 	<tr><td>cognito_options</td><td>The CognitoOptions for the specified domain.</td></tr>
-	<tr><td>domain_endpoint_options</td><td>The current status of the Elasticsearch domain's endpoint options.</td></tr>
+	<tr><td>domain_endpoint_options</td><td>The current status of the Elasticsearch domain&#39;s endpoint options.</td></tr>
 	<tr><td>elasticsearch_cluster_config</td><td>The type and number of instances in the domain cluster.</td></tr>
 	<tr><td>encryption_at_rest_options</td><td>Specifies the status of the EncryptionAtRestOptions.</td></tr>
 	<tr><td>log_publishing_options</td><td>Log publishing options for the given domain.</td></tr>
-	<tr><td>service_software_options</td><td>The current status of the Elasticsearch domain's service software.</td></tr>
+	<tr><td>service_software_options</td><td>The current status of the Elasticsearch domain&#39;s service software.</td></tr>
 	<tr><td>snapshot_options</td><td>Specifies the status of the SnapshotOptions.</td></tr>
 	<tr><td>vpc_options</td><td>The VPCOptions for the specified domain.</td></tr>
 	<tr><td>tags_src</td><td>A list of tags assigned to the domain.</td></tr>

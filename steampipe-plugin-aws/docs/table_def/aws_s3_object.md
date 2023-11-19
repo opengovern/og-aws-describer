@@ -28,7 +28,7 @@
 	<tr><td>etag</td><td>The entity tag of the object.</td></tr>
 	<tr><td>object_lock_legal_hold_status</td><td>Like a retention period, a legal hold prevents an object version from being overwritten or deleted. A legal hold remains in effect until removed.</td></tr>
 	<tr><td>object_lock_mode</td><td>The Object Lock mode currently in place for this object.</td></tr>
-	<tr><td>object_lock_retain_until_date</td><td>The date and time when this object's Object Lock will expire.</td></tr>
+	<tr><td>object_lock_retain_until_date</td><td>The date and time when this object&#39;s Object Lock will expire.</td></tr>
 	<tr><td>parts_count</td><td>The count of parts this object has. This value is only returned if you specify partNumber in your request and the object was uploaded as a multipart upload.</td></tr>
 	<tr><td>prefix</td><td>The prefix of the key of the object.</td></tr>
 	<tr><td>replication_status</td><td>Amazon S3 can return this if your request involves a bucket that is either a source or destination in a replication rule.</td></tr>

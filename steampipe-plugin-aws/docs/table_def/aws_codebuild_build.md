@@ -17,17 +17,17 @@
 	<tr><td>source_version</td><td>The identifier of the version of the source code to be built.</td></tr>
 	<tr><td>start_time</td><td>The date and time that the build started.</td></tr>
 	<tr><td>timeout_in_minutes</td><td>How long, in minutes, for CodeBuild to wait before timing out this build if it does not get marked as completed.</td></tr>
-	<tr><td>resolved_source_version</td><td>The identifier of the resolved version of this build's source code.</td></tr>
+	<tr><td>resolved_source_version</td><td>The identifier of the resolved version of this build&#39;s source code.</td></tr>
 	<tr><td>artifacts</td><td>A BuildArtifacts object the defines the build artifacts for this build.</td></tr>
 	<tr><td>cache</td><td>Information about the cache for the build.</td></tr>
 	<tr><td>debug_session</td><td>Contains information about the debug session for this build.</td></tr>
 	<tr><td>environment</td><td>Information about the build environment for this build project.</td></tr>
 	<tr><td>exported_environment_variables</td><td>A list of exported environment variables for this build.</td></tr>
 	<tr><td>file_system_locations</td><td>An array of ProjectFileSystemLocation objects for a CodeBuild build project.</td></tr>
-	<tr><td>logs</td><td>Information about the build's logs in CloudWatch Logs.</td></tr>
+	<tr><td>logs</td><td>Information about the build&#39;s logs in CloudWatch Logs.</td></tr>
 	<tr><td>network_interfaces</td><td>Describes a network interface.</td></tr>
 	<tr><td>phases</td><td>Information about all previous build phases that are complete and information about any current build phase that is not yet complete.</td></tr>
-	<tr><td>report_arns</td><td>An array of the ARNs associated with this build's reports.</td></tr>
+	<tr><td>report_arns</td><td>An array of the ARNs associated with this build&#39;s reports.</td></tr>
 	<tr><td>secondary_artifacts</td><td>An array of BuildArtifacts objects the define the build artifacts for this build.</td></tr>
 	<tr><td>secondary_source_versions</td><td>An array of ProjectSourceVersion objects.</td></tr>
 	<tr><td>secondary_sources</td><td>An array of ProjectSource objects that define the sources for the build.</td></tr>

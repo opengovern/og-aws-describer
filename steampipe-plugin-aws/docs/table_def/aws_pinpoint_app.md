@@ -5,7 +5,7 @@
 	<tr><td>id</td><td>The unique identifier for the application.</td></tr>
 	<tr><td>name</td><td>The display name of the application.</td></tr>
 	<tr><td>arn</td><td>The Amazon Resource Name (ARN) of the application.</td></tr>
-	<tr><td>last_modified_date</td><td>The date and time, in ISO 8601 format, when the application's settings were last modified.</td></tr>
+	<tr><td>last_modified_date</td><td>The date and time, in ISO 8601 format, when the application&#39;s settings were last modified.</td></tr>
 	<tr><td>campaign_hook</td><td>The settings for the AWS Lambda function to invoke by default as a code hook for campaigns in the application.</td></tr>
 	<tr><td>limits</td><td>The default sending limits for campaigns in the application.</td></tr>
 	<tr><td>quiet_time</td><td>The default quiet time for campaigns in the application.</td></tr>

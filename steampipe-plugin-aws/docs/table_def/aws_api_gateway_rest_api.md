@@ -2,12 +2,12 @@
 
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
-	<tr><td>name</td><td>The API's name</td></tr>
-	<tr><td>api_id</td><td>The API's identifier. This identifier is unique across all of APIs in API Gateway</td></tr>
+	<tr><td>name</td><td>The API&#39;s name</td></tr>
+	<tr><td>api_id</td><td>The API&#39;s identifier. This identifier is unique across all of APIs in API Gateway</td></tr>
 	<tr><td>version</td><td>A version identifier for the API</td></tr>
 	<tr><td>api_key_source</td><td>The source of the API key for metering requests according to a usage plan</td></tr>
 	<tr><td>created_date</td><td>The timestamp when the API was created</td></tr>
-	<tr><td>description</td><td>The API's description</td></tr>
+	<tr><td>description</td><td>The API&#39;s description</td></tr>
 	<tr><td>minimum_compression_size</td><td>A nullable integer that is used to enable compression (with non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a null value) on an API. When compression is enabled, compression or decompression is not applied on the payload if the payload size is smaller than this value</td></tr>
 	<tr><td>policy</td><td>A stringified JSON policy document that applies to this RestApi regardless of the caller and Method configuration</td></tr>
 	<tr><td>policy_std</td><td>Contains the policy in a canonical form for easier searching.</td></tr>

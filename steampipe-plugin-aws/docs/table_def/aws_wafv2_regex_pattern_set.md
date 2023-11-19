@@ -5,7 +5,7 @@
 	<tr><td>name</td><td>The name of the Regex Pattern set.</td></tr>
 	<tr><td>arn</td><td>The Amazon Resource Name (ARN) of the entity.</td></tr>
 	<tr><td>id</td><td>A unique identifier for the Regex Pattern set.</td></tr>
-	<tr><td>scope</td><td>Specifies the scope of the Regex Pattern Set. Possible values are: 'REGIONAL' and 'CLOUDFRONT'.</td></tr>
+	<tr><td>scope</td><td>Specifies the scope of the Regex Pattern Set. Possible values are: &#39;REGIONAL&#39; and &#39;CLOUDFRONT&#39;.</td></tr>
 	<tr><td>description</td><td>A description of the Regex Pattern set that helps with identification.</td></tr>
 	<tr><td>lock_token</td><td>A token used for optimistic locking.</td></tr>
 	<tr><td>regular_expressions</td><td>The list of regular expression patterns in the set.</td></tr>

@@ -3,7 +3,7 @@
 <table>
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>id</td><td>The ID of the VPC peering connection.</td></tr>
-	<tr><td>status_code</td><td>The status of the VPC peering connection. Possible values include: 'pending-acceptance', 'failed', 'expired', 'provisioning', 'active', 'deleting', 'deleted' or 'rejected'.</td></tr>
+	<tr><td>status_code</td><td>The status of the VPC peering connection. Possible values include: &#39;pending-acceptance&#39;, &#39;failed&#39;, &#39;expired&#39;, &#39;provisioning&#39;, &#39;active&#39;, &#39;deleting&#39;, &#39;deleted&#39; or &#39;rejected&#39;.</td></tr>
 	<tr><td>accepter_cidr_block</td><td>The IPv4 CIDR block for the accepter VPC.</td></tr>
 	<tr><td>accepter_owner_id</td><td>The ID of the Amazon Web Services account that owns the accepter VPC.</td></tr>
 	<tr><td>accepter_region</td><td>The Region in which the accepter VPC is located.</td></tr>

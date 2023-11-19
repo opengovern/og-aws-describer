@@ -6,7 +6,7 @@
 	<tr><td>arn</td><td>The Amazon Resource Name (ARN) of the entity.</td></tr>
 	<tr><td>associated_resources</td><td>The array of Amazon Resource Names (ARNs) of the associated resources.</td></tr>
 	<tr><td>id</td><td>The unique identifier for the Web ACL.</td></tr>
-	<tr><td>scope</td><td>Specifies the scope of the Web ACL. Possibles values are: 'REGIONAL' and 'CLOUDFRONT'.</td></tr>
+	<tr><td>scope</td><td>Specifies the scope of the Web ACL. Possibles values are: &#39;REGIONAL&#39; and &#39;CLOUDFRONT&#39;.</td></tr>
 	<tr><td>description</td><td>A description of the Web ACL that helps with identification.</td></tr>
 	<tr><td>capacity</td><td>The Web ACL capacity units(WCUs) currently being used by this resource.</td></tr>
 	<tr><td>lock_token</td><td>A token used for optimistic locking.</td></tr>

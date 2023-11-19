@@ -17,7 +17,7 @@
 	<tr><td>outputs</td><td>A list of output structures.</td></tr>
 	<tr><td>rollback_configuration</td><td>The rollback triggers for AWS CloudFormation to monitor during stack creation and updating operations, and for the specified monitoring period afterwards.</td></tr>
 	<tr><td>capabilities</td><td>The capabilities allowed in the stack.</td></tr>
-	<tr><td>stack_drift_status</td><td>Status of the stack's actual configuration compared to its expected template configuration.</td></tr>
+	<tr><td>stack_drift_status</td><td>Status of the stack&#39;s actual configuration compared to its expected template configuration.</td></tr>
 	<tr><td>parameters</td><td>A list of Parameter structures.</td></tr>
 	<tr><td>template_body</td><td>Structure containing the template body.</td></tr>
 	<tr><td>template_body_json</td><td>Structure containing the template body. Parsed into json object for better readability.</td></tr>

@@ -4,7 +4,7 @@
 	<tr><td>Column Name</td><td>Description</td></tr>
 	<tr><td>name</td><td>The name of the container.</td></tr>
 	<tr><td>arn</td><td>The Amazon Resource Name (ARN) of the container.</td></tr>
-	<tr><td>status</td><td>The status of container creation or deletion. The status is one of the following: 'CREATING', 'ACTIVE', or 'DELETING'.</td></tr>
+	<tr><td>status</td><td>The status of container creation or deletion. The status is one of the following: &#39;CREATING&#39;, &#39;ACTIVE&#39;, or &#39;DELETING&#39;.</td></tr>
 	<tr><td>access_logging_enabled</td><td>The state of access logging on the container. This value is false by default, indicating that AWS Elemental MediaStore does not send access logs to Amazon CloudWatch Logs. When you enable access logging on the container, MediaStore changes this value to true, indicating that the service delivers access logs for objects stored in that container to CloudWatch Logs.</td></tr>
 	<tr><td>creation_time</td><td>The Unix timestamp that the container was created.</td></tr>
 	<tr><td>endpoint</td><td>The DNS endpoint of the container.</td></tr>

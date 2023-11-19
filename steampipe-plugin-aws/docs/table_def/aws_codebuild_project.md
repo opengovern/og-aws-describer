@@ -7,7 +7,7 @@
 	<tr><td>description</td><td>A description that makes the build project easy to identify.</td></tr>
 	<tr><td>concurrent_build_limit</td><td>The maximum number of concurrent builds that are allowed for this project.</td></tr>
 	<tr><td>created</td><td>When the build project was created, expressed in Unix time format.</td></tr>
-	<tr><td>last_modified</td><td>When the build project's settings were last modified, expressed in Unix time format.</td></tr>
+	<tr><td>last_modified</td><td>When the build project&#39;s settings were last modified, expressed in Unix time format.</td></tr>
 	<tr><td>encryption_key</td><td>The AWS Key Management Service (AWS KMS) customer master key (CMK) to be.</td></tr>
 	<tr><td>queued_timeout_in_minutes</td><td>The number of minutes a build is allowed to be queued before it times out.</td></tr>
 	<tr><td>service_role</td><td>The ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.</td></tr>

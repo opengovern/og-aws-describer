@@ -5,7 +5,7 @@
 	<tr><td>name</td><td>The name of the event data store.</td></tr>
 	<tr><td>arn</td><td>The Amazon Resource Name (ARN) of the event data store.</td></tr>
 	<tr><td>status</td><td>The status of an event data store.</td></tr>
-	<tr><td>created_timestamp</td><td>The timestamp of the event data store's creation.</td></tr>
+	<tr><td>created_timestamp</td><td>The timestamp of the event data store&#39;s creation.</td></tr>
 	<tr><td>multi_region_enabled</td><td>Indicates whether the event data store includes events from all regions, or only from the region in which it was created.</td></tr>
 	<tr><td>organization_enabled</td><td>Indicates that an event data store is collecting logged events for an organization.</td></tr>
 	<tr><td>retention_period</td><td>The retention period, in days.</td></tr>

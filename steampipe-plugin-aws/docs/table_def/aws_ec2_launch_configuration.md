@@ -7,7 +7,7 @@
 	<tr><td>created_time</td><td>The creation date and time for the launch configuration.</td></tr>
 	<tr><td>image_id</td><td>The ID of the Amazon Machine Image (AMI) to use to launch EC2 instances.</td></tr>
 	<tr><td>instance_type</td><td>The instance type for the instances.</td></tr>
-	<tr><td>associate_public_ip_address</td><td>For Auto Scaling groups that are running in a VPC, specifies whether to assign a public IP address to the group's instances.</td></tr>
+	<tr><td>associate_public_ip_address</td><td>For Auto Scaling groups that are running in a VPC, specifies whether to assign a public IP address to the group&#39;s instances.</td></tr>
 	<tr><td>kernel_id</td><td>The ID of the kernel associated with the AMI.</td></tr>
 	<tr><td>key_name</td><td>The name of the key pair to be associated with instances.</td></tr>
 	<tr><td>ramdisk_id</td><td>The ID of the RAM disk associated with the AMI.</td></tr>

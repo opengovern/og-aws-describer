@@ -16,7 +16,7 @@
 	<tr><td>state</td><td>The image starts in the PENDING state. If image creation succeeds, the state is AVAILABLE. If image creation fails, the state is FAILED.</td></tr>
 	<tr><td>visibility</td><td>Indicates whether the image is public or private.</td></tr>
 	<tr><td>applications</td><td>The applications associated with the image.</td></tr>
-	<tr><td>image_errors</td><td>Describes the errors that are returned when a new image can't be created.</td></tr>
+	<tr><td>image_errors</td><td>Describes the errors that are returned when a new image can&#39;t be created.</td></tr>
 	<tr><td>image_permissions</td><td>The permissions to provide to the destination AWS account for the specified image.</td></tr>
 	<tr><td>state_change_reason</td><td>The reason why the last state change occurred.</td></tr>
 	<tr><td>title</td><td>Title of the resource.</td></tr>

@@ -34,7 +34,7 @@
 	<tr><td>iam_roles</td><td>A list of AWS Identity and Access Management (IAM) roles that can be used by the cluster to access other AWS services.</td></tr>
 	<tr><td>kms_key_id</td><td>The AWS Key Management Service (AWS KMS) key ID of the encryption key used to encrypt data in the cluster.</td></tr>
 	<tr><td>maintenance_track_name</td><td>The name of the maintenance track for the cluster.</td></tr>
-	<tr><td>manual_snapshot_retention_period</td><td>The default number of days to retain a manual snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn't change the retention period of existing snapshots. The value must be either -1 or an integer between 1 and 3,653.</td></tr>
+	<tr><td>manual_snapshot_retention_period</td><td>The default number of days to retain a manual snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn&#39;t change the retention period of existing snapshots. The value must be either -1 or an integer between 1 and 3,653.</td></tr>
 	<tr><td>master_username</td><td>The master user name for the cluster. This name is used to connect to the database that is specified in the DBName parameter.</td></tr>
 	<tr><td>modify_status</td><td>The status of a modify operation, if any, initiated for the cluster.</td></tr>
 	<tr><td>next_maintenance_window_start_time</td><td>The date and time in UTC when system maintenance can begin.</td></tr>

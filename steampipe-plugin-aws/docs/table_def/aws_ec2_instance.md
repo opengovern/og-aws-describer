@@ -7,7 +7,7 @@
 	<tr><td>instance_type</td><td>The instance type.</td></tr>
 	<tr><td>instance_state</td><td>The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).</td></tr>
 	<tr><td>monitoring_state</td><td>Indicates whether detailed monitoring is enabled (disabled | enabled).</td></tr>
-	<tr><td>disable_api_termination</td><td>If the value is true, instance can't be terminated through the Amazon EC2 console, CLI, or API.</td></tr>
+	<tr><td>disable_api_termination</td><td>If the value is true, instance can&#39;t be terminated through the Amazon EC2 console, CLI, or API.</td></tr>
 	<tr><td>ami_launch_index</td><td>The AMI launch index, which can be used to find this instance in the launch group.</td></tr>
 	<tr><td>architecture</td><td>The architecture of the image.</td></tr>
 	<tr><td>boot_mode</td><td>The boot mode of the instance.</td></tr>
@@ -16,7 +16,7 @@
 	<tr><td>client_token</td><td>The idempotency token you provided when you launched the instance, if applicable.</td></tr>
 	<tr><td>cpu_options_core_count</td><td>The number of CPU cores for the instance.</td></tr>
 	<tr><td>cpu_options_threads_per_core</td><td>The number of threads per CPU core.</td></tr>
-	<tr><td>ebs_optimized</td><td>Indicates whether the instance is optimized for Amazon EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization isn't available with all instance types.</td></tr>
+	<tr><td>ebs_optimized</td><td>Indicates whether the instance is optimized for Amazon EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization isn&#39;t available with all instance types.</td></tr>
 	<tr><td>ena_support</td><td>Specifies whether enhanced networking with ENA is enabled.</td></tr>
 	<tr><td>hypervisor</td><td>The hypervisor type of the instance. The value xen is used for both Xen and Nitro hypervisors.</td></tr>
 	<tr><td>iam_instance_profile_arn</td><td>The Amazon Resource Name (ARN) of IAM instance profile associated with the instance, if applicable.</td></tr>
@@ -36,7 +36,7 @@
 	<tr><td>placement_host_resource_group_arn</td><td>The ARN of the host resource group in which to launch the instances.</td></tr>
 	<tr><td>placement_partition_number</td><td>The ARN of the host resource group in which to launch the instances.</td></tr>
 	<tr><td>placement_tenancy</td><td>The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware.</td></tr>
-	<tr><td>platform</td><td>The value is 'Windows' for Windows instances; otherwise blank.</td></tr>
+	<tr><td>platform</td><td>The value is &#39;Windows&#39; for Windows instances; otherwise blank.</td></tr>
 	<tr><td>platform_details</td><td>The platform details value for the instance.</td></tr>
 	<tr><td>private_ip_address</td><td>The private IPv4 address assigned to the instance.</td></tr>
 	<tr><td>private_dns_name</td><td>The private DNS hostname name assigned to the instance. This DNS hostname can only be used inside the Amazon EC2 network. This name is not available until the instance enters the running state.</td></tr>

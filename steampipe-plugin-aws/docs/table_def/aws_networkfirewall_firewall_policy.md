@@ -5,8 +5,8 @@
 	<tr><td>name</td><td>The descriptive name of the rule group.</td></tr>
 	<tr><td>arn</td><td>The Amazon Resource Name (ARN) of the rule group.</td></tr>
 	<tr><td>firewall_policy_id</td><td>The unique identifier for the firewall policy.</td></tr>
-	<tr><td>consumed_stateful_rule_capacity</td><td>The number of capacity units currently consumed by the policy's stateful rules.</td></tr>
-	<tr><td>consumed_stateless_rule_capacity</td><td>The number of capacity units currently consumed by the policy's stateless rules.</td></tr>
+	<tr><td>consumed_stateful_rule_capacity</td><td>The number of capacity units currently consumed by the policy&#39;s stateful rules.</td></tr>
+	<tr><td>consumed_stateless_rule_capacity</td><td>The number of capacity units currently consumed by the policy&#39;s stateless rules.</td></tr>
 	<tr><td>description</td><td>A description of the firewall policy.</td></tr>
 	<tr><td>firewall_policy_status</td><td>The current status of the firewall policy.</td></tr>
 	<tr><td>last_modified_time</td><td>The last time that the firewall policy was changed.</td></tr>

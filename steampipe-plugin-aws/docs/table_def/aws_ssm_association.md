@@ -8,7 +8,7 @@
 	<tr><td>document_name</td><td>The name of the Systems Manager document.</td></tr>
 	<tr><td>date</td><td>The date when the association was made.</td></tr>
 	<tr><td>compliance_severity</td><td>A cron expression that specifies a schedule when the association runs.</td></tr>
-	<tr><td>apply_only_at_cron_interval</td><td>By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter is not supported for rate expressions.</td></tr>
+	<tr><td>apply_only_at_cron_interval</td><td>By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don&#39;t want an association to run immediately after you create it. This parameter is not supported for rate expressions.</td></tr>
 	<tr><td>association_version</td><td>The association version.</td></tr>
 	<tr><td>automation_target_parameter_name</td><td>Specify the target for the association. This target is required for associations that use an Automation document and target resources by using rate controls.</td></tr>
 	<tr><td>document_version</td><td>The version of the document used in the association.</td></tr>

@@ -9,7 +9,7 @@
 	<tr><td>category</td><td>The category of the VPN connection. A value of VPN indicates an AWS VPN connection.</td></tr>
 	<tr><td>vpn_gateway_id</td><td>The ID of the virtual private gateway at the AWS side of the VPN connection.</td></tr>
 	<tr><td>customer_gateway_id</td><td>The ID of the customer gateway at your end of the VPN connection.</td></tr>
-	<tr><td>customer_gateway_configuration</td><td>The configuration information for the VPN connection's customer gateway.</td></tr>
+	<tr><td>customer_gateway_configuration</td><td>The configuration information for the VPN connection&#39;s customer gateway.</td></tr>
 	<tr><td>transit_gateway_id</td><td>The ID of the transit gateway associated with the VPN connection.</td></tr>
 	<tr><td>options</td><td>The VPN connection options.</td></tr>
 	<tr><td>routes</td><td>The static routes associated with the VPN connection.</td></tr>

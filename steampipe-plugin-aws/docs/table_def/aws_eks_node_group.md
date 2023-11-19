@@ -12,7 +12,7 @@
 	<tr><td>disk_size</td><td>The disk size in the node group configuration.</td></tr>
 	<tr><td>modified_at</td><td>The Unix epoch timestamp in seconds for when the managed node group was last modified.</td></tr>
 	<tr><td>node_role</td><td>The IAM role associated with your node group.</td></tr>
-	<tr><td>release_version</td><td>If the node group was deployed using a launch template with a custom AMI, then this is the AMI ID that was specified in the launch template. For node groups that weren't deployed using a launch template, this is the version of the Amazon EKS optimized AMI that the node group was deployed with.</td></tr>
+	<tr><td>release_version</td><td>If the node group was deployed using a launch template with a custom AMI, then this is the AMI ID that was specified in the launch template. For node groups that weren&#39;t deployed using a launch template, this is the version of the Amazon EKS optimized AMI that the node group was deployed with.</td></tr>
 	<tr><td>version</td><td>The Kubernetes version of the managed node group.</td></tr>
 	<tr><td>health</td><td>The health status of the node group.</td></tr>
 	<tr><td>instance_types</td><td>The instance type that is associated with the node group. If the node group was deployed with a launch template, then this is null.</td></tr>

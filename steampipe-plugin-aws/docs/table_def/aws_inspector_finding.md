@@ -15,7 +15,7 @@
 	<tr><td>numeric_severity</td><td>The numeric value of the finding severity.</td></tr>
 	<tr><td>recommendation</td><td>The recommendation for the finding.</td></tr>
 	<tr><td>schema_version</td><td>The schema version of this data type.</td></tr>
-	<tr><td>service</td><td>The data element is set to 'Inspector'.</td></tr>
+	<tr><td>service</td><td>The data element is set to &#39;Inspector&#39;.</td></tr>
 	<tr><td>severity</td><td>The finding severity. Values can be set to High, Medium, Low, and Informational.</td></tr>
 	<tr><td>asset_attributes</td><td>A collection of attributes of the host from which the finding is generated.</td></tr>
 	<tr><td>attributes</td><td>The system-defined attributes for the finding.</td></tr>

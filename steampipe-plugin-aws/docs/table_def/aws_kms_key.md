@@ -13,7 +13,7 @@
 	<tr><td>deletion_date</td><td>The date and time after which AWS KMS deletes the CMK.</td></tr>
 	<tr><td>key_state</td><td>The current status of the CMK. For more information about how key state affects the use of a CMK, see [Key state: Effect on your CMK](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html).</td></tr>
 	<tr><td>key_usage</td><td>The [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#cryptographic-operations) for which you can use the CMK.</td></tr>
-	<tr><td>origin</td><td>The source of the CMK's key material. When this value is AWS_KMS, AWS KMS created the key material. When this value is EXTERNAL, the key material was imported from your existing key management infrastructure or the CMK lacks key material. When this value is AWS_CLOUDHSM, the key material was created in the AWS CloudHSM cluster associated with a custom key store.</td></tr>
+	<tr><td>origin</td><td>The source of the CMK&#39;s key material. When this value is AWS_KMS, AWS KMS created the key material. When this value is EXTERNAL, the key material was imported from your existing key management infrastructure or the CMK lacks key material. When this value is AWS_CLOUDHSM, the key material was created in the AWS CloudHSM cluster associated with a custom key store.</td></tr>
 	<tr><td>valid_to</td><td>The time at which the imported key material expires.</td></tr>
 	<tr><td>aliases</td><td>A list of aliases for the key.</td></tr>
 	<tr><td>key_rotation_enabled</td><td>A Boolean value that specifies whether key rotation is enabled.</td></tr>

@@ -9,7 +9,7 @@
 	<tr><td>created_date</td><td>The date the patch baseline was created.</td></tr>
 	<tr><td>modified_date</td><td>The date the patch baseline was last modified.</td></tr>
 	<tr><td>approved_patches_compliance_level</td><td>Returns the specified compliance severity level for approved patches in the patch baseline.</td></tr>
-	<tr><td>approved_patches_enable_non_security</td><td>Indicates whether the list of approved patches includes non-security updates that should be applied to the instances. The default value is 'false'. Applies to Linux instances only.</td></tr>
+	<tr><td>approved_patches_enable_non_security</td><td>Indicates whether the list of approved patches includes non-security updates that should be applied to the instances. The default value is &#39;false&#39;. Applies to Linux instances only.</td></tr>
 	<tr><td>approval_rules</td><td>A set of rules used to include patches in the baseline.</td></tr>
 	<tr><td>approved_patches</td><td>A list of explicitly approved patches for the baseline.</td></tr>
 	<tr><td>global_filters</td><td>A set of global filters used to exclude patches from the baseline.</td></tr>

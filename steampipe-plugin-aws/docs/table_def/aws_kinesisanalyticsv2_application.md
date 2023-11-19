@@ -11,7 +11,7 @@
 	<tr><td>last_update_timestamp</td><td>The current timestamp when the application was last updated.</td></tr>
 	<tr><td>runtime_environment</td><td>The runtime environment for the application.</td></tr>
 	<tr><td>service_execution_role</td><td>Specifies the IAM role that the application uses to access external resources.</td></tr>
-	<tr><td>application_configuration_description</td><td>Provides details about the application's Java, SQL, or Scala code and starting parameters.</td></tr>
+	<tr><td>application_configuration_description</td><td>Provides details about the application&#39;s Java, SQL, or Scala code and starting parameters.</td></tr>
 	<tr><td>cloud_watch_logging_option_descriptions</td><td>Describes the application Amazon CloudWatch logging options.</td></tr>
 	<tr><td>tags_src</td><td>The key-value tags assigned to the application.</td></tr>
 	<tr><td>title</td><td>Title of the resource.</td></tr>

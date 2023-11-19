@@ -9,21 +9,21 @@
 	<tr><td>created</td><td>The domain creation status.</td></tr>
 	<tr><td>deleted</td><td>The domain deletion status.</td></tr>
 	<tr><td>endpoint</td><td>The domain endpoint that is used to submit index and search requests.</td></tr>
-	<tr><td>engine_version</td><td>The domain's OpenSearch version.</td></tr>
+	<tr><td>engine_version</td><td>The domain&#39;s OpenSearch version.</td></tr>
 	<tr><td>processing</td><td>The status of the domain configuration.</td></tr>
 	<tr><td>upgrade_processing</td><td>The status of the domain version upgrade.</td></tr>
 	<tr><td>node_to_node_encryption_options_enabled</td><td>Specifies the status of the node to node encryption status.</td></tr>
 	<tr><td>advanced_options</td><td>Specifies the status of the advanced options.</td></tr>
-	<tr><td>advanced_security_options</td><td>Specifies The current status of the OpenSearch domain's advanced security options.</td></tr>
-	<tr><td>auto_tune_options</td><td>The current status of the domain's auto-tune options.</td></tr>
+	<tr><td>advanced_security_options</td><td>Specifies The current status of the OpenSearch domain&#39;s advanced security options.</td></tr>
+	<tr><td>auto_tune_options</td><td>The current status of the domain&#39;s auto-tune options.</td></tr>
 	<tr><td>cluster_config</td><td>The type and number of instances in the domain.</td></tr>
 	<tr><td>cognito_options</td><td>The cognito options for the specified domain.</td></tr>
-	<tr><td>domain_endpoint_options</td><td>The current status of the domain's endpoint options.</td></tr>
+	<tr><td>domain_endpoint_options</td><td>The current status of the domain&#39;s endpoint options.</td></tr>
 	<tr><td>ebs_options</td><td>The EBSOptions for the specified domain.</td></tr>
 	<tr><td>encryption_at_rest_options</td><td>The status of the encryption at rest options.</td></tr>
 	<tr><td>endpoints</td><td>Map containing the domain endpoints used to submit index and search requests.</td></tr>
 	<tr><td>log_publishing_options</td><td>Log publishing options for the given domain.</td></tr>
-	<tr><td>service_software_options</td><td>The current status of the domain's service software.</td></tr>
+	<tr><td>service_software_options</td><td>The current status of the domain&#39;s service software.</td></tr>
 	<tr><td>snapshot_options</td><td>Specifies the status of the snapshot options.</td></tr>
 	<tr><td>vpc_options</td><td>The vpc options for the specified domain.</td></tr>
 	<tr><td>tags_src</td><td>A list of tags assigned to the domain.</td></tr>

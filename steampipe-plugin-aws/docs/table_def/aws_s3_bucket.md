@@ -17,7 +17,7 @@
 	<tr><td>acl</td><td>The access control list (ACL) of a bucket.</td></tr>
 	<tr><td>lifecycle_rules</td><td>The lifecycle configuration information of the bucket.</td></tr>
 	<tr><td>logging</td><td>The logging status of a bucket and the permissions users have to view and modify that status.</td></tr>
-	<tr><td>object_lock_configuration</td><td>The specified bucket's object lock configuration.</td></tr>
+	<tr><td>object_lock_configuration</td><td>The specified bucket&#39;s object lock configuration.</td></tr>
 	<tr><td>object_ownership_controls</td><td>The Ownership Controls for an Amazon S3 bucket.</td></tr>
 	<tr><td>policy</td><td>The resource IAM access document for the bucket.</td></tr>
 	<tr><td>policy_std</td><td>Contains the policy in a canonical form for easier searching.</td></tr>

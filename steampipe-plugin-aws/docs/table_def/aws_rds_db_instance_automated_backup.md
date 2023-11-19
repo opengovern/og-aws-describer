@@ -10,7 +10,7 @@
 	<tr><td>availability_zone</td><td>The Availability Zone that the automated backup was created in.</td></tr>
 	<tr><td>backup_retention_period</td><td>The retention period for the automated backups.</td></tr>
 	<tr><td>backup_target</td><td>Specifies where automated backups are stored: Amazon Web Services Outposts or the Amazon Web Services Region.</td></tr>
-	<tr><td>dbi_resource_id</td><td>The identifier for the source DB instance, which can't be changed and which is unique to an Amazon Web Services Region.</td></tr>
+	<tr><td>dbi_resource_id</td><td>The identifier for the source DB instance, which can&#39;t be changed and which is unique to an Amazon Web Services Region.</td></tr>
 	<tr><td>encrypted</td><td>Specifies whether the automated backup is encrypted.</td></tr>
 	<tr><td>engine</td><td>The name of the database engine for this automated backup.</td></tr>
 	<tr><td>engine_version</td><td>The version of the database engine for the automated backup.</td></tr>

@@ -8,11 +8,11 @@
 	<tr><td>state</td><td>The state of the workgroup.</td></tr>
 	<tr><td>additional_configuration</td><td>Specifies a user defined JSON string that is passed to the notebook engine.</td></tr>
 	<tr><td>bytes_scanned_cutoff_per_query</td><td>The upper data usage limit (cutoff) for the amount of bytes a single query in a workgroup is allowed to scan.</td></tr>
-	<tr><td>customer_content_kms_key</td><td>Specifies the KMS key that is used to encrypt the user's data stores in Athena.</td></tr>
-	<tr><td>enforce_workgroup_configuration</td><td>If set to "true", the settings for the workgroup override client-side settings.</td></tr>
+	<tr><td>customer_content_kms_key</td><td>Specifies the KMS key that is used to encrypt the user&#39;s data stores in Athena.</td></tr>
+	<tr><td>enforce_workgroup_configuration</td><td>If set to &#34;true&#34;, the settings for the workgroup override client-side settings.</td></tr>
 	<tr><td>effective_engine_version</td><td>The engine version on which the query runs.</td></tr>
 	<tr><td>selected_engine_version</td><td>The engine version requested by the user.</td></tr>
-	<tr><td>execution_role</td><td>Role used in a notebook session for accessing the user's resources.</td></tr>
+	<tr><td>execution_role</td><td>Role used in a notebook session for accessing the user&#39;s resources.</td></tr>
 	<tr><td>publish_cloudwatch_metrics_enabled</td><td>Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.</td></tr>
 	<tr><td>requester_pays_enabled</td><td>If set to true, allows members assigned to a workgroup to reference Amazon S3 Requester Pays buckets in queries.</td></tr>
 	<tr><td>s3_acl_option</td><td>The Amazon S3 canned ACL that Athena should specify when storing query results.</td></tr>
