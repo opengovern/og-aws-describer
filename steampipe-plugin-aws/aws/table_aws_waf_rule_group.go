@@ -2,6 +2,7 @@ package aws
 
 import (
 	"context"
+	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -19,10 +20,10 @@ func tableAwsWafRuleGroup(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NonexistentItemException", "WAFNonexistentItemException"}),
 			},
-			//Hydrate: kaytu.GetWAFRuleGroup,
+			Hydrate: kaytu.GetWAFRuleGroup,
 		},
 		List: &plugin.ListConfig{
-			//Hydrate: kaytu.ListWAFRuleGroup,
+			Hydrate: kaytu.ListWAFRuleGroup,
 		},
 		Columns: awsKaytuColumns([]*plugin.Column{
 			{

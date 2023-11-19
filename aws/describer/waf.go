@@ -331,6 +331,7 @@ func WAFv2WebACL(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 
 	return values, nil
 }
+
 func wAFv2WebACLHandle(ctx context.Context, cfg aws.Config, v types.WebACLSummary, scope types.Scope) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := wafv2.NewFromConfig(cfg)
@@ -430,6 +431,7 @@ func wAFv2WebACLHandle(ctx context.Context, cfg aws.Config, v types.WebACLSummar
 	}
 	return resource, nil
 }
+
 func GetWAFv2WebACL(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	scopeInput := fields["scope"]
 	scopes := []types.Scope{
@@ -811,6 +813,7 @@ func WAFRegionalRule(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 	}
 	return values, nil
 }
+
 func wAFRegionalRuleHandle(ctx context.Context, cfg aws.Config, v regionaltypes.RuleSummary) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := wafregional.NewFromConfig(cfg)
@@ -839,6 +842,7 @@ func wAFRegionalRuleHandle(ctx context.Context, cfg aws.Config, v regionaltypes.
 	}
 	return resource, nil
 }
+
 func GetWAFRegionalRule(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	roleId := fields["id"]
 	client := wafregional.NewFromConfig(cfg)
@@ -1236,6 +1240,7 @@ func WAFRule(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 
 	return values, nil
 }
+
 func wAFRuleHandle(ctx context.Context, cfg aws.Config, roleId string) (Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := waf.NewFromConfig(cfg)
@@ -1275,6 +1280,7 @@ func wAFRuleHandle(ctx context.Context, cfg aws.Config, roleId string) (Resource
 	}
 	return resource, nil
 }
+
 func GetWAFRule(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	ruleId := fields["id"]
 	var values []Resource
@@ -1306,6 +1312,9 @@ func WAFRuleGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 		}
 
 		for _, v := range output.RuleGroups {
+			if v.RuleGroupId == nil {
+				continue
+			}
 			rule, err := client.GetRuleGroup(ctx, &waf.GetRuleGroupInput{
 				RuleGroupId: v.RuleGroupId,
 			})
@@ -1332,7 +1341,6 @@ func WAFRuleGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
-				Name:   *rule.RuleGroup.Name,
 				Description: model.WAFRuleGroupDescription{
 					ARN:              arn,
 					RuleGroupSummary: v,
@@ -1340,6 +1348,9 @@ func WAFRuleGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 					ActivatedRules:   ac,
 					Tags:             tags.TagInfoForResource.TagList,
 				},
+			}
+			if rule.RuleGroup.Name != nil {
+				resource.Name = *rule.RuleGroup.Name
 			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
