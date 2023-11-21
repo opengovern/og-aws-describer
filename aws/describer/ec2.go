@@ -1860,14 +1860,19 @@ func EC2RegionalSettings(ctx context.Context, cfg aws.Config, stream *StreamSend
 	if err != nil {
 		return nil, err
 	}
+	outstate, err := client.GetSnapshotBlockPublicAccessState(ctx, &ec2.GetSnapshotBlockPublicAccessStateInput{})
+	if err != nil {
+		return nil, err
+	}
 
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		// No ID or ARN. Per Account Configuration
 		Name: cfg.Region + " EC2 Settings", // Based on Steampipe
 		Description: model.EC2RegionalSettingsDescription{
-			EbsEncryptionByDefault: out.EbsEncryptionByDefault,
-			KmsKeyId:               outkey.KmsKeyId,
+			EbsEncryptionByDefault:         out.EbsEncryptionByDefault,
+			KmsKeyId:                       outkey.KmsKeyId,
+			SnapshotBlockPublicAccessState: outstate.State,
 		},
 	}
 	var values []Resource

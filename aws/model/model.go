@@ -4,6 +4,7 @@ package model
 
 import (
 	dynamodb2 "github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	lakeformationTypes "github.com/aws/aws-sdk-go-v2/service/lakeformation/types"
 	networkfirewall2 "github.com/aws/aws-sdk-go-v2/service/networkfirewall"
 	"github.com/aws/aws-sdk-go-v2/service/opensearchserverless"
 	types6 "github.com/aws/aws-sdk-go-v2/service/opensearchserverless/types"
@@ -109,7 +110,7 @@ import (
 	mediastore "github.com/aws/aws-sdk-go-v2/service/mediastore/types"
 	memorydb "github.com/aws/aws-sdk-go-v2/service/memorydb/types"
 	mgn "github.com/aws/aws-sdk-go-v2/service/mgn/types"
-	mq "github.com/aws/aws-sdk-go-v2/service/mq/types"
+	"github.com/aws/aws-sdk-go-v2/service/mq"
 	mwaa "github.com/aws/aws-sdk-go-v2/service/mwaa/types"
 	neptune "github.com/aws/aws-sdk-go-v2/service/neptune/types"
 	networkfirewall "github.com/aws/aws-sdk-go-v2/service/networkfirewall/types"
@@ -275,6 +276,7 @@ type ElasticBeanstalkEnvironmentDescription struct {
 	EnvironmentDescription elasticbeanstalk.EnvironmentDescription
 	ManagedAction          []elasticbeanstalk.ManagedAction
 	Tags                   []elasticbeanstalk.Tag
+	ConfigurationSetting   []elasticbeanstalk.ConfigurationSettingsDescription
 }
 
 //index:aws_elasticbeanstalk_application
@@ -456,6 +458,7 @@ type BackupVaultDescription struct {
 	Policy            *string
 	BackupVaultEvents []backup.BackupVaultEvent
 	SNSTopicArn       *string
+	Tags              map[string]string
 }
 
 //index:aws_backup_recoverypoint
@@ -466,6 +469,7 @@ type BackupVaultDescription struct {
 //listfilter:completion_date=description.RecoveryPoint.CompletionDate
 type BackupRecoveryPointDescription struct {
 	RecoveryPoint *backupservice.DescribeRecoveryPointOutput
+	Tags          map[string]string
 }
 
 //index:aws_backup_protectedresource
@@ -977,8 +981,9 @@ type EC2NetworkInterfaceDescription struct {
 
 //index:aws_ec2_regionalsettings
 type EC2RegionalSettingsDescription struct {
-	EbsEncryptionByDefault *bool
-	KmsKeyId               *string
+	EbsEncryptionByDefault         *bool
+	KmsKeyId                       *string
+	SnapshotBlockPublicAccessState ec2.SnapshotBlockPublicAccessState
 }
 
 //index:aws_ec2_ebsvolumemetricreadops
@@ -2633,10 +2638,11 @@ type KinesisAnalyticsV2ApplicationDescription struct {
 //index:aws_glacier_vault
 //getfilter:vault_name=description.Vault.VaultName
 type GlacierVaultDescription struct {
-	Vault        glacier.DescribeVaultOutput
-	AccessPolicy glacier.VaultAccessPolicy
-	LockPolicy   glacier.VaultLockPolicy
-	Tags         map[string]string
+	Vault                   glacier.DescribeVaultOutput
+	AccessPolicy            glacier.VaultAccessPolicy
+	LockPolicy              glacier.VaultLockPolicy
+	VaultNotificationConfig glacier.VaultNotificationConfig
+	Tags                    map[string]string
 }
 
 //  ===================  Workspace  ===================
@@ -2719,8 +2725,8 @@ type MemoryDbClusterDescription struct {
 //index:aws_mq_broker
 //getfilter:broker_name=description.Broker.BrokerName
 type MQBrokerDescription struct {
-	Broker mq.BrokerSummary
-	Tags   map[string]string
+	BrokerDescription *mq.DescribeBrokerOutput
+	Tags              map[string]string
 }
 
 //  ===================  Neptune  ===================
@@ -3605,7 +3611,8 @@ type GlueCatalogDatabaseDescription struct {
 //listfilter:catalog_id=description.Table.CatalogId
 //listfilter:database_name=description.Table.DatabaseName
 type GlueCatalogTableDescription struct {
-	Table glue.Table
+	Table  glue.Table
+	LfTags []lakeformationTypes.LFTagPair
 }
 
 //index:aws_glue_connection

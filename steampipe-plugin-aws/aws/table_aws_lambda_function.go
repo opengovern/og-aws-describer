@@ -253,6 +253,12 @@ func tableAwsLambdaFunction(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.Function.Configuration.FunctionArn").Transform(arnToAkas),
 			},
+			{
+				Name:        "layers",
+				Description: resourceInterfaceDescription("layers"),
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Function.Configuration.Layers"),
+			},
 		}),
 	}
 }

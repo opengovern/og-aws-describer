@@ -2,7 +2,6 @@ package aws
 
 import (
 	"context"
-
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -74,12 +73,80 @@ func tableAwsCloudFormationStackSet(_ context.Context) *plugin.Table {
 				Name:        "permission_model",
 				Description: "Describes how the IAM roles required for stack set operations are created.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.StackSet.PermissionModel")},
+				Transform:   transform.FromField("Description.StackSet.PermissionModel"),
+			},
+			{
+				Name:        "administration_role_arn",
+				Description: "The Amazon Resource Name (ARN) of the IAM role used to create or update the stack set.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.StackSet.AdministrationRoleARN"),
+			},
+			{
+				Name:        "execution_role_name",
+				Description: "The name of the IAM execution role used to create or update the stack set.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.StackSet.ExecutionRoleName"),
+			},
+			{
+				Name:        "template_body",
+				Description: "The structure that contains the body of the template that was used to create or update the stack set.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.StackSet.TemplateBody"),
+			},
+			{
+				Name:        "auto_deployment",
+				Description: "Describes whether StackSets automatically deploys to Organizations accounts that are added to a target organizational unit (OU).",
+				Type:        proto.ColumnType_JSON,
+			},
+			{
+				Name:        "capabilities",
+				Description: "The capabilities that are allowed in the stack set.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.StackSet.Capabilities"),
+			},
+			{
+				Name:        "organizational_unit_ids",
+				Description: "The organization root ID or organizational unit (OU) IDs that you specified for DeploymentTargets.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.StackSet.OrganizationalUnitIds"),
+			},
+			{
+				Name:        "parameters",
+				Description: "A list of input parameters for a stack set.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.StackSet.Parameters"),
+			},
+			{
+				Name:        "stack_set_drift_detection_details",
+				Description: "Detailed information about the drift status of the stack set.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.StackSet.StackSetDriftDetectionDetails"),
+			},
+			{
+				Name:        "managed_execution",
+				Description: "Describes whether StackSets performs non-conflicting operations concurrently and queues conflicting operations.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.StackSet.ManagedExecution"),
+			},
+			{
+				Name:        "tags_src",
+				Description: "A list of tags associated with stack.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.StackSet.Tags"),
+			},
+
+			// Steampipe standard columns
 			{
 				Name:        "tags",
 				Description: resourceInterfaceDescription("tags"),
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.From(getCloudFormationStackSetTurbotTags),
+			},
+			{
+				Name:        "title",
+				Description: resourceInterfaceDescription("title"),
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.StackSet.StackSetName"),
 			},
 			{
 				Name:        "akas",
@@ -90,8 +157,6 @@ func tableAwsCloudFormationStackSet(_ context.Context) *plugin.Table {
 		}),
 	}
 }
-
-//// TRANSFORM FUNCTIONS
 
 func getCloudFormationStackSetTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	tags := d.HydrateItem.(kaytu.CloudFormationStackSet).Description.StackSet.Tags

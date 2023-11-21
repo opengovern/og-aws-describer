@@ -6,6 +6,8 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/glue"
 	"github.com/aws/aws-sdk-go-v2/service/glue/types"
+	"github.com/aws/aws-sdk-go-v2/service/lakeformation"
+	lakeformationTypes "github.com/aws/aws-sdk-go-v2/service/lakeformation/types"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 )
 
@@ -70,6 +72,8 @@ func GlueCatalogTable(ctx context.Context, cfg aws.Config, stream *StreamSender)
 	client := glue.NewFromConfig(cfg)
 	paginator := glue.NewGetDatabasesPaginator(client, &glue.GetDatabasesInput{})
 
+	lakeformationClient := lakeformation.NewFromConfig(cfg)
+
 	var values []Resource
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
@@ -87,13 +91,17 @@ func GlueCatalogTable(ctx context.Context, cfg aws.Config, stream *StreamSender)
 					return nil, err
 				}
 				for _, table := range tablePage.TableList {
-					resource := glueCatalogTableHandle(ctx, table, *database.Name)
+					resource, err := glueCatalogTableHandle(ctx, lakeformationClient, table, *database.Name)
+					if err != nil {
+						return nil, err
+					}
+
 					if stream != nil {
-						if err := (*stream)(resource); err != nil {
+						if err := (*stream)(*resource); err != nil {
 							return nil, err
 						}
 					} else {
-						values = append(values, resource)
+						values = append(values, *resource)
 					}
 				}
 			}
@@ -102,7 +110,7 @@ func GlueCatalogTable(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 	return values, nil
 }
-func glueCatalogTableHandle(ctx context.Context, table types.Table, databaseName string) Resource {
+func glueCatalogTableHandle(ctx context.Context, client *lakeformation.Client, table types.Table, databaseName string) (*Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	arn := fmt.Sprintf("arn:aws:glue:%s:%s:table/%s/%s", describeCtx.Region, describeCtx.AccountID, databaseName, *table.Name)
 
@@ -116,20 +124,43 @@ func glueCatalogTableHandle(ctx context.Context, table types.Table, databaseName
 		table.ViewExpandedText = aws.String(v[:5000])
 	}
 
+	params := &lakeformation.GetResourceLFTagsInput{
+		CatalogId:          table.CatalogId,
+		ShowAssignedLFTags: aws.Bool(true),
+		Resource: &lakeformationTypes.Resource{
+			Table: &lakeformationTypes.TableResource{
+				CatalogId:    table.CatalogId,
+				DatabaseName: table.DatabaseName,
+				Name:         table.Name,
+			},
+		},
+	}
+
+	var lfTableTags []lakeformationTypes.LFTagPair
+	lftags, err := client.GetResourceLFTags(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	if lftags != nil && len(lftags.LFTagsOnTable) > 0 {
+		lfTableTags = lftags.LFTagsOnTable
+	}
+
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		Name:   *table.Name,
 		ARN:    arn,
 		Description: model.GlueCatalogTableDescription{
-			Table: table,
+			Table:  table,
+			LfTags: lfTableTags,
 		},
 	}
-	return resource
+	return &resource, nil
 }
 func GetGlueCatalogTable(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	name := fields["databaseName"]
 	catalogId := fields["catalogId"]
 	client := glue.NewFromConfig(cfg)
+	lakeformationClient := lakeformation.NewFromConfig(cfg)
 
 	tables, err := client.GetTables(ctx, &glue.GetTablesInput{
 		DatabaseName: &name,
@@ -144,7 +175,11 @@ func GetGlueCatalogTable(ctx context.Context, cfg aws.Config, fields map[string]
 
 	var values []Resource
 	for _, table := range tables.TableList {
-		values = append(values, glueCatalogTableHandle(ctx, table, name))
+		value, err := glueCatalogTableHandle(ctx, lakeformationClient, table, name)
+		if err != nil {
+			return nil, err
+		}
+		values = append(values, *value)
 	}
 	return values, nil
 }

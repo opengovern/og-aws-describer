@@ -67,6 +67,23 @@ func elasticBeanstalkEnvironmentHandle(ctx context.Context, cfg aws.Config, item
 		return Resource{}, err
 	}
 
+	params := &elasticbeanstalk.DescribeConfigurationSettingsInput{
+		ApplicationName: item.ApplicationName,
+		EnvironmentName: item.EnvironmentName,
+	}
+
+	var configurationSettingsDescription []types.ConfigurationSettingsDescription
+	configurationSettings, err := client.DescribeConfigurationSettings(ctx, params)
+	if err != nil {
+		if isErr(err, "DescribeConfigurationSettingsNotFound") || isErr(err, "InvalidParameterValue") {
+			return Resource{}, nil
+		}
+		return Resource{}, err
+	}
+	if configurationSettings != nil && len(configurationSettings.ConfigurationSettings) > 0 {
+		configurationSettingsDescription = configurationSettings.ConfigurationSettings
+	}
+
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *item.EnvironmentArn,
@@ -75,6 +92,7 @@ func elasticBeanstalkEnvironmentHandle(ctx context.Context, cfg aws.Config, item
 			EnvironmentDescription: item,
 			ManagedAction:          managedActions.ManagedActions,
 			Tags:                   tags.ResourceTags,
+			ConfigurationSetting:   configurationSettingsDescription,
 		},
 	}
 	return resource, nil

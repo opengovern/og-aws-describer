@@ -121,6 +121,43 @@ func tableAwsLambdaVersion(_ context.Context) *plugin.Table {
 
 				Transform: transform.FromField("Description.FunctionVersion.VpcConfig.VpcId")},
 			{
+				Name:        "kms_key_arn",
+				Description: "The KMS key that's used to encrypt the function's environment variables.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.FunctionVersion.KMSKeyArn"),
+			},
+			{
+				Name:        "role",
+				Description: "The function's execution role.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.FunctionVersion.Role")},
+			{
+				Name:        "signing_job_arn",
+				Description: "The ARN of the signing job.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.FunctionVersion.SigningJobArn")},
+			{
+				Name:        "signing_profile_version_arn",
+				Description: "The ARN of the signing profile version.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.FunctionVersion.SigningProfileVersionArn")},
+			{
+				Name:        "state_reason",
+				Description: "The reason for the function's current state.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.FunctionVersion.StateReason")},
+			{
+				Name:        "state_reason_code",
+				Description: "The reason code for the function's current state.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.FunctionVersion.StateReasonCode")},
+			{
+				Name:        "ephemeral_storage_size",
+				Description: "The size of the function's /tmp directory in MB.",
+				Type:        proto.ColumnType_INT,
+				Transform:   transform.FromField("Description.FunctionVersion.EphemeralStorage.Size")},
+
+			{
 				Name:        "environment_variables",
 				Description: "The environment variables that are accessible from function code during execution.",
 				Type:        proto.ColumnType_JSON,
@@ -146,6 +183,52 @@ func tableAwsLambdaVersion(_ context.Context) *plugin.Table {
 				Description: "A list of VPC subnet IDs attached to Lambda function.",
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.FunctionVersion.VpcConfig.SubnetIds")},
+
+			{
+				Name:        "architectures",
+				Description: "The instruction set architecture that the function supports.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.FunctionVersion.Architectures")},
+			{
+				Name:        "dead_letter_config",
+				Description: "The function's dead letter queue configuration.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.FunctionVersion.DeadLetterConfig")},
+			{
+				Name:        "file_system_configs",
+				Description: "Connection settings for an Amazon EFS file system.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.FunctionVersion.FileSystemConfigs")},
+			{
+				Name:        "image_config_response",
+				Description: "The function's image configuration values.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.FunctionVersion.ImageConfigResponse")},
+			{
+				Name:        "layers",
+				Description: "The function's layers.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.FunctionVersion.Layers")},
+			{
+				Name:        "logging_config",
+				Description: "The function's Amazon CloudWatch Logs configuration settings.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.FunctionVersion.LoggingConfig")},
+			{
+				Name:        "runtime_version_config",
+				Description: "The ARN of the runtime and any errors that occurred.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.FunctionVersion.RuntimeVersionConfig")},
+			{
+				Name:        "snap_start",
+				Description: "Configuration for creating a snapshot of the initialized execution environment.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.FunctionVersion.SnapStart")},
+			{
+				Name:        "tracing_config",
+				Description: "The function's X-Ray tracing configuration.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.FunctionVersion.TracingConfig")},
 
 			// Standard columns for all tables
 			{
