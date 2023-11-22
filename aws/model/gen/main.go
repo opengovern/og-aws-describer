@@ -151,35 +151,42 @@ func List{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
 	if err != nil {
+		plugin.Logger(ctx).Error("List{{ .Name }} NewClientCached", "error", err)
 		return nil, err
 	}
 	k := Client{Client: ke}
 
 	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
 	if err != nil {
+		plugin.Logger(ctx).Error("List{{ .Name }} NewSelfClientCached", "error", err)
 		return nil, err
 	}
 	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
 	if err != nil {
+		plugin.Logger(ctx).Error("List{{ .Name }} GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
 		return nil, err
 	}
 	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
 	if err != nil {
+		plugin.Logger(ctx).Error("List{{ .Name }} GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
 		return nil, err
 	}
 	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
 	if err != nil {
+		plugin.Logger(ctx).Error("List{{ .Name }} GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
 		return nil, err
 	}
 
 	paginator, err := k.New{{ .Name }}Paginator(essdk.BuildFilter(ctx, d.QueryContext, list{{ .Name }}Filters, "{{ .SourceType }}", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
 	if err != nil {
+		plugin.Logger(ctx).Error("List{{ .Name }} New{{ .Name }}Paginator", "error", err)
 		return nil, err
 	}
 
 	for paginator.HasNext() {
 		page, err := paginator.NextPage(ctx)
 		if err != nil {
+			plugin.Logger(ctx).Error("List{{ .Name }} paginator.NextPage", "error", err)
 			return nil, err
 		}
 
