@@ -143,7 +143,7 @@ type Resources struct {
 func GetResources(ctx context.Context, logger *zap.Logger,
 	resourceType string, triggerType enums.DescribeTriggerType,
 	accountId string, regions []string,
-	credAccountId, accessKey, secretKey, sessionToken, assumeRoleName string, externalId *string,
+	credAccountId, accessKey, secretKey, sessionToken, assumeRoleName, assumeAdminRoleName string, externalId *string,
 	includeDisabledRegions bool, stream *describer.StreamSender) (*Resources, error) {
 	var err error
 	var cfg aws.Config
@@ -151,7 +151,7 @@ func GetResources(ctx context.Context, logger *zap.Logger,
 		assumeRoleArn := GetRoleArnFromName(accountId, assumeRoleName)
 		cfg, err = GetConfig(ctx, accessKey, secretKey, sessionToken, assumeRoleArn, externalId)
 	} else {
-		cfg, err = GetConfig(ctx, accessKey, secretKey, sessionToken, "", nil)
+		cfg, err = GetConfig(ctx, accessKey, secretKey, sessionToken, assumeAdminRoleName, externalId)
 	}
 	if err != nil {
 		return nil, err

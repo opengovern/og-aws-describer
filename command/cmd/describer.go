@@ -45,7 +45,7 @@ var describerCmd = &cobra.Command{
 			context.Background(), logger,
 			resourceType, enums.DescribeTriggerTypeManual,
 			accountID, nil,
-			credentialAccountId, accessKey, secretKey, "", assumeRoleArn, externalIdPtr,
+			credentialAccountId, accessKey, secretKey, "", assumeRoleArn, "", externalIdPtr,
 			false, nil)
 		if err != nil {
 			return fmt.Errorf("AWS: %w", err)
