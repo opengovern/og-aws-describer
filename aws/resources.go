@@ -151,7 +151,8 @@ func GetResources(ctx context.Context, logger *zap.Logger,
 		assumeRoleArn := GetRoleArnFromName(accountId, assumeRoleName)
 		cfg, err = GetConfig(ctx, accessKey, secretKey, sessionToken, assumeRoleArn, externalId)
 	} else {
-		cfg, err = GetConfig(ctx, accessKey, secretKey, sessionToken, assumeAdminRoleName, externalId)
+		assumeAdminRoleArn := GetRoleArnFromName(accountId, assumeAdminRoleName)
+		cfg, err = GetConfig(ctx, accessKey, secretKey, sessionToken, assumeAdminRoleArn, externalId)
 	}
 	if err != nil {
 		return nil, err
