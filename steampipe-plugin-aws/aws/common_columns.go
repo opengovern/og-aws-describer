@@ -159,6 +159,50 @@ func commonColumnsForGlobalRegionResource() []*plugin.Column {
 		},
 	}
 }
+
+// Columns defined on every global-region-level resource (e.g. aws_waf_rule)
+func commonKaytuColumnsForGlobalRegionResource() []*plugin.Column {
+	return []*plugin.Column{
+		{
+			Name:        "partition",
+			Type:        proto.ColumnType_STRING,
+			Hydrate:     getCommonColumns,
+			Description: "The AWS partition in which the resource is located (aws, aws-cn, or aws-us-gov).",
+		},
+		{
+			Name: "region",
+			Type: proto.ColumnType_STRING,
+			// Region is hard-coded to special global region
+			Transform:   transform.FromConstant("global"),
+			Description: "The AWS Region in which the resource is located.",
+		},
+		{
+			Name:        "account_id",
+			Type:        proto.ColumnType_STRING,
+			Hydrate:     getCommonColumns,
+			Description: "The AWS Account ID in which the resource is located.",
+			Transform:   transform.FromCamel(),
+		},
+		{
+			Name:        "kaytu_account_id",
+			Type:        proto.ColumnType_STRING,
+			Description: "The Kaytu Account ID in which the resource is located.",
+			Transform:   transform.FromField("Metadata.SourceID"),
+		},
+		{
+			Name:        "kaytu_resource_id",
+			Type:        proto.ColumnType_STRING,
+			Description: "The unique ID of the resource in Kaytu.",
+			Transform:   transform.FromField("ID"),
+		},
+		{
+			Name:        "kaytu_metadata",
+			Type:        proto.ColumnType_STRING,
+			Description: "Kaytu Metadata of the AWS resource.",
+			Transform:   transform.FromField("Metadata").Transform(marshalJSON),
+		},
+	}
+}
 func commonAwsKaytuColumns() []*plugin.Column {
 	return []*plugin.Column{
 		{
@@ -225,6 +269,9 @@ func awsKaytuRegionalColumns(columns []*plugin.Column) []*plugin.Column {
 // Append columns for region-level resource (e.g. aws_ec2_instance)
 func awsGlobalRegionColumns(columns []*plugin.Column) []*plugin.Column {
 	return append(columns, commonColumnsForGlobalRegionResource()...)
+}
+func awsKaytuGlobalRegionColumns(columns []*plugin.Column) []*plugin.Column {
+	return append(columns, commonKaytuColumnsForGlobalRegionResource()...)
 }
 func awsKaytuColumns(columns []*plugin.Column) []*plugin.Column {
 	commonCols := commonAwsKaytuColumns()
