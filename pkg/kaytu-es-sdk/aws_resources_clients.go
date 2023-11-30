@@ -27937,10 +27937,27 @@ func (p ElasticLoadBalancingV2TargetGroupPaginator) NextPage(ctx context.Context
 }
 
 var listElasticLoadBalancingV2TargetGroupFilters = map[string]string{
-	"arn":               "description.TargetGroup.TargetGroupArn",
-	"kaytu_account_id":  "metadata.SourceID",
-	"target_group_name": "description.TargetGroup.TargetGroupName",
-	"title":             "description.TargetGroup.TargetGroupName",
+	"health_check_enabled":          "description.TargetGroup.HealthCheckEnabled",
+	"health_check_interval_seconds": "description.TargetGroup.HealthCheckIntervalSeconds",
+	"health_check_path":             "description.TargetGroup.HealthCheckPath",
+	"health_check_port":             "description.TargetGroup.HealthCheckPort",
+	"health_check_protocol":         "description.TargetGroup.HealthCheckProtocol",
+	"health_check_timeout_seconds":  "description.TargetGroup.HealthCheckTimeoutSeconds",
+	"healthy_threshold_count":       "description.TargetGroup.HealthyThresholdCount",
+	"kaytu_account_id":              "metadata.SourceID",
+	"load_balancer_arns":            "description.TargetGroup.LoadBalancerArns",
+	"matcher_grpc_code":             "description.TargetGroup.Matcher.GrpcCode",
+	"matcher_http_code":             "description.TargetGroup.Matcher.HttpCode",
+	"port":                          "description.TargetGroup.Port",
+	"protocol":                      "description.TargetGroup.Protocol",
+	"tags_src":                      "description.Tags",
+	"target_group_arn":              "description.TargetGroup.TargetGroupArn",
+	"target_group_name":             "description.TargetGroup.TargetGroupName",
+	"target_health_descriptions":    "description.Health",
+	"target_type":                   "description.TargetGroup.TargetType",
+	"title":                         "description.TargetGroup.TargetGroupName",
+	"unhealthy_threshold_count":     "description.TargetGroup.UnhealthyThresholdCount",
+	"vpc_id":                        "description.TargetGroup.VpcId",
 }
 
 func ListElasticLoadBalancingV2TargetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -27998,11 +28015,27 @@ func ListElasticLoadBalancingV2TargetGroup(ctx context.Context, d *plugin.QueryD
 }
 
 var getElasticLoadBalancingV2TargetGroupFilters = map[string]string{
-	"arn":               "description.TargetGroup.TargetGroupArn",
-	"kaytu_account_id":  "metadata.SourceID",
-	"target_group_arn":  "description.TargetGroup.TargetGroupArn",
-	"target_group_name": "description.TargetGroup.TargetGroupName",
-	"title":             "description.TargetGroup.TargetGroupName",
+	"health_check_enabled":          "description.TargetGroup.HealthCheckEnabled",
+	"health_check_interval_seconds": "description.TargetGroup.HealthCheckIntervalSeconds",
+	"health_check_path":             "description.TargetGroup.HealthCheckPath",
+	"health_check_port":             "description.TargetGroup.HealthCheckPort",
+	"health_check_protocol":         "description.TargetGroup.HealthCheckProtocol",
+	"health_check_timeout_seconds":  "description.TargetGroup.HealthCheckTimeoutSeconds",
+	"healthy_threshold_count":       "description.TargetGroup.HealthyThresholdCount",
+	"kaytu_account_id":              "metadata.SourceID",
+	"load_balancer_arns":            "description.TargetGroup.LoadBalancerArns",
+	"matcher_grpc_code":             "description.TargetGroup.Matcher.GrpcCode",
+	"matcher_http_code":             "description.TargetGroup.Matcher.HttpCode",
+	"port":                          "description.TargetGroup.Port",
+	"protocol":                      "description.TargetGroup.Protocol",
+	"tags_src":                      "description.Tags",
+	"target_group_arn":              "description.TargetGroup.TargetGroupArn",
+	"target_group_name":             "description.TargetGroup.TargetGroupName",
+	"target_health_descriptions":    "description.Health",
+	"target_type":                   "description.TargetGroup.TargetType",
+	"title":                         "description.TargetGroup.TargetGroupName",
+	"unhealthy_threshold_count":     "description.TargetGroup.UnhealthyThresholdCount",
+	"vpc_id":                        "description.TargetGroup.VpcId",
 }
 
 func GetElasticLoadBalancingV2TargetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {

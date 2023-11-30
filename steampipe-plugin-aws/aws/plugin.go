@@ -532,7 +532,6 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"aws_ec2_ipam":                                                 tableAwsEC2Ipam(ctx),
 			"aws_ec2_ipam_pool":                                            tableAwsEC2IpamPool(ctx),
 			"aws_ec2_load_balancer_listener_rule":                          tableAwsElasticLoadBalancingV2Rule(ctx),
-			"aws_ec2_load_balancer_target_group":                           tableAwsElasticLoadBalancingV2TargetGroup(ctx),
 			"aws_ec2_placement_group":                                      tableAwsEc2PlacementGroup(ctx),
 			"aws_elastic_beanstalk_platform":                               tableAwsElasticBeanstalkPlatform(ctx),
 			"aws_fms_policy":                                               tableAwsFMSPolicy(ctx),
