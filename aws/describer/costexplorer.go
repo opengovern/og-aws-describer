@@ -337,7 +337,7 @@ func getEc2OtherCostKeyFromDimension(dimension string) string {
 	case strings.Contains(dimension, "EBS"):
 		return "EC2 - EBS"
 	default:
-		return "EC2 - Others"
+		return "EC2 - Other"
 	}
 }
 
