@@ -10,6 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/costexplorer/types"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
+	pointerUtil "github.com/kaytu-io/kaytu-util/pkg/pointer"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 )
@@ -261,7 +262,6 @@ func costDaily(ctx context.Context, cfg aws.Config, by string, startDate, endDat
 	}
 
 	client := costexplorer.NewFromConfig(cfg)
-
 	var values []model.CostExplorerRow
 	for {
 		out, err := client.GetCostAndUsage(ctx, params)
@@ -316,6 +316,144 @@ func costDaily(ctx context.Context, cfg aws.Config, by string, startDate, endDat
 	return values, nil
 }
 
+func getEc2OtherCostKeyFromDimension(dimension string) string {
+	switch {
+	case strings.Contains(dimension, "EBSOptimized"):
+		return "EC2 - EBSOptimized"
+	case strings.Contains(dimension, "CPUCredits"):
+		return "EC2 - CPUCredits"
+	case strings.Contains(dimension, "DataTransfer"):
+		return "EC2 - DataTransfer"
+	case strings.Contains(dimension, "AWS-In-Bytes"):
+		return "EC2 - AWS In"
+	case strings.Contains(dimension, "AWS-Out-Bytes"):
+		return "EC2 - AWS Out"
+	case strings.Contains(dimension, "ElasticIP"):
+		return "EC2 - ElasticIP"
+	case strings.Contains(dimension, "NatGateway"):
+		return "EC2 - NatGateway"
+	case strings.Contains(dimension, "EBS"):
+		return "EC2 - EBS"
+	default:
+		return "EC2 - Others"
+	}
+}
+
+func ec2OtherCostDaily(ctx context.Context, cfg aws.Config, startDate, endDate time.Time) ([]model.CostExplorerRow, error) {
+	describeCtx := GetDescribeContext(ctx)
+	timeFormat := "2006-01-02"
+	endTime := endDate.Format(timeFormat)
+	startTime := startDate.Format(timeFormat)
+
+	params := &costexplorer.GetCostAndUsageInput{
+		Filter: &types.Expression{
+			And: []types.Expression{
+				{
+					Dimensions: &types.DimensionValues{
+						Key:    types.DimensionService,
+						Values: []string{"EC2 - Other"},
+					},
+				},
+				{
+					Dimensions: &types.DimensionValues{
+						Key:    types.DimensionLinkedAccount,
+						Values: []string{describeCtx.AccountID},
+					},
+				},
+			},
+		},
+		TimePeriod: &types.DateInterval{
+			Start: aws.String(startTime),
+			End:   aws.String(endTime),
+		},
+		Granularity: types.GranularityDaily,
+		Metrics: []string{
+			"BlendedCost",
+			"UnblendedCost",
+			"NetUnblendedCost",
+			"AmortizedCost",
+			"NetAmortizedCost",
+			"UsageQuantity",
+			"NormalizedUsageAmount",
+		},
+		GroupBy: []types.GroupDefinition{
+			{
+				Type: types.GroupDefinitionTypeDimension,
+				Key:  aws.String(string(types.DimensionUsageType)),
+			},
+		},
+	}
+
+	client := costexplorer.NewFromConfig(cfg)
+	var values []model.CostExplorerRow
+	for {
+		out, err := client.GetCostAndUsage(ctx, params)
+		if err != nil {
+			if isErr(err, "AccessDeniedException") {
+				break
+			} else {
+				return nil, err
+			}
+		}
+		valuesMap := make(map[string]model.CostExplorerRow)
+		for _, result := range out.ResultsByTime {
+			// If there are no groupings, create a row from the totals
+			if len(result.Groups) == 0 {
+				var row model.CostExplorerRow
+
+				row.Estimated = result.Estimated
+				row.PeriodStart = result.TimePeriod.Start
+				row.PeriodEnd = result.TimePeriod.End
+
+				setRowMetrics(&row, result.Total)
+				values = append(values, row)
+			}
+			// make a row per group
+			for _, group := range result.Groups {
+				var row model.CostExplorerRow
+
+				row.Estimated = result.Estimated
+				row.PeriodStart = result.TimePeriod.Start
+				row.PeriodEnd = result.TimePeriod.End
+
+				if len(group.Keys) > 0 {
+					row.Dimension1 = aws.String(getEc2OtherCostKeyFromDimension(group.Keys[0]))
+					if len(group.Keys) > 1 {
+						row.Dimension2 = aws.String(group.Keys[1])
+					}
+				} else {
+					continue
+				}
+				setRowMetrics(&row, group.Metrics)
+
+				if v, ok := valuesMap[*row.Dimension1]; ok {
+					v.BlendedCostAmount = pointerUtil.PAdd(v.BlendedCostAmount, row.BlendedCostAmount)
+					v.UnblendedCostAmount = pointerUtil.PAdd(v.UnblendedCostAmount, row.UnblendedCostAmount)
+					v.NetUnblendedCostAmount = pointerUtil.PAdd(v.NetUnblendedCostAmount, row.NetUnblendedCostAmount)
+					v.AmortizedCostAmount = pointerUtil.PAdd(v.AmortizedCostAmount, row.AmortizedCostAmount)
+					v.NetAmortizedCostAmount = pointerUtil.PAdd(v.NetAmortizedCostAmount, row.NetAmortizedCostAmount)
+					v.UsageQuantityAmount = pointerUtil.PAdd(v.UsageQuantityAmount, row.UsageQuantityAmount)
+					v.NormalizedUsageAmount = pointerUtil.PAdd(v.NormalizedUsageAmount, row.NormalizedUsageAmount)
+					valuesMap[*row.Dimension1] = v
+				} else {
+					valuesMap[*row.Dimension1] = row
+				}
+			}
+			for _, v := range valuesMap {
+				values = append(values, v)
+			}
+		}
+
+		if out.NextPageToken == nil {
+			break
+		}
+
+		params.NextPageToken = out.NextPageToken
+	}
+
+	return values, nil
+}
+
 func CostByServiceLastDay(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	triggerType := GetTriggerTypeFromContext(ctx)
@@ -338,6 +476,41 @@ func CostByServiceLastDay(ctx context.Context, cfg aws.Config, stream *StreamSen
 	}
 	var values []Resource
 	for _, cost := range costs {
+		if cost.Dimension1 == nil || *cost.Dimension1 == "EC2 - Other" {
+			continue
+		}
+
+		tStart, err := time.Parse("2006-01-02", *cost.PeriodStart)
+		if err != nil {
+			return nil, err
+		}
+		tEnd, err := time.Parse("2006-01-02", *cost.PeriodEnd)
+		if err != nil {
+			return nil, err
+		}
+
+		diff := tEnd.Sub(tStart) / 2
+		costDate := tStart.Add(diff)
+
+		resource := Resource{
+			Region:      describeCtx.Region,
+			ID:          "service-" + *cost.Dimension1 + "-cost-" + *cost.PeriodEnd,
+			Description: model.CostExplorerByServiceDailyDescription{CostExplorerRow: cost, CostDateMillis: costDate.UnixMilli()},
+		}
+		if stream != nil {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
+			}
+		} else {
+			values = append(values, resource)
+		}
+	}
+
+	ec2OtherCosts, err := ec2OtherCostDaily(ctx, cfg, startDate, endDate)
+	if err != nil {
+		return nil, err
+	}
+	for _, cost := range ec2OtherCosts {
 		if cost.Dimension1 == nil {
 			continue
 		}
