@@ -397,8 +397,8 @@ func ec2OtherCostDaily(ctx context.Context, cfg aws.Config, startDate, endDate t
 				return nil, err
 			}
 		}
-		valuesMap := make(map[string]model.CostExplorerRow)
 		for _, result := range out.ResultsByTime {
+			valuesMap := make(map[string]model.CostExplorerRow)
 			// If there are no groupings, create a row from the totals
 			if len(result.Groups) == 0 {
 				var row model.CostExplorerRow
