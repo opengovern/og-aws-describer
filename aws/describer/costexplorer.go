@@ -332,6 +332,8 @@ func getEc2OtherCostKeyFromDimension(dimension string) string {
 		return "EC2 - ElasticIP"
 	case strings.Contains(dimension, "NatGateway"):
 		return "EC2 - NatGateway"
+	case strings.Contains(dimension, "EBS:Snapshot"):
+		return "EC2 - EBS Snapshot"
 	case strings.Contains(dimension, "EBS"):
 		return "EC2 - EBS"
 	default:
