@@ -24,7 +24,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::IAM::AccountSummary": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::AccountSummary",
-		ResourceLabel:        "",
+		ResourceLabel:        "IAM Account Summary",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "IAM",
@@ -39,7 +39,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Glacier::Vault": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glacier::Vault",
-		ResourceLabel:        "",
+		ResourceLabel:        "Glacier Vault",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Glacier",
@@ -84,7 +84,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CloudSearch::Domain": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudSearch::Domain",
-		ResourceLabel:        "",
+		ResourceLabel:        "CloudSearch",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CloudSearch",
@@ -99,7 +99,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::DynamoDb::GlobalSecondaryIndex": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DynamoDb::GlobalSecondaryIndex",
-		ResourceLabel:        "",
+		ResourceLabel:        "DynamoDB Global Secondary Index",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "DynamoDb",
@@ -131,7 +131,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SecurityHub::Hub": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityHub::Hub",
-		ResourceLabel:        "",
+		ResourceLabel:        "Security Hub",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SecurityHub",
@@ -146,7 +146,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::StorageGateway::StorageGateway": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::StorageGateway::StorageGateway",
-		ResourceLabel:        "",
+		ResourceLabel:        "Storage Gateway",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "StorageGateway",
@@ -161,7 +161,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Inspector::AssessmentTemplate": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Inspector::AssessmentTemplate",
-		ResourceLabel:        "",
+		ResourceLabel:        "Inspector Assessment Template",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Inspector",
@@ -176,7 +176,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ElasticLoadBalancingV2::ListenerRule": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElasticLoadBalancingV2::ListenerRule",
-		ResourceLabel:        "",
+		ResourceLabel:        "ELBv2 Listener Rule",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ElasticLoadBalancing",
@@ -208,7 +208,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Backup::ProtectedResource": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Backup::ProtectedResource",
-		ResourceLabel:        "",
+		ResourceLabel:        "Backup Protected Resource",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Backup",
@@ -223,7 +223,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CodeCommit::Repository": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeCommit::Repository",
-		ResourceLabel:        "",
+		ResourceLabel:        "CodeCommit Repository",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CodeCommit",
@@ -238,7 +238,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::VPCEndpoint": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::VPCEndpoint",
-		ResourceLabel:        "",
+		ResourceLabel:        "VPC Endpoint",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -253,7 +253,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EventBridge::EventRule": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EventBridge::EventRule",
-		ResourceLabel:        "",
+		ResourceLabel:        "EventBridge Rule",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EventBridge",
@@ -283,7 +283,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CodeBuild::Project": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeBuild::Project",
-		ResourceLabel:        "",
+		ResourceLabel:        "CodeBuild Project",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CodeBuild",
@@ -298,7 +298,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CodeBuild::Build": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeBuild::Build",
-		ResourceLabel:        "",
+		ResourceLabel:        "CodeBuild Build",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CodeBuild",
@@ -313,7 +313,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ElastiCache::ParameterGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElastiCache::ParameterGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "ElastiCache Parameter Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ElastiCache",
@@ -343,7 +343,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Glue::Crawler": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glue::Crawler",
-		ResourceLabel:        "",
+		ResourceLabel:        "Glue Crawler",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Glue",
@@ -373,7 +373,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::DynamoDb::BackUp": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DynamoDb::BackUp",
-		ResourceLabel:        "",
+		ResourceLabel:        "DynamoDB BackUp",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "DynamoDb",
@@ -420,7 +420,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::GuardDuty::PublishingDestination": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GuardDuty::PublishingDestination",
-		ResourceLabel:        "",
+		ResourceLabel:        "GuardDuty Publishing Destination",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "GuardDuty",
@@ -435,7 +435,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::KinesisAnalyticsV2::Application": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::KinesisAnalyticsV2::Application",
-		ResourceLabel:        "",
+		ResourceLabel:        "Kinesis Analytics V2 Application",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "KinesisAnalyticsV2",
@@ -450,7 +450,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EMR::Instance": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EMR::Instance",
-		ResourceLabel:        "",
+		ResourceLabel:        "EMR Instance",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ElasticMapReduce",
@@ -465,7 +465,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EMR::BlockPublicAccessConfiguration": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EMR::BlockPublicAccessConfiguration",
-		ResourceLabel:        "",
+		ResourceLabel:        "EMR Block Public Access Configuration",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ElasticMapReduce",
@@ -497,7 +497,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ApiGatewayV2::Integration": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ApiGatewayV2::Integration",
-		ResourceLabel:        "",
+		ResourceLabel:        "API Gateway V2 Integration",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ApiGateway",
@@ -529,7 +529,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::DynamoDb::TableExport": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DynamoDb::TableExport",
-		ResourceLabel:        "",
+		ResourceLabel:        "DynamoDB Table Export",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "DynamoDb",
@@ -578,8 +578,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::Kafka::Cluster",
 		ResourceLabel:        "Kafka Clusters",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ManagedStreamingForKafka.svg"},
             "category": {"PaaS"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ManagedStreamingForKafka.svg"},
         },
 		ServiceName:          "Kafka",
 		ListDescriber:        ParallelDescribeRegional(describer.KafkaCluster),
@@ -608,7 +608,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Backup::LegalHold": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Backup::LegalHold",
-		ResourceLabel:        "",
+		ResourceLabel:        "Backup Legal Hold",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Backup",
@@ -623,7 +623,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CloudFront::Function": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudFront::Function",
-		ResourceLabel:        "",
+		ResourceLabel:        "CloudFront Functions",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CloudFront",
@@ -638,7 +638,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::GlobalAccelerator::EndpointGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GlobalAccelerator::EndpointGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "Global Accelerator Endpoint Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "GlobalAccelerator",
@@ -653,7 +653,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::DAX::ParameterGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DAX::ParameterGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "DAx Parameter Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "DAX",
@@ -683,7 +683,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Config::Rule": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Config::Rule",
-		ResourceLabel:        "",
+		ResourceLabel:        "Config Rule",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Config",
@@ -698,7 +698,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::GuardDuty::Member": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GuardDuty::Member",
-		ResourceLabel:        "",
+		ResourceLabel:        "GuardDuty Member",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "GuardDuty",
@@ -713,7 +713,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Inspector::Exclusion": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Inspector::Exclusion",
-		ResourceLabel:        "",
+		ResourceLabel:        "Inspector Exclusion",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Inspector",
@@ -728,7 +728,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::DirectoryService::Directory": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DirectoryService::Directory",
-		ResourceLabel:        "",
+		ResourceLabel:        "Directory Service Directory",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "DirectoryService",
@@ -743,7 +743,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::DirectoryService::Certificate": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DirectoryService::Certificate",
-		ResourceLabel:        "",
+		ResourceLabel:        "Directory Service Certificate",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "DirectoryService",
@@ -758,7 +758,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::DirectoryService::LogSubscription": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DirectoryService::LogSubscription",
-		ResourceLabel:        "",
+		ResourceLabel:        "Directory Service Log Subscription",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "DirectoryService",
@@ -788,7 +788,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::IAM::PolicyAttachment": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::PolicyAttachment",
-		ResourceLabel:        "",
+		ResourceLabel:        "IAM Policy Attachment",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "IAM",
@@ -803,7 +803,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::IAM::CredentialReport": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::CredentialReport",
-		ResourceLabel:        "",
+		ResourceLabel:        "IAM Credential Report",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "IAM",
@@ -833,7 +833,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::GuardDuty::Detector": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GuardDuty::Detector",
-		ResourceLabel:        "",
+		ResourceLabel:        "GuardDuty Detector",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "GuardDuty",
@@ -863,7 +863,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::AppConfig::Application": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::AppConfig::Application",
-		ResourceLabel:        "",
+		ResourceLabel:        "AppConfig Application",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "AppConfig",
@@ -923,7 +923,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::FSX::Task": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::FSX::Task",
-		ResourceLabel:        "",
+		ResourceLabel:        "FSX Task",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "FSX",
@@ -968,7 +968,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ApplicationAutoScaling::Target": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ApplicationAutoScaling::Target",
-		ResourceLabel:        "",
+		ResourceLabel:        "Application AutoScaling Target",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ApplicationAutoScaling",
@@ -983,7 +983,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ApplicationAutoScaling::Policy": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ApplicationAutoScaling::Policy",
-		ResourceLabel:        "",
+		ResourceLabel:        "Application AutoScaling Policy",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ApplicationAutoScaling",
@@ -1030,7 +1030,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Logs::LogGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Logs::LogGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "Log Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CloudWatch",
@@ -1139,7 +1139,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ApiGateway::ApiKey": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ApiGateway::ApiKey",
-		ResourceLabel:        "",
+		ResourceLabel:        "API Gateway API Keys",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ApiGateway",
@@ -1154,7 +1154,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Glue::Connection": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glue::Connection",
-		ResourceLabel:        "",
+		ResourceLabel:        "Glue Connection",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Glue",
@@ -1169,7 +1169,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ECS::Task": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ECS::Task",
-		ResourceLabel:        "",
+		ResourceLabel:        "ECS Task",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ECS",
@@ -1184,7 +1184,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SSM::ManagedInstance": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::ManagedInstance",
-		ResourceLabel:        "",
+		ResourceLabel:        "SSM Managed Instance",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SSM",
@@ -1199,7 +1199,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SSM::Inventory": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::Inventory",
-		ResourceLabel:        "",
+		ResourceLabel:        "SSM Inventory",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SSM",
@@ -1214,7 +1214,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SSM::InventoryEntry": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::InventoryEntry",
-		ResourceLabel:        "",
+		ResourceLabel:        "SSM Inventory Entry",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SSM",
@@ -1229,7 +1229,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SSM::MaintenanceWindow": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::MaintenanceWindow",
-		ResourceLabel:        "",
+		ResourceLabel:        "SSM Maintenance Window",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SSM",
@@ -1244,7 +1244,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SSM::PatchBaseline": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::PatchBaseline",
-		ResourceLabel:        "",
+		ResourceLabel:        "SSM Patch Baseline",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SSM",
@@ -1259,7 +1259,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SSM::Parameter": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::Parameter",
-		ResourceLabel:        "",
+		ResourceLabel:        "SSM Parameter",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SSM",
@@ -1306,7 +1306,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CodeDeploy::Application": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeDeploy::Application",
-		ResourceLabel:        "",
+		ResourceLabel:        "CodeDeploy Application",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CodeDeploy",
@@ -1321,7 +1321,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CodeDeploy::DeploymentConfig": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeDeploy::DeploymentConfig",
-		ResourceLabel:        "",
+		ResourceLabel:        "CodeDeploy Deployment Config",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CodeDeploy",
@@ -1351,7 +1351,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::IAM::AccessKey": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::AccessKey",
-		ResourceLabel:        "",
+		ResourceLabel:        "IAM Access Key",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "IAM",
@@ -1366,7 +1366,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Glue::CatalogTable": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glue::CatalogTable",
-		ResourceLabel:        "",
+		ResourceLabel:        "Glue Catalog Table",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Glue",
@@ -1381,7 +1381,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CloudTrail::Channel": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudTrail::Channel",
-		ResourceLabel:        "",
+		ResourceLabel:        "CloudTrail Channel",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CloudTrail",
@@ -1426,7 +1426,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::RedshiftServerless::Snapshot": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RedshiftServerless::Snapshot",
-		ResourceLabel:        "",
+		ResourceLabel:        "Redshift Serverless Snapshot",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "RedshiftServerless",
@@ -1441,7 +1441,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Workspaces::Bundle": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Workspaces::Bundle",
-		ResourceLabel:        "",
+		ResourceLabel:        "Workspaces Bundle",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Workspaces",
@@ -1471,7 +1471,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::DAX::Parameter": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DAX::Parameter",
-		ResourceLabel:        "",
+		ResourceLabel:        "DAx Parameter",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "DAX",
@@ -1486,7 +1486,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ECR::Image": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ECR::Image",
-		ResourceLabel:        "",
+		ResourceLabel:        "ECR Image",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ECR",
@@ -1501,7 +1501,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::IAM::ServerCertificate": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::ServerCertificate",
-		ResourceLabel:        "",
+		ResourceLabel:        "IAM Server Certificate",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "IAM",
@@ -1516,7 +1516,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Keyspaces::Keyspace": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Keyspaces::Keyspace",
-		ResourceLabel:        "",
+		ResourceLabel:        "AWS Keyspace",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Keyspaces",
@@ -1546,7 +1546,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SageMaker::EndpointConfiguration": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SageMaker::EndpointConfiguration",
-		ResourceLabel:        "",
+		ResourceLabel:        "SageMaker Endpoint Configuration",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SageMaker",
@@ -1561,7 +1561,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ElastiCache::ReservedCacheNode": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElastiCache::ReservedCacheNode",
-		ResourceLabel:        "",
+		ResourceLabel:        "ElasticCache Reserved Cache Node",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ElastiCache",
@@ -1576,7 +1576,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EMR::InstanceFleet": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EMR::InstanceFleet",
-		ResourceLabel:        "",
+		ResourceLabel:        "EMR Instance Fleet",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ElasticMapReduce",
@@ -1591,7 +1591,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::IAM::Account": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::Account",
-		ResourceLabel:        "",
+		ResourceLabel:        "IAM Account",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "IAM",
@@ -1621,7 +1621,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EKS::FargateProfile": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EKS::FargateProfile",
-		ResourceLabel:        "",
+		ResourceLabel:        "EKS Fargate Profile",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EKS",
@@ -1636,7 +1636,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::IAM::AccountPasswordPolicy": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::AccountPasswordPolicy",
-		ResourceLabel:        "",
+		ResourceLabel:        "IAM Account Password Policy",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "IAM",
@@ -1651,7 +1651,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CodePipeline::Pipeline": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodePipeline::Pipeline",
-		ResourceLabel:        "",
+		ResourceLabel:        "Code Pipeline",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CodePipeline",
@@ -1666,7 +1666,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::DAX::Cluster": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DAX::Cluster",
-		ResourceLabel:        "",
+		ResourceLabel:        "DAX Cluster",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "DAX",
@@ -1681,7 +1681,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::DLM::LifecyclePolicy": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DLM::LifecyclePolicy",
-		ResourceLabel:        "",
+		ResourceLabel:        "DLM Lifecycle Policy",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "DLM",
@@ -1696,7 +1696,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::OpsWorksCM::Server": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::OpsWorksCM::Server",
-		ResourceLabel:        "",
+		ResourceLabel:        "OpsWorks CM Server",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "OpsWorksCM",
@@ -1711,7 +1711,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::AccessAnalyzer::Analyzer": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::AccessAnalyzer::Analyzer",
-		ResourceLabel:        "",
+		ResourceLabel:        "Access Analyzer",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "AccessAnalyzer",
@@ -1726,7 +1726,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ElastiCache::SubnetGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElastiCache::SubnetGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "ElasticCache Subnet Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ElastiCache",
@@ -1756,7 +1756,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Amplify::App": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Amplify::App",
-		ResourceLabel:        "",
+		ResourceLabel:        "Amplify App",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Amplify",
@@ -1771,7 +1771,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CloudTrail::Query": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudTrail::Query",
-		ResourceLabel:        "",
+		ResourceLabel:        "CloudTrail Query",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CloudTrail",
@@ -1786,7 +1786,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ECR::PublicRegistry": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ECR::PublicRegistry",
-		ResourceLabel:        "",
+		ResourceLabel:        "ECR Public Registry",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ECR",
@@ -1846,7 +1846,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ApiGateway::Authorizer": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ApiGateway::Authorizer",
-		ResourceLabel:        "",
+		ResourceLabel:        "API Gateway Authorizer",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ApiGateway",
@@ -1861,7 +1861,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::AppStream::Stack": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::AppStream::Stack",
-		ResourceLabel:        "",
+		ResourceLabel:        "AppStream Stack",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "AppStream",
@@ -1876,7 +1876,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Athena::WorkGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Athena::WorkGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "Athena Workgroup",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Athena",
@@ -1891,7 +1891,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Athena::QueryExecution": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Athena::QueryExecution",
-		ResourceLabel:        "",
+		ResourceLabel:        "Athenea Query Execution",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Athena",
@@ -1906,7 +1906,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::AppStream::Image": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::AppStream::Image",
-		ResourceLabel:        "",
+		ResourceLabel:        "AppStream Image",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "AppStream",
@@ -1936,7 +1936,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CloudWatch::LogSubscriptionFilter": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudWatch::LogSubscriptionFilter",
-		ResourceLabel:        "",
+		ResourceLabel:        "CloudWatch Log Subscription Filter",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CloudWatch",
@@ -1966,7 +1966,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::RDS::DBClusterSnapshot": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RDS::DBClusterSnapshot",
-		ResourceLabel:        "",
+		ResourceLabel:        "RDs Cluster Snapshot",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "RDS",
@@ -1996,7 +1996,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CodeBuild::SourceCredential": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeBuild::SourceCredential",
-		ResourceLabel:        "",
+		ResourceLabel:        "CodeBuild Source Credential",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CodeBuild",
@@ -2011,7 +2011,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::IAM::ServiceSpecificCredential": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::ServiceSpecificCredential",
-		ResourceLabel:        "",
+		ResourceLabel:        "IAM Service Specific Credential",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "IAM",
@@ -2026,7 +2026,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::CapacityReservationFleet": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::CapacityReservationFleet",
-		ResourceLabel:        "",
+		ResourceLabel:        "EC2 Capacity Reservation Fleet",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -2071,7 +2071,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ElasticSearch::Domain": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElasticSearch::Domain",
-		ResourceLabel:        "",
+		ResourceLabel:        "ElasticSearch Domain",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ElasticSearch",
@@ -2088,8 +2088,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::RDS::DBInstance",
 		ResourceLabel:        "RDS DB Instances",
 		Tags:                 map[string][]string{
-            "category": {"Database"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Rds.svg"},
+            "category": {"Database"},
         },
 		ServiceName:          "rds",
 		ListDescriber:        ParallelDescribeRegional(describer.RDSDBInstance),
@@ -2118,7 +2118,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EFS::MountTarget": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EFS::MountTarget",
-		ResourceLabel:        "",
+		ResourceLabel:        "EFS Mount Target",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ElasticFileSystem",
@@ -2133,7 +2133,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::GlobalAccelerator::Listener": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GlobalAccelerator::Listener",
-		ResourceLabel:        "",
+		ResourceLabel:        "Global Accelerator Listener",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "GlobalAccelerator",
@@ -2148,7 +2148,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EKS::Addon": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EKS::Addon",
-		ResourceLabel:        "",
+		ResourceLabel:        "EKS Addon",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EKS",
@@ -2195,7 +2195,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WAFRegional::Rule": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAFRegional::Rule",
-		ResourceLabel:        "",
+		ResourceLabel:        "WAFF Regional Rule",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WAFRegional",
@@ -2210,7 +2210,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WAFRegional::RuleGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAFRegional::RuleGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "WAFF Regional Rule Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WAFRegional",
@@ -2225,7 +2225,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Glue::DataCatalogEncryptionSettings": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glue::DataCatalogEncryptionSettings",
-		ResourceLabel:        "",
+		ResourceLabel:        "Glue Data Catalog Encryption Settings",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Glue",
@@ -2240,7 +2240,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::FlowLog": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::FlowLog",
-		ResourceLabel:        "",
+		ResourceLabel:        "EC2 Flow Log",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -2315,7 +2315,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::PlacementGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::PlacementGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "EC2 Placement Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -2405,7 +2405,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Glue::DevEndpoint": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glue::DevEndpoint",
-		ResourceLabel:        "",
+		ResourceLabel:        "Glue Dev Endpoint",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Glue",
@@ -2512,7 +2512,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Glue::Job": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glue::Job",
-		ResourceLabel:        "",
+		ResourceLabel:        "Glue Job",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Glue",
@@ -2527,7 +2527,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::AppStream::Fleet": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::AppStream::Fleet",
-		ResourceLabel:        "",
+		ResourceLabel:        "AppStream Fleet",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "AppStream",
@@ -2572,7 +2572,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CloudFront::OriginRequestPolicy": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudFront::OriginRequestPolicy",
-		ResourceLabel:        "",
+		ResourceLabel:        "CloudFront Origin Request Policy",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CloudFront",
@@ -2603,7 +2603,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::GuardDuty::IPSet": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GuardDuty::IPSet",
-		ResourceLabel:        "",
+		ResourceLabel:        "GuardDuty IP Set",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "GuardDuty",
@@ -2633,7 +2633,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Grafana::Workspace": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Grafana::Workspace",
-		ResourceLabel:        "",
+		ResourceLabel:        "Grafana Workspace",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Grafana",
@@ -2648,7 +2648,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Glue::CatalogDatabase": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glue::CatalogDatabase",
-		ResourceLabel:        "",
+		ResourceLabel:        "Glue Catalog Database",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Glue",
@@ -2663,7 +2663,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Health::Event": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Health::Event",
-		ResourceLabel:        "",
+		ResourceLabel:        "Health Event",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Health",
@@ -2678,7 +2678,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Health::AffectedEntity": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Health::AffectedEntity",
-		ResourceLabel:        "",
+		ResourceLabel:        "Health Affected Entity",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Health",
@@ -2708,7 +2708,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::AvailabilityZone": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::AvailabilityZone",
-		ResourceLabel:        "",
+		ResourceLabel:        "EC2 Availability Zone",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -2738,7 +2738,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ApiGateway::UsagePlan": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ApiGateway::UsagePlan",
-		ResourceLabel:        "",
+		ResourceLabel:        "API Gateway Usage Plan",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ApiGateway",
@@ -2753,7 +2753,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Inspector::Finding": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Inspector::Finding",
-		ResourceLabel:        "",
+		ResourceLabel:        "Inspector Finding",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Inspector",
@@ -2768,7 +2768,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::Fleet": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::Fleet",
-		ResourceLabel:        "",
+		ResourceLabel:        "EC2 Fleet",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -2798,7 +2798,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ElasticLoadBalancingV2::LoadBalancer": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElasticLoadBalancingV2::LoadBalancer",
-		ResourceLabel:        "",
+		ResourceLabel:        "ELBv2 Load Balancer",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ElasticLoadBalancing",
@@ -2813,7 +2813,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::OpenSearch::Domain": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::OpenSearch::Domain",
-		ResourceLabel:        "",
+		ResourceLabel:        "OpenSearch Domain",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "OpenSearch",
@@ -2843,7 +2843,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::RegionalSettings": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::RegionalSettings",
-		ResourceLabel:        "",
+		ResourceLabel:        "Regional Settings",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -2858,7 +2858,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::SecurityGroupRule": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::SecurityGroupRule",
-		ResourceLabel:        "",
+		ResourceLabel:        "Security Group Rule",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -2873,7 +2873,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::TransitGatewayAttachment": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::TransitGatewayAttachment",
-		ResourceLabel:        "",
+		ResourceLabel:        "EC2 Transit Gateway Attachment",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -2918,7 +2918,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WAF::Rule": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAF::Rule",
-		ResourceLabel:        "",
+		ResourceLabel:        "WAF Rule",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WAF",
@@ -2933,7 +2933,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WAF::RuleGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAF::RuleGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "WAF Rule Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WAF",
@@ -2948,7 +2948,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WAF::RateBasedRule": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAF::RateBasedRule",
-		ResourceLabel:        "",
+		ResourceLabel:        "WAF Rate Based Rule",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WAF",
@@ -2963,7 +2963,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WAF::WebACL": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAF::WebACL",
-		ResourceLabel:        "",
+		ResourceLabel:        "WAF Web ACL",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WAF",
@@ -2978,7 +2978,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WAFRegional::WebACL": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAFRegional::WebACL",
-		ResourceLabel:        "",
+		ResourceLabel:        "WAF Regional Web ACL",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WAF",
@@ -2993,7 +2993,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WellArchitected::Workload": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::Workload",
-		ResourceLabel:        "",
+		ResourceLabel:        "Well Architected Workload",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WellArchitected",
@@ -3008,7 +3008,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WellArchitected::Answer": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::Answer",
-		ResourceLabel:        "",
+		ResourceLabel:        "Well Architected Answer",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WellArchitected",
@@ -3023,7 +3023,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WellArchitected::CheckDetail": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::CheckDetail",
-		ResourceLabel:        "",
+		ResourceLabel:        "Well Architected Check Detail",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WellArchitected",
@@ -3038,7 +3038,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WellArchitected::CheckSummary": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::CheckSummary",
-		ResourceLabel:        "",
+		ResourceLabel:        "Well Architected Check Summary",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WellArchitected",
@@ -3053,7 +3053,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WellArchitected::ConsolidatedReport": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::ConsolidatedReport",
-		ResourceLabel:        "",
+		ResourceLabel:        "Well Architected Consolidated Report",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WellArchitected",
@@ -3068,7 +3068,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WellArchitected::Lens": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::Lens",
-		ResourceLabel:        "",
+		ResourceLabel:        "Well Architected Lens",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WellArchitected",
@@ -3083,7 +3083,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WellArchitected::LensReview": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::LensReview",
-		ResourceLabel:        "",
+		ResourceLabel:        "Well Architected Lens Review",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WellArchitected",
@@ -3098,7 +3098,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WellArchitected::LensReviewImprovement": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::LensReviewImprovement",
-		ResourceLabel:        "",
+		ResourceLabel:        "Well Architected Lens Review Improvement",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WellArchitected",
@@ -3113,7 +3113,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WellArchitected::LensReviewReport": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::LensReviewReport",
-		ResourceLabel:        "",
+		ResourceLabel:        "Well Architected Lens Review Report",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WellArchitected",
@@ -3128,7 +3128,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WellArchitected::LensShare": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::LensShare",
-		ResourceLabel:        "",
+		ResourceLabel:        "Well Architected Lens Share",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WellArchitected",
@@ -3143,7 +3143,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WellArchitected::Milestone": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::Milestone",
-		ResourceLabel:        "",
+		ResourceLabel:        "Well Architected Milestone",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WellArchitected",
@@ -3158,7 +3158,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WellArchitected::Notification": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::Notification",
-		ResourceLabel:        "",
+		ResourceLabel:        "Well Architected Notification",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WellArchitected",
@@ -3173,7 +3173,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WellArchitected::ShareInvitation": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::ShareInvitation",
-		ResourceLabel:        "",
+		ResourceLabel:        "Well Architected Share Invitation",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WellArchitected",
@@ -3188,7 +3188,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WellArchitected::WorkloadShare": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::WorkloadShare",
-		ResourceLabel:        "",
+		ResourceLabel:        "Well Architected Workload Share",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WellArchitected",
@@ -3233,7 +3233,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CodeDeploy::DeploymentGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeDeploy::DeploymentGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "CodeDeploy Deployment Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CodeDeploy",
@@ -3248,7 +3248,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ImageBuilder::Image": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ImageBuilder::Image",
-		ResourceLabel:        "",
+		ResourceLabel:        "Image Builder Image",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ImageBuilder",
@@ -3263,7 +3263,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Redshift::ClusterParameterGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Redshift::ClusterParameterGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "Redshift Cluster Parameter Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Redshift",
@@ -3278,7 +3278,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Account::AlternateContact": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Account::AlternateContact",
-		ResourceLabel:        "",
+		ResourceLabel:        "Account Alternate Contact",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Account",
@@ -3293,7 +3293,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Inspector::AssessmentTarget": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Inspector::AssessmentTarget",
-		ResourceLabel:        "",
+		ResourceLabel:        "Inspector Assessment Target",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Inspector",
@@ -3308,7 +3308,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CloudFront::ResponseHeadersPolicy": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudFront::ResponseHeadersPolicy",
-		ResourceLabel:        "",
+		ResourceLabel:        "CloudFront Response Headers Policy",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CloudFront",
@@ -3432,7 +3432,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Config::ConformancePack": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Config::ConformancePack",
-		ResourceLabel:        "",
+		ResourceLabel:        "Config Conformance Pack",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Config",
@@ -3447,7 +3447,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Config::RetentionConfiguration": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Config::RetentionConfiguration",
-		ResourceLabel:        "",
+		ResourceLabel:        "Config Retention Configuration",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Config",
@@ -3462,7 +3462,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Account::Contact": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Account::Contact",
-		ResourceLabel:        "",
+		ResourceLabel:        "Account Contact",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Account",
@@ -3477,7 +3477,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Glue::DataQualityRuleset": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glue::DataQualityRuleset",
-		ResourceLabel:        "",
+		ResourceLabel:        "Glue Data Quality Ruleset",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Glue",
@@ -3492,7 +3492,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EventBridge::EventBus": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EventBridge::EventBus",
-		ResourceLabel:        "",
+		ResourceLabel:        "EventBridge Bus",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EventBridge",
@@ -3722,7 +3722,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::DocDB::ClusterInstance": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DocDB::ClusterInstance",
-		ResourceLabel:        "",
+		ResourceLabel:        "Document DB Cluster Instance",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "DocDB",
@@ -3737,7 +3737,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ElastiCache::ReplicationGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElastiCache::ReplicationGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "ElastiCache Replication Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ElastiCache",
@@ -3752,7 +3752,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::GlobalAccelerator::Accelerator": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GlobalAccelerator::Accelerator",
-		ResourceLabel:        "",
+		ResourceLabel:        "Global Accelerator",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "GlobalAccelerator",
@@ -3767,7 +3767,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EMR::InstanceGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EMR::InstanceGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "EMR Instance Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ElasticMapReduce",
@@ -3782,7 +3782,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::ManagedPrefixList": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::ManagedPrefixList",
-		ResourceLabel:        "",
+		ResourceLabel:        "EC2 Managed Prefix List",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -3797,7 +3797,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::ClientVpnEndpoint": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::ClientVpnEndpoint",
-		ResourceLabel:        "",
+		ResourceLabel:        "EC2 Client VPN Endpoint",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -3812,7 +3812,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::MWAA::Environment": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::MWAA::Environment",
-		ResourceLabel:        "",
+		ResourceLabel:        "MWAA Environment",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "MWAA",
@@ -3827,7 +3827,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CloudWatch::LogResourcePolicy": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudWatch::LogResourcePolicy",
-		ResourceLabel:        "",
+		ResourceLabel:        "CloudWatch Log Resource Policy",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CloudWatch",
@@ -3842,7 +3842,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CodeArtifact::Domain": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeArtifact::Domain",
-		ResourceLabel:        "",
+		ResourceLabel:        "CodeArtifact Domain",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CodeArtifact",
@@ -3857,7 +3857,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CodeStar::Project": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeStar::Project",
-		ResourceLabel:        "",
+		ResourceLabel:        "CodeStar Project",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CodeStar",
@@ -3889,7 +3889,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Neptune::DBCluster": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Neptune::DBCluster",
-		ResourceLabel:        "",
+		ResourceLabel:        "Neptune Cluster",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Neptune",
@@ -3904,7 +3904,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::NetworkFirewall::FirewallPolicy": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::NetworkFirewall::FirewallPolicy",
-		ResourceLabel:        "",
+		ResourceLabel:        "Network Firewall Policy",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "network-firewall",
@@ -3919,7 +3919,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::NetworkFirewall::RuleGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::NetworkFirewall::RuleGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "Network Firewall Rule Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "network-firewall",
@@ -3934,7 +3934,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Oam::Link": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Oam::Link",
-		ResourceLabel:        "",
+		ResourceLabel:        "OAM Link",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "OAM",
@@ -3949,7 +3949,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Oam::Sink": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Oam::Sink",
-		ResourceLabel:        "",
+		ResourceLabel:        "OAM Sink",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "OAM",
@@ -3964,7 +3964,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Organizations::Account": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Organizations::Account",
-		ResourceLabel:        "",
+		ResourceLabel:        "Organizations Account",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "OAM",
@@ -3979,7 +3979,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Pinpoint::App": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Pinpoint::App",
-		ResourceLabel:        "",
+		ResourceLabel:        "Pinpoint App",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Pinpoint",
@@ -3994,7 +3994,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Pipes::Pipe": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Pipes::Pipe",
-		ResourceLabel:        "",
+		ResourceLabel:        "Pipe",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Pipes",
@@ -4009,7 +4009,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::RDS::DBClusterParameterGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RDS::DBClusterParameterGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "RDS Cluster Parameter Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "RDS",
@@ -4024,7 +4024,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::RDS::OptionGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RDS::OptionGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "RDS Option Groups",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "RDS",
@@ -4039,7 +4039,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::RDS::DBParameterGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RDS::DBParameterGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "RDS Parameter Groups",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "RDS",
@@ -4054,7 +4054,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::RDS::DBProxy": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RDS::DBProxy",
-		ResourceLabel:        "",
+		ResourceLabel:        "RDS Proxy",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "RDS",
@@ -4069,7 +4069,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::RDS::DBSubnetGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RDS::DBSubnetGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "RDS Subnet Groups",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "RDS",
@@ -4084,10 +4084,10 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Redshift::EventSubscription": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Redshift::EventSubscription",
-		ResourceLabel:        "",
+		ResourceLabel:        "Redshift Event Subscriptions",
 		Tags:                 map[string][]string{
         },
-		ServiceName:          "RDS",
+		ServiceName:          "Redshift",
 		ListDescriber:        ParallelDescribeRegional(describer.RedshiftEventSubscription),
 		GetDescriber:         nil,
 		TerraformName:        []string{},
@@ -4099,10 +4099,10 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::RedshiftServerless::Workgroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RedshiftServerless::Workgroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "Redshift Serverless Workgroup",
 		Tags:                 map[string][]string{
         },
-		ServiceName:          "RDS",
+		ServiceName:          "Redshift",
 		ListDescriber:        ParallelDescribeRegional(describer.RedshiftServerlessWorkgroup),
 		GetDescriber:         nil,
 		TerraformName:        []string{},
@@ -4114,10 +4114,10 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ResourceExplorer2::Index": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ResourceExplorer2::Index",
-		ResourceLabel:        "",
+		ResourceLabel:        "Resource Explorer Index",
 		Tags:                 map[string][]string{
         },
-		ServiceName:          "RDS",
+		ServiceName:          "ResourceExplorer2",
 		ListDescriber:        ParallelDescribeRegional(describer.ResourceExplorerIndex),
 		GetDescriber:         nil,
 		TerraformName:        []string{},
@@ -4129,7 +4129,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Route53::HealthCheck": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Route53::HealthCheck",
-		ResourceLabel:        "",
+		ResourceLabel:        "Route53 Health Check",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Route53",
@@ -4144,7 +4144,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Route53Resolver::ResolverRule": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Route53Resolver::ResolverRule",
-		ResourceLabel:        "",
+		ResourceLabel:        "Route53 Resolver Rule",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Route53",
@@ -4159,7 +4159,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Route53Resolver::QueryLogConfig": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Route53Resolver::QueryLogConfig",
-		ResourceLabel:        "",
+		ResourceLabel:        "Route53 Resolver Query Log Config",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Route53",
@@ -4174,7 +4174,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SageMaker::App": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SageMaker::App",
-		ResourceLabel:        "",
+		ResourceLabel:        "SageMaker App",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SageMaker",
@@ -4189,7 +4189,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SageMaker::Domain": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SageMaker::Domain",
-		ResourceLabel:        "",
+		ResourceLabel:        "SageMaker Domain",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SageMaker",
@@ -4204,7 +4204,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::StepFunctions::StateMachine": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::StepFunctions::StateMachine",
-		ResourceLabel:        "",
+		ResourceLabel:        "Step Functions State Machine",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "StepFunctions",
@@ -4219,7 +4219,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::StepFunctions::StateMachineExecution": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::StepFunctions::StateMachineExecution",
-		ResourceLabel:        "",
+		ResourceLabel:        "Step Functions State Machine Execution",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "StepFunctions",
@@ -4234,7 +4234,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::StepFunctions::StateMachineExecutionHistories": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::StepFunctions::StateMachineExecutionHistories",
-		ResourceLabel:        "",
+		ResourceLabel:        "Step Functions State Machine Execution History",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "StepFunctions",
@@ -4249,7 +4249,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SimSpaceWeaver::Simulation": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SimSpaceWeaver::Simulation",
-		ResourceLabel:        "",
+		ResourceLabel:        "SimSpaceWeaver Simulation",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SimSpaceWeaver",
@@ -4264,7 +4264,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SSM::Association": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::Association",
-		ResourceLabel:        "",
+		ResourceLabel:        "SSM Association",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SSM",
@@ -4279,7 +4279,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SSM::Document": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::Document",
-		ResourceLabel:        "",
+		ResourceLabel:        "SSM Document",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SSM",
@@ -4294,7 +4294,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SSM::DocumentPermission": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::DocumentPermission",
-		ResourceLabel:        "",
+		ResourceLabel:        "SSM Document Permission",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SSM",
@@ -4326,7 +4326,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::VerifiedAccessInstance": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::VerifiedAccessInstance",
-		ResourceLabel:        "",
+		ResourceLabel:        "EC2 Verified Access Instance",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -4341,7 +4341,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::VerifiedAccessEndpoint": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::VerifiedAccessEndpoint",
-		ResourceLabel:        "",
+		ResourceLabel:        "EC2 Verified Access Endpoint",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -4356,7 +4356,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::VerifiedAccessGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::VerifiedAccessGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "EC2 Verified Access Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -4371,7 +4371,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::VerifiedAccessTrustProvider": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::VerifiedAccessTrustProvider",
-		ResourceLabel:        "",
+		ResourceLabel:        "EC2 Verified Access Trust Provider",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -4403,7 +4403,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WAFv2::IPSet": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAFv2::IPSet",
-		ResourceLabel:        "",
+		ResourceLabel:        "WAFv2 IP Set",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WAFv2",
@@ -4418,7 +4418,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WAFv2::RegexPatternSet": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAFv2::RegexPatternSet",
-		ResourceLabel:        "",
+		ResourceLabel:        "WAFv2 Regex Pattern Set",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WAFv2",
@@ -4433,7 +4433,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::WAFv2::RuleGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAFv2::RuleGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "WAFv2 Rule Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "WAFv2",
@@ -4448,7 +4448,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::TransitGatewayRoute": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::TransitGatewayRoute",
-		ResourceLabel:        "",
+		ResourceLabel:        "EC2 Transit Gateway Route",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -4463,7 +4463,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::GuardDuty::Filter": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GuardDuty::Filter",
-		ResourceLabel:        "",
+		ResourceLabel:        "GuardDuty Filter",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "GuardDuty",
@@ -4493,7 +4493,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::GuardDuty::ThreatIntelSet": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GuardDuty::ThreatIntelSet",
-		ResourceLabel:        "",
+		ResourceLabel:        "GuardDuty Threat Intel Set",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "GuardDuty",
@@ -4553,7 +4553,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::MQ::Broker": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::MQ::Broker",
-		ResourceLabel:        "",
+		ResourceLabel:        "MQ Broker",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "MQ",
@@ -4568,7 +4568,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ACMPCA::CertificateAuthority": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ACMPCA::CertificateAuthority",
-		ResourceLabel:        "",
+		ResourceLabel:        "ACM PCA Certificate Authority",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ACMPCA",
@@ -4643,7 +4643,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Glue::SecurityConfiguration": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glue::SecurityConfiguration",
-		ResourceLabel:        "",
+		ResourceLabel:        "Glue Security Configuration",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Glue",
@@ -4658,7 +4658,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Inspector::AssessmentRun": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Inspector::AssessmentRun",
-		ResourceLabel:        "",
+		ResourceLabel:        "Inspector Assessment Runs",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Inspector",
@@ -4673,7 +4673,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Inspector2::Coverage": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Inspector2::Coverage",
-		ResourceLabel:        "",
+		ResourceLabel:        "Inspector2 Coverage",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Inspector2",
@@ -4688,7 +4688,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Inspector2::CoverageStatistics": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Inspector2::CoverageStatistics",
-		ResourceLabel:        "",
+		ResourceLabel:        "Inspector2 Coverage Statistics",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Inspector2",
@@ -4703,7 +4703,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Inspector2::Member": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Inspector2::Member",
-		ResourceLabel:        "",
+		ResourceLabel:        "Inspector2 Member",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Inspector2",
@@ -4718,7 +4718,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Inspector2::Finding": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Inspector2::Finding",
-		ResourceLabel:        "",
+		ResourceLabel:        "Inspector2 Finding",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Inspector2",
@@ -4733,7 +4733,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Config::ConfigurationRecorder": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Config::ConfigurationRecorder",
-		ResourceLabel:        "",
+		ResourceLabel:        "Config Configuration Recorder",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Config",
@@ -4765,7 +4765,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ECR::PublicRepository": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ECR::PublicRepository",
-		ResourceLabel:        "",
+		ResourceLabel:        "ECR Public Repository",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ECR",
@@ -4795,7 +4795,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ElasticLoadBalancingV2::TargetGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElasticLoadBalancingV2::TargetGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "ELBv2 Target Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ElasticLoadBalancing",
@@ -4810,7 +4810,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CloudFront::CachePolicy": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudFront::CachePolicy",
-		ResourceLabel:        "",
+		ResourceLabel:        "CloudFront Cache Policy",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CloudFront",
@@ -4825,7 +4825,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CodeArtifact::Repository": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeArtifact::Repository",
-		ResourceLabel:        "",
+		ResourceLabel:        "CodeArtifact Repository",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CodeArtifact",
@@ -4840,7 +4840,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::AMP::Workspace": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::AMP::Workspace",
-		ResourceLabel:        "",
+		ResourceLabel:        "AMP Workspace",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "AMP",
@@ -4855,7 +4855,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::CapacityReservation": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::CapacityReservation",
-		ResourceLabel:        "",
+		ResourceLabel:        "EC2 Capacity Reservation",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -4870,7 +4870,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SageMaker::NotebookInstance": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SageMaker::NotebookInstance",
-		ResourceLabel:        "",
+		ResourceLabel:        "SageMaker Notebook Instance",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SageMaker",
@@ -4902,7 +4902,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::Region": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::Region",
-		ResourceLabel:        "",
+		ResourceLabel:        "Region",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -4917,7 +4917,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Keyspaces::Table": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Keyspaces::Table",
-		ResourceLabel:        "",
+		ResourceLabel:        "Keyspaces Table",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Keyspaces",
@@ -4932,7 +4932,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Config::AggregationAuthorization": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Config::AggregationAuthorization",
-		ResourceLabel:        "",
+		ResourceLabel:        "Config Aggregation Authorization",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Config",
@@ -4947,7 +4947,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::DAX::SubnetGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DAX::SubnetGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "DAX Subnet Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "DAX",
@@ -4979,8 +4979,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::ElasticLoadBalancing::LoadBalancer",
 		ResourceLabel:        "Classic Load Balancers",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticLoadBalancingClassicLoadBalancer.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticLoadBalancingClassicLoadBalancer.svg"},
         },
 		ServiceName:          "ElasticLoadBalancing",
 		ListDescriber:        ParallelDescribeRegional(describer.ElasticLoadBalancingLoadBalancer),
@@ -4994,7 +4994,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::AppStream::Application": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::AppStream::Application",
-		ResourceLabel:        "",
+		ResourceLabel:        "AppStream Application",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "AppStream",
@@ -5009,7 +5009,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::RedshiftServerless::Namespace": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RedshiftServerless::Namespace",
-		ResourceLabel:        "",
+		ResourceLabel:        "Redshift Serverless Namespace",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "RedshiftServerless",
@@ -5024,7 +5024,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CloudFront::OriginAccessIdentity": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudFront::OriginAccessIdentity",
-		ResourceLabel:        "",
+		ResourceLabel:        "CloudFront Origin Access Identity",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CloudFront",
@@ -5039,7 +5039,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::Host": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::Host",
-		ResourceLabel:        "",
+		ResourceLabel:        "EC2 Host",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -5071,7 +5071,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::TransitGatewayRouteTable": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::TransitGatewayRouteTable",
-		ResourceLabel:        "",
+		ResourceLabel:        "EC2 Transit Gateway Route Table",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -5101,7 +5101,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Backup::Selection": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Backup::Selection",
-		ResourceLabel:        "",
+		ResourceLabel:        "Backup Selection",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Backup",
@@ -5116,7 +5116,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::CloudTrail::Import": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudTrail::Import",
-		ResourceLabel:        "",
+		ResourceLabel:        "CloudTrail Import",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "CloudTrail",
@@ -5147,7 +5147,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ElasticLoadBalancingV2::SslPolicy": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElasticLoadBalancingV2::SslPolicy",
-		ResourceLabel:        "",
+		ResourceLabel:        "ELBv2 SSL Policy",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ElasticLoadBalancing",
@@ -5162,7 +5162,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::GuardDuty::Finding": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GuardDuty::Finding",
-		ResourceLabel:        "",
+		ResourceLabel:        "GuardDuty Finding",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "GuardDuty",
@@ -5192,7 +5192,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Batch::ComputeEnvironment": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Batch::ComputeEnvironment",
-		ResourceLabel:        "",
+		ResourceLabel:        "Batch Compute Environment",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Batch",
@@ -5239,7 +5239,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Shield::ProtectionGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Shield::ProtectionGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "Shield Protection Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Shield",
@@ -5254,7 +5254,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Firehose::DeliveryStream": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Firehose::DeliveryStream",
-		ResourceLabel:        "",
+		ResourceLabel:        "Firehose Delivery Stream",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Firehose",
@@ -5269,7 +5269,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::KinesisVideo::Stream": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::KinesisVideo::Stream",
-		ResourceLabel:        "",
+		ResourceLabel:        "Kinesis Video Stream",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "KinesisVideo",
@@ -5284,7 +5284,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::KMS::Alias": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::KMS::Alias",
-		ResourceLabel:        "",
+		ResourceLabel:        "KMS Alias",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "KMS",
@@ -5299,7 +5299,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Lambda::Alias": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Lambda::Alias",
-		ResourceLabel:        "",
+		ResourceLabel:        "Lambda Alias",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Lambda",
@@ -5314,7 +5314,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Lambda::LambdaLayer": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Lambda::LambdaLayer",
-		ResourceLabel:        "",
+		ResourceLabel:        "Lambda Layer",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Lambda",
@@ -5329,7 +5329,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Lambda::LayerVersion": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Lambda::LayerVersion",
-		ResourceLabel:        "",
+		ResourceLabel:        "Lambda Layer Version",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Lambda",
@@ -5344,7 +5344,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Lightsail::Instance": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Lightsail::Instance",
-		ResourceLabel:        "",
+		ResourceLabel:        "Lightsail Instance",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Lightsail",
@@ -5359,7 +5359,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Macie2::ClassificationJob": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Macie2::ClassificationJob",
-		ResourceLabel:        "",
+		ResourceLabel:        "Macie2 Classification Job",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Macie2",
@@ -5374,7 +5374,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::MediaStore::Container": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::MediaStore::Container",
-		ResourceLabel:        "",
+		ResourceLabel:        "MediaStore Container",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "MediaStore",
@@ -5389,7 +5389,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Mgn::Application": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Mgn::Application",
-		ResourceLabel:        "",
+		ResourceLabel:        "MGN Application",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Mgn",
@@ -5404,7 +5404,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Route53Resolver::ResolverEndpoint": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Route53Resolver::ResolverEndpoint",
-		ResourceLabel:        "",
+		ResourceLabel:        "Route53 Resolver Endpoint",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Route53",
@@ -5419,7 +5419,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Route53Domains::Domain": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Route53Domains::Domain",
-		ResourceLabel:        "",
+		ResourceLabel:        "Route53 Domain",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Route53",
@@ -5434,7 +5434,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Route53::Record": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Route53::Record",
-		ResourceLabel:        "",
+		ResourceLabel:        "Route53 Record",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Route53",
@@ -5449,7 +5449,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Route53::TrafficPolicy": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Route53::TrafficPolicy",
-		ResourceLabel:        "",
+		ResourceLabel:        "Route53 Traffic Policy",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Route53",
@@ -5464,7 +5464,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Route53::TrafficPolicyInstance": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Route53::TrafficPolicyInstance",
-		ResourceLabel:        "",
+		ResourceLabel:        "Route53 Traffic Policy Instance",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Route53",
@@ -5479,7 +5479,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SageMaker::Model": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SageMaker::Model",
-		ResourceLabel:        "",
+		ResourceLabel:        "SageMaker Model",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SageMaker",
@@ -5494,7 +5494,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SageMaker::TrainingJob": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SageMaker::TrainingJob",
-		ResourceLabel:        "",
+		ResourceLabel:        "SageMaker Training Job",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SageMaker",
@@ -5509,7 +5509,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SecurityHub::ActionTarget": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityHub::ActionTarget",
-		ResourceLabel:        "",
+		ResourceLabel:        "Security Hub Action Target",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SecurityHub",
@@ -5524,7 +5524,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SecurityHub::Finding": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityHub::Finding",
-		ResourceLabel:        "",
+		ResourceLabel:        "Security Hub Finding",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SecurityHub",
@@ -5539,7 +5539,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SecurityHub::FindingAggregator": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityHub::FindingAggregator",
-		ResourceLabel:        "",
+		ResourceLabel:        "Security Hub Finding Aggregator",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SecurityHub",
@@ -5554,7 +5554,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SecurityHub::Insight": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityHub::Insight",
-		ResourceLabel:        "",
+		ResourceLabel:        "Security Hub Insight",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SecurityHub",
@@ -5569,7 +5569,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SecurityHub::Member": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityHub::Member",
-		ResourceLabel:        "",
+		ResourceLabel:        "Security Hub Member",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SecurityHub",
@@ -5584,7 +5584,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SecurityHub::Product": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityHub::Product",
-		ResourceLabel:        "",
+		ResourceLabel:        "Security Hub Product",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SecurityHub",
@@ -5599,7 +5599,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SecurityHub::StandardsControl": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityHub::StandardsControl",
-		ResourceLabel:        "",
+		ResourceLabel:        "Security Hub Standards Control",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SecurityHub",
@@ -5614,7 +5614,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SecurityHub::StandardsSubscription": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityHub::StandardsSubscription",
-		ResourceLabel:        "",
+		ResourceLabel:        "Security Hub Standards Subscription",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SecurityHub",
@@ -5629,7 +5629,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SecurityLake::DataLake": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityLake::DataLake",
-		ResourceLabel:        "",
+		ResourceLabel:        "Security Lake Data Lake",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SecurityLake",
@@ -5644,7 +5644,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SecurityLake::Subscriber": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityLake::Subscriber",
-		ResourceLabel:        "",
+		ResourceLabel:        "Security Lake Subscriber",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SecurityLake",
@@ -5659,7 +5659,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Ram::PrincipalAssociation": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Ram::PrincipalAssociation",
-		ResourceLabel:        "",
+		ResourceLabel:        "Principal Association",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Ram",
@@ -5674,7 +5674,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Ram::ResourceAssociation": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Ram::ResourceAssociation",
-		ResourceLabel:        "",
+		ResourceLabel:        "Resource Association",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Ram",
@@ -5689,7 +5689,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::RDS::ReservedDBInstance": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RDS::ReservedDBInstance",
-		ResourceLabel:        "",
+		ResourceLabel:        "RDS Reserved DB Instance",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "RDS",
@@ -5704,7 +5704,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::Redshift::SubnetGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Redshift::SubnetGroup",
-		ResourceLabel:        "",
+		ResourceLabel:        "Redshift Subnet Group",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "Redshift",
@@ -5719,7 +5719,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SeverlessApplicationRepository::Application": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SeverlessApplicationRepository::Application",
-		ResourceLabel:        "",
+		ResourceLabel:        "Serverless Application Repository",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ServerlessApplicationRepository",
@@ -5734,7 +5734,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ServiceQuotas::ServiceQuotaChangeRequest": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ServiceQuotas::ServiceQuotaChangeRequest",
-		ResourceLabel:        "",
+		ResourceLabel:        "Service Quota Change Request",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ServiceQuotas",
@@ -5749,7 +5749,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::VPCEndpointService": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::VPCEndpointService",
-		ResourceLabel:        "",
+		ResourceLabel:        "EC2 VPC Endpoint Service",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -5764,7 +5764,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::LaunchTemplate": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::LaunchTemplate",
-		ResourceLabel:        "",
+		ResourceLabel:        "EC2 Launch Template",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -5779,7 +5779,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::EC2::LaunchTemplateVersion": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::LaunchTemplateVersion",
-		ResourceLabel:        "",
+		ResourceLabel:        "EC2 Launch Template Version",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "EC2",
@@ -5794,7 +5794,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SNS::Subscription": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SNS::Subscription",
-		ResourceLabel:        "",
+		ResourceLabel:        "SNS Subscription",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SNS",
@@ -5809,7 +5809,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::S3::AccountSetting": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::S3::AccountSetting",
-		ResourceLabel:        "",
+		ResourceLabel:        "S3 Account Setting",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "S3",
@@ -5824,7 +5824,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SSM::ManagedInstanceCompliance": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::ManagedInstanceCompliance",
-		ResourceLabel:        "",
+		ResourceLabel:        "SSM Managed Instance Compliance",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SSM",
@@ -5839,7 +5839,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SSM::ManagedInstancePatchState": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::ManagedInstancePatchState",
-		ResourceLabel:        "",
+		ResourceLabel:        "SSM Managed Instance Patch State",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SSM",
@@ -5854,7 +5854,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SSOAdmin::AccountAssignment": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSOAdmin::AccountAssignment",
-		ResourceLabel:        "",
+		ResourceLabel:        "SSO Admin Account Assignment",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SSOAdmin",
@@ -5869,7 +5869,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::SSOAdmin::Instance": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSOAdmin::Instance",
-		ResourceLabel:        "",
+		ResourceLabel:        "SSO Admin Instance",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "SSOAdmin",
@@ -5884,7 +5884,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ServiceDiscovery::Service": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ServiceDiscovery::Service",
-		ResourceLabel:        "",
+		ResourceLabel:        "Service Discovery Service",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ServiceDiscovery",
@@ -5899,7 +5899,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ServiceDiscovery::Namespace": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ServiceDiscovery::Namespace",
-		ResourceLabel:        "",
+		ResourceLabel:        "Service Discovery Namespace",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ServiceDiscovery",
@@ -5914,7 +5914,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ServiceDiscovery::Instance": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ServiceDiscovery::Instance",
-		ResourceLabel:        "",
+		ResourceLabel:        "Service Discovery Instance",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ServiceDiscovery",
@@ -5929,7 +5929,7 @@ var resourceTypes = map[string]ResourceType{
 	"AWS::ServiceCatalog::Portfolio": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ServiceCatalog::Portfolio",
-		ResourceLabel:        "",
+		ResourceLabel:        "Service Catalog Portfolio",
 		Tags:                 map[string][]string{
         },
 		ServiceName:          "ServiceCatalog",
