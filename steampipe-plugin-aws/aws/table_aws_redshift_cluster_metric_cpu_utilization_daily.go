@@ -2,8 +2,6 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
-
 	"github.com/aws/aws-sdk-go-v2/service/redshift/types"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -14,12 +12,9 @@ import (
 
 func tableAwsRedshiftClusterMetricCpuUtilizationDaily(_ context.Context) *plugin.Table {
 	return &plugin.Table{
-		Name:        "aws_redshift_cluster_metric_cpu_utilization_daily",
-		Description: "AWS Redshift Cluster Cloudwatch Metrics - CPU Utilization (Daily)",
-		List: &plugin.ListConfig{
-			ParentHydrate: kaytu.ListRedshiftCluster,
-			Hydrate:       listRedshiftClusterMetricCpuUtilizationDaily,
-		},
+		Name:              "aws_redshift_cluster_metric_cpu_utilization_daily",
+		Description:       "AWS Redshift Cluster Cloudwatch Metrics - CPU Utilization (Daily)",
+		List:              &plugin.ListConfig{},
 		GetMatrixItemFunc: CloudWatchRegionsMatrix,
 		Columns: awsKaytuRegionalColumns(cwMetricColumns(
 			[]*plugin.Column{

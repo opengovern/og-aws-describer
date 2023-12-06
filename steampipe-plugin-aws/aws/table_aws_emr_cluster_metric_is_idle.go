@@ -2,8 +2,6 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
-
 	"github.com/aws/aws-sdk-go-v2/service/emr/types"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -16,10 +14,7 @@ func tableAwsEmrClusterMetricIsIdle(_ context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "aws_emr_cluster_metric_is_idle",
 		Description: "AWS EMR Cluster Cloudwatch Metrics - IsIdle",
-		List: &plugin.ListConfig{
-			ParentHydrate: kaytu.ListEMRCluster,
-			Hydrate:       listEmrClusterMetricIsIdle,
-		},
+		List:        &plugin.ListConfig{},
 
 		Columns: awsRegionalColumns(cwMetricColumns(
 			[]*plugin.Column{

@@ -4,8 +4,6 @@ import (
 	"context"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
-	ssmv1 "github.com/aws/aws-sdk-go/service/ssm"
-
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -23,8 +21,7 @@ func tableAwsSSMManagedInstancePatchState(_ context.Context) *plugin.Table {
 				{Name: "instance_id", Require: plugin.Optional},
 			},
 		},
-		GetMatrixItemFunc: SupportedRegionMatrix(ssmv1.EndpointsID),
-		Columns: awsRegionalColumns([]*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "instance_id",
 				Description: "The ID of the managed node the high-level patch compliance information was collected for.",

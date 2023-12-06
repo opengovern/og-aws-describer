@@ -25,7 +25,6 @@ func tableAwsIdentityStoreGroupMembership(_ context.Context) *plugin.Table {
 					Require: plugin.Optional,
 				},
 			},
-			//Hydrate: kaytu.listide,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException"}),
 			},

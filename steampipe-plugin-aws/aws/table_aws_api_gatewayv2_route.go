@@ -4,8 +4,6 @@ import (
 	"context"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
-	apigatewayv2v1 "github.com/aws/aws-sdk-go/service/apigatewayv2"
-
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -27,8 +25,7 @@ func tableAwsAPIGatewayV2Route(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListApiGatewayV2Route,
 		},
-		GetMatrixItemFunc: SupportedRegionMatrix(apigatewayv2v1.EndpointsID),
-		Columns: awsRegionalColumns([]*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "route_key",
 				Description: "The route key for the route.",

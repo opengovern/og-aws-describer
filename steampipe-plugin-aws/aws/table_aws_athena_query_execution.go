@@ -2,7 +2,6 @@ package aws
 
 import (
 	"context"
-	athenav1 "github.com/aws/aws-sdk-go/service/athena"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -27,8 +26,7 @@ func tableAwsAthenaQueryExecution(_ context.Context) *plugin.Table {
 				},
 			},
 		},
-		GetMatrixItemFunc: SupportedRegionMatrix(athenav1.EndpointsID),
-		Columns: awsRegionalColumns([]*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "id",
 				Description: "The unique identifier for each query execution.",

@@ -4,8 +4,6 @@ import (
 	"context"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
-	servicecatalogv1 "github.com/aws/aws-sdk-go/service/servicecatalog"
-
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -27,8 +25,7 @@ func tableAwsServicecatalogPortfolio(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListServiceCatalogPortfolio,
 		},
-		GetMatrixItemFunc: SupportedRegionMatrix(servicecatalogv1.EndpointsID),
-		Columns: awsRegionalColumns([]*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "display_name",
 				Description: "The name to use for display purposes.",

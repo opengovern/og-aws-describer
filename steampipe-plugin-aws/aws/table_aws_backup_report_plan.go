@@ -4,8 +4,6 @@ import (
 	"context"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
-	backupv1 "github.com/aws/aws-sdk-go/service/backup"
-
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -27,7 +25,6 @@ func tableAwsBackupReportPlan(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListBackupReportPlan,
 		},
-		GetMatrixItemFunc: SupportedRegionMatrix(backupv1.EndpointsID),
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "arn",

@@ -4,8 +4,6 @@ import (
 	"context"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
-	cloudformationv1 "github.com/aws/aws-sdk-go/service/cloudformation"
-
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -33,8 +31,7 @@ func tableAwsCloudFormationStackResource(_ context.Context) *plugin.Table {
 				},
 			},
 		},
-		GetMatrixItemFunc: SupportedRegionMatrix(cloudformationv1.EndpointsID),
-		Columns: awsRegionalColumns([]*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "logical_resource_id",
 				Description: "The logical name of the resource specified in the template.",

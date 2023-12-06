@@ -4,8 +4,6 @@ import (
 	"context"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
-	emrv1 "github.com/aws/aws-sdk-go/service/emr"
-
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,8 +18,7 @@ func tableAwsEmrBlockPublicAccessConfiguration(_ context.Context) *plugin.Table 
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListEMRBlockPublicAccessConfiguration,
 		},
-		GetMatrixItemFunc: SupportedRegionMatrix(emrv1.EndpointsID),
-		Columns: awsRegionalColumns([]*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "block_public_security_group_rules",
 				Description: "Indicates whether Amazon EMR block public access is enabled (true) or disabled (false).",

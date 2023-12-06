@@ -8,8 +8,6 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/docdb"
 	"github.com/aws/aws-sdk-go-v2/service/docdb/types"
 
-	docdbv1 "github.com/aws/aws-sdk-go/service/docdb"
-
 	"github.com/turbot/go-kit/helpers"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -34,8 +32,7 @@ func tableAwsDocDBClusterInstance(_ context.Context) *plugin.Table {
 			//	{Name: "db_instance_arn", Require: plugin.Optional},
 			//},
 		},
-		GetMatrixItemFunc: SupportedRegionMatrix(docdbv1.EndpointsID),
-		Columns: awsRegionalColumns([]*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "db_instance_identifier",
 				Description: "Contains a user-provided database identifier. This identifier is the unique key that identifies an instance.",

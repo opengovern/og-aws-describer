@@ -9,8 +9,6 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/wellarchitected"
 	"github.com/aws/aws-sdk-go-v2/service/wellarchitected/types"
 
-	wellarchitectedv1 "github.com/aws/aws-sdk-go/service/wellarchitected"
-
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -35,7 +33,6 @@ func tableAwsWellArchitectedMilestone(_ context.Context) *plugin.Table {
 				{Name: "workload_id", Require: plugin.Optional},
 			},
 		},
-		GetMatrixItemFunc: SupportedRegionMatrix(wellarchitectedv1.EndpointsID),
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "milestone_name",

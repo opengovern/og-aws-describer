@@ -8,8 +8,6 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/athena"
 	"github.com/aws/aws-sdk-go-v2/service/athena/types"
 
-	athenav1 "github.com/aws/aws-sdk-go/service/athena"
-
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -26,8 +24,7 @@ func tableAwsAthenaWorkGroup(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListAthenaWorkGroup,
 		},
-		GetMatrixItemFunc: SupportedRegionMatrix(athenav1.EndpointsID),
-		Columns: awsRegionalColumns([]*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Description: "The workgroup name.",

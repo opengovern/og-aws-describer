@@ -6,8 +6,6 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
 
-	ec2v1 "github.com/aws/aws-sdk-go/service/ec2"
-
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -32,8 +30,7 @@ func tableAwsEC2ClientVPNEndpoint(_ context.Context) *plugin.Table {
 				{Name: "transport_protocol", Require: plugin.Optional},
 			},
 		},
-		GetMatrixItemFunc: SupportedRegionMatrix(ec2v1.EndpointsID),
-		Columns: awsRegionalColumns([]*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "client_vpn_endpoint_id",
 				Description: "The ID of the client VPN endpoint.",

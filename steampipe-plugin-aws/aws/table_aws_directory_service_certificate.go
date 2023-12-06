@@ -6,8 +6,6 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/service/directoryservice/types"
-	directoryservicev1 "github.com/aws/aws-sdk-go/service/directoryservice"
-
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -38,8 +36,7 @@ func tableAwsDirectoryServiceCertificate(_ context.Context) *plugin.Table {
 				},
 			},
 		},
-		GetMatrixItemFunc: SupportedRegionMatrix(directoryservicev1.EndpointsID),
-		Columns: awsRegionalColumns([]*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "directory_id",
 				Description: "The directory identifier.",
