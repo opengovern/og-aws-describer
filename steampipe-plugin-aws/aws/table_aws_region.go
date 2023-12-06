@@ -25,7 +25,7 @@ func tableAwsRegion(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListEC2Region,
 		},
-		Columns: []*plugin.Column{
+		Columns: awsKaytuDefaultColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Description: "The name of the region",
@@ -37,18 +37,6 @@ func tableAwsRegion(_ context.Context) *plugin.Table {
 				Description: "The Region opt-in status. The possible values are opt-in-not-required, opted-in, and not-opted-in",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.Region.OptInStatus"),
-			},
-			{
-				Name:        "account_id",
-				Description: "The AWS Account ID in which the resource is located.",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Metadata.AccountID"),
-			},
-			{
-				Name:        "kaytu_metadata",
-				Description: "Metadata of the AWS resource",
-				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Metadata").Transform(marshalJSON),
 			},
 			{
 				Name:        "title",
@@ -74,7 +62,7 @@ func tableAwsRegion(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.Region.RegionName"), // Can't use awskaytuRegionalColumn function because of this
 			},
-		},
+		}),
 	}
 }
 
