@@ -32,6 +32,42 @@ func commonColumnsForAccountResource() []*plugin.Column {
 	}
 }
 
+func commonKaytuColumnsForAccountResource() []*plugin.Column {
+	return []*plugin.Column{
+		{
+			Name:        "partition",
+			Type:        proto.ColumnType_STRING,
+			Hydrate:     getCommonColumns,
+			Description: "The AWS partition in which the resource is located (aws, aws-cn, or aws-us-gov).",
+		},
+		{
+			Name:        "account_id",
+			Type:        proto.ColumnType_STRING,
+			Hydrate:     getCommonColumns,
+			Transform:   transform.FromCamel(),
+			Description: "The AWS Account ID in which the resource is located.",
+		},
+		{
+			Name:        "kaytu_account_id",
+			Type:        proto.ColumnType_STRING,
+			Description: "The Kaytu Account ID in which the resource is located.",
+			Transform:   transform.FromField("Metadata.SourceID"),
+		},
+		{
+			Name:        "kaytu_resource_id",
+			Type:        proto.ColumnType_STRING,
+			Description: "The unique ID of the resource in Kaytu.",
+			Transform:   transform.FromField("ID"),
+		},
+		{
+			Name:        "kaytu_metadata",
+			Type:        proto.ColumnType_STRING,
+			Description: "Kaytu Metadata of the AWS resource.",
+			Transform:   transform.FromField("Metadata").Transform(marshalJSON),
+		},
+	}
+}
+
 func commonAwsKaytuRegionalColumns() []*plugin.Column {
 	return []*plugin.Column{
 		{
@@ -273,6 +309,7 @@ func awsGlobalRegionColumns(columns []*plugin.Column) []*plugin.Column {
 func awsKaytuGlobalRegionColumns(columns []*plugin.Column) []*plugin.Column {
 	return append(columns, commonKaytuColumnsForGlobalRegionResource()...)
 }
+
 func awsKaytuColumns(columns []*plugin.Column) []*plugin.Column {
 	commonCols := commonAwsKaytuColumns()
 	filteredCommonCols := make([]*plugin.Column, 0)
@@ -295,6 +332,25 @@ func awsKaytuColumns(columns []*plugin.Column) []*plugin.Column {
 func awsAccountColumns(columns []*plugin.Column) []*plugin.Column {
 	return append(columns, commonColumnsForAccountResource()...)
 }
+
+func awsKaytuAccountColumns(columns []*plugin.Column) []*plugin.Column {
+	commonCols := commonKaytuColumnsForAccountResource()
+	filteredCommonCols := make([]*plugin.Column, 0)
+	for _, col := range commonCols {
+		found := false
+		for _, c := range columns {
+			if col.Name == c.Name {
+				found = true
+				break
+			}
+		}
+		if !found {
+			filteredCommonCols = append(filteredCommonCols, col)
+		}
+	}
+	return append(columns, filteredCommonCols...)
+}
+
 func awsKaytuDefaultColumns(columns []*plugin.Column) []*plugin.Column {
 	commonCols := commonKaytuColumns()
 	filteredCommonCols := make([]*plugin.Column, 0)
