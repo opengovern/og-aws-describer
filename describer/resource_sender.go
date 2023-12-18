@@ -33,37 +33,41 @@ const (
 )
 
 type ResourceSender struct {
-	authToken        string
-	workspaceId      string
-	workspaceName    string
-	logger           *zap.Logger
-	resourceChannel  chan *golang.AWSResource
-	resourceIDs      []string
-	doneChannel      chan interface{}
-	conn             *grpc.ClientConn
-	describeEndpoint string
-	jobID            uint
-	kafkaTopic       string
+	authToken                 string
+	workspaceId               string
+	workspaceName             string
+	logger                    *zap.Logger
+	resourceChannel           chan *golang.AWSResource
+	resourceIDs               []string
+	doneChannel               chan interface{}
+	conn                      *grpc.ClientConn
+	describeEndpoint          string
+	ingestionPipelineEndpoint string
+	jobID                     uint
+	kafkaTopic                string
 
 	client     golang.DescribeServiceClient
 	httpClient *http.Client
 
-	sendBuffer []*golang.AWSResource
+	sendBuffer    []*golang.AWSResource
+	useOpenSearch bool
 }
 
-func NewResourceSender(workspaceId string, workspaceName string, describeEndpoint string, describeToken string, jobID uint, kafkaTopic string, logger *zap.Logger) (*ResourceSender, error) {
+func NewResourceSender(workspaceId string, workspaceName string, describeEndpoint, ingestionPipelineEndpoint string, describeToken string, jobID uint, kafkaTopic string, useOpenSearch bool, logger *zap.Logger) (*ResourceSender, error) {
 	rs := ResourceSender{
-		authToken:        describeToken,
-		workspaceId:      workspaceId,
-		workspaceName:    workspaceName,
-		logger:           logger,
-		resourceChannel:  make(chan *golang.AWSResource, ChannelSize),
-		resourceIDs:      nil,
-		doneChannel:      make(chan interface{}),
-		conn:             nil,
-		describeEndpoint: describeEndpoint,
-		kafkaTopic:       kafkaTopic,
-		jobID:            jobID,
+		authToken:                 describeToken,
+		workspaceId:               workspaceId,
+		workspaceName:             workspaceName,
+		logger:                    logger,
+		resourceChannel:           make(chan *golang.AWSResource, ChannelSize),
+		resourceIDs:               nil,
+		doneChannel:               make(chan interface{}),
+		conn:                      nil,
+		describeEndpoint:          describeEndpoint,
+		ingestionPipelineEndpoint: ingestionPipelineEndpoint,
+		kafkaTopic:                kafkaTopic,
+		jobID:                     jobID,
+		useOpenSearch:             useOpenSearch,
 
 		httpClient: &http.Client{Timeout: 10 * time.Second},
 	}
@@ -211,7 +215,7 @@ func (s *ResourceSender) sendToOpenSearchIngestPipeline() {
 
 	req, err := http.NewRequest(
 		http.MethodPost,
-		"https://resource-sink-test-ebgo572agw7xqqf7mhgwmf7gei.us-east-2.osis.amazonaws.com/resource-sink",
+		s.ingestionPipelineEndpoint,
 		strings.NewReader(string(jsonResourcesToSend)),
 	)
 	req.Header.Add("Content-Type", "application/json")
@@ -270,8 +274,11 @@ func (s *ResourceSender) flushBuffer(force bool) {
 		return
 	}
 
-	s.sendToBackend()
-	//s.sendToOpenSearchIngestPipeline()
+	if s.useOpenSearch {
+		s.sendToOpenSearchIngestPipeline()
+	} else {
+		s.sendToBackend()
+	}
 
 	s.sendBuffer = nil
 }
