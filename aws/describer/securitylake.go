@@ -14,7 +14,7 @@ func SecurityLakeDataLake(ctx context.Context, cfg aws.Config, stream *StreamSen
 	client := securitylake.NewFromConfig(cfg)
 
 	var values []Resource
-	lakes, err := client.GetDatalake(ctx, &securitylake.GetDatalakeInput{})
+	lakes, err := client.ListDataLakes(ctx, &securitylake.ListDataLakesInput{})
 	if err != nil {
 		if isErr(err, "AccessDeniedException") {
 			return nil, nil
@@ -22,10 +22,14 @@ func SecurityLakeDataLake(ctx context.Context, cfg aws.Config, stream *StreamSen
 			return nil, err
 		}
 	}
-	for lakeKey, lake := range lakes.Configurations {
+	for _, lake := range lakes.DataLakes {
+		if lake.DataLakeArn == nil {
+			continue
+		}
 		resource := Resource{
 			Region: describeCtx.KaytuRegion,
-			Name:   lakeKey,
+			Name:   *lake.DataLakeArn,
+			ARN:    *lake.DataLakeArn,
 			Description: model.SecurityLakeDataLakeDescription{
 				DataLake: lake,
 			},

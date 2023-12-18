@@ -494,7 +494,7 @@ func lambdaLayerVersionHandle(ctx context.Context, cfg aws.Config, layer types.L
 	describeCtx := GetDescribeContext(ctx)
 	layerVersion, err := client.GetLayerVersion(ctx, &lambda.GetLayerVersionInput{
 		LayerName:     layer.LayerArn,
-		VersionNumber: v.Version,
+		VersionNumber: &v.Version,
 	})
 	if err != nil {
 		return Resource{}, err
@@ -502,7 +502,7 @@ func lambdaLayerVersionHandle(ctx context.Context, cfg aws.Config, layer types.L
 
 	policy, err := client.GetLayerVersionPolicy(ctx, &lambda.GetLayerVersionPolicyInput{
 		LayerName:     layer.LayerArn,
-		VersionNumber: v.Version,
+		VersionNumber: &v.Version,
 	})
 	if err != nil {
 		if isErr(err, "ResourceNotFoundException") {
@@ -610,7 +610,7 @@ func LambdaLayerVersionPermission(ctx context.Context, cfg aws.Config, stream *S
 		version := lv.Description.(model.LambdaLayerVersionDescription).LayerVersion.Version
 		v, err := client.GetLayerVersionPolicy(ctx, &lambda.GetLayerVersionPolicyInput{
 			LayerName:     arn,
-			VersionNumber: version,
+			VersionNumber: &version,
 		})
 		if err != nil {
 			return nil, err

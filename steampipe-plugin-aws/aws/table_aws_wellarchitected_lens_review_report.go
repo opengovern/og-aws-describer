@@ -74,7 +74,7 @@ type ReviewReportInfo struct {
 	Base64String    *string
 	LensAlias       *string
 	LensArn         *string
-	MilestoneNumber int32
+	MilestoneNumber *int32
 	WorkloadId      *string
 }
 
@@ -117,7 +117,7 @@ func getWellArchitectedLensReviewReports(ctx context.Context, d *plugin.QueryDat
 				if milestoneNumber < 1 || milestoneNumber > 100 {
 					return nil, fmt.Errorf("MilestoneNumber must have minimum value of 1 and maximum value of 100")
 				}
-				input.MilestoneNumber = milestoneNumber
+				input.MilestoneNumber = aws.Int32(milestoneNumber)
 			}
 		}
 

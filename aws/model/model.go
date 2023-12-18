@@ -2881,7 +2881,7 @@ type WellArchitectedAnswerDescription struct {
 	WorkloadName    string
 	LensAlias       string
 	LensArn         string
-	MilestoneNumber int32
+	MilestoneNumber *int32
 }
 
 //index:aws_wellarchitected_checkdetail
@@ -2900,7 +2900,7 @@ type WellArchitectedCheckSummaryDescription struct {
 
 //index:aws_wellarchitected_consolidated_report
 type WellArchitectedCheckConsolidatedReportDescription struct {
-	IncludeSharedResources bool
+	IncludeSharedResources *bool
 	ConsolidateReport      types3.ConsolidatedReportMetric
 	Base64                 string
 }
@@ -2922,7 +2922,7 @@ type WellArchitectedLensReviewImprovementDescription struct {
 	ImprovementSummary types3.ImprovementSummary
 	LensAlias          string
 	LensArn            string
-	MilestoneNumber    int32
+	MilestoneNumber    *int32
 	WorkloadId         string
 }
 
@@ -2930,7 +2930,7 @@ type WellArchitectedLensReviewImprovementDescription struct {
 //getfilter:workload_id=description.WorkloadId
 type WellArchitectedLensReviewReportDescription struct {
 	Report          types3.LensReviewReport
-	MilestoneNumber int32
+	MilestoneNumber *int32
 	WorkloadId      string
 }
 
@@ -3758,7 +3758,7 @@ type MgnApplicationDescription struct {
 
 //index:aws_securitylake_datalake
 type SecurityLakeDataLakeDescription struct {
-	DataLake securitylake.LakeConfigurationResponse
+	DataLake securitylake.DataLakeResource
 }
 
 //index:aws_securitylake_subscriber

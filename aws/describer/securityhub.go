@@ -337,7 +337,7 @@ func GetSecurityHubInsight(ctx context.Context, cfg aws.Config, fields map[strin
 
 func SecurityHubMember(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	params := &securityhub.ListMembersInput{
-		OnlyAssociated: false,
+		OnlyAssociated: aws.Bool(false),
 	}
 	myMiddleware := middleware.SerializeMiddlewareFunc(
 		"AssociatedMembers",
