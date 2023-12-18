@@ -199,7 +199,7 @@ func fetchWellArchitectedCheckDetails(ctx context.Context, d *plugin.QueryData, 
 		}
 
 		input := &wellarchitected.ListCheckDetailsInput{
-			MaxResults: maxLimit,
+			MaxResults: aws.Int32(maxLimit),
 			LensArn:    aws.String(*answer.LensArn),
 			PillarId:   aws.String(*answer.PillarId),
 			QuestionId: aws.String(*answer.QuestionId),
@@ -267,7 +267,7 @@ func getAnswerDetailsForWorkload(ctx context.Context, d *plugin.QueryData, h *pl
 		}
 
 		input := &wellarchitected.ListAnswersInput{
-			MaxResults: int32(50),
+			MaxResults: aws.Int32(50),
 			LensAlias:  aws.String(lensArn),
 			WorkloadId: aws.String(*workloadId),
 		}
@@ -304,7 +304,7 @@ func getAnswerDetailsForWorkload(ctx context.Context, d *plugin.QueryData, h *pl
 					Risk:          item.Risk,
 				}
 
-				answerList = append(answerList, AnswerInfo{answer, output.LensAlias, output.LensArn, &output.MilestoneNumber, output.WorkloadId})
+				answerList = append(answerList, AnswerInfo{answer, output.LensAlias, output.LensArn, output.MilestoneNumber, output.WorkloadId})
 			}
 		}
 	}

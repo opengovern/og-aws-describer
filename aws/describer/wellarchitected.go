@@ -274,7 +274,7 @@ func WellArchitectedConsolidatedReport(ctx context.Context, cfg aws.Config, stre
 	var values []Resource
 	for _, rFormat := range []types.ReportFormat{types.ReportFormatPdf, types.ReportFormatJson} {
 		input := &wellarchitected.GetConsolidatedReportInput{
-			IncludeSharedResources: true,
+			IncludeSharedResources: aws.Bool(true),
 			Format:                 rFormat,
 		}
 		sharedValues, err := WellArchitectedConsolidatedReportHelper(ctx, cfg, stream, client, describeCtx, input)
@@ -286,7 +286,7 @@ func WellArchitectedConsolidatedReport(ctx context.Context, cfg aws.Config, stre
 			}
 		}
 		input2 := &wellarchitected.GetConsolidatedReportInput{
-			IncludeSharedResources: false,
+			IncludeSharedResources: aws.Bool(false),
 			Format:                 rFormat,
 		}
 		notSharedValues, err := WellArchitectedConsolidatedReportHelper(ctx, cfg, stream, client, describeCtx, input2)
@@ -637,7 +637,7 @@ func WellArchitectedMilestone(ctx context.Context, cfg aws.Config, stream *Strea
 				for _, m := range output.MilestoneSummaries {
 					milestone, err := client.GetMilestone(ctx, &wellarchitected.GetMilestoneInput{
 						WorkloadId:      aws.String(*v.WorkloadId),
-						MilestoneNumber: *aws.Int32(m.MilestoneNumber),
+						MilestoneNumber: m.MilestoneNumber,
 					})
 					if err != nil {
 						return nil, err

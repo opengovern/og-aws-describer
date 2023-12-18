@@ -293,10 +293,10 @@ func getBucketPublicAccessBlock(ctx context.Context, client *s3.Client, bucket t
 		if isErr(err, s3NoSuchPublicAccessBlockConfiguration) {
 			return &s3.GetPublicAccessBlockOutput{
 				PublicAccessBlockConfiguration: &types.PublicAccessBlockConfiguration{
-					BlockPublicAcls:       false,
-					BlockPublicPolicy:     false,
-					IgnorePublicAcls:      false,
-					RestrictPublicBuckets: false,
+					BlockPublicAcls:       aws.Bool(false),
+					BlockPublicPolicy:     aws.Bool(false),
+					IgnorePublicAcls:      aws.Bool(false),
+					RestrictPublicBuckets: aws.Bool(false),
 				},
 			}, nil
 		}
@@ -552,10 +552,10 @@ func S3AccountSetting(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 		output = &s3control.GetPublicAccessBlockOutput{
 			PublicAccessBlockConfiguration: &s3controltypes.PublicAccessBlockConfiguration{
-				BlockPublicAcls:       false,
-				BlockPublicPolicy:     false,
-				IgnorePublicAcls:      false,
-				RestrictPublicBuckets: false,
+				BlockPublicAcls:       aws.Bool(false),
+				BlockPublicPolicy:     aws.Bool(false),
+				IgnorePublicAcls:      aws.Bool(false),
+				RestrictPublicBuckets: aws.Bool(false),
 			},
 		}
 	}
