@@ -199,7 +199,7 @@ func GetIAMAccountPasswordPolicy(ctx context.Context, cfg aws.Config, fields map
 
 func IAMAccessKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	client := iam.NewFromConfig(cfg)
-	usersPaginator := iam.NewListUsersPaginator(client, &iam.ListUsersInput{}, nil)
+	usersPaginator := iam.NewListUsersPaginator(client, &iam.ListUsersInput{})
 	var values []Resource
 	for usersPaginator.HasMorePages() {
 		page, err := usersPaginator.NextPage(ctx)
