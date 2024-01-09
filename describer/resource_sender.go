@@ -9,7 +9,7 @@ import (
 	v4 "github.com/aws/aws-sdk-go-v2/aws/signer/v4"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/kaytu-io/kaytu-util/pkg/es"
-	"github.com/kaytu-io/kaytu-util/pkg/kafka"
+	es2 "github.com/kaytu-io/kaytu-util/pkg/es"
 	"github.com/kaytu-io/kaytu-util/pkg/source"
 	"io"
 	"net/http"
@@ -144,7 +144,7 @@ func (s *ResourceSender) sendToBackend() {
 }
 
 func (s *ResourceSender) sendToOpenSearchIngestPipeline() {
-	resourcesToSend := make([]kafka.Doc, 0, 2*len(s.sendBuffer))
+	resourcesToSend := make([]es2.Doc, 0, 2*len(s.sendBuffer))
 	for _, resource := range s.sendBuffer {
 		var description any
 		err := json.Unmarshal([]byte(resource.DescriptionJson), &description)
@@ -179,7 +179,7 @@ func (s *ResourceSender) sendToOpenSearchIngestPipeline() {
 			CanonicalTags: tags,
 		}
 		keys, idx := kafkaResource.KeysAndIndex()
-		kafkaResource.EsID = kafka.HashOf(keys...)
+		kafkaResource.EsID = es2.HashOf(keys...)
 		kafkaResource.EsIndex = idx
 
 		lookupResource := es.LookupResource{
@@ -196,7 +196,7 @@ func (s *ResourceSender) sendToOpenSearchIngestPipeline() {
 			Tags:          tags,
 		}
 		lookupKeys, lookupIdx := lookupResource.KeysAndIndex()
-		lookupResource.EsID = kafka.HashOf(lookupKeys...)
+		lookupResource.EsID = es2.HashOf(lookupKeys...)
 		lookupResource.EsIndex = lookupIdx
 
 		resourcesToSend = append(resourcesToSend, kafkaResource)
