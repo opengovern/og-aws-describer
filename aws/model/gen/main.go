@@ -150,7 +150,7 @@ var list{{ .Name }}Filters = map[string]string{
 
 func List{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("List{{ .Name }}")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -215,7 +215,7 @@ var get{{ .Name }}Filters = map[string]string{
 
 func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("Get{{ .Name }}")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -421,6 +421,7 @@ func Get{{ .Name }}(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 			essdk "github.com/kaytu-io/kaytu-util/pkg/kaytu-es-sdk"
 			steampipesdk "github.com/kaytu-io/kaytu-util/pkg/steampipe"
 			`+*sourceType+` "github.com/kaytu-io/kaytu-`+*sourceType+`-describer/`+*sourceType+`/model"
+            "runtime"
 		)
 
 		type Client struct {

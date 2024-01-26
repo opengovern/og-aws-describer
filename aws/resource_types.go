@@ -405,8 +405,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::InternetGateway",
 		ResourceLabel:        "Internet Gateways",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/InternetGateway.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2InternetGateway),
@@ -514,8 +514,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::AutoScaling::AutoScalingGroup",
 		ResourceLabel:        "Autoscaling Groups",
 		Tags:                 map[string][]string{
-            "category": {"Compute"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Ec2AutoScaling.svg"},
+            "category": {"Compute"},
         },
 		ServiceName:          "AutoScaling",
 		ListDescriber:        ParallelDescribeRegional(describer.AutoScalingAutoScalingGroup),
@@ -561,8 +561,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EFS::FileSystem",
 		ResourceLabel:        "EFS File Systems",
 		Tags:                 map[string][]string{
-            "category": {"Storage"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticFileSystem.svg"},
+            "category": {"Storage"},
         },
 		ServiceName:          "ElasticFileSystem",
 		ListDescriber:        ParallelDescribeRegional(describer.EFSFileSystem),
@@ -578,8 +578,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::Kafka::Cluster",
 		ResourceLabel:        "Kafka Clusters",
 		Tags:                 map[string][]string{
-            "category": {"PaaS"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ManagedStreamingForKafka.svg"},
+            "category": {"PaaS"},
         },
 		ServiceName:          "Kafka",
 		ListDescriber:        ParallelDescribeRegional(describer.KafkaCluster),
@@ -2088,8 +2088,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::RDS::DBInstance",
 		ResourceLabel:        "RDS DB Instances",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Rds.svg"},
             "category": {"Database"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Rds.svg"},
         },
 		ServiceName:          "rds",
 		ListDescriber:        ParallelDescribeRegional(describer.RDSDBInstance),
@@ -3629,8 +3629,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::Image",
 		ResourceLabel:        "EC2 Images (AMIs)",
 		Tags:                 map[string][]string{
-            "category": {"Compute"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Ec2AmiResource.svg"},
+            "category": {"Compute"},
         },
 		ServiceName:          "EC2.Storage",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2AMI),
@@ -4388,8 +4388,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::VPNGateway",
 		ResourceLabel:        "EC2 VPN Gateway",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcVpnGateway.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VPNGateway),

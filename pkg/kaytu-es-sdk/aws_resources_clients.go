@@ -7,6 +7,7 @@ import (
 	essdk "github.com/kaytu-io/kaytu-util/pkg/kaytu-es-sdk"
 	steampipesdk "github.com/kaytu-io/kaytu-util/pkg/steampipe"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"runtime"
 )
 
 type Client struct {
@@ -111,7 +112,7 @@ var listAccessAnalyzerAnalyzerFilters = map[string]string{
 
 func ListAccessAnalyzerAnalyzer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListAccessAnalyzerAnalyzer")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -185,7 +186,7 @@ var getAccessAnalyzerAnalyzerFilters = map[string]string{
 
 func GetAccessAnalyzerAnalyzer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetAccessAnalyzerAnalyzer")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -345,7 +346,7 @@ var listApiGatewayStageFilters = map[string]string{
 
 func ListApiGatewayStage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListApiGatewayStage")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -428,7 +429,7 @@ var getApiGatewayStageFilters = map[string]string{
 
 func GetApiGatewayStage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetApiGatewayStage")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -587,7 +588,7 @@ var listApiGatewayV2StageFilters = map[string]string{
 
 func ListApiGatewayV2Stage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListApiGatewayV2Stage")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -670,7 +671,7 @@ var getApiGatewayV2StageFilters = map[string]string{
 
 func GetApiGatewayV2Stage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetApiGatewayV2Stage")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -823,7 +824,7 @@ var listApiGatewayRestAPIFilters = map[string]string{
 
 func ListApiGatewayRestAPI(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListApiGatewayRestAPI")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -899,7 +900,7 @@ var getApiGatewayRestAPIFilters = map[string]string{
 
 func GetApiGatewayRestAPI(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetApiGatewayRestAPI")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -1049,7 +1050,7 @@ var listApiGatewayApiKeyFilters = map[string]string{
 
 func ListApiGatewayApiKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListApiGatewayApiKey")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -1122,7 +1123,7 @@ var getApiGatewayApiKeyFilters = map[string]string{
 
 func GetApiGatewayApiKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetApiGatewayApiKey")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -1271,7 +1272,7 @@ var listApiGatewayUsagePlanFilters = map[string]string{
 
 func ListApiGatewayUsagePlan(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListApiGatewayUsagePlan")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -1343,7 +1344,7 @@ var getApiGatewayUsagePlanFilters = map[string]string{
 
 func GetApiGatewayUsagePlan(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetApiGatewayUsagePlan")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -1493,7 +1494,7 @@ var listApiGatewayAuthorizerFilters = map[string]string{
 
 func ListApiGatewayAuthorizer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListApiGatewayAuthorizer")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -1566,7 +1567,7 @@ var getApiGatewayAuthorizerFilters = map[string]string{
 
 func GetApiGatewayAuthorizer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetApiGatewayAuthorizer")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -1716,7 +1717,7 @@ var listApiGatewayV2APIFilters = map[string]string{
 
 func ListApiGatewayV2API(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListApiGatewayV2API")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -1789,7 +1790,7 @@ var getApiGatewayV2APIFilters = map[string]string{
 
 func GetApiGatewayV2API(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetApiGatewayV2API")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -1935,7 +1936,7 @@ var listApiGatewayV2DomainNameFilters = map[string]string{
 
 func ListApiGatewayV2DomainName(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListApiGatewayV2DomainName")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -2004,7 +2005,7 @@ var getApiGatewayV2DomainNameFilters = map[string]string{
 
 func GetApiGatewayV2DomainName(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetApiGatewayV2DomainName")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -2145,7 +2146,7 @@ var listApiGatewayDomainNameFilters = map[string]string{
 
 func ListApiGatewayDomainName(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListApiGatewayDomainName")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -2210,7 +2211,7 @@ var getApiGatewayDomainNameFilters = map[string]string{
 
 func GetApiGatewayDomainName(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetApiGatewayDomainName")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -2364,7 +2365,7 @@ var listApiGatewayV2RouteFilters = map[string]string{
 
 func ListApiGatewayV2Route(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListApiGatewayV2Route")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -2442,7 +2443,7 @@ var getApiGatewayV2RouteFilters = map[string]string{
 
 func GetApiGatewayV2Route(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetApiGatewayV2Route")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -2604,7 +2605,7 @@ var listApiGatewayV2IntegrationFilters = map[string]string{
 
 func ListApiGatewayV2Integration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListApiGatewayV2Integration")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -2689,7 +2690,7 @@ var getApiGatewayV2IntegrationFilters = map[string]string{
 
 func GetApiGatewayV2Integration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetApiGatewayV2Integration")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -2853,7 +2854,7 @@ var listElasticBeanstalkEnvironmentFilters = map[string]string{
 
 func ListElasticBeanstalkEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListElasticBeanstalkEnvironment")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -2940,7 +2941,7 @@ var getElasticBeanstalkEnvironmentFilters = map[string]string{
 
 func GetElasticBeanstalkEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetElasticBeanstalkEnvironment")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -3090,7 +3091,7 @@ var listElasticBeanstalkApplicationFilters = map[string]string{
 
 func ListElasticBeanstalkApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListElasticBeanstalkApplication")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -3163,7 +3164,7 @@ var getElasticBeanstalkApplicationFilters = map[string]string{
 
 func GetElasticBeanstalkApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetElasticBeanstalkApplication")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -3327,7 +3328,7 @@ var listElastiCacheReplicationGroupFilters = map[string]string{
 
 func ListElastiCacheReplicationGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListElastiCacheReplicationGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -3414,7 +3415,7 @@ var getElastiCacheReplicationGroupFilters = map[string]string{
 
 func GetElastiCacheReplicationGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetElastiCacheReplicationGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -3580,7 +3581,7 @@ var listElastiCacheClusterFilters = map[string]string{
 
 func ListElastiCacheCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListElastiCacheCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -3669,7 +3670,7 @@ var getElastiCacheClusterFilters = map[string]string{
 
 func GetElastiCacheCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetElastiCacheCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -3814,7 +3815,7 @@ var listElastiCacheParameterGroupFilters = map[string]string{
 
 func ListElastiCacheParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListElastiCacheParameterGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -3882,7 +3883,7 @@ var getElastiCacheParameterGroupFilters = map[string]string{
 
 func GetElastiCacheParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetElastiCacheParameterGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -4036,7 +4037,7 @@ var listElastiCacheReservedCacheNodeFilters = map[string]string{
 
 func ListElastiCacheReservedCacheNode(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListElastiCacheReservedCacheNode")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -4113,7 +4114,7 @@ var getElastiCacheReservedCacheNodeFilters = map[string]string{
 
 func GetElastiCacheReservedCacheNode(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetElastiCacheReservedCacheNode")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -4259,7 +4260,7 @@ var listElastiCacheSubnetGroupFilters = map[string]string{
 
 func ListElastiCacheSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListElastiCacheSubnetGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -4328,7 +4329,7 @@ var getElastiCacheSubnetGroupFilters = map[string]string{
 
 func GetElastiCacheSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetElastiCacheSubnetGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -4494,7 +4495,7 @@ var listESDomainFilters = map[string]string{
 
 func ListESDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListESDomain")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -4583,7 +4584,7 @@ var getESDomainFilters = map[string]string{
 
 func GetESDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetESDomain")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -4755,7 +4756,7 @@ var listEMRClusterFilters = map[string]string{
 
 func ListEMRCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEMRCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -4850,7 +4851,7 @@ var getEMRClusterFilters = map[string]string{
 
 func GetEMRCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEMRCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -5006,7 +5007,7 @@ var listEMRInstanceFilters = map[string]string{
 
 func ListEMRInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEMRInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -5085,7 +5086,7 @@ var getEMRInstanceFilters = map[string]string{
 
 func GetEMRInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEMRInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -5238,7 +5239,7 @@ var listEMRInstanceFleetFilters = map[string]string{
 
 func ListEMRInstanceFleet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEMRInstanceFleet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -5314,7 +5315,7 @@ var getEMRInstanceFleetFilters = map[string]string{
 
 func GetEMRInstanceFleet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEMRInstanceFleet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -5475,7 +5476,7 @@ var listEMRInstanceGroupFilters = map[string]string{
 
 func ListEMRInstanceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEMRInstanceGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -5559,7 +5560,7 @@ var getEMRInstanceGroupFilters = map[string]string{
 
 func GetEMRInstanceGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEMRInstanceGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -5704,7 +5705,7 @@ var listEMRBlockPublicAccessConfigurationFilters = map[string]string{
 
 func ListEMRBlockPublicAccessConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEMRBlockPublicAccessConfiguration")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -5772,7 +5773,7 @@ var getEMRBlockPublicAccessConfigurationFilters = map[string]string{
 
 func GetEMRBlockPublicAccessConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEMRBlockPublicAccessConfiguration")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -5926,7 +5927,7 @@ var listGuardDutyFindingFilters = map[string]string{
 
 func ListGuardDutyFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGuardDutyFinding")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -6003,7 +6004,7 @@ var getGuardDutyFindingFilters = map[string]string{
 
 func GetGuardDutyFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGuardDutyFinding")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -6153,7 +6154,7 @@ var listGuardDutyDetectorFilters = map[string]string{
 
 func ListGuardDutyDetector(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGuardDutyDetector")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -6226,7 +6227,7 @@ var getGuardDutyDetectorFilters = map[string]string{
 
 func GetGuardDutyDetector(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGuardDutyDetector")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -6374,7 +6375,7 @@ var listGuardDutyFilterFilters = map[string]string{
 
 func ListGuardDutyFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGuardDutyFilter")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -6445,7 +6446,7 @@ var getGuardDutyFilterFilters = map[string]string{
 
 func GetGuardDutyFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGuardDutyFilter")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -6593,7 +6594,7 @@ var listGuardDutyIPSetFilters = map[string]string{
 
 func ListGuardDutyIPSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGuardDutyIPSet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -6664,7 +6665,7 @@ var getGuardDutyIPSetFilters = map[string]string{
 
 func GetGuardDutyIPSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGuardDutyIPSet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -6812,7 +6813,7 @@ var listGuardDutyMemberFilters = map[string]string{
 
 func ListGuardDutyMember(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGuardDutyMember")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -6883,7 +6884,7 @@ var getGuardDutyMemberFilters = map[string]string{
 
 func GetGuardDutyMember(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGuardDutyMember")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -7030,7 +7031,7 @@ var listGuardDutyPublishingDestinationFilters = map[string]string{
 
 func ListGuardDutyPublishingDestination(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGuardDutyPublishingDestination")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -7100,7 +7101,7 @@ var getGuardDutyPublishingDestinationFilters = map[string]string{
 
 func GetGuardDutyPublishingDestination(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGuardDutyPublishingDestination")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -7248,7 +7249,7 @@ var listGuardDutyThreatIntelSetFilters = map[string]string{
 
 func ListGuardDutyThreatIntelSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGuardDutyThreatIntelSet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -7319,7 +7320,7 @@ var getGuardDutyThreatIntelSetFilters = map[string]string{
 
 func GetGuardDutyThreatIntelSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGuardDutyThreatIntelSet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -7470,7 +7471,7 @@ var listBackupPlanFilters = map[string]string{
 
 func ListBackupPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListBackupPlan")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -7544,7 +7545,7 @@ var getBackupPlanFilters = map[string]string{
 
 func GetBackupPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetBackupPlan")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -7694,7 +7695,7 @@ var listBackupSelectionFilters = map[string]string{
 
 func ListBackupSelection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListBackupSelection")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -7767,7 +7768,7 @@ var getBackupSelectionFilters = map[string]string{
 
 func GetBackupSelection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetBackupSelection")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -7917,7 +7918,7 @@ var listBackupVaultFilters = map[string]string{
 
 func ListBackupVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListBackupVault")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -7990,7 +7991,7 @@ var getBackupVaultFilters = map[string]string{
 
 func GetBackupVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetBackupVault")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -8149,7 +8150,7 @@ var listBackupRecoveryPointFilters = map[string]string{
 
 func ListBackupRecoveryPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListBackupRecoveryPoint")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -8231,7 +8232,7 @@ var getBackupRecoveryPointFilters = map[string]string{
 
 func GetBackupRecoveryPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetBackupRecoveryPoint")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -8374,7 +8375,7 @@ var listBackupProtectedResourceFilters = map[string]string{
 
 func ListBackupProtectedResource(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListBackupProtectedResource")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -8440,7 +8441,7 @@ var getBackupProtectedResourceFilters = map[string]string{
 
 func GetBackupProtectedResource(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetBackupProtectedResource")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -8589,7 +8590,7 @@ var listBackupFrameworkFilters = map[string]string{
 
 func ListBackupFramework(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListBackupFramework")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -8661,7 +8662,7 @@ var getBackupFrameworkFilters = map[string]string{
 
 func GetBackupFramework(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetBackupFramework")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -8810,7 +8811,7 @@ var listBackupLegalHoldFilters = map[string]string{
 
 func ListBackupLegalHold(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListBackupLegalHold")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -8882,7 +8883,7 @@ var getBackupLegalHoldFilters = map[string]string{
 
 func GetBackupLegalHold(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetBackupLegalHold")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -9032,7 +9033,7 @@ var listBackupReportPlanFilters = map[string]string{
 
 func ListBackupReportPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListBackupReportPlan")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -9106,7 +9107,7 @@ var getBackupReportPlanFilters = map[string]string{
 
 func GetBackupReportPlan(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetBackupReportPlan")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -9275,7 +9276,7 @@ var listCloudFrontDistributionFilters = map[string]string{
 
 func ListCloudFrontDistribution(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudFrontDistribution")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -9367,7 +9368,7 @@ var getCloudFrontDistributionFilters = map[string]string{
 
 func GetCloudFrontDistribution(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudFrontDistribution")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -9512,7 +9513,7 @@ var listCloudFrontStreamingDistributionFilters = map[string]string{
 
 func ListCloudFrontStreamingDistribution(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudFrontStreamingDistribution")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -9580,7 +9581,7 @@ var getCloudFrontStreamingDistributionFilters = map[string]string{
 
 func GetCloudFrontStreamingDistribution(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudFrontStreamingDistribution")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -9724,7 +9725,7 @@ var listCloudFrontOriginAccessControlFilters = map[string]string{
 
 func ListCloudFrontOriginAccessControl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudFrontOriginAccessControl")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -9791,7 +9792,7 @@ var getCloudFrontOriginAccessControlFilters = map[string]string{
 
 func GetCloudFrontOriginAccessControl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudFrontOriginAccessControl")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -9941,7 +9942,7 @@ var listCloudFrontCachePolicyFilters = map[string]string{
 
 func ListCloudFrontCachePolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudFrontCachePolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -10014,7 +10015,7 @@ var getCloudFrontCachePolicyFilters = map[string]string{
 
 func GetCloudFrontCachePolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudFrontCachePolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -10161,7 +10162,7 @@ var listCloudFrontFunctionFilters = map[string]string{
 
 func ListCloudFrontFunction(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudFrontFunction")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -10231,7 +10232,7 @@ var getCloudFrontFunctionFilters = map[string]string{
 
 func GetCloudFrontFunction(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudFrontFunction")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -10377,7 +10378,7 @@ var listCloudFrontOriginAccessIdentityFilters = map[string]string{
 
 func ListCloudFrontOriginAccessIdentity(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudFrontOriginAccessIdentity")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -10446,7 +10447,7 @@ var getCloudFrontOriginAccessIdentityFilters = map[string]string{
 
 func GetCloudFrontOriginAccessIdentity(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudFrontOriginAccessIdentity")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -10595,7 +10596,7 @@ var listCloudFrontOriginRequestPolicyFilters = map[string]string{
 
 func ListCloudFrontOriginRequestPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudFrontOriginRequestPolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -10667,7 +10668,7 @@ var getCloudFrontOriginRequestPolicyFilters = map[string]string{
 
 func GetCloudFrontOriginRequestPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudFrontOriginRequestPolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -10814,7 +10815,7 @@ var listCloudFrontResponseHeadersPolicyFilters = map[string]string{
 
 func ListCloudFrontResponseHeadersPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudFrontResponseHeadersPolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -10884,7 +10885,7 @@ var getCloudFrontResponseHeadersPolicyFilters = map[string]string{
 
 func GetCloudFrontResponseHeadersPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudFrontResponseHeadersPolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -11053,7 +11054,7 @@ var listCloudWatchAlarmFilters = map[string]string{
 
 func ListCloudWatchAlarm(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudWatchAlarm")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -11145,7 +11146,7 @@ var getCloudWatchAlarmFilters = map[string]string{
 
 func GetCloudWatchAlarm(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudWatchAlarm")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -11289,7 +11290,7 @@ var listCloudWatchLogEventFilters = map[string]string{
 
 func ListCloudWatchLogEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudWatchLogEvent")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -11355,7 +11356,7 @@ var getCloudWatchLogEventFilters = map[string]string{
 
 func GetCloudWatchLogEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudWatchLogEvent")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -11498,7 +11499,7 @@ var listCloudWatchLogResourcePolicyFilters = map[string]string{
 
 func ListCloudWatchLogResourcePolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudWatchLogResourcePolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -11564,7 +11565,7 @@ var getCloudWatchLogResourcePolicyFilters = map[string]string{
 
 func GetCloudWatchLogResourcePolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudWatchLogResourcePolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -11709,7 +11710,7 @@ var listCloudWatchLogStreamFilters = map[string]string{
 
 func ListCloudWatchLogStream(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudWatchLogStream")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -11777,7 +11778,7 @@ var getCloudWatchLogStreamFilters = map[string]string{
 
 func GetCloudWatchLogStream(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudWatchLogStream")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -11924,7 +11925,7 @@ var listCloudWatchLogSubscriptionFilterFilters = map[string]string{
 
 func ListCloudWatchLogSubscriptionFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudWatchLogSubscriptionFilter")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -11994,7 +11995,7 @@ var getCloudWatchLogSubscriptionFilterFilters = map[string]string{
 
 func GetCloudWatchLogSubscriptionFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudWatchLogSubscriptionFilter")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -12138,7 +12139,7 @@ var listCloudWatchMetricFilters = map[string]string{
 
 func ListCloudWatchMetric(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudWatchMetric")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -12205,7 +12206,7 @@ var getCloudWatchMetricFilters = map[string]string{
 
 func GetCloudWatchMetric(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudWatchMetric")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -12355,7 +12356,7 @@ var listCloudWatchLogsLogGroupFilters = map[string]string{
 
 func ListCloudWatchLogsLogGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudWatchLogsLogGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -12428,7 +12429,7 @@ var getCloudWatchLogsLogGroupFilters = map[string]string{
 
 func GetCloudWatchLogsLogGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudWatchLogsLogGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -12574,7 +12575,7 @@ var listCloudWatchLogsMetricFilterFilters = map[string]string{
 
 func ListCloudWatchLogsMetricFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudWatchLogsMetricFilter")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -12641,7 +12642,7 @@ var getCloudWatchLogsMetricFilterFilters = map[string]string{
 
 func GetCloudWatchLogsMetricFilter(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudWatchLogsMetricFilter")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -12808,7 +12809,7 @@ var listCodeBuildProjectFilters = map[string]string{
 
 func ListCodeBuildProject(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCodeBuildProject")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -12898,7 +12899,7 @@ var getCodeBuildProjectFilters = map[string]string{
 
 func GetCodeBuildProject(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCodeBuildProject")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -13041,7 +13042,7 @@ var listCodeBuildSourceCredentialFilters = map[string]string{
 
 func ListCodeBuildSourceCredential(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCodeBuildSourceCredential")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -13107,7 +13108,7 @@ var getCodeBuildSourceCredentialFilters = map[string]string{
 
 func GetCodeBuildSourceCredential(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCodeBuildSourceCredential")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -13279,7 +13280,7 @@ var listCodeBuildBuildFilters = map[string]string{
 
 func ListCodeBuildBuild(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCodeBuildBuild")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -13374,7 +13375,7 @@ var getCodeBuildBuildFilters = map[string]string{
 
 func GetCodeBuildBuild(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCodeBuildBuild")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -13521,7 +13522,7 @@ var listConfigConfigurationRecorderFilters = map[string]string{
 
 func ListConfigConfigurationRecorder(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListConfigConfigurationRecorder")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -13591,7 +13592,7 @@ var getConfigConfigurationRecorderFilters = map[string]string{
 
 func GetConfigConfigurationRecorder(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetConfigConfigurationRecorder")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -13737,7 +13738,7 @@ var listConfigAggregationAuthorizationFilters = map[string]string{
 
 func ListConfigAggregationAuthorization(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListConfigAggregationAuthorization")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -13806,7 +13807,7 @@ var getConfigAggregationAuthorizationFilters = map[string]string{
 
 func GetConfigAggregationAuthorization(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetConfigAggregationAuthorization")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -13955,7 +13956,7 @@ var listConfigConformancePackFilters = map[string]string{
 
 func ListConfigConformancePack(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListConfigConformancePack")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -14027,7 +14028,7 @@ var getConfigConformancePackFilters = map[string]string{
 
 func GetConfigConformancePack(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetConfigConformancePack")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -14181,7 +14182,7 @@ var listConfigRuleFilters = map[string]string{
 
 func ListConfigRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListConfigRule")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -14258,7 +14259,7 @@ var getConfigRuleFilters = map[string]string{
 
 func GetConfigRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetConfigRule")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -14401,7 +14402,7 @@ var listConfigRetentionConfigurationFilters = map[string]string{
 
 func ListConfigRetentionConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListConfigRetentionConfiguration")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -14467,7 +14468,7 @@ var getConfigRetentionConfigurationFilters = map[string]string{
 
 func GetConfigRetentionConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetConfigRetentionConfiguration")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -14626,7 +14627,7 @@ var listDAXClusterFilters = map[string]string{
 
 func ListDAXCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDAXCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -14708,7 +14709,7 @@ var getDAXClusterFilters = map[string]string{
 
 func GetDAXCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDAXCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -14851,7 +14852,7 @@ var listDAXParameterGroupFilters = map[string]string{
 
 func ListDAXParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDAXParameterGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -14917,7 +14918,7 @@ var getDAXParameterGroupFilters = map[string]string{
 
 func GetDAXParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDAXParameterGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -15068,7 +15069,7 @@ var listDAXParameterFilters = map[string]string{
 
 func ListDAXParameter(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDAXParameter")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -15142,7 +15143,7 @@ var getDAXParameterFilters = map[string]string{
 
 func GetDAXParameter(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDAXParameter")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -15287,7 +15288,7 @@ var listDAXSubnetGroupFilters = map[string]string{
 
 func ListDAXSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDAXSubnetGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -15355,7 +15356,7 @@ var getDAXSubnetGroupFilters = map[string]string{
 
 func GetDAXSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDAXSubnetGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -15520,7 +15521,7 @@ var listDMSReplicationInstanceFilters = map[string]string{
 
 func ListDMSReplicationInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDMSReplicationInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -15608,7 +15609,7 @@ var getDMSReplicationInstanceFilters = map[string]string{
 
 func GetDMSReplicationInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDMSReplicationInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -15770,7 +15771,7 @@ var listDynamoDbTableFilters = map[string]string{
 
 func ListDynamoDbTable(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDynamoDbTable")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -15855,7 +15856,7 @@ var getDynamoDbTableFilters = map[string]string{
 
 func GetDynamoDbTable(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDynamoDbTable")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -15998,7 +15999,7 @@ var listDynamoDbGlobalSecondaryIndexFilters = map[string]string{
 
 func ListDynamoDbGlobalSecondaryIndex(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDynamoDbGlobalSecondaryIndex")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -16064,7 +16065,7 @@ var getDynamoDbGlobalSecondaryIndexFilters = map[string]string{
 
 func GetDynamoDbGlobalSecondaryIndex(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDynamoDbGlobalSecondaryIndex")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -16207,7 +16208,7 @@ var listDynamoDbLocalSecondaryIndexFilters = map[string]string{
 
 func ListDynamoDbLocalSecondaryIndex(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDynamoDbLocalSecondaryIndex")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -16273,7 +16274,7 @@ var getDynamoDbLocalSecondaryIndexFilters = map[string]string{
 
 func GetDynamoDbLocalSecondaryIndex(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDynamoDbLocalSecondaryIndex")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -16416,7 +16417,7 @@ var listDynamoDbStreamFilters = map[string]string{
 
 func ListDynamoDbStream(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDynamoDbStream")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -16482,7 +16483,7 @@ var getDynamoDbStreamFilters = map[string]string{
 
 func GetDynamoDbStream(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDynamoDbStream")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -16633,7 +16634,7 @@ var listDynamoDbBackupFilters = map[string]string{
 
 func ListDynamoDbBackup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDynamoDbBackup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -16707,7 +16708,7 @@ var getDynamoDbBackupFilters = map[string]string{
 
 func GetDynamoDbBackup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDynamoDbBackup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -16853,7 +16854,7 @@ var listDynamoDbGlobalTableFilters = map[string]string{
 
 func ListDynamoDbGlobalTable(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDynamoDbGlobalTable")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -16922,7 +16923,7 @@ var getDynamoDbGlobalTableFilters = map[string]string{
 
 func GetDynamoDbGlobalTable(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDynamoDbGlobalTable")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -17081,7 +17082,7 @@ var listDynamoDbTableExportFilters = map[string]string{
 
 func ListDynamoDbTableExport(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDynamoDbTableExport")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -17163,7 +17164,7 @@ var getDynamoDbTableExportFilters = map[string]string{
 
 func GetDynamoDbTableExport(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDynamoDbTableExport")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -17311,7 +17312,7 @@ var listOAMLinkFilters = map[string]string{
 
 func ListOAMLink(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListOAMLink")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -17382,7 +17383,7 @@ var getOAMLinkFilters = map[string]string{
 
 func GetOAMLink(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetOAMLink")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -17527,7 +17528,7 @@ var listOAMSinkFilters = map[string]string{
 
 func ListOAMSink(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListOAMSink")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -17595,7 +17596,7 @@ var getOAMSinkFilters = map[string]string{
 
 func GetOAMSink(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetOAMSink")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -17752,7 +17753,7 @@ var listEC2VolumeSnapshotFilters = map[string]string{
 
 func ListEC2VolumeSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2VolumeSnapshot")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -17832,7 +17833,7 @@ var getEC2VolumeSnapshotFilters = map[string]string{
 
 func GetEC2VolumeSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2VolumeSnapshot")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -17974,7 +17975,7 @@ var listEC2ElasticIPFilters = map[string]string{
 
 func ListEC2ElasticIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2ElasticIP")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -18039,7 +18040,7 @@ var getEC2ElasticIPFilters = map[string]string{
 
 func GetEC2ElasticIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2ElasticIP")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -18188,7 +18189,7 @@ var listEC2CustomerGatewayFilters = map[string]string{
 
 func ListEC2CustomerGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2CustomerGateway")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -18260,7 +18261,7 @@ var getEC2CustomerGatewayFilters = map[string]string{
 
 func GetEC2CustomerGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2CustomerGateway")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -18406,7 +18407,7 @@ var listEC2VerifiedAccessInstanceFilters = map[string]string{
 
 func ListEC2VerifiedAccessInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2VerifiedAccessInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -18475,7 +18476,7 @@ var getEC2VerifiedAccessInstanceFilters = map[string]string{
 
 func GetEC2VerifiedAccessInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2VerifiedAccessInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -18633,7 +18634,7 @@ var listEC2VerifiedAccessEndpointFilters = map[string]string{
 
 func ListEC2VerifiedAccessEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2VerifiedAccessEndpoint")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -18714,7 +18715,7 @@ var getEC2VerifiedAccessEndpointFilters = map[string]string{
 
 func GetEC2VerifiedAccessEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2VerifiedAccessEndpoint")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -18863,7 +18864,7 @@ var listEC2VerifiedAccessGroupFilters = map[string]string{
 
 func ListEC2VerifiedAccessGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2VerifiedAccessGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -18935,7 +18936,7 @@ var getEC2VerifiedAccessGroupFilters = map[string]string{
 
 func GetEC2VerifiedAccessGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2VerifiedAccessGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -19085,7 +19086,7 @@ var listEC2VerifiedAccessTrustProviderFilters = map[string]string{
 
 func ListEC2VerifiedAccessTrustProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2VerifiedAccessTrustProvider")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -19158,7 +19159,7 @@ var getEC2VerifiedAccessTrustProviderFilters = map[string]string{
 
 func GetEC2VerifiedAccessTrustProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2VerifiedAccessTrustProvider")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -19305,7 +19306,7 @@ var listEC2VPNGatewayFilters = map[string]string{
 
 func ListEC2VPNGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2VPNGateway")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -19375,7 +19376,7 @@ var getEC2VPNGatewayFilters = map[string]string{
 
 func GetEC2VPNGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2VPNGateway")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -19533,7 +19534,7 @@ var listEC2VolumeFilters = map[string]string{
 
 func ListEC2Volume(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2Volume")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -19614,7 +19615,7 @@ var getEC2VolumeFilters = map[string]string{
 
 func GetEC2Volume(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2Volume")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -19776,7 +19777,7 @@ var listEC2ClientVpnEndpointFilters = map[string]string{
 
 func ListEC2ClientVpnEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2ClientVpnEndpoint")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -19862,7 +19863,7 @@ var getEC2ClientVpnEndpointFilters = map[string]string{
 
 func GetEC2ClientVpnEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2ClientVpnEndpoint")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -20071,7 +20072,7 @@ var listEC2InstanceFilters = map[string]string{
 
 func ListEC2Instance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2Instance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -20203,7 +20204,7 @@ var getEC2InstanceFilters = map[string]string{
 
 func GetEC2Instance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2Instance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -20354,7 +20355,7 @@ var listEC2VpcFilters = map[string]string{
 
 func ListEC2Vpc(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2Vpc")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -20428,7 +20429,7 @@ var getEC2VpcFilters = map[string]string{
 
 func GetEC2Vpc(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2Vpc")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -20602,7 +20603,7 @@ var listEC2NetworkInterfaceFilters = map[string]string{
 
 func ListEC2NetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2NetworkInterface")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -20699,7 +20700,7 @@ var getEC2NetworkInterfaceFilters = map[string]string{
 
 func GetEC2NetworkInterface(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2NetworkInterface")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -20841,7 +20842,7 @@ var listEC2RegionalSettingsFilters = map[string]string{
 
 func ListEC2RegionalSettings(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2RegionalSettings")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -20906,7 +20907,7 @@ var getEC2RegionalSettingsFilters = map[string]string{
 
 func GetEC2RegionalSettings(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2RegionalSettings")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -21063,7 +21064,7 @@ var listEC2SubnetFilters = map[string]string{
 
 func ListEC2Subnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2Subnet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -21143,7 +21144,7 @@ var getEC2SubnetFilters = map[string]string{
 
 func GetEC2Subnet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2Subnet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -21297,7 +21298,7 @@ var listEC2VPCEndpointFilters = map[string]string{
 
 func ListEC2VPCEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2VPCEndpoint")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -21374,7 +21375,7 @@ var getEC2VPCEndpointFilters = map[string]string{
 
 func GetEC2VPCEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2VPCEndpoint")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -21524,7 +21525,7 @@ var listEC2SecurityGroupFilters = map[string]string{
 
 func ListEC2SecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2SecurityGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -21597,7 +21598,7 @@ var getEC2SecurityGroupFilters = map[string]string{
 
 func GetEC2SecurityGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2SecurityGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -21753,7 +21754,7 @@ var listEC2EIPFilters = map[string]string{
 
 func ListEC2EIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2EIP")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -21832,7 +21833,7 @@ var getEC2EIPFilters = map[string]string{
 
 func GetEC2EIP(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2EIP")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -21976,7 +21977,7 @@ var listEC2InternetGatewayFilters = map[string]string{
 
 func ListEC2InternetGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2InternetGateway")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -22043,7 +22044,7 @@ var getEC2InternetGatewayFilters = map[string]string{
 
 func GetEC2InternetGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2InternetGateway")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -22191,7 +22192,7 @@ var listEC2NetworkAclFilters = map[string]string{
 
 func ListEC2NetworkAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2NetworkAcl")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -22262,7 +22263,7 @@ var getEC2NetworkAclFilters = map[string]string{
 
 func GetEC2NetworkAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2NetworkAcl")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -22415,7 +22416,7 @@ var listEC2VPNConnectionFilters = map[string]string{
 
 func ListEC2VPNConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2VPNConnection")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -22491,7 +22492,7 @@ var getEC2VPNConnectionFilters = map[string]string{
 
 func GetEC2VPNConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2VPNConnection")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -22639,7 +22640,7 @@ var listEC2RouteTableFilters = map[string]string{
 
 func ListEC2RouteTable(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2RouteTable")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -22710,7 +22711,7 @@ var getEC2RouteTableFilters = map[string]string{
 
 func GetEC2RouteTable(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2RouteTable")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -22862,7 +22863,7 @@ var listEC2NatGatewayFilters = map[string]string{
 
 func ListEC2NatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2NatGateway")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -22937,7 +22938,7 @@ var getEC2NatGatewayFilters = map[string]string{
 
 func GetEC2NatGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2NatGateway")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -23080,7 +23081,7 @@ var listEC2LocalGatewayFilters = map[string]string{
 
 func ListEC2LocalGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2LocalGateway")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -23146,7 +23147,7 @@ var getEC2LocalGatewayFilters = map[string]string{
 
 func GetEC2LocalGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2LocalGateway")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -23291,7 +23292,7 @@ var listEC2RegionFilters = map[string]string{
 
 func ListEC2Region(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2Region")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -23359,7 +23360,7 @@ var getEC2RegionFilters = map[string]string{
 
 func GetEC2Region(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2Region")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -23509,7 +23510,7 @@ var listEC2AvailabilityZoneFilters = map[string]string{
 
 func ListEC2AvailabilityZone(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2AvailabilityZone")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -23582,7 +23583,7 @@ var getEC2AvailabilityZoneFilters = map[string]string{
 
 func GetEC2AvailabilityZone(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2AvailabilityZone")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -23736,7 +23737,7 @@ var listEC2FlowLogFilters = map[string]string{
 
 func ListEC2FlowLog(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2FlowLog")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -23813,7 +23814,7 @@ var getEC2FlowLogFilters = map[string]string{
 
 func GetEC2FlowLog(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2FlowLog")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -23973,7 +23974,7 @@ var listEC2CapacityReservationFilters = map[string]string{
 
 func ListEC2CapacityReservation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2CapacityReservation")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -24056,7 +24057,7 @@ var getEC2CapacityReservationFilters = map[string]string{
 
 func GetEC2CapacityReservation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2CapacityReservation")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -24201,7 +24202,7 @@ var listEC2KeyPairFilters = map[string]string{
 
 func ListEC2KeyPair(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2KeyPair")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -24269,7 +24270,7 @@ var getEC2KeyPairFilters = map[string]string{
 
 func GetEC2KeyPair(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2KeyPair")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -24436,7 +24437,7 @@ var listEC2AMIFilters = map[string]string{
 
 func ListEC2AMI(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2AMI")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -24526,7 +24527,7 @@ var getEC2AMIFilters = map[string]string{
 
 func GetEC2AMI(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2AMI")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -24686,7 +24687,7 @@ var listEC2ReservedInstancesFilters = map[string]string{
 
 func ListEC2ReservedInstances(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2ReservedInstances")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -24769,7 +24770,7 @@ var getEC2ReservedInstancesFilters = map[string]string{
 
 func GetEC2ReservedInstances(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2ReservedInstances")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -24912,7 +24913,7 @@ var listEC2CapacityReservationFleetFilters = map[string]string{
 
 func ListEC2CapacityReservationFleet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2CapacityReservationFleet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -24978,7 +24979,7 @@ var getEC2CapacityReservationFleetFilters = map[string]string{
 
 func GetEC2CapacityReservationFleet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2CapacityReservationFleet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -25121,7 +25122,7 @@ var listEC2FleetFilters = map[string]string{
 
 func ListEC2Fleet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2Fleet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -25187,7 +25188,7 @@ var getEC2FleetFilters = map[string]string{
 
 func GetEC2Fleet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2Fleet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -25330,7 +25331,7 @@ var listEC2HostFilters = map[string]string{
 
 func ListEC2Host(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2Host")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -25396,7 +25397,7 @@ var getEC2HostFilters = map[string]string{
 
 func GetEC2Host(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2Host")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -25540,7 +25541,7 @@ var listEC2PlacementGroupFilters = map[string]string{
 
 func ListEC2PlacementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2PlacementGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -25607,7 +25608,7 @@ var getEC2PlacementGroupFilters = map[string]string{
 
 func GetEC2PlacementGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2PlacementGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -25764,7 +25765,7 @@ var listEC2TransitGatewayFilters = map[string]string{
 
 func ListEC2TransitGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2TransitGateway")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -25844,7 +25845,7 @@ var getEC2TransitGatewayFilters = map[string]string{
 
 func GetEC2TransitGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2TransitGateway")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -25991,7 +25992,7 @@ var listEC2TransitGatewayRouteTableFilters = map[string]string{
 
 func ListEC2TransitGatewayRouteTable(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2TransitGatewayRouteTable")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -26061,7 +26062,7 @@ var getEC2TransitGatewayRouteTableFilters = map[string]string{
 
 func GetEC2TransitGatewayRouteTable(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2TransitGatewayRouteTable")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -26209,7 +26210,7 @@ var listEC2DhcpOptionsFilters = map[string]string{
 
 func ListEC2DhcpOptions(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2DhcpOptions")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -26280,7 +26281,7 @@ var getEC2DhcpOptionsFilters = map[string]string{
 
 func GetEC2DhcpOptions(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2DhcpOptions")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -26423,7 +26424,7 @@ var listEC2EgressOnlyInternetGatewayFilters = map[string]string{
 
 func ListEC2EgressOnlyInternetGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2EgressOnlyInternetGateway")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -26489,7 +26490,7 @@ var getEC2EgressOnlyInternetGatewayFilters = map[string]string{
 
 func GetEC2EgressOnlyInternetGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2EgressOnlyInternetGateway")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -26649,7 +26650,7 @@ var listEC2VpcPeeringConnectionFilters = map[string]string{
 
 func ListEC2VpcPeeringConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2VpcPeeringConnection")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -26732,7 +26733,7 @@ var getEC2VpcPeeringConnectionFilters = map[string]string{
 
 func GetEC2VpcPeeringConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2VpcPeeringConnection")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -26897,7 +26898,7 @@ var listEC2SecurityGroupRuleFilters = map[string]string{
 
 func ListEC2SecurityGroupRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2SecurityGroupRule")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -26985,7 +26986,7 @@ var getEC2SecurityGroupRuleFilters = map[string]string{
 
 func GetEC2SecurityGroupRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2SecurityGroupRule")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -27128,7 +27129,7 @@ var listEC2IpamPoolFilters = map[string]string{
 
 func ListEC2IpamPool(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2IpamPool")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -27194,7 +27195,7 @@ var getEC2IpamPoolFilters = map[string]string{
 
 func GetEC2IpamPool(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2IpamPool")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -27337,7 +27338,7 @@ var listEC2IpamFilters = map[string]string{
 
 func ListEC2Ipam(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2Ipam")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -27403,7 +27404,7 @@ var getEC2IpamFilters = map[string]string{
 
 func GetEC2Ipam(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2Ipam")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -27558,7 +27559,7 @@ var listEC2VPCEndpointServiceFilters = map[string]string{
 
 func ListEC2VPCEndpointService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2VPCEndpointService")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -27636,7 +27637,7 @@ var getEC2VPCEndpointServiceFilters = map[string]string{
 
 func GetEC2VPCEndpointService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2VPCEndpointService")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -27780,7 +27781,7 @@ var listEC2InstanceAvailabilityFilters = map[string]string{
 
 func ListEC2InstanceAvailability(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2InstanceAvailability")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -27847,7 +27848,7 @@ var getEC2InstanceAvailabilityFilters = map[string]string{
 
 func GetEC2InstanceAvailability(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2InstanceAvailability")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -28008,7 +28009,7 @@ var listEC2InstanceTypeFilters = map[string]string{
 
 func ListEC2InstanceType(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2InstanceType")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -28092,7 +28093,7 @@ var getEC2InstanceTypeFilters = map[string]string{
 
 func GetEC2InstanceType(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2InstanceType")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -28243,7 +28244,7 @@ var listEC2ManagedPrefixListFilters = map[string]string{
 
 func ListEC2ManagedPrefixList(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2ManagedPrefixList")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -28317,7 +28318,7 @@ var getEC2ManagedPrefixListFilters = map[string]string{
 
 func GetEC2ManagedPrefixList(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2ManagedPrefixList")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -28459,7 +28460,7 @@ var listEC2ManagedPrefixListEntryFilters = map[string]string{
 
 func ListEC2ManagedPrefixListEntry(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2ManagedPrefixListEntry")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -28524,7 +28525,7 @@ var getEC2ManagedPrefixListEntryFilters = map[string]string{
 
 func GetEC2ManagedPrefixListEntry(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2ManagedPrefixListEntry")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -28671,7 +28672,7 @@ var listEC2TransitGatewayRouteFilters = map[string]string{
 
 func ListEC2TransitGatewayRoute(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2TransitGatewayRoute")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -28741,7 +28742,7 @@ var getEC2TransitGatewayRouteFilters = map[string]string{
 
 func GetEC2TransitGatewayRoute(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2TransitGatewayRoute")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -28892,7 +28893,7 @@ var listEC2TransitGatewayAttachmentFilters = map[string]string{
 
 func ListEC2TransitGatewayAttachment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2TransitGatewayAttachment")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -28966,7 +28967,7 @@ var getEC2TransitGatewayAttachmentFilters = map[string]string{
 
 func GetEC2TransitGatewayAttachment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2TransitGatewayAttachment")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -29115,7 +29116,7 @@ var listEC2LaunchTemplateFilters = map[string]string{
 
 func ListEC2LaunchTemplate(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2LaunchTemplate")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -29187,7 +29188,7 @@ var getEC2LaunchTemplateFilters = map[string]string{
 
 func GetEC2LaunchTemplate(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2LaunchTemplate")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -29345,7 +29346,7 @@ var listEC2LaunchTemplateVersionFilters = map[string]string{
 
 func ListEC2LaunchTemplateVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEC2LaunchTemplateVersion")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -29426,7 +29427,7 @@ var getEC2LaunchTemplateVersionFilters = map[string]string{
 
 func GetEC2LaunchTemplateVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEC2LaunchTemplateVersion")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -29570,7 +29571,7 @@ var listElasticLoadBalancingV2SslPolicyFilters = map[string]string{
 
 func ListElasticLoadBalancingV2SslPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListElasticLoadBalancingV2SslPolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -29638,7 +29639,7 @@ var getElasticLoadBalancingV2SslPolicyFilters = map[string]string{
 
 func GetElasticLoadBalancingV2SslPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetElasticLoadBalancingV2SslPolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -29798,7 +29799,7 @@ var listElasticLoadBalancingV2TargetGroupFilters = map[string]string{
 
 func ListElasticLoadBalancingV2TargetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListElasticLoadBalancingV2TargetGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -29881,7 +29882,7 @@ var getElasticLoadBalancingV2TargetGroupFilters = map[string]string{
 
 func GetElasticLoadBalancingV2TargetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetElasticLoadBalancingV2TargetGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -30038,7 +30039,7 @@ var listElasticLoadBalancingV2LoadBalancerFilters = map[string]string{
 
 func ListElasticLoadBalancingV2LoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListElasticLoadBalancingV2LoadBalancer")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -30118,7 +30119,7 @@ var getElasticLoadBalancingV2LoadBalancerFilters = map[string]string{
 
 func GetElasticLoadBalancingV2LoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetElasticLoadBalancingV2LoadBalancer")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -30293,7 +30294,7 @@ var listElasticLoadBalancingLoadBalancerFilters = map[string]string{
 
 func ListElasticLoadBalancingLoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListElasticLoadBalancingLoadBalancer")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -30391,7 +30392,7 @@ var getElasticLoadBalancingLoadBalancerFilters = map[string]string{
 
 func GetElasticLoadBalancingLoadBalancer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetElasticLoadBalancingLoadBalancer")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -30539,7 +30540,7 @@ var listElasticLoadBalancingV2ListenerFilters = map[string]string{
 
 func ListElasticLoadBalancingV2Listener(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListElasticLoadBalancingV2Listener")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -30610,7 +30611,7 @@ var getElasticLoadBalancingV2ListenerFilters = map[string]string{
 
 func GetElasticLoadBalancingV2Listener(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetElasticLoadBalancingV2Listener")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -30752,7 +30753,7 @@ var listElasticLoadBalancingV2RuleFilters = map[string]string{
 
 func ListElasticLoadBalancingV2Rule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListElasticLoadBalancingV2Rule")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -30817,7 +30818,7 @@ var getElasticLoadBalancingV2RuleFilters = map[string]string{
 
 func GetElasticLoadBalancingV2Rule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetElasticLoadBalancingV2Rule")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -30977,7 +30978,7 @@ var listFSXFileSystemFilters = map[string]string{
 
 func ListFSXFileSystem(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListFSXFileSystem")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -31060,7 +31061,7 @@ var getFSXFileSystemFilters = map[string]string{
 
 func GetFSXFileSystem(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetFSXFileSystem")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -31204,7 +31205,7 @@ var listFSXStorageVirtualMachineFilters = map[string]string{
 
 func ListFSXStorageVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListFSXStorageVirtualMachine")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -31271,7 +31272,7 @@ var getFSXStorageVirtualMachineFilters = map[string]string{
 
 func GetFSXStorageVirtualMachine(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetFSXStorageVirtualMachine")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -31414,7 +31415,7 @@ var listFSXTaskFilters = map[string]string{
 
 func ListFSXTask(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListFSXTask")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -31480,7 +31481,7 @@ var getFSXTaskFilters = map[string]string{
 
 func GetFSXTask(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetFSXTask")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -31624,7 +31625,7 @@ var listFSXVolumeFilters = map[string]string{
 
 func ListFSXVolume(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListFSXVolume")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -31691,7 +31692,7 @@ var getFSXVolumeFilters = map[string]string{
 
 func GetFSXVolume(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetFSXVolume")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -31835,7 +31836,7 @@ var listFSXSnapshotFilters = map[string]string{
 
 func ListFSXSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListFSXSnapshot")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -31902,7 +31903,7 @@ var getFSXSnapshotFilters = map[string]string{
 
 func GetFSXSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetFSXSnapshot")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -32051,7 +32052,7 @@ var listApplicationAutoScalingTargetFilters = map[string]string{
 
 func ListApplicationAutoScalingTarget(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListApplicationAutoScalingTarget")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -32123,7 +32124,7 @@ var getApplicationAutoScalingTargetFilters = map[string]string{
 
 func GetApplicationAutoScalingTarget(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetApplicationAutoScalingTarget")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -32274,7 +32275,7 @@ var listApplicationAutoScalingPolicyFilters = map[string]string{
 
 func ListApplicationAutoScalingPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListApplicationAutoScalingPolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -32348,7 +32349,7 @@ var getApplicationAutoScalingPolicyFilters = map[string]string{
 
 func GetApplicationAutoScalingPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetApplicationAutoScalingPolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -32527,7 +32528,7 @@ var listAutoScalingGroupFilters = map[string]string{
 
 func ListAutoScalingGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListAutoScalingGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -32629,7 +32630,7 @@ var getAutoScalingGroupFilters = map[string]string{
 
 func GetAutoScalingGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetAutoScalingGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -32791,7 +32792,7 @@ var listAutoScalingLaunchConfigurationFilters = map[string]string{
 
 func ListAutoScalingLaunchConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListAutoScalingLaunchConfiguration")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -32876,7 +32877,7 @@ var getAutoScalingLaunchConfigurationFilters = map[string]string{
 
 func GetAutoScalingLaunchConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetAutoScalingLaunchConfiguration")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -33042,7 +33043,7 @@ var listCertificateManagerCertificateFilters = map[string]string{
 
 func ListCertificateManagerCertificate(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCertificateManagerCertificate")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -33131,7 +33132,7 @@ var getCertificateManagerCertificateFilters = map[string]string{
 
 func GetCertificateManagerCertificate(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCertificateManagerCertificate")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -33302,7 +33303,7 @@ var listCloudTrailTrailFilters = map[string]string{
 
 func ListCloudTrailTrail(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudTrailTrail")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -33396,7 +33397,7 @@ var getCloudTrailTrailFilters = map[string]string{
 
 func GetCloudTrailTrail(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudTrailTrail")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -33544,7 +33545,7 @@ var listCloudTrailChannelFilters = map[string]string{
 
 func ListCloudTrailChannel(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudTrailChannel")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -33615,7 +33616,7 @@ var getCloudTrailChannelFilters = map[string]string{
 
 func GetCloudTrailChannel(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudTrailChannel")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -33766,7 +33767,7 @@ var listCloudTrailEventDataStoreFilters = map[string]string{
 
 func ListCloudTrailEventDataStore(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudTrailEventDataStore")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -33840,7 +33841,7 @@ var getCloudTrailEventDataStoreFilters = map[string]string{
 
 func GetCloudTrailEventDataStore(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudTrailEventDataStore")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -33990,7 +33991,7 @@ var listCloudTrailImportFilters = map[string]string{
 
 func ListCloudTrailImport(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudTrailImport")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -34063,7 +34064,7 @@ var getCloudTrailImportFilters = map[string]string{
 
 func GetCloudTrailImport(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudTrailImport")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -34216,7 +34217,7 @@ var listCloudTrailQueryFilters = map[string]string{
 
 func ListCloudTrailQuery(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudTrailQuery")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -34292,7 +34293,7 @@ var getCloudTrailQueryFilters = map[string]string{
 
 func GetCloudTrailQuery(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudTrailQuery")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -34440,7 +34441,7 @@ var listCloudTrailTrailEventFilters = map[string]string{
 
 func ListCloudTrailTrailEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudTrailTrailEvent")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -34510,7 +34511,7 @@ var getCloudTrailTrailEventFilters = map[string]string{
 
 func GetCloudTrailTrailEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudTrailTrailEvent")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -34658,7 +34659,7 @@ var listIAMAccountFilters = map[string]string{
 
 func ListIAMAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListIAMAccount")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -34729,7 +34730,7 @@ var getIAMAccountFilters = map[string]string{
 
 func GetIAMAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetIAMAccount")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -34901,7 +34902,7 @@ var listIAMAccountSummaryFilters = map[string]string{
 
 func ListIAMAccountSummary(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListIAMAccountSummary")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -34996,7 +34997,7 @@ var getIAMAccountSummaryFilters = map[string]string{
 
 func GetIAMAccountSummary(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetIAMAccountSummary")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -35144,7 +35145,7 @@ var listIAMAccessKeyFilters = map[string]string{
 
 func ListIAMAccessKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListIAMAccessKey")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -35215,7 +35216,7 @@ var getIAMAccessKeyFilters = map[string]string{
 
 func GetIAMAccessKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetIAMAccessKey")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -35365,7 +35366,7 @@ var listIAMAccountPasswordPolicyFilters = map[string]string{
 
 func ListIAMAccountPasswordPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListIAMAccountPasswordPolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -35438,7 +35439,7 @@ var getIAMAccountPasswordPolicyFilters = map[string]string{
 
 func GetIAMAccountPasswordPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetIAMAccountPasswordPolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -35593,7 +35594,7 @@ var listIAMUserFilters = map[string]string{
 
 func ListIAMUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListIAMUser")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -35671,7 +35672,7 @@ var getIAMUserFilters = map[string]string{
 
 func GetIAMUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetIAMUser")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -35820,7 +35821,7 @@ var listIAMGroupFilters = map[string]string{
 
 func ListIAMGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListIAMGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -35892,7 +35893,7 @@ var getIAMGroupFilters = map[string]string{
 
 func GetIAMGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetIAMGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -36048,7 +36049,7 @@ var listIAMRoleFilters = map[string]string{
 
 func ListIAMRole(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListIAMRole")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -36127,7 +36128,7 @@ var getIAMRoleFilters = map[string]string{
 
 func GetIAMRole(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetIAMRole")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -36278,7 +36279,7 @@ var listIAMServerCertificateFilters = map[string]string{
 
 func ListIAMServerCertificate(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListIAMServerCertificate")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -36352,7 +36353,7 @@ var getIAMServerCertificateFilters = map[string]string{
 
 func GetIAMServerCertificate(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetIAMServerCertificate")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -36504,7 +36505,7 @@ var listIAMPolicyFilters = map[string]string{
 
 func ListIAMPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListIAMPolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -36579,7 +36580,7 @@ var getIAMPolicyFilters = map[string]string{
 
 func GetIAMPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetIAMPolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -36741,7 +36742,7 @@ var listIAMCredentialReportFilters = map[string]string{
 
 func ListIAMCredentialReport(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListIAMCredentialReport")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -36826,7 +36827,7 @@ var getIAMCredentialReportFilters = map[string]string{
 
 func GetIAMCredentialReport(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetIAMCredentialReport")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -36973,7 +36974,7 @@ var listIAMVirtualMFADeviceFilters = map[string]string{
 
 func ListIAMVirtualMFADevice(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListIAMVirtualMFADevice")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -37043,7 +37044,7 @@ var getIAMVirtualMFADeviceFilters = map[string]string{
 
 func GetIAMVirtualMFADevice(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetIAMVirtualMFADevice")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -37187,7 +37188,7 @@ var listIAMPolicyAttachmentFilters = map[string]string{
 
 func ListIAMPolicyAttachment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListIAMPolicyAttachment")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -37255,7 +37256,7 @@ var getIAMPolicyAttachmentFilters = map[string]string{
 
 func GetIAMPolicyAttachment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetIAMPolicyAttachment")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -37400,7 +37401,7 @@ var listIAMSamlProviderFilters = map[string]string{
 
 func ListIAMSamlProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListIAMSamlProvider")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -37468,7 +37469,7 @@ var getIAMSamlProviderFilters = map[string]string{
 
 func GetIAMSamlProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetIAMSamlProvider")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -37615,7 +37616,7 @@ var listIAMServiceSpecificCredentialFilters = map[string]string{
 
 func ListIAMServiceSpecificCredential(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListIAMServiceSpecificCredential")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -37685,7 +37686,7 @@ var getIAMServiceSpecificCredentialFilters = map[string]string{
 
 func GetIAMServiceSpecificCredential(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetIAMServiceSpecificCredential")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -37830,7 +37831,7 @@ var listIAMOpenIdConnectProviderFilters = map[string]string{
 
 func ListIAMOpenIdConnectProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListIAMOpenIdConnectProvider")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -37898,7 +37899,7 @@ var getIAMOpenIdConnectProviderFilters = map[string]string{
 
 func GetIAMOpenIdConnectProvider(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetIAMOpenIdConnectProvider")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -38092,7 +38093,7 @@ var listRDSDBClusterFilters = map[string]string{
 
 func ListRDSDBCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRDSDBCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -38209,7 +38210,7 @@ var getRDSDBClusterFilters = map[string]string{
 
 func GetRDSDBCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRDSDBCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -38356,7 +38357,7 @@ var listRDSDBClusterParameterGroupFilters = map[string]string{
 
 func ListRDSDBClusterParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRDSDBClusterParameterGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -38426,7 +38427,7 @@ var getRDSDBClusterParameterGroupFilters = map[string]string{
 
 func GetRDSDBClusterParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRDSDBClusterParameterGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -38576,7 +38577,7 @@ var listRDSOptionGroupFilters = map[string]string{
 
 func ListRDSOptionGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRDSOptionGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -38649,7 +38650,7 @@ var getRDSOptionGroupFilters = map[string]string{
 
 func GetRDSOptionGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRDSOptionGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -38796,7 +38797,7 @@ var listRDSDBParameterGroupFilters = map[string]string{
 
 func ListRDSDBParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRDSDBParameterGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -38866,7 +38867,7 @@ var getRDSDBParameterGroupFilters = map[string]string{
 
 func GetRDSDBParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRDSDBParameterGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -39023,7 +39024,7 @@ var listRDSDBProxyFilters = map[string]string{
 
 func ListRDSDBProxy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRDSDBProxy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -39103,7 +39104,7 @@ var getRDSDBProxyFilters = map[string]string{
 
 func GetRDSDBProxy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRDSDBProxy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -39251,7 +39252,7 @@ var listRDSDBSubnetGroupFilters = map[string]string{
 
 func ListRDSDBSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRDSDBSubnetGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -39322,7 +39323,7 @@ var getRDSDBSubnetGroupFilters = map[string]string{
 
 func GetRDSDBSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRDSDBSubnetGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -39485,7 +39486,7 @@ var listRDSDBClusterSnapshotFilters = map[string]string{
 
 func ListRDSDBClusterSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRDSDBClusterSnapshot")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -39571,7 +39572,7 @@ var getRDSDBClusterSnapshotFilters = map[string]string{
 
 func GetRDSDBClusterSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRDSDBClusterSnapshot")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -39721,7 +39722,7 @@ var listRDSDBEventSubscriptionFilters = map[string]string{
 
 func ListRDSDBEventSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRDSDBEventSubscription")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -39794,7 +39795,7 @@ var getRDSDBEventSubscriptionFilters = map[string]string{
 
 func GetRDSDBEventSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRDSDBEventSubscription")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -40004,7 +40005,7 @@ var listRDSDBInstanceFilters = map[string]string{
 
 func ListRDSDBInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRDSDBInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -40137,7 +40138,7 @@ var getRDSDBInstanceFilters = map[string]string{
 
 func GetRDSDBInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRDSDBInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -40308,7 +40309,7 @@ var listRDSDBSnapshotFilters = map[string]string{
 
 func ListRDSDBSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRDSDBSnapshot")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -40402,7 +40403,7 @@ var getRDSDBSnapshotFilters = map[string]string{
 
 func GetRDSDBSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRDSDBSnapshot")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -40545,7 +40546,7 @@ var listRDSGlobalClusterFilters = map[string]string{
 
 func ListRDSGlobalCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRDSGlobalCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -40611,7 +40612,7 @@ var getRDSGlobalClusterFilters = map[string]string{
 
 func GetRDSGlobalCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRDSGlobalCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -40768,7 +40769,7 @@ var listRDSReservedDBInstanceFilters = map[string]string{
 
 func ListRDSReservedDBInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRDSReservedDBInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -40848,7 +40849,7 @@ var getRDSReservedDBInstanceFilters = map[string]string{
 
 func GetRDSReservedDBInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRDSReservedDBInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -41015,7 +41016,7 @@ var listRDSDBInstanceAutomatedBackupFilters = map[string]string{
 
 func ListRDSDBInstanceAutomatedBackup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRDSDBInstanceAutomatedBackup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -41106,7 +41107,7 @@ var getRDSDBInstanceAutomatedBackupFilters = map[string]string{
 
 func GetRDSDBInstanceAutomatedBackup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRDSDBInstanceAutomatedBackup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -41298,7 +41299,7 @@ var listRedshiftClusterFilters = map[string]string{
 
 func ListRedshiftCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRedshiftCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -41413,7 +41414,7 @@ var getRedshiftClusterFilters = map[string]string{
 
 func GetRedshiftCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRedshiftCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -41565,7 +41566,7 @@ var listRedshiftEventSubscriptionFilters = map[string]string{
 
 func ListRedshiftEventSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRedshiftEventSubscription")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -41640,7 +41641,7 @@ var getRedshiftEventSubscriptionFilters = map[string]string{
 
 func GetRedshiftEventSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRedshiftEventSubscription")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -41795,7 +41796,7 @@ var listRedshiftServerlessWorkgroupFilters = map[string]string{
 
 func ListRedshiftServerlessWorkgroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRedshiftServerlessWorkgroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -41873,7 +41874,7 @@ var getRedshiftServerlessWorkgroupFilters = map[string]string{
 
 func GetRedshiftServerlessWorkgroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRedshiftServerlessWorkgroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -42019,7 +42020,7 @@ var listRedshiftClusterParameterGroupFilters = map[string]string{
 
 func ListRedshiftClusterParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRedshiftClusterParameterGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -42088,7 +42089,7 @@ var getRedshiftClusterParameterGroupFilters = map[string]string{
 
 func GetRedshiftClusterParameterGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRedshiftClusterParameterGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -42263,7 +42264,7 @@ var listRedshiftSnapshotFilters = map[string]string{
 
 func ListRedshiftSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRedshiftSnapshot")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -42361,7 +42362,7 @@ var getRedshiftSnapshotFilters = map[string]string{
 
 func GetRedshiftSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRedshiftSnapshot")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -42514,7 +42515,7 @@ var listRedshiftServerlessNamespaceFilters = map[string]string{
 
 func ListRedshiftServerlessNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRedshiftServerlessNamespace")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -42590,7 +42591,7 @@ var getRedshiftServerlessNamespaceFilters = map[string]string{
 
 func GetRedshiftServerlessNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRedshiftServerlessNamespace")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -42733,7 +42734,7 @@ var listRedshiftServerlessSnapshotFilters = map[string]string{
 
 func ListRedshiftServerlessSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRedshiftServerlessSnapshot")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -42799,7 +42800,7 @@ var getRedshiftServerlessSnapshotFilters = map[string]string{
 
 func GetRedshiftServerlessSnapshot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRedshiftServerlessSnapshot")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -42946,7 +42947,7 @@ var listRedshiftSubnetGroupFilters = map[string]string{
 
 func ListRedshiftSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRedshiftSubnetGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -43016,7 +43017,7 @@ var getRedshiftSubnetGroupFilters = map[string]string{
 
 func GetRedshiftSubnetGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRedshiftSubnetGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -43179,7 +43180,7 @@ var listSNSTopicFilters = map[string]string{
 
 func ListSNSTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSNSTopic")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -43265,7 +43266,7 @@ var getSNSTopicFilters = map[string]string{
 
 func GetSNSTopic(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSNSTopic")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -43413,7 +43414,7 @@ var listSNSSubscriptionFilters = map[string]string{
 
 func ListSNSSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSNSSubscription")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -43484,7 +43485,7 @@ var getSNSSubscriptionFilters = map[string]string{
 
 func GetSNSSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSNSSubscription")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -43637,7 +43638,7 @@ var listSQSQueueFilters = map[string]string{
 
 func ListSQSQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSQSQueue")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -43713,7 +43714,7 @@ var getSQSQueueFilters = map[string]string{
 
 func GetSQSQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSQSQueue")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -43873,7 +43874,7 @@ var listS3BucketFilters = map[string]string{
 
 func ListS3Bucket(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListS3Bucket")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -43956,7 +43957,7 @@ var getS3BucketFilters = map[string]string{
 
 func GetS3Bucket(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetS3Bucket")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -44100,7 +44101,7 @@ var listS3AccountSettingFilters = map[string]string{
 
 func ListS3AccountSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListS3AccountSetting")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -44167,7 +44168,7 @@ var getS3AccountSettingFilters = map[string]string{
 
 func GetS3AccountSetting(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetS3AccountSetting")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -44352,7 +44353,7 @@ var listS3ObjectFilters = map[string]string{
 
 func ListS3Object(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListS3Object")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -44460,7 +44461,7 @@ var getS3ObjectFilters = map[string]string{
 
 func GetS3Object(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetS3Object")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -44606,7 +44607,7 @@ var listS3BucketIntelligentTieringConfigurationFilters = map[string]string{
 
 func ListS3BucketIntelligentTieringConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListS3BucketIntelligentTieringConfiguration")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -44675,7 +44676,7 @@ var getS3BucketIntelligentTieringConfigurationFilters = map[string]string{
 
 func GetS3BucketIntelligentTieringConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetS3BucketIntelligentTieringConfiguration")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -44822,7 +44823,7 @@ var listS3MultiRegionAccessPointFilters = map[string]string{
 
 func ListS3MultiRegionAccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListS3MultiRegionAccessPoint")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -44892,7 +44893,7 @@ var getS3MultiRegionAccessPointFilters = map[string]string{
 
 func GetS3MultiRegionAccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetS3MultiRegionAccessPoint")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -45040,7 +45041,7 @@ var listSageMakerEndpointConfigurationFilters = map[string]string{
 
 func ListSageMakerEndpointConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSageMakerEndpointConfiguration")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -45111,7 +45112,7 @@ var getSageMakerEndpointConfigurationFilters = map[string]string{
 
 func GetSageMakerEndpointConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSageMakerEndpointConfiguration")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -45263,7 +45264,7 @@ var listSageMakerAppFilters = map[string]string{
 
 func ListSageMakerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSageMakerApp")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -45338,7 +45339,7 @@ var getSageMakerAppFilters = map[string]string{
 
 func GetSageMakerApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSageMakerApp")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -45498,7 +45499,7 @@ var listSageMakerDomainFilters = map[string]string{
 
 func ListSageMakerDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSageMakerDomain")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -45581,7 +45582,7 @@ var getSageMakerDomainFilters = map[string]string{
 
 func GetSageMakerDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSageMakerDomain")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -45743,7 +45744,7 @@ var listSageMakerNotebookInstanceFilters = map[string]string{
 
 func ListSageMakerNotebookInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSageMakerNotebookInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -45828,7 +45829,7 @@ var getSageMakerNotebookInstanceFilters = map[string]string{
 
 func GetSageMakerNotebookInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSageMakerNotebookInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -45979,7 +45980,7 @@ var listSageMakerModelFilters = map[string]string{
 
 func ListSageMakerModel(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSageMakerModel")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -46053,7 +46054,7 @@ var getSageMakerModelFilters = map[string]string{
 
 func GetSageMakerModel(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSageMakerModel")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -46234,7 +46235,7 @@ var listSageMakerTrainingJobFilters = map[string]string{
 
 func ListSageMakerTrainingJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSageMakerTrainingJob")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -46338,7 +46339,7 @@ var getSageMakerTrainingJobFilters = map[string]string{
 
 func GetSageMakerTrainingJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSageMakerTrainingJob")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -46497,7 +46498,7 @@ var listSecretsManagerSecretFilters = map[string]string{
 
 func ListSecretsManagerSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSecretsManagerSecret")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -46579,7 +46580,7 @@ var getSecretsManagerSecretFilters = map[string]string{
 
 func GetSecretsManagerSecret(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSecretsManagerSecret")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -46724,7 +46725,7 @@ var listSecurityHubHubFilters = map[string]string{
 
 func ListSecurityHubHub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSecurityHubHub")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -46792,7 +46793,7 @@ var getSecurityHubHubFilters = map[string]string{
 
 func GetSecurityHubHub(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSecurityHubHub")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -46936,7 +46937,7 @@ var listSecurityHubActionTargetFilters = map[string]string{
 
 func ListSecurityHubActionTarget(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSecurityHubActionTarget")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -47003,7 +47004,7 @@ var getSecurityHubActionTargetFilters = map[string]string{
 
 func GetSecurityHubActionTarget(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSecurityHubActionTarget")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -47181,7 +47182,7 @@ var listSecurityHubFindingFilters = map[string]string{
 
 func ListSecurityHubFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSecurityHubFinding")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -47282,7 +47283,7 @@ var getSecurityHubFindingFilters = map[string]string{
 
 func GetSecurityHubFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSecurityHubFinding")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -47426,7 +47427,7 @@ var listSecurityHubFindingAggregatorFilters = map[string]string{
 
 func ListSecurityHubFindingAggregator(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSecurityHubFindingAggregator")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -47493,7 +47494,7 @@ var getSecurityHubFindingAggregatorFilters = map[string]string{
 
 func GetSecurityHubFindingAggregator(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSecurityHubFindingAggregator")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -47638,7 +47639,7 @@ var listSecurityHubInsightFilters = map[string]string{
 
 func ListSecurityHubInsight(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSecurityHubInsight")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -47706,7 +47707,7 @@ var getSecurityHubInsightFilters = map[string]string{
 
 func GetSecurityHubInsight(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSecurityHubInsight")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -47854,7 +47855,7 @@ var listSecurityHubMemberFilters = map[string]string{
 
 func ListSecurityHubMember(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSecurityHubMember")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -47925,7 +47926,7 @@ var getSecurityHubMemberFilters = map[string]string{
 
 func GetSecurityHubMember(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSecurityHubMember")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -48075,7 +48076,7 @@ var listSecurityHubProductFilters = map[string]string{
 
 func ListSecurityHubProduct(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSecurityHubProduct")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -48148,7 +48149,7 @@ var getSecurityHubProductFilters = map[string]string{
 
 func GetSecurityHubProduct(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSecurityHubProduct")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -48298,7 +48299,7 @@ var listSecurityHubStandardsControlFilters = map[string]string{
 
 func ListSecurityHubStandardsControl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSecurityHubStandardsControl")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -48371,7 +48372,7 @@ var getSecurityHubStandardsControlFilters = map[string]string{
 
 func GetSecurityHubStandardsControl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSecurityHubStandardsControl")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -48521,7 +48522,7 @@ var listSecurityHubStandardsSubscriptionFilters = map[string]string{
 
 func ListSecurityHubStandardsSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSecurityHubStandardsSubscription")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -48594,7 +48595,7 @@ var getSecurityHubStandardsSubscriptionFilters = map[string]string{
 
 func GetSecurityHubStandardsSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSecurityHubStandardsSubscription")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -48754,7 +48755,7 @@ var listSSMManagedInstanceFilters = map[string]string{
 
 func ListSSMManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSSMManagedInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -48837,7 +48838,7 @@ var getSSMManagedInstanceFilters = map[string]string{
 
 func GetSSMManagedInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSSMManagedInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -49002,7 +49003,7 @@ var listSSMAssociationFilters = map[string]string{
 
 func ListSSMAssociation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSSMAssociation")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -49090,7 +49091,7 @@ var getSSMAssociationFilters = map[string]string{
 
 func GetSSMAssociation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSSMAssociation")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -49262,7 +49263,7 @@ var listSSMDocumentFilters = map[string]string{
 
 func ListSSMDocument(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSSMDocument")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -49356,7 +49357,7 @@ var getSSMDocumentFilters = map[string]string{
 
 func GetSSMDocument(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSSMDocument")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -49501,7 +49502,7 @@ var listSSMDocumentPermissionFilters = map[string]string{
 
 func ListSSMDocumentPermission(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSSMDocumentPermission")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -49569,7 +49570,7 @@ var getSSMDocumentPermissionFilters = map[string]string{
 
 func GetSSMDocumentPermission(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSSMDocumentPermission")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -49716,7 +49717,7 @@ var listSSMInventoryFilters = map[string]string{
 
 func ListSSMInventory(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSSMInventory")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -49786,7 +49787,7 @@ var getSSMInventoryFilters = map[string]string{
 
 func GetSSMInventory(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSSMInventory")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -49932,7 +49933,7 @@ var listSSMInventoryEntryFilters = map[string]string{
 
 func ListSSMInventoryEntry(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSSMInventoryEntry")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -50001,7 +50002,7 @@ var getSSMInventoryEntryFilters = map[string]string{
 
 func GetSSMInventoryEntry(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSSMInventoryEntry")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -50161,7 +50162,7 @@ var listSSMMaintenanceWindowFilters = map[string]string{
 
 func ListSSMMaintenanceWindow(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSSMMaintenanceWindow")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -50244,7 +50245,7 @@ var getSSMMaintenanceWindowFilters = map[string]string{
 
 func GetSSMMaintenanceWindow(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSSMMaintenanceWindow")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -50399,7 +50400,7 @@ var listSSMParameterFilters = map[string]string{
 
 func ListSSMParameter(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSSMParameter")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -50477,7 +50478,7 @@ var getSSMParameterFilters = map[string]string{
 
 func GetSSMParameter(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSSMParameter")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -50634,7 +50635,7 @@ var listSSMPatchBaselineFilters = map[string]string{
 
 func ListSSMPatchBaseline(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSSMPatchBaseline")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -50715,7 +50716,7 @@ var getSSMPatchBaselineFilters = map[string]string{
 
 func GetSSMPatchBaseline(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSSMPatchBaseline")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -50864,7 +50865,7 @@ var listSSMManagedInstanceComplianceFilters = map[string]string{
 
 func ListSSMManagedInstanceCompliance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSSMManagedInstanceCompliance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -50936,7 +50937,7 @@ var getSSMManagedInstanceComplianceFilters = map[string]string{
 
 func GetSSMManagedInstanceCompliance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSSMManagedInstanceCompliance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -51098,7 +51099,7 @@ var listSSMManagedInstancePatchStateFilters = map[string]string{
 
 func ListSSMManagedInstancePatchState(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSSMManagedInstancePatchState")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -51183,7 +51184,7 @@ var getSSMManagedInstancePatchStateFilters = map[string]string{
 
 func GetSSMManagedInstancePatchState(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSSMManagedInstancePatchState")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -51345,7 +51346,7 @@ var listECSTaskDefinitionFilters = map[string]string{
 
 func ListECSTaskDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListECSTaskDefinition")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -51430,7 +51431,7 @@ var getECSTaskDefinitionFilters = map[string]string{
 
 func GetECSTaskDefinition(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetECSTaskDefinition")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -51585,7 +51586,7 @@ var listECSClusterFilters = map[string]string{
 
 func ListECSCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListECSCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -51663,7 +51664,7 @@ var getECSClusterFilters = map[string]string{
 
 func GetECSCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetECSCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -51835,7 +51836,7 @@ var listECSServiceFilters = map[string]string{
 
 func ListECSService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListECSService")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -51930,7 +51931,7 @@ var getECSServiceFilters = map[string]string{
 
 func GetECSService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetECSService")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -52088,7 +52089,7 @@ var listECSContainerInstanceFilters = map[string]string{
 
 func ListECSContainerInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListECSContainerInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -52169,7 +52170,7 @@ var getECSContainerInstanceFilters = map[string]string{
 
 func GetECSContainerInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetECSContainerInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -52312,7 +52313,7 @@ var listECSTaskSetFilters = map[string]string{
 
 func ListECSTaskSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListECSTaskSet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -52378,7 +52379,7 @@ var getECSTaskSetFilters = map[string]string{
 
 func GetECSTaskSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetECSTaskSet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -52555,7 +52556,7 @@ var listECSTaskFilters = map[string]string{
 
 func ListECSTask(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListECSTask")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -52654,7 +52655,7 @@ var getECSTaskFilters = map[string]string{
 
 func GetECSTask(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetECSTask")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -52810,7 +52811,7 @@ var listEFSFileSystemFilters = map[string]string{
 
 func ListEFSFileSystem(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEFSFileSystem")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -52890,7 +52891,7 @@ var getEFSFileSystemFilters = map[string]string{
 
 func GetEFSFileSystem(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEFSFileSystem")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -53040,7 +53041,7 @@ var listEFSAccessPointFilters = map[string]string{
 
 func ListEFSAccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEFSAccessPoint")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -53113,7 +53114,7 @@ var getEFSAccessPointFilters = map[string]string{
 
 func GetEFSAccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEFSAccessPoint")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -53265,7 +53266,7 @@ var listEFSMountTargetFilters = map[string]string{
 
 func ListEFSMountTarget(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEFSMountTarget")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -53340,7 +53341,7 @@ var getEFSMountTargetFilters = map[string]string{
 
 func GetEFSMountTarget(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEFSMountTarget")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -53496,7 +53497,7 @@ var listEKSClusterFilters = map[string]string{
 
 func ListEKSCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEKSCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -53575,7 +53576,7 @@ var getEKSClusterFilters = map[string]string{
 
 func GetEKSCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEKSCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -53726,7 +53727,7 @@ var listEKSAddonFilters = map[string]string{
 
 func ListEKSAddon(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEKSAddon")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -53800,7 +53801,7 @@ var getEKSAddonFilters = map[string]string{
 
 func GetEKSAddon(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEKSAddon")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -53964,7 +53965,7 @@ var listEKSNodegroupFilters = map[string]string{
 
 func ListEKSNodegroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEKSNodegroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -54051,7 +54052,7 @@ var getEKSNodegroupFilters = map[string]string{
 
 func GetEKSNodegroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEKSNodegroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -54198,7 +54199,7 @@ var listEKSAddonVersionFilters = map[string]string{
 
 func ListEKSAddonVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEKSAddonVersion")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -54268,7 +54269,7 @@ var getEKSAddonVersionFilters = map[string]string{
 
 func GetEKSAddonVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEKSAddonVersion")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -54418,7 +54419,7 @@ var listEKSFargateProfileFilters = map[string]string{
 
 func ListEKSFargateProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEKSFargateProfile")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -54491,7 +54492,7 @@ var getEKSFargateProfileFilters = map[string]string{
 
 func GetEKSFargateProfile(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEKSFargateProfile")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -54647,7 +54648,7 @@ var listWAFv2WebACLFilters = map[string]string{
 
 func ListWAFv2WebACL(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWAFv2WebACL")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -54727,7 +54728,7 @@ var getWAFv2WebACLFilters = map[string]string{
 
 func GetWAFv2WebACL(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWAFv2WebACL")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -54878,7 +54879,7 @@ var listWAFv2IPSetFilters = map[string]string{
 
 func ListWAFv2IPSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWAFv2IPSet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -54953,7 +54954,7 @@ var getWAFv2IPSetFilters = map[string]string{
 
 func GetWAFv2IPSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWAFv2IPSet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -55102,7 +55103,7 @@ var listWAFv2RegexPatternSetFilters = map[string]string{
 
 func ListWAFv2RegexPatternSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWAFv2RegexPatternSet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -55175,7 +55176,7 @@ var getWAFv2RegexPatternSetFilters = map[string]string{
 
 func GetWAFv2RegexPatternSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWAFv2RegexPatternSet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -55327,7 +55328,7 @@ var listWAFv2RuleGroupFilters = map[string]string{
 
 func ListWAFv2RuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWAFv2RuleGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -55403,7 +55404,7 @@ var getWAFv2RuleGroupFilters = map[string]string{
 
 func GetWAFv2RuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWAFv2RuleGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -55561,7 +55562,7 @@ var listKMSKeyFilters = map[string]string{
 
 func ListKMSKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListKMSKey")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -55642,7 +55643,7 @@ var getKMSKeyFilters = map[string]string{
 
 func GetKMSKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetKMSKey")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -55788,7 +55789,7 @@ var listKMSAliasFilters = map[string]string{
 
 func ListKMSAlias(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListKMSAlias")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -55857,7 +55858,7 @@ var getKMSAliasFilters = map[string]string{
 
 func GetKMSAlias(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetKMSAlias")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -56034,7 +56035,7 @@ var listLambdaFunctionFilters = map[string]string{
 
 func ListLambdaFunction(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListLambdaFunction")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -56134,7 +56135,7 @@ var getLambdaFunctionFilters = map[string]string{
 
 func GetLambdaFunction(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetLambdaFunction")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -56297,7 +56298,7 @@ var listLambdaFunctionVersionFilters = map[string]string{
 
 func ListLambdaFunctionVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListLambdaFunctionVersion")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -56383,7 +56384,7 @@ var getLambdaFunctionVersionFilters = map[string]string{
 
 func GetLambdaFunctionVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetLambdaFunctionVersion")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -56532,7 +56533,7 @@ var listLambdaAliasFilters = map[string]string{
 
 func ListLambdaAlias(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListLambdaAlias")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -56605,7 +56606,7 @@ var getLambdaAliasFilters = map[string]string{
 
 func GetLambdaAlias(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetLambdaAlias")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -56755,7 +56756,7 @@ var listLambdaLayerFilters = map[string]string{
 
 func ListLambdaLayer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListLambdaLayer")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -56828,7 +56829,7 @@ var getLambdaLayerFilters = map[string]string{
 
 func GetLambdaLayer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetLambdaLayer")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -56981,7 +56982,7 @@ var listLambdaLayerVersionFilters = map[string]string{
 
 func ListLambdaLayerVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListLambdaLayerVersion")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -57057,7 +57058,7 @@ var getLambdaLayerVersionFilters = map[string]string{
 
 func GetLambdaLayerVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetLambdaLayerVersion")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -57209,7 +57210,7 @@ var listS3AccessPointFilters = map[string]string{
 
 func ListS3AccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListS3AccessPoint")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -57285,7 +57286,7 @@ var getS3AccessPointFilters = map[string]string{
 
 func GetS3AccessPoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetS3AccessPoint")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -57426,7 +57427,7 @@ var listCostExplorerByAccountMonthlyFilters = map[string]string{
 
 func ListCostExplorerByAccountMonthly(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCostExplorerByAccountMonthly")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -57490,7 +57491,7 @@ var getCostExplorerByAccountMonthlyFilters = map[string]string{
 
 func GetCostExplorerByAccountMonthly(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCostExplorerByAccountMonthly")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -57631,7 +57632,7 @@ var listCostExplorerByServiceMonthlyFilters = map[string]string{
 
 func ListCostExplorerByServiceMonthly(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCostExplorerByServiceMonthly")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -57695,7 +57696,7 @@ var getCostExplorerByServiceMonthlyFilters = map[string]string{
 
 func GetCostExplorerByServiceMonthly(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCostExplorerByServiceMonthly")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -57837,7 +57838,7 @@ var listCostExplorerByRecordTypeMonthlyFilters = map[string]string{
 
 func ListCostExplorerByRecordTypeMonthly(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCostExplorerByRecordTypeMonthly")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -57902,7 +57903,7 @@ var getCostExplorerByRecordTypeMonthlyFilters = map[string]string{
 
 func GetCostExplorerByRecordTypeMonthly(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCostExplorerByRecordTypeMonthly")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -58044,7 +58045,7 @@ var listCostExplorerByServiceUsageTypeMonthlyFilters = map[string]string{
 
 func ListCostExplorerByServiceUsageTypeMonthly(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCostExplorerByServiceUsageTypeMonthly")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -58109,7 +58110,7 @@ var getCostExplorerByServiceUsageTypeMonthlyFilters = map[string]string{
 
 func GetCostExplorerByServiceUsageTypeMonthly(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCostExplorerByServiceUsageTypeMonthly")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -58252,7 +58253,7 @@ var listCostExplorerForcastMonthlyFilters = map[string]string{
 
 func ListCostExplorerForcastMonthly(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCostExplorerForcastMonthly")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -58318,7 +58319,7 @@ var getCostExplorerForcastMonthlyFilters = map[string]string{
 
 func GetCostExplorerForcastMonthly(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCostExplorerForcastMonthly")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -58459,7 +58460,7 @@ var listCostExplorerByAccountDailyFilters = map[string]string{
 
 func ListCostExplorerByAccountDaily(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCostExplorerByAccountDaily")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -58523,7 +58524,7 @@ var getCostExplorerByAccountDailyFilters = map[string]string{
 
 func GetCostExplorerByAccountDaily(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCostExplorerByAccountDaily")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -58665,7 +58666,7 @@ var listCostExplorerByServiceDailyFilters = map[string]string{
 
 func ListCostExplorerByServiceDaily(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCostExplorerByServiceDaily")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -58730,7 +58731,7 @@ var getCostExplorerByServiceDailyFilters = map[string]string{
 
 func GetCostExplorerByServiceDaily(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCostExplorerByServiceDaily")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -58872,7 +58873,7 @@ var listCostExplorerByRecordTypeDailyFilters = map[string]string{
 
 func ListCostExplorerByRecordTypeDaily(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCostExplorerByRecordTypeDaily")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -58937,7 +58938,7 @@ var getCostExplorerByRecordTypeDailyFilters = map[string]string{
 
 func GetCostExplorerByRecordTypeDaily(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCostExplorerByRecordTypeDaily")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -59079,7 +59080,7 @@ var listCostExplorerByServiceUsageTypeDailyFilters = map[string]string{
 
 func ListCostExplorerByServiceUsageTypeDaily(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCostExplorerByServiceUsageTypeDaily")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -59144,7 +59145,7 @@ var getCostExplorerByServiceUsageTypeDailyFilters = map[string]string{
 
 func GetCostExplorerByServiceUsageTypeDaily(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCostExplorerByServiceUsageTypeDaily")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -59287,7 +59288,7 @@ var listCostExplorerForcastDailyFilters = map[string]string{
 
 func ListCostExplorerForcastDaily(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCostExplorerForcastDaily")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -59353,7 +59354,7 @@ var getCostExplorerForcastDailyFilters = map[string]string{
 
 func GetCostExplorerForcastDaily(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCostExplorerForcastDaily")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -59509,7 +59510,7 @@ var listECRRepositoryFilters = map[string]string{
 
 func ListECRRepository(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListECRRepository")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -59588,7 +59589,7 @@ var getECRRepositoryFilters = map[string]string{
 
 func GetECRRepository(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetECRRepository")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -59740,7 +59741,7 @@ var listECRImageFilters = map[string]string{
 
 func ListECRImage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListECRImage")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -59815,7 +59816,7 @@ var getECRImageFilters = map[string]string{
 
 func GetECRImage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetECRImage")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -59964,7 +59965,7 @@ var listECRPublicRepositoryFilters = map[string]string{
 
 func ListECRPublicRepository(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListECRPublicRepository")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -60036,7 +60037,7 @@ var getECRPublicRepositoryFilters = map[string]string{
 
 func GetECRPublicRepository(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetECRPublicRepository")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -60179,7 +60180,7 @@ var listECRPublicRegistryFilters = map[string]string{
 
 func ListECRPublicRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListECRPublicRegistry")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -60245,7 +60246,7 @@ var getECRPublicRegistryFilters = map[string]string{
 
 func GetECRPublicRegistry(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetECRPublicRegistry")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -60390,7 +60391,7 @@ var listEventBridgeBusFilters = map[string]string{
 
 func ListEventBridgeBus(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEventBridgeBus")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -60458,7 +60459,7 @@ var getEventBridgeBusFilters = map[string]string{
 
 func GetEventBridgeBus(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEventBridgeBus")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -60610,7 +60611,7 @@ var listEventBridgeRuleFilters = map[string]string{
 
 func ListEventBridgeRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListEventBridgeRule")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -60685,7 +60686,7 @@ var getEventBridgeRuleFilters = map[string]string{
 
 func GetEventBridgeRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetEventBridgeRule")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -60829,7 +60830,7 @@ var listAppStreamApplicationFilters = map[string]string{
 
 func ListAppStreamApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListAppStreamApplication")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -60896,7 +60897,7 @@ var getAppStreamApplicationFilters = map[string]string{
 
 func GetAppStreamApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetAppStreamApplication")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -61040,7 +61041,7 @@ var listAppStreamStackFilters = map[string]string{
 
 func ListAppStreamStack(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListAppStreamStack")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -61107,7 +61108,7 @@ var getAppStreamStackFilters = map[string]string{
 
 func GetAppStreamStack(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetAppStreamStack")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -61274,7 +61275,7 @@ var listAppStreamFleetFilters = map[string]string{
 
 func ListAppStreamFleet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListAppStreamFleet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -61364,7 +61365,7 @@ var getAppStreamFleetFilters = map[string]string{
 
 func GetAppStreamFleet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetAppStreamFleet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -61523,7 +61524,7 @@ var listAppStreamImageFilters = map[string]string{
 
 func ListAppStreamImage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListAppStreamImage")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -61605,7 +61606,7 @@ var getAppStreamImageFilters = map[string]string{
 
 func GetAppStreamImage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetAppStreamImage")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -61762,7 +61763,7 @@ var listAthenaWorkGroupFilters = map[string]string{
 
 func ListAthenaWorkGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListAthenaWorkGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -61842,7 +61843,7 @@ var getAthenaWorkGroupFilters = map[string]string{
 
 func GetAthenaWorkGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetAthenaWorkGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -62015,7 +62016,7 @@ var listAthenaQueryExecutionFilters = map[string]string{
 
 func ListAthenaQueryExecution(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListAthenaQueryExecution")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -62112,7 +62113,7 @@ var getAthenaQueryExecutionFilters = map[string]string{
 
 func GetAthenaQueryExecution(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetAthenaQueryExecution")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -62266,7 +62267,7 @@ var listKinesisStreamFilters = map[string]string{
 
 func ListKinesisStream(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListKinesisStream")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -62343,7 +62344,7 @@ var getKinesisStreamFilters = map[string]string{
 
 func GetKinesisStream(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetKinesisStream")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -62494,7 +62495,7 @@ var listKinesisVideoStreamFilters = map[string]string{
 
 func ListKinesisVideoStream(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListKinesisVideoStream")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -62568,7 +62569,7 @@ var getKinesisVideoStreamFilters = map[string]string{
 
 func GetKinesisVideoStream(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetKinesisVideoStream")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -62714,7 +62715,7 @@ var listKinesisConsumerFilters = map[string]string{
 
 func ListKinesisConsumer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListKinesisConsumer")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -62783,7 +62784,7 @@ var getKinesisConsumerFilters = map[string]string{
 
 func GetKinesisConsumer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetKinesisConsumer")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -62936,7 +62937,7 @@ var listKinesisAnalyticsV2ApplicationFilters = map[string]string{
 
 func ListKinesisAnalyticsV2Application(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListKinesisAnalyticsV2Application")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -63012,7 +63013,7 @@ var getKinesisAnalyticsV2ApplicationFilters = map[string]string{
 
 func GetKinesisAnalyticsV2Application(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetKinesisAnalyticsV2Application")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -63163,7 +63164,7 @@ var listGlacierVaultFilters = map[string]string{
 
 func ListGlacierVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGlacierVault")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -63237,7 +63238,7 @@ var getGlacierVaultFilters = map[string]string{
 
 func GetGlacierVault(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGlacierVault")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -63395,7 +63396,7 @@ var listWorkspacesWorkspaceFilters = map[string]string{
 
 func ListWorkspacesWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWorkspacesWorkspace")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -63476,7 +63477,7 @@ var getWorkspacesWorkspaceFilters = map[string]string{
 
 func GetWorkspacesWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWorkspacesWorkspace")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -63620,7 +63621,7 @@ var listWorkspacesBundleFilters = map[string]string{
 
 func ListWorkspacesBundle(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWorkspacesBundle")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -63687,7 +63688,7 @@ var getWorkspacesBundleFilters = map[string]string{
 
 func GetWorkspacesBundle(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWorkspacesBundle")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -63830,7 +63831,7 @@ var listKeyspacesKeyspaceFilters = map[string]string{
 
 func ListKeyspacesKeyspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListKeyspacesKeyspace")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -63896,7 +63897,7 @@ var getKeyspacesKeyspaceFilters = map[string]string{
 
 func GetKeyspacesKeyspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetKeyspacesKeyspace")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -64039,7 +64040,7 @@ var listKeyspacesTableFilters = map[string]string{
 
 func ListKeyspacesTable(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListKeyspacesTable")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -64105,7 +64106,7 @@ var getKeyspacesTableFilters = map[string]string{
 
 func GetKeyspacesTable(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetKeyspacesTable")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -64250,7 +64251,7 @@ var listGrafanaWorkspaceFilters = map[string]string{
 
 func ListGrafanaWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGrafanaWorkspace")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -64318,7 +64319,7 @@ var getGrafanaWorkspaceFilters = map[string]string{
 
 func GetGrafanaWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGrafanaWorkspace")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -64462,7 +64463,7 @@ var listAMPWorkspaceFilters = map[string]string{
 
 func ListAMPWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListAMPWorkspace")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -64529,7 +64530,7 @@ var getAMPWorkspaceFilters = map[string]string{
 
 func GetAMPWorkspace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetAMPWorkspace")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -64673,7 +64674,7 @@ var listKafkaClusterFilters = map[string]string{
 
 func ListKafkaCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListKafkaCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -64740,7 +64741,7 @@ var getKafkaClusterFilters = map[string]string{
 
 func GetKafkaCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetKafkaCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -64884,7 +64885,7 @@ var listMWAAEnvironmentFilters = map[string]string{
 
 func ListMWAAEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListMWAAEnvironment")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -64951,7 +64952,7 @@ var getMWAAEnvironmentFilters = map[string]string{
 
 func GetMWAAEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetMWAAEnvironment")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -65094,7 +65095,7 @@ var listMemoryDbClusterFilters = map[string]string{
 
 func ListMemoryDbCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListMemoryDbCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -65160,7 +65161,7 @@ var getMemoryDbClusterFilters = map[string]string{
 
 func GetMemoryDbCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetMemoryDbCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -65305,7 +65306,7 @@ var listMQBrokerFilters = map[string]string{
 
 func ListMQBroker(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListMQBroker")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -65373,7 +65374,7 @@ var getMQBrokerFilters = map[string]string{
 
 func GetMQBroker(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetMQBroker")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -65517,7 +65518,7 @@ var listNeptuneDatabaseFilters = map[string]string{
 
 func ListNeptuneDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListNeptuneDatabase")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -65584,7 +65585,7 @@ var getNeptuneDatabaseFilters = map[string]string{
 
 func GetNeptuneDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetNeptuneDatabase")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -65762,7 +65763,7 @@ var listNeptuneDatabaseClusterFilters = map[string]string{
 
 func ListNeptuneDatabaseCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListNeptuneDatabaseCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -65864,7 +65865,7 @@ var getNeptuneDatabaseClusterFilters = map[string]string{
 
 func GetNeptuneDatabaseCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetNeptuneDatabaseCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -66030,7 +66031,7 @@ var listOpenSearchDomainFilters = map[string]string{
 
 func ListOpenSearchDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListOpenSearchDomain")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -66119,7 +66120,7 @@ var getOpenSearchDomainFilters = map[string]string{
 
 func GetOpenSearchDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetOpenSearchDomain")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -66262,7 +66263,7 @@ var listSESConfigurationSetFilters = map[string]string{
 
 func ListSESConfigurationSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSESConfigurationSet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -66328,7 +66329,7 @@ var getSESConfigurationSetFilters = map[string]string{
 
 func GetSESConfigurationSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSESConfigurationSet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -66472,7 +66473,7 @@ var listSESIdentityFilters = map[string]string{
 
 func ListSESIdentity(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSESIdentity")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -66538,7 +66539,7 @@ var getSESIdentityFilters = map[string]string{
 
 func GetSESIdentity(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSESIdentity")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -66681,7 +66682,7 @@ var listSESv2EmailIdentityFilters = map[string]string{
 
 func ListSESv2EmailIdentity(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSESv2EmailIdentity")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -66747,7 +66748,7 @@ var getSESv2EmailIdentityFilters = map[string]string{
 
 func GetSESv2EmailIdentity(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSESv2EmailIdentity")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -66908,7 +66909,7 @@ var listCloudFormationStackFilters = map[string]string{
 
 func ListCloudFormationStack(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudFormationStack")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -66992,7 +66993,7 @@ var getCloudFormationStackFilters = map[string]string{
 
 func GetCloudFormationStack(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudFormationStack")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -67140,7 +67141,7 @@ var listCloudFormationStackSetFilters = map[string]string{
 
 func ListCloudFormationStackSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudFormationStackSet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -67211,7 +67212,7 @@ var getCloudFormationStackSetFilters = map[string]string{
 
 func GetCloudFormationStackSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudFormationStackSet")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -67363,7 +67364,7 @@ var listCloudFormationStackResourceFilters = map[string]string{
 
 func ListCloudFormationStackResource(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudFormationStackResource")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -67437,7 +67438,7 @@ var getCloudFormationStackResourceFilters = map[string]string{
 
 func GetCloudFormationStackResource(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudFormationStackResource")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -67588,7 +67589,7 @@ var listCodeCommitRepositoryFilters = map[string]string{
 
 func ListCodeCommitRepository(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCodeCommitRepository")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -67662,7 +67663,7 @@ var getCodeCommitRepositoryFilters = map[string]string{
 
 func GetCodeCommitRepository(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCodeCommitRepository")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -67813,7 +67814,7 @@ var listCodePipelinePipelineFilters = map[string]string{
 
 func ListCodePipelinePipeline(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCodePipelinePipeline")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -67887,7 +67888,7 @@ var getCodePipelinePipelineFilters = map[string]string{
 
 func GetCodePipelinePipeline(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCodePipelinePipeline")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -68058,7 +68059,7 @@ var listDirectoryServiceDirectoryFilters = map[string]string{
 
 func ListDirectoryServiceDirectory(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDirectoryServiceDirectory")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -68152,7 +68153,7 @@ var getDirectoryServiceDirectoryFilters = map[string]string{
 
 func GetDirectoryServiceDirectory(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDirectoryServiceDirectory")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -68302,7 +68303,7 @@ var listDirectoryServiceCertificateFilters = map[string]string{
 
 func ListDirectoryServiceCertificate(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDirectoryServiceCertificate")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -68376,7 +68377,7 @@ var getDirectoryServiceCertificateFilters = map[string]string{
 
 func GetDirectoryServiceCertificate(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDirectoryServiceCertificate")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -68520,7 +68521,7 @@ var listDirectoryServiceLogSubscriptionFilters = map[string]string{
 
 func ListDirectoryServiceLogSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDirectoryServiceLogSubscription")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -68587,7 +68588,7 @@ var getDirectoryServiceLogSubscriptionFilters = map[string]string{
 
 func GetDirectoryServiceLogSubscription(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDirectoryServiceLogSubscription")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -68730,7 +68731,7 @@ var listSSOAdminInstanceFilters = map[string]string{
 
 func ListSSOAdminInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSSOAdminInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -68796,7 +68797,7 @@ var getSSOAdminInstanceFilters = map[string]string{
 
 func GetSSOAdminInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSSOAdminInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -68941,7 +68942,7 @@ var listSSOAdminAccountAssignmentFilters = map[string]string{
 
 func ListSSOAdminAccountAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSSOAdminAccountAssignment")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -69009,7 +69010,7 @@ var getSSOAdminAccountAssignmentFilters = map[string]string{
 
 func GetSSOAdminAccountAssignment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSSOAdminAccountAssignment")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -69155,7 +69156,7 @@ var listWAFRuleFilters = map[string]string{
 
 func ListWAFRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWAFRule")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -69224,7 +69225,7 @@ var getWAFRuleFilters = map[string]string{
 
 func GetWAFRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWAFRule")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -69370,7 +69371,7 @@ var listWAFRegionalRuleFilters = map[string]string{
 
 func ListWAFRegionalRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWAFRegionalRule")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -69439,7 +69440,7 @@ var getWAFRegionalRuleFilters = map[string]string{
 
 func GetWAFRegionalRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWAFRegionalRule")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -69588,7 +69589,7 @@ var listWAFRateBasedRuleFilters = map[string]string{
 
 func ListWAFRateBasedRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWAFRateBasedRule")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -69660,7 +69661,7 @@ var getWAFRateBasedRuleFilters = map[string]string{
 
 func GetWAFRateBasedRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWAFRateBasedRule")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -69807,7 +69808,7 @@ var listWAFRuleGroupFilters = map[string]string{
 
 func ListWAFRuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWAFRuleGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -69877,7 +69878,7 @@ var getWAFRuleGroupFilters = map[string]string{
 
 func GetWAFRuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWAFRuleGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -70026,7 +70027,7 @@ var listWAFWebAclFilters = map[string]string{
 
 func ListWAFWebAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWAFWebAcl")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -70098,7 +70099,7 @@ var getWAFWebAclFilters = map[string]string{
 
 func GetWAFWebAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWAFWebAcl")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -70262,7 +70263,7 @@ var listWellArchitectedWorkloadFilters = map[string]string{
 
 func ListWellArchitectedWorkload(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWellArchitectedWorkload")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -70349,7 +70350,7 @@ var getWellArchitectedWorkloadFilters = map[string]string{
 
 func GetWellArchitectedWorkload(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWellArchitectedWorkload")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -70508,7 +70509,7 @@ var listWellArchitectedAnswerFilters = map[string]string{
 
 func ListWellArchitectedAnswer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWellArchitectedAnswer")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -70590,7 +70591,7 @@ var getWellArchitectedAnswerFilters = map[string]string{
 
 func GetWellArchitectedAnswer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWellArchitectedAnswer")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -70745,7 +70746,7 @@ var listWellArchitectedCheckDetailFilters = map[string]string{
 
 func ListWellArchitectedCheckDetail(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWellArchitectedCheckDetail")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -70823,7 +70824,7 @@ var getWellArchitectedCheckDetailFilters = map[string]string{
 
 func GetWellArchitectedCheckDetail(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWellArchitectedCheckDetail")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -70976,7 +70977,7 @@ var listWellArchitectedCheckSummaryFilters = map[string]string{
 
 func ListWellArchitectedCheckSummary(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWellArchitectedCheckSummary")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -71052,7 +71053,7 @@ var getWellArchitectedCheckSummaryFilters = map[string]string{
 
 func GetWellArchitectedCheckSummary(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWellArchitectedCheckSummary")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -71202,7 +71203,7 @@ var listWellArchitectedCheckConsolidatedReportFilters = map[string]string{
 
 func ListWellArchitectedCheckConsolidatedReport(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWellArchitectedCheckConsolidatedReport")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -71275,7 +71276,7 @@ var getWellArchitectedCheckConsolidatedReportFilters = map[string]string{
 
 func GetWellArchitectedCheckConsolidatedReport(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWellArchitectedCheckConsolidatedReport")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -71427,7 +71428,7 @@ var listWellArchitectedLensFilters = map[string]string{
 
 func ListWellArchitectedLens(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWellArchitectedLens")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -71502,7 +71503,7 @@ var getWellArchitectedLensFilters = map[string]string{
 
 func GetWellArchitectedLens(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWellArchitectedLens")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -71652,7 +71653,7 @@ var listWellArchitectedLensReviewFilters = map[string]string{
 
 func ListWellArchitectedLensReview(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWellArchitectedLensReview")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -71725,7 +71726,7 @@ var getWellArchitectedLensReviewFilters = map[string]string{
 
 func GetWellArchitectedLensReview(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWellArchitectedLensReview")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -71876,7 +71877,7 @@ var listWellArchitectedLensReviewImprovementFilters = map[string]string{
 
 func ListWellArchitectedLensReviewImprovement(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWellArchitectedLensReviewImprovement")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -71950,7 +71951,7 @@ var getWellArchitectedLensReviewImprovementFilters = map[string]string{
 
 func GetWellArchitectedLensReviewImprovement(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWellArchitectedLensReviewImprovement")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -72095,7 +72096,7 @@ var listWellArchitectedLensReviewReportFilters = map[string]string{
 
 func ListWellArchitectedLensReviewReport(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWellArchitectedLensReviewReport")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -72163,7 +72164,7 @@ var getWellArchitectedLensReviewReportFilters = map[string]string{
 
 func GetWellArchitectedLensReviewReport(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWellArchitectedLensReviewReport")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -72311,7 +72312,7 @@ var listWellArchitectedLensShareFilters = map[string]string{
 
 func ListWellArchitectedLensShare(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWellArchitectedLensShare")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -72382,7 +72383,7 @@ var getWellArchitectedLensShareFilters = map[string]string{
 
 func GetWellArchitectedLensShare(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWellArchitectedLensShare")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -72527,7 +72528,7 @@ var listWellArchitectedMilestoneFilters = map[string]string{
 
 func ListWellArchitectedMilestone(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWellArchitectedMilestone")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -72595,7 +72596,7 @@ var getWellArchitectedMilestoneFilters = map[string]string{
 
 func GetWellArchitectedMilestone(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWellArchitectedMilestone")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -72742,7 +72743,7 @@ var listWellArchitectedNotificationFilters = map[string]string{
 
 func ListWellArchitectedNotification(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWellArchitectedNotification")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -72812,7 +72813,7 @@ var getWellArchitectedNotificationFilters = map[string]string{
 
 func GetWellArchitectedNotification(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWellArchitectedNotification")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -72961,7 +72962,7 @@ var listWellArchitectedShareInvitationFilters = map[string]string{
 
 func ListWellArchitectedShareInvitation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWellArchitectedShareInvitation")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -73033,7 +73034,7 @@ var getWellArchitectedShareInvitationFilters = map[string]string{
 
 func GetWellArchitectedShareInvitation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWellArchitectedShareInvitation")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -73181,7 +73182,7 @@ var listWellArchitectedWorkloadShareFilters = map[string]string{
 
 func ListWellArchitectedWorkloadShare(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWellArchitectedWorkloadShare")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -73252,7 +73253,7 @@ var getWellArchitectedWorkloadShareFilters = map[string]string{
 
 func GetWellArchitectedWorkloadShare(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWellArchitectedWorkloadShare")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -73403,7 +73404,7 @@ var listWAFRegionalWebAclFilters = map[string]string{
 
 func ListWAFRegionalWebAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWAFRegionalWebAcl")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -73477,7 +73478,7 @@ var getWAFRegionalWebAclFilters = map[string]string{
 
 func GetWAFRegionalWebAcl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWAFRegionalWebAcl")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -73626,7 +73627,7 @@ var listWAFRegionalRuleGroupFilters = map[string]string{
 
 func ListWAFRegionalRuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListWAFRegionalRuleGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -73698,7 +73699,7 @@ var getWAFRegionalRuleGroupFilters = map[string]string{
 
 func GetWAFRegionalRuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetWAFRegionalRuleGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -73852,7 +73853,7 @@ var listRoute53HostedZoneFilters = map[string]string{
 
 func ListRoute53HostedZone(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRoute53HostedZone")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -73929,7 +73930,7 @@ var getRoute53HostedZoneFilters = map[string]string{
 
 func GetRoute53HostedZone(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRoute53HostedZone")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -74079,7 +74080,7 @@ var listRoute53HealthCheckFilters = map[string]string{
 
 func ListRoute53HealthCheck(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRoute53HealthCheck")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -74152,7 +74153,7 @@ var getRoute53HealthCheckFilters = map[string]string{
 
 func GetRoute53HealthCheck(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRoute53HealthCheck")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -74310,7 +74311,7 @@ var listRoute53ResolverResolverRuleFilters = map[string]string{
 
 func ListRoute53ResolverResolverRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRoute53ResolverResolverRule")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -74391,7 +74392,7 @@ var getRoute53ResolverResolverRuleFilters = map[string]string{
 
 func GetRoute53ResolverResolverRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRoute53ResolverResolverRule")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -74546,7 +74547,7 @@ var listRoute53ResolverEndpointFilters = map[string]string{
 
 func ListRoute53ResolverEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRoute53ResolverEndpoint")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -74624,7 +74625,7 @@ var getRoute53ResolverEndpointFilters = map[string]string{
 
 func GetRoute53ResolverEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRoute53ResolverEndpoint")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -74788,7 +74789,7 @@ var listRoute53DomainFilters = map[string]string{
 
 func ListRoute53Domain(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRoute53Domain")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -74875,7 +74876,7 @@ var getRoute53DomainFilters = map[string]string{
 
 func GetRoute53Domain(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRoute53Domain")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -75029,7 +75030,7 @@ var listRoute53RecordFilters = map[string]string{
 
 func ListRoute53Record(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRoute53Record")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -75106,7 +75107,7 @@ var getRoute53RecordFilters = map[string]string{
 
 func GetRoute53Record(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRoute53Record")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -75253,7 +75254,7 @@ var listRoute53TrafficPolicyFilters = map[string]string{
 
 func ListRoute53TrafficPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRoute53TrafficPolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -75323,7 +75324,7 @@ var getRoute53TrafficPolicyFilters = map[string]string{
 
 func GetRoute53TrafficPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRoute53TrafficPolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -75473,7 +75474,7 @@ var listRoute53TrafficPolicyInstanceFilters = map[string]string{
 
 func ListRoute53TrafficPolicyInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRoute53TrafficPolicyInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -75546,7 +75547,7 @@ var getRoute53TrafficPolicyInstanceFilters = map[string]string{
 
 func GetRoute53TrafficPolicyInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRoute53TrafficPolicyInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -75690,7 +75691,7 @@ var listRoute53QueryLogFilters = map[string]string{
 
 func ListRoute53QueryLog(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRoute53QueryLog")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -75757,7 +75758,7 @@ var getRoute53QueryLogFilters = map[string]string{
 
 func GetRoute53QueryLog(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRoute53QueryLog")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -75908,7 +75909,7 @@ var listRoute53ResolverQueryLogConfigFilters = map[string]string{
 
 func ListRoute53ResolverQueryLogConfig(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRoute53ResolverQueryLogConfig")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -75982,7 +75983,7 @@ var getRoute53ResolverQueryLogConfigFilters = map[string]string{
 
 func GetRoute53ResolverQueryLogConfig(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRoute53ResolverQueryLogConfig")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -76127,7 +76128,7 @@ var listBatchComputeEnvironmentFilters = map[string]string{
 
 func ListBatchComputeEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListBatchComputeEnvironment")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -76195,7 +76196,7 @@ var getBatchComputeEnvironmentFilters = map[string]string{
 
 func GetBatchComputeEnvironment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetBatchComputeEnvironment")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -76339,7 +76340,7 @@ var listBatchJobFilters = map[string]string{
 
 func ListBatchJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListBatchJob")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -76406,7 +76407,7 @@ var getBatchJobFilters = map[string]string{
 
 func GetBatchJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetBatchJob")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -76551,7 +76552,7 @@ var listBatchJobQueueFilters = map[string]string{
 
 func ListBatchJobQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListBatchJobQueue")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -76620,7 +76621,7 @@ var getBatchJobQueueFilters = map[string]string{
 
 func GetBatchJobQueue(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetBatchJobQueue")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -76773,7 +76774,7 @@ var listCodeArtifactRepositoryFilters = map[string]string{
 
 func ListCodeArtifactRepository(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCodeArtifactRepository")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -76849,7 +76850,7 @@ var getCodeArtifactRepositoryFilters = map[string]string{
 
 func GetCodeArtifactRepository(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCodeArtifactRepository")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -77001,7 +77002,7 @@ var listCodeArtifactDomainFilters = map[string]string{
 
 func ListCodeArtifactDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCodeArtifactDomain")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -77076,7 +77077,7 @@ var getCodeArtifactDomainFilters = map[string]string{
 
 func GetCodeArtifactDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCodeArtifactDomain")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -77241,7 +77242,7 @@ var listCodeDeployDeploymentGroupFilters = map[string]string{
 
 func ListCodeDeployDeploymentGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCodeDeployDeploymentGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -77329,7 +77330,7 @@ var getCodeDeployDeploymentGroupFilters = map[string]string{
 
 func GetCodeDeployDeploymentGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCodeDeployDeploymentGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -77478,7 +77479,7 @@ var listCodeDeployApplicationFilters = map[string]string{
 
 func ListCodeDeployApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCodeDeployApplication")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -77550,7 +77551,7 @@ var getCodeDeployApplicationFilters = map[string]string{
 
 func GetCodeDeployApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCodeDeployApplication")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -77697,7 +77698,7 @@ var listCodeDeployDeploymentConfigFilters = map[string]string{
 
 func ListCodeDeployDeploymentConfig(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCodeDeployDeploymentConfig")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -77768,7 +77769,7 @@ var getCodeDeployDeploymentConfigFilters = map[string]string{
 
 func GetCodeDeployDeploymentConfig(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCodeDeployDeploymentConfig")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -77913,7 +77914,7 @@ var listCodeStarProjectFilters = map[string]string{
 
 func ListCodeStarProject(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCodeStarProject")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -77981,7 +77982,7 @@ var getCodeStarProjectFilters = map[string]string{
 
 func GetCodeStarProject(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCodeStarProject")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -78125,7 +78126,7 @@ var listDirectConnectConnectionFilters = map[string]string{
 
 func ListDirectConnectConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDirectConnectConnection")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -78192,7 +78193,7 @@ var getDirectConnectConnectionFilters = map[string]string{
 
 func GetDirectConnectConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDirectConnectConnection")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -78336,7 +78337,7 @@ var listDirectConnectGatewayFilters = map[string]string{
 
 func ListDirectConnectGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDirectConnectGateway")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -78403,7 +78404,7 @@ var getDirectConnectGatewayFilters = map[string]string{
 
 func GetDirectConnectGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDirectConnectGateway")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -78557,7 +78558,7 @@ var listNetworkFirewallFirewallFilters = map[string]string{
 
 func ListNetworkFirewallFirewall(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListNetworkFirewallFirewall")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -78635,7 +78636,7 @@ var getNetworkFirewallFirewallFilters = map[string]string{
 
 func GetNetworkFirewallFirewall(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetNetworkFirewallFirewall")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -78788,7 +78789,7 @@ var listNetworkFirewallFirewallPolicyFilters = map[string]string{
 
 func ListNetworkFirewallFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListNetworkFirewallFirewallPolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -78864,7 +78865,7 @@ var getNetworkFirewallFirewallPolicyFilters = map[string]string{
 
 func GetNetworkFirewallFirewallPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetNetworkFirewallFirewallPolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -79018,7 +79019,7 @@ var listNetworkFirewallRuleGroupFilters = map[string]string{
 
 func ListNetworkFirewallRuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListNetworkFirewallRuleGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -79095,7 +79096,7 @@ var getNetworkFirewallRuleGroupFilters = map[string]string{
 
 func GetNetworkFirewallRuleGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetNetworkFirewallRuleGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -79238,7 +79239,7 @@ var listOpsWorksCMServerFilters = map[string]string{
 
 func ListOpsWorksCMServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListOpsWorksCMServer")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -79304,7 +79305,7 @@ var getOpsWorksCMServerFilters = map[string]string{
 
 func GetOpsWorksCMServer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetOpsWorksCMServer")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -79447,7 +79448,7 @@ var listOrganizationsOrganizationFilters = map[string]string{
 
 func ListOrganizationsOrganization(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListOrganizationsOrganization")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -79513,7 +79514,7 @@ var getOrganizationsOrganizationFilters = map[string]string{
 
 func GetOrganizationsOrganization(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetOrganizationsOrganization")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -79662,7 +79663,7 @@ var listOrganizationsAccountFilters = map[string]string{
 
 func ListOrganizationsAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListOrganizationsAccount")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -79734,7 +79735,7 @@ var getOrganizationsAccountFilters = map[string]string{
 
 func GetOrganizationsAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetOrganizationsAccount")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -79882,7 +79883,7 @@ var listOrganizationsPolicyFilters = map[string]string{
 
 func ListOrganizationsPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListOrganizationsPolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -79953,7 +79954,7 @@ var getOrganizationsPolicyFilters = map[string]string{
 
 func GetOrganizationsPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetOrganizationsPolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -80102,7 +80103,7 @@ var listPinPointAppFilters = map[string]string{
 
 func ListPinPointApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListPinPointApp")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -80174,7 +80175,7 @@ var getPinPointAppFilters = map[string]string{
 
 func GetPinPointApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetPinPointApp")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -80330,7 +80331,7 @@ var listPipesPipeFilters = map[string]string{
 
 func ListPipesPipe(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListPipesPipe")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -80409,7 +80410,7 @@ var getPipesPipeFilters = map[string]string{
 
 func GetPipesPipe(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetPipesPipe")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -80552,7 +80553,7 @@ var listResourceGroupsGroupFilters = map[string]string{
 
 func ListResourceGroupsGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListResourceGroupsGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -80618,7 +80619,7 @@ var getResourceGroupsGroupFilters = map[string]string{
 
 func GetResourceGroupsGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetResourceGroupsGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -80762,7 +80763,7 @@ var listOpenSearchServerlessCollectionFilters = map[string]string{
 
 func ListOpenSearchServerlessCollection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListOpenSearchServerlessCollection")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -80829,7 +80830,7 @@ var getOpenSearchServerlessCollectionFilters = map[string]string{
 
 func GetOpenSearchServerlessCollection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetOpenSearchServerlessCollection")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -80973,7 +80974,7 @@ var listTimestreamDatabaseFilters = map[string]string{
 
 func ListTimestreamDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListTimestreamDatabase")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -81040,7 +81041,7 @@ var getTimestreamDatabaseFilters = map[string]string{
 
 func GetTimestreamDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetTimestreamDatabase")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -81183,7 +81184,7 @@ var listResourceExplorer2IndexFilters = map[string]string{
 
 func ListResourceExplorer2Index(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListResourceExplorer2Index")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -81249,7 +81250,7 @@ var getResourceExplorer2IndexFilters = map[string]string{
 
 func GetResourceExplorer2Index(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetResourceExplorer2Index")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -81391,7 +81392,7 @@ var listResourceExplorer2SupportedResourceTypeFilters = map[string]string{
 
 func ListResourceExplorer2SupportedResourceType(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListResourceExplorer2SupportedResourceType")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -81456,7 +81457,7 @@ var getResourceExplorer2SupportedResourceTypeFilters = map[string]string{
 
 func GetResourceExplorer2SupportedResourceType(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetResourceExplorer2SupportedResourceType")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -81607,7 +81608,7 @@ var listStepFunctionsStateMachineFilters = map[string]string{
 
 func ListStepFunctionsStateMachine(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListStepFunctionsStateMachine")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -81681,7 +81682,7 @@ var getStepFunctionsStateMachineFilters = map[string]string{
 
 func GetStepFunctionsStateMachine(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetStepFunctionsStateMachine")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -81860,7 +81861,7 @@ var listStepFunctionsStateMachineExecutionHistoriesFilters = map[string]string{
 
 func ListStepFunctionsStateMachineExecutionHistories(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListStepFunctionsStateMachineExecutionHistories")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -81962,7 +81963,7 @@ var getStepFunctionsStateMachineExecutionHistoriesFilters = map[string]string{
 
 func GetStepFunctionsStateMachineExecutionHistories(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetStepFunctionsStateMachineExecutionHistories")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -82114,7 +82115,7 @@ var listStepFunctionsStateMachineExecutionFilters = map[string]string{
 
 func ListStepFunctionsStateMachineExecution(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListStepFunctionsStateMachineExecution")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -82189,7 +82190,7 @@ var getStepFunctionsStateMachineExecutionFilters = map[string]string{
 
 func GetStepFunctionsStateMachineExecution(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetStepFunctionsStateMachineExecution")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -82342,7 +82343,7 @@ var listSimSpaceWeaverSimulationFilters = map[string]string{
 
 func ListSimSpaceWeaverSimulation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSimSpaceWeaverSimulation")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -82418,7 +82419,7 @@ var getSimSpaceWeaverSimulationFilters = map[string]string{
 
 func GetSimSpaceWeaverSimulation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSimSpaceWeaverSimulation")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -82560,7 +82561,7 @@ var listACMPCACertificateAuthorityFilters = map[string]string{
 
 func ListACMPCACertificateAuthority(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListACMPCACertificateAuthority")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -82625,7 +82626,7 @@ var getACMPCACertificateAuthorityFilters = map[string]string{
 
 func GetACMPCACertificateAuthority(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetACMPCACertificateAuthority")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -82768,7 +82769,7 @@ var listShieldProtectionGroupFilters = map[string]string{
 
 func ListShieldProtectionGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListShieldProtectionGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -82834,7 +82835,7 @@ var getShieldProtectionGroupFilters = map[string]string{
 
 func GetShieldProtectionGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetShieldProtectionGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -82978,7 +82979,7 @@ var listStorageGatewayStorageGatewayFilters = map[string]string{
 
 func ListStorageGatewayStorageGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListStorageGatewayStorageGateway")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -83045,7 +83046,7 @@ var getStorageGatewayStorageGatewayFilters = map[string]string{
 
 func GetStorageGatewayStorageGateway(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetStorageGatewayStorageGateway")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -83189,7 +83190,7 @@ var listImageBuilderImageFilters = map[string]string{
 
 func ListImageBuilderImage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListImageBuilderImage")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -83256,7 +83257,7 @@ var getImageBuilderImageFilters = map[string]string{
 
 func GetImageBuilderImage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetImageBuilderImage")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -83403,7 +83404,7 @@ var listAccountAlternateContactFilters = map[string]string{
 
 func ListAccountAlternateContact(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListAccountAlternateContact")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -83473,7 +83474,7 @@ var getAccountAlternateContactFilters = map[string]string{
 
 func GetAccountAlternateContact(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetAccountAlternateContact")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -83627,7 +83628,7 @@ var listAccountContactFilters = map[string]string{
 
 func ListAccountContact(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListAccountContact")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -83704,7 +83705,7 @@ var getAccountContactFilters = map[string]string{
 
 func GetAccountContact(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetAccountContact")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -83868,7 +83869,7 @@ var listAmplifyAppFilters = map[string]string{
 
 func ListAmplifyApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListAmplifyApp")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -83955,7 +83956,7 @@ var getAmplifyAppFilters = map[string]string{
 
 func GetAmplifyApp(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetAmplifyApp")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -84100,7 +84101,7 @@ var listAppConfigApplicationFilters = map[string]string{
 
 func ListAppConfigApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListAppConfigApplication")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -84168,7 +84169,7 @@ var getAppConfigApplicationFilters = map[string]string{
 
 func GetAppConfigApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetAppConfigApplication")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -84325,7 +84326,7 @@ var listAuditManagerAssessmentFilters = map[string]string{
 
 func ListAuditManagerAssessment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListAuditManagerAssessment")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -84406,7 +84407,7 @@ var getAuditManagerAssessmentFilters = map[string]string{
 
 func GetAuditManagerAssessment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetAuditManagerAssessment")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -84562,7 +84563,7 @@ var listAuditManagerControlFilters = map[string]string{
 
 func ListAuditManagerControl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListAuditManagerControl")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -84642,7 +84643,7 @@ var getAuditManagerControlFilters = map[string]string{
 
 func GetAuditManagerControl(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetAuditManagerControl")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -84800,7 +84801,7 @@ var listAuditManagerEvidenceFilters = map[string]string{
 
 func ListAuditManagerEvidence(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListAuditManagerEvidence")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -84881,7 +84882,7 @@ var getAuditManagerEvidenceFilters = map[string]string{
 
 func GetAuditManagerEvidence(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetAuditManagerEvidence")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -85040,7 +85041,7 @@ var listAuditManagerEvidenceFolderFilters = map[string]string{
 
 func ListAuditManagerEvidenceFolder(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListAuditManagerEvidenceFolder")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -85122,7 +85123,7 @@ var getAuditManagerEvidenceFolderFilters = map[string]string{
 
 func GetAuditManagerEvidenceFolder(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetAuditManagerEvidenceFolder")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -85279,7 +85280,7 @@ var listAuditManagerFrameworkFilters = map[string]string{
 
 func ListAuditManagerFramework(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListAuditManagerFramework")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -85360,7 +85361,7 @@ var getAuditManagerFrameworkFilters = map[string]string{
 
 func GetAuditManagerFramework(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetAuditManagerFramework")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -85513,7 +85514,7 @@ var listCloudSearchDomainFilters = map[string]string{
 
 func ListCloudSearchDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListCloudSearchDomain")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -85589,7 +85590,7 @@ var getCloudSearchDomainFilters = map[string]string{
 
 func GetCloudSearchDomain(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetCloudSearchDomain")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -85741,7 +85742,7 @@ var listDLMLifecyclePolicyFilters = map[string]string{
 
 func ListDLMLifecyclePolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDLMLifecyclePolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -85817,7 +85818,7 @@ var getDLMLifecyclePolicyFilters = map[string]string{
 
 func GetDLMLifecyclePolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDLMLifecyclePolicy")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -85991,7 +85992,7 @@ var listDocDBClusterFilters = map[string]string{
 
 func ListDocDBCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDocDBCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -86088,7 +86089,7 @@ var getDocDBClusterFilters = map[string]string{
 
 func GetDocDBCluster(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDocDBCluster")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -86263,7 +86264,7 @@ var listDocDBClusterInstanceFilters = map[string]string{
 
 func ListDocDBClusterInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListDocDBClusterInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -86361,7 +86362,7 @@ var getDocDBClusterInstanceFilters = map[string]string{
 
 func GetDocDBClusterInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetDocDBClusterInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -86513,7 +86514,7 @@ var listGlobalAcceleratorAcceleratorFilters = map[string]string{
 
 func ListGlobalAcceleratorAccelerator(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGlobalAcceleratorAccelerator")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -86588,7 +86589,7 @@ var getGlobalAcceleratorAcceleratorFilters = map[string]string{
 
 func GetGlobalAcceleratorAccelerator(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGlobalAcceleratorAccelerator")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -86739,7 +86740,7 @@ var listGlobalAcceleratorEndpointGroupFilters = map[string]string{
 
 func ListGlobalAcceleratorEndpointGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGlobalAcceleratorEndpointGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -86813,7 +86814,7 @@ var getGlobalAcceleratorEndpointGroupFilters = map[string]string{
 
 func GetGlobalAcceleratorEndpointGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGlobalAcceleratorEndpointGroup")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -86958,7 +86959,7 @@ var listGlobalAcceleratorListenerFilters = map[string]string{
 
 func ListGlobalAcceleratorListener(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGlobalAcceleratorListener")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -87026,7 +87027,7 @@ var getGlobalAcceleratorListenerFilters = map[string]string{
 
 func GetGlobalAcceleratorListener(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGlobalAcceleratorListener")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -87175,7 +87176,7 @@ var listGlueCatalogDatabaseFilters = map[string]string{
 
 func ListGlueCatalogDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGlueCatalogDatabase")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -87247,7 +87248,7 @@ var getGlueCatalogDatabaseFilters = map[string]string{
 
 func GetGlueCatalogDatabase(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGlueCatalogDatabase")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -87407,7 +87408,7 @@ var listGlueCatalogTableFilters = map[string]string{
 
 func ListGlueCatalogTable(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGlueCatalogTable")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -87490,7 +87491,7 @@ var getGlueCatalogTableFilters = map[string]string{
 
 func GetGlueCatalogTable(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGlueCatalogTable")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -87640,7 +87641,7 @@ var listGlueConnectionFilters = map[string]string{
 
 func ListGlueConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGlueConnection")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -87713,7 +87714,7 @@ var getGlueConnectionFilters = map[string]string{
 
 func GetGlueConnection(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGlueConnection")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -87873,7 +87874,7 @@ var listGlueCrawlerFilters = map[string]string{
 
 func ListGlueCrawler(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGlueCrawler")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -87956,7 +87957,7 @@ var getGlueCrawlerFilters = map[string]string{
 
 func GetGlueCrawler(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGlueCrawler")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -88098,7 +88099,7 @@ var listGlueDataCatalogEncryptionSettingsFilters = map[string]string{
 
 func ListGlueDataCatalogEncryptionSettings(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGlueDataCatalogEncryptionSettings")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -88163,7 +88164,7 @@ var getGlueDataCatalogEncryptionSettingsFilters = map[string]string{
 
 func GetGlueDataCatalogEncryptionSettings(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGlueDataCatalogEncryptionSettings")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -88314,7 +88315,7 @@ var listGlueDataQualityRulesetFilters = map[string]string{
 
 func ListGlueDataQualityRuleset(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGlueDataQualityRuleset")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -88388,7 +88389,7 @@ var getGlueDataQualityRulesetFilters = map[string]string{
 
 func GetGlueDataQualityRuleset(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGlueDataQualityRuleset")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -88553,7 +88554,7 @@ var listGlueDevEndpointFilters = map[string]string{
 
 func ListGlueDevEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGlueDevEndpoint")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -88641,7 +88642,7 @@ var getGlueDevEndpointFilters = map[string]string{
 
 func GetGlueDevEndpoint(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGlueDevEndpoint")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -88803,7 +88804,7 @@ var listGlueJobFilters = map[string]string{
 
 func ListGlueJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGlueJob")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -88888,7 +88889,7 @@ var getGlueJobFilters = map[string]string{
 
 func GetGlueJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGlueJob")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -89034,7 +89035,7 @@ var listGlueSecurityConfigurationFilters = map[string]string{
 
 func ListGlueSecurityConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListGlueSecurityConfiguration")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -89103,7 +89104,7 @@ var getGlueSecurityConfigurationFilters = map[string]string{
 
 func GetGlueSecurityConfiguration(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetGlueSecurityConfiguration")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -89253,7 +89254,7 @@ var listHealthEventFilters = map[string]string{
 
 func ListHealthEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListHealthEvent")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -89326,7 +89327,7 @@ var getHealthEventFilters = map[string]string{
 
 func GetHealthEvent(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetHealthEvent")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -89473,7 +89474,7 @@ var listHealthAffectedEntityFilters = map[string]string{
 
 func ListHealthAffectedEntity(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListHealthAffectedEntity")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -89543,7 +89544,7 @@ var getHealthAffectedEntityFilters = map[string]string{
 
 func GetHealthAffectedEntity(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetHealthAffectedEntity")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -89699,7 +89700,7 @@ var listInspectorAssessmentRunFilters = map[string]string{
 
 func ListInspectorAssessmentRun(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListInspectorAssessmentRun")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -89778,7 +89779,7 @@ var getInspectorAssessmentRunFilters = map[string]string{
 
 func GetInspectorAssessmentRun(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetInspectorAssessmentRun")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -89924,7 +89925,7 @@ var listInspectorAssessmentTargetFilters = map[string]string{
 
 func ListInspectorAssessmentTarget(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListInspectorAssessmentTarget")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -89993,7 +89994,7 @@ var getInspectorAssessmentTargetFilters = map[string]string{
 
 func GetInspectorAssessmentTarget(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetInspectorAssessmentTarget")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -90145,7 +90146,7 @@ var listInspectorAssessmentTemplateFilters = map[string]string{
 
 func ListInspectorAssessmentTemplate(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListInspectorAssessmentTemplate")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -90220,7 +90221,7 @@ var getInspectorAssessmentTemplateFilters = map[string]string{
 
 func GetInspectorAssessmentTemplate(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetInspectorAssessmentTemplate")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -90367,7 +90368,7 @@ var listInspectorExclusionFilters = map[string]string{
 
 func ListInspectorExclusion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListInspectorExclusion")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -90437,7 +90438,7 @@ var getInspectorExclusionFilters = map[string]string{
 
 func GetInspectorExclusion(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetInspectorExclusion")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -90598,7 +90599,7 @@ var listInspectorFindingFilters = map[string]string{
 
 func ListInspectorFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListInspectorFinding")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -90682,7 +90683,7 @@ var getInspectorFindingFilters = map[string]string{
 
 func GetInspectorFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetInspectorFinding")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -90840,7 +90841,7 @@ var listInspector2CoverageFilters = map[string]string{
 
 func ListInspector2Coverage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListInspector2Coverage")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -90920,7 +90921,7 @@ var getInspector2CoverageFilters = map[string]string{
 
 func GetInspector2Coverage(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetInspector2Coverage")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -91062,7 +91063,7 @@ var listInspector2CoverageStatisticFilters = map[string]string{
 
 func ListInspector2CoverageStatistic(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListInspector2CoverageStatistic")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -91127,7 +91128,7 @@ var getInspector2CoverageStatisticFilters = map[string]string{
 
 func GetInspector2CoverageStatistic(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetInspector2CoverageStatistic")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -91272,7 +91273,7 @@ var listInspector2MemberFilters = map[string]string{
 
 func ListInspector2Member(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListInspector2Member")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -91340,7 +91341,7 @@ var getInspector2MemberFilters = map[string]string{
 
 func GetInspector2Member(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetInspector2Member")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -91529,7 +91530,7 @@ var listInspector2FindingFilters = map[string]string{
 
 func ListInspector2Finding(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListInspector2Finding")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -91641,7 +91642,7 @@ var getInspector2FindingFilters = map[string]string{
 
 func GetInspector2Finding(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetInspector2Finding")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -91795,7 +91796,7 @@ var listFirehoseDeliveryStreamFilters = map[string]string{
 
 func ListFirehoseDeliveryStream(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListFirehoseDeliveryStream")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -91872,7 +91873,7 @@ var getFirehoseDeliveryStreamFilters = map[string]string{
 
 func GetFirehoseDeliveryStream(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetFirehoseDeliveryStream")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -92035,7 +92036,7 @@ var listLightsailInstanceFilters = map[string]string{
 
 func ListLightsailInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListLightsailInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -92121,7 +92122,7 @@ var getLightsailInstanceFilters = map[string]string{
 
 func GetLightsailInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetLightsailInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -92279,7 +92280,7 @@ var listMacie2ClassificationJobFilters = map[string]string{
 
 func ListMacie2ClassificationJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListMacie2ClassificationJob")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -92360,7 +92361,7 @@ var getMacie2ClassificationJobFilters = map[string]string{
 
 func GetMacie2ClassificationJob(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetMacie2ClassificationJob")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -92509,7 +92510,7 @@ var listMediaStoreContainerFilters = map[string]string{
 
 func ListMediaStoreContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListMediaStoreContainer")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -92581,7 +92582,7 @@ var getMediaStoreContainerFilters = map[string]string{
 
 func GetMediaStoreContainer(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetMediaStoreContainer")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -92732,7 +92733,7 @@ var listMgnApplicationFilters = map[string]string{
 
 func ListMgnApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListMgnApplication")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -92806,7 +92807,7 @@ var getMgnApplicationFilters = map[string]string{
 
 func GetMgnApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetMgnApplication")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -92953,7 +92954,7 @@ var listSecurityLakeDataLakeFilters = map[string]string{
 
 func ListSecurityLakeDataLake(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSecurityLakeDataLake")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -93023,7 +93024,7 @@ var getSecurityLakeDataLakeFilters = map[string]string{
 
 func GetSecurityLakeDataLake(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSecurityLakeDataLake")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -93178,7 +93179,7 @@ var listSecurityLakeSubscriberFilters = map[string]string{
 
 func ListSecurityLakeSubscriber(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListSecurityLakeSubscriber")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -93257,7 +93258,7 @@ var getSecurityLakeSubscriberFilters = map[string]string{
 
 func GetSecurityLakeSubscriber(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetSecurityLakeSubscriber")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -93408,7 +93409,7 @@ var listRamPrincipalAssociationFilters = map[string]string{
 
 func ListRamPrincipalAssociation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRamPrincipalAssociation")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -93482,7 +93483,7 @@ var getRamPrincipalAssociationFilters = map[string]string{
 
 func GetRamPrincipalAssociation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRamPrincipalAssociation")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -93633,7 +93634,7 @@ var listRamResourceAssociationFilters = map[string]string{
 
 func ListRamResourceAssociation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListRamResourceAssociation")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -93707,7 +93708,7 @@ var getRamResourceAssociationFilters = map[string]string{
 
 func GetRamResourceAssociation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetRamResourceAssociation")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -93862,7 +93863,7 @@ var listServerlessApplicationRepositoryApplicationFilters = map[string]string{
 
 func ListServerlessApplicationRepositoryApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListServerlessApplicationRepositoryApplication")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -93940,7 +93941,7 @@ var getServerlessApplicationRepositoryApplicationFilters = map[string]string{
 
 func GetServerlessApplicationRepositoryApplication(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetServerlessApplicationRepositoryApplication")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -94096,7 +94097,7 @@ var listServiceQuotasServiceQuotaChangeRequestFilters = map[string]string{
 
 func ListServiceQuotasServiceQuotaChangeRequest(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListServiceQuotasServiceQuotaChangeRequest")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -94175,7 +94176,7 @@ var getServiceQuotasServiceQuotaChangeRequestFilters = map[string]string{
 
 func GetServiceQuotasServiceQuotaChangeRequest(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetServiceQuotasServiceQuotaChangeRequest")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -94330,7 +94331,7 @@ var listServiceCatalogProductFilters = map[string]string{
 
 func ListServiceCatalogProduct(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListServiceCatalogProduct")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -94408,7 +94409,7 @@ var getServiceCatalogProductFilters = map[string]string{
 
 func GetServiceCatalogProduct(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetServiceCatalogProduct")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -94559,7 +94560,7 @@ var listServiceCatalogPortfolioFilters = map[string]string{
 
 func ListServiceCatalogPortfolio(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListServiceCatalogPortfolio")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -94633,7 +94634,7 @@ var getServiceCatalogPortfolioFilters = map[string]string{
 
 func GetServiceCatalogPortfolio(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetServiceCatalogPortfolio")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -94788,7 +94789,7 @@ var listServiceDiscoveryServiceFilters = map[string]string{
 
 func ListServiceDiscoveryService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListServiceDiscoveryService")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -94866,7 +94867,7 @@ var getServiceDiscoveryServiceFilters = map[string]string{
 
 func GetServiceDiscoveryService(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetServiceDiscoveryService")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -95018,7 +95019,7 @@ var listServiceDiscoveryNamespaceFilters = map[string]string{
 
 func ListServiceDiscoveryNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListServiceDiscoveryNamespace")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -95093,7 +95094,7 @@ var getServiceDiscoveryNamespaceFilters = map[string]string{
 
 func GetServiceDiscoveryNamespace(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetServiceDiscoveryNamespace")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -95244,7 +95245,7 @@ var listServiceDiscoveryInstanceFilters = map[string]string{
 
 func ListServiceDiscoveryInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ListServiceDiscoveryInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
@@ -95318,7 +95319,7 @@ var getServiceDiscoveryInstanceFilters = map[string]string{
 
 func GetServiceDiscoveryInstance(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("GetServiceDiscoveryInstance")
-
+	runtime.GC()
 	// create service
 	cfg := essdk.GetConfig(d.Connection)
 	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
