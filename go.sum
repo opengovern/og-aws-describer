@@ -877,6 +877,8 @@ github.com/jstemmer/go-junit-report v0.0.0-20190106144839-af01ea7f8024/go.mod h1
 github.com/jstemmer/go-junit-report v0.9.1/go.mod h1:Brl9GWCQeLvo8nXZwPNNblvFj/XSXhF0NWZEnDohbsk=
 github.com/kaytu-io/kaytu-util v0.0.0-20240130074941-0b4f2ecfbdef h1:UWJiNNpNq6PphoNzLHbXqDSTrgBrdeU+eTaW4RDR9VQ=
 github.com/kaytu-io/kaytu-util v0.0.0-20240130074941-0b4f2ecfbdef/go.mod h1:r7vt0YSaazLlP1N7TftfpIroXwYHigUxGM5AScZbxHw=
+github.com/kaytu-io/kaytu-util v0.0.0-20240130081832-1524ec7c8907 h1:B2CRIv6nEFzFzob+eI0viaF+EJ0kcYn86fF/e9RTFQA=
+github.com/kaytu-io/kaytu-util v0.0.0-20240130081832-1524ec7c8907/go.mod h1:r7vt0YSaazLlP1N7TftfpIroXwYHigUxGM5AScZbxHw=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 github.com/klauspost/compress v1.15.11/go.mod h1:QPwzmACJjUTFsnSHH934V6woptycfrDDJnH7hvFVbGM=
