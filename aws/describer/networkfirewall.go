@@ -55,13 +55,21 @@ func NetworkFirewallFirewallHandle(ctx context.Context, cfg aws.Config, v types.
 		return Resource{}, err
 	}
 
+	firewallLogging, err := client.DescribeLoggingConfiguration(ctx, &networkfirewall.DescribeLoggingConfigurationInput{
+		FirewallArn: firewall.Firewall.FirewallArn,
+	})
+	if err != nil {
+		return Resource{}, err
+	}
+
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *v.FirewallArn,
 		Name:   *v.FirewallName,
 		Description: model.NetworkFirewallFirewallDescription{
-			Firewall:       *firewall.Firewall,
-			FirewallStatus: *firewall.FirewallStatus,
+			Firewall:             *firewall.Firewall,
+			FirewallStatus:       *firewall.FirewallStatus,
+			LoggingConfiguration: firewallLogging,
 		},
 	}
 	return resource, nil

@@ -4,6 +4,7 @@ package model
 
 import (
 	dynamodb2 "github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	networkfirewall2 "github.com/aws/aws-sdk-go-v2/service/networkfirewall"
 	"github.com/aws/aws-sdk-go-v2/service/opensearchserverless"
 	types6 "github.com/aws/aws-sdk-go-v2/service/opensearchserverless/types"
 	"github.com/aws/aws-sdk-go-v2/service/resourcegroups"
@@ -3202,8 +3203,9 @@ type FMSPolicyDescription struct {
 //index:aws_networkfirewall_firewall
 //getfilter:firewall_name=description.Firewall.FirewallName
 type NetworkFirewallFirewallDescription struct {
-	Firewall       networkfirewall.Firewall
-	FirewallStatus networkfirewall.FirewallStatus
+	Firewall             networkfirewall.Firewall
+	FirewallStatus       networkfirewall.FirewallStatus
+	LoggingConfiguration *networkfirewall2.DescribeLoggingConfigurationOutput
 }
 
 //index:aws_networkfirewall_firewallpolicy
