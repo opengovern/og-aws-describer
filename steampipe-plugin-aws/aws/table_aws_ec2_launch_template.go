@@ -40,7 +40,7 @@ func tableAwsEC2LaunchTemplate(_ context.Context) *plugin.Table {
 				Name:        "launch_template_id",
 				Description: "The ID of the launch template.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.LaunchTemplateId")},
+				Transform:   transform.FromField("Description.LaunchTemplate.LaunchTemplateId")},
 			{
 				Name:        "create_time",
 				Description: "The time launch template was created.",
