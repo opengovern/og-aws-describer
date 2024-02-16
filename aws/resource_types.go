@@ -405,8 +405,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::InternetGateway",
 		ResourceLabel:        "Internet Gateways",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/InternetGateway.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/InternetGateway.svg"},
         },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2InternetGateway),
@@ -514,8 +514,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::AutoScaling::AutoScalingGroup",
 		ResourceLabel:        "Autoscaling Groups",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Ec2AutoScaling.svg"},
             "category": {"Compute"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Ec2AutoScaling.svg"},
         },
 		ServiceName:          "AutoScaling",
 		ListDescriber:        ParallelDescribeRegional(describer.AutoScalingAutoScalingGroup),
@@ -561,8 +561,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EFS::FileSystem",
 		ResourceLabel:        "EFS File Systems",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticFileSystem.svg"},
             "category": {"Storage"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticFileSystem.svg"},
         },
 		ServiceName:          "ElasticFileSystem",
 		ListDescriber:        ParallelDescribeRegional(describer.EFSFileSystem),
@@ -1015,8 +1015,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::ElastiCache::Cluster",
 		ResourceLabel:        "ElasticCache Clusters",
 		Tags:                 map[string][]string{
-            "category": {"Database"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElastiCache.svg"},
+            "category": {"Database"},
         },
 		ServiceName:          "ElastiCache",
 		ListDescriber:        ParallelDescribeRegional(describer.ElastiCacheCluster),
@@ -1276,8 +1276,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::Lambda::Function",
 		ResourceLabel:        "Lambda Functions",
 		Tags:                 map[string][]string{
-            "category": {"Serverless"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Lambda.svg"},
+            "category": {"Serverless"},
         },
 		ServiceName:          "lambda",
 		ListDescriber:        ParallelDescribeRegional(describer.LambdaFunction),
@@ -2482,8 +2482,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::CloudFront::Distribution",
 		ResourceLabel:        "CloudFront Distribution",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/CloudFront.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "CloudFront",
 		ListDescriber:        SequentialDescribeGlobal(describer.CloudFrontDistribution),
@@ -3357,8 +3357,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::ECR::Repository",
 		ResourceLabel:        "Container Repositories",
 		Tags:                 map[string][]string{
-            "category": {"Containers"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticContainerRegistry.svg"},
+            "category": {"Containers"},
         },
 		ServiceName:          "ECR",
 		ListDescriber:        ParallelDescribeRegional(describer.ECRRepository),
@@ -3707,8 +3707,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::DocDB::Cluster",
 		ResourceLabel:        "Document DB Clusters",
 		Tags:                 map[string][]string{
-            "category": {"Database"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/DocumentDb.svg"},
+            "category": {"Database"},
         },
 		ServiceName:          "DocDB",
 		ListDescriber:        ParallelDescribeRegional(describer.DocDBCluster),
@@ -4311,8 +4311,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::CustomerGateway",
 		ResourceLabel:        "EC2 Customer Gateway",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcCustomerGateway.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2CustomerGateway),
@@ -4388,8 +4388,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::VPNGateway",
 		ResourceLabel:        "EC2 VPN Gateway",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcVpnGateway.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcVpnGateway.svg"},
         },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VPNGateway),
@@ -5727,6 +5727,21 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"aws_serverlessapplicationrepository_application"},
 		TerraformServiceName: "serverlessrepo",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
+	"AWS::Logs::MetricFilter": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::Logs::MetricFilter",
+		ResourceLabel:        "Logs Metric Filter",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "Logs",
+		ListDescriber:        ParallelDescribeRegional(describer.CloudWatchLogsMetricFilter),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
 		FastDiscovery:        false,
 		Summarize:            true,
 	},
