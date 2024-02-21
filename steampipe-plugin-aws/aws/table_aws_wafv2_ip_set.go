@@ -26,7 +26,7 @@ func tableAwsWafv2IpSet(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListWAFv2IPSet,
 		},
-		Columns: []*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Description: "The name of the IP set.",
@@ -118,7 +118,7 @@ func tableAwsWafv2IpSet(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("Metadata.AccountID")},
 
 			//// LIST FUNCTION
-		},
+		}),
 	}
 }
 

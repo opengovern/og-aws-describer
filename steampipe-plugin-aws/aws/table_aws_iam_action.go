@@ -26,7 +26,7 @@ func tableAwsIamAction(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: listIamActions,
 		},
-		Columns: []*plugin.Column{
+		Columns: awsKaytuColumns([]*plugin.Column{
 			// "Key" Columns
 			{
 				Name:        "action",
@@ -58,7 +58,7 @@ func tableAwsIamAction(_ context.Context) *plugin.Table {
 				Description: "The description for this action.",
 				Transform:   transform.FromGo(),
 			},
-		},
+		}),
 	}
 }
 
