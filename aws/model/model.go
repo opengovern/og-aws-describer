@@ -3571,6 +3571,7 @@ type GlueDataCatalogEncryptionSettingsDescription struct {
 //listfilter:last_modified_on=description.DataQualityRuleset.LastModifiedOn
 type GlueDataQualityRulesetDescription struct {
 	DataQualityRuleset glueop.GetDataQualityRulesetOutput
+	RulesetRuleCount   *int32
 }
 
 //index:aws_glue_devendpoint

@@ -76,7 +76,7 @@ func tableAwsGlueDataQualityRuleset(_ context.Context) *plugin.Table {
 				Name:        "rule_count",
 				Description: "The number of rules in the ruleset.",
 				Type:        proto.ColumnType_INT,
-				Transform:   transform.FromField("Description.DataQualityRuleset")},
+				Transform:   transform.FromField("Description.RulesetRuleCount")},
 			//error
 			//we don't have this field in the struct
 			{
