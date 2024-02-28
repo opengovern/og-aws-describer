@@ -123,7 +123,7 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 			Metadata:      metadata,
 		}
 
-		tags, name, err := steampipe.ExtractTagsAndNames(plg, job.ResourceType, kafkaResource)
+		tags, name, err := steampipe.ExtractTagsAndNames(logger, plg, job.ResourceType, kafkaResource)
 		if err != nil {
 			return fmt.Errorf("failed to build tags for service: %v", err.Error())
 		}
