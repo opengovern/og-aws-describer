@@ -2809,9 +2809,9 @@ type SSOAdminInstanceDescription struct {
 
 //index:aws_ssoadmin_account_assignment
 type SSOAdminAccountAssignmentDescription struct {
-	Instance               ssoadmin.InstanceMetadata
-	AccountAssignment      ssoadmin.AccountAssignment
-	PermissionSetProvision ssoadmin.PermissionSetProvisioningStatus
+	Instance          ssoadmin.InstanceMetadata
+	AccountAssignment ssoadmin.AccountAssignment
+	PermissionSetArn  string
 }
 
 //  ===================  Tagging  ===================

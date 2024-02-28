@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ssoadmin"
@@ -52,37 +53,44 @@ func SSOAdminAccountAssignment(ctx context.Context, cfg aws.Config, stream *Stre
 			return nil, err
 		}
 		for _, v := range page.Instances {
-			permissionSet, err := client.ProvisionPermissionSet(ctx, &ssoadmin.ProvisionPermissionSetInput{
+			permissionSetPaginator := ssoadmin.NewListPermissionSetsPaginator(client, &ssoadmin.ListPermissionSetsInput{
 				InstanceArn: v.InstanceArn,
 			})
-			if err != nil {
-				return nil, err
-			}
-
-			accountAssignment, err := client.ListAccountAssignments(ctx, &ssoadmin.ListAccountAssignmentsInput{
-				InstanceArn: v.InstanceArn,
-			})
-			if err != nil {
-				return nil, err
-			}
-
-			for _, accountA := range accountAssignment.AccountAssignments {
-				resource := Resource{
-					Region: describeCtx.Region,
-					ID:     *v.IdentityStoreId,
-					ARN:    *v.InstanceArn,
-					Description: model.SSOAdminAccountAssignmentDescription{
-						Instance:               v,
-						AccountAssignment:      accountA,
-						PermissionSetProvision: *permissionSet.PermissionSetProvisioningStatus,
-					},
+			for permissionSetPaginator.HasMorePages() {
+				psPage, err := permissionSetPaginator.NextPage(ctx)
+				if err != nil {
+					return nil, err
 				}
-				if stream != nil {
-					if err := (*stream)(resource); err != nil {
-						return nil, err
+				for _, ps := range psPage.PermissionSets {
+					aaPaginator := ssoadmin.NewListAccountAssignmentsPaginator(client, &ssoadmin.ListAccountAssignmentsInput{
+						InstanceArn:      v.InstanceArn,
+						PermissionSetArn: &ps,
+					})
+					for aaPaginator.HasMorePages() {
+						aaPage, err := aaPaginator.NextPage(ctx)
+						if err != nil {
+							return nil, err
+						}
+						for _, aa := range aaPage.AccountAssignments {
+							id := fmt.Sprintf("%s-%s-%s", *v.InstanceArn, ps, *aa.AccountId)
+							resource := Resource{
+								Region: describeCtx.Region,
+								ID:     id,
+								Description: model.SSOAdminAccountAssignmentDescription{
+									Instance:          v,
+									AccountAssignment: aa,
+									PermissionSetArn:  ps,
+								},
+							}
+							if stream != nil {
+								if err := (*stream)(resource); err != nil {
+									return nil, err
+								}
+							} else {
+								values = append(values, resource)
+							}
+						}
 					}
-				} else {
-					values = append(values, resource)
 				}
 			}
 		}

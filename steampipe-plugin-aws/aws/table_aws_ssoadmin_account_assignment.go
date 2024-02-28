@@ -38,7 +38,7 @@ func tableAwsSsoAdminAccountAssignment(_ context.Context) *plugin.Table {
 				Name:        "permission_set_arn",
 				Description: "The ARN of the permission set from which to list assignments.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.PermissionSetProvisioningStatus.PermissionSetArn"),
+				Transform:   transform.FromField("Description.PermissionSetArn"),
 			},
 			{
 				Name:        "principal_type",
