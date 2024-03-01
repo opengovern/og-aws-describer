@@ -158,6 +158,9 @@ func GetResources(ctx context.Context, logger *zap.Logger,
 	if accountId != credAccountId && !needToRunOnOrgMaster {
 		assumeRoleArn := GetRoleArnFromName(accountId, assumeRoleName)
 		cfg, err = GetConfig(ctx, accessKey, secretKey, sessionToken, assumeRoleArn, externalId)
+	} else if accountId != credAccountId && needToRunOnOrgMaster {
+		assumeAdminRoleArn := GetRoleArnFromName(credAccountId, assumeAdminRoleName)
+		cfg, err = GetConfig(ctx, accessKey, secretKey, sessionToken, assumeAdminRoleArn, externalId)
 	} else {
 		assumeAdminRoleArn := GetRoleArnFromName(accountId, assumeAdminRoleName)
 		cfg, err = GetConfig(ctx, accessKey, secretKey, sessionToken, assumeAdminRoleArn, externalId)
