@@ -6,5 +6,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="kaytu-deploy" />
+    <orderEntry type="module" module-name="test3" />
   </component>
 </module>
