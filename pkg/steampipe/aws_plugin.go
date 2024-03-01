@@ -2,6 +2,7 @@ package steampipe
 
 import (
 	"context"
+	"go.uber.org/zap"
 	"strings"
 
 	"github.com/hashicorp/go-hclog"
@@ -24,8 +25,8 @@ func buildContext() context.Context {
 	return ctx
 }
 
-func AWSDescriptionToRecord(resource interface{}, indexName string) (map[string]*proto.Column, error) {
-	return steampipe.DescriptionToRecord(aws.Plugin(buildContext()), resource, indexName)
+func AWSDescriptionToRecord(logger *zap.Logger, resource interface{}, indexName string) (map[string]*proto.Column, error) {
+	return steampipe.DescriptionToRecord(logger, aws.Plugin(buildContext()), resource, indexName)
 }
 
 func AWSCells(indexName string) ([]string, error) {
@@ -55,10 +56,10 @@ func Plugin() *plugin.Plugin {
 	return aws.Plugin(buildContext())
 }
 
-func ExtractTagsAndNames(plg *plugin.Plugin, resourceType string, source interface{}) (map[string]string, string, error) {
+func ExtractTagsAndNames(logger *zap.Logger, plg *plugin.Plugin, resourceType string, source interface{}) (map[string]string, string, error) {
 	pluginTableName := ExtractTableName(resourceType)
 	if pluginTableName == "" {
 		return nil, "", fmt.Errorf("cannot find table name for resourceType: %s", resourceType)
 	}
-	return steampipe.ExtractTagsAndNames(plg, pluginTableName, resourceType, source, AWSDescriptionMap)
+	return steampipe.ExtractTagsAndNames(plg, logger, pluginTableName, resourceType, source, AWSDescriptionMap)
 }

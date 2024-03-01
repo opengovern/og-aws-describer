@@ -3025,22 +3025,23 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 			}
 			allowedPrincipals = append(allowedPrincipals, permissions.AllowedPrincipals...)
 		}
-
-		op, err := client.DescribeVpcEndpointConnections(ctx, &ec2.DescribeVpcEndpointConnectionsInput{
-			Filters: []types.Filter{
-				{
-					Name:   aws.String("service-id"),
-					Values: []string{*v.ServiceId},
-				},
-			},
-		})
-		if err != nil {
-			return nil, err
-		}
 		var vpcEndpointConnections []types.VpcEndpointConnection
-		if op.VpcEndpointConnections != nil {
-			if len(op.VpcEndpointConnections) > 0 {
-				vpcEndpointConnections = op.VpcEndpointConnections
+		if v.ServiceId != nil {
+			op, err := client.DescribeVpcEndpointConnections(ctx, &ec2.DescribeVpcEndpointConnectionsInput{
+				Filters: []types.Filter{
+					{
+						Name:   aws.String("service-id"),
+						Values: []string{*v.ServiceId},
+					},
+				},
+			})
+			if err != nil {
+				return nil, err
+			}
+			if op.VpcEndpointConnections != nil {
+				if len(op.VpcEndpointConnections) > 0 {
+					vpcEndpointConnections = op.VpcEndpointConnections
+				}
 			}
 		}
 

@@ -1015,8 +1015,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::ElastiCache::Cluster",
 		ResourceLabel:        "ElasticCache Clusters",
 		Tags:                 map[string][]string{
-            "category": {"Database"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElastiCache.svg"},
+            "category": {"Database"},
         },
 		ServiceName:          "ElastiCache",
 		ListDescriber:        ParallelDescribeRegional(describer.ElastiCacheCluster),
@@ -1276,8 +1276,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::Lambda::Function",
 		ResourceLabel:        "Lambda Functions",
 		Tags:                 map[string][]string{
-            "category": {"Serverless"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Lambda.svg"},
+            "category": {"Serverless"},
         },
 		ServiceName:          "lambda",
 		ListDescriber:        ParallelDescribeRegional(describer.LambdaFunction),
@@ -3357,8 +3357,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::ECR::Repository",
 		ResourceLabel:        "Container Repositories",
 		Tags:                 map[string][]string{
-            "category": {"Containers"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticContainerRegistry.svg"},
+            "category": {"Containers"},
         },
 		ServiceName:          "ECR",
 		ListDescriber:        ParallelDescribeRegional(describer.ECRRepository),
@@ -3707,8 +3707,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::DocDB::Cluster",
 		ResourceLabel:        "Document DB Clusters",
 		Tags:                 map[string][]string{
-            "category": {"Database"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/DocumentDb.svg"},
+            "category": {"Database"},
         },
 		ServiceName:          "DocDB",
 		ListDescriber:        ParallelDescribeRegional(describer.DocDBCluster),
@@ -4311,8 +4311,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::CustomerGateway",
 		ResourceLabel:        "EC2 Customer Gateway",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcCustomerGateway.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2CustomerGateway),

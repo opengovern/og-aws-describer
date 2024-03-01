@@ -26,7 +26,7 @@ func tableAwsWafv2RegexPatternSet(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListWAFv2RegexPatternSet,
 		},
-		Columns: []*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Description: "The name of the Regex Pattern set.",
@@ -120,7 +120,7 @@ func tableAwsWafv2RegexPatternSet(_ context.Context) *plugin.Table {
 				Description: "The AWS Account ID in which the resource is located.",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Metadata.AccountID")},
-		},
+		}),
 	}
 }
 

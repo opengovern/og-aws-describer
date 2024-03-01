@@ -26,7 +26,7 @@ func tableAwsWafv2RuleGroup(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListWAFv2RuleGroup,
 		},
-		Columns: []*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Description: "The name of the rule group.",
@@ -129,7 +129,7 @@ func tableAwsWafv2RuleGroup(_ context.Context) *plugin.Table {
 				Description: "The AWS Account ID in which the resource is located.",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Metadata.AccountID")},
-		},
+		}),
 	}
 }
 
