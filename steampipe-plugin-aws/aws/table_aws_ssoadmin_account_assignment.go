@@ -32,13 +32,13 @@ func tableAwsSsoAdminAccountAssignment(_ context.Context) *plugin.Table {
 				Name:        "instance_arn",
 				Description: "The Amazon Resource Name (ARN) of the SSO Instance under which the operation will be executed.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.InstanceMetadata.InstanceArn"),
+				Transform:   transform.FromField("Description.Instance.InstanceArn"),
 			},
 			{
 				Name:        "permission_set_arn",
 				Description: "The ARN of the permission set from which to list assignments.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.PermissionSetArn"),
+				Transform:   transform.FromField("Description.AccountAssignment.PermissionSetArn"),
 			},
 			{
 				Name:        "principal_type",

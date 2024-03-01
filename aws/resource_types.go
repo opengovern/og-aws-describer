@@ -116,8 +116,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::RouteTable",
 		ResourceLabel:        "Route Tables",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Route53RouteTable.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2RouteTable),
@@ -578,8 +578,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::Kafka::Cluster",
 		ResourceLabel:        "Kafka Clusters",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ManagedStreamingForKafka.svg"},
             "category": {"PaaS"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ManagedStreamingForKafka.svg"},
         },
 		ServiceName:          "Kafka",
 		ListDescriber:        ParallelDescribeRegional(describer.KafkaCluster),
@@ -1047,8 +1047,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::S3::Bucket",
 		ResourceLabel:        "S3 Buckets",
 		Tags:                 map[string][]string{
-            "category": {"Storage"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/SimpleStorageBucket.svg"},
+            "category": {"Storage"},
         },
 		ServiceName:          "S3",
 		ListDescriber:        SequentialDescribeGlobal(describer.S3Bucket),
@@ -3629,8 +3629,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::Image",
 		ResourceLabel:        "EC2 Images (AMIs)",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Ec2AmiResource.svg"},
             "category": {"Compute"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Ec2AmiResource.svg"},
         },
 		ServiceName:          "EC2.Storage",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2AMI),
@@ -5224,8 +5224,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::DynamoDb::Table",
 		ResourceLabel:        "DynamoDB Tables",
 		Tags:                 map[string][]string{
-            "category": {"Database"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/DynamoDbTable.svg"},
+            "category": {"Database"},
         },
 		ServiceName:          "DynamoDb",
 		ListDescriber:        ParallelDescribeRegional(describer.DynamoDbTable),
@@ -5891,6 +5891,36 @@ var resourceTypes = map[string]ResourceType{
 		ListDescriber:        ParallelDescribeRegional(describer.SSOAdminInstance),
 		GetDescriber:         nil,
 		TerraformName:        []string{"aws_ssoadmin_instance"},
+		TerraformServiceName: "ssoadmin",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
+	"AWS::SSOAdmin::PermissionSet": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::SSOAdmin::PermissionSet",
+		ResourceLabel:        "SSO Admin Permission Set",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "SSOAdmin",
+		ListDescriber:        ParallelDescribeRegional(describer.SSOAdminPermissionSet),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_ssoadmin_permission_set"},
+		TerraformServiceName: "ssoadmin",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
+	"AWS::SSOAdmin::AttachedManagedPolicy": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::SSOAdmin::AttachedManagedPolicy",
+		ResourceLabel:        "SSO Admin Managed Policy Attachment",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "SSOAdmin",
+		ListDescriber:        ParallelDescribeRegional(describer.SSOAdminManagedPolicyAttachment),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_ssoadmin_managed_policy_attachment"},
 		TerraformServiceName: "ssoadmin",
 		FastDiscovery:        false,
 		Summarize:            true,
