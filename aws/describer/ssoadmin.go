@@ -41,7 +41,6 @@ func SSOAdminInstance(ctx context.Context, cfg aws.Config, stream *StreamSender)
 }
 
 func SSOAdminAccountAssignment(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
 	client := ssoadmin.NewFromConfig(cfg)
 	paginator := ssoadmin.NewListInstancesPaginator(client, &ssoadmin.ListInstancesInput{})
 
@@ -52,8 +51,40 @@ func SSOAdminAccountAssignment(ctx context.Context, cfg aws.Config, stream *Stre
 			return nil, err
 		}
 		for _, v := range page.Instances {
+			resources, err := ListSSOAdminInstanceAccountAssignments(ctx, client, v)
+			if err != nil {
+				return nil, err
+			}
+			for _, resource := range resources {
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
+func ListSSOAdminInstanceAccountAssignments(ctx context.Context, client *ssoadmin.Client, instance types.InstanceMetadata) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	paginator := ssoadmin.NewListPermissionSetsPaginator(client, &ssoadmin.ListPermissionSetsInput{
+		InstanceArn: instance.InstanceArn,
+	})
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, v := range page.PermissionSets {
 			accountAssignment, err := client.ListAccountAssignments(ctx, &ssoadmin.ListAccountAssignmentsInput{
-				InstanceArn: v.InstanceArn,
+				InstanceArn:      instance.InstanceArn,
+				AccountId:        instance.OwnerAccountId,
+				PermissionSetArn: &v,
 			})
 			if err != nil {
 				return nil, err
@@ -62,20 +93,14 @@ func SSOAdminAccountAssignment(ctx context.Context, cfg aws.Config, stream *Stre
 			for _, accountA := range accountAssignment.AccountAssignments {
 				resource := Resource{
 					Region: describeCtx.Region,
-					ID:     *v.IdentityStoreId,
-					ARN:    *v.InstanceArn,
+					ID:     *instance.IdentityStoreId,
+					ARN:    *instance.InstanceArn,
 					Description: model.SSOAdminAccountAssignmentDescription{
-						Instance:          v,
+						Instance:          instance,
 						AccountAssignment: accountA,
 					},
 				}
-				if stream != nil {
-					if err := (*stream)(resource); err != nil {
-						return nil, err
-					}
-				} else {
-					values = append(values, resource)
-				}
+				values = append(values, resource)
 			}
 		}
 	}
