@@ -84,7 +84,7 @@ func ListSSOAdminInstanceAccountAssignments(ctx context.Context, client *ssoadmi
 		for _, v := range page.PermissionSets {
 			accountAssignment, err := client.ListAccountAssignments(ctx, &ssoadmin.ListAccountAssignmentsInput{
 				InstanceArn:      instance.InstanceArn,
-				AccountId:        instance.OwnerAccountId,
+				AccountId:        aws.String(describeCtx.AccountID),
 				PermissionSetArn: &v,
 			})
 			if err != nil {
