@@ -2997,6 +2997,9 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 	if err != nil {
 		return nil, err
 	}
+	if output == nil {
+		return nil, nil
+	}
 
 	for _, v := range output.ServiceDetails {
 		arn := ""
@@ -3012,6 +3015,7 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 		paginator := ec2.NewDescribeVpcEndpointServicePermissionsPaginator(client, &ec2.DescribeVpcEndpointServicePermissionsInput{
 			ServiceId: v.ServiceId,
 		}, func(o *ec2.DescribeVpcEndpointServicePermissionsPaginatorOptions) {
+			o.Limit = 100
 			o.StopOnDuplicateToken = true
 		})
 
@@ -3022,6 +3026,9 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 				if !strings.Contains(err.Error(), "NotFound") {
 					return nil, err
 				}
+			}
+			if permissions == nil {
+				continue
 			}
 			allowedPrincipals = append(allowedPrincipals, permissions.AllowedPrincipals...)
 		}
@@ -3038,10 +3045,8 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 			if err != nil {
 				return nil, err
 			}
-			if op.VpcEndpointConnections != nil {
-				if len(op.VpcEndpointConnections) > 0 {
-					vpcEndpointConnections = op.VpcEndpointConnections
-				}
+			if op != nil && op.VpcEndpointConnections != nil && len(op.VpcEndpointConnections) > 0 {
+				vpcEndpointConnections = op.VpcEndpointConnections
 			}
 		}
 
@@ -3064,7 +3069,6 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 		} else {
 			values = append(values, resource)
 		}
-
 	}
 
 	if err != nil {
