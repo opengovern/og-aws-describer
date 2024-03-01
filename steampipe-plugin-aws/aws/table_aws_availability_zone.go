@@ -35,7 +35,7 @@ func tableAwsAvailabilityZone(_ context.Context) *plugin.Table {
 				},
 			},
 		},
-		Columns: []*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Description: "The name of the Availability Zone, Local Zone, or Wavelength Zone",
@@ -92,6 +92,6 @@ func tableAwsAvailabilityZone(_ context.Context) *plugin.Table {
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("ARN").Transform(arnToAkas)},
-		},
+		}),
 	}
 }

@@ -369,8 +369,12 @@ func WellArchitectedLens(ctx context.Context, cfg aws.Config, stream *StreamSend
 			}
 		}
 		for _, v := range page.LensSummaries {
+			input := v.LensAlias
+			if input == nil {
+				input = v.LensArn
+			}
 			op, err := client.GetLens(ctx, &wellarchitected.GetLensInput{
-				LensAlias: v.LensAlias,
+				LensAlias: input,
 			})
 			if err != nil {
 				if isErr(err, "AccessDeniedException") {
@@ -383,11 +387,13 @@ func WellArchitectedLens(ctx context.Context, cfg aws.Config, stream *StreamSend
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ARN:    *v.LensArn,
-				Name:   *v.LensName,
 				Description: model.WellArchitectedLensDescription{
 					LensSummary: v,
 					Lens:        *op.Lens,
 				},
+			}
+			if v.LensName != nil {
+				resource.Name = *v.LensName
 			}
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {

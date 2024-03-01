@@ -338,6 +338,7 @@ func GlueDataQualityRuleset(ctx context.Context, cfg aws.Config, stream *StreamS
 				Name:   *listRuleset.Name,
 				Description: model.GlueDataQualityRulesetDescription{
 					DataQualityRuleset: *ruleset,
+					RulesetRuleCount:   listRuleset.RuleCount,
 				},
 			}
 			if stream != nil {

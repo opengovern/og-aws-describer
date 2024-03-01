@@ -22,6 +22,9 @@ func SNSSubscription(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 		}
 
 		for _, v := range page.Subscriptions {
+			if v.SubscriptionArn != nil && *v.SubscriptionArn == "PendingConfirmation" {
+				continue
+			}
 			output, err := client.GetSubscriptionAttributes(ctx, &sns.GetSubscriptionAttributesInput{
 				SubscriptionArn: v.SubscriptionArn,
 			})

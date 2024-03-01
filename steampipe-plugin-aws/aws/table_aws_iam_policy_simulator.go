@@ -18,7 +18,7 @@ func tableAwsIamPolicySimulator(_ context.Context) *plugin.Table {
 			KeyColumns: plugin.AllColumns([]string{"principal_arn", "action", "resource_arn"}),
 			Hydrate:    listIamPolicySimulation,
 		},
-		Columns: []*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			// "Key" Columns
 			{
 				Name:        "principal_arn",
@@ -80,7 +80,7 @@ func tableAwsIamPolicySimulator(_ context.Context) *plugin.Table {
 				Description: "The permissions boundary decision detail for this policy simulation.",
 				Transform:   transform.FromGo(),
 			},
-		},
+		}),
 	}
 }
 

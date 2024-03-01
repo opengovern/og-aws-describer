@@ -27,7 +27,7 @@ func tableAWSResourceExplorerSearch(_ context.Context) *plugin.Table {
 				{Name: "view_arn", Require: plugin.Optional, CacheMatch: "exact"},
 			},
 		},
-		Columns: []*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "arn",
 				Description: "The Amazon resource name (ARN) of the resource.",
@@ -75,7 +75,7 @@ func tableAWSResourceExplorerSearch(_ context.Context) *plugin.Table {
 				Description: "The AWS Region in which the resource was created and exists.",
 				Type:        proto.ColumnType_STRING,
 			},
-		},
+		}),
 	}
 }
 

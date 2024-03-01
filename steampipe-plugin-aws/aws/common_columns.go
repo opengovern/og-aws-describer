@@ -106,6 +106,12 @@ func commonAwsKaytuRegionalColumns() []*plugin.Column {
 			Description: "kaytu Metadata of the AWS resource.",
 			Transform:   transform.FromField("Metadata").Transform(marshalJSON),
 		},
+		{
+			Name:        "kaytu_description",
+			Type:        proto.ColumnType_JSON,
+			Description: "The full model description of the resource",
+			Transform:   transform.FromField("Description").Transform(marshalJSON),
+		},
 	}
 }
 
@@ -276,6 +282,12 @@ func commonAwsKaytuColumns() []*plugin.Column {
 			Type:        proto.ColumnType_STRING,
 			Description: "Kaytu Metadata of the AWS resource.",
 			Transform:   transform.FromField("Metadata").Transform(marshalJSON),
+		},
+		{
+			Name:        "kaytu_description",
+			Type:        proto.ColumnType_JSON,
+			Description: "The full model description of the resource",
+			Transform:   transform.FromField("Description").Transform(marshalJSON),
 		},
 	}
 }
