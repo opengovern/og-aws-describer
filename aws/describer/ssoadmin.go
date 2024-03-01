@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"fmt"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ssoadmin"
 	"github.com/aws/aws-sdk-go-v2/service/ssoadmin/types"
@@ -93,8 +94,7 @@ func ListSSOAdminInstanceAccountAssignments(ctx context.Context, client *ssoadmi
 			for _, accountA := range accountAssignment.AccountAssignments {
 				resource := Resource{
 					Region: describeCtx.Region,
-					ID:     *instance.IdentityStoreId,
-					ARN:    *instance.InstanceArn,
+					ID:     fmt.Sprintf("%s|%s|%s", *accountA.AccountId, *accountA.PermissionSetArn, *accountA.PrincipalId),
 					Description: model.SSOAdminAccountAssignmentDescription{
 						Instance:          instance,
 						AccountAssignment: accountA,
