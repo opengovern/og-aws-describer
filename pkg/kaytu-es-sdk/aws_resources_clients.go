@@ -68932,9 +68932,9 @@ func (p SSOAdminAccountAssignmentPaginator) NextPage(ctx context.Context) ([]SSO
 }
 
 var listSSOAdminAccountAssignmentFilters = map[string]string{
-	"instance_arn":       "description.InstanceMetadata.InstanceArn",
+	"instance_arn":       "description.Instance.InstanceArn",
 	"kaytu_account_id":   "metadata.SourceID",
-	"permission_set_arn": "description.PermissionSetProvisioningStatus.PermissionSetArn",
+	"permission_set_arn": "description.AccountAssignment.PermissionSetArn",
 	"principal_id":       "description.AccountAssignment.PrincipalId",
 	"principal_type":     "description.AccountAssignment.PrincipalType",
 	"target_account_id":  "description.AccountAssignment.AccountId",
@@ -69000,9 +69000,9 @@ func ListSSOAdminAccountAssignment(ctx context.Context, d *plugin.QueryData, _ *
 }
 
 var getSSOAdminAccountAssignmentFilters = map[string]string{
-	"instance_arn":       "description.InstanceMetadata.InstanceArn",
+	"instance_arn":       "description.Instance.InstanceArn",
 	"kaytu_account_id":   "metadata.SourceID",
-	"permission_set_arn": "description.PermissionSetProvisioningStatus.PermissionSetArn",
+	"permission_set_arn": "description.AccountAssignment.PermissionSetArn",
 	"principal_id":       "description.AccountAssignment.PrincipalId",
 	"principal_type":     "description.AccountAssignment.PrincipalType",
 	"target_account_id":  "description.AccountAssignment.AccountId",
@@ -69062,6 +69062,438 @@ func GetSSOAdminAccountAssignment(ctx context.Context, d *plugin.QueryData, _ *p
 }
 
 // ==========================  END: SSOAdminAccountAssignment =============================
+
+// ==========================  START: SSOAdminPermissionSet =============================
+
+type SSOAdminPermissionSet struct {
+	Description   aws.SSOAdminPermissionSetDescription `json:"description"`
+	Metadata      aws.Metadata                         `json:"metadata"`
+	ResourceJobID int                                  `json:"resource_job_id"`
+	SourceJobID   int                                  `json:"source_job_id"`
+	ResourceType  string                               `json:"resource_type"`
+	SourceType    string                               `json:"source_type"`
+	ID            string                               `json:"id"`
+	ARN           string                               `json:"arn"`
+	SourceID      string                               `json:"source_id"`
+}
+
+type SSOAdminPermissionSetHit struct {
+	ID      string                `json:"_id"`
+	Score   float64               `json:"_score"`
+	Index   string                `json:"_index"`
+	Type    string                `json:"_type"`
+	Version int64                 `json:"_version,omitempty"`
+	Source  SSOAdminPermissionSet `json:"_source"`
+	Sort    []interface{}         `json:"sort"`
+}
+
+type SSOAdminPermissionSetHits struct {
+	Total essdk.SearchTotal          `json:"total"`
+	Hits  []SSOAdminPermissionSetHit `json:"hits"`
+}
+
+type SSOAdminPermissionSetSearchResponse struct {
+	PitID string                    `json:"pit_id"`
+	Hits  SSOAdminPermissionSetHits `json:"hits"`
+}
+
+type SSOAdminPermissionSetPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewSSOAdminPermissionSetPaginator(filters []essdk.BoolFilter, limit *int64) (SSOAdminPermissionSetPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_ssoadmin_permissionset", filters, limit)
+	if err != nil {
+		return SSOAdminPermissionSetPaginator{}, err
+	}
+
+	p := SSOAdminPermissionSetPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p SSOAdminPermissionSetPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p SSOAdminPermissionSetPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p SSOAdminPermissionSetPaginator) NextPage(ctx context.Context) ([]SSOAdminPermissionSet, error) {
+	var response SSOAdminPermissionSetSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []SSOAdminPermissionSet
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listSSOAdminPermissionSetFilters = map[string]string{
+	"arn":              "description.PermissionSet.PermissionSetArn",
+	"created_date":     "description.PermissionSet.CreatedDate",
+	"description":      "description.PermissionSet.Description",
+	"instance_arn":     "description.InstanceArn",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.PermissionSet.Name",
+	"relay_state":      "description.PermissionSet.RelayState",
+	"session_duration": "description.PermissionSet.SessionDuration",
+	"title":            "description.PermissionSet.Name",
+}
+
+func ListSSOAdminPermissionSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListSSOAdminPermissionSet")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListSSOAdminPermissionSet NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListSSOAdminPermissionSet NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListSSOAdminPermissionSet GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListSSOAdminPermissionSet GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListSSOAdminPermissionSet GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewSSOAdminPermissionSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSOAdminPermissionSetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListSSOAdminPermissionSet NewSSOAdminPermissionSetPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListSSOAdminPermissionSet paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getSSOAdminPermissionSetFilters = map[string]string{
+	"arn":              "description.PermissionSet.PermissionSetArn",
+	"created_date":     "description.PermissionSet.CreatedDate",
+	"description":      "description.PermissionSet.Description",
+	"instance_arn":     "description.InstanceArn",
+	"kaytu_account_id": "metadata.SourceID",
+	"name":             "description.PermissionSet.Name",
+	"relay_state":      "description.PermissionSet.RelayState",
+	"session_duration": "description.PermissionSet.SessionDuration",
+	"title":            "description.PermissionSet.Name",
+}
+
+func GetSSOAdminPermissionSet(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetSSOAdminPermissionSet")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewSSOAdminPermissionSetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSOAdminPermissionSetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: SSOAdminPermissionSet =============================
+
+// ==========================  START: SSOAdminPolicyAttachment =============================
+
+type SSOAdminPolicyAttachment struct {
+	Description   aws.SSOAdminPolicyAttachmentDescription `json:"description"`
+	Metadata      aws.Metadata                            `json:"metadata"`
+	ResourceJobID int                                     `json:"resource_job_id"`
+	SourceJobID   int                                     `json:"source_job_id"`
+	ResourceType  string                                  `json:"resource_type"`
+	SourceType    string                                  `json:"source_type"`
+	ID            string                                  `json:"id"`
+	ARN           string                                  `json:"arn"`
+	SourceID      string                                  `json:"source_id"`
+}
+
+type SSOAdminPolicyAttachmentHit struct {
+	ID      string                   `json:"_id"`
+	Score   float64                  `json:"_score"`
+	Index   string                   `json:"_index"`
+	Type    string                   `json:"_type"`
+	Version int64                    `json:"_version,omitempty"`
+	Source  SSOAdminPolicyAttachment `json:"_source"`
+	Sort    []interface{}            `json:"sort"`
+}
+
+type SSOAdminPolicyAttachmentHits struct {
+	Total essdk.SearchTotal             `json:"total"`
+	Hits  []SSOAdminPolicyAttachmentHit `json:"hits"`
+}
+
+type SSOAdminPolicyAttachmentSearchResponse struct {
+	PitID string                       `json:"pit_id"`
+	Hits  SSOAdminPolicyAttachmentHits `json:"hits"`
+}
+
+type SSOAdminPolicyAttachmentPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewSSOAdminPolicyAttachmentPaginator(filters []essdk.BoolFilter, limit *int64) (SSOAdminPolicyAttachmentPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_ssoadmin_attachedmanagedpolicy", filters, limit)
+	if err != nil {
+		return SSOAdminPolicyAttachmentPaginator{}, err
+	}
+
+	p := SSOAdminPolicyAttachmentPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p SSOAdminPolicyAttachmentPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p SSOAdminPolicyAttachmentPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p SSOAdminPolicyAttachmentPaginator) NextPage(ctx context.Context) ([]SSOAdminPolicyAttachment, error) {
+	var response SSOAdminPolicyAttachmentSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []SSOAdminPolicyAttachment
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listSSOAdminPolicyAttachmentFilters = map[string]string{
+	"instance_arn":       "description.InstanceArn",
+	"kaytu_account_id":   "metadata.SourceID",
+	"managed_policy_arn": "description.AttachedManagedPolicy.Arn",
+	"name":               "description.AttachedManagedPolicy.Name",
+	"permission_set_arn": "description.PermissionSetArn",
+	"title":              "description.AttachedManagedPolicy.Name",
+}
+
+func ListSSOAdminPolicyAttachment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListSSOAdminPolicyAttachment")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListSSOAdminPolicyAttachment NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListSSOAdminPolicyAttachment NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListSSOAdminPolicyAttachment GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListSSOAdminPolicyAttachment GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListSSOAdminPolicyAttachment GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewSSOAdminPolicyAttachmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, listSSOAdminPolicyAttachmentFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListSSOAdminPolicyAttachment NewSSOAdminPolicyAttachmentPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListSSOAdminPolicyAttachment paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getSSOAdminPolicyAttachmentFilters = map[string]string{
+	"instance_arn":       "description.InstanceArn",
+	"kaytu_account_id":   "metadata.SourceID",
+	"managed_policy_arn": "description.AttachedManagedPolicy.Arn",
+	"name":               "description.AttachedManagedPolicy.Name",
+	"permission_set_arn": "description.PermissionSetArn",
+	"title":              "description.AttachedManagedPolicy.Name",
+}
+
+func GetSSOAdminPolicyAttachment(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetSSOAdminPolicyAttachment")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewSSOAdminPolicyAttachmentPaginator(essdk.BuildFilter(ctx, d.QueryContext, getSSOAdminPolicyAttachmentFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: SSOAdminPolicyAttachment =============================
 
 // ==========================  START: WAFRule =============================
 

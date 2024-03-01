@@ -2809,9 +2809,22 @@ type SSOAdminInstanceDescription struct {
 
 //index:aws_ssoadmin_account_assignment
 type SSOAdminAccountAssignmentDescription struct {
-	Instance               ssoadmin.InstanceMetadata
-	AccountAssignment      ssoadmin.AccountAssignment
-	PermissionSetProvision ssoadmin.PermissionSetProvisioningStatus
+	Instance          ssoadmin.InstanceMetadata
+	AccountAssignment ssoadmin.AccountAssignment
+}
+
+//index:aws_ssoadmin_permission_set
+type SSOAdminPermissionSetDescription struct {
+	InstanceArn   string
+	PermissionSet ssoadmin.PermissionSet
+	Tags          interface{}
+}
+
+//index:aws_ssoadmin_managed_policy_attachment
+type SSOAdminPolicyAttachmentDescription struct {
+	InstanceArn           string
+	PermissionSetArn      string
+	AttachedManagedPolicy ssoadmin.AttachedManagedPolicy
 }
 
 //  ===================  Tagging  ===================

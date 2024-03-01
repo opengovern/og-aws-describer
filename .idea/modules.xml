@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/kaytu-aws-describer.iml" filepath="$PROJECT_DIR$/.idea/kaytu-aws-describer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../kaytu-deploy/.idea/kaytu-deploy.iml" filepath="$PROJECT_DIR$/../kaytu-deploy/.idea/kaytu-deploy.iml" />
     </modules>
   </component>
 </project>
