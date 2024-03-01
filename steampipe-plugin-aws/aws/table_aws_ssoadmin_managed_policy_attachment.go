@@ -13,8 +13,7 @@ func tableAwsSsoAdminManagedPolicyAttachment(_ context.Context) *plugin.Table {
 		Name:        "aws_ssoadmin_managed_policy_attachment",
 		Description: "AWS SSO Managed Policy Attachment",
 		List: &plugin.ListConfig{
-			KeyColumns: plugin.AllColumns([]string{"permission_set_arn"}),
-			Hydrate:    kaytu.ListSSOAdminPolicyAttachment,
+			Hydrate: kaytu.ListSSOAdminPolicyAttachment,
 		},
 
 		Columns: awsRegionalColumns([]*plugin.Column{

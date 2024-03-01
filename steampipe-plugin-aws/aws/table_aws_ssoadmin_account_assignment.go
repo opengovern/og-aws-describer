@@ -14,10 +14,6 @@ func tableAwsSsoAdminAccountAssignment(_ context.Context) *plugin.Table {
 		Name:        "aws_ssoadmin_account_assignment",
 		Description: "AWS SSO Account Assignment",
 		List: &plugin.ListConfig{
-			KeyColumns: append(
-				plugin.AllColumns([]string{"permission_set_arn", "target_account_id"}),
-				plugin.OptionalColumns([]string{"instance_arn"})...,
-			),
 			Hydrate: kaytu.ListSSOAdminAccountAssignment,
 		},
 
