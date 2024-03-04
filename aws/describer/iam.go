@@ -37,18 +37,18 @@ func IAMAccessAdvisor(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 		for _, user := range users.Users {
 			arns = append(arns, *user.Arn)
-		}
-	}
 
-	userGroupPaginator := iam.NewListGroupsForUserPaginator(client, &iam.ListGroupsForUserInput{})
-	for userGroupPaginator.HasMorePages() {
-		users, err := userGroupPaginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
+			userGroupPaginator := iam.NewListGroupsForUserPaginator(client, &iam.ListGroupsForUserInput{UserName: user.UserName})
+			for userGroupPaginator.HasMorePages() {
+				users, err := userGroupPaginator.NextPage(ctx)
+				if err != nil {
+					return nil, err
+				}
 
-		for _, group := range users.Groups {
-			arns = append(arns, *group.Arn)
+				for _, group := range users.Groups {
+					arns = append(arns, *group.Arn)
+				}
+			}
 		}
 	}
 
