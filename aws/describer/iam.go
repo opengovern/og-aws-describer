@@ -10,7 +10,6 @@ import (
 	iam2 "github.com/aws/aws-sdk-go/service/iam"
 	"github.com/gocarina/gocsv"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"strings"
 	"time"
 )
@@ -107,7 +106,6 @@ func IAMAccessAdvisor(ctx context.Context, cfg aws.Config, stream *StreamSender)
 			// if job is still in progress, wait and retry
 			if resp.JobStatus == "IN_PROGRESS" && retryNumber < maxRetries {
 				retryNumber++
-				plugin.Logger(ctx).Debug("GetServiceLastAccessedDetails in progress", "retryNumber", retryNumber)
 				time.Sleep(retryIntervalMs * time.Millisecond)
 				continue
 			}
