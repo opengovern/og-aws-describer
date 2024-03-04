@@ -18,7 +18,7 @@ const (
 	organizationsNotInUseException = "AWSOrganizationsNotInUseException"
 )
 const maxRetries = 20
-const retryIntervalMs = 500
+const retryIntervalMs = 1000
 
 func IAMAccessAdvisor(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)

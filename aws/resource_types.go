@@ -4591,7 +4591,7 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "IAM AccessAdvisor",
 		Tags:                 map[string][]string{},
 		ServiceName:          "IAM",
-		ListDescriber:        SequentialDescribeRegional(describer.IAMAccessAdvisor),
+		ListDescriber:        SequentialDescribeGlobal(describer.IAMAccessAdvisor),
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
