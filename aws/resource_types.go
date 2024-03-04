@@ -116,8 +116,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::RouteTable",
 		ResourceLabel:        "Route Tables",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Route53RouteTable.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Route53RouteTable.svg"},
         },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2RouteTable),
@@ -405,8 +405,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::InternetGateway",
 		ResourceLabel:        "Internet Gateways",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/InternetGateway.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2InternetGateway),
@@ -1015,8 +1015,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::ElastiCache::Cluster",
 		ResourceLabel:        "ElasticCache Clusters",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElastiCache.svg"},
             "category": {"Database"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElastiCache.svg"},
         },
 		ServiceName:          "ElastiCache",
 		ListDescriber:        ParallelDescribeRegional(describer.ElastiCacheCluster),
@@ -1047,8 +1047,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::S3::Bucket",
 		ResourceLabel:        "S3 Buckets",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/SimpleStorageBucket.svg"},
             "category": {"Storage"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/SimpleStorageBucket.svg"},
         },
 		ServiceName:          "S3",
 		ListDescriber:        SequentialDescribeGlobal(describer.S3Bucket),
@@ -1276,8 +1276,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::Lambda::Function",
 		ResourceLabel:        "Lambda Functions",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Lambda.svg"},
             "category": {"Serverless"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Lambda.svg"},
         },
 		ServiceName:          "lambda",
 		ListDescriber:        ParallelDescribeRegional(describer.LambdaFunction),
@@ -2088,8 +2088,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::RDS::DBInstance",
 		ResourceLabel:        "RDS DB Instances",
 		Tags:                 map[string][]string{
-            "category": {"Database"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Rds.svg"},
+            "category": {"Database"},
         },
 		ServiceName:          "rds",
 		ListDescriber:        ParallelDescribeRegional(describer.RDSDBInstance),
@@ -2482,8 +2482,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::CloudFront::Distribution",
 		ResourceLabel:        "CloudFront Distribution",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/CloudFront.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/CloudFront.svg"},
         },
 		ServiceName:          "CloudFront",
 		ListDescriber:        SequentialDescribeGlobal(describer.CloudFrontDistribution),
@@ -3325,8 +3325,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::Instance",
 		ResourceLabel:        "EC2 Servers",
 		Tags:                 map[string][]string{
-            "category": {"Compute"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Ec2Instance.svg"},
+            "category": {"Compute"},
         },
 		ServiceName:          "EC2.Compute",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2Instance),
@@ -3357,8 +3357,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::ECR::Repository",
 		ResourceLabel:        "Container Repositories",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticContainerRegistry.svg"},
             "category": {"Containers"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticContainerRegistry.svg"},
         },
 		ServiceName:          "ECR",
 		ListDescriber:        ParallelDescribeRegional(describer.ECRRepository),
@@ -3707,8 +3707,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::DocDB::Cluster",
 		ResourceLabel:        "Document DB Clusters",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/DocumentDb.svg"},
             "category": {"Database"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/DocumentDb.svg"},
         },
 		ServiceName:          "DocDB",
 		ListDescriber:        ParallelDescribeRegional(describer.DocDBCluster),
@@ -4311,8 +4311,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::CustomerGateway",
 		ResourceLabel:        "EC2 Customer Gateway",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcCustomerGateway.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcCustomerGateway.svg"},
         },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2CustomerGateway),
@@ -4882,6 +4882,21 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
+	"AWS::IAM::AccessAdvisor": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::IAM::AccessAdvisor",
+		ResourceLabel:        "IAM AccessAdvisor",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "IAM",
+		ListDescriber:        ParallelDescribeRegional(describer.IAMAccessAdvisor),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
 	"AWS::EC2::VolumeSnapshot": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::VolumeSnapshot",
@@ -5224,8 +5239,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::DynamoDb::Table",
 		ResourceLabel:        "DynamoDB Tables",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/DynamoDbTable.svg"},
             "category": {"Database"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/DynamoDbTable.svg"},
         },
 		ServiceName:          "DynamoDb",
 		ListDescriber:        ParallelDescribeRegional(describer.DynamoDbTable),

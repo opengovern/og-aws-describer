@@ -7,8 +7,11 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/iam"
 	"github.com/aws/aws-sdk-go-v2/service/iam/types"
 	"github.com/aws/aws-sdk-go-v2/service/organizations"
+	"github.com/aws/aws-sdk-go-v2/service/ram"
+	types2 "github.com/aws/aws-sdk-go-v2/service/ram/types"
 	"github.com/gocarina/gocsv"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"strings"
 	"time"
 )
@@ -16,6 +19,91 @@ import (
 const (
 	organizationsNotInUseException = "AWSOrganizationsNotInUseException"
 )
+const maxRetries = 20
+const retryIntervalMs = 500
+
+func IAMAccessAdvisor(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+
+	ramClient := ram.NewFromConfig(cfg)
+	client := iam.NewFromConfig(cfg)
+	var values []Resource
+
+	paginator := ram.NewListPrincipalsPaginator(ramClient, &ram.ListPrincipalsInput{ResourceOwner: types2.ResourceOwnerSelf})
+	for {
+		if !paginator.HasMorePages() {
+			break
+		}
+
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, principal := range page.Principals {
+			granularity := "ACTION_LEVEL"
+
+			generateResp, err := client.GenerateServiceLastAccessedDetails(
+				ctx,
+				&iam.GenerateServiceLastAccessedDetailsInput{
+					Arn:         principal.ResourceShareArn,
+					Granularity: types.AccessAdvisorUsageGranularityType(granularity),
+				})
+
+			if err != nil {
+				return nil, err
+			}
+
+			params := &iam.GetServiceLastAccessedDetailsInput{
+				JobId:    generateResp.JobId,
+				MaxItems: aws.Int32(1000),
+			}
+
+			retryNumber := 0
+			for {
+				resp, err := client.GetServiceLastAccessedDetails(ctx, params)
+				if err != nil {
+					return nil, err
+				}
+
+				// if job is still in progress, wait and retry
+				if resp.JobStatus == "IN_PROGRESS" && retryNumber < maxRetries {
+					retryNumber++
+					plugin.Logger(ctx).Debug("GetServiceLastAccessedDetails in progress", "retryNumber", retryNumber)
+					time.Sleep(retryIntervalMs * time.Millisecond)
+					continue
+				}
+
+				// Stream results
+				for _, serviceLastAccessed := range resp.ServicesLastAccessed {
+					resource := Resource{
+						Region: describeCtx.KaytuRegion,
+						Name:   *serviceLastAccessed.ServiceName,
+						ID:     fmt.Sprintf("%s|%s", *principal.Id, *serviceLastAccessed.ServiceName),
+						Description: model.IAMAccessAdvisorDescription{
+							Principal:           principal,
+							ServiceLastAccessed: serviceLastAccessed,
+						},
+					}
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
+				}
+				if !resp.IsTruncated {
+					break
+				}
+				params.Marker = resp.Marker
+			}
+
+		}
+	}
+
+	return values, nil
+}
 
 func IAMAccount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)

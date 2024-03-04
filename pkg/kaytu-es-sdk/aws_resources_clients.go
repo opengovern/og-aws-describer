@@ -34783,6 +34783,209 @@ func GetIAMAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 
 // ==========================  END: IAMAccount =============================
 
+// ==========================  START: IAMAccessAdvisor =============================
+
+type IAMAccessAdvisor struct {
+	Description   aws.IAMAccessAdvisorDescription `json:"description"`
+	Metadata      aws.Metadata                    `json:"metadata"`
+	ResourceJobID int                             `json:"resource_job_id"`
+	SourceJobID   int                             `json:"source_job_id"`
+	ResourceType  string                          `json:"resource_type"`
+	SourceType    string                          `json:"source_type"`
+	ID            string                          `json:"id"`
+	ARN           string                          `json:"arn"`
+	SourceID      string                          `json:"source_id"`
+}
+
+type IAMAccessAdvisorHit struct {
+	ID      string           `json:"_id"`
+	Score   float64          `json:"_score"`
+	Index   string           `json:"_index"`
+	Type    string           `json:"_type"`
+	Version int64            `json:"_version,omitempty"`
+	Source  IAMAccessAdvisor `json:"_source"`
+	Sort    []interface{}    `json:"sort"`
+}
+
+type IAMAccessAdvisorHits struct {
+	Total essdk.SearchTotal     `json:"total"`
+	Hits  []IAMAccessAdvisorHit `json:"hits"`
+}
+
+type IAMAccessAdvisorSearchResponse struct {
+	PitID string               `json:"pit_id"`
+	Hits  IAMAccessAdvisorHits `json:"hits"`
+}
+
+type IAMAccessAdvisorPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewIAMAccessAdvisorPaginator(filters []essdk.BoolFilter, limit *int64) (IAMAccessAdvisorPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_iam_accessadvisor", filters, limit)
+	if err != nil {
+		return IAMAccessAdvisorPaginator{}, err
+	}
+
+	p := IAMAccessAdvisorPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p IAMAccessAdvisorPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p IAMAccessAdvisorPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p IAMAccessAdvisorPaginator) NextPage(ctx context.Context) ([]IAMAccessAdvisor, error) {
+	var response IAMAccessAdvisorSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []IAMAccessAdvisor
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listIAMAccessAdvisorFilters = map[string]string{
+	"kaytu_account_id": "metadata.SourceID",
+}
+
+func ListIAMAccessAdvisor(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListIAMAccessAdvisor")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIAMAccessAdvisor NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIAMAccessAdvisor NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIAMAccessAdvisor GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIAMAccessAdvisor GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIAMAccessAdvisor GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewIAMAccessAdvisorPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMAccessAdvisorFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIAMAccessAdvisor NewIAMAccessAdvisorPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListIAMAccessAdvisor paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getIAMAccessAdvisorFilters = map[string]string{
+	"kaytu_account_id": "metadata.SourceID",
+}
+
+func GetIAMAccessAdvisor(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetIAMAccessAdvisor")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewIAMAccessAdvisorPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMAccessAdvisorFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: IAMAccessAdvisor =============================
+
 // ==========================  START: IAMAccountSummary =============================
 
 type IAMAccountSummary struct {
@@ -69153,6 +69356,8 @@ var listSSOAdminPermissionSetFilters = map[string]string{
 	"name":             "description.PermissionSet.Name",
 	"relay_state":      "description.PermissionSet.RelayState",
 	"session_duration": "description.PermissionSet.SessionDuration",
+	"tags":             "description.Tags",
+	"tags_src":         "description.Tags",
 	"title":            "description.PermissionSet.Name",
 }
 
@@ -69224,6 +69429,8 @@ var getSSOAdminPermissionSetFilters = map[string]string{
 	"name":             "description.PermissionSet.Name",
 	"relay_state":      "description.PermissionSet.RelayState",
 	"session_duration": "description.PermissionSet.SessionDuration",
+	"tags":             "description.Tags",
+	"tags_src":         "description.Tags",
 	"title":            "description.PermissionSet.Name",
 }
 

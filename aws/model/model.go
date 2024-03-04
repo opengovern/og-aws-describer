@@ -1486,6 +1486,12 @@ type IAMAccountDescription struct {
 	Organization *organizations.Organization
 }
 
+//index:aws_iam_access_advisor
+type IAMAccessAdvisorDescription struct {
+	Principal           ram.Principal
+	ServiceLastAccessed iam.ServiceLastAccessed
+}
+
 type AccountSummary struct {
 	AccountMFAEnabled                 int32
 	AccessKeysPerUserQuota            int32
