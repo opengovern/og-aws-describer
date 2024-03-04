@@ -7,8 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/iam"
 	"github.com/aws/aws-sdk-go-v2/service/iam/types"
 	"github.com/aws/aws-sdk-go-v2/service/organizations"
-	"github.com/aws/aws-sdk-go-v2/service/ram"
-	types2 "github.com/aws/aws-sdk-go-v2/service/ram/types"
+	iam2 "github.com/aws/aws-sdk-go/service/iam"
 	"github.com/gocarina/gocsv"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -24,81 +23,118 @@ const retryIntervalMs = 500
 
 func IAMAccessAdvisor(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
-
-	ramClient := ram.NewFromConfig(cfg)
 	client := iam.NewFromConfig(cfg)
 	var values []Resource
 
-	paginator := ram.NewListPrincipalsPaginator(ramClient, &ram.ListPrincipalsInput{ResourceOwner: types2.ResourceOwnerSelf})
-	for {
-		if !paginator.HasMorePages() {
-			break
-		}
+	var arns []string
 
-		page, err := paginator.NextPage(ctx)
+	usersPaginator := iam.NewListUsersPaginator(client, &iam.ListUsersInput{})
+	for usersPaginator.HasMorePages() {
+		users, err := usersPaginator.NextPage(ctx)
 		if err != nil {
 			return nil, err
 		}
 
-		for _, principal := range page.Principals {
-			granularity := "ACTION_LEVEL"
+		for _, user := range users.Users {
+			arns = append(arns, *user.Arn)
+		}
+	}
 
-			generateResp, err := client.GenerateServiceLastAccessedDetails(
-				ctx,
-				&iam.GenerateServiceLastAccessedDetailsInput{
-					Arn:         principal.ResourceShareArn,
-					Granularity: types.AccessAdvisorUsageGranularityType(granularity),
-				})
+	userGroupPaginator := iam.NewListGroupsForUserPaginator(client, &iam.ListGroupsForUserInput{})
+	for userGroupPaginator.HasMorePages() {
+		users, err := userGroupPaginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
 
+		for _, group := range users.Groups {
+			arns = append(arns, *group.Arn)
+		}
+	}
+
+	rolePaginator := iam.NewListRolesPaginator(client, &iam.ListRolesInput{})
+	for rolePaginator.HasMorePages() {
+		roles, err := rolePaginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, role := range roles.Roles {
+			arns = append(arns, *role.Arn)
+		}
+	}
+
+	policyPaginator := iam.NewListPoliciesPaginator(client, &iam.ListPoliciesInput{
+		OnlyAttached: true,
+		Scope:        iam2.PolicyScopeTypeLocal,
+	})
+	for policyPaginator.HasMorePages() {
+		policies, err := policyPaginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, policy := range policies.Policies {
+			arns = append(arns, *policy.Arn)
+		}
+	}
+
+	for _, principal := range arns {
+		granularity := "ACTION_LEVEL"
+		generateResp, err := client.GenerateServiceLastAccessedDetails(
+			ctx,
+			&iam.GenerateServiceLastAccessedDetailsInput{
+				Arn:         aws.String(principal),
+				Granularity: types.AccessAdvisorUsageGranularityType(granularity),
+			})
+
+		if err != nil {
+			return nil, err
+		}
+
+		params := &iam.GetServiceLastAccessedDetailsInput{
+			JobId:    generateResp.JobId,
+			MaxItems: aws.Int32(1000),
+		}
+
+		retryNumber := 0
+		for {
+			resp, err := client.GetServiceLastAccessedDetails(ctx, params)
 			if err != nil {
 				return nil, err
 			}
 
-			params := &iam.GetServiceLastAccessedDetailsInput{
-				JobId:    generateResp.JobId,
-				MaxItems: aws.Int32(1000),
+			// if job is still in progress, wait and retry
+			if resp.JobStatus == "IN_PROGRESS" && retryNumber < maxRetries {
+				retryNumber++
+				plugin.Logger(ctx).Debug("GetServiceLastAccessedDetails in progress", "retryNumber", retryNumber)
+				time.Sleep(retryIntervalMs * time.Millisecond)
+				continue
 			}
 
-			retryNumber := 0
-			for {
-				resp, err := client.GetServiceLastAccessedDetails(ctx, params)
-				if err != nil {
-					return nil, err
+			// Stream results
+			for _, serviceLastAccessed := range resp.ServicesLastAccessed {
+				resource := Resource{
+					Region: describeCtx.KaytuRegion,
+					Name:   *serviceLastAccessed.ServiceName,
+					ID:     fmt.Sprintf("%s|%s", principal, *serviceLastAccessed.ServiceName),
+					Description: model.IAMAccessAdvisorDescription{
+						PrincipalARN:        principal,
+						ServiceLastAccessed: serviceLastAccessed,
+					},
 				}
-
-				// if job is still in progress, wait and retry
-				if resp.JobStatus == "IN_PROGRESS" && retryNumber < maxRetries {
-					retryNumber++
-					plugin.Logger(ctx).Debug("GetServiceLastAccessedDetails in progress", "retryNumber", retryNumber)
-					time.Sleep(retryIntervalMs * time.Millisecond)
-					continue
-				}
-
-				// Stream results
-				for _, serviceLastAccessed := range resp.ServicesLastAccessed {
-					resource := Resource{
-						Region: describeCtx.KaytuRegion,
-						Name:   *serviceLastAccessed.ServiceName,
-						ID:     fmt.Sprintf("%s|%s", *principal.Id, *serviceLastAccessed.ServiceName),
-						Description: model.IAMAccessAdvisorDescription{
-							Principal:           principal,
-							ServiceLastAccessed: serviceLastAccessed,
-						},
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
 					}
-					if stream != nil {
-						if err := (*stream)(resource); err != nil {
-							return nil, err
-						}
-					} else {
-						values = append(values, resource)
-					}
+				} else {
+					values = append(values, resource)
 				}
-				if !resp.IsTruncated {
-					break
-				}
-				params.Marker = resp.Marker
 			}
-
+			if !resp.IsTruncated {
+				break
+			}
+			params.Marker = resp.Marker
 		}
 	}
 

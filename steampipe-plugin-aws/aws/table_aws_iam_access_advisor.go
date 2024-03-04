@@ -21,7 +21,7 @@ func tableAwsIamAccessAdvisor(_ context.Context) *plugin.Table {
 				Name:        "principal_arn",
 				Description: "The ARN of the IAM resource (user, group, role, or managed policy) used to generate information about when the resource was last used in an attempt to access an AWS service.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Principal.ResourceShareArn"),
+				Transform:   transform.FromField("Description.PrincipalArn"),
 			},
 			{
 				Name:        "service_name",

@@ -1488,7 +1488,7 @@ type IAMAccountDescription struct {
 
 //index:aws_iam_access_advisor
 type IAMAccessAdvisorDescription struct {
-	Principal           ram.Principal
+	PrincipalARN        string
 	ServiceLastAccessed iam.ServiceLastAccessed
 }
 
