@@ -1318,14 +1318,17 @@ func EC2Instance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 		for _, r := range page.Reservations {
 			for _, v := range r.Instances {
 				resource, err := eC2InstanceHandle(ctx, v, client)
+				if resource == nil {
+					continue
+				}
 				if stream != nil {
 					m := *stream
-					err = m(resource)
+					err = m(*resource)
 					if err != nil {
 						return nil, err
 					}
 				} else {
-					values = append(values, resource)
+					values = append(values, *resource)
 				}
 			}
 		}
@@ -1333,7 +1336,7 @@ func EC2Instance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 
 	return values, nil
 }
-func eC2InstanceHandle(ctx context.Context, v types.Instance, client *ec2.Client) (Resource, error) {
+func eC2InstanceHandle(ctx context.Context, v types.Instance, client *ec2.Client) (*Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	var desc model.EC2InstanceDescription
 
@@ -1345,10 +1348,14 @@ func eC2InstanceHandle(ctx context.Context, v types.Instance, client *ec2.Client
 		IncludeAllInstances: aws.Bool(true),
 	})
 	if err != nil {
-		return Resource{}, err
+		return nil, err
 	}
 	if len(statusOutput.InstanceStatuses) > 0 {
 		desc.InstanceStatus = &statusOutput.InstanceStatuses[0]
+	}
+
+	if desc.InstanceStatus.InstanceState.Name == types.InstanceStateNameTerminated {
+		return nil, nil
 	}
 
 	attrs := []types.InstanceAttributeName{
@@ -1364,7 +1371,7 @@ func eC2InstanceHandle(ctx context.Context, v types.Instance, client *ec2.Client
 			Attribute:  attr,
 		})
 		if err != nil {
-			return Resource{}, err
+			return nil, err
 		}
 
 		switch attr {
@@ -1384,7 +1391,7 @@ func eC2InstanceHandle(ctx context.Context, v types.Instance, client *ec2.Client
 
 	op, err := client.GetLaunchTemplateData(ctx, params)
 	if err != nil {
-		return Resource{}, err
+		return nil, err
 	}
 	desc.LaunchTemplateData = *op.LaunchTemplateData
 	resource := Resource{
@@ -1393,7 +1400,7 @@ func eC2InstanceHandle(ctx context.Context, v types.Instance, client *ec2.Client
 		Name:        *v.InstanceId,
 		Description: desc,
 	}
-	return resource, nil
+	return &resource, nil
 }
 func GetEC2Instance(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	instanceID := fields["id"]
@@ -1414,7 +1421,10 @@ func GetEC2Instance(ctx context.Context, cfg aws.Config, fields map[string]strin
 			if err != nil {
 				return nil, err
 			}
-			values = append(values, resource)
+			if resource == nil {
+				continue
+			}
+			values = append(values, *resource)
 		}
 	}
 
