@@ -178,6 +178,11 @@ func tableAwsEc2Ami(_ context.Context) *plugin.Table {
 				Description: "A list of tags attached to the AMI.",
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.AMI.Tags")},
+			{
+				Name:        "is_aws_backup_managed",
+				Description: "Is backup managed by AWS",
+				Type:        proto.ColumnType_BOOL,
+				Transform:   transform.From(isAWSBackupManaged)},
 
 			// Steampipe standard columns
 			{
@@ -235,4 +240,16 @@ func getEc2AmiTurbotTitle(_ context.Context, d *transform.TransformData) (interf
 	}
 
 	return title, nil
+}
+
+func isAWSBackupManaged(_ context.Context, d *transform.TransformData) (interface{}, error) {
+	tags := d.HydrateItem.(kaytu.EC2AMI).Description.AMI.Tags
+	isAWSManaged := false
+	for _, tag := range tags {
+		if tag.Key != nil && *tag.Key == "aws:backup:source-resource" {
+			isAWSManaged = true
+		}
+	}
+
+	return isAWSManaged, nil
 }
