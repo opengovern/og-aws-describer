@@ -503,7 +503,7 @@ func IAMCredentialReport(ctx context.Context, cfg aws.Config, stream *StreamSend
 func IAMPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	client := iam.NewFromConfig(cfg)
 	paginator := iam.NewListPoliciesPaginator(client, &iam.ListPoliciesInput{
-		OnlyAttached: false,
+		OnlyAttached: true,
 		Scope:        types.PolicyScopeTypeAll,
 	})
 
@@ -515,12 +515,6 @@ func IAMPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Res
 		}
 
 		for _, v := range page.Policies {
-			if v.AttachmentCount == nil || *v.AttachmentCount < 1 {
-				continue
-			}
-			if v.PermissionsBoundaryUsageCount == nil || *v.PermissionsBoundaryUsageCount < 1 {
-				continue
-			}
 
 			version, err := client.GetPolicyVersion(ctx, &iam.GetPolicyVersionInput{
 				PolicyArn: v.Arn,
