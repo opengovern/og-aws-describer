@@ -515,6 +515,13 @@ func IAMPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Res
 		}
 
 		for _, v := range page.Policies {
+			if v.AttachmentCount == nil || *v.AttachmentCount < 1 {
+				continue
+			}
+			if v.PermissionsBoundaryUsageCount == nil || *v.PermissionsBoundaryUsageCount < 1 {
+				continue
+			}
+
 			version, err := client.GetPolicyVersion(ctx, &iam.GetPolicyVersionInput{
 				PolicyArn: v.Arn,
 				VersionId: v.DefaultVersionId,
