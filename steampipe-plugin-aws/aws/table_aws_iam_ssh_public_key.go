@@ -10,7 +10,7 @@ import (
 
 func tableAwsIamSshPublicKey(_ context.Context) *plugin.Table {
 	return &plugin.Table{
-		Name:        "aws_iam_access_key",
+		Name:        "aws_iam_ssh_public_key",
 		Description: "AWS IAM User Access Key",
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListIAMSSHPublicKey,

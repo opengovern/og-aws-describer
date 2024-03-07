@@ -1590,6 +1590,7 @@ type IAMRoleDescription struct {
 //getfilter:name=description.ServerCertificate.ServerCertificateMetadata.ServerCertificateName
 type IAMServerCertificateDescription struct {
 	ServerCertificate iam.ServerCertificate
+	BodyLength        int
 }
 
 //index:aws_iam_policy

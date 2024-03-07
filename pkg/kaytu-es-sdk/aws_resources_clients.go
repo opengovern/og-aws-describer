@@ -35570,15 +35570,12 @@ func (p IAMSSHPublicKeyPaginator) NextPage(ctx context.Context) ([]IAMSSHPublicK
 }
 
 var listIAMSSHPublicKeyFilters = map[string]string{
-	"access_key_id":                "description.AccessKey.AccessKeyId",
-	"access_key_last_used_date":    "description.AccessKeyLastUsed.LastUsedData",
-	"access_key_last_used_region":  "description.AccessKeyLastUsed.Region",
-	"access_key_last_used_service": "description.AccessKeyLastUsed.ServiceName",
-	"create_date":                  "description.AccessKey.CreateDate",
-	"kaytu_account_id":             "metadata.SourceID",
-	"status":                       "description.AccessKey.Status",
-	"title":                        "description.AccessKey.AccessKeyId",
-	"user_name":                    "description.AccessKey.UserName",
+	"kaytu_account_id":  "metadata.SourceID",
+	"ssh_public_key_id": "description.SSHPublicKeyKey.SSHPublicKeyId",
+	"status":            "description.SSHPublicKeyKey.Status",
+	"title":             "description.SSHPublicKeyKey.SSHPublicKeyId",
+	"update_date":       "description.SSHPublicKeyKey.UploadDate",
+	"user_name":         "description.SSHPublicKeyKey.UserName",
 }
 
 func ListIAMSSHPublicKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -35641,15 +35638,12 @@ func ListIAMSSHPublicKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hyd
 }
 
 var getIAMSSHPublicKeyFilters = map[string]string{
-	"access_key_id":                "description.AccessKey.AccessKeyId",
-	"access_key_last_used_date":    "description.AccessKeyLastUsed.LastUsedData",
-	"access_key_last_used_region":  "description.AccessKeyLastUsed.Region",
-	"access_key_last_used_service": "description.AccessKeyLastUsed.ServiceName",
-	"create_date":                  "description.AccessKey.CreateDate",
-	"kaytu_account_id":             "metadata.SourceID",
-	"status":                       "description.AccessKey.Status",
-	"title":                        "description.AccessKey.AccessKeyId",
-	"user_name":                    "description.AccessKey.UserName",
+	"kaytu_account_id":  "metadata.SourceID",
+	"ssh_public_key_id": "description.SSHPublicKeyKey.SSHPublicKeyId",
+	"status":            "description.SSHPublicKeyKey.Status",
+	"title":             "description.SSHPublicKeyKey.SSHPublicKeyId",
+	"update_date":       "description.SSHPublicKeyKey.UploadDate",
+	"user_name":         "description.SSHPublicKeyKey.UserName",
 }
 
 func GetIAMSSHPublicKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
