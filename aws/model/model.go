@@ -1539,6 +1539,11 @@ type IAMAccessKeyDescription struct {
 	AccessKeyLastUsed *iam.AccessKeyLastUsed
 }
 
+//index:aws_iam_sshpublickey
+type IAMSSHPublicKeyDescription struct {
+	SSHPublicKeyKey iam.SSHPublicKeyMetadata
+}
+
 //index:aws_iam_accountpasswordpolicy
 type IAMAccountPasswordPolicyDescription struct {
 	PasswordPolicy iam.PasswordPolicy
@@ -1585,6 +1590,7 @@ type IAMRoleDescription struct {
 //getfilter:name=description.ServerCertificate.ServerCertificateMetadata.ServerCertificateName
 type IAMServerCertificateDescription struct {
 	ServerCertificate iam.ServerCertificate
+	BodyLength        int
 }
 
 //index:aws_iam_policy

@@ -57,6 +57,12 @@ func tableAwsIamServerCertificate(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("Description.ServerCertificate.CertificateBody"),
 			},
 			{
+				Name:        "certificate_body_length",
+				Description: "The contents of the public key certificate.",
+				Type:        proto.ColumnType_INT,
+				Transform:   transform.FromField("Description.BodyLength"),
+			},
+			{
 				Name:        "certificate_chain",
 				Description: "The contents of the public key certificate chain.",
 				Type:        proto.ColumnType_STRING,

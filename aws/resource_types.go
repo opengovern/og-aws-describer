@@ -1,17 +1,17 @@
-package aws
 
+package aws
 import (
 	"github.com/kaytu-io/kaytu-aws-describer/aws/describer"
 	"github.com/kaytu-io/kaytu-util/pkg/source"
 )
-
 var resourceTypes = map[string]ResourceType{
 
 	"AWS::Redshift::Snapshot": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Redshift::Snapshot",
 		ResourceLabel:        "Snapshot",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Redshift",
 		ListDescriber:        ParallelDescribeRegional(describer.RedshiftSnapshot),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetRedshiftSnapshot),
@@ -25,7 +25,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::AccountSummary",
 		ResourceLabel:        "IAM Account Summary",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "IAM",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMAccountSummary),
 		GetDescriber:         nil,
@@ -39,7 +40,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glacier::Vault",
 		ResourceLabel:        "Glacier Vault",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Glacier",
 		ListDescriber:        ParallelDescribeRegional(describer.GlacierVault),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetGlacierVault),
@@ -53,7 +55,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Organizations::Organization",
 		ResourceLabel:        "Organizations",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Organizations",
 		ListDescriber:        SequentialDescribeGlobal(describer.OrganizationsOrganization),
 		GetDescriber:         nil,
@@ -67,7 +70,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Organizations::Policy",
 		ResourceLabel:        "Organizations",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Organizations",
 		ListDescriber:        SequentialDescribeGlobal(describer.OrganizationsPolicy),
 		GetDescriber:         nil,
@@ -81,7 +85,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudSearch::Domain",
 		ResourceLabel:        "CloudSearch",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudSearch",
 		ListDescriber:        ParallelDescribeRegional(describer.CloudSearchDomain),
 		GetDescriber:         nil,
@@ -95,7 +100,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DynamoDb::GlobalSecondaryIndex",
 		ResourceLabel:        "DynamoDB Global Secondary Index",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "DynamoDb",
 		ListDescriber:        ParallelDescribeRegional(describer.DynamoDbGlobalSecondaryIndex),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetDynamoDbGlobalSecondaryIndex),
@@ -106,13 +112,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::EC2::RouteTable": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::EC2::RouteTable",
-		ResourceLabel: "Route Tables",
-		Tags: map[string][]string{
-			"category": {"Networking"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Route53RouteTable.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::EC2::RouteTable",
+		ResourceLabel:        "Route Tables",
+		Tags:                 map[string][]string{
+            "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Route53RouteTable.svg"},
+        },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2RouteTable),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2RouteTable),
@@ -126,7 +132,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityHub::Hub",
 		ResourceLabel:        "Security Hub",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SecurityHub",
 		ListDescriber:        ParallelDescribeRegional(describer.SecurityHubHub),
 		GetDescriber:         nil,
@@ -140,7 +147,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::StorageGateway::StorageGateway",
 		ResourceLabel:        "Storage Gateway",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "StorageGateway",
 		ListDescriber:        ParallelDescribeRegional(describer.StorageGatewayStorageGateway),
 		GetDescriber:         nil,
@@ -154,7 +162,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Inspector::AssessmentTemplate",
 		ResourceLabel:        "Inspector Assessment Template",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Inspector",
 		ListDescriber:        ParallelDescribeRegional(describer.InspectorAssessmentTemplate),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetInspectorAssessmentTemplate),
@@ -168,7 +177,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElasticLoadBalancingV2::ListenerRule",
 		ResourceLabel:        "ELBv2 Listener Rule",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ElasticLoadBalancing",
 		ListDescriber:        ParallelDescribeRegional(describer.ElasticLoadBalancingV2ListenerRule),
 		GetDescriber:         nil,
@@ -179,13 +189,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::IAM::Role": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::IAM::Role",
-		ResourceLabel: "IAM Roles",
-		Tags: map[string][]string{
-			"category": {"Management & Governance"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/IdentityAccessManagementRole.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::IAM::Role",
+		ResourceLabel:        "IAM Roles",
+		Tags:                 map[string][]string{
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/IdentityAccessManagementRole.svg"},
+            "category": {"Management & Governance"},
+        },
 		ServiceName:          "IAM",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMRole),
 		GetDescriber:         nil,
@@ -199,7 +209,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Backup::ProtectedResource",
 		ResourceLabel:        "Backup Protected Resource",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Backup",
 		ListDescriber:        ParallelDescribeRegional(describer.BackupProtectedResource),
 		GetDescriber:         nil,
@@ -213,7 +224,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeCommit::Repository",
 		ResourceLabel:        "CodeCommit Repository",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CodeCommit",
 		ListDescriber:        ParallelDescribeRegional(describer.CodeCommitRepository),
 		GetDescriber:         nil,
@@ -227,7 +239,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::VPCEndpoint",
 		ResourceLabel:        "VPC Endpoint",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VPCEndpoint),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2VPCEndpoint),
@@ -241,7 +254,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EventBridge::EventRule",
 		ResourceLabel:        "EventBridge Rule",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EventBridge",
 		ListDescriber:        ParallelDescribeRegional(describer.EventBridgeRule),
 		GetDescriber:         nil,
@@ -255,7 +269,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudFront::OriginAccessControl",
 		ResourceLabel:        "Origin Access Control",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudFront",
 		ListDescriber:        SequentialDescribeGlobal(describer.CloudFrontOriginAccessControl),
 		GetDescriber:         nil,
@@ -269,7 +284,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeBuild::Project",
 		ResourceLabel:        "CodeBuild Project",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CodeBuild",
 		ListDescriber:        ParallelDescribeRegional(describer.CodeBuildProject),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetCodeBuildProject),
@@ -283,7 +299,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeBuild::Build",
 		ResourceLabel:        "CodeBuild Build",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CodeBuild",
 		ListDescriber:        ParallelDescribeRegional(describer.CodeBuildBuild),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetCodeBuildBuild),
@@ -297,7 +314,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElastiCache::ParameterGroup",
 		ResourceLabel:        "ElastiCache Parameter Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ElastiCache",
 		ListDescriber:        ParallelDescribeRegional(describer.ElastiCacheParameterGroup),
 		GetDescriber:         nil,
@@ -311,7 +329,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::MemoryDb::Cluster",
 		ResourceLabel:        "MemoryDB Clusters",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "MemoryDb",
 		ListDescriber:        ParallelDescribeRegional(describer.MemoryDbCluster),
 		GetDescriber:         nil,
@@ -325,7 +344,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glue::Crawler",
 		ResourceLabel:        "Glue Crawler",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Glue",
 		ListDescriber:        ParallelDescribeRegional(describer.GlueCrawler),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetGlueCrawler),
@@ -339,7 +359,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DirectConnect::Gateway",
 		ResourceLabel:        "Gateway",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "DirectConnect",
 		ListDescriber:        ParallelDescribeRegional(describer.DirectConnectGateway),
 		GetDescriber:         nil,
@@ -353,7 +374,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DynamoDb::BackUp",
 		ResourceLabel:        "DynamoDB BackUp",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "DynamoDb",
 		ListDescriber:        ParallelDescribeRegional(describer.DynamoDbBackUp),
 		GetDescriber:         nil,
@@ -367,7 +389,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::EIP",
 		ResourceLabel:        "Elastic (Public) IPs",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2EIP),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2EIP),
@@ -378,13 +401,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::EC2::InternetGateway": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::EC2::InternetGateway",
-		ResourceLabel: "Internet Gateways",
-		Tags: map[string][]string{
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/InternetGateway.svg"},
-			"category": {"Networking"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::EC2::InternetGateway",
+		ResourceLabel:        "Internet Gateways",
+		Tags:                 map[string][]string{
+            "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/InternetGateway.svg"},
+        },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2InternetGateway),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2InternetGateway),
@@ -398,7 +421,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GuardDuty::PublishingDestination",
 		ResourceLabel:        "GuardDuty Publishing Destination",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "GuardDuty",
 		ListDescriber:        ParallelDescribeRegional(describer.GuardDutyPublishingDestination),
 		GetDescriber:         nil,
@@ -412,7 +436,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::KinesisAnalyticsV2::Application",
 		ResourceLabel:        "Kinesis Analytics V2 Application",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "KinesisAnalyticsV2",
 		ListDescriber:        ParallelDescribeRegional(describer.KinesisAnalyticsV2Application),
 		GetDescriber:         nil,
@@ -426,7 +451,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EMR::Instance",
 		ResourceLabel:        "EMR Instance",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ElasticMapReduce",
 		ListDescriber:        ParallelDescribeRegional(describer.EMRInstance),
 		GetDescriber:         nil,
@@ -440,7 +466,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EMR::BlockPublicAccessConfiguration",
 		ResourceLabel:        "EMR Block Public Access Configuration",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ElasticMapReduce",
 		ListDescriber:        ParallelDescribeRegional(describer.EMRBlockPublicAccessConfiguration),
 		GetDescriber:         nil,
@@ -451,13 +478,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::ApiGateway::RestApi": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::ApiGateway::RestApi",
-		ResourceLabel: "Rest APIs",
-		Tags: map[string][]string{
-			"category": {"Networking"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ApiGateway.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::ApiGateway::RestApi",
+		ResourceLabel:        "Rest APIs",
+		Tags:                 map[string][]string{
+            "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ApiGateway.svg"},
+        },
 		ServiceName:          "apigateway",
 		ListDescriber:        ParallelDescribeRegional(describer.ApiGatewayRestAPI),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetApiGatewayRestAPI),
@@ -471,7 +498,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ApiGatewayV2::Integration",
 		ResourceLabel:        "API Gateway V2 Integration",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ApiGateway",
 		ListDescriber:        ParallelDescribeRegional(describer.ApiGatewayV2Integration),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetApiGatewayV2Integration),
@@ -482,13 +510,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::AutoScaling::AutoScalingGroup": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::AutoScaling::AutoScalingGroup",
-		ResourceLabel: "Autoscaling Groups",
-		Tags: map[string][]string{
-			"category": {"Compute"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Ec2AutoScaling.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::AutoScaling::AutoScalingGroup",
+		ResourceLabel:        "Autoscaling Groups",
+		Tags:                 map[string][]string{
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Ec2AutoScaling.svg"},
+            "category": {"Compute"},
+        },
 		ServiceName:          "AutoScaling",
 		ListDescriber:        ParallelDescribeRegional(describer.AutoScalingAutoScalingGroup),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetAutoScalingAutoScalingGroup),
@@ -502,7 +530,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DynamoDb::TableExport",
 		ResourceLabel:        "DynamoDB Table Export",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "DynamoDb",
 		ListDescriber:        ParallelDescribeRegional(describer.DynamoDbTableExport),
 		GetDescriber:         nil,
@@ -516,7 +545,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::KeyPair",
 		ResourceLabel:        "AWS SSH Access Keys",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2.Other",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2KeyPair),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2KeyPair),
@@ -527,13 +557,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::EFS::FileSystem": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::EFS::FileSystem",
-		ResourceLabel: "EFS File Systems",
-		Tags: map[string][]string{
-			"category": {"Storage"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticFileSystem.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::EFS::FileSystem",
+		ResourceLabel:        "EFS File Systems",
+		Tags:                 map[string][]string{
+            "category": {"Storage"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticFileSystem.svg"},
+        },
 		ServiceName:          "ElasticFileSystem",
 		ListDescriber:        ParallelDescribeRegional(describer.EFSFileSystem),
 		GetDescriber:         nil,
@@ -544,13 +574,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::Kafka::Cluster": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::Kafka::Cluster",
-		ResourceLabel: "Kafka Clusters",
-		Tags: map[string][]string{
-			"category": {"PaaS"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ManagedStreamingForKafka.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::Kafka::Cluster",
+		ResourceLabel:        "Kafka Clusters",
+		Tags:                 map[string][]string{
+            "category": {"PaaS"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ManagedStreamingForKafka.svg"},
+        },
 		ServiceName:          "Kafka",
 		ListDescriber:        ParallelDescribeRegional(describer.KafkaCluster),
 		GetDescriber:         nil,
@@ -564,7 +594,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecretsManager::Secret",
 		ResourceLabel:        "Secrets",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SecretsManager",
 		ListDescriber:        ParallelDescribeRegional(describer.SecretsManagerSecret),
 		GetDescriber:         nil,
@@ -578,7 +609,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Backup::LegalHold",
 		ResourceLabel:        "Backup Legal Hold",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Backup",
 		ListDescriber:        ParallelDescribeRegional(describer.BackupLegalHold),
 		GetDescriber:         nil,
@@ -592,7 +624,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudFront::Function",
 		ResourceLabel:        "CloudFront Functions",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudFront",
 		ListDescriber:        SequentialDescribeGlobal(describer.CloudFrontFunction),
 		GetDescriber:         nil,
@@ -606,7 +639,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GlobalAccelerator::EndpointGroup",
 		ResourceLabel:        "Global Accelerator Endpoint Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "GlobalAccelerator",
 		ListDescriber:        ParallelDescribeRegional(describer.GlobalAcceleratorEndpointGroup),
 		GetDescriber:         nil,
@@ -620,7 +654,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DAX::ParameterGroup",
 		ResourceLabel:        "DAx Parameter Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "DAX",
 		ListDescriber:        ParallelDescribeRegional(describer.DAXParameterGroup),
 		GetDescriber:         nil,
@@ -634,7 +669,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SQS::Queue",
 		ResourceLabel:        "SQS Queues",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SQS",
 		ListDescriber:        ParallelDescribeRegional(describer.SQSQueue),
 		GetDescriber:         nil,
@@ -648,7 +684,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Config::Rule",
 		ResourceLabel:        "Config Rule",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Config",
 		ListDescriber:        ParallelDescribeRegional(describer.ConfigRule),
 		GetDescriber:         nil,
@@ -662,7 +699,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GuardDuty::Member",
 		ResourceLabel:        "GuardDuty Member",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "GuardDuty",
 		ListDescriber:        ParallelDescribeRegional(describer.GuardDutyMember),
 		GetDescriber:         nil,
@@ -676,7 +714,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Inspector::Exclusion",
 		ResourceLabel:        "Inspector Exclusion",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Inspector",
 		ListDescriber:        ParallelDescribeRegional(describer.InspectorExclusion),
 		GetDescriber:         nil,
@@ -690,7 +729,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DirectoryService::Directory",
 		ResourceLabel:        "Directory Service Directory",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "DirectoryService",
 		ListDescriber:        ParallelDescribeRegional(describer.DirectoryServiceDirectory),
 		GetDescriber:         nil,
@@ -704,7 +744,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DirectoryService::Certificate",
 		ResourceLabel:        "Directory Service Certificate",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "DirectoryService",
 		ListDescriber:        ParallelDescribeRegional(describer.DirectoryServiceCertificate),
 		GetDescriber:         nil,
@@ -718,7 +759,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DirectoryService::LogSubscription",
 		ResourceLabel:        "Directory Service Log Subscription",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "DirectoryService",
 		ListDescriber:        ParallelDescribeRegional(describer.DirectoryServiceLogSubscription),
 		GetDescriber:         nil,
@@ -732,7 +774,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EFS::AccessPoint",
 		ResourceLabel:        "EFS Access Point",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ElasticFileSystem",
 		ListDescriber:        ParallelDescribeRegional(describer.EFSAccessPoint),
 		GetDescriber:         nil,
@@ -746,7 +789,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::PolicyAttachment",
 		ResourceLabel:        "IAM Policy Attachment",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "IAM",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMPolicyAttachment),
 		GetDescriber:         nil,
@@ -760,7 +804,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::CredentialReport",
 		ResourceLabel:        "IAM Credential Report",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "IAM",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMCredentialReport),
 		GetDescriber:         nil,
@@ -774,7 +819,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RDS::GlobalCluster",
 		ResourceLabel:        "RDS Global Clusters",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "RDS",
 		ListDescriber:        ParallelDescribeRegional(describer.RDSGlobalCluster),
 		GetDescriber:         nil,
@@ -788,7 +834,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GuardDuty::Detector",
 		ResourceLabel:        "GuardDuty Detector",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "GuardDuty",
 		ListDescriber:        ParallelDescribeRegional(describer.GuardDutyDetector),
 		GetDescriber:         nil,
@@ -802,7 +849,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SNS::Topic",
 		ResourceLabel:        "SNS Topics",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SNS",
 		ListDescriber:        ParallelDescribeRegional(describer.SNSTopic),
 		GetDescriber:         nil,
@@ -816,7 +864,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::AppConfig::Application",
 		ResourceLabel:        "AppConfig Application",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "AppConfig",
 		ListDescriber:        ParallelDescribeRegional(describer.AppConfigApplication),
 		GetDescriber:         nil,
@@ -830,7 +879,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Batch::Job",
 		ResourceLabel:        "Batch Jobs",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Batch",
 		ListDescriber:        ParallelDescribeRegional(describer.BatchJob),
 		GetDescriber:         nil,
@@ -844,7 +894,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Batch::JobQueue",
 		ResourceLabel:        "Batch Job Queues",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Batch",
 		ListDescriber:        ParallelDescribeRegional(describer.BatchJobQueue),
 		GetDescriber:         nil,
@@ -858,7 +909,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ECS::Service",
 		ResourceLabel:        "ECS Services",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ECS",
 		ListDescriber:        ParallelDescribeRegional(describer.ECSService),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetECSService),
@@ -872,7 +924,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::FSX::Task",
 		ResourceLabel:        "FSX Task",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "FSX",
 		ListDescriber:        ParallelDescribeRegional(describer.FSXTask),
 		GetDescriber:         nil,
@@ -886,7 +939,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::VirtualMFADevice",
 		ResourceLabel:        "Virtual MFA Device",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "IAM",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMVirtualMFADevice),
 		GetDescriber:         nil,
@@ -900,7 +954,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAFv2::WebACL",
 		ResourceLabel:        "WAF (v2) WebACL",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WAF",
 		ListDescriber:        ParallelDescribeRegional(describer.WAFv2WebACL),
 		GetDescriber:         nil,
@@ -914,7 +969,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ApplicationAutoScaling::Target",
 		ResourceLabel:        "Application AutoScaling Target",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ApplicationAutoScaling",
 		ListDescriber:        ParallelDescribeRegional(describer.ApplicationAutoScalingTarget),
 		GetDescriber:         nil,
@@ -928,7 +984,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ApplicationAutoScaling::Policy",
 		ResourceLabel:        "Application AutoScaling Policy",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ApplicationAutoScaling",
 		ListDescriber:        ParallelDescribeRegional(describer.ApplicationAutoScalingPolicy),
 		GetDescriber:         nil,
@@ -942,7 +999,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Backup::Vault",
 		ResourceLabel:        "Backup Vaults",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Backup",
 		ListDescriber:        ParallelDescribeRegional(describer.BackupVault),
 		GetDescriber:         nil,
@@ -953,13 +1011,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::ElastiCache::Cluster": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::ElastiCache::Cluster",
-		ResourceLabel: "ElasticCache Clusters",
-		Tags: map[string][]string{
-			"category": {"Database"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElastiCache.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::ElastiCache::Cluster",
+		ResourceLabel:        "ElasticCache Clusters",
+		Tags:                 map[string][]string{
+            "category": {"Database"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElastiCache.svg"},
+        },
 		ServiceName:          "ElastiCache",
 		ListDescriber:        ParallelDescribeRegional(describer.ElastiCacheCluster),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetElastiCacheCluster),
@@ -973,7 +1031,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Logs::LogGroup",
 		ResourceLabel:        "Log Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudWatch",
 		ListDescriber:        ParallelDescribeRegional(describer.CloudWatchLogsLogGroup),
 		GetDescriber:         nil,
@@ -984,13 +1043,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::S3::Bucket": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::S3::Bucket",
-		ResourceLabel: "S3 Buckets",
-		Tags: map[string][]string{
-			"category": {"Storage"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/SimpleStorageBucket.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::S3::Bucket",
+		ResourceLabel:        "S3 Buckets",
+		Tags:                 map[string][]string{
+            "category": {"Storage"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/SimpleStorageBucket.svg"},
+        },
 		ServiceName:          "S3",
 		ListDescriber:        SequentialDescribeGlobal(describer.S3Bucket),
 		GetDescriber:         nil,
@@ -1004,7 +1063,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::S3::BucketIntelligentTieringConfiguration",
 		ResourceLabel:        "S3 Buckets",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "S3",
 		ListDescriber:        SequentialDescribeGlobal(describer.S3BucketIntelligentTieringConfiguration),
 		GetDescriber:         nil,
@@ -1018,7 +1078,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::S3::MultiRegionAccessPoint",
 		ResourceLabel:        "S3 Buckets",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "S3",
 		ListDescriber:        SequentialDescribeGlobal(describer.S3MultiRegionAccessPoint),
 		GetDescriber:         nil,
@@ -1032,7 +1093,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CertificateManager::Certificate",
 		ResourceLabel:        "TLS/SSL Certicates",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ACM",
 		ListDescriber:        ParallelDescribeRegional(describer.CertificateManagerCertificate),
 		GetDescriber:         nil,
@@ -1046,7 +1108,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ApiGatewayV2::Api",
 		ResourceLabel:        "API Gateway API",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "apigateway",
 		ListDescriber:        ParallelDescribeRegional(describer.ApiGatewayV2API),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetApiGatewayV2API),
@@ -1057,13 +1120,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::EC2::Volume": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::EC2::Volume",
-		ResourceLabel: "Storage Volumes",
-		Tags: map[string][]string{
-			"category": {"Storage"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticBlockStoreVolume.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::EC2::Volume",
+		ResourceLabel:        "Storage Volumes",
+		Tags:                 map[string][]string{
+            "category": {"Storage"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticBlockStoreVolume.svg"},
+        },
 		ServiceName:          "EC2.Storage",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2Volume),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2Volume),
@@ -1077,7 +1140,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ApiGateway::ApiKey",
 		ResourceLabel:        "API Gateway API Keys",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ApiGateway",
 		ListDescriber:        ParallelDescribeRegional(describer.ApiGatewayApiKey),
 		GetDescriber:         nil,
@@ -1091,7 +1155,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glue::Connection",
 		ResourceLabel:        "Glue Connection",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Glue",
 		ListDescriber:        ParallelDescribeRegional(describer.GlueConnection),
 		GetDescriber:         nil,
@@ -1105,7 +1170,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ECS::Task",
 		ResourceLabel:        "ECS Task",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ECS",
 		ListDescriber:        ParallelDescribeRegional(describer.ECSTask),
 		GetDescriber:         nil,
@@ -1119,7 +1185,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::ManagedInstance",
 		ResourceLabel:        "SSM Managed Instance",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SSM",
 		ListDescriber:        ParallelDescribeRegional(describer.SSMManagedInstance),
 		GetDescriber:         nil,
@@ -1133,7 +1200,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::Inventory",
 		ResourceLabel:        "SSM Inventory",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SSM",
 		ListDescriber:        ParallelDescribeRegional(describer.SSMInventory),
 		GetDescriber:         nil,
@@ -1147,7 +1215,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::InventoryEntry",
 		ResourceLabel:        "SSM Inventory Entry",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SSM",
 		ListDescriber:        ParallelDescribeRegional(describer.SSMInventoryEntry),
 		GetDescriber:         nil,
@@ -1161,7 +1230,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::MaintenanceWindow",
 		ResourceLabel:        "SSM Maintenance Window",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SSM",
 		ListDescriber:        ParallelDescribeRegional(describer.SSMMaintenanceWindow),
 		GetDescriber:         nil,
@@ -1175,7 +1245,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::PatchBaseline",
 		ResourceLabel:        "SSM Patch Baseline",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SSM",
 		ListDescriber:        ParallelDescribeRegional(describer.SSMPatchBaseline),
 		GetDescriber:         nil,
@@ -1189,7 +1260,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::Parameter",
 		ResourceLabel:        "SSM Parameter",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SSM",
 		ListDescriber:        ParallelDescribeRegional(describer.SSMParameter),
 		GetDescriber:         nil,
@@ -1200,13 +1272,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::Lambda::Function": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::Lambda::Function",
-		ResourceLabel: "Lambda Functions",
-		Tags: map[string][]string{
-			"category": {"Serverless"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Lambda.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::Lambda::Function",
+		ResourceLabel:        "Lambda Functions",
+		Tags:                 map[string][]string{
+            "category": {"Serverless"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Lambda.svg"},
+        },
 		ServiceName:          "lambda",
 		ListDescriber:        ParallelDescribeRegional(describer.LambdaFunction),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetLambdaFunction),
@@ -1220,7 +1292,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RDS::DBSnapshot",
 		ResourceLabel:        "RDS Snapshots",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "RDS",
 		ListDescriber:        ParallelDescribeRegional(describer.RDSDBSnapshot),
 		GetDescriber:         nil,
@@ -1234,7 +1307,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeDeploy::Application",
 		ResourceLabel:        "CodeDeploy Application",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CodeDeploy",
 		ListDescriber:        ParallelDescribeRegional(describer.CodeDeployApplication),
 		GetDescriber:         nil,
@@ -1248,7 +1322,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeDeploy::DeploymentConfig",
 		ResourceLabel:        "CodeDeploy Deployment Config",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CodeDeploy",
 		ListDescriber:        ParallelDescribeRegional(describer.CodeDeployDeploymentConfig),
 		GetDescriber:         nil,
@@ -1262,7 +1337,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EMR::Cluster",
 		ResourceLabel:        "EMR Clusters",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ElasticMapReduce",
 		ListDescriber:        ParallelDescribeRegional(describer.EMRCluster),
 		GetDescriber:         nil,
@@ -1276,7 +1352,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::AccessKey",
 		ResourceLabel:        "IAM Access Key",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "IAM",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMAccessKey),
 		GetDescriber:         nil,
@@ -1286,11 +1363,27 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
+	"AWS::IAM::SSHPublicKey": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::IAM::SSHPublicKey",
+		ResourceLabel:        "IAM SSH Public Key",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "IAM",
+		ListDescriber:        SequentialDescribeGlobal(describer.IAMSSHPublicKey),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_iam_user_ssh_key"},
+		TerraformServiceName: "iam",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
 	"AWS::Glue::CatalogTable": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glue::CatalogTable",
 		ResourceLabel:        "Glue Catalog Table",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Glue",
 		ListDescriber:        ParallelDescribeRegional(describer.GlueCatalogTable),
 		GetDescriber:         nil,
@@ -1304,7 +1397,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudTrail::Channel",
 		ResourceLabel:        "CloudTrail Channel",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudTrail",
 		ListDescriber:        ParallelDescribeRegional(describer.CloudTrailChannel),
 		GetDescriber:         nil,
@@ -1318,7 +1412,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::NetworkAcl",
 		ResourceLabel:        "Network ACLs",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2.NetworkSecurity",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2NetworkAcl),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2NetworkAcl),
@@ -1332,7 +1427,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ECS::ContainerInstance",
 		ResourceLabel:        "ECS Container Instances",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ECS",
 		ListDescriber:        ParallelDescribeRegional(describer.ECSContainerInstance),
 		GetDescriber:         nil,
@@ -1346,7 +1442,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RedshiftServerless::Snapshot",
 		ResourceLabel:        "Redshift Serverless Snapshot",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "RedshiftServerless",
 		ListDescriber:        ParallelDescribeRegional(describer.RedshiftServerlessSnapshot),
 		GetDescriber:         nil,
@@ -1360,7 +1457,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Workspaces::Bundle",
 		ResourceLabel:        "Workspaces Bundle",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Workspaces",
 		ListDescriber:        ParallelDescribeRegional(describer.WorkspacesBundle),
 		GetDescriber:         nil,
@@ -1374,7 +1472,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudTrail::Trail",
 		ResourceLabel:        "CloudTrail Trail",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudTrail",
 		ListDescriber:        ParallelDescribeRegional(describer.CloudTrailTrail),
 		GetDescriber:         nil,
@@ -1388,7 +1487,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DAX::Parameter",
 		ResourceLabel:        "DAx Parameter",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "DAX",
 		ListDescriber:        ParallelDescribeRegional(describer.DAXParameter),
 		GetDescriber:         nil,
@@ -1402,7 +1502,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ECR::Image",
 		ResourceLabel:        "ECR Image",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ECR",
 		ListDescriber:        ParallelDescribeRegional(describer.ECRImage),
 		GetDescriber:         nil,
@@ -1416,7 +1517,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::ServerCertificate",
 		ResourceLabel:        "IAM Server Certificate",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "IAM",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMServerCertificate),
 		GetDescriber:         nil,
@@ -1430,7 +1532,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Keyspaces::Keyspace",
 		ResourceLabel:        "AWS Keyspace",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Keyspaces",
 		ListDescriber:        ParallelDescribeRegional(describer.KeyspacesKeyspace),
 		GetDescriber:         nil,
@@ -1444,7 +1547,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::S3::AccessPoint",
 		ResourceLabel:        "S3 Access Point",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "S3",
 		ListDescriber:        ParallelDescribeRegional(describer.S3AccessPoint),
 		GetDescriber:         nil,
@@ -1458,7 +1562,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SageMaker::EndpointConfiguration",
 		ResourceLabel:        "SageMaker Endpoint Configuration",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SageMaker",
 		ListDescriber:        ParallelDescribeRegional(describer.SageMakerEndpointConfiguration),
 		GetDescriber:         nil,
@@ -1472,7 +1577,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElastiCache::ReservedCacheNode",
 		ResourceLabel:        "ElasticCache Reserved Cache Node",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ElastiCache",
 		ListDescriber:        ParallelDescribeRegional(describer.ElastiCacheReservedCacheNode),
 		GetDescriber:         nil,
@@ -1486,7 +1592,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EMR::InstanceFleet",
 		ResourceLabel:        "EMR Instance Fleet",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ElasticMapReduce",
 		ListDescriber:        ParallelDescribeRegional(describer.EMRInstanceFleet),
 		GetDescriber:         nil,
@@ -1500,7 +1607,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::Account",
 		ResourceLabel:        "IAM Account",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "IAM",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMAccount),
 		GetDescriber:         nil,
@@ -1514,7 +1622,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::VPCPeeringConnection",
 		ResourceLabel:        "VPC Peering Connection",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VPCPeeringConnection),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2VPCPeeringConnection),
@@ -1528,7 +1637,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EKS::FargateProfile",
 		ResourceLabel:        "EKS Fargate Profile",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EKS",
 		ListDescriber:        ParallelDescribeRegional(describer.EKSFargateProfile),
 		GetDescriber:         nil,
@@ -1542,7 +1652,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::AccountPasswordPolicy",
 		ResourceLabel:        "IAM Account Password Policy",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "IAM",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMAccountPasswordPolicy),
 		GetDescriber:         nil,
@@ -1556,7 +1667,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodePipeline::Pipeline",
 		ResourceLabel:        "Code Pipeline",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CodePipeline",
 		ListDescriber:        ParallelDescribeRegional(describer.CodePipelinePipeline),
 		GetDescriber:         nil,
@@ -1570,7 +1682,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DAX::Cluster",
 		ResourceLabel:        "DAX Cluster",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "DAX",
 		ListDescriber:        ParallelDescribeRegional(describer.DAXCluster),
 		GetDescriber:         nil,
@@ -1584,7 +1697,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DLM::LifecyclePolicy",
 		ResourceLabel:        "DLM Lifecycle Policy",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "DLM",
 		ListDescriber:        ParallelDescribeRegional(describer.DLMLifecyclePolicy),
 		GetDescriber:         nil,
@@ -1598,7 +1712,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::OpsWorksCM::Server",
 		ResourceLabel:        "OpsWorks CM Server",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "OpsWorksCM",
 		ListDescriber:        ParallelDescribeRegional(describer.OpsWorksCMServer),
 		GetDescriber:         nil,
@@ -1612,7 +1727,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::AccessAnalyzer::Analyzer",
 		ResourceLabel:        "Access Analyzer",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "AccessAnalyzer",
 		ListDescriber:        ParallelDescribeRegional(describer.AccessAnalyzerAnalyzer),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetAccessAnalyzerAnalyzer),
@@ -1626,7 +1742,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElastiCache::SubnetGroup",
 		ResourceLabel:        "ElasticCache Subnet Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ElastiCache",
 		ListDescriber:        ParallelDescribeRegional(describer.ElastiCacheSubnetGroup),
 		GetDescriber:         nil,
@@ -1640,7 +1757,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::FSX::Volume",
 		ResourceLabel:        "FSX Volume",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "FSX",
 		ListDescriber:        ParallelDescribeRegional(describer.FSXVolume),
 		GetDescriber:         nil,
@@ -1654,7 +1772,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Amplify::App",
 		ResourceLabel:        "Amplify App",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Amplify",
 		ListDescriber:        ParallelDescribeRegional(describer.AmplifyApp),
 		GetDescriber:         nil,
@@ -1668,7 +1787,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudTrail::Query",
 		ResourceLabel:        "CloudTrail Query",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudTrail",
 		ListDescriber:        ParallelDescribeRegional(describer.CloudTrailQuery),
 		GetDescriber:         nil,
@@ -1682,7 +1802,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ECR::PublicRegistry",
 		ResourceLabel:        "ECR Public Registry",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ECR",
 		ListDescriber:        ParallelDescribeRegional(describer.ECRPublicRegistry),
 		GetDescriber:         nil,
@@ -1696,7 +1817,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::NetworkInterface",
 		ResourceLabel:        "Network Interfaces",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2NetworkInterface),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2NetworkInterface),
@@ -1710,7 +1832,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::VPNConnection",
 		ResourceLabel:        "VPN Connection",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VPNConnection),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2VPNConnection),
@@ -1724,7 +1847,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::FSX::StorageVirtualMachine",
 		ResourceLabel:        "FSX Storage VMs",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "FSX",
 		ListDescriber:        ParallelDescribeRegional(describer.FSXStorageVirtualMachine),
 		GetDescriber:         nil,
@@ -1738,7 +1862,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ApiGateway::Authorizer",
 		ResourceLabel:        "API Gateway Authorizer",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ApiGateway",
 		ListDescriber:        ParallelDescribeRegional(describer.ApiGatewayAuthorizer),
 		GetDescriber:         nil,
@@ -1752,7 +1877,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::AppStream::Stack",
 		ResourceLabel:        "AppStream Stack",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "AppStream",
 		ListDescriber:        ParallelDescribeRegional(describer.AppStreamStack),
 		GetDescriber:         nil,
@@ -1766,7 +1892,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Athena::WorkGroup",
 		ResourceLabel:        "Athena Workgroup",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Athena",
 		ListDescriber:        ParallelDescribeRegional(describer.AthenaWrokgroup),
 		GetDescriber:         nil,
@@ -1780,7 +1907,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Athena::QueryExecution",
 		ResourceLabel:        "Athenea Query Execution",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Athena",
 		ListDescriber:        ParallelDescribeRegional(describer.AthenaQueryExecution),
 		GetDescriber:         nil,
@@ -1794,7 +1922,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::AppStream::Image",
 		ResourceLabel:        "AppStream Image",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "AppStream",
 		ListDescriber:        ParallelDescribeRegional(describer.AppStreamImage),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetAppStreamImage),
@@ -1808,7 +1937,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudWatch::Alarm",
 		ResourceLabel:        "CloudWatch Alarm",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudWatch",
 		ListDescriber:        ParallelDescribeRegional(describer.CloudWatchAlarm),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetCloudWatchAlarm),
@@ -1822,7 +1952,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudWatch::LogSubscriptionFilter",
 		ResourceLabel:        "CloudWatch Log Subscription Filter",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudWatch",
 		ListDescriber:        SequentialDescribeRegional(describer.CloudWatchLogsSubscriptionFilter),
 		GetDescriber:         nil,
@@ -1836,7 +1967,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RDS::DBCluster",
 		ResourceLabel:        "RDS Clusters",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "RDS",
 		ListDescriber:        ParallelDescribeRegional(describer.RDSDBCluster),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetRDSDBCluster),
@@ -1850,7 +1982,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RDS::DBClusterSnapshot",
 		ResourceLabel:        "RDs Cluster Snapshot",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "RDS",
 		ListDescriber:        ParallelDescribeRegional(describer.RDSDBClusterSnapshot),
 		GetDescriber:         nil,
@@ -1864,7 +1997,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Backup::Framework",
 		ResourceLabel:        "Backup Framework",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Backup",
 		ListDescriber:        ParallelDescribeRegional(describer.BackupFramework),
 		GetDescriber:         nil,
@@ -1878,7 +2012,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeBuild::SourceCredential",
 		ResourceLabel:        "CodeBuild Source Credential",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CodeBuild",
 		ListDescriber:        ParallelDescribeRegional(describer.CodeBuildSourceCredential),
 		GetDescriber:         nil,
@@ -1892,7 +2027,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::ServiceSpecificCredential",
 		ResourceLabel:        "IAM Service Specific Credential",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "IAM",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMServiceSpecificCredential),
 		GetDescriber:         nil,
@@ -1906,7 +2042,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::CapacityReservationFleet",
 		ResourceLabel:        "EC2 Capacity Reservation Fleet",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2CapacityReservationFleet),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2CapacityReservationFleet),
@@ -1920,7 +2057,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::NetworkFirewall::Firewall",
 		ResourceLabel:        "AWS Firewalls",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "network-firewall",
 		ListDescriber:        ParallelDescribeRegional(describer.NetworkFirewallFirewall),
 		GetDescriber:         nil,
@@ -1934,7 +2072,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Workspaces::Workspace",
 		ResourceLabel:        "Workspace VDIs",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Workspaces",
 		ListDescriber:        ParallelDescribeRegional(describer.WorkspacesWorkspace),
 		GetDescriber:         nil,
@@ -1948,7 +2087,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElasticSearch::Domain",
 		ResourceLabel:        "ElasticSearch Domain",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ElasticSearch",
 		ListDescriber:        ParallelDescribeRegional(describer.ESDomain),
 		GetDescriber:         nil,
@@ -1959,13 +2099,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::RDS::DBInstance": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::RDS::DBInstance",
-		ResourceLabel: "RDS DB Instances",
-		Tags: map[string][]string{
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Rds.svg"},
-			"category": {"Database"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::RDS::DBInstance",
+		ResourceLabel:        "RDS DB Instances",
+		Tags:                 map[string][]string{
+            "category": {"Database"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Rds.svg"},
+        },
 		ServiceName:          "rds",
 		ListDescriber:        ParallelDescribeRegional(describer.RDSDBInstance),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetRDSDBInstance),
@@ -1979,7 +2119,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RDS::DBInstanceAutomatedBackup",
 		ResourceLabel:        "RDS DB Instances Automated Backups",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "rds",
 		ListDescriber:        ParallelDescribeRegional(describer.RDSDBInstanceAutomatedBackup),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetRDSDBInstanceAutomatedBackup),
@@ -1993,7 +2134,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EFS::MountTarget",
 		ResourceLabel:        "EFS Mount Target",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ElasticFileSystem",
 		ListDescriber:        ParallelDescribeRegional(describer.EFSMountTarget),
 		GetDescriber:         nil,
@@ -2007,7 +2149,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GlobalAccelerator::Listener",
 		ResourceLabel:        "Global Accelerator Listener",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "GlobalAccelerator",
 		ListDescriber:        ParallelDescribeRegional(describer.GlobalAcceleratorListener),
 		GetDescriber:         nil,
@@ -2021,7 +2164,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EKS::Addon",
 		ResourceLabel:        "EKS Addon",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EKS",
 		ListDescriber:        ParallelDescribeRegional(describer.EKSAddon),
 		GetDescriber:         nil,
@@ -2035,7 +2179,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::Policy",
 		ResourceLabel:        "IAM Policies",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "IAM",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMPolicy),
 		GetDescriber:         nil,
@@ -2046,13 +2191,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::Redshift::Cluster": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::Redshift::Cluster",
-		ResourceLabel: "Redshift Clusters",
-		Tags: map[string][]string{
-			"category": {"Big Data"},
-			"logo_uri": {""},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::Redshift::Cluster",
+		ResourceLabel:        "Redshift Clusters",
+		Tags:                 map[string][]string{
+            "category": {"Big Data"},
+            "logo_uri": {""},
+        },
 		ServiceName:          "redshift",
 		ListDescriber:        ParallelDescribeRegional(describer.RedshiftCluster),
 		GetDescriber:         nil,
@@ -2066,7 +2211,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAFRegional::Rule",
 		ResourceLabel:        "WAFF Regional Rule",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WAFRegional",
 		ListDescriber:        ParallelDescribeRegional(describer.WAFRegionalRule),
 		GetDescriber:         nil,
@@ -2080,7 +2226,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAFRegional::RuleGroup",
 		ResourceLabel:        "WAFF Regional Rule Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WAFRegional",
 		ListDescriber:        ParallelDescribeRegional(describer.WAFRegionalRuleGroup),
 		GetDescriber:         nil,
@@ -2094,7 +2241,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glue::DataCatalogEncryptionSettings",
 		ResourceLabel:        "Glue Data Catalog Encryption Settings",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Glue",
 		ListDescriber:        ParallelDescribeRegional(describer.GlueDataCatalogEncryptionSettings),
 		GetDescriber:         nil,
@@ -2108,7 +2256,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::FlowLog",
 		ResourceLabel:        "EC2 Flow Log",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2FlowLog),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2FlowLog),
@@ -2122,7 +2271,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::IpamPool",
 		ResourceLabel:        "IPAM Address Pool",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2IpamPool),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2IpamPool),
@@ -2136,7 +2286,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::SamlProvider",
 		ResourceLabel:        "SAML Provider",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "IAM",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMSamlProvider),
 		GetDescriber:         nil,
@@ -2150,7 +2301,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Route53::HostedZone",
 		ResourceLabel:        "DNS Zones",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Route53",
 		ListDescriber:        SequentialDescribeGlobal(describer.Route53HostedZone),
 		GetDescriber:         nil,
@@ -2164,7 +2316,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Route53::QueryLog",
 		ResourceLabel:        "DNS Query Log",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Route53",
 		ListDescriber:        SequentialDescribeGlobal(describer.Route53QueryLog),
 		GetDescriber:         nil,
@@ -2178,7 +2331,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::PlacementGroup",
 		ResourceLabel:        "EC2 Placement Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2PlacementGroup),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2PlacementGroup),
@@ -2192,7 +2346,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::FSX::Snapshot",
 		ResourceLabel:        "FSX Snapshot",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "FSX",
 		ListDescriber:        ParallelDescribeRegional(describer.FSXSnapshot),
 		GetDescriber:         nil,
@@ -2206,7 +2361,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::KMS::Key",
 		ResourceLabel:        "Cryptographic Keys",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "KMS",
 		ListDescriber:        ParallelDescribeRegional(describer.KMSKey),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetKMSKey),
@@ -2220,7 +2376,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::Ipam",
 		ResourceLabel:        "IPAM",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2Ipam),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2Ipam),
@@ -2234,7 +2391,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElasticBeanstalk::Environment",
 		ResourceLabel:        "App Environments",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ElasticBeanstalk",
 		ListDescriber:        ParallelDescribeRegional(describer.ElasticBeanstalkEnvironment),
 		GetDescriber:         nil,
@@ -2248,7 +2406,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Lambda::FunctionVersion",
 		ResourceLabel:        "Function Version",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Lambda",
 		ListDescriber:        ParallelDescribeRegional(describer.LambdaFunctionVersion),
 		GetDescriber:         nil,
@@ -2262,7 +2421,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glue::DevEndpoint",
 		ResourceLabel:        "Glue Dev Endpoint",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Glue",
 		ListDescriber:        ParallelDescribeRegional(describer.GlueDevEndpoint),
 		GetDescriber:         nil,
@@ -2276,7 +2436,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Backup::RecoveryPoint",
 		ResourceLabel:        "Backup Recovery Point",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Backup",
 		ListDescriber:        ParallelDescribeRegional(describer.BackupRecoveryPoint),
 		GetDescriber:         nil,
@@ -2290,7 +2451,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Backup::ReportPlan",
 		ResourceLabel:        "Backup Report Plan",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Backup",
 		ListDescriber:        ParallelDescribeRegional(describer.BackupReportPlan),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetBackupReportPlan),
@@ -2304,7 +2466,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DynamoDbStreams::Stream",
 		ResourceLabel:        "Stream",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "DynamoDb",
 		ListDescriber:        ParallelDescribeRegional(describer.DynamoDbStream),
 		GetDescriber:         nil,
@@ -2318,7 +2481,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::EgressOnlyInternetGateway",
 		ResourceLabel:        "Egress-Only Internet Gateway",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2EgressOnlyInternetGateway),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2EgressOnlyInternetGateway),
@@ -2329,13 +2493,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::CloudFront::Distribution": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::CloudFront::Distribution",
-		ResourceLabel: "CloudFront Distribution",
-		Tags: map[string][]string{
-			"category": {"Networking"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/CloudFront.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::CloudFront::Distribution",
+		ResourceLabel:        "CloudFront Distribution",
+		Tags:                 map[string][]string{
+            "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/CloudFront.svg"},
+        },
 		ServiceName:          "CloudFront",
 		ListDescriber:        SequentialDescribeGlobal(describer.CloudFrontDistribution),
 		GetDescriber:         nil,
@@ -2349,7 +2513,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudFront::StreamingDistribution",
 		ResourceLabel:        "CloudFront Streaming Distribution",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudFront",
 		ListDescriber:        SequentialDescribeGlobal(describer.CloudFrontStreamingDistribution),
 		GetDescriber:         nil,
@@ -2363,7 +2528,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glue::Job",
 		ResourceLabel:        "Glue Job",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Glue",
 		ListDescriber:        ParallelDescribeRegional(describer.GlueJob),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetGlueJob),
@@ -2377,7 +2543,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::AppStream::Fleet",
 		ResourceLabel:        "AppStream Fleet",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "AppStream",
 		ListDescriber:        ParallelDescribeRegional(describer.AppStreamFleet),
 		GetDescriber:         nil,
@@ -2391,7 +2558,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SES::ConfigurationSet",
 		ResourceLabel:        "SES Config Set",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SES",
 		ListDescriber:        ParallelDescribeRegional(describer.SESConfigurationSet),
 		GetDescriber:         nil,
@@ -2405,7 +2573,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::User",
 		ResourceLabel:        "IAM Users",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "iam",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMUser),
 		GetDescriber:         nil,
@@ -2419,7 +2588,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudFront::OriginRequestPolicy",
 		ResourceLabel:        "CloudFront Origin Request Policy",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudFront",
 		ListDescriber:        SequentialDescribeGlobal(describer.CloudFrontOriginRequestPolicy),
 		GetDescriber:         nil,
@@ -2430,12 +2600,12 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::EC2::SecurityGroup": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::EC2::SecurityGroup",
-		ResourceLabel: "EC2 Network Security Groups",
-		Tags: map[string][]string{
-			"category": {"Networking"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::EC2::SecurityGroup",
+		ResourceLabel:        "EC2 Network Security Groups",
+		Tags:                 map[string][]string{
+            "category": {"Networking"},
+        },
 		ServiceName:          "EC2.NetworkSecurity",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2SecurityGroup),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2SecurityGroup),
@@ -2449,7 +2619,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GuardDuty::IPSet",
 		ResourceLabel:        "GuardDuty IP Set",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "GuardDuty",
 		ListDescriber:        ParallelDescribeRegional(describer.GuardDutyIPSet),
 		GetDescriber:         nil,
@@ -2463,7 +2634,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EKS::Cluster",
 		ResourceLabel:        "Kubernetes Clusters",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "eks",
 		ListDescriber:        ParallelDescribeRegional(describer.EKSCluster),
 		GetDescriber:         nil,
@@ -2477,7 +2649,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Grafana::Workspace",
 		ResourceLabel:        "Grafana Workspace",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Grafana",
 		ListDescriber:        ParallelDescribeRegional(describer.GrafanaWorkspace),
 		GetDescriber:         nil,
@@ -2491,7 +2664,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glue::CatalogDatabase",
 		ResourceLabel:        "Glue Catalog Database",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Glue",
 		ListDescriber:        ParallelDescribeRegional(describer.GlueCatalogDatabase),
 		GetDescriber:         nil,
@@ -2505,7 +2679,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Health::Event",
 		ResourceLabel:        "Health Event",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Health",
 		ListDescriber:        ParallelDescribeRegional(describer.HealthEvent),
 		GetDescriber:         nil,
@@ -2519,7 +2694,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Health::AffectedEntity",
 		ResourceLabel:        "Health Affected Entity",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Health",
 		ListDescriber:        ParallelDescribeRegional(describer.HealthAffectedEntity),
 		GetDescriber:         nil,
@@ -2533,7 +2709,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudFormation::StackSet",
 		ResourceLabel:        "CloudFormation StackSet",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudFormation",
 		ListDescriber:        ParallelDescribeRegional(describer.CloudFormationStackSet),
 		GetDescriber:         nil,
@@ -2547,7 +2724,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::AvailabilityZone",
 		ResourceLabel:        "EC2 Availability Zone",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2AvailabilityZone),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2AvailabilityZone),
@@ -2561,10 +2739,11 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::TransitGateway",
 		ResourceLabel:        "Transit Gateways",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2TransitGateway),
-		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2TransitGateway),
+		GetDescriber:          ParallelDescribeRegionalSingleResource(describer.GetEC2TransitGateway),
 		TerraformName:        []string{"aws_ec2_transit_gateway"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        true,
@@ -2575,7 +2754,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ApiGateway::UsagePlan",
 		ResourceLabel:        "API Gateway Usage Plan",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ApiGateway",
 		ListDescriber:        ParallelDescribeRegional(describer.ApiGatewayUsagePlan),
 		GetDescriber:         nil,
@@ -2589,7 +2769,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Inspector::Finding",
 		ResourceLabel:        "Inspector Finding",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Inspector",
 		ListDescriber:        ParallelDescribeRegional(describer.InspectorFinding),
 		GetDescriber:         nil,
@@ -2603,7 +2784,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::Fleet",
 		ResourceLabel:        "EC2 Fleet",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2Fleet),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2Fleet),
@@ -2617,7 +2799,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElasticBeanstalk::Application",
 		ResourceLabel:        "Elastic BeanStalk Applications",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ElasticBeanstalk",
 		ListDescriber:        ParallelDescribeRegional(describer.ElasticBeanstalkApplication),
 		GetDescriber:         nil,
@@ -2631,7 +2814,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElasticLoadBalancingV2::LoadBalancer",
 		ResourceLabel:        "ELBv2 Load Balancer",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ElasticLoadBalancing",
 		ListDescriber:        ParallelDescribeRegional(describer.ElasticLoadBalancingV2LoadBalancer),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetElasticLoadBalancingV2LoadBalancer),
@@ -2645,7 +2829,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::OpenSearch::Domain",
 		ResourceLabel:        "OpenSearch Domain",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "OpenSearch",
 		ListDescriber:        ParallelDescribeRegional(describer.OpenSearchDomain),
 		GetDescriber:         nil,
@@ -2659,7 +2844,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RDS::DBEventSubscription",
 		ResourceLabel:        "Event Subscription",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "RDS",
 		ListDescriber:        ParallelDescribeRegional(describer.RDSDBEventSubscription),
 		GetDescriber:         nil,
@@ -2673,7 +2859,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::RegionalSettings",
 		ResourceLabel:        "Regional Settings",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2RegionalSettings),
 		GetDescriber:         nil,
@@ -2687,7 +2874,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::SecurityGroupRule",
 		ResourceLabel:        "Security Group Rule",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2SecurityGroupRule),
 		GetDescriber:         nil,
@@ -2701,7 +2889,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::TransitGatewayAttachment",
 		ResourceLabel:        "EC2 Transit Gateway Attachment",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2TransitGatewayAttachment),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2TransitGatewayAttachment),
@@ -2715,7 +2904,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SES::Identity",
 		ResourceLabel:        "SES Identities",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SES",
 		ListDescriber:        ParallelDescribeRegional(describer.SESIdentity),
 		GetDescriber:         nil,
@@ -2729,7 +2919,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SESv2::EmailIdentities",
 		ResourceLabel:        "SESv2 EmailIdentities",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SESv2",
 		ListDescriber:        ParallelDescribeRegional(describer.SESv2EmailIdentities),
 		GetDescriber:         nil,
@@ -2743,7 +2934,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAF::Rule",
 		ResourceLabel:        "WAF Rule",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WAF",
 		ListDescriber:        ParallelDescribeRegional(describer.WAFRule),
 		GetDescriber:         nil,
@@ -2757,7 +2949,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAF::RuleGroup",
 		ResourceLabel:        "WAF Rule Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WAF",
 		ListDescriber:        ParallelDescribeRegional(describer.WAFRuleGroup),
 		GetDescriber:         nil,
@@ -2771,7 +2964,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAF::RateBasedRule",
 		ResourceLabel:        "WAF Rate Based Rule",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WAF",
 		ListDescriber:        ParallelDescribeRegional(describer.WAFRateBasedRule),
 		GetDescriber:         nil,
@@ -2785,7 +2979,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAF::WebACL",
 		ResourceLabel:        "WAF Web ACL",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WAF",
 		ListDescriber:        ParallelDescribeRegional(describer.WAFWebACL),
 		GetDescriber:         nil,
@@ -2799,7 +2994,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAFRegional::WebACL",
 		ResourceLabel:        "WAF Regional Web ACL",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WAF",
 		ListDescriber:        ParallelDescribeRegional(describer.WAFRegionalWebACL),
 		GetDescriber:         nil,
@@ -2813,7 +3009,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::Workload",
 		ResourceLabel:        "Well Architected Workload",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WellArchitected",
 		ListDescriber:        ParallelDescribeRegional(describer.WellArchitectedWorkload),
 		GetDescriber:         nil,
@@ -2827,7 +3024,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::Answer",
 		ResourceLabel:        "Well Architected Answer",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WellArchitected",
 		ListDescriber:        ParallelDescribeRegional(describer.WellArchitectedAnswer),
 		GetDescriber:         nil,
@@ -2841,7 +3039,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::CheckDetail",
 		ResourceLabel:        "Well Architected Check Detail",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WellArchitected",
 		ListDescriber:        ParallelDescribeRegional(describer.WellArchitectedCheckDetail),
 		GetDescriber:         nil,
@@ -2855,7 +3054,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::CheckSummary",
 		ResourceLabel:        "Well Architected Check Summary",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WellArchitected",
 		ListDescriber:        ParallelDescribeRegional(describer.WellArchitectedCheckSummary),
 		GetDescriber:         nil,
@@ -2869,7 +3069,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::ConsolidatedReport",
 		ResourceLabel:        "Well Architected Consolidated Report",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WellArchitected",
 		ListDescriber:        ParallelDescribeRegional(describer.WellArchitectedConsolidatedReport),
 		GetDescriber:         nil,
@@ -2883,7 +3084,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::Lens",
 		ResourceLabel:        "Well Architected Lens",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WellArchitected",
 		ListDescriber:        ParallelDescribeRegional(describer.WellArchitectedLens),
 		GetDescriber:         nil,
@@ -2897,7 +3099,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::LensReview",
 		ResourceLabel:        "Well Architected Lens Review",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WellArchitected",
 		ListDescriber:        ParallelDescribeRegional(describer.WellArchitectedLensReview),
 		GetDescriber:         nil,
@@ -2911,7 +3114,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::LensReviewImprovement",
 		ResourceLabel:        "Well Architected Lens Review Improvement",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WellArchitected",
 		ListDescriber:        ParallelDescribeRegional(describer.WellArchitectedLensReviewImprovement),
 		GetDescriber:         nil,
@@ -2925,7 +3129,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::LensReviewReport",
 		ResourceLabel:        "Well Architected Lens Review Report",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WellArchitected",
 		ListDescriber:        ParallelDescribeRegional(describer.WellArchitectedLensReviewReport),
 		GetDescriber:         nil,
@@ -2939,7 +3144,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::LensShare",
 		ResourceLabel:        "Well Architected Lens Share",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WellArchitected",
 		ListDescriber:        ParallelDescribeRegional(describer.WellArchitectedLensShare),
 		GetDescriber:         nil,
@@ -2953,7 +3159,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::Milestone",
 		ResourceLabel:        "Well Architected Milestone",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WellArchitected",
 		ListDescriber:        ParallelDescribeRegional(describer.WellArchitectedMilestone),
 		GetDescriber:         nil,
@@ -2967,7 +3174,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::Notification",
 		ResourceLabel:        "Well Architected Notification",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WellArchitected",
 		ListDescriber:        ParallelDescribeRegional(describer.WellArchitectedNotification),
 		GetDescriber:         nil,
@@ -2981,7 +3189,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::ShareInvitation",
 		ResourceLabel:        "Well Architected Share Invitation",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WellArchitected",
 		ListDescriber:        ParallelDescribeRegional(describer.WellArchitectedShareInvitation),
 		GetDescriber:         nil,
@@ -2995,7 +3204,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WellArchitected::WorkloadShare",
 		ResourceLabel:        "Well Architected Workload Share",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WellArchitected",
 		ListDescriber:        ParallelDescribeRegional(describer.WellArchitectedWorkloadShare),
 		GetDescriber:         nil,
@@ -3009,7 +3219,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::AutoScaling::LaunchConfiguration",
 		ResourceLabel:        "Autoscaling Launch Config",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "AutoScaling",
 		ListDescriber:        ParallelDescribeRegional(describer.AutoScalingLaunchConfiguration),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetAutoScalingLaunchConfiguration),
@@ -3023,7 +3234,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudTrail::EventDataStore",
 		ResourceLabel:        "Cloud Trail Event Data Store",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudTrail",
 		ListDescriber:        ParallelDescribeRegional(describer.CloudTrailEventDataStore),
 		GetDescriber:         nil,
@@ -3037,7 +3249,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeDeploy::DeploymentGroup",
 		ResourceLabel:        "CodeDeploy Deployment Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CodeDeploy",
 		ListDescriber:        ParallelDescribeRegional(describer.CodeDeployDeploymentGroup),
 		GetDescriber:         nil,
@@ -3051,7 +3264,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ImageBuilder::Image",
 		ResourceLabel:        "Image Builder Image",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ImageBuilder",
 		ListDescriber:        ParallelDescribeRegional(describer.ImageBuilderImage),
 		GetDescriber:         nil,
@@ -3065,7 +3279,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Redshift::ClusterParameterGroup",
 		ResourceLabel:        "Redshift Cluster Parameter Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Redshift",
 		ListDescriber:        ParallelDescribeRegional(describer.RedshiftClusterParameterGroup),
 		GetDescriber:         nil,
@@ -3079,7 +3294,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Account::AlternateContact",
 		ResourceLabel:        "Account Alternate Contact",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Account",
 		ListDescriber:        SequentialDescribeGlobal(describer.AccountAlternateContact),
 		GetDescriber:         nil,
@@ -3093,7 +3309,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Inspector::AssessmentTarget",
 		ResourceLabel:        "Inspector Assessment Target",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Inspector",
 		ListDescriber:        ParallelDescribeRegional(describer.InspectorAssessmentTarget),
 		GetDescriber:         nil,
@@ -3107,7 +3324,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudFront::ResponseHeadersPolicy",
 		ResourceLabel:        "CloudFront Response Headers Policy",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudFront",
 		ListDescriber:        SequentialDescribeGlobal(describer.CloudFrontResponseHeadersPolicy),
 		GetDescriber:         nil,
@@ -3118,13 +3336,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::EC2::Instance": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::EC2::Instance",
-		ResourceLabel: "EC2 Servers",
-		Tags: map[string][]string{
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Ec2Instance.svg"},
-			"category": {"Compute"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::EC2::Instance",
+		ResourceLabel:        "EC2 Servers",
+		Tags:                 map[string][]string{
+            "category": {"Compute"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Ec2Instance.svg"},
+        },
 		ServiceName:          "EC2.Compute",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2Instance),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2Instance),
@@ -3138,7 +3356,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::ReservedInstances",
 		ResourceLabel:        "Reserved Instances",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2.Other",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2ReservedInstances),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2ReservedInstances),
@@ -3149,13 +3368,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::ECR::Repository": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::ECR::Repository",
-		ResourceLabel: "Container Repositories",
-		Tags: map[string][]string{
-			"category": {"Containers"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticContainerRegistry.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::ECR::Repository",
+		ResourceLabel:        "Container Repositories",
+		Tags:                 map[string][]string{
+            "category": {"Containers"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticContainerRegistry.svg"},
+        },
 		ServiceName:          "ECR",
 		ListDescriber:        ParallelDescribeRegional(describer.ECRRepository),
 		GetDescriber:         nil,
@@ -3169,7 +3388,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElasticLoadBalancingV2::Listener",
 		ResourceLabel:        "Load Balancer Listener",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ElasticLoadBalancing",
 		ListDescriber:        ParallelDescribeRegional(describer.ElasticLoadBalancingV2Listener),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetElasticLoadBalancingV2Listener),
@@ -3183,7 +3403,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::Group",
 		ResourceLabel:        "IAM Groups",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "IAM",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMGroup),
 		GetDescriber:         nil,
@@ -3197,7 +3418,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::OpenIdConnectProvider",
 		ResourceLabel:        "IAM Groups",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "IAM",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMOpenIdConnectProvider),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetIAMOpenIdConnectProvider),
@@ -3211,7 +3433,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Backup::Plan",
 		ResourceLabel:        "Backup Plans",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Backup",
 		ListDescriber:        ParallelDescribeRegional(describer.BackupPlan),
 		GetDescriber:         nil,
@@ -3225,7 +3448,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Config::ConformancePack",
 		ResourceLabel:        "Config Conformance Pack",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Config",
 		ListDescriber:        ParallelDescribeRegional(describer.ConfigConformancePack),
 		GetDescriber:         nil,
@@ -3239,7 +3463,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Config::RetentionConfiguration",
 		ResourceLabel:        "Config Retention Configuration",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Config",
 		ListDescriber:        ParallelDescribeRegional(describer.ConfigRetentionConfiguration),
 		GetDescriber:         nil,
@@ -3253,7 +3478,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Account::Contact",
 		ResourceLabel:        "Account Contact",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Account",
 		ListDescriber:        SequentialDescribeGlobal(describer.AccountContact),
 		GetDescriber:         nil,
@@ -3267,7 +3493,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glue::DataQualityRuleset",
 		ResourceLabel:        "Glue Data Quality Ruleset",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Glue",
 		ListDescriber:        ParallelDescribeRegional(describer.GlueDataQualityRuleset),
 		GetDescriber:         nil,
@@ -3281,7 +3508,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EventBridge::EventBus",
 		ResourceLabel:        "EventBridge Bus",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EventBridge",
 		ListDescriber:        ParallelDescribeRegional(describer.EventBridgeBus),
 		GetDescriber:         nil,
@@ -3295,7 +3523,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ApiGateway::Stage",
 		ResourceLabel:        "API Gateway Stage",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ApiGateway",
 		ListDescriber:        ParallelDescribeRegional(describer.ApiGatewayStage),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetApiGatewayStage),
@@ -3309,7 +3538,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ApiGatewayV2::Stage",
 		ResourceLabel:        "API Gateway V2 Stage",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ApiGateway",
 		ListDescriber:        ParallelDescribeRegional(describer.ApiGatewayV2Stage),
 		GetDescriber:         nil,
@@ -3323,7 +3553,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DynamoDb::LocalSecondaryIndex",
 		ResourceLabel:        "DynamoDB Indexes",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "DynamoDb",
 		ListDescriber:        ParallelDescribeRegional(describer.DynamoDbLocalSecondaryIndex),
 		GetDescriber:         nil,
@@ -3337,7 +3568,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ResourceGroups::Groups",
 		ResourceLabel:        "Resource Groups",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ResourceGroups",
 		ListDescriber:        ParallelDescribeRegional(describer.ResourceGroups),
 		GetDescriber:         nil,
@@ -3351,7 +3583,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Timestream::Database",
 		ResourceLabel:        "Timestream Database",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Timestream",
 		ListDescriber:        ParallelDescribeRegional(describer.TimestreamDatabase),
 		GetDescriber:         nil,
@@ -3365,7 +3598,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::OpenSearchServerless::Collection",
 		ResourceLabel:        "OpenSearchServerless Collection",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "OpenSearchServerless",
 		ListDescriber:        ParallelDescribeRegional(describer.OpenSearchServerlessCollection),
 		GetDescriber:         nil,
@@ -3379,7 +3613,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::ElasticIP",
 		ResourceLabel:        "EC2 ElasticIP",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2ElasticIP),
 		GetDescriber:         nil,
@@ -3393,7 +3628,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::LocalGateway",
 		ResourceLabel:        "EC2 LocalGateway",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2LocalGateway),
 		GetDescriber:         nil,
@@ -3404,13 +3640,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::EC2::Image": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::EC2::Image",
-		ResourceLabel: "EC2 Images (AMIs)",
-		Tags: map[string][]string{
-			"category": {"Compute"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Ec2AmiResource.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::EC2::Image",
+		ResourceLabel:        "EC2 Images (AMIs)",
+		Tags:                 map[string][]string{
+            "category": {"Compute"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Ec2AmiResource.svg"},
+        },
 		ServiceName:          "EC2.Storage",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2AMI),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2AMI),
@@ -3421,12 +3657,12 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::EC2::Subnet": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::EC2::Subnet",
-		ResourceLabel: "Subnets",
-		Tags: map[string][]string{
-			"category": {"Networking"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::EC2::Subnet",
+		ResourceLabel:        "Subnets",
+		Tags:                 map[string][]string{
+            "category": {"Networking"},
+        },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2Subnet),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2Subnet),
@@ -3440,7 +3676,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ECS::TaskSet",
 		ResourceLabel:        "ECS Task Sets",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ECS",
 		ListDescriber:        ParallelDescribeRegional(describer.ECSTaskSet),
 		GetDescriber:         nil,
@@ -3454,7 +3691,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Kinesis::Stream",
 		ResourceLabel:        "Kinesis Streams",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Kinesis",
 		ListDescriber:        ParallelDescribeRegional(describer.KinesisStream),
 		GetDescriber:         nil,
@@ -3468,7 +3706,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Kinesis::Consumer",
 		ResourceLabel:        "Kinesis Stream Consumers",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Kinesis",
 		ListDescriber:        ParallelDescribeRegional(describer.KinesisConsumer),
 		GetDescriber:         nil,
@@ -3479,13 +3718,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::DocDB::Cluster": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::DocDB::Cluster",
-		ResourceLabel: "Document DB Clusters",
-		Tags: map[string][]string{
-			"category": {"Database"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/DocumentDb.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::DocDB::Cluster",
+		ResourceLabel:        "Document DB Clusters",
+		Tags:                 map[string][]string{
+            "category": {"Database"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/DocumentDb.svg"},
+        },
 		ServiceName:          "DocDB",
 		ListDescriber:        ParallelDescribeRegional(describer.DocDBCluster),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetDocDBCluster),
@@ -3499,7 +3738,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DocDB::ClusterInstance",
 		ResourceLabel:        "Document DB Cluster Instance",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "DocDB",
 		ListDescriber:        ParallelDescribeRegional(describer.DocDBClusterInstance),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetDocDBClusterInstance),
@@ -3513,7 +3753,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElastiCache::ReplicationGroup",
 		ResourceLabel:        "ElastiCache Replication Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ElastiCache",
 		ListDescriber:        ParallelDescribeRegional(describer.ElastiCacheReplicationGroup),
 		GetDescriber:         nil,
@@ -3527,7 +3768,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GlobalAccelerator::Accelerator",
 		ResourceLabel:        "Global Accelerator",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "GlobalAccelerator",
 		ListDescriber:        ParallelDescribeRegional(describer.GlobalAcceleratorAccelerator),
 		GetDescriber:         nil,
@@ -3541,7 +3783,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EMR::InstanceGroup",
 		ResourceLabel:        "EMR Instance Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ElasticMapReduce",
 		ListDescriber:        ParallelDescribeRegional(describer.EMRInstanceGroup),
 		GetDescriber:         nil,
@@ -3555,7 +3798,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::ManagedPrefixList",
 		ResourceLabel:        "EC2 Managed Prefix List",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2ManagedPrefixList),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2ManagedPrefixList),
@@ -3569,7 +3813,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::ClientVpnEndpoint",
 		ResourceLabel:        "EC2 Client VPN Endpoint",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2ClientVpnEndpoint),
 		GetDescriber:         nil,
@@ -3583,7 +3828,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::MWAA::Environment",
 		ResourceLabel:        "MWAA Environment",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "MWAA",
 		ListDescriber:        ParallelDescribeRegional(describer.MWAAEnvironment),
 		GetDescriber:         nil,
@@ -3597,7 +3843,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudWatch::LogResourcePolicy",
 		ResourceLabel:        "CloudWatch Log Resource Policy",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudWatch",
 		ListDescriber:        ParallelDescribeRegional(describer.CloudWatchLogsResourcePolicy),
 		GetDescriber:         nil,
@@ -3611,7 +3858,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeArtifact::Domain",
 		ResourceLabel:        "CodeArtifact Domain",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CodeArtifact",
 		ListDescriber:        ParallelDescribeRegional(describer.CodeArtifactDomain),
 		GetDescriber:         nil,
@@ -3625,7 +3873,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeStar::Project",
 		ResourceLabel:        "CodeStar Project",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CodeStar",
 		ListDescriber:        ParallelDescribeRegional(describer.CodeStarProject),
 		GetDescriber:         nil,
@@ -3636,13 +3885,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::Neptune::Database": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::Neptune::Database",
-		ResourceLabel: "Neptune Databases",
-		Tags: map[string][]string{
-			"category": {"Database"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Neptune.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::Neptune::Database",
+		ResourceLabel:        "Neptune Databases",
+		Tags:                 map[string][]string{
+            "category": {"Database"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Neptune.svg"},
+        },
 		ServiceName:          "Neptune",
 		ListDescriber:        ParallelDescribeRegional(describer.NeptuneDatabase),
 		GetDescriber:         nil,
@@ -3656,7 +3905,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Neptune::DBCluster",
 		ResourceLabel:        "Neptune Cluster",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Neptune",
 		ListDescriber:        ParallelDescribeRegional(describer.NeptuneDatabaseCluster),
 		GetDescriber:         nil,
@@ -3670,7 +3920,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::NetworkFirewall::FirewallPolicy",
 		ResourceLabel:        "Network Firewall Policy",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "network-firewall",
 		ListDescriber:        ParallelDescribeRegional(describer.NetworkFirewallPolicy),
 		GetDescriber:         nil,
@@ -3684,7 +3935,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::NetworkFirewall::RuleGroup",
 		ResourceLabel:        "Network Firewall Rule Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "network-firewall",
 		ListDescriber:        ParallelDescribeRegional(describer.NetworkFirewallRuleGroup),
 		GetDescriber:         nil,
@@ -3698,7 +3950,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Oam::Link",
 		ResourceLabel:        "OAM Link",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "OAM",
 		ListDescriber:        ParallelDescribeRegional(describer.OAMLink),
 		GetDescriber:         nil,
@@ -3712,7 +3965,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Oam::Sink",
 		ResourceLabel:        "OAM Sink",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "OAM",
 		ListDescriber:        ParallelDescribeRegional(describer.OAMSink),
 		GetDescriber:         nil,
@@ -3726,7 +3980,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Organizations::Account",
 		ResourceLabel:        "Organizations Account",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "OAM",
 		ListDescriber:        ParallelDescribeRegional(describer.OrganizationsAccount),
 		GetDescriber:         nil,
@@ -3740,7 +3995,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Pinpoint::App",
 		ResourceLabel:        "Pinpoint App",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Pinpoint",
 		ListDescriber:        ParallelDescribeRegional(describer.PinpointApp),
 		GetDescriber:         nil,
@@ -3754,7 +4010,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Pipes::Pipe",
 		ResourceLabel:        "Pipe",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Pipes",
 		ListDescriber:        ParallelDescribeRegional(describer.PipesPipe),
 		GetDescriber:         nil,
@@ -3768,7 +4025,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RDS::DBClusterParameterGroup",
 		ResourceLabel:        "RDS Cluster Parameter Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "RDS",
 		ListDescriber:        ParallelDescribeRegional(describer.RDSDBClusterParameterGroup),
 		GetDescriber:         nil,
@@ -3782,7 +4040,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RDS::OptionGroup",
 		ResourceLabel:        "RDS Option Groups",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "RDS",
 		ListDescriber:        ParallelDescribeRegional(describer.RDSOptionGroup),
 		GetDescriber:         nil,
@@ -3796,7 +4055,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RDS::DBParameterGroup",
 		ResourceLabel:        "RDS Parameter Groups",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "RDS",
 		ListDescriber:        ParallelDescribeRegional(describer.RDSDBParameterGroup),
 		GetDescriber:         nil,
@@ -3810,7 +4070,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RDS::DBProxy",
 		ResourceLabel:        "RDS Proxy",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "RDS",
 		ListDescriber:        ParallelDescribeRegional(describer.RDSDBProxy),
 		GetDescriber:         nil,
@@ -3824,7 +4085,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RDS::DBSubnetGroup",
 		ResourceLabel:        "RDS Subnet Groups",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "RDS",
 		ListDescriber:        ParallelDescribeRegional(describer.RDSDBSubnetGroup),
 		GetDescriber:         nil,
@@ -3838,7 +4100,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Redshift::EventSubscription",
 		ResourceLabel:        "Redshift Event Subscriptions",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Redshift",
 		ListDescriber:        ParallelDescribeRegional(describer.RedshiftEventSubscription),
 		GetDescriber:         nil,
@@ -3852,7 +4115,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RedshiftServerless::Workgroup",
 		ResourceLabel:        "Redshift Serverless Workgroup",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Redshift",
 		ListDescriber:        ParallelDescribeRegional(describer.RedshiftServerlessWorkgroup),
 		GetDescriber:         nil,
@@ -3866,7 +4130,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ResourceExplorer2::Index",
 		ResourceLabel:        "Resource Explorer Index",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ResourceExplorer2",
 		ListDescriber:        ParallelDescribeRegional(describer.ResourceExplorerIndex),
 		GetDescriber:         nil,
@@ -3880,7 +4145,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Route53::HealthCheck",
 		ResourceLabel:        "Route53 Health Check",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Route53",
 		ListDescriber:        ParallelDescribeRegional(describer.Route53HealthCheck),
 		GetDescriber:         nil,
@@ -3894,7 +4160,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Route53Resolver::ResolverRule",
 		ResourceLabel:        "Route53 Resolver Rule",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Route53",
 		ListDescriber:        ParallelDescribeRegional(describer.Route53ResolverResolverRule),
 		GetDescriber:         nil,
@@ -3908,7 +4175,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Route53Resolver::QueryLogConfig",
 		ResourceLabel:        "Route53 Resolver Query Log Config",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Route53",
 		ListDescriber:        ParallelDescribeRegional(describer.Route53ResolverQueryLogConfig),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetRoute53ResolverQueryLogConfig),
@@ -3922,7 +4190,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SageMaker::App",
 		ResourceLabel:        "SageMaker App",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SageMaker",
 		ListDescriber:        ParallelDescribeRegional(describer.SageMakerApp),
 		GetDescriber:         nil,
@@ -3936,7 +4205,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SageMaker::Domain",
 		ResourceLabel:        "SageMaker Domain",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SageMaker",
 		ListDescriber:        ParallelDescribeRegional(describer.SageMakerDomain),
 		GetDescriber:         nil,
@@ -3950,7 +4220,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::StepFunctions::StateMachine",
 		ResourceLabel:        "Step Functions State Machine",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "StepFunctions",
 		ListDescriber:        ParallelDescribeRegional(describer.StepFunctionsStateMachine),
 		GetDescriber:         nil,
@@ -3964,7 +4235,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::StepFunctions::StateMachineExecution",
 		ResourceLabel:        "Step Functions State Machine Execution",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "StepFunctions",
 		ListDescriber:        ParallelDescribeRegional(describer.StepFunctionsStateMachineExecution),
 		GetDescriber:         nil,
@@ -3978,7 +4250,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::StepFunctions::StateMachineExecutionHistories",
 		ResourceLabel:        "Step Functions State Machine Execution History",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "StepFunctions",
 		ListDescriber:        ParallelDescribeRegional(describer.StepFunctionsStateMachineExecutionHistories),
 		GetDescriber:         nil,
@@ -3992,7 +4265,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SimSpaceWeaver::Simulation",
 		ResourceLabel:        "SimSpaceWeaver Simulation",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SimSpaceWeaver",
 		ListDescriber:        ParallelDescribeRegional(describer.SimSpaceWeaverSimulation),
 		GetDescriber:         nil,
@@ -4006,7 +4280,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::Association",
 		ResourceLabel:        "SSM Association",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SSM",
 		ListDescriber:        ParallelDescribeRegional(describer.SSMAssociation),
 		GetDescriber:         nil,
@@ -4020,7 +4295,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::Document",
 		ResourceLabel:        "SSM Document",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SSM",
 		ListDescriber:        ParallelDescribeRegional(describer.SSMDocument),
 		GetDescriber:         nil,
@@ -4034,7 +4310,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::DocumentPermission",
 		ResourceLabel:        "SSM Document Permission",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SSM",
 		ListDescriber:        ParallelDescribeRegional(describer.SSMDocumentPermission),
 		GetDescriber:         nil,
@@ -4045,13 +4322,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::EC2::CustomerGateway": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::EC2::CustomerGateway",
-		ResourceLabel: "EC2 Customer Gateway",
-		Tags: map[string][]string{
-			"category": {"Networking"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcCustomerGateway.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::EC2::CustomerGateway",
+		ResourceLabel:        "EC2 Customer Gateway",
+		Tags:                 map[string][]string{
+            "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcCustomerGateway.svg"},
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2CustomerGateway),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2CustomerGateway),
@@ -4065,7 +4342,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::VerifiedAccessInstance",
 		ResourceLabel:        "EC2 Verified Access Instance",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VerifiedAccessInstance),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2VerifiedAccessInstance),
@@ -4079,7 +4357,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::VerifiedAccessEndpoint",
 		ResourceLabel:        "EC2 Verified Access Endpoint",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VerifiedAccessEndpoint),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2VerifiedAccessEndpoint),
@@ -4093,7 +4372,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::VerifiedAccessGroup",
 		ResourceLabel:        "EC2 Verified Access Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VerifiedAccessGroup),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2VerifiedAccessGroup),
@@ -4107,7 +4387,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::VerifiedAccessTrustProvider",
 		ResourceLabel:        "EC2 Verified Access Trust Provider",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VerifiedAccessTrustProvider),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2VerifiedAccessTrustProvider),
@@ -4118,13 +4399,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::EC2::VPNGateway": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::EC2::VPNGateway",
-		ResourceLabel: "EC2 VPN Gateway",
-		Tags: map[string][]string{
-			"category": {"Networking"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcVpnGateway.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::EC2::VPNGateway",
+		ResourceLabel:        "EC2 VPN Gateway",
+		Tags:                 map[string][]string{
+            "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcVpnGateway.svg"},
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VPNGateway),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2VPNGateway),
@@ -4138,7 +4419,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAFv2::IPSet",
 		ResourceLabel:        "WAFv2 IP Set",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WAFv2",
 		ListDescriber:        ParallelDescribeRegional(describer.WAFv2IPSet),
 		GetDescriber:         nil,
@@ -4152,7 +4434,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAFv2::RegexPatternSet",
 		ResourceLabel:        "WAFv2 Regex Pattern Set",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WAFv2",
 		ListDescriber:        ParallelDescribeRegional(describer.WAFv2RegexPatternSet),
 		GetDescriber:         nil,
@@ -4166,7 +4449,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::WAFv2::RuleGroup",
 		ResourceLabel:        "WAFv2 Rule Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "WAFv2",
 		ListDescriber:        ParallelDescribeRegional(describer.WAFv2RuleGroup),
 		GetDescriber:         nil,
@@ -4180,7 +4464,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::TransitGatewayRoute",
 		ResourceLabel:        "EC2 Transit Gateway Route",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2TransitGatewayRoute),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2TransitGatewayRoute),
@@ -4194,7 +4479,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GuardDuty::Filter",
 		ResourceLabel:        "GuardDuty Filter",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "GuardDuty",
 		ListDescriber:        ParallelDescribeRegional(describer.GuardDutyFilter),
 		GetDescriber:         nil,
@@ -4208,7 +4494,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ECS::TaskDefinition",
 		ResourceLabel:        "ECS Task Definition",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ECS",
 		ListDescriber:        ParallelDescribeRegional(describer.ECSTaskDefinition),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetECSTaskDefinition),
@@ -4222,7 +4509,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GuardDuty::ThreatIntelSet",
 		ResourceLabel:        "GuardDuty Threat Intel Set",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "GuardDuty",
 		ListDescriber:        ParallelDescribeRegional(describer.GuardDutyThreatIntelSet),
 		GetDescriber:         nil,
@@ -4236,7 +4524,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ApiGatewayV2::DomainName",
 		ResourceLabel:        "Domain Names",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ApiGateway",
 		ListDescriber:        ParallelDescribeRegional(describer.ApiGatewayV2DomainName),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetApiGatewayV2DomainName),
@@ -4250,7 +4539,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ApiGateway::DomainName",
 		ResourceLabel:        "Domain Names",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ApiGateway",
 		ListDescriber:        ParallelDescribeRegional(describer.ApiGatewayDomainName),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetApiGatewayDomainName),
@@ -4264,7 +4554,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ApiGatewayV2::Route",
 		ResourceLabel:        "Domain Names",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ApiGateway",
 		ListDescriber:        ParallelDescribeRegional(describer.ApiGatewayV2Route),
 		GetDescriber:         nil,
@@ -4278,7 +4569,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::MQ::Broker",
 		ResourceLabel:        "MQ Broker",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "MQ",
 		ListDescriber:        ParallelDescribeRegional(describer.MQBroker),
 		GetDescriber:         nil,
@@ -4292,7 +4584,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ACMPCA::CertificateAuthority",
 		ResourceLabel:        "ACM PCA Certificate Authority",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ACMPCA",
 		ListDescriber:        ParallelDescribeRegional(describer.ACMPCACertificateAuthority),
 		GetDescriber:         nil,
@@ -4306,7 +4599,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudFormation::Stack",
 		ResourceLabel:        "CloudFormation Stacks",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudFormation",
 		ListDescriber:        ParallelDescribeRegional(describer.CloudFormationStack),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetCloudFormationStack),
@@ -4320,7 +4614,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudFormation::StackResource",
 		ResourceLabel:        "CloudFormation Stacks Resources",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudFormation",
 		ListDescriber:        ParallelDescribeRegional(describer.CloudFormationStackResource),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetCloudFormationStackResource),
@@ -4334,7 +4629,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DirectConnect::Connection",
 		ResourceLabel:        "DirectConnect Connections",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "DirectConnect",
 		ListDescriber:        ParallelDescribeRegional(describer.DirectConnectConnection),
 		GetDescriber:         nil,
@@ -4348,11 +4644,12 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::FSX::FileSystem",
 		ResourceLabel:        "FSX File Systems",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "fsx",
 		ListDescriber:        ParallelDescribeRegional(describer.FSXFileSystem),
 		GetDescriber:         nil,
-		TerraformName:        []string{"aws_fsx_ontap_file_system", "aws_fsx_openzfs_file_system"},
+		TerraformName:        []string{"aws_fsx_ontap_file_system","aws_fsx_openzfs_file_system"},
 		TerraformServiceName: "fsx",
 		FastDiscovery:        false,
 		Summarize:            true,
@@ -4362,7 +4659,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Glue::SecurityConfiguration",
 		ResourceLabel:        "Glue Security Configuration",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Glue",
 		ListDescriber:        ParallelDescribeRegional(describer.GlueSecurityConfiguration),
 		GetDescriber:         nil,
@@ -4376,7 +4674,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Inspector::AssessmentRun",
 		ResourceLabel:        "Inspector Assessment Runs",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Inspector",
 		ListDescriber:        ParallelDescribeRegional(describer.InspectorAssessmentRun),
 		GetDescriber:         nil,
@@ -4390,7 +4689,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Inspector2::Coverage",
 		ResourceLabel:        "Inspector2 Coverage",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Inspector2",
 		ListDescriber:        ParallelDescribeRegional(describer.Inspector2Coverage),
 		GetDescriber:         nil,
@@ -4404,7 +4704,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Inspector2::CoverageStatistics",
 		ResourceLabel:        "Inspector2 Coverage Statistics",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Inspector2",
 		ListDescriber:        ParallelDescribeRegional(describer.Inspector2CoverageStatistic),
 		GetDescriber:         nil,
@@ -4418,7 +4719,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Inspector2::Member",
 		ResourceLabel:        "Inspector2 Member",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Inspector2",
 		ListDescriber:        ParallelDescribeRegional(describer.Inspector2CoverageMember),
 		GetDescriber:         nil,
@@ -4432,7 +4734,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Inspector2::Finding",
 		ResourceLabel:        "Inspector2 Finding",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Inspector2",
 		ListDescriber:        ParallelDescribeRegional(describer.Inspector2Finding),
 		GetDescriber:         nil,
@@ -4446,7 +4749,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Config::ConfigurationRecorder",
 		ResourceLabel:        "Config Configuration Recorder",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Config",
 		ListDescriber:        ParallelDescribeRegional(describer.ConfigConfigurationRecorder),
 		GetDescriber:         nil,
@@ -4457,13 +4761,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::EC2::NatGateway": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::EC2::NatGateway",
-		ResourceLabel: "NAT Gateways",
-		Tags: map[string][]string{
-			"category": {"Networking"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcNatGateway.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::EC2::NatGateway",
+		ResourceLabel:        "NAT Gateways",
+		Tags:                 map[string][]string{
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcNatGateway.svg"},
+            "category": {"Networking"},
+        },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2NatGateway),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2NatGateway),
@@ -4477,7 +4781,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ECR::PublicRepository",
 		ResourceLabel:        "ECR Public Repository",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ECR",
 		ListDescriber:        ParallelDescribeRegional(describer.ECRPublicRepository),
 		GetDescriber:         nil,
@@ -4491,7 +4796,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ECS::Cluster",
 		ResourceLabel:        "ECS Clusters",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ECS",
 		ListDescriber:        ParallelDescribeRegional(describer.ECSCluster),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetECSCluster),
@@ -4505,7 +4811,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElasticLoadBalancingV2::TargetGroup",
 		ResourceLabel:        "ELBv2 Target Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ElasticLoadBalancing",
 		ListDescriber:        ParallelDescribeRegional(describer.ElasticLoadBalancingV2TargetGroup),
 		GetDescriber:         nil,
@@ -4519,7 +4826,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudFront::CachePolicy",
 		ResourceLabel:        "CloudFront Cache Policy",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudFront",
 		ListDescriber:        SequentialDescribeGlobal(describer.CloudFrontCachePolicy),
 		GetDescriber:         nil,
@@ -4533,7 +4841,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CodeArtifact::Repository",
 		ResourceLabel:        "CodeArtifact Repository",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CodeArtifact",
 		ListDescriber:        ParallelDescribeRegional(describer.CodeArtifactRepository),
 		GetDescriber:         nil,
@@ -4547,7 +4856,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::AMP::Workspace",
 		ResourceLabel:        "AMP Workspace",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "AMP",
 		ListDescriber:        ParallelDescribeRegional(describer.AMPWorkspace),
 		GetDescriber:         nil,
@@ -4561,7 +4871,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::CapacityReservation",
 		ResourceLabel:        "EC2 Capacity Reservation",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2CapacityReservation),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2CapacityReservation),
@@ -4575,7 +4886,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SageMaker::NotebookInstance",
 		ResourceLabel:        "SageMaker Notebook Instance",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SageMaker",
 		ListDescriber:        ParallelDescribeRegional(describer.SageMakerNotebookInstance),
 		GetDescriber:         nil,
@@ -4589,9 +4901,10 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::IAM::AccessAdvisor",
 		ResourceLabel:        "IAM AccessAdvisor",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "IAM",
-		ListDescriber:        SequentialDescribeGlobal(describer.IAMAccessAdvisor),
+		ListDescriber:        ParallelDescribeRegional(describer.IAMAccessAdvisor),
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
@@ -4600,17 +4913,17 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::EC2::VolumeSnapshot": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::EC2::VolumeSnapshot",
-		ResourceLabel: "EC2 Volume Snapshots",
-		Tags: map[string][]string{
-			"category": {"Storage"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticBlockStoreSnapshot.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::EC2::VolumeSnapshot",
+		ResourceLabel:        "EC2 Volume Snapshots",
+		Tags:                 map[string][]string{
+            "category": {"Storage"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticBlockStoreSnapshot.svg"},
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VolumeSnapshot),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2VolumeSnapshot),
-		TerraformName:        []string{"aws_ebs_snapshot", "aws_ebs_snapshot_copy"},
+		TerraformName:        []string{"aws_ebs_snapshot","aws_ebs_snapshot_copy"},
 		TerraformServiceName: "ec2",
 		FastDiscovery:        false,
 		Summarize:            true,
@@ -4620,7 +4933,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::Region",
 		ResourceLabel:        "Region",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2Region),
 		GetDescriber:         nil,
@@ -4634,7 +4948,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Keyspaces::Table",
 		ResourceLabel:        "Keyspaces Table",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Keyspaces",
 		ListDescriber:        ParallelDescribeRegional(describer.KeyspacesTable),
 		GetDescriber:         nil,
@@ -4648,7 +4963,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Config::AggregationAuthorization",
 		ResourceLabel:        "Config Aggregation Authorization",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Config",
 		ListDescriber:        ParallelDescribeRegional(describer.ConfigAggregateAuthorization),
 		GetDescriber:         nil,
@@ -4662,7 +4978,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DAX::SubnetGroup",
 		ResourceLabel:        "DAX Subnet Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "DAX",
 		ListDescriber:        ParallelDescribeRegional(describer.DAXSubnetGroup),
 		GetDescriber:         nil,
@@ -4676,7 +4993,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DynamoDb::GlobalTable",
 		ResourceLabel:        "DynamoDB Global Table",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "DynamoDb",
 		ListDescriber:        ParallelDescribeRegional(describer.DynamoDbGlobalTable),
 		GetDescriber:         nil,
@@ -4687,17 +5005,17 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::ElasticLoadBalancing::LoadBalancer": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::ElasticLoadBalancing::LoadBalancer",
-		ResourceLabel: "Classic Load Balancers",
-		Tags: map[string][]string{
-			"category": {"Networking"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticLoadBalancingClassicLoadBalancer.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::ElasticLoadBalancing::LoadBalancer",
+		ResourceLabel:        "Classic Load Balancers",
+		Tags:                 map[string][]string{
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticLoadBalancingClassicLoadBalancer.svg"},
+            "category": {"Networking"},
+        },
 		ServiceName:          "ElasticLoadBalancing",
 		ListDescriber:        ParallelDescribeRegional(describer.ElasticLoadBalancingLoadBalancer),
 		GetDescriber:         nil,
-		TerraformName:        []string{"aws_lb", "aws_elb"},
+		TerraformName:        []string{"aws_lb","aws_elb"},
 		TerraformServiceName: "elb",
 		FastDiscovery:        false,
 		Summarize:            true,
@@ -4707,7 +5025,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::AppStream::Application",
 		ResourceLabel:        "AppStream Application",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "AppStream",
 		ListDescriber:        ParallelDescribeRegional(describer.AppStreamApplication),
 		GetDescriber:         nil,
@@ -4721,7 +5040,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RedshiftServerless::Namespace",
 		ResourceLabel:        "Redshift Serverless Namespace",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "RedshiftServerless",
 		ListDescriber:        ParallelDescribeRegional(describer.RedshiftServerlessNamespace),
 		GetDescriber:         nil,
@@ -4735,7 +5055,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudFront::OriginAccessIdentity",
 		ResourceLabel:        "CloudFront Origin Access Identity",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudFront",
 		ListDescriber:        SequentialDescribeGlobal(describer.CloudFrontOriginAccessIdentity),
 		GetDescriber:         nil,
@@ -4749,7 +5070,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::Host",
 		ResourceLabel:        "EC2 Host",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2Host),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2Host),
@@ -4760,13 +5082,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::EC2::VPC": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::EC2::VPC",
-		ResourceLabel: "Virtual Networks (VPCs)",
-		Tags: map[string][]string{
-			"category": {"Networking"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Vpc.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::EC2::VPC",
+		ResourceLabel:        "Virtual Networks (VPCs)",
+		Tags:                 map[string][]string{
+            "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Vpc.svg"},
+        },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VPC),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2VPC),
@@ -4780,7 +5102,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::TransitGatewayRouteTable",
 		ResourceLabel:        "EC2 Transit Gateway Route Table",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2TransitGatewayRouteTable),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2TransitGatewayRouteTable),
@@ -4794,7 +5117,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EKS::Nodegroup",
 		ResourceLabel:        "EKS Node Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EKS",
 		ListDescriber:        ParallelDescribeRegional(describer.EKSNodegroup),
 		GetDescriber:         nil,
@@ -4808,7 +5132,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Backup::Selection",
 		ResourceLabel:        "Backup Selection",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Backup",
 		ListDescriber:        ParallelDescribeRegional(describer.BackupSelection),
 		GetDescriber:         nil,
@@ -4822,7 +5147,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudTrail::Import",
 		ResourceLabel:        "CloudTrail Import",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CloudTrail",
 		ListDescriber:        ParallelDescribeRegional(describer.CloudTrailImport),
 		GetDescriber:         nil,
@@ -4836,14 +5162,15 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CostExplorer::ByServiceDaily",
 		ResourceLabel:        "",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "CostExplorer",
 		ListDescriber:        SequentialDescribeGlobal(describer.CostByServiceLastDay),
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
-		CostDiscovery:        true,
+		CostDiscovery:		  true,
 		Summarize:            true,
 	},
 
@@ -4851,7 +5178,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElasticLoadBalancingV2::SslPolicy",
 		ResourceLabel:        "ELBv2 SSL Policy",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ElasticLoadBalancing",
 		ListDescriber:        ParallelDescribeRegional(describer.ElasticLoadBalancingV2SslPolicy),
 		GetDescriber:         nil,
@@ -4865,7 +5193,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::GuardDuty::Finding",
 		ResourceLabel:        "GuardDuty Finding",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "GuardDuty",
 		ListDescriber:        ParallelDescribeRegional(describer.GuardDutyFinding),
 		GetDescriber:         nil,
@@ -4879,7 +5208,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::DHCPOptions",
 		ResourceLabel:        "DHCP Configuration Set",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2DHCPOptions),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2DHCPOptions),
@@ -4893,7 +5223,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Batch::ComputeEnvironment",
 		ResourceLabel:        "Batch Compute Environment",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Batch",
 		ListDescriber:        ParallelDescribeRegional(describer.BatchComputeEnvironment),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetBatchComputeEnvironment),
@@ -4907,7 +5238,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DMS::ReplicationInstance",
 		ResourceLabel:        "Replication Instance",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "DMS",
 		ListDescriber:        ParallelDescribeRegional(describer.DMSReplicationInstance),
 		GetDescriber:         nil,
@@ -4918,13 +5250,13 @@ var resourceTypes = map[string]ResourceType{
 	},
 
 	"AWS::DynamoDb::Table": {
-		Connector:     source.CloudAWS,
-		ResourceName:  "AWS::DynamoDb::Table",
-		ResourceLabel: "DynamoDB Tables",
-		Tags: map[string][]string{
-			"category": {"Database"},
-			"logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/DynamoDbTable.svg"},
-		},
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::DynamoDb::Table",
+		ResourceLabel:        "DynamoDB Tables",
+		Tags:                 map[string][]string{
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/DynamoDbTable.svg"},
+            "category": {"Database"},
+        },
 		ServiceName:          "DynamoDb",
 		ListDescriber:        ParallelDescribeRegional(describer.DynamoDbTable),
 		GetDescriber:         nil,
@@ -4938,7 +5270,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Shield::ProtectionGroup",
 		ResourceLabel:        "Shield Protection Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Shield",
 		ListDescriber:        SequentialDescribeGlobal(describer.ShieldProtectionGroup),
 		GetDescriber:         nil,
@@ -4952,7 +5285,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Firehose::DeliveryStream",
 		ResourceLabel:        "Firehose Delivery Stream",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Firehose",
 		ListDescriber:        ParallelDescribeRegional(describer.FirehoseDeliveryStream),
 		GetDescriber:         nil,
@@ -4966,7 +5300,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::KinesisVideo::Stream",
 		ResourceLabel:        "Kinesis Video Stream",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "KinesisVideo",
 		ListDescriber:        ParallelDescribeRegional(describer.KinesisVideoStream),
 		GetDescriber:         nil,
@@ -4980,7 +5315,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::KMS::Alias",
 		ResourceLabel:        "KMS Alias",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "KMS",
 		ListDescriber:        ParallelDescribeRegional(describer.KMSAlias),
 		GetDescriber:         nil,
@@ -4994,7 +5330,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Lambda::Alias",
 		ResourceLabel:        "Lambda Alias",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Lambda",
 		ListDescriber:        ParallelDescribeRegional(describer.LambdaAlias),
 		GetDescriber:         nil,
@@ -5008,7 +5345,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Lambda::LambdaLayer",
 		ResourceLabel:        "Lambda Layer",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Lambda",
 		ListDescriber:        ParallelDescribeRegional(describer.LambdaLayer),
 		GetDescriber:         nil,
@@ -5022,7 +5360,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Lambda::LayerVersion",
 		ResourceLabel:        "Lambda Layer Version",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Lambda",
 		ListDescriber:        ParallelDescribeRegional(describer.LambdaLayerVersion),
 		GetDescriber:         nil,
@@ -5036,7 +5375,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Lightsail::Instance",
 		ResourceLabel:        "Lightsail Instance",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Lightsail",
 		ListDescriber:        ParallelDescribeRegional(describer.LightsailInstance),
 		GetDescriber:         nil,
@@ -5050,7 +5390,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Macie2::ClassificationJob",
 		ResourceLabel:        "Macie2 Classification Job",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Macie2",
 		ListDescriber:        ParallelDescribeRegional(describer.Macie2ClassificationJob),
 		GetDescriber:         nil,
@@ -5064,7 +5405,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::MediaStore::Container",
 		ResourceLabel:        "MediaStore Container",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "MediaStore",
 		ListDescriber:        ParallelDescribeRegional(describer.MediaStoreContainer),
 		GetDescriber:         nil,
@@ -5078,7 +5420,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Mgn::Application",
 		ResourceLabel:        "MGN Application",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Mgn",
 		ListDescriber:        ParallelDescribeRegional(describer.MGNApplication),
 		GetDescriber:         nil,
@@ -5092,7 +5435,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Route53Resolver::ResolverEndpoint",
 		ResourceLabel:        "Route53 Resolver Endpoint",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Route53",
 		ListDescriber:        ParallelDescribeRegional(describer.Route53ResolverResolverEndpoint),
 		GetDescriber:         nil,
@@ -5106,7 +5450,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Route53Domains::Domain",
 		ResourceLabel:        "Route53 Domain",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Route53",
 		ListDescriber:        SequentialDescribeGlobal(describer.Route53Domain),
 		GetDescriber:         nil,
@@ -5120,7 +5465,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Route53::Record",
 		ResourceLabel:        "Route53 Record",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Route53",
 		ListDescriber:        SequentialDescribeGlobal(describer.Route53Record),
 		GetDescriber:         nil,
@@ -5134,7 +5480,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Route53::TrafficPolicy",
 		ResourceLabel:        "Route53 Traffic Policy",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Route53",
 		ListDescriber:        SequentialDescribeGlobal(describer.Route53TrafficPolicy),
 		GetDescriber:         nil,
@@ -5148,7 +5495,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Route53::TrafficPolicyInstance",
 		ResourceLabel:        "Route53 Traffic Policy Instance",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Route53",
 		ListDescriber:        SequentialDescribeGlobal(describer.Route53TrafficPolicyInstance),
 		GetDescriber:         nil,
@@ -5162,7 +5510,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SageMaker::Model",
 		ResourceLabel:        "SageMaker Model",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SageMaker",
 		ListDescriber:        ParallelDescribeRegional(describer.SageMakerModel),
 		GetDescriber:         nil,
@@ -5176,7 +5525,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SageMaker::TrainingJob",
 		ResourceLabel:        "SageMaker Training Job",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SageMaker",
 		ListDescriber:        ParallelDescribeRegional(describer.SageMakerTrainingJob),
 		GetDescriber:         nil,
@@ -5190,7 +5540,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityHub::ActionTarget",
 		ResourceLabel:        "Security Hub Action Target",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SecurityHub",
 		ListDescriber:        ParallelDescribeRegional(describer.SecurityHubActionTarget),
 		GetDescriber:         nil,
@@ -5204,7 +5555,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityHub::Finding",
 		ResourceLabel:        "Security Hub Finding",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SecurityHub",
 		ListDescriber:        ParallelDescribeRegional(describer.SecurityHubFinding),
 		GetDescriber:         nil,
@@ -5218,7 +5570,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityHub::FindingAggregator",
 		ResourceLabel:        "Security Hub Finding Aggregator",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SecurityHub",
 		ListDescriber:        ParallelDescribeRegional(describer.SecurityHubFindingAggregator),
 		GetDescriber:         nil,
@@ -5232,7 +5585,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityHub::Insight",
 		ResourceLabel:        "Security Hub Insight",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SecurityHub",
 		ListDescriber:        ParallelDescribeRegional(describer.SecurityHubInsight),
 		GetDescriber:         nil,
@@ -5246,7 +5600,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityHub::Member",
 		ResourceLabel:        "Security Hub Member",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SecurityHub",
 		ListDescriber:        ParallelDescribeRegional(describer.SecurityHubMember),
 		GetDescriber:         nil,
@@ -5260,7 +5615,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityHub::Product",
 		ResourceLabel:        "Security Hub Product",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SecurityHub",
 		ListDescriber:        ParallelDescribeRegional(describer.SecurityHubProduct),
 		GetDescriber:         nil,
@@ -5274,7 +5630,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityHub::StandardsControl",
 		ResourceLabel:        "Security Hub Standards Control",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SecurityHub",
 		ListDescriber:        ParallelDescribeRegional(describer.SecurityHubStandardsControl),
 		GetDescriber:         nil,
@@ -5288,7 +5645,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityHub::StandardsSubscription",
 		ResourceLabel:        "Security Hub Standards Subscription",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SecurityHub",
 		ListDescriber:        ParallelDescribeRegional(describer.SecurityHubStandardsSubscription),
 		GetDescriber:         nil,
@@ -5302,7 +5660,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityLake::DataLake",
 		ResourceLabel:        "Security Lake Data Lake",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SecurityLake",
 		ListDescriber:        ParallelDescribeRegional(describer.SecurityLakeDataLake),
 		GetDescriber:         nil,
@@ -5316,7 +5675,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SecurityLake::Subscriber",
 		ResourceLabel:        "Security Lake Subscriber",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SecurityLake",
 		ListDescriber:        ParallelDescribeRegional(describer.SecurityLakeSubscriber),
 		GetDescriber:         nil,
@@ -5330,7 +5690,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Ram::PrincipalAssociation",
 		ResourceLabel:        "Principal Association",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Ram",
 		ListDescriber:        ParallelDescribeRegional(describer.RamPrincipalAssociation),
 		GetDescriber:         nil,
@@ -5344,7 +5705,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Ram::ResourceAssociation",
 		ResourceLabel:        "Resource Association",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Ram",
 		ListDescriber:        ParallelDescribeRegional(describer.RamResourceAssociation),
 		GetDescriber:         nil,
@@ -5358,7 +5720,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::RDS::ReservedDBInstance",
 		ResourceLabel:        "RDS Reserved DB Instance",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "RDS",
 		ListDescriber:        ParallelDescribeRegional(describer.RDSReservedDBInstance),
 		GetDescriber:         nil,
@@ -5372,7 +5735,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Redshift::SubnetGroup",
 		ResourceLabel:        "Redshift Subnet Group",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Redshift",
 		ListDescriber:        ParallelDescribeRegional(describer.RedshiftSubnetGroup),
 		GetDescriber:         nil,
@@ -5386,7 +5750,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SeverlessApplicationRepository::Application",
 		ResourceLabel:        "Serverless Application Repository",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ServerlessApplicationRepository",
 		ListDescriber:        ParallelDescribeRegional(describer.ServerlessApplicationRepositoryApplication),
 		GetDescriber:         nil,
@@ -5400,7 +5765,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Logs::MetricFilter",
 		ResourceLabel:        "Logs Metric Filter",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "Logs",
 		ListDescriber:        ParallelDescribeRegional(describer.CloudWatchLogsMetricFilter),
 		GetDescriber:         nil,
@@ -5414,7 +5780,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ServiceQuotas::ServiceQuotaChangeRequest",
 		ResourceLabel:        "Service Quota Change Request",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ServiceQuotas",
 		ListDescriber:        ParallelDescribeRegional(describer.ServiceQuotasServiceQuotaChangeRequest),
 		GetDescriber:         nil,
@@ -5428,7 +5795,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::VPCEndpointService",
 		ResourceLabel:        "EC2 VPC Endpoint Service",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VPCEndpointService),
 		GetDescriber:         nil,
@@ -5442,7 +5810,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::LaunchTemplate",
 		ResourceLabel:        "EC2 Launch Template",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2LaunchTemplate),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2LaunchTemplate),
@@ -5456,7 +5825,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::LaunchTemplateVersion",
 		ResourceLabel:        "EC2 Launch Template Version",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2LaunchTemplateVersion),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetEC2LaunchTemplateVersion),
@@ -5470,7 +5840,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SNS::Subscription",
 		ResourceLabel:        "SNS Subscription",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SNS",
 		ListDescriber:        ParallelDescribeRegional(describer.SNSSubscription),
 		GetDescriber:         nil,
@@ -5484,7 +5855,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::S3::AccountSetting",
 		ResourceLabel:        "S3 Account Setting",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "S3",
 		ListDescriber:        SequentialDescribeGlobal(describer.S3AccountSetting),
 		GetDescriber:         nil,
@@ -5498,7 +5870,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::ManagedInstanceCompliance",
 		ResourceLabel:        "SSM Managed Instance Compliance",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SSM",
 		ListDescriber:        ParallelDescribeRegional(describer.SSMManagedInstanceCompliance),
 		GetDescriber:         nil,
@@ -5512,7 +5885,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSM::ManagedInstancePatchState",
 		ResourceLabel:        "SSM Managed Instance Patch State",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SSM",
 		ListDescriber:        ParallelDescribeRegional(describer.SSMManagedInstancePatchState),
 		GetDescriber:         nil,
@@ -5526,7 +5900,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSOAdmin::AccountAssignment",
 		ResourceLabel:        "SSO Admin Account Assignment",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SSOAdmin",
 		ListDescriber:        ParallelDescribeRegional(describer.SSOAdminAccountAssignment),
 		GetDescriber:         nil,
@@ -5540,7 +5915,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSOAdmin::Instance",
 		ResourceLabel:        "SSO Admin Instance",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SSOAdmin",
 		ListDescriber:        ParallelDescribeRegional(describer.SSOAdminInstance),
 		GetDescriber:         nil,
@@ -5554,7 +5930,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSOAdmin::PermissionSet",
 		ResourceLabel:        "SSO Admin Permission Set",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SSOAdmin",
 		ListDescriber:        ParallelDescribeRegional(describer.SSOAdminPermissionSet),
 		GetDescriber:         nil,
@@ -5568,7 +5945,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSOAdmin::AttachedManagedPolicy",
 		ResourceLabel:        "SSO Admin Managed Policy Attachment",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "SSOAdmin",
 		ListDescriber:        ParallelDescribeRegional(describer.SSOAdminManagedPolicyAttachment),
 		GetDescriber:         nil,
@@ -5582,7 +5960,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ServiceDiscovery::Service",
 		ResourceLabel:        "Service Discovery Service",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ServiceDiscovery",
 		ListDescriber:        ParallelDescribeRegional(describer.ServiceDiscoveryService),
 		GetDescriber:         nil,
@@ -5596,11 +5975,12 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ServiceDiscovery::Namespace",
 		ResourceLabel:        "Service Discovery Namespace",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ServiceDiscovery",
 		ListDescriber:        ParallelDescribeRegional(describer.ServiceDiscoveryNamespace),
 		GetDescriber:         nil,
-		TerraformName:        []string{"aws_service_discovery_http_namespace", "aws_service_discovery_dns_namespace", "aws_service_discovery_private_dns_namespace", "aws_service_discovery_public_dns_namespace"},
+		TerraformName:        []string{"aws_service_discovery_http_namespace","aws_service_discovery_dns_namespace","aws_service_discovery_private_dns_namespace","aws_service_discovery_public_dns_namespace"},
 		TerraformServiceName: "service_discovery",
 		FastDiscovery:        false,
 		Summarize:            true,
@@ -5610,7 +5990,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ServiceDiscovery::Instance",
 		ResourceLabel:        "Service Discovery Instance",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ServiceDiscovery",
 		ListDescriber:        ParallelDescribeRegional(describer.ServiceDiscoveryInstance),
 		GetDescriber:         nil,
@@ -5624,7 +6005,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ServiceCatalog::Portfolio",
 		ResourceLabel:        "Service Catalog Portfolio",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ServiceCatalog",
 		ListDescriber:        ParallelDescribeRegional(describer.ServiceCatalogPortfolio),
 		GetDescriber:         nil,
@@ -5638,7 +6020,8 @@ var resourceTypes = map[string]ResourceType{
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ServiceCatalog::Product",
 		ResourceLabel:        "",
-		Tags:                 map[string][]string{},
+		Tags:                 map[string][]string{
+        },
 		ServiceName:          "ServiceCatalog",
 		ListDescriber:        ParallelDescribeRegional(describer.ServiceCatalogProduct),
 		GetDescriber:         nil,

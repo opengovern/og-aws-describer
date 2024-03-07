@@ -2,6 +2,9 @@ package describer
 
 import (
 	"context"
+	"crypto/rsa"
+	"crypto/x509"
+	"encoding/pem"
 	"fmt"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/iam"
@@ -403,6 +406,91 @@ func iAMAccessKeyHandle(ctx context.Context, cfg aws.Config, user types.User, v 
 		Description: model.IAMAccessKeyDescription{
 			AccessKeyLastUsed: lastUsed.AccessKeyLastUsed,
 			AccessKey:         v,
+		},
+	}
+	if user.UserName != nil {
+		resource.Name = *user.UserName
+	} else if v.UserName != nil {
+		resource.Name = *v.UserName
+	} else if user.UserId != nil {
+		resource.Name = *user.UserId
+	}
+	return resource, nil
+}
+
+func IAMSSHPublicKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := iam.NewFromConfig(cfg)
+	usersPaginator := iam.NewListUsersPaginator(client, &iam.ListUsersInput{})
+	var values []Resource
+	for usersPaginator.HasMorePages() {
+		page, err := usersPaginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, user := range page.Users {
+			resources, err := getIAMUserSSHPublicKeys(ctx, cfg, user)
+			if err != nil {
+				return nil, err
+			}
+			for _, resource := range resources {
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
+func getIAMUserSSHPublicKeys(ctx context.Context, cfg aws.Config, user types.User) ([]Resource, error) {
+	client := iam.NewFromConfig(cfg)
+	if user.UserName == nil {
+		return nil, nil
+	}
+	paginator := iam.NewListSSHPublicKeysPaginator(client, &iam.ListSSHPublicKeysInput{UserName: user.UserName},
+		func(o *iam.ListSSHPublicKeysPaginatorOptions) {
+			o.StopOnDuplicateToken = true
+		})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page.SSHPublicKeys {
+			resource, err := iAMSSHPublicKeyHandle(ctx, cfg, user, v)
+			if err != nil {
+				return nil, err
+			}
+			values = append(values, resource)
+		}
+	}
+
+	return values, nil
+}
+
+func iAMSSHPublicKeyHandle(ctx context.Context, cfg aws.Config, user types.User, v types.SSHPublicKeyMetadata) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	username := describeCtx.AccountID
+	if user.UserName != nil {
+		username = *v.UserName
+	} else if v.UserName != nil {
+		username = *v.UserName
+	} else if user.UserId != nil {
+		username = *user.UserId
+	}
+	arn := "arn:" + describeCtx.Partition + ":iam::" + describeCtx.AccountID + ":user/" + username + "/sshpublickey/" + *v.SSHPublicKeyId
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		Description: model.IAMSSHPublicKeyDescription{
+			SSHPublicKeyKey: v,
 		},
 	}
 	if user.UserName != nil {
@@ -1217,29 +1305,44 @@ func IAMServerCertificate(ctx context.Context, cfg aws.Config, stream *StreamSen
 				return nil, err
 			}
 
-			resource := iAMServerCertificateHandle(ctx, v, output)
+			resource, err := iAMServerCertificateHandle(ctx, v, output)
+			if err != nil {
+				return nil, err
+			}
 			if stream != nil {
-				if err := (*stream)(resource); err != nil {
+				if err := (*stream)(*resource); err != nil {
 					return nil, err
 				}
 			} else {
-				values = append(values, resource)
+				values = append(values, *resource)
 			}
 		}
 	}
 	return values, nil
 }
-func iAMServerCertificateHandle(ctx context.Context, v types.ServerCertificateMetadata, output *iam.GetServerCertificateOutput) Resource {
+func iAMServerCertificateHandle(ctx context.Context, v types.ServerCertificateMetadata, output *iam.GetServerCertificateOutput) (*Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+
+	var bodyLength int
+	block, _ := pem.Decode([]byte(*output.ServerCertificate.CertificateBody))
+	if block != nil && block.Type == "CERTIFICATE" {
+		cert, err := x509.ParseCertificate(block.Bytes)
+		if err != nil {
+			return nil, err
+		}
+		bodyLength = cert.PublicKey.(*rsa.PublicKey).N.BitLen()
+	}
+
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *v.Arn,
 		Name:   *v.ServerCertificateName,
 		Description: model.IAMServerCertificateDescription{
 			ServerCertificate: *output.ServerCertificate,
+			BodyLength:        bodyLength,
 		},
 	}
-	return resource
+	return &resource, nil
 }
 func GetIAMServerCertificate(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	var values []Resource
@@ -1267,8 +1370,11 @@ func GetIAMServerCertificate(ctx context.Context, cfg aws.Config, fields map[str
 			return nil, err
 		}
 
-		resource := iAMServerCertificateHandle(ctx, v, output)
-		values = append(values, resource)
+		resource, err := iAMServerCertificateHandle(ctx, v, output)
+		if err != nil {
+			return nil, err
+		}
+		values = append(values, *resource)
 	}
 	return values, nil
 }
