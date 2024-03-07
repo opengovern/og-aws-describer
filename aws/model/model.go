@@ -1539,6 +1539,11 @@ type IAMAccessKeyDescription struct {
 	AccessKeyLastUsed *iam.AccessKeyLastUsed
 }
 
+//index:aws_iam_sshpublickey
+type IAMSSHPublicKeyDescription struct {
+	SSHPublicKeyKey iam.SSHPublicKeyMetadata
+}
+
 //index:aws_iam_accountpasswordpolicy
 type IAMAccountPasswordPolicyDescription struct {
 	PasswordPolicy iam.PasswordPolicy

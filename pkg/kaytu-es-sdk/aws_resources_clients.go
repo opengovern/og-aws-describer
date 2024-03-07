@@ -34865,7 +34865,15 @@ func (p IAMAccessAdvisorPaginator) NextPage(ctx context.Context) ([]IAMAccessAdv
 }
 
 var listIAMAccessAdvisorFilters = map[string]string{
-	"kaytu_account_id": "metadata.SourceID",
+	"kaytu_account_id":              "metadata.SourceID",
+	"last_authenticated":            "description.ServiceLastAccessed.LastAuthenticated",
+	"last_authenticated_entity":     "description.ServiceLastAccessed.LastAuthenticatedEntity",
+	"last_authenticated_region":     "description.ServiceLastAccessed.LastAuthenticatedRegion",
+	"principal_arn":                 "description.PrincipalArn",
+	"service_name":                  "description.ServiceLastAccessed.ServiceName",
+	"service_namespace":             "description.ServiceLastAccessed.ServiceNamespace",
+	"total_authenticated_entities":  "description.ServiceLastAccessed.TotalAuthenticatedEntities",
+	"tracked_actions_last_accessed": "description.ServiceLastAccessed.TrackedActionsLastAccessed",
 }
 
 func ListIAMAccessAdvisor(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -34928,7 +34936,15 @@ func ListIAMAccessAdvisor(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 }
 
 var getIAMAccessAdvisorFilters = map[string]string{
-	"kaytu_account_id": "metadata.SourceID",
+	"kaytu_account_id":              "metadata.SourceID",
+	"last_authenticated":            "description.ServiceLastAccessed.LastAuthenticated",
+	"last_authenticated_entity":     "description.ServiceLastAccessed.LastAuthenticatedEntity",
+	"last_authenticated_region":     "description.ServiceLastAccessed.LastAuthenticatedRegion",
+	"principal_arn":                 "description.PrincipalArn",
+	"service_name":                  "description.ServiceLastAccessed.ServiceName",
+	"service_namespace":             "description.ServiceLastAccessed.ServiceNamespace",
+	"total_authenticated_entities":  "description.ServiceLastAccessed.TotalAuthenticatedEntities",
+	"tracked_actions_last_accessed": "description.ServiceLastAccessed.TrackedActionsLastAccessed",
 }
 
 func GetIAMAccessAdvisor(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -35471,6 +35487,225 @@ func GetIAMAccessKey(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydrate
 }
 
 // ==========================  END: IAMAccessKey =============================
+
+// ==========================  START: IAMSSHPublicKey =============================
+
+type IAMSSHPublicKey struct {
+	Description   aws.IAMSSHPublicKeyDescription `json:"description"`
+	Metadata      aws.Metadata                   `json:"metadata"`
+	ResourceJobID int                            `json:"resource_job_id"`
+	SourceJobID   int                            `json:"source_job_id"`
+	ResourceType  string                         `json:"resource_type"`
+	SourceType    string                         `json:"source_type"`
+	ID            string                         `json:"id"`
+	ARN           string                         `json:"arn"`
+	SourceID      string                         `json:"source_id"`
+}
+
+type IAMSSHPublicKeyHit struct {
+	ID      string          `json:"_id"`
+	Score   float64         `json:"_score"`
+	Index   string          `json:"_index"`
+	Type    string          `json:"_type"`
+	Version int64           `json:"_version,omitempty"`
+	Source  IAMSSHPublicKey `json:"_source"`
+	Sort    []interface{}   `json:"sort"`
+}
+
+type IAMSSHPublicKeyHits struct {
+	Total essdk.SearchTotal    `json:"total"`
+	Hits  []IAMSSHPublicKeyHit `json:"hits"`
+}
+
+type IAMSSHPublicKeySearchResponse struct {
+	PitID string              `json:"pit_id"`
+	Hits  IAMSSHPublicKeyHits `json:"hits"`
+}
+
+type IAMSSHPublicKeyPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewIAMSSHPublicKeyPaginator(filters []essdk.BoolFilter, limit *int64) (IAMSSHPublicKeyPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_iam_sshpublickey", filters, limit)
+	if err != nil {
+		return IAMSSHPublicKeyPaginator{}, err
+	}
+
+	p := IAMSSHPublicKeyPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p IAMSSHPublicKeyPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p IAMSSHPublicKeyPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p IAMSSHPublicKeyPaginator) NextPage(ctx context.Context) ([]IAMSSHPublicKey, error) {
+	var response IAMSSHPublicKeySearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []IAMSSHPublicKey
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listIAMSSHPublicKeyFilters = map[string]string{
+	"access_key_id":                "description.AccessKey.AccessKeyId",
+	"access_key_last_used_date":    "description.AccessKeyLastUsed.LastUsedData",
+	"access_key_last_used_region":  "description.AccessKeyLastUsed.Region",
+	"access_key_last_used_service": "description.AccessKeyLastUsed.ServiceName",
+	"create_date":                  "description.AccessKey.CreateDate",
+	"kaytu_account_id":             "metadata.SourceID",
+	"status":                       "description.AccessKey.Status",
+	"title":                        "description.AccessKey.AccessKeyId",
+	"user_name":                    "description.AccessKey.UserName",
+}
+
+func ListIAMSSHPublicKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListIAMSSHPublicKey")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIAMSSHPublicKey NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIAMSSHPublicKey NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIAMSSHPublicKey GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIAMSSHPublicKey GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIAMSSHPublicKey GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewIAMSSHPublicKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIAMSSHPublicKeyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIAMSSHPublicKey NewIAMSSHPublicKeyPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListIAMSSHPublicKey paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getIAMSSHPublicKeyFilters = map[string]string{
+	"access_key_id":                "description.AccessKey.AccessKeyId",
+	"access_key_last_used_date":    "description.AccessKeyLastUsed.LastUsedData",
+	"access_key_last_used_region":  "description.AccessKeyLastUsed.Region",
+	"access_key_last_used_service": "description.AccessKeyLastUsed.ServiceName",
+	"create_date":                  "description.AccessKey.CreateDate",
+	"kaytu_account_id":             "metadata.SourceID",
+	"status":                       "description.AccessKey.Status",
+	"title":                        "description.AccessKey.AccessKeyId",
+	"user_name":                    "description.AccessKey.UserName",
+}
+
+func GetIAMSSHPublicKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetIAMSSHPublicKey")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewIAMSSHPublicKeyPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIAMSSHPublicKeyFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: IAMSSHPublicKey =============================
 
 // ==========================  START: IAMAccountPasswordPolicy =============================
 

@@ -415,6 +415,91 @@ func iAMAccessKeyHandle(ctx context.Context, cfg aws.Config, user types.User, v 
 	return resource, nil
 }
 
+func IAMSSHPublicKey(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := iam.NewFromConfig(cfg)
+	usersPaginator := iam.NewListUsersPaginator(client, &iam.ListUsersInput{})
+	var values []Resource
+	for usersPaginator.HasMorePages() {
+		page, err := usersPaginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, user := range page.Users {
+			resources, err := getIAMUserSSHPublicKeys(ctx, cfg, user)
+			if err != nil {
+				return nil, err
+			}
+			for _, resource := range resources {
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
+func getIAMUserSSHPublicKeys(ctx context.Context, cfg aws.Config, user types.User) ([]Resource, error) {
+	client := iam.NewFromConfig(cfg)
+	if user.UserName == nil {
+		return nil, nil
+	}
+	paginator := iam.NewListSSHPublicKeysPaginator(client, &iam.ListSSHPublicKeysInput{UserName: user.UserName},
+		func(o *iam.ListSSHPublicKeysPaginatorOptions) {
+			o.StopOnDuplicateToken = true
+		})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page.SSHPublicKeys {
+			resource, err := iAMSSHPublicKeyHandle(ctx, cfg, user, v)
+			if err != nil {
+				return nil, err
+			}
+			values = append(values, resource)
+		}
+	}
+
+	return values, nil
+}
+
+func iAMSSHPublicKeyHandle(ctx context.Context, cfg aws.Config, user types.User, v types.SSHPublicKeyMetadata) (Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	username := describeCtx.AccountID
+	if user.UserName != nil {
+		username = *v.UserName
+	} else if v.UserName != nil {
+		username = *v.UserName
+	} else if user.UserId != nil {
+		username = *user.UserId
+	}
+	arn := "arn:" + describeCtx.Partition + ":iam::" + describeCtx.AccountID + ":user/" + username + "/sshpublickey/" + *v.SSHPublicKeyId
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    arn,
+		Description: model.IAMSSHPublicKeyDescription{
+			SSHPublicKeyKey: v,
+		},
+	}
+	if user.UserName != nil {
+		resource.Name = *user.UserName
+	} else if v.UserName != nil {
+		resource.Name = *v.UserName
+	} else if user.UserId != nil {
+		resource.Name = *user.UserId
+	}
+	return resource, nil
+}
+
 func GetIAMAccessKey(ctx context.Context, cfg aws.Config, fields map[string]string) ([]Resource, error) {
 	userName := fields["name"]
 	var values []Resource
