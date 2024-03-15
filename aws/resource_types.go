@@ -482,8 +482,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::ApiGateway::RestApi",
 		ResourceLabel:        "Rest APIs",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ApiGateway.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "apigateway",
 		ListDescriber:        ParallelDescribeRegional(describer.ApiGatewayRestAPI),
@@ -578,8 +578,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::Kafka::Cluster",
 		ResourceLabel:        "Kafka Clusters",
 		Tags:                 map[string][]string{
-            "category": {"PaaS"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ManagedStreamingForKafka.svg"},
+            "category": {"PaaS"},
         },
 		ServiceName:          "Kafka",
 		ListDescriber:        ParallelDescribeRegional(describer.KafkaCluster),

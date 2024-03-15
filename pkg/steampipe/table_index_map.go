@@ -859,7 +859,7 @@ var AWSDescriptionMap = map[string]interface{}{
   "AWS::ServiceCatalog::Product": kaytu.ServiceCatalogProduct{},
 }
 
-var awsReverseMap = map[string]string{
+var AWSReverseMap = map[string]string{
   "aws_redshift_snapshot": "AWS::Redshift::Snapshot",
   "aws_iam_account_summary": "AWS::IAM::AccountSummary",
   "aws_glacier_vault": "AWS::Glacier::Vault",
