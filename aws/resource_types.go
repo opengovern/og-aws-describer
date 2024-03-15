@@ -116,8 +116,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::RouteTable",
 		ResourceLabel:        "Route Tables",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Route53RouteTable.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2RouteTable),
@@ -193,8 +193,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::IAM::Role",
 		ResourceLabel:        "IAM Roles",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/IdentityAccessManagementRole.svg"},
             "category": {"Management & Governance"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/IdentityAccessManagementRole.svg"},
         },
 		ServiceName:          "IAM",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMRole),
@@ -405,8 +405,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::InternetGateway",
 		ResourceLabel:        "Internet Gateways",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/InternetGateway.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2InternetGateway),
@@ -482,8 +482,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::ApiGateway::RestApi",
 		ResourceLabel:        "Rest APIs",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ApiGateway.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "apigateway",
 		ListDescriber:        ParallelDescribeRegional(describer.ApiGatewayRestAPI),
@@ -514,8 +514,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::AutoScaling::AutoScalingGroup",
 		ResourceLabel:        "Autoscaling Groups",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Ec2AutoScaling.svg"},
             "category": {"Compute"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Ec2AutoScaling.svg"},
         },
 		ServiceName:          "AutoScaling",
 		ListDescriber:        ParallelDescribeRegional(describer.AutoScalingAutoScalingGroup),
@@ -1047,8 +1047,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::S3::Bucket",
 		ResourceLabel:        "S3 Buckets",
 		Tags:                 map[string][]string{
-            "category": {"Storage"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/SimpleStorageBucket.svg"},
+            "category": {"Storage"},
         },
 		ServiceName:          "S3",
 		ListDescriber:        SequentialDescribeGlobal(describer.S3Bucket),
@@ -2457,6 +2457,21 @@ var resourceTypes = map[string]ResourceType{
 		ListDescriber:        ParallelDescribeRegional(describer.BackupReportPlan),
 		GetDescriber:         ParallelDescribeRegionalSingleResource(describer.GetBackupReportPlan),
 		TerraformName:        []string{"aws_backup_report_plan"},
+		TerraformServiceName: "backup",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
+	"AWS::Backup::RegionSetting": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::Backup::RegionSetting",
+		ResourceLabel:        "Backup Region Setting",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "Backup",
+		ListDescriber:        ParallelDescribeRegional(describer.BackupRegionSetting),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_backup_region_settings"},
 		TerraformServiceName: "backup",
 		FastDiscovery:        false,
 		Summarize:            true,
@@ -4765,8 +4780,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::NatGateway",
 		ResourceLabel:        "NAT Gateways",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcNatGateway.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcNatGateway.svg"},
         },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2NatGateway),
@@ -5009,8 +5024,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::ElasticLoadBalancing::LoadBalancer",
 		ResourceLabel:        "Classic Load Balancers",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticLoadBalancingClassicLoadBalancer.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticLoadBalancingClassicLoadBalancer.svg"},
         },
 		ServiceName:          "ElasticLoadBalancing",
 		ListDescriber:        ParallelDescribeRegional(describer.ElasticLoadBalancingLoadBalancer),
@@ -5254,8 +5269,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::DynamoDb::Table",
 		ResourceLabel:        "DynamoDB Tables",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/DynamoDbTable.svg"},
             "category": {"Database"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/DynamoDbTable.svg"},
         },
 		ServiceName:          "DynamoDb",
 		ListDescriber:        ParallelDescribeRegional(describer.DynamoDbTable),

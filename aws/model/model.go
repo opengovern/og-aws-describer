@@ -492,6 +492,14 @@ type BackupReportPlanDescription struct {
 	Tags       map[string]string
 }
 
+//index:aws_backup_regionsetting
+//getfilter:framework_name=description.Framework.FrameworkName
+type BackupRegionSettingDescription struct {
+	Region                           string
+	ResourceTypeManagementPreference map[string]bool
+	ResourceTypeOptInPreference      map[string]bool
+}
+
 //  ===================   CloudFront   ===================
 
 //index:aws_cloudfront_distribution
