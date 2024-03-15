@@ -435,7 +435,8 @@ type GuardDutyThreatIntelSetDescription struct {
 //index:aws_backup_plan
 //getfilter:backup_plan_id=description.BackupPlan.BackupPlanId
 type BackupPlanDescription struct {
-	BackupPlan backup.BackupPlansListMember
+	BackupPlan  backup.BackupPlansListMember
+	PlanDetails backup.BackupPlan
 }
 
 //index:aws_backup_selection

@@ -86,6 +86,12 @@ func tableAwsBackupPlan(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.BackupPlan.AdvancedBackupSettings"),
 			},
+			{
+				Name:        "rules",
+				Description: "Contains a list of Rules for a resource type.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.PlanDetails.Rules"),
+			},
 
 			// Steampipe standard columns
 			{
