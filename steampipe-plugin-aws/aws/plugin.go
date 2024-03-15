@@ -210,6 +210,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"aws_ecr_image_scan_finding":                                   tableAwsEcrImageScanFinding(ctx),
 			"aws_ecr_image":                                                tableAwsEcrImage(ctx),
 			"aws_ecr_repository":                                           tableAwsEcrRepository(ctx),
+			"aws_ecr_registry":                                             tableAwsEcrRegistry(ctx),
 			"aws_ecrpublic_registry":                                       tableAwsEcrpublicRegistry(ctx),
 			"aws_ecrpublic_repository":                                     tableAwsEcrpublicRepository(ctx),
 			"aws_ecs_cluster_metric_cpu_utilization_daily":                 tableAwsEcsClusterMetricCpuUtilizationDaily(ctx),

@@ -256,6 +256,7 @@ func eCRRepositoryHandle(ctx context.Context, cfg aws.Config, v types.Repository
 
 	policyOutput, err := client.GetRepositoryPolicy(ctx, &ecr.GetRepositoryPolicyInput{
 		RepositoryName: v.RepositoryName,
+		RegistryId:     v.RegistryId,
 	})
 	if err != nil {
 		if !isErr(err, "RepositoryNotFoundException") && !isErr(err, "RepositoryPolicyNotFoundException") && !isErr(err, "LifecyclePolicyNotFoundException") {
@@ -360,10 +361,13 @@ func ECRRegistry(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 
 	var values []Resource
 	resource := Resource{
-		Region:      describeCtx.Region,
-		ID:          *output.RegistryId,
-		Name:        *output.RegistryId,
-		Description: output,
+		Region: describeCtx.Region,
+		ID:     *output.RegistryId,
+		Name:   *output.RegistryId,
+		Description: model.ECRRegistryDescription{
+			RegistryId:       *output.RegistryId,
+			ReplicationRules: output.ReplicationConfiguration.Rules,
+		},
 	}
 	if stream != nil {
 		if err := (*stream)(resource); err != nil {

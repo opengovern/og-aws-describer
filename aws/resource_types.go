@@ -116,8 +116,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::RouteTable",
 		ResourceLabel:        "Route Tables",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Route53RouteTable.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Route53RouteTable.svg"},
         },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2RouteTable),
@@ -193,8 +193,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::IAM::Role",
 		ResourceLabel:        "IAM Roles",
 		Tags:                 map[string][]string{
-            "category": {"Management & Governance"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/IdentityAccessManagementRole.svg"},
+            "category": {"Management & Governance"},
         },
 		ServiceName:          "IAM",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMRole),
@@ -405,8 +405,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::InternetGateway",
 		ResourceLabel:        "Internet Gateways",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/InternetGateway.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/InternetGateway.svg"},
         },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2InternetGateway),
@@ -482,8 +482,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::ApiGateway::RestApi",
 		ResourceLabel:        "Rest APIs",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ApiGateway.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ApiGateway.svg"},
         },
 		ServiceName:          "apigateway",
 		ListDescriber:        ParallelDescribeRegional(describer.ApiGatewayRestAPI),
@@ -1047,8 +1047,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::S3::Bucket",
 		ResourceLabel:        "S3 Buckets",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/SimpleStorageBucket.svg"},
             "category": {"Storage"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/SimpleStorageBucket.svg"},
         },
 		ServiceName:          "S3",
 		ListDescriber:        SequentialDescribeGlobal(describer.S3Bucket),
@@ -3399,6 +3399,23 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
+	"AWS::ECR::Registry": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::ECR::Registry",
+		ResourceLabel:        "Container Registry",
+		Tags:                 map[string][]string{
+            "category": {"Containers"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticContainerRegistry.svg"},
+        },
+		ServiceName:          "ECR",
+		ListDescriber:        ParallelDescribeRegional(describer.ECRRegistry),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_ecr_registry"},
+		TerraformServiceName: "ecr",
+		FastDiscovery:        true,
+		Summarize:            true,
+	},
+
 	"AWS::ElasticLoadBalancingV2::Listener": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElasticLoadBalancingV2::Listener",
@@ -3904,8 +3921,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::Neptune::Database",
 		ResourceLabel:        "Neptune Databases",
 		Tags:                 map[string][]string{
-            "category": {"Database"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Neptune.svg"},
+            "category": {"Database"},
         },
 		ServiceName:          "Neptune",
 		ListDescriber:        ParallelDescribeRegional(describer.NeptuneDatabase),
@@ -4341,8 +4358,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::CustomerGateway",
 		ResourceLabel:        "EC2 Customer Gateway",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcCustomerGateway.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2CustomerGateway),
@@ -4932,8 +4949,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::VolumeSnapshot",
 		ResourceLabel:        "EC2 Volume Snapshots",
 		Tags:                 map[string][]string{
-            "category": {"Storage"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticBlockStoreSnapshot.svg"},
+            "category": {"Storage"},
         },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VolumeSnapshot),
@@ -5024,8 +5041,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::ElasticLoadBalancing::LoadBalancer",
 		ResourceLabel:        "Classic Load Balancers",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticLoadBalancingClassicLoadBalancer.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "ElasticLoadBalancing",
 		ListDescriber:        ParallelDescribeRegional(describer.ElasticLoadBalancingLoadBalancer),
@@ -5101,8 +5118,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::VPC",
 		ResourceLabel:        "Virtual Networks (VPCs)",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Vpc.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VPC),

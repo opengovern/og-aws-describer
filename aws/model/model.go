@@ -2515,6 +2515,13 @@ type ECRPublicRegistryDescription struct {
 	Tags           []ecrpublic.Tag
 }
 
+//index:aws_ecr_registry
+//getfilter:registry_id=description.Registry.RegistryId
+type ECRRegistryDescription struct {
+	RegistryId       string
+	ReplicationRules []ecr.ReplicationRule
+}
+
 //  ===================  EventBridge  ===================
 
 //index:aws_eventbridge_eventbus
