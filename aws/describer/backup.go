@@ -22,12 +22,18 @@ func BackupPlan(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 		}
 
 		for _, v := range page.BackupPlansList {
+			plan, err := client.GetBackupPlan(ctx, &backup.GetBackupPlanInput{BackupPlanId: v.BackupPlanId})
+			if err != nil {
+				return nil, err
+			}
+
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ARN:    *v.BackupPlanArn,
 				Name:   *v.BackupPlanName,
 				Description: model.BackupPlanDescription{
-					BackupPlan: v,
+					BackupPlan:  v,
+					PlanDetails: *plan.BackupPlan,
 				},
 			}
 			if stream != nil {
@@ -498,6 +504,34 @@ func GetBackupReportPlan(ctx context.Context, cfg aws.Config, fields map[string]
 	}
 	if values == nil {
 		return nil, nil
+	}
+	return values, nil
+}
+
+func BackupRegionSetting(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := backup.NewFromConfig(cfg)
+	regionSetting, err := client.DescribeRegionSettings(ctx, &backup.DescribeRegionSettingsInput{})
+	if err != nil {
+		return nil, err
+	}
+
+	var values []Resource
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		Description: model.BackupRegionSettingDescription{
+			Region:                           describeCtx.KaytuRegion,
+			ResourceTypeManagementPreference: regionSetting.ResourceTypeManagementPreference,
+			ResourceTypeOptInPreference:      regionSetting.ResourceTypeOptInPreference,
+		},
+	}
+	if stream != nil {
+		if err := (*stream)(resource); err != nil {
+			return nil, err
+		}
+	} else {
+		values = append(values, resource)
 	}
 	return values, nil
 }

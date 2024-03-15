@@ -435,7 +435,8 @@ type GuardDutyThreatIntelSetDescription struct {
 //index:aws_backup_plan
 //getfilter:backup_plan_id=description.BackupPlan.BackupPlanId
 type BackupPlanDescription struct {
-	BackupPlan backup.BackupPlansListMember
+	BackupPlan  backup.BackupPlansListMember
+	PlanDetails backup.BackupPlan
 }
 
 //index:aws_backup_selection
@@ -490,6 +491,14 @@ type BackupLegalHoldDescription struct {
 type BackupReportPlanDescription struct {
 	ReportPlan backup.ReportPlan
 	Tags       map[string]string
+}
+
+//index:aws_backup_regionsetting
+//getfilter:framework_name=description.Framework.FrameworkName
+type BackupRegionSettingDescription struct {
+	Region                           string
+	ResourceTypeManagementPreference map[string]bool
+	ResourceTypeOptInPreference      map[string]bool
 }
 
 //  ===================   CloudFront   ===================
@@ -2504,6 +2513,13 @@ type ECRPublicRepositoryDescription struct {
 type ECRPublicRegistryDescription struct {
 	PublicRegistry ecrpublic.Registry
 	Tags           []ecrpublic.Tag
+}
+
+//index:aws_ecr_registry
+//getfilter:registry_id=description.Registry.RegistryId
+type ECRRegistryDescription struct {
+	RegistryId       string
+	ReplicationRules []ecr.ReplicationRule
 }
 
 //  ===================  EventBridge  ===================

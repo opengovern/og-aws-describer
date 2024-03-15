@@ -514,8 +514,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::AutoScaling::AutoScalingGroup",
 		ResourceLabel:        "Autoscaling Groups",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Ec2AutoScaling.svg"},
             "category": {"Compute"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Ec2AutoScaling.svg"},
         },
 		ServiceName:          "AutoScaling",
 		ListDescriber:        ParallelDescribeRegional(describer.AutoScalingAutoScalingGroup),
@@ -2462,6 +2462,21 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
+	"AWS::Backup::RegionSetting": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::Backup::RegionSetting",
+		ResourceLabel:        "Backup Region Setting",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "Backup",
+		ListDescriber:        ParallelDescribeRegional(describer.BackupRegionSetting),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_backup_region_settings"},
+		TerraformServiceName: "backup",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
 	"AWS::DynamoDbStreams::Stream": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DynamoDbStreams::Stream",
@@ -3384,6 +3399,23 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
+	"AWS::ECR::Registry": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::ECR::Registry",
+		ResourceLabel:        "Container Registry",
+		Tags:                 map[string][]string{
+            "category": {"Containers"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticContainerRegistry.svg"},
+        },
+		ServiceName:          "ECR",
+		ListDescriber:        ParallelDescribeRegional(describer.ECRRegistry),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_ecr_registry"},
+		TerraformServiceName: "ecr",
+		FastDiscovery:        true,
+		Summarize:            true,
+	},
+
 	"AWS::ElasticLoadBalancingV2::Listener": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElasticLoadBalancingV2::Listener",
@@ -3889,8 +3921,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::Neptune::Database",
 		ResourceLabel:        "Neptune Databases",
 		Tags:                 map[string][]string{
-            "category": {"Database"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Neptune.svg"},
+            "category": {"Database"},
         },
 		ServiceName:          "Neptune",
 		ListDescriber:        ParallelDescribeRegional(describer.NeptuneDatabase),
@@ -4326,8 +4358,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::CustomerGateway",
 		ResourceLabel:        "EC2 Customer Gateway",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcCustomerGateway.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2CustomerGateway),
@@ -4765,8 +4797,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::NatGateway",
 		ResourceLabel:        "NAT Gateways",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcNatGateway.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcNatGateway.svg"},
         },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2NatGateway),
@@ -4917,8 +4949,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::VolumeSnapshot",
 		ResourceLabel:        "EC2 Volume Snapshots",
 		Tags:                 map[string][]string{
-            "category": {"Storage"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticBlockStoreSnapshot.svg"},
+            "category": {"Storage"},
         },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VolumeSnapshot),
@@ -5086,8 +5118,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::VPC",
 		ResourceLabel:        "Virtual Networks (VPCs)",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Vpc.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VPC),
@@ -5254,8 +5286,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::DynamoDb::Table",
 		ResourceLabel:        "DynamoDB Tables",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/DynamoDbTable.svg"},
             "category": {"Database"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/DynamoDbTable.svg"},
         },
 		ServiceName:          "DynamoDb",
 		ListDescriber:        ParallelDescribeRegional(describer.DynamoDbTable),
