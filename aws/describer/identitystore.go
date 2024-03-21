@@ -129,7 +129,10 @@ func IdentityStoreGroupMembership(ctx context.Context, cfg aws.Config, stream *S
 							Region: describeCtx.KaytuRegion,
 							ID:     *membership.MembershipId,
 							Description: model.IdentityStoreGroupMembershipDescription{
-								GroupMembership: membership,
+								GroupId:         membership.GroupId,
+								IdentityStoreId: membership.IdentityStoreId,
+								MembershipId:    membership.MembershipId,
+								MemberId:        membership.MemberId,
 							},
 						}
 						if stream != nil {

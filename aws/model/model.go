@@ -3679,7 +3679,10 @@ type IdentityStoreUserDescription struct {
 //getfilter:identity_store_id=description.Group.IdentityStoreId
 //listfilter:identity_store_id=description.Group.IdentityStoreId
 type IdentityStoreGroupMembershipDescription struct {
-	GroupMembership identitystore.GroupMembership
+	MembershipId    *string
+	IdentityStoreId *string
+	GroupId         *string
+	MemberId        interface{}
 }
 
 // ===================  Inspector ===================
