@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"github.com/aws/aws-sdk-go-v2/service/ssoadmin"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/identitystore"
@@ -11,7 +12,8 @@ import (
 func IdentityStoreGroup(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := identitystore.NewFromConfig(cfg)
-	paginator := identitystore.NewListGroupsPaginator(client, &identitystore.ListGroupsInput{})
+	ssoadminClient := ssoadmin.NewFromConfig(cfg)
+	paginator := ssoadmin.NewListInstancesPaginator(ssoadminClient, &ssoadmin.ListInstancesInput{})
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -19,22 +21,31 @@ func IdentityStoreGroup(ctx context.Context, cfg aws.Config, stream *StreamSende
 		if err != nil {
 			return nil, err
 		}
-
-		for _, group := range page.Groups {
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ID:     *group.GroupId,
-				Name:   *group.DisplayName,
-				Description: model.IdentityStoreGroupDescription{
-					Group: group,
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
+		for _, v := range page.Instances {
+			paginator2 := identitystore.NewListGroupsPaginator(client, &identitystore.ListGroupsInput{IdentityStoreId: v.IdentityStoreId})
+			for paginator2.HasMorePages() {
+				page2, err2 := paginator2.NextPage(ctx)
+				if err2 != nil {
+					return nil, err2
 				}
-			} else {
-				values = append(values, resource)
+
+				for _, group := range page2.Groups {
+					resource := Resource{
+						Region: describeCtx.KaytuRegion,
+						ID:     *group.GroupId,
+						Name:   *group.DisplayName,
+						Description: model.IdentityStoreGroupDescription{
+							Group: group,
+						},
+					}
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
+				}
 			}
 		}
 	}
@@ -45,7 +56,8 @@ func IdentityStoreGroup(ctx context.Context, cfg aws.Config, stream *StreamSende
 func IdentityStoreUser(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := identitystore.NewFromConfig(cfg)
-	paginator := identitystore.NewListUsersPaginator(client, &identitystore.ListUsersInput{})
+	ssoadminClient := ssoadmin.NewFromConfig(cfg)
+	paginator := ssoadmin.NewListInstancesPaginator(ssoadminClient, &ssoadmin.ListInstancesInput{})
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -53,22 +65,28 @@ func IdentityStoreUser(ctx context.Context, cfg aws.Config, stream *StreamSender
 		if err != nil {
 			return nil, err
 		}
-
-		for _, user := range page.Users {
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ID:     *user.UserId,
-				Name:   *user.UserName,
-				Description: model.IdentityStoreUserDescription{
-					User: user,
-				},
+		for _, i := range page.Instances {
+			paginator2 := identitystore.NewListUsersPaginator(client, &identitystore.ListUsersInput{IdentityStoreId: i.IdentityStoreId})
+			page2, err2 := paginator2.NextPage(ctx)
+			if err2 != nil {
+				return nil, err2
 			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
+			for _, user := range page2.Users {
+				resource := Resource{
+					Region: describeCtx.KaytuRegion,
+					ID:     *user.UserId,
+					Name:   *user.UserName,
+					Description: model.IdentityStoreUserDescription{
+						User: user,
+					},
 				}
-			} else {
-				values = append(values, resource)
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
 			}
 		}
 	}
@@ -79,7 +97,9 @@ func IdentityStoreUser(ctx context.Context, cfg aws.Config, stream *StreamSender
 func IdentityStoreGroupMembership(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	client := identitystore.NewFromConfig(cfg)
-	paginator := identitystore.NewListGroupsPaginator(client, &identitystore.ListGroupsInput{})
+
+	ssoadminClient := ssoadmin.NewFromConfig(cfg)
+	paginator := ssoadmin.NewListInstancesPaginator(ssoadminClient, &ssoadmin.ListInstancesInput{})
 
 	var values []Resource
 	for paginator.HasMorePages() {
@@ -87,31 +107,38 @@ func IdentityStoreGroupMembership(ctx context.Context, cfg aws.Config, stream *S
 		if err != nil {
 			return nil, err
 		}
+		for _, i := range page.Instances {
+			paginator2 := identitystore.NewListGroupsPaginator(client, &identitystore.ListGroupsInput{IdentityStoreId: i.IdentityStoreId})
+			page2, err2 := paginator2.NextPage(ctx)
+			if err2 != nil {
+				return nil, err2
+			}
 
-		for _, group := range page.Groups {
-			membershipPaginator := identitystore.NewListGroupMembershipsPaginator(client, &identitystore.ListGroupMembershipsInput{
-				GroupId:         group.GroupId,
-				IdentityStoreId: group.IdentityStoreId,
-			})
-			for membershipPaginator.HasMorePages() {
-				membershipPage, err := membershipPaginator.NextPage(ctx)
-				if err != nil {
-					return nil, err
-				}
-				for _, membership := range membershipPage.GroupMemberships {
-					resource := Resource{
-						Region: describeCtx.KaytuRegion,
-						ID:     *membership.MembershipId,
-						Description: model.IdentityStoreGroupMembershipDescription{
-							GroupMembership: membership,
-						},
+			for _, group := range page2.Groups {
+				membershipPaginator := identitystore.NewListGroupMembershipsPaginator(client, &identitystore.ListGroupMembershipsInput{
+					GroupId:         group.GroupId,
+					IdentityStoreId: group.IdentityStoreId,
+				})
+				for membershipPaginator.HasMorePages() {
+					membershipPage, err := membershipPaginator.NextPage(ctx)
+					if err != nil {
+						return nil, err
 					}
-					if stream != nil {
-						if err := (*stream)(resource); err != nil {
-							return nil, err
+					for _, membership := range membershipPage.GroupMemberships {
+						resource := Resource{
+							Region: describeCtx.KaytuRegion,
+							ID:     *membership.MembershipId,
+							Description: model.IdentityStoreGroupMembershipDescription{
+								GroupMembership: membership,
+							},
 						}
-					} else {
-						values = append(values, resource)
+						if stream != nil {
+							if err := (*stream)(resource); err != nil {
+								return nil, err
+							}
+						} else {
+							values = append(values, resource)
+						}
 					}
 				}
 			}
