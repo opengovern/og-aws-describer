@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/service/identitystore"
 	identitystorev1 "github.com/aws/aws-sdk-go/service/identitystore"
+	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -15,16 +16,7 @@ func tableAwsIdentityStoreGroupMembership(_ context.Context) *plugin.Table {
 		Name:        "aws_identitystore_group_membership",
 		Description: "AWS Identity Store Group Membership",
 		List: &plugin.ListConfig{
-			KeyColumns: plugin.KeyColumnSlice{
-				{
-					Name:    "identity_store_id",
-					Require: plugin.Required,
-				},
-				{
-					Name:    "group_id",
-					Require: plugin.Optional,
-				},
-			},
+			Hydrate: kaytu.ListIdentityStoreGroupMembership,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException"}),
 			},

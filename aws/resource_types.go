@@ -193,8 +193,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::IAM::Role",
 		ResourceLabel:        "IAM Roles",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/IdentityAccessManagementRole.svg"},
             "category": {"Management & Governance"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/IdentityAccessManagementRole.svg"},
         },
 		ServiceName:          "IAM",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMRole),
@@ -3921,8 +3921,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::Neptune::Database",
 		ResourceLabel:        "Neptune Databases",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Neptune.svg"},
             "category": {"Database"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Neptune.svg"},
         },
 		ServiceName:          "Neptune",
 		ListDescriber:        ParallelDescribeRegional(describer.NeptuneDatabase),
@@ -4358,8 +4358,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::CustomerGateway",
 		ResourceLabel:        "EC2 Customer Gateway",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcCustomerGateway.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcCustomerGateway.svg"},
         },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2CustomerGateway),
@@ -4949,8 +4949,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::VolumeSnapshot",
 		ResourceLabel:        "EC2 Volume Snapshots",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticBlockStoreSnapshot.svg"},
             "category": {"Storage"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticBlockStoreSnapshot.svg"},
         },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VolumeSnapshot),
@@ -5041,8 +5041,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::ElasticLoadBalancing::LoadBalancer",
 		ResourceLabel:        "Classic Load Balancers",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticLoadBalancingClassicLoadBalancer.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticLoadBalancingClassicLoadBalancer.svg"},
         },
 		ServiceName:          "ElasticLoadBalancing",
 		ListDescriber:        ParallelDescribeRegional(describer.ElasticLoadBalancingLoadBalancer),
@@ -5118,8 +5118,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::VPC",
 		ResourceLabel:        "Virtual Networks (VPCs)",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Vpc.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Vpc.svg"},
         },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VPC),
@@ -6059,6 +6059,51 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"aws_servicecatalog_product"},
 		TerraformServiceName: "servicecatalog",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
+	"AWS::IdentityStore::User": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::IdentityStore::User",
+		ResourceLabel:        "Identity Store User",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "IdentityStore",
+		ListDescriber:        ParallelDescribeRegional(describer.IdentityStoreUser),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_identitystore_user"},
+		TerraformServiceName: "identitystore",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
+	"AWS::IdentityStore::Group": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::IdentityStore::Group",
+		ResourceLabel:        "Identity Store Group",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "IdentityStore",
+		ListDescriber:        ParallelDescribeRegional(describer.IdentityStoreGroup),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_identitystore_group"},
+		TerraformServiceName: "identitystore",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
+	"AWS::IdentityStore::GroupMembership": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::IdentityStore::GroupMembership",
+		ResourceLabel:        "Identity Store Group Membership",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "IdentityStore",
+		ListDescriber:        ParallelDescribeRegional(describer.IdentityStoreGroupMembership),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_identitystore_group_membership"},
+		TerraformServiceName: "identitystore",
 		FastDiscovery:        false,
 		Summarize:            true,
 	},

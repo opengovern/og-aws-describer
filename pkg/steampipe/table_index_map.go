@@ -430,6 +430,9 @@ var awsMap = map[string]string{
   "AWS::ServiceDiscovery::Instance": "aws_service_discovery_instance",
   "AWS::ServiceCatalog::Portfolio": "aws_servicecatalog_portfolio",
   "AWS::ServiceCatalog::Product": "aws_servicecatalog_product",
+  "AWS::IdentityStore::User": "aws_identitystore_user",
+  "AWS::IdentityStore::Group": "aws_identitystore_group",
+  "AWS::IdentityStore::GroupMembership": "aws_identitystore_group_membership",
 }
 
 var AWSDescriptionMap = map[string]interface{}{
@@ -857,9 +860,12 @@ var AWSDescriptionMap = map[string]interface{}{
   "AWS::ServiceDiscovery::Instance": kaytu.ServiceDiscoveryInstance{},
   "AWS::ServiceCatalog::Portfolio": kaytu.ServiceCatalogPortfolio{},
   "AWS::ServiceCatalog::Product": kaytu.ServiceCatalogProduct{},
+  "AWS::IdentityStore::User": kaytu.IdentityStoreUser{},
+  "AWS::IdentityStore::Group": kaytu.IdentityStoreGroup{},
+  "AWS::IdentityStore::GroupMembership": kaytu.IdentityStoreGroupMembership{},
 }
 
-var awsReverseMap = map[string]string{
+var AWSReverseMap = map[string]string{
   "aws_redshift_snapshot": "AWS::Redshift::Snapshot",
   "aws_iam_account_summary": "AWS::IAM::AccountSummary",
   "aws_glacier_vault": "AWS::Glacier::Vault",
@@ -1284,4 +1290,7 @@ var awsReverseMap = map[string]string{
   "aws_service_discovery_instance": "AWS::ServiceDiscovery::Instance",
   "aws_servicecatalog_portfolio": "AWS::ServiceCatalog::Portfolio",
   "aws_servicecatalog_product": "AWS::ServiceCatalog::Product",
+  "aws_identitystore_user": "AWS::IdentityStore::User",
+  "aws_identitystore_group": "AWS::IdentityStore::Group",
+  "aws_identitystore_group_membership": "AWS::IdentityStore::GroupMembership",
 }

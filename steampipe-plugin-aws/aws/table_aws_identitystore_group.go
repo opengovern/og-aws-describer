@@ -2,6 +2,7 @@ package aws
 
 import (
 	"context"
+	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -17,11 +18,11 @@ func tableAwsIdentityStoreGroup(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException", "ValidationException"}),
 			},
-			//Hydrate: kaytu.GetIdentityStoreGroup,
+			Hydrate: kaytu.GetIdentityStoreGroup,
 		},
 		List: &plugin.ListConfig{
 			KeyColumns: plugin.AllColumns([]string{"identity_store_id"}),
-			//Hydrate:    kaytu.ListIdentityStoreGroup,
+			Hydrate:    kaytu.ListIdentityStoreGroup,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException"}),
 			},
@@ -42,7 +43,13 @@ func tableAwsIdentityStoreGroup(_ context.Context) *plugin.Table {
 				Name:        "id",
 				Description: "The identifier for a group in the identity store.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Group.GroupId"),
+				Transform:   transform.FromField("Description.Group.GroupId"),
+			},
+			{
+				Name:        "external_ids",
+				Description: "The identifier for a group in the identity store.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Group.ExternalIds"),
 			},
 
 			// Standard columns for all tables
