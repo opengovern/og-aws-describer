@@ -45,7 +45,7 @@ func ExtractTableName(resourceType string) string {
 
 func ExtractResourceType(tableName string) string {
 	tableName = strings.ToLower(tableName)
-	return strings.ToLower(awsReverseMap[tableName])
+	return strings.ToLower(AWSReverseMap[tableName])
 }
 
 func GetResourceTypeByTableName(tableName string) string {

@@ -482,8 +482,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::ApiGateway::RestApi",
 		ResourceLabel:        "Rest APIs",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ApiGateway.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "apigateway",
 		ListDescriber:        ParallelDescribeRegional(describer.ApiGatewayRestAPI),
@@ -578,8 +578,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::Kafka::Cluster",
 		ResourceLabel:        "Kafka Clusters",
 		Tags:                 map[string][]string{
-            "category": {"PaaS"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ManagedStreamingForKafka.svg"},
+            "category": {"PaaS"},
         },
 		ServiceName:          "Kafka",
 		ListDescriber:        ParallelDescribeRegional(describer.KafkaCluster),
@@ -3921,8 +3921,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::Neptune::Database",
 		ResourceLabel:        "Neptune Databases",
 		Tags:                 map[string][]string{
-            "category": {"Database"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Neptune.svg"},
+            "category": {"Database"},
         },
 		ServiceName:          "Neptune",
 		ListDescriber:        ParallelDescribeRegional(describer.NeptuneDatabase),
@@ -4358,8 +4358,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::CustomerGateway",
 		ResourceLabel:        "EC2 Customer Gateway",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/VpcCustomerGateway.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2CustomerGateway),
@@ -4949,8 +4949,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::VolumeSnapshot",
 		ResourceLabel:        "EC2 Volume Snapshots",
 		Tags:                 map[string][]string{
-            "category": {"Storage"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticBlockStoreSnapshot.svg"},
+            "category": {"Storage"},
         },
 		ServiceName:          "EC2",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VolumeSnapshot),
@@ -5118,8 +5118,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::EC2::VPC",
 		ResourceLabel:        "Virtual Networks (VPCs)",
 		Tags:                 map[string][]string{
-            "category": {"Networking"},
             "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Vpc.svg"},
+            "category": {"Networking"},
         },
 		ServiceName:          "EC2.Network",
 		ListDescriber:        ParallelDescribeRegional(describer.EC2VPC),
