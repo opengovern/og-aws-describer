@@ -74,6 +74,18 @@ func tableAwsAccount(ctx context.Context) *plugin.Table {
 				Transform:   transform.FromField("Description.Organization.AvailablePolicyTypes"),
 			},
 			{
+				Name:        "account_email",
+				Description: "Account email",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Account.Email"),
+			},
+			{
+				Name:        "account_status",
+				Description: "Account statue",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Account.Status"),
+			},
+			{
 				Name:        "title",
 				Description: resourceInterfaceDescription("title"),
 				Type:        proto.ColumnType_STRING,

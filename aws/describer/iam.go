@@ -160,6 +160,15 @@ func IAMAccount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 		}
 	}
 
+	account, err := orgClient.DescribeAccount(ctx, &organizations.DescribeAccountInput{AccountId: &accountId})
+	if err != nil {
+		if isErr(err, organizationsNotInUseException) {
+			output = &organizations.DescribeOrganizationOutput{}
+		} else {
+			return nil, err
+		}
+	}
+
 	client := iam.NewFromConfig(cfg)
 	paginator := iam.NewListAccountAliasesPaginator(client, &iam.ListAccountAliasesInput{})
 
@@ -181,6 +190,7 @@ func IAMAccount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 		Description: model.IAMAccountDescription{
 			Aliases:      aliases,
 			Organization: output.Organization,
+			Account:      account.Account,
 		},
 	}
 	if stream != nil {
