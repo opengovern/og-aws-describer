@@ -34859,6 +34859,8 @@ func (p IAMAccountPaginator) NextPage(ctx context.Context) ([]IAMAccount, error)
 
 var listIAMAccountFilters = map[string]string{
 	"account_aliases":                     "description.Aliases",
+	"account_email":                       "description.Account.Email",
+	"account_status":                      "description.Account.Status",
 	"kaytu_account_id":                    "metadata.SourceID",
 	"organization_arn":                    "description.Organization.Arn",
 	"organization_available_policy_types": "description.Organization.AvailablePolicyTypes",
@@ -34930,6 +34932,8 @@ func ListIAMAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 
 var getIAMAccountFilters = map[string]string{
 	"account_aliases":                     "description.Aliases",
+	"account_email":                       "description.Account.Email",
+	"account_status":                      "description.Account.Status",
 	"kaytu_account_id":                    "metadata.SourceID",
 	"organization_arn":                    "description.Organization.Arn",
 	"organization_available_policy_types": "description.Organization.AvailablePolicyTypes",

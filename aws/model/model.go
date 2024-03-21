@@ -1492,6 +1492,7 @@ type CloudTrailTrailEventDescription struct {
 //index:aws_iam_account
 type IAMAccountDescription struct {
 	Aliases      []string
+	Account      *organizations.Account
 	Organization *organizations.Organization
 }
 
