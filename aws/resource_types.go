@@ -193,8 +193,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::IAM::Role",
 		ResourceLabel:        "IAM Roles",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/IdentityAccessManagementRole.svg"},
             "category": {"Management & Governance"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/IdentityAccessManagementRole.svg"},
         },
 		ServiceName:          "IAM",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMRole),
@@ -5041,8 +5041,8 @@ var resourceTypes = map[string]ResourceType{
 		ResourceName:         "AWS::ElasticLoadBalancing::LoadBalancer",
 		ResourceLabel:        "Classic Load Balancers",
 		Tags:                 map[string][]string{
-            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticLoadBalancingClassicLoadBalancer.svg"},
             "category": {"Networking"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/ElasticLoadBalancingClassicLoadBalancer.svg"},
         },
 		ServiceName:          "ElasticLoadBalancing",
 		ListDescriber:        ParallelDescribeRegional(describer.ElasticLoadBalancingLoadBalancer),
@@ -6059,6 +6059,51 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"aws_servicecatalog_product"},
 		TerraformServiceName: "servicecatalog",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
+	"AWS::IdentityStore::User": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::IdentityStore::User",
+		ResourceLabel:        "Identity Store User",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "IdentityStore",
+		ListDescriber:        ParallelDescribeRegional(describer.IdentityStoreUser),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_identitystore_user"},
+		TerraformServiceName: "identitystore",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
+	"AWS::IdentityStore::Group": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::IdentityStore::Group",
+		ResourceLabel:        "Identity Store Group",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "IdentityStore",
+		ListDescriber:        ParallelDescribeRegional(describer.IdentityStoreGroup),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_identitystore_group"},
+		TerraformServiceName: "identitystore",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
+	"AWS::IdentityStore::GroupMembership": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::IdentityStore::GroupMembership",
+		ResourceLabel:        "Identity Store Group Membership",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "IdentityStore",
+		ListDescriber:        ParallelDescribeRegional(describer.IdentityStoreGroupMembership),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_identitystore_group_membership"},
+		TerraformServiceName: "identitystore",
 		FastDiscovery:        false,
 		Summarize:            true,
 	},

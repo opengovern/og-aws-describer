@@ -90888,6 +90888,646 @@ func GetHealthAffectedEntity(ctx context.Context, d *plugin.QueryData, _ *plugin
 
 // ==========================  END: HealthAffectedEntity =============================
 
+// ==========================  START: IdentityStoreGroup =============================
+
+type IdentityStoreGroup struct {
+	Description   aws.IdentityStoreGroupDescription `json:"description"`
+	Metadata      aws.Metadata                      `json:"metadata"`
+	ResourceJobID int                               `json:"resource_job_id"`
+	SourceJobID   int                               `json:"source_job_id"`
+	ResourceType  string                            `json:"resource_type"`
+	SourceType    string                            `json:"source_type"`
+	ID            string                            `json:"id"`
+	ARN           string                            `json:"arn"`
+	SourceID      string                            `json:"source_id"`
+}
+
+type IdentityStoreGroupHit struct {
+	ID      string             `json:"_id"`
+	Score   float64            `json:"_score"`
+	Index   string             `json:"_index"`
+	Type    string             `json:"_type"`
+	Version int64              `json:"_version,omitempty"`
+	Source  IdentityStoreGroup `json:"_source"`
+	Sort    []interface{}      `json:"sort"`
+}
+
+type IdentityStoreGroupHits struct {
+	Total essdk.SearchTotal       `json:"total"`
+	Hits  []IdentityStoreGroupHit `json:"hits"`
+}
+
+type IdentityStoreGroupSearchResponse struct {
+	PitID string                 `json:"pit_id"`
+	Hits  IdentityStoreGroupHits `json:"hits"`
+}
+
+type IdentityStoreGroupPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewIdentityStoreGroupPaginator(filters []essdk.BoolFilter, limit *int64) (IdentityStoreGroupPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_identitystore_group", filters, limit)
+	if err != nil {
+		return IdentityStoreGroupPaginator{}, err
+	}
+
+	p := IdentityStoreGroupPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p IdentityStoreGroupPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p IdentityStoreGroupPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p IdentityStoreGroupPaginator) NextPage(ctx context.Context) ([]IdentityStoreGroup, error) {
+	var response IdentityStoreGroupSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []IdentityStoreGroup
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listIdentityStoreGroupFilters = map[string]string{
+	"external_ids":      "description.Group.ExternalIds",
+	"id":                "description.Group.GroupId",
+	"identity_store_id": "description.Group.IdentityStoreId",
+	"kaytu_account_id":  "metadata.SourceID",
+	"name":              "description.Group.DisplayName",
+	"title":             "description.Group.DisplayName",
+}
+
+func ListIdentityStoreGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListIdentityStoreGroup")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIdentityStoreGroup NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIdentityStoreGroup NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIdentityStoreGroup GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIdentityStoreGroup GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIdentityStoreGroup GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewIdentityStoreGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIdentityStoreGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIdentityStoreGroup NewIdentityStoreGroupPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListIdentityStoreGroup paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getIdentityStoreGroupFilters = map[string]string{
+	"external_ids":      "description.Group.ExternalIds",
+	"id":                "description.Group.GroupId",
+	"identity_store_id": "description.Group.IdentityStoreId",
+	"kaytu_account_id":  "metadata.SourceID",
+	"name":              "description.Group.DisplayName",
+	"title":             "description.Group.DisplayName",
+}
+
+func GetIdentityStoreGroup(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetIdentityStoreGroup")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewIdentityStoreGroupPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIdentityStoreGroupFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: IdentityStoreGroup =============================
+
+// ==========================  START: IdentityStoreUser =============================
+
+type IdentityStoreUser struct {
+	Description   aws.IdentityStoreUserDescription `json:"description"`
+	Metadata      aws.Metadata                     `json:"metadata"`
+	ResourceJobID int                              `json:"resource_job_id"`
+	SourceJobID   int                              `json:"source_job_id"`
+	ResourceType  string                           `json:"resource_type"`
+	SourceType    string                           `json:"source_type"`
+	ID            string                           `json:"id"`
+	ARN           string                           `json:"arn"`
+	SourceID      string                           `json:"source_id"`
+}
+
+type IdentityStoreUserHit struct {
+	ID      string            `json:"_id"`
+	Score   float64           `json:"_score"`
+	Index   string            `json:"_index"`
+	Type    string            `json:"_type"`
+	Version int64             `json:"_version,omitempty"`
+	Source  IdentityStoreUser `json:"_source"`
+	Sort    []interface{}     `json:"sort"`
+}
+
+type IdentityStoreUserHits struct {
+	Total essdk.SearchTotal      `json:"total"`
+	Hits  []IdentityStoreUserHit `json:"hits"`
+}
+
+type IdentityStoreUserSearchResponse struct {
+	PitID string                `json:"pit_id"`
+	Hits  IdentityStoreUserHits `json:"hits"`
+}
+
+type IdentityStoreUserPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewIdentityStoreUserPaginator(filters []essdk.BoolFilter, limit *int64) (IdentityStoreUserPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_identitystore_user", filters, limit)
+	if err != nil {
+		return IdentityStoreUserPaginator{}, err
+	}
+
+	p := IdentityStoreUserPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p IdentityStoreUserPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p IdentityStoreUserPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p IdentityStoreUserPaginator) NextPage(ctx context.Context) ([]IdentityStoreUser, error) {
+	var response IdentityStoreUserSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []IdentityStoreUser
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listIdentityStoreUserFilters = map[string]string{
+	"external_ids":      "description.User.ExternalIds",
+	"id":                "description.User.UserId",
+	"identity_store_id": "description.User.IdentityStoreId",
+	"kaytu_account_id":  "metadata.SourceID",
+	"name":              "description.User.UserName",
+	"title":             "description.User.UserName",
+}
+
+func ListIdentityStoreUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListIdentityStoreUser")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIdentityStoreUser NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIdentityStoreUser NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIdentityStoreUser GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIdentityStoreUser GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIdentityStoreUser GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewIdentityStoreUserPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIdentityStoreUserFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIdentityStoreUser NewIdentityStoreUserPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListIdentityStoreUser paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getIdentityStoreUserFilters = map[string]string{
+	"external_ids":      "description.User.ExternalIds",
+	"id":                "description.User.UserId",
+	"identity_store_id": "description.User.IdentityStoreId",
+	"kaytu_account_id":  "metadata.SourceID",
+	"name":              "description.User.UserName",
+	"title":             "description.User.UserName",
+}
+
+func GetIdentityStoreUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetIdentityStoreUser")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewIdentityStoreUserPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIdentityStoreUserFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: IdentityStoreUser =============================
+
+// ==========================  START: IdentityStoreGroupMembership =============================
+
+type IdentityStoreGroupMembership struct {
+	Description   aws.IdentityStoreGroupMembershipDescription `json:"description"`
+	Metadata      aws.Metadata                                `json:"metadata"`
+	ResourceJobID int                                         `json:"resource_job_id"`
+	SourceJobID   int                                         `json:"source_job_id"`
+	ResourceType  string                                      `json:"resource_type"`
+	SourceType    string                                      `json:"source_type"`
+	ID            string                                      `json:"id"`
+	ARN           string                                      `json:"arn"`
+	SourceID      string                                      `json:"source_id"`
+}
+
+type IdentityStoreGroupMembershipHit struct {
+	ID      string                       `json:"_id"`
+	Score   float64                      `json:"_score"`
+	Index   string                       `json:"_index"`
+	Type    string                       `json:"_type"`
+	Version int64                        `json:"_version,omitempty"`
+	Source  IdentityStoreGroupMembership `json:"_source"`
+	Sort    []interface{}                `json:"sort"`
+}
+
+type IdentityStoreGroupMembershipHits struct {
+	Total essdk.SearchTotal                 `json:"total"`
+	Hits  []IdentityStoreGroupMembershipHit `json:"hits"`
+}
+
+type IdentityStoreGroupMembershipSearchResponse struct {
+	PitID string                           `json:"pit_id"`
+	Hits  IdentityStoreGroupMembershipHits `json:"hits"`
+}
+
+type IdentityStoreGroupMembershipPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewIdentityStoreGroupMembershipPaginator(filters []essdk.BoolFilter, limit *int64) (IdentityStoreGroupMembershipPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_identitystore_groupmembership", filters, limit)
+	if err != nil {
+		return IdentityStoreGroupMembershipPaginator{}, err
+	}
+
+	p := IdentityStoreGroupMembershipPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p IdentityStoreGroupMembershipPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p IdentityStoreGroupMembershipPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p IdentityStoreGroupMembershipPaginator) NextPage(ctx context.Context) ([]IdentityStoreGroupMembership, error) {
+	var response IdentityStoreGroupMembershipSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []IdentityStoreGroupMembership
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listIdentityStoreGroupMembershipFilters = map[string]string{
+	"group_id":          "description.GroupMembership.GroupId",
+	"identity_store_id": "description.Group.IdentityStoreId",
+	"kaytu_account_id":  "metadata.SourceID",
+	"member_id":         "description.GroupMembership.MemberId.Value",
+	"membership_id":     "description.GroupMembership.MembershipId",
+	"title":             "description.GroupMembership.MembershipId",
+}
+
+func ListIdentityStoreGroupMembership(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListIdentityStoreGroupMembership")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIdentityStoreGroupMembership NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIdentityStoreGroupMembership NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIdentityStoreGroupMembership GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIdentityStoreGroupMembership GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIdentityStoreGroupMembership GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewIdentityStoreGroupMembershipPaginator(essdk.BuildFilter(ctx, d.QueryContext, listIdentityStoreGroupMembershipFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListIdentityStoreGroupMembership NewIdentityStoreGroupMembershipPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListIdentityStoreGroupMembership paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getIdentityStoreGroupMembershipFilters = map[string]string{
+	"group_id":          "description.GroupMembership.GroupId",
+	"id":                "description.Group.GroupId",
+	"identity_store_id": "description.Group.IdentityStoreId",
+	"kaytu_account_id":  "metadata.SourceID",
+	"member_id":         "description.GroupMembership.MemberId.Value",
+	"membership_id":     "description.GroupMembership.MembershipId",
+	"title":             "description.GroupMembership.MembershipId",
+}
+
+func GetIdentityStoreGroupMembership(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetIdentityStoreGroupMembership")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewIdentityStoreGroupMembershipPaginator(essdk.BuildFilter(ctx, d.QueryContext, getIdentityStoreGroupMembershipFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: IdentityStoreGroupMembership =============================
+
 // ==========================  START: InspectorAssessmentRun =============================
 
 type InspectorAssessmentRun struct {
