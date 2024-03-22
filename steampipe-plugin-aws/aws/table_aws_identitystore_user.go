@@ -15,15 +15,13 @@ func tableAwsIdentityStoreUser(_ context.Context) *plugin.Table {
 		Name:        "aws_identitystore_user",
 		Description: "AWS Identity Store User",
 		Get: &plugin.GetConfig{
-			KeyColumns: plugin.AllColumns([]string{"identity_store_id", "id"}),
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException", "ValidationException"}),
 			},
 			Hydrate: kaytu.GetIdentityStoreUser,
 		},
 		List: &plugin.ListConfig{
-			KeyColumns: plugin.AllColumns([]string{"identity_store_id"}),
-			Hydrate:    kaytu.ListIdentityStoreUser,
+			Hydrate: kaytu.ListIdentityStoreUser,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException"}),
 			},
