@@ -14,12 +14,6 @@ func tableAwsIdentityStoreUser(_ context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "aws_identitystore_user",
 		Description: "AWS Identity Store User",
-		Get: &plugin.GetConfig{
-			IgnoreConfig: &plugin.IgnoreConfig{
-				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException", "ValidationException"}),
-			},
-			Hydrate: kaytu.GetIdentityStoreUser,
-		},
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListIdentityStoreUser,
 			IgnoreConfig: &plugin.IgnoreConfig{

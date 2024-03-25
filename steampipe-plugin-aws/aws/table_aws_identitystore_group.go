@@ -13,12 +13,6 @@ func tableAwsIdentityStoreGroup(_ context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "aws_identitystore_group",
 		Description: "AWS Identity Store Group",
-		Get: &plugin.GetConfig{
-			IgnoreConfig: &plugin.IgnoreConfig{
-				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException", "ValidationException"}),
-			},
-			Hydrate: kaytu.GetIdentityStoreGroup,
-		},
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListIdentityStoreGroup,
 			IgnoreConfig: &plugin.IgnoreConfig{
