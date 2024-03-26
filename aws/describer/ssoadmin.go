@@ -315,7 +315,6 @@ func UserEffectiveAccess(ctx context.Context, cfg aws.Config, stream *StreamSend
 					}
 
 					for _, accountA := range accountAssignment.AccountAssignments {
-						var resource Resource
 						if accountA.PrincipalType == types.PrincipalTypeGroup {
 							membershipPaginator := identitystore.NewListGroupMembershipsPaginator(client, &identitystore.ListGroupMembershipsInput{
 								GroupId:         accountA.PrincipalId,
@@ -328,7 +327,7 @@ func UserEffectiveAccess(ctx context.Context, cfg aws.Config, stream *StreamSend
 								}
 								for _, membership := range membershipPage.GroupMemberships {
 									id := fmt.Sprintf("%s|%s|%s|%s", membership.MemberId, *accountA.AccountId, *accountA.PermissionSetArn, *accountA.PrincipalId)
-									resource = Resource{
+									resource := Resource{
 										Region: describeCtx.Region,
 										ID:     id,
 										Description: model.UserEffectiveAccessDescription{
@@ -337,11 +336,18 @@ func UserEffectiveAccess(ctx context.Context, cfg aws.Config, stream *StreamSend
 											Instance:          i,
 										},
 									}
+									if stream != nil {
+										if err := (*stream)(resource); err != nil {
+											return nil, err
+										}
+									} else {
+										values = append(values, resource)
+									}
 								}
 							}
 						} else {
 							id := fmt.Sprintf("%s|%s|%s|%s", *accountA.PrincipalId, *accountA.AccountId, *accountA.PermissionSetArn, *accountA.PrincipalId)
-							resource = Resource{
+							resource := Resource{
 								Region: describeCtx.Region,
 								ID:     id,
 								Description: model.UserEffectiveAccessDescription{
@@ -350,13 +356,13 @@ func UserEffectiveAccess(ctx context.Context, cfg aws.Config, stream *StreamSend
 									Instance:          i,
 								},
 							}
-						}
-						if stream != nil {
-							if err := (*stream)(resource); err != nil {
-								return nil, err
+							if stream != nil {
+								if err := (*stream)(resource); err != nil {
+									return nil, err
+								}
+							} else {
+								values = append(values, resource)
 							}
-						} else {
-							values = append(values, resource)
 						}
 					}
 				}
