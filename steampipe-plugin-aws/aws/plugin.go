@@ -443,6 +443,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"aws_ssm_parameter":                                            tableAwsSSMParameter(ctx),
 			"aws_ssm_patch_baseline":                                       tableAwsSSMPatchBaseline(ctx),
 			"aws_ssoadmin_account_assignment":                              tableAwsSsoAdminAccountAssignment(ctx),
+			"aws_user_effective_access":                                    tableAwsUserEffectiveAccess(ctx),
 			"aws_ssoadmin_instance":                                        tableAwsSsoAdminInstance(ctx),
 			"aws_ssoadmin_managed_policy_attachment":                       tableAwsSsoAdminManagedPolicyAttachment(ctx),
 			"aws_ssoadmin_permission_set":                                  tableAwsSsoAdminPermissionSet(ctx),

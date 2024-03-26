@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/identitystore"
 	"github.com/aws/aws-sdk-go-v2/service/ssoadmin"
 	"github.com/aws/aws-sdk-go-v2/service/ssoadmin/types"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
@@ -278,5 +279,90 @@ func ListSSOAdminPermissionSetPolicyAttachments(ctx context.Context, client *sso
 			values = append(values, resource)
 		}
 	}
+	return values, nil
+}
+
+func UserEffectiveAccess(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := identitystore.NewFromConfig(cfg)
+
+	ssoadminClient := ssoadmin.NewFromConfig(cfg)
+	paginator := ssoadmin.NewListInstancesPaginator(ssoadminClient, &ssoadmin.ListInstancesInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, i := range page.Instances {
+			paginator2 := ssoadmin.NewListPermissionSetsPaginator(ssoadminClient, &ssoadmin.ListPermissionSetsInput{
+				InstanceArn: i.InstanceArn,
+			})
+			for paginator2.HasMorePages() {
+				page2, err2 := paginator2.NextPage(ctx)
+				if err2 != nil {
+					return nil, err2
+				}
+				for _, v := range page2.PermissionSets {
+					accountAssignment, err := ssoadminClient.ListAccountAssignments(ctx, &ssoadmin.ListAccountAssignmentsInput{
+						InstanceArn:      i.InstanceArn,
+						AccountId:        aws.String(describeCtx.AccountID),
+						PermissionSetArn: &v,
+					})
+					if err != nil {
+						return nil, err
+					}
+
+					for _, accountA := range accountAssignment.AccountAssignments {
+						var resource Resource
+						if accountA.PrincipalType == types.PrincipalTypeGroup {
+							membershipPaginator := identitystore.NewListGroupMembershipsPaginator(client, &identitystore.ListGroupMembershipsInput{
+								GroupId:         accountA.PrincipalId,
+								IdentityStoreId: i.IdentityStoreId,
+							})
+							for membershipPaginator.HasMorePages() {
+								membershipPage, err := membershipPaginator.NextPage(ctx)
+								if err != nil {
+									return nil, err
+								}
+								for _, membership := range membershipPage.GroupMemberships {
+									id := fmt.Sprintf("%s|%s|%s|%s", membership.MemberId, *accountA.AccountId, *accountA.PermissionSetArn, *accountA.PrincipalId)
+									resource = Resource{
+										Region: describeCtx.Region,
+										ID:     id,
+										Description: model.UserEffectiveAccessDescription{
+											AccountAssignment: accountA,
+											UserId:            membership.MemberId,
+											Instance:          i,
+										},
+									}
+								}
+							}
+						} else {
+							id := fmt.Sprintf("%s|%s|%s|%s", *accountA.PrincipalId, *accountA.AccountId, *accountA.PermissionSetArn, *accountA.PrincipalId)
+							resource = Resource{
+								Region: describeCtx.Region,
+								ID:     id,
+								Description: model.UserEffectiveAccessDescription{
+									AccountAssignment: accountA,
+									UserId:            accountA.PrincipalId,
+									Instance:          i,
+								},
+							}
+						}
+						if stream != nil {
+							if err := (*stream)(resource); err != nil {
+								return nil, err
+							}
+						} else {
+							values = append(values, resource)
+						}
+					}
+				}
+			}
+		}
+	}
+
 	return values, nil
 }

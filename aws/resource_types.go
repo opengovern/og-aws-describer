@@ -5943,6 +5943,21 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
+	"AWS::SSOAdmin::UserEffectiveAccess": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::SSOAdmin::UserEffectiveAccess",
+		ResourceLabel:        "User Effective Access",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "SSOAdmin",
+		ListDescriber:        ParallelDescribeRegional(describer.UserEffectiveAccess),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "ssoadmin",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
 	"AWS::SSOAdmin::Instance": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::SSOAdmin::Instance",
