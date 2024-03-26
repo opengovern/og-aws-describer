@@ -72,12 +72,19 @@ func IdentityStoreUser(ctx context.Context, cfg aws.Config, stream *StreamSender
 				return nil, err2
 			}
 			for _, user := range page2.Users {
+				var primaryEmail *string
+				for _, e := range user.Emails {
+					if e.Primary {
+						primaryEmail = e.Value
+					}
+				}
 				resource := Resource{
 					Region: describeCtx.KaytuRegion,
 					ID:     *user.UserId,
 					Name:   *user.UserName,
 					Description: model.IdentityStoreUserDescription{
-						User: user,
+						User:         user,
+						PrimaryEmail: primaryEmail,
 					},
 				}
 				if stream != nil {

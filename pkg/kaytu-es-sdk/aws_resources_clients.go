@@ -91400,12 +91400,14 @@ func (p IdentityStoreUserPaginator) NextPage(ctx context.Context) ([]IdentitySto
 }
 
 var listIdentityStoreUserFilters = map[string]string{
+	"email":             "description.PrimaryEmail",
 	"external_ids":      "description.User.ExternalIds",
 	"id":                "description.User.UserId",
 	"identity_store_id": "description.User.IdentityStoreId",
 	"kaytu_account_id":  "metadata.SourceID",
-	"name":              "description.User.UserName",
-	"title":             "description.User.UserName",
+	"name":              "description.User.DisplayName",
+	"title":             "description.User.Title",
+	"user_name":         "description.User.UserName",
 }
 
 func ListIdentityStoreUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -91468,12 +91470,14 @@ func ListIdentityStoreUser(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 }
 
 var getIdentityStoreUserFilters = map[string]string{
+	"email":             "description.PrimaryEmail",
 	"external_ids":      "description.User.ExternalIds",
 	"id":                "description.User.UserId",
 	"identity_store_id": "description.User.IdentityStoreId",
 	"kaytu_account_id":  "metadata.SourceID",
-	"name":              "description.User.UserName",
-	"title":             "description.User.UserName",
+	"name":              "description.User.DisplayName",
+	"title":             "description.User.Title",
+	"user_name":         "description.User.UserName",
 }
 
 func GetIdentityStoreUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {

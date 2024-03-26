@@ -3678,7 +3678,8 @@ type IdentityStoreGroupDescription struct {
 //getfilter:identity_store_id=description.User.IdentityStoreId
 //listfilter:identity_store_id=description.User.IdentityStoreId
 type IdentityStoreUserDescription struct {
-	User identitystore.User
+	User         identitystore.User
+	PrimaryEmail *string
 }
 
 //index:aws_identitystore_group
