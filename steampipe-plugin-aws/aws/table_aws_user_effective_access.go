@@ -14,7 +14,7 @@ func tableAwsUserEffectiveAccess(_ context.Context) *plugin.Table {
 		Name:        "aws_user_effective_access",
 		Description: "AWS User Effective Access",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSSOAdminAccountAssignment,
+			Hydrate: kaytu.ListUserEffectiveAccess,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
