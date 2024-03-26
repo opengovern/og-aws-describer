@@ -41,9 +41,9 @@ func CloudTrailTrail(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 
 			if trail.TrailARN != nil {
 				// Ignore trails that don't belong to this account (Based on steampipe)
-				if aws.ToString(identity.Account) != arnToAccountId(*trail.TrailARN) {
-					continue
-				}
+				//if aws.ToString(identity.Account) != arnToAccountId(*trail.TrailARN) {
+				//	continue
+				//}
 
 				trails = append(trails, *trail.TrailARN)
 			} else if trail.Name != nil {
