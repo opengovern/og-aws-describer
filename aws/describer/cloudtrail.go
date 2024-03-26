@@ -16,14 +16,14 @@ func CloudTrailTrail(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 	client := cloudtrail.NewFromConfig(cfg)
 	paginator := cloudtrail.NewListTrailsPaginator(client, &cloudtrail.ListTrailsInput{})
 
-	stsClient := sts.NewFromConfig(cfg)
-	identity, err := stsClient.GetCallerIdentity(ctx, &sts.GetCallerIdentityInput{})
-	if err != nil {
-		if isErr(err, "GetCallerIdentityNotFound") || isErr(err, "InvalidParameterValue") {
-			return nil, nil
-		}
-		return nil, err
-	}
+	//stsClient := sts.NewFromConfig(cfg)
+	//identity, err := stsClient.GetCallerIdentity(ctx, &sts.GetCallerIdentityInput{})
+	//if err != nil {
+	//	if isErr(err, "GetCallerIdentityNotFound") || isErr(err, "InvalidParameterValue") {
+	//		return nil, nil
+	//	}
+	//	return nil, err
+	//}
 
 	var values []Resource
 	for paginator.HasMorePages() {
