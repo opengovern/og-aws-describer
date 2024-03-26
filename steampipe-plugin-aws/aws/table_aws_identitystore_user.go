@@ -31,7 +31,17 @@ func tableAwsIdentityStoreUser(_ context.Context) *plugin.Table {
 				Name:        "name",
 				Description: "Contains the user’s display name value.",
 				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.User.DisplayName")},
+			{
+				Name:        "user_name",
+				Description: "Contains the user’s display name value.",
+				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.User.UserName")},
+			{
+				Name:        "email",
+				Description: "Contains the user’s display name value.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.PrimaryEmail")},
 			{
 				Name:        "id",
 				Description: "The identifier for a user in the identity store.",
@@ -50,7 +60,7 @@ func tableAwsIdentityStoreUser(_ context.Context) *plugin.Table {
 				Name:        "title",
 				Description: resourceInterfaceDescription("title"),
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.User.UserName")},
+				Transform:   transform.FromField("Description.User.Title")},
 		}),
 	}
 }
