@@ -2856,6 +2856,13 @@ type SSOAdminPolicyAttachmentDescription struct {
 	AttachedManagedPolicy ssoadmin.AttachedManagedPolicy
 }
 
+//index:aws_ssoadmin_usereffectivea
+type UserEffectiveAccessDescription struct {
+	Instance          ssoadmin.InstanceMetadata
+	AccountAssignment ssoadmin.AccountAssignment
+	UserId            interface{}
+}
+
 //  ===================  Tagging  ===================
 
 //index:aws_tagging_resources
