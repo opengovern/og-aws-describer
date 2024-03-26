@@ -337,6 +337,13 @@ func UserEffectiveAccess(ctx context.Context, cfg aws.Config, stream *StreamSend
 											Instance:          i,
 										},
 									}
+									if stream != nil {
+										if err := (*stream)(resource); err != nil {
+											return nil, err
+										}
+									} else {
+										values = append(values, resource)
+									}
 								}
 							}
 						} else {
@@ -350,13 +357,13 @@ func UserEffectiveAccess(ctx context.Context, cfg aws.Config, stream *StreamSend
 									Instance:          i,
 								},
 							}
-						}
-						if stream != nil {
-							if err := (*stream)(resource); err != nil {
-								return nil, err
+							if stream != nil {
+								if err := (*stream)(resource); err != nil {
+									return nil, err
+								}
+							} else {
+								values = append(values, resource)
 							}
-						} else {
-							values = append(values, resource)
 						}
 					}
 				}
