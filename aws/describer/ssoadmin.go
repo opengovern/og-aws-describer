@@ -8,6 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/ssoadmin"
 	"github.com/aws/aws-sdk-go-v2/service/ssoadmin/types"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
+	"strings"
 )
 
 func SSOAdminInstance(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -326,7 +327,7 @@ func UserEffectiveAccess(ctx context.Context, cfg aws.Config, stream *StreamSend
 									return nil, err
 								}
 								for _, membership := range membershipPage.GroupMemberships {
-									id := fmt.Sprintf("%s|%s|%s|%s", membership.MemberId, *accountA.AccountId, *accountA.PermissionSetArn, *accountA.PrincipalId)
+									id := fmt.Sprintf("%s|%s|%s", getSubstring(fmt.Sprintf("%s", membership.MemberId)), *accountA.PermissionSetArn, *accountA.PrincipalId)
 									resource := Resource{
 										Region: describeCtx.Region,
 										ID:     id,
@@ -346,7 +347,7 @@ func UserEffectiveAccess(ctx context.Context, cfg aws.Config, stream *StreamSend
 								}
 							}
 						} else {
-							id := fmt.Sprintf("%s|%s|%s|%s", *accountA.PrincipalId, *accountA.AccountId, *accountA.PermissionSetArn, *accountA.PrincipalId)
+							id := fmt.Sprintf("%s|%s|%s", *accountA.PrincipalId, *accountA.PermissionSetArn, *accountA.PrincipalId)
 							resource := Resource{
 								Region: describeCtx.Region,
 								ID:     id,
@@ -371,4 +372,16 @@ func UserEffectiveAccess(ctx context.Context, cfg aws.Config, stream *StreamSend
 	}
 
 	return values, nil
+}
+
+func getSubstring(str string) string {
+	start := strings.Index(str, "{")
+	if start == -1 {
+		return ""
+	}
+	end := strings.Index(str[start:], " ")
+	if end == -1 {
+		return str[start:]
+	}
+	return str[start+1 : start+end]
 }
