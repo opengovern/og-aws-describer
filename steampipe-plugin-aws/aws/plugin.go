@@ -446,6 +446,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"aws_ssoadmin_instance":                                        tableAwsSsoAdminInstance(ctx),
 			"aws_ssoadmin_managed_policy_attachment":                       tableAwsSsoAdminManagedPolicyAttachment(ctx),
 			"aws_ssoadmin_permission_set":                                  tableAwsSsoAdminPermissionSet(ctx),
+			"aws_user_effective_access":                                    tableAwsUserEffectiveAccess(ctx),
 			"aws_sts_caller_identity":                                      tableAwsSTSCallerIdentity(ctx),
 			"aws_tagging_resource":                                         tableAwsTaggingResource(ctx),
 			"aws_vpc_customer_gateway":                                     tableAwsVpcCustomerGateway(ctx),

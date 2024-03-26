@@ -70358,6 +70358,219 @@ func GetSSOAdminPolicyAttachment(ctx context.Context, d *plugin.QueryData, _ *pl
 
 // ==========================  END: SSOAdminPolicyAttachment =============================
 
+// ==========================  START: UserEffectiveAccess =============================
+
+type UserEffectiveAccess struct {
+	Description   aws.UserEffectiveAccessDescription `json:"description"`
+	Metadata      aws.Metadata                       `json:"metadata"`
+	ResourceJobID int                                `json:"resource_job_id"`
+	SourceJobID   int                                `json:"source_job_id"`
+	ResourceType  string                             `json:"resource_type"`
+	SourceType    string                             `json:"source_type"`
+	ID            string                             `json:"id"`
+	ARN           string                             `json:"arn"`
+	SourceID      string                             `json:"source_id"`
+}
+
+type UserEffectiveAccessHit struct {
+	ID      string              `json:"_id"`
+	Score   float64             `json:"_score"`
+	Index   string              `json:"_index"`
+	Type    string              `json:"_type"`
+	Version int64               `json:"_version,omitempty"`
+	Source  UserEffectiveAccess `json:"_source"`
+	Sort    []interface{}       `json:"sort"`
+}
+
+type UserEffectiveAccessHits struct {
+	Total essdk.SearchTotal        `json:"total"`
+	Hits  []UserEffectiveAccessHit `json:"hits"`
+}
+
+type UserEffectiveAccessSearchResponse struct {
+	PitID string                  `json:"pit_id"`
+	Hits  UserEffectiveAccessHits `json:"hits"`
+}
+
+type UserEffectiveAccessPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewUserEffectiveAccessPaginator(filters []essdk.BoolFilter, limit *int64) (UserEffectiveAccessPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_ssoadmin_usereffectiveaccess", filters, limit)
+	if err != nil {
+		return UserEffectiveAccessPaginator{}, err
+	}
+
+	p := UserEffectiveAccessPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p UserEffectiveAccessPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p UserEffectiveAccessPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p UserEffectiveAccessPaginator) NextPage(ctx context.Context) ([]UserEffectiveAccess, error) {
+	var response UserEffectiveAccessSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []UserEffectiveAccess
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listUserEffectiveAccessFilters = map[string]string{
+	"id":                 "id",
+	"instance_arn":       "description.Instance.InstanceArn",
+	"kaytu_account_id":   "metadata.SourceID",
+	"permission_set_arn": "description.AccountAssignment.PermissionSetArn",
+	"target_account_id":  "description.AccountAssignment.AccountId",
+	"user_id":            "description.UserId",
+}
+
+func ListUserEffectiveAccess(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListUserEffectiveAccess")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListUserEffectiveAccess NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListUserEffectiveAccess NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListUserEffectiveAccess GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListUserEffectiveAccess GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListUserEffectiveAccess GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewUserEffectiveAccessPaginator(essdk.BuildFilter(ctx, d.QueryContext, listUserEffectiveAccessFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListUserEffectiveAccess NewUserEffectiveAccessPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListUserEffectiveAccess paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getUserEffectiveAccessFilters = map[string]string{
+	"id":                 "id",
+	"instance_arn":       "description.Instance.InstanceArn",
+	"kaytu_account_id":   "metadata.SourceID",
+	"permission_set_arn": "description.AccountAssignment.PermissionSetArn",
+	"target_account_id":  "description.AccountAssignment.AccountId",
+	"user_id":            "description.UserId",
+}
+
+func GetUserEffectiveAccess(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetUserEffectiveAccess")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewUserEffectiveAccessPaginator(essdk.BuildFilter(ctx, d.QueryContext, getUserEffectiveAccessFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: UserEffectiveAccess =============================
+
 // ==========================  START: WAFRule =============================
 
 type WAFRule struct {
@@ -91400,12 +91613,12 @@ func (p IdentityStoreGroupMembershipPaginator) NextPage(ctx context.Context) ([]
 }
 
 var listIdentityStoreGroupMembershipFilters = map[string]string{
-	"group_id":          "description.GroupMembership.GroupId",
+	"group_id":          "description.GroupId",
 	"identity_store_id": "description.Group.IdentityStoreId",
 	"kaytu_account_id":  "metadata.SourceID",
-	"member_id":         "description.GroupMembership.MemberId.Value",
-	"membership_id":     "description.GroupMembership.MembershipId",
-	"title":             "description.GroupMembership.MembershipId",
+	"member_id":         "description.MemberId.Value",
+	"membership_id":     "description.MembershipId",
+	"title":             "description.MembershipId",
 }
 
 func ListIdentityStoreGroupMembership(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -91468,13 +91681,13 @@ func ListIdentityStoreGroupMembership(ctx context.Context, d *plugin.QueryData, 
 }
 
 var getIdentityStoreGroupMembershipFilters = map[string]string{
-	"group_id":          "description.GroupMembership.GroupId",
+	"group_id":          "description.GroupId",
 	"id":                "description.Group.GroupId",
 	"identity_store_id": "description.Group.IdentityStoreId",
 	"kaytu_account_id":  "metadata.SourceID",
-	"member_id":         "description.GroupMembership.MemberId.Value",
-	"membership_id":     "description.GroupMembership.MembershipId",
-	"title":             "description.GroupMembership.MembershipId",
+	"member_id":         "description.MemberId.Value",
+	"membership_id":     "description.MembershipId",
+	"title":             "description.MembershipId",
 }
 
 func GetIdentityStoreGroupMembership(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
