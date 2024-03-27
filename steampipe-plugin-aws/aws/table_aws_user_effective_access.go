@@ -43,9 +43,15 @@ func tableAwsUserEffectiveAccess(_ context.Context) *plugin.Table {
 			},
 			{
 				Name:        "user_id",
-				Description: "An identifier for an object in IAM Identity Center, such as a user or group.",
+				Description: "An identifier for an object in IAM Identity Center.",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.UserId"),
+			},
+			{
+				Name:        "user_name",
+				Description: "The user name.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.User.UserName"),
 			},
 		}),
 	}
