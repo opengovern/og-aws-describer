@@ -89,6 +89,7 @@ import (
 	health "github.com/aws/aws-sdk-go-v2/service/health/types"
 	iamop "github.com/aws/aws-sdk-go-v2/service/iam"
 	iam "github.com/aws/aws-sdk-go-v2/service/iam/types"
+	identitystore2 "github.com/aws/aws-sdk-go-v2/service/identitystore"
 	identitystore "github.com/aws/aws-sdk-go-v2/service/identitystore/types"
 	imagebuilder "github.com/aws/aws-sdk-go-v2/service/imagebuilder/types"
 	inspector "github.com/aws/aws-sdk-go-v2/service/inspector/types"
@@ -2860,6 +2861,7 @@ type SSOAdminPolicyAttachmentDescription struct {
 type UserEffectiveAccessDescription struct {
 	Instance          ssoadmin.InstanceMetadata
 	AccountAssignment ssoadmin.AccountAssignment
+	User              identitystore2.DescribeUserOutput
 	UserId            interface{}
 }
 

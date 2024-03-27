@@ -328,12 +328,20 @@ func UserEffectiveAccess(ctx context.Context, cfg aws.Config, stream *StreamSend
 								}
 								for _, membership := range membershipPage.GroupMemberships {
 									id := fmt.Sprintf("%s|%s|%s", getSubstring(fmt.Sprintf("%s", membership.MemberId)), *accountA.PermissionSetArn, *accountA.PrincipalId)
+									user, err := client.DescribeUser(ctx, &identitystore.DescribeUserInput{
+										UserId:          aws.String(getSubstring(fmt.Sprintf("%s", membership.MemberId))),
+										IdentityStoreId: i.IdentityStoreId,
+									})
+									if err != nil {
+										return nil, err
+									}
 									resource := Resource{
 										Region: describeCtx.Region,
 										ID:     id,
 										Description: model.UserEffectiveAccessDescription{
 											AccountAssignment: accountA,
 											UserId:            membership.MemberId,
+											User:              *user,
 											Instance:          i,
 										},
 									}
@@ -348,12 +356,20 @@ func UserEffectiveAccess(ctx context.Context, cfg aws.Config, stream *StreamSend
 							}
 						} else {
 							id := fmt.Sprintf("%s|%s|%s", *accountA.PrincipalId, *accountA.PermissionSetArn, *accountA.PrincipalId)
+							user, err := client.DescribeUser(ctx, &identitystore.DescribeUserInput{
+								UserId:          aws.String(*accountA.PrincipalId),
+								IdentityStoreId: i.IdentityStoreId,
+							})
+							if err != nil {
+								return nil, err
+							}
 							resource := Resource{
 								Region: describeCtx.Region,
 								ID:     id,
 								Description: model.UserEffectiveAccessDescription{
 									AccountAssignment: accountA,
 									UserId:            accountA.PrincipalId,
+									User:              *user,
 									Instance:          i,
 								},
 							}
