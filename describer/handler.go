@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -55,19 +54,17 @@ func getJWTAuthToken(workspaceId string) (string, error) {
 	return token, nil
 }
 
-func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInput) error {
-	fmt.Printf("Input: %v", input)
+type TriggeredBy string
 
+const (
+	TriggeredByAWSLambda     TriggeredBy = "aws-lambda"
+	TriggeredByAzureFunction TriggeredBy = "azure-function"
+)
+
+// DescribeHandler
+// TriggeredBy is not used for now but might be relevant in the future
+func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, input describe.DescribeWorkerInput) error {
 	var err error
-	logger := zap.NewNop()
-
-	if debug := strings.TrimSpace(os.Getenv("DEBUG")); debug == "true" {
-		logger, err = zap.NewProduction()
-		if err != nil {
-			return err
-		}
-	}
-
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Printf("There is a Panic: %v", r)
@@ -124,6 +121,11 @@ func DescribeHandler(ctx context.Context, input describe.LambdaDescribeWorkerInp
 		}
 		break
 	}
+
+	// we don't need to use these because the LoadDefaultConfig will automatically use this if there aren't better alternatives
+	// and this approach works on both azure functions and aws lambda, also this way we don't need to pass them for ingestion pipeline
+	//accessKey := os.Getenv("AWS_ACCESS_KEY_ID")
+	//secretKey := os.Getenv("AWS_SECRET_ACCESS_KEY")
 
 	//	resourceIds := make([]string, 0)
 

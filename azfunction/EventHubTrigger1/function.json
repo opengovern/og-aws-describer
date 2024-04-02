@@ -1,0 +1,13 @@
+{
+  "bindings": [
+    {
+      "type": "eventHubTrigger",
+      "name": "eventHubMessages",
+      "direction": "in",
+      "eventHubName": "test-describe-932165ec0c",
+      "connection": "testdescribe_RootManageSharedAccessKey_EVENTHUB",
+      "cardinality": "one",
+      "consumerGroup": "$Default"
+    }
+  ]
+}

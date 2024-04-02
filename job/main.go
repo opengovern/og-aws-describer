@@ -51,9 +51,9 @@ func (h *DescriberJob) Run() error {
 	}
 
 	for msg := range ch {
-		var job describe.LambdaDescribeWorkerInput
+		var job describe.DescribeWorkerInput
 		if err := json.Unmarshal(msg.Body, &job); err != nil {
-			logger.Error("failed to consume message from LambdaDescribeWorkerInput", zap.Error(err))
+			logger.Error("failed to consume message from DescribeWorkerInput", zap.Error(err))
 			err = msg.Nack(false, false)
 			if err != nil {
 				logger.Error("failure while sending nack for message", zap.Error(err))
@@ -61,7 +61,7 @@ func (h *DescriberJob) Run() error {
 			continue
 		}
 
-		err := describer.DescribeHandler(context.Background(), job)
+		err := describer.DescribeHandler(context.Background(), describer.TriggeredByAWSLambda, job)
 		if err != nil {
 			logger.Error("failure while handling job", zap.Uint("jobID", job.DescribeJob.JobID))
 			continue
