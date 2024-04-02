@@ -40,7 +40,7 @@ func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
 
 	body.Data.EventHubMessages = unescaped
 
-	var bodyData []describe.DescribeWorkerInput
+	var bodyData describe.DescribeWorkerInput
 	err = json.Unmarshal([]byte(body.Data.EventHubMessages), &bodyData)
 	if err != nil {
 		s.logger.Error("failed to unmarshal eventHubMessages", zap.Error(err))
@@ -49,16 +49,7 @@ func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
 	}
 	s.logger.Info("azureFunctionsHandler", zap.Any("bodyData", bodyData))
 
-	if len(bodyData) == 0 {
-		return ctx.NoContent(http.StatusOK)
-	}
-
-	if len(bodyData) > 1 {
-		s.logger.Error("multiple messages received", zap.Any("bodyData", bodyData))
-		return ctx.String(http.StatusBadRequest, "multiple messages received")
-	}
-
-	err = describer.DescribeHandler(ctx.Request().Context(), s.logger, describer.TriggeredByAzureFunction, bodyData[0])
+	err = describer.DescribeHandler(ctx.Request().Context(), s.logger, describer.TriggeredByAzureFunction, bodyData)
 	if err != nil {
 		s.logger.Error("failed to run describer", zap.Error(err))
 		return ctx.String(http.StatusInternalServerError, "failed to run describer")
