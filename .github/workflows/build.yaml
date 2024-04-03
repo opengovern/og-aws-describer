@@ -192,8 +192,9 @@ jobs:
           tar -xvf azfunction.tar
       - name: Zip az functions folder
         uses: montudor/action-zip@v1
+        working-directory: ./azfunction
         with:
-          args: zip -qq -r azfunction.zip azfunction
+          args: zip -qq -r azfunction.zip .
       - name: Configure Azure credentials
         uses: azure/login@v2
         with:
@@ -205,5 +206,5 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            az functionapp deployment source config-zip -g kaytu-development -n kaytu-aws-describer --src azfunction.zip
+            az functionapp deployment source config-zip -g kaytu-development -n kaytu-aws-describer --src azfunction/azfunction.zip
             az functionapp restart -g kaytu-development -n kaytu-aws-describer
