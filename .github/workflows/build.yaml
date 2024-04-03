@@ -190,11 +190,12 @@ jobs:
       - name: Unpack az functions describer artifact
         run: |
           tar -xvf azfunction.tar
-      - name: Zip az functions folder
+      - name: Install zip
         uses: montudor/action-zip@v1
+      - name: Zip az functions folder
         working-directory: ./azfunction
-        with:
-          args: zip -qq -r azfunction.zip .
+        run: |
+          zip -qq -r azfunction.zip .
       - name: Configure Azure credentials
         uses: azure/login@v2
         with:
