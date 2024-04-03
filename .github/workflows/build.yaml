@@ -206,4 +206,4 @@ jobs:
           azcliversion: 2.30.0
           inlineScript: |
             az functionapp deployment source config-zip -g kaytu-development -n kaytu-aws-describer --src azfunction.zip
-            az functionapp restart
+            az functionapp restart -g kaytu-development -n kaytu-aws-describer
