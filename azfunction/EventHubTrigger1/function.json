@@ -4,8 +4,8 @@
       "type": "eventHubTrigger",
       "name": "eventHubMessages",
       "direction": "in",
-      "eventHubName": "test-describe-932165ec0c",
-      "connection": "testdescribe_RootManageSharedAccessKey_EVENTHUB",
+      "eventHubName": "kaytu-aws-describer",
+      "connection": "EVENT_HUB_CONNECTION_STRING",
       "cardinality": "one",
       "consumerGroup": "$Default"
     }
