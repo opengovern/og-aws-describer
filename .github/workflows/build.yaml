@@ -208,4 +208,10 @@ jobs:
           azcliversion: 2.30.0
           inlineScript: |
             az functionapp deployment source config-zip -g kaytu-development -n kaytu-aws-describer --src azfunction/azfunction.zip
+      - name: Restart function app
+        uses: azure/cli@v2
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
             az functionapp restart -g kaytu-development -n kaytu-aws-describer
+            
