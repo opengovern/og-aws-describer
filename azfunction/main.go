@@ -55,7 +55,7 @@ func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
 		return ctx.String(http.StatusInternalServerError, "failed to run describer")
 	}
 
-	return ctx.NoContent(http.StatusOK)
+	return ctx.String(http.StatusOK, "OK")
 }
 
 func main() {
