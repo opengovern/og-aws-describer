@@ -51,7 +51,7 @@ func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
 
 	err = describer.DescribeHandler(ctx.Request().Context(), s.logger, describer.TriggeredByAzureFunction, bodyData)
 	if err != nil {
-		s.logger.Error("failed to run describer", zap.Error(err))
+		s.logger.Error("failed to run describer", zap.Error(err), zap.Any("bodyData", bodyData))
 		return ctx.String(http.StatusInternalServerError, "failed to run describer")
 	}
 
@@ -63,9 +63,9 @@ func main() {
 	if val, ok := os.LookupEnv("FUNCTIONS_CUSTOMHANDLER_PORT"); ok {
 		listenAddr = ":" + val
 	}
-	logger := zap.NewNop()
+	logger, _ := zap.NewProduction(zap.IncreaseLevel(zap.WarnLevel))
 	if val, ok := os.LookupEnv("DEBUG"); ok && strings.ToLower(val) == "true" {
-		logger, _ = zap.NewProduction()
+		logger, _ = zap.NewProduction(zap.IncreaseLevel(zap.DebugLevel))
 	}
 	echoServer := echo.New()
 	server := &Server{
