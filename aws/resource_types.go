@@ -3367,6 +3367,23 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
+	"AWS::EC2::InstanceMetricCpuUtilizationHourly": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::EC2::InstanceMetricCpuUtilizationHourly",
+		ResourceLabel:        "EC2 Instance CPU Utilization Hourly Statistics",
+		Tags:                 map[string][]string{
+            "category": {"Compute"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/Ec2Instance.svg"},
+        },
+		ServiceName:          "EC2.Compute",
+		ListDescriber:        ParallelDescribeRegional(describer.Ec2InstanceMetricCpuUtilizationHourly),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "ec2",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
 	"AWS::EC2::ReservedInstances": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::ReservedInstances",

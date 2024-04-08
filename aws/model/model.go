@@ -1277,6 +1277,16 @@ type EC2EIPAddressTransferDescription struct {
 	AddressTransfer ec2.AddressTransfer
 }
 
+type EC2InstanceMetricCpuUtilizationHourlyDescription struct {
+	InstanceId  *string
+	Timestamp   *time.Time
+	Average     *float64
+	Sum         *float64
+	Maximum     *float64
+	Minimum     *float64
+	SampleCount *float64
+}
+
 // ===================  STS Caller  =================
 
 //index:aws_stscaller_identity

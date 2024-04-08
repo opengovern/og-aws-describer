@@ -645,11 +645,11 @@ func getCloudWatchStartDateForGranularity(granularity string) time.Time {
 		// 1 year
 		return time.Now().AddDate(-1, 0, 0)
 	case "HOURLY":
-		// 60 days
-		return time.Now().AddDate(0, 0, -60)
+		// 2 days
+		return time.Now().AddDate(0, 0, -2)
 	}
-	// else 5 days
-	return time.Now().AddDate(0, 0, -5)
+	// else 2 days
+	return time.Now().AddDate(0, 0, -2)
 }
 
 func listCloudWatchMetricStatistics(ctx context.Context, cfg aws.Config, granularity string, namespace string, metricName string, dimensionName string, dimensionValue string) ([]model.CloudWatchMetricRow, error) {
