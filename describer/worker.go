@@ -26,15 +26,14 @@ type KaytuError struct {
 }
 
 func Do(ctx context.Context,
-	vlt *vault.KMSVaultSourceConfig,
+	vlt vault.VaultSourceConfig,
 	logger *zap.Logger,
 	job describe.DescribeJob,
-	keyARN string,
+	keyId string,
 	describeDeliverEndpoint string,
 	describeDeliverToken string,
 	ingestionPipelineEndpoint string,
 	useOpenSearch bool,
-	kafkaTopic string,
 	workspaceId string,
 	workspaceName string) (resourceIDs []string, err error) {
 	defer func() {
@@ -51,16 +50,16 @@ func Do(ctx context.Context,
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	config, err := vlt.Decrypt(job.CipherText, keyARN)
+	config, err := vlt.Decrypt(ctx, job.CipherText, keyId, job.VaultKeyVersion)
 	if err != nil {
 		return nil, fmt.Errorf("decrypt error: %w", err)
 	}
 
-	return doDescribeAWS(ctx, logger, job, config, workspaceId, workspaceName, describeDeliverEndpoint, ingestionPipelineEndpoint, describeDeliverToken, kafkaTopic, useOpenSearch)
+	return doDescribeAWS(ctx, logger, job, config, workspaceId, workspaceName, describeDeliverEndpoint, ingestionPipelineEndpoint, describeDeliverToken, useOpenSearch)
 }
 
-func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.DescribeJob, config map[string]any, workspaceId, workspaceName string, describeEndpoint, ingestionPipelineEndpoint string, describeToken string, kafkaTopic string, useOpenSearch bool) ([]string, error) {
-	rs, err := NewResourceSender(workspaceId, workspaceName, describeEndpoint, ingestionPipelineEndpoint, describeToken, job.JobID, kafkaTopic, useOpenSearch, logger)
+func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.DescribeJob, config map[string]any, workspaceId, workspaceName string, describeEndpoint, ingestionPipelineEndpoint string, describeToken string, useOpenSearch bool) ([]string, error) {
+	rs, err := NewResourceSender(workspaceId, workspaceName, describeEndpoint, ingestionPipelineEndpoint, describeToken, job.JobID, useOpenSearch, logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to resource sender: %w", err)
 	}
@@ -116,8 +115,6 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 			Location:      resource.Region,
 			SourceID:      job.SourceID,
 			ResourceJobID: job.JobID,
-			SourceJobID:   job.ParentJobID,
-			ScheduleJobID: job.ScheduleJobID,
 			CreatedAt:     job.DescribedAt,
 			Description:   resource.Description,
 			Metadata:      metadata,
@@ -144,17 +141,15 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 			Metadata:        metadata,
 			Tags:            tags,
 			Job: &golang.DescribeJob{
-				JobId:         uint32(job.JobID),
-				ScheduleJobId: uint32(job.ScheduleJobID),
-				ParentJobId:   uint32(job.ParentJobID),
-				ResourceType:  job.ResourceType,
-				SourceId:      job.SourceID,
-				AccountId:     job.AccountID,
-				DescribedAt:   job.DescribedAt,
-				SourceType:    string(job.SourceType),
-				ConfigReg:     job.CipherText,
-				TriggerType:   string(job.TriggerType),
-				RetryCounter:  uint32(job.RetryCounter),
+				JobId:        uint32(job.JobID),
+				ResourceType: job.ResourceType,
+				SourceId:     job.SourceID,
+				AccountId:    job.AccountID,
+				DescribedAt:  job.DescribedAt,
+				SourceType:   string(job.SourceType),
+				ConfigReg:    job.CipherText,
+				TriggerType:  string(job.TriggerType),
+				RetryCounter: uint32(job.RetryCounter),
 			},
 		})
 		return nil

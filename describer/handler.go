@@ -122,28 +122,29 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 		break
 	}
 
-	// we don't need to use these because the LoadDefaultConfig will automatically use this if there aren't better alternatives
-	// and this approach works on both azure functions and aws lambda, also this way we don't need to pass them for ingestion pipeline
-	//accessKey := os.Getenv("AWS_ACCESS_KEY_ID")
-	//secretKey := os.Getenv("AWS_SECRET_ACCESS_KEY")
-
-	//	resourceIds := make([]string, 0)
-
-	kmsVault, err := vault.NewKMSVaultSourceConfig(ctx, "", "", input.KeyRegion)
-	if err != nil {
-		return fmt.Errorf("failed to initialize KMS vault: %w", err)
+	var vaultSc vault.VaultSourceConfig
+	switch input.VaultConfig.Provider {
+	case vault.AwsKMS:
+		vaultSc, err = vault.NewKMSVaultSourceConfig(ctx, input.VaultConfig.Aws.AccessKey, input.VaultConfig.Aws.SecretKey, input.VaultConfig.Aws.Region)
+		if err != nil {
+			return fmt.Errorf("failed to initialize KMS vault: %w", err)
+		}
+	case vault.AzureKeyVault:
+		vaultSc, err = vault.NewAzureVaultClient(logger, input.VaultConfig.Azure.ClientId, input.VaultConfig.Azure.ClientSecret, input.VaultConfig.Azure.BaseUrl)
+		if err != nil {
+			return fmt.Errorf("failed to initialize Azure vault: %w", err)
+		}
 	}
 	resourceIds, err := Do(
 		ctx,
-		kmsVault,
+		vaultSc,
 		logger,
 		input.DescribeJob,
-		input.KeyARN,
+		input.VaultConfig.KeyId,
 		input.DescribeEndpoint,
 		token,
 		input.IngestionPipelineEndpoint,
 		input.UseOpenSearch,
-		input.KafkaTopic,
 		input.WorkspaceId,
 		input.WorkspaceName,
 	)
@@ -162,23 +163,20 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 
 	for retry := 0; retry < 5; retry++ {
 		_, err = client.DeliverResult(grpcCtx, &golang.DeliverResultRequest{
-			JobId:       uint32(input.DescribeJob.JobID),
-			ParentJobId: uint32(input.DescribeJob.ParentJobID),
-			Status:      status,
-			Error:       errMsg,
-			ErrorCode:   errCode,
+			JobId:     uint32(input.DescribeJob.JobID),
+			Status:    status,
+			Error:     errMsg,
+			ErrorCode: errCode,
 			DescribeJob: &golang.DescribeJob{
-				JobId:         uint32(input.DescribeJob.JobID),
-				ScheduleJobId: uint32(input.DescribeJob.ScheduleJobID),
-				ParentJobId:   uint32(input.DescribeJob.ParentJobID),
-				ResourceType:  input.DescribeJob.ResourceType,
-				SourceId:      input.DescribeJob.SourceID,
-				AccountId:     input.DescribeJob.AccountID,
-				DescribedAt:   input.DescribeJob.DescribedAt,
-				SourceType:    string(input.DescribeJob.SourceType),
-				ConfigReg:     input.DescribeJob.CipherText,
-				TriggerType:   string(input.DescribeJob.TriggerType),
-				RetryCounter:  uint32(input.DescribeJob.RetryCounter),
+				JobId:        uint32(input.DescribeJob.JobID),
+				ResourceType: input.DescribeJob.ResourceType,
+				SourceId:     input.DescribeJob.SourceID,
+				AccountId:    input.DescribeJob.AccountID,
+				DescribedAt:  input.DescribeJob.DescribedAt,
+				SourceType:   string(input.DescribeJob.SourceType),
+				ConfigReg:    input.DescribeJob.CipherText,
+				TriggerType:  string(input.DescribeJob.TriggerType),
+				RetryCounter: uint32(input.DescribeJob.RetryCounter),
 			},
 			DescribedResourceIds: resourceIds,
 		})

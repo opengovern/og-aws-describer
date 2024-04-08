@@ -44,7 +44,6 @@ type ResourceSender struct {
 	describeEndpoint          string
 	ingestionPipelineEndpoint string
 	jobID                     uint
-	kafkaTopic                string
 
 	client     golang.DescribeServiceClient
 	httpClient *http.Client
@@ -53,7 +52,7 @@ type ResourceSender struct {
 	useOpenSearch bool
 }
 
-func NewResourceSender(workspaceId string, workspaceName string, describeEndpoint, ingestionPipelineEndpoint string, describeToken string, jobID uint, kafkaTopic string, useOpenSearch bool, logger *zap.Logger) (*ResourceSender, error) {
+func NewResourceSender(workspaceId string, workspaceName string, describeEndpoint, ingestionPipelineEndpoint string, describeToken string, jobID uint, useOpenSearch bool, logger *zap.Logger) (*ResourceSender, error) {
 	rs := ResourceSender{
 		authToken:                 describeToken,
 		workspaceId:               workspaceId,
@@ -65,7 +64,6 @@ func NewResourceSender(workspaceId string, workspaceName string, describeEndpoin
 		conn:                      nil,
 		describeEndpoint:          describeEndpoint,
 		ingestionPipelineEndpoint: ingestionPipelineEndpoint,
-		kafkaTopic:                kafkaTopic,
 		jobID:                     jobID,
 		useOpenSearch:             useOpenSearch,
 
@@ -130,7 +128,7 @@ func (s *ResourceSender) sendToBackend() {
 		"resource-job-id": fmt.Sprintf("%d", s.jobID),
 	}))
 
-	_, err := s.client.DeliverAWSResources(grpcCtx, &golang.AWSResources{Resources: s.sendBuffer, KafkaTopic: s.kafkaTopic})
+	_, err := s.client.DeliverAWSResources(grpcCtx, &golang.AWSResources{Resources: s.sendBuffer})
 	if err != nil {
 		s.logger.Error("failed to send resource", zap.Error(err))
 		if errors.Is(err, io.EOF) {
