@@ -146,7 +146,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/golang/protobuf v1.5.3
 	github.com/hashicorp/go-hclog v1.6.2
-	github.com/kaytu-io/kaytu-util v0.0.0-20240408143706-4b7bfc53dbe6
+	github.com/kaytu-io/kaytu-util v0.0.0-20240408150102-eb4ac66d21f3
 	github.com/labstack/echo/v4 v4.11.4
 	github.com/manifoldco/promptui v0.9.0
 	github.com/spf13/cobra v1.7.0
