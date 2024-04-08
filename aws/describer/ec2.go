@@ -4557,3 +4557,62 @@ func eC2ManagedPrefixListEntryHandle(ctx context.Context, prefixListId string, v
 	}
 	return values
 }
+
+func Ec2InstanceMetricCpuUtilizationHourly(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := ec2.NewFromConfig(cfg)
+	paginator := ec2.NewDescribeInstancesPaginator(client, &ec2.DescribeInstancesInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, r := range page.Reservations {
+			for _, v := range r.Instances {
+				statistics, err := getEc2InstanceMetricCpuUtilizationHourly(ctx, cfg, v.InstanceId)
+				if err != nil {
+					return nil, err
+				}
+				for _, resource := range statistics {
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
+				}
+			}
+		}
+	}
+	return values, nil
+}
+
+func getEc2InstanceMetricCpuUtilizationHourly(ctx context.Context, cfg aws.Config, instanceId *string) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	statistics, err := listCloudWatchMetricStatistics(ctx, cfg, "HOURLY", "AWS/EC2", "CPUUtilization", "InstanceId", *instanceId)
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+
+	for _, s := range statistics {
+		values = append(values, Resource{
+			Account: describeCtx.AccountID,
+			Region:  describeCtx.KaytuRegion,
+			Description: model.EC2InstanceMetricCpuUtilizationHourlyDescription{
+				InstanceId:  instanceId,
+				Timestamp:   s.Timestamp,
+				Sum:         s.Sum,
+				Average:     s.Average,
+				Maximum:     s.Maximum,
+				Minimum:     s.Minimum,
+				SampleCount: s.SampleCount,
+			},
+		})
+	}
+
+	return values, nil
+}

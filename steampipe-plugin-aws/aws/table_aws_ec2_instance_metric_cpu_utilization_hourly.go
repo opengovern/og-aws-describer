@@ -16,8 +16,7 @@ func tableAwsEc2InstanceMetricCpuUtilizationHourly(_ context.Context) *plugin.Ta
 		Name:        "aws_ec2_instance_metric_cpu_utilization_hourly",
 		Description: "AWS EC2 Instance Cloudwatch Metrics - CPU Utilization (Hourly)",
 		List: &plugin.ListConfig{
-			ParentHydrate: kaytu.ListEC2Instance,
-			Hydrate:       listEc2InstanceMetricCpuUtilizationHourly,
+			Hydrate: kaytu.ListEC2InstanceMetricCpuUtilizationHourly,
 		},
 
 		Columns: awsKaytuRegionalColumns(cwMetricColumns(
@@ -26,13 +25,50 @@ func tableAwsEc2InstanceMetricCpuUtilizationHourly(_ context.Context) *plugin.Ta
 					Name:        "instance_id",
 					Description: "The ID of the instance.",
 					Type:        proto.ColumnType_STRING,
-					Transform:   transform.FromField("DimensionValue"),
+					Transform:   transform.FromField("Description.InstanceId"),
+				},
+				{
+					Name:        "timestamp",
+					Description: "Datapoint Timestamp.",
+					Type:        proto.ColumnType_TIMESTAMP,
+					Transform:   transform.FromField("Description.Timestamp"),
+				},
+				{
+					Name:        "average",
+					Description: "Sample Average.",
+					Type:        proto.ColumnType_DOUBLE,
+					Transform:   transform.FromField("Description.Average"),
+				},
+				{
+					Name:        "sum",
+					Description: "Sample Sum.",
+					Type:        proto.ColumnType_DOUBLE,
+					Transform:   transform.FromField("Description.Sum"),
+				},
+				{
+					Name:        "maximum",
+					Description: "Sample Maximum.",
+					Type:        proto.ColumnType_DOUBLE,
+					Transform:   transform.FromField("Description.Maximum"),
+				},
+				{
+					Name:        "minimum",
+					Description: "Sample Minimum.",
+					Type:        proto.ColumnType_DOUBLE,
+					Transform:   transform.FromField("Description.Minimum"),
+				},
+				{
+					Name:        "sample_count",
+					Description: "Sample Count.",
+					Type:        proto.ColumnType_DOUBLE,
+					Transform:   transform.FromField("Description.SampleCount"),
+				},
+				{
+					Name:        "account_id",
+					Description: "Account Id of the resource",
+					Type:        proto.ColumnType_STRING,
+					Transform:   transform.FromField("Account"),
 				},
 			})),
 	}
-}
-
-func listEc2InstanceMetricCpuUtilizationHourly(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	instance := h.Item.(kaytu.EC2Instance).Description.Instance
-	return listCWMetricStatistics(ctx, d, "HOURLY", "AWS/EC2", "CPUUtilization", "InstanceId", *instance.InstanceId)
 }
