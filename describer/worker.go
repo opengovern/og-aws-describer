@@ -29,7 +29,7 @@ func Do(ctx context.Context,
 	vlt vault.VaultSourceConfig,
 	logger *zap.Logger,
 	job describe.DescribeJob,
-	keyARN string,
+	keyId string,
 	describeDeliverEndpoint string,
 	describeDeliverToken string,
 	ingestionPipelineEndpoint string,
@@ -50,7 +50,7 @@ func Do(ctx context.Context,
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	config, err := vlt.Decrypt(ctx, job.CipherText, keyARN, job.VaultKeyVersion)
+	config, err := vlt.Decrypt(ctx, job.CipherText, keyId, job.VaultKeyVersion)
 	if err != nil {
 		return nil, fmt.Errorf("decrypt error: %w", err)
 	}
