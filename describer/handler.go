@@ -130,7 +130,7 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 			return fmt.Errorf("failed to initialize KMS vault: %w", err)
 		}
 	case vault.AzureKeyVault:
-		vaultSc, err = vault.NewAzureVaultClient(logger, input.VaultConfig.Azure.ClientId, input.VaultConfig.Azure.ClientSecret, input.VaultConfig.Azure.BaseUrl)
+		vaultSc, err = vault.NewAzureVaultClient(logger, input.VaultConfig.Azure)
 		if err != nil {
 			return fmt.Errorf("failed to initialize Azure vault: %w", err)
 		}
