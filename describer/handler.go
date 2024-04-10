@@ -125,12 +125,12 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 	var vaultSc vault.VaultSourceConfig
 	switch input.VaultConfig.Provider {
 	case vault.AwsKMS:
-		vaultSc, err = vault.NewKMSVaultSourceConfig(ctx, input.VaultConfig.Aws.AccessKey, input.VaultConfig.Aws.SecretKey, input.VaultConfig.Aws.Region)
+		vaultSc, err = vault.NewKMSVaultSourceConfig(ctx, input.VaultConfig.Aws, input.VaultConfig.KeyId)
 		if err != nil {
 			return fmt.Errorf("failed to initialize KMS vault: %w", err)
 		}
 	case vault.AzureKeyVault:
-		vaultSc, err = vault.NewAzureVaultClient(logger, input.VaultConfig.Azure)
+		vaultSc, err = vault.NewAzureVaultClient(ctx, logger, input.VaultConfig.Azure, input.VaultConfig.KeyId)
 		if err != nil {
 			return fmt.Errorf("failed to initialize Azure vault: %w", err)
 		}

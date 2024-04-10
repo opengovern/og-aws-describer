@@ -146,7 +146,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.2.0
 	github.com/golang/protobuf v1.5.3
 	github.com/hashicorp/go-hclog v1.6.2
-	github.com/kaytu-io/kaytu-util v0.0.0-20240409160530-1aa292fa3605
+	github.com/kaytu-io/kaytu-util v0.0.0-20240410104305-96e70852f665
 	github.com/labstack/echo/v4 v4.11.4
 	github.com/manifoldco/promptui v0.9.0
 	github.com/spf13/cobra v1.7.0
@@ -169,7 +169,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.9.1 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.5.1 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/internal v1.5.1 // indirect
-	github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/azkeys v1.1.0 // indirect
+	github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/azsecrets v1.1.0 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/internal v1.0.0 // indirect
 	github.com/AzureAD/microsoft-authentication-library-for-go v1.2.1 // indirect
 	github.com/acarl005/stripansi v0.0.0-20180116102854-5a71ef0e047d // indirect

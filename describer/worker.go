@@ -50,7 +50,7 @@ func Do(ctx context.Context,
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	config, err := vlt.Decrypt(ctx, job.CipherText, keyId, job.VaultKeyVersion)
+	config, err := vlt.Decrypt(ctx, job.CipherText)
 	if err != nil {
 		return nil, fmt.Errorf("decrypt error: %w", err)
 	}
