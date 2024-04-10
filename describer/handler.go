@@ -140,7 +140,6 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 		vaultSc,
 		logger,
 		input.DescribeJob,
-		input.VaultConfig.KeyId,
 		input.DescribeEndpoint,
 		token,
 		input.IngestionPipelineEndpoint,
