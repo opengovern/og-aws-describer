@@ -889,10 +889,8 @@ github.com/json-iterator/go v1.1.12 h1:PV8peI4a0ysnczrg+LtxykD8LfKY9ML6u2jnxaEnr
 github.com/json-iterator/go v1.1.12/go.mod h1:e30LSqwooZae/UwlEbR2852Gd8hjQvJoHmT4TnhNGBo=
 github.com/jstemmer/go-junit-report v0.0.0-20190106144839-af01ea7f8024/go.mod h1:6v2b51hI/fHJwM22ozAgKL4VKDeJcHhJFhtBdhmNjmU=
 github.com/jstemmer/go-junit-report v0.9.1/go.mod h1:Brl9GWCQeLvo8nXZwPNNblvFj/XSXhF0NWZEnDohbsk=
-github.com/kaytu-io/kaytu-util v0.0.0-20240410104305-96e70852f665 h1:8xnQRfy7fYOopg1+vgfF8F/5r8hzCj7FiuNb8OXjHHc=
-github.com/kaytu-io/kaytu-util v0.0.0-20240410104305-96e70852f665/go.mod h1:+jID//Ba8bxVxbWJ0Bf4G7esFMVGXcUURUfUMaiUNhQ=
-github.com/kaytu-io/kaytu-util v0.0.0-20240411110141-6f2f000cd6dd h1:meSCbRxaI2k9FboGg7mgcfcFNVNIzc3ivFyDlPEKgJY=
-github.com/kaytu-io/kaytu-util v0.0.0-20240411110141-6f2f000cd6dd/go.mod h1:+jID//Ba8bxVxbWJ0Bf4G7esFMVGXcUURUfUMaiUNhQ=
+github.com/kaytu-io/kaytu-util v0.0.0-20240415102306-fdc35c00b134 h1:jGyORiQHufYVT+hnl7qy8/HmbMXKlagY+K71kF6TzUA=
+github.com/kaytu-io/kaytu-util v0.0.0-20240415102306-fdc35c00b134/go.mod h1:yamP/TyZEqmBoCNvGAUWoE7YRUdbbokb5ATrJGA1UbQ=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 github.com/klauspost/compress v1.15.11/go.mod h1:QPwzmACJjUTFsnSHH934V6woptycfrDDJnH7hvFVbGM=

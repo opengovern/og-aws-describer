@@ -9,8 +9,8 @@ import (
 	v4 "github.com/aws/aws-sdk-go-v2/aws/signer/v4"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/kaytu-io/kaytu-util/pkg/es"
-	es2 "github.com/kaytu-io/kaytu-util/pkg/es"
 	"github.com/kaytu-io/kaytu-util/pkg/source"
+	"google.golang.org/protobuf/types/known/anypb"
 	"io"
 	"net/http"
 	"strings"
@@ -41,18 +41,18 @@ type ResourceSender struct {
 	resourceIDs               []string
 	doneChannel               chan interface{}
 	conn                      *grpc.ClientConn
-	describeEndpoint          string
+	grpcEndpoint              string
 	ingestionPipelineEndpoint string
 	jobID                     uint
 
-	client     golang.DescribeServiceClient
+	client     golang.EsSinkServiceClient
 	httpClient *http.Client
 
 	sendBuffer    []*golang.AWSResource
 	useOpenSearch bool
 }
 
-func NewResourceSender(workspaceId string, workspaceName string, describeEndpoint, ingestionPipelineEndpoint string, describeToken string, jobID uint, useOpenSearch bool, logger *zap.Logger) (*ResourceSender, error) {
+func NewResourceSender(workspaceId string, workspaceName string, grpcEndpoint, ingestionPipelineEndpoint string, describeToken string, jobID uint, useOpenSearch bool, logger *zap.Logger) (*ResourceSender, error) {
 	rs := ResourceSender{
 		authToken:                 describeToken,
 		workspaceId:               workspaceId,
@@ -62,7 +62,7 @@ func NewResourceSender(workspaceId string, workspaceName string, describeEndpoin
 		resourceIDs:               nil,
 		doneChannel:               make(chan interface{}),
 		conn:                      nil,
-		describeEndpoint:          describeEndpoint,
+		grpcEndpoint:              grpcEndpoint,
 		ingestionPipelineEndpoint: ingestionPipelineEndpoint,
 		jobID:                     jobID,
 		useOpenSearch:             useOpenSearch,
@@ -79,7 +79,7 @@ func NewResourceSender(workspaceId string, workspaceName string, describeEndpoin
 
 func (s *ResourceSender) Connect() error {
 	conn, err := grpc.Dial(
-		s.describeEndpoint,
+		s.grpcEndpoint,
 		grpc.WithTransportCredentials(credentials.NewTLS(nil)),
 		grpc.WithPerRPCCredentials(oauth.TokenSource{
 			TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
@@ -92,7 +92,7 @@ func (s *ResourceSender) Connect() error {
 	}
 	s.conn = conn
 
-	client := golang.NewDescribeServiceClient(conn)
+	client := golang.NewEsSinkServiceClient(conn)
 	s.client = client
 	return nil
 }
@@ -122,13 +122,23 @@ func (s *ResourceSender) ResourceHandler() {
 	}
 }
 
-func (s *ResourceSender) sendToBackend() {
+func (s *ResourceSender) sendToBackend(resourcesToSend []es.Doc) {
 	grpcCtx := metadata.NewOutgoingContext(context.Background(), metadata.New(map[string]string{
 		"workspace-name":  s.workspaceName,
 		"resource-job-id": fmt.Sprintf("%d", s.jobID),
 	}))
 
-	_, err := s.client.DeliverAWSResources(grpcCtx, &golang.AWSResources{Resources: s.sendBuffer})
+	docs := make([]*anypb.Any, 0, len(resourcesToSend))
+	for _, resource := range resourcesToSend {
+		docBytes, err := json.Marshal(resource)
+		if err != nil {
+			s.logger.Error("failed to marshal resource", zap.Error(err))
+			continue
+		}
+		docs = append(docs, &anypb.Any{Value: docBytes})
+	}
+
+	_, err := s.client.Ingest(grpcCtx, &golang.IngestRequest{Docs: docs})
 	if err != nil {
 		s.logger.Error("failed to send resource", zap.Error(err))
 		if errors.Is(err, io.EOF) {
@@ -141,66 +151,7 @@ func (s *ResourceSender) sendToBackend() {
 	}
 }
 
-func (s *ResourceSender) sendToOpenSearchIngestPipeline() {
-	resourcesToSend := make([]es2.Doc, 0, 2*len(s.sendBuffer))
-	for _, resource := range s.sendBuffer {
-		var description any
-		err := json.Unmarshal([]byte(resource.DescriptionJson), &description)
-		if err != nil {
-			s.logger.Error("failed to parse resource description json", zap.Error(err), zap.Uint32("jobID", resource.Job.JobId), zap.String("resourceID", resource.Id))
-			continue
-		}
-
-		tags := make([]es.Tag, 0, len(resource.Tags))
-		for k, v := range resource.Tags {
-			tags = append(tags, es.Tag{
-				// tags should be case-insensitive
-				Key:   strings.ToLower(k),
-				Value: strings.ToLower(v),
-			})
-		}
-
-		kafkaResource := es.Resource{
-			ID:            resource.UniqueId,
-			ARN:           resource.Arn,
-			Name:          resource.Name,
-			SourceType:    source.CloudAWS,
-			ResourceType:  strings.ToLower(resource.Job.ResourceType),
-			Location:      resource.Region,
-			SourceID:      resource.Job.SourceId,
-			ResourceJobID: uint(resource.Job.JobId),
-			SourceJobID:   uint(resource.Job.ParentJobId),
-			ScheduleJobID: uint(resource.Job.ScheduleJobId),
-			CreatedAt:     resource.Job.DescribedAt,
-			Description:   description,
-			Metadata:      resource.Metadata,
-			CanonicalTags: tags,
-		}
-		keys, idx := kafkaResource.KeysAndIndex()
-		kafkaResource.EsID = es2.HashOf(keys...)
-		kafkaResource.EsIndex = idx
-
-		lookupResource := es.LookupResource{
-			ResourceID:    resource.UniqueId,
-			Name:          resource.Name,
-			SourceType:    source.CloudAWS,
-			ResourceType:  strings.ToLower(resource.Job.ResourceType),
-			Location:      resource.Region,
-			SourceID:      resource.Job.SourceId,
-			ResourceJobID: uint(resource.Job.JobId),
-			SourceJobID:   uint(resource.Job.ParentJobId),
-			ScheduleJobID: uint(resource.Job.ScheduleJobId),
-			CreatedAt:     resource.Job.DescribedAt,
-			Tags:          tags,
-		}
-		lookupKeys, lookupIdx := lookupResource.KeysAndIndex()
-		lookupResource.EsID = es2.HashOf(lookupKeys...)
-		lookupResource.EsIndex = lookupIdx
-
-		resourcesToSend = append(resourcesToSend, kafkaResource)
-		resourcesToSend = append(resourcesToSend, lookupResource)
-	}
-
+func (s *ResourceSender) sendToOpenSearchIngestPipeline(resourcesToSend []es.Doc) {
 	if len(resourcesToSend) == 0 {
 		return
 	}
@@ -272,12 +223,66 @@ func (s *ResourceSender) flushBuffer(force bool) {
 		return
 	}
 
-	if s.useOpenSearch {
-		s.sendToOpenSearchIngestPipeline()
-	} else {
-		s.sendToBackend()
+	resourcesToSend := make([]es.Doc, 0, 2*len(s.sendBuffer))
+	for _, resource := range s.sendBuffer {
+		var description any
+		err := json.Unmarshal([]byte(resource.DescriptionJson), &description)
+		if err != nil {
+			s.logger.Error("failed to parse resource description json", zap.Error(err), zap.Uint32("jobID", resource.Job.JobId), zap.String("resourceID", resource.Id))
+			continue
+		}
+
+		tags := make([]es.Tag, 0, len(resource.Tags))
+		for k, v := range resource.Tags {
+			tags = append(tags, es.Tag{
+				// tags should be case-insensitive
+				Key:   strings.ToLower(k),
+				Value: strings.ToLower(v),
+			})
+		}
+
+		kafkaResource := es.Resource{
+			ID:            resource.UniqueId,
+			ARN:           resource.Arn,
+			Name:          resource.Name,
+			SourceType:    source.CloudAWS,
+			ResourceType:  strings.ToLower(resource.Job.ResourceType),
+			Location:      resource.Region,
+			SourceID:      resource.Job.SourceId,
+			ResourceJobID: uint(resource.Job.JobId),
+			SourceJobID:   uint(resource.Job.ParentJobId),
+			ScheduleJobID: uint(resource.Job.ScheduleJobId),
+			CreatedAt:     resource.Job.DescribedAt,
+			Description:   description,
+			Metadata:      resource.Metadata,
+			CanonicalTags: tags,
+		}
+		keys, idx := kafkaResource.KeysAndIndex()
+		kafkaResource.EsID = es.HashOf(keys...)
+		kafkaResource.EsIndex = idx
+
+		lookupResource := es.LookupResource{
+			ResourceID:    resource.UniqueId,
+			Name:          resource.Name,
+			SourceType:    source.CloudAWS,
+			ResourceType:  strings.ToLower(resource.Job.ResourceType),
+			Location:      resource.Region,
+			SourceID:      resource.Job.SourceId,
+			ResourceJobID: uint(resource.Job.JobId),
+			SourceJobID:   uint(resource.Job.ParentJobId),
+			ScheduleJobID: uint(resource.Job.ScheduleJobId),
+			CreatedAt:     resource.Job.DescribedAt,
+			Tags:          tags,
+		}
+		lookupKeys, lookupIdx := lookupResource.KeysAndIndex()
+		lookupResource.EsID = es.HashOf(lookupKeys...)
+		lookupResource.EsIndex = lookupIdx
+
+		resourcesToSend = append(resourcesToSend, kafkaResource)
+		resourcesToSend = append(resourcesToSend, lookupResource)
 	}
 
+	s.sendToBackend(resourcesToSend)
 	s.sendBuffer = nil
 }
 
