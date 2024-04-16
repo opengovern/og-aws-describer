@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/kaytu-io/kaytu-aws-describer/describer"
 	"github.com/kaytu-io/kaytu-util/pkg/describe"
 	"github.com/labstack/echo/v4"
@@ -17,36 +18,50 @@ type Server struct {
 	logger     *zap.Logger
 }
 
-type EventHubTriggerBody struct {
+type TriggerBody struct {
 	Data struct {
 		EventHubMessages string `json:"eventHubMessages"`
+		QueueItem        string `json:"queueItem"`
+		any
 	}
 	Metadata any
 }
 
 func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
-	var body EventHubTriggerBody
+	var body TriggerBody
 	err := ctx.Bind(&body)
 	if err != nil {
 		s.logger.Error("failed to bind request body", zap.Error(err))
 		return ctx.String(http.StatusBadRequest, "failed to bind request body")
 	}
-
-	unescaped, err := strconv.Unquote(body.Data.EventHubMessages)
-	if err != nil {
-		s.logger.Error("failed to unquote eventHubMessages", zap.Error(err))
-		return ctx.String(http.StatusBadRequest, "failed to unquote eventHubMessages")
-	}
-
-	body.Data.EventHubMessages = unescaped
-
 	var bodyData describe.DescribeWorkerInput
-	err = json.Unmarshal([]byte(body.Data.EventHubMessages), &bodyData)
-	if err != nil {
-		s.logger.Error("failed to unmarshal eventHubMessages", zap.Error(err))
-		return ctx.String(http.StatusBadRequest, "failed to unmarshal eventHubMessages")
+	switch {
+	case body.Data.EventHubMessages != "":
+		unescaped, err := strconv.Unquote(body.Data.EventHubMessages)
+		if err != nil {
+			s.logger.Error("failed to unquote eventHubMessages", zap.Error(err))
+			return ctx.String(http.StatusBadRequest, "failed to unquote eventHubMessages")
+		}
 
+		body.Data.EventHubMessages = unescaped
+		err = json.Unmarshal([]byte(body.Data.EventHubMessages), &bodyData)
+		if err != nil {
+			s.logger.Error("failed to unmarshal eventHubMessages", zap.Error(err))
+			return ctx.String(http.StatusBadRequest, "failed to unmarshal eventHubMessages")
+		}
+	case body.Data.QueueItem != "":
+		fmt.Println(zap.Any("QueueItem", body.Data.QueueItem).String)
+		unescaped, err := strconv.Unquote(body.Data.EventHubMessages)
+		if err != nil {
+			s.logger.Error("failed to unquote eventHubMessages", zap.Error(err))
+			return ctx.String(http.StatusBadRequest, "failed to unquote eventHubMessages")
+		}
+		body.Data.QueueItem = unescaped
+		fmt.Println(zap.Any("QueueItemUnescaped", body.Data.QueueItem).String)
+	default:
+		fmt.Println(zap.Any("body", body).String)
 	}
+
 	s.logger.Info("azureFunctionsHandler", zap.Any("bodyData", bodyData))
 
 	err = describer.DescribeHandler(ctx.Request().Context(), s.logger, describer.TriggeredByAzureFunction, bodyData)
