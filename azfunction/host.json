@@ -14,16 +14,6 @@
     "version": "[4.*, 5.0.0)"
   },
   "extensions": {
-    "eventHubs": {
-      "batchCheckpointFrequency" : 1,
-      "clientRetryOptions":{
-        "mode" : "exponential",
-        "tryTimeout" : "00:01:00",
-        "delay" : "00:00:00.80",
-        "maximumDelay" : "00:01:00",
-        "maximumRetries" : 3
-      }
-    },
     "serviceBus": {
       "clientRetryOptions":{
           "mode": "exponential",
