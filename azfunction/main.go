@@ -8,6 +8,7 @@ import (
 	"go.uber.org/zap"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -37,28 +38,38 @@ func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
 	var bodyData describe.DescribeWorkerInput
 	switch {
 	case len(body.Data["eventHubMessages"]) > 0:
-		jsonBody, err := body.Data["eventHubMessages"].MarshalJSON()
+		jsonString, err := body.Data["mySbMsg"].MarshalJSON()
 		if err != nil {
-			s.logger.Error("failed to marshal eventHubMessages", zap.Error(err))
-			return ctx.String(http.StatusBadRequest, "failed to marshal eventHubMessages")
+			s.logger.Error("failed to marshal mySbMsg", zap.Error(err))
+			return ctx.String(http.StatusBadRequest, "failed to marshal mySbMsg")
 		}
-		err = json.Unmarshal(jsonBody, &bodyData)
+		unescaped, err := strconv.Unquote(string(jsonString))
+		if err != nil {
+			s.logger.Error("failed to unquote mySbMsg", zap.Error(err))
+			return ctx.String(http.StatusBadRequest, "failed to unquote mySbMsg")
+		}
+		err = json.Unmarshal([]byte(unescaped), &bodyData)
 		if err != nil {
 			s.logger.Error("failed to unmarshal eventHubMessages", zap.Error(err))
 			return ctx.String(http.StatusBadRequest, "failed to unmarshal eventHubMessages")
 		}
 	case len(body.Data["mySbMsg"]) > 0:
-		jsonBody, err := body.Data["mySbMsg"].MarshalJSON()
+		jsonString, err := body.Data["mySbMsg"].MarshalJSON()
 		if err != nil {
 			s.logger.Error("failed to marshal mySbMsg", zap.Error(err))
 			return ctx.String(http.StatusBadRequest, "failed to marshal mySbMsg")
 		}
-		err = json.Unmarshal(jsonBody, &bodyData)
+		unescaped, err := strconv.Unquote(string(jsonString))
+		if err != nil {
+			s.logger.Error("failed to unquote mySbMsg", zap.Error(err))
+			return ctx.String(http.StatusBadRequest, "failed to unquote mySbMsg")
+		}
+		err = json.Unmarshal([]byte(unescaped), &bodyData)
 		if err != nil {
 			s.logger.Error("failed to unmarshal mySbMsg", zap.Error(err))
 			return ctx.String(http.StatusBadRequest, "failed to unmarshal mySbMsg")
 		}
-		s.logger.Info("mySbMsg", zap.Any("bodyData", bodyData), zap.Any("jsonBody", jsonBody))
+		return ctx.JSON(http.StatusOK, InvokeResponse{})
 	default:
 		for k, v := range body.Data {
 			s.logger.Info("data", zap.String("key", k), zap.Any("value", v))
