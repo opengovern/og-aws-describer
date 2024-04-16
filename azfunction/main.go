@@ -16,13 +16,19 @@ type Server struct {
 	logger     *zap.Logger
 }
 
-type TriggerBody struct {
+type InvokeRequest struct {
 	Data     map[string]json.RawMessage
 	Metadata map[string]json.RawMessage
 }
 
+type InvokeResponse struct {
+	Outputs     map[string]any
+	Logs        []string
+	ReturnValue any
+}
+
 func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
-	var body TriggerBody
+	var body InvokeRequest
 	err := ctx.Bind(&body)
 	if err != nil {
 		s.logger.Error("failed to bind request body", zap.Error(err))
@@ -52,7 +58,9 @@ func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
 	//	s.logger.Info(zap.Any("QueueItemUnescaped", body.Data.QueueItem).String)
 	//	return nil
 	default:
-		s.logger.Info(zap.Any("body", body).String)
+		for k, v := range body.Data {
+			s.logger.Info("data", zap.String("key", k), zap.Any("value", v))
+		}
 		return nil
 	}
 
@@ -64,7 +72,7 @@ func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
 		return ctx.String(http.StatusInternalServerError, "failed to run describer")
 	}
 
-	return ctx.String(http.StatusOK, "OK")
+	return ctx.JSON(http.StatusOK, InvokeResponse{})
 }
 
 func main() {
