@@ -23,6 +23,19 @@
         "maximumDelay" : "00:01:00",
         "maximumRetries" : 3
       }
+    },
+    "serviceBus": {
+      "clientRetryOptions":{
+          "mode": "exponential",
+          "tryTimeout": "00:01:00",
+          "delay": "00:00:00.80",
+          "maxDelay": "00:01:00",
+          "maxRetries": 3
+      },
+      "autoCompleteMessages": true,
+      "maxAutoLockRenewalDuration": "00:10:00",
+      "maxConcurrentCalls": 16,
+      "maxBatchWaitTime": "00:00:30"
     }
   },
   "customHandler": {
@@ -31,5 +44,9 @@
       "workingDirectory": ".",
       "arguments": []
     }
+  },
+  "concurrency": {
+    "dynamicConcurrencyEnabled": true,
+    "snapshotPersistenceEnabled": true
   }
 }
