@@ -1,7 +1,7 @@
 {
-    "azureFunctions.deploySubpath": "azfunction/test",
+    "azureFunctions.deploySubpath": "azfunction",
     "azureFunctions.projectLanguage": "Custom",
     "azureFunctions.projectRuntime": "~4",
     "debug.internalConsoleOptions": "neverOpen",
-    "azureFunctions.projectSubpath": "azfunction/test"
+    "azureFunctions.projectSubpath": "azfunction"
 }
