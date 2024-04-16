@@ -47,21 +47,23 @@ func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
 			s.logger.Error("failed to unmarshal eventHubMessages", zap.Error(err))
 			return ctx.String(http.StatusBadRequest, "failed to unmarshal eventHubMessages")
 		}
-	//case body.Data.QueueItem != "":
-	//	fmt.Println(zap.Any("QueueItem", body.Data.QueueItem).String)
-	//	unescaped, err := strconv.Unquote(body.Data.EventHubMessages)
-	//	if err != nil {
-	//		s.logger.Error("failed to unquote eventHubMessages", zap.Error(err))
-	//		return ctx.String(http.StatusBadRequest, "failed to unquote eventHubMessages")
-	//	}
-	//	body.Data.QueueItem = unescaped
-	//	s.logger.Info(zap.Any("QueueItemUnescaped", body.Data.QueueItem).String)
-	//	return nil
+	case len(body.Data["mySbMsg"]) > 0:
+		jsonBody, err := body.Data["mySbMsg"].MarshalJSON()
+		if err != nil {
+			s.logger.Error("failed to marshal mySbMsg", zap.Error(err))
+			return ctx.String(http.StatusBadRequest, "failed to marshal mySbMsg")
+		}
+		err = json.Unmarshal(jsonBody, &bodyData)
+		if err != nil {
+			s.logger.Error("failed to unmarshal mySbMsg", zap.Error(err))
+			return ctx.String(http.StatusBadRequest, "failed to unmarshal mySbMsg")
+		}
+		s.logger.Info("mySbMsg", zap.Any("bodyData", bodyData), zap.Any("jsonBody", jsonBody))
 	default:
 		for k, v := range body.Data {
 			s.logger.Info("data", zap.String("key", k), zap.Any("value", v))
 		}
-		return nil
+		return ctx.String(http.StatusBadRequest, "no data found")
 	}
 
 	s.logger.Info("azureFunctionsHandler", zap.Any("bodyData", bodyData))
