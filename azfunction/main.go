@@ -18,8 +18,8 @@ type Server struct {
 }
 
 type InvokeRequest struct {
-	Data     map[string]json.RawMessage
-	Metadata map[string]json.RawMessage
+	Data     map[string]string
+	Metadata map[string]any
 }
 
 type InvokeResponse struct {
@@ -38,12 +38,8 @@ func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
 	var bodyData describe.DescribeWorkerInput
 	switch {
 	case len(body.Data["eventHubMessages"]) > 0:
-		jsonString, err := body.Data["mySbMsg"].MarshalJSON()
-		if err != nil {
-			s.logger.Error("failed to marshal mySbMsg", zap.Error(err))
-			return ctx.String(http.StatusBadRequest, "failed to marshal mySbMsg")
-		}
-		unescaped, err := strconv.Unquote(string(jsonString))
+		jsonString := body.Data["mySbMsg"]
+		unescaped, err := strconv.Unquote(jsonString)
 		if err != nil {
 			s.logger.Error("failed to unquote mySbMsg", zap.Error(err))
 			return ctx.String(http.StatusBadRequest, "failed to unquote mySbMsg")
@@ -54,16 +50,14 @@ func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
 			return ctx.String(http.StatusBadRequest, "failed to unmarshal eventHubMessages")
 		}
 	case len(body.Data["mySbMsg"]) > 0:
-		jsonString, err := body.Data["mySbMsg"].MarshalJSON()
-		if err != nil {
-			s.logger.Error("failed to marshal mySbMsg", zap.Error(err))
-			return ctx.String(http.StatusBadRequest, "failed to marshal mySbMsg")
-		}
+		jsonString := body.Data["mySbMsg"]
+		s.logger.Info("jsonString", zap.String("jsonString", jsonString))
 		unescaped, err := strconv.Unquote(string(jsonString))
 		if err != nil {
 			s.logger.Error("failed to unquote mySbMsg", zap.Error(err))
 			return ctx.String(http.StatusBadRequest, "failed to unquote mySbMsg")
 		}
+		s.logger.Info("unescaped", zap.String("unescaped", unescaped))
 		err = json.Unmarshal([]byte(unescaped), &bodyData)
 		if err != nil {
 			s.logger.Error("failed to unmarshal mySbMsg", zap.Error(err))
