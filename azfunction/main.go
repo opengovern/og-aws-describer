@@ -57,10 +57,10 @@ func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
 			return ctx.String(http.StatusBadRequest, "failed to unquote eventHubMessages")
 		}
 		body.Data.QueueItem = unescaped
-		fmt.Println(zap.Any("QueueItemUnescaped", body.Data.QueueItem).String)
+		s.logger.Info(zap.Any("QueueItemUnescaped", body.Data.QueueItem).String)
 		return nil
 	default:
-		fmt.Println(zap.Any("body", body).String)
+		s.logger.Info(zap.Any("body", body).String)
 		return nil
 	}
 
