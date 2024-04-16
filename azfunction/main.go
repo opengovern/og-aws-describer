@@ -2,14 +2,12 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/kaytu-io/kaytu-aws-describer/describer"
 	"github.com/kaytu-io/kaytu-util/pkg/describe"
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
 	"net/http"
 	"os"
-	"strconv"
 	"strings"
 )
 
@@ -19,12 +17,8 @@ type Server struct {
 }
 
 type TriggerBody struct {
-	Data struct {
-		EventHubMessages string `json:"eventHubMessages"`
-		QueueItem        string `json:"queueItem"`
-		any
-	}
-	Metadata any
+	Data     map[string]json.RawMessage
+	Metadata map[string]json.RawMessage
 }
 
 func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
@@ -36,29 +30,27 @@ func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
 	}
 	var bodyData describe.DescribeWorkerInput
 	switch {
-	case body.Data.EventHubMessages != "":
-		unescaped, err := strconv.Unquote(body.Data.EventHubMessages)
+	case len(body.Data["eventHubMessages"]) > 0:
+		jsonBody, err := body.Data["eventHubMessages"].MarshalJSON()
 		if err != nil {
-			s.logger.Error("failed to unquote eventHubMessages", zap.Error(err))
-			return ctx.String(http.StatusBadRequest, "failed to unquote eventHubMessages")
+			s.logger.Error("failed to marshal eventHubMessages", zap.Error(err))
+			return ctx.String(http.StatusBadRequest, "failed to marshal eventHubMessages")
 		}
-
-		body.Data.EventHubMessages = unescaped
-		err = json.Unmarshal([]byte(body.Data.EventHubMessages), &bodyData)
+		err = json.Unmarshal(jsonBody, &bodyData)
 		if err != nil {
 			s.logger.Error("failed to unmarshal eventHubMessages", zap.Error(err))
 			return ctx.String(http.StatusBadRequest, "failed to unmarshal eventHubMessages")
 		}
-	case body.Data.QueueItem != "":
-		fmt.Println(zap.Any("QueueItem", body.Data.QueueItem).String)
-		unescaped, err := strconv.Unquote(body.Data.EventHubMessages)
-		if err != nil {
-			s.logger.Error("failed to unquote eventHubMessages", zap.Error(err))
-			return ctx.String(http.StatusBadRequest, "failed to unquote eventHubMessages")
-		}
-		body.Data.QueueItem = unescaped
-		s.logger.Info(zap.Any("QueueItemUnescaped", body.Data.QueueItem).String)
-		return nil
+	//case body.Data.QueueItem != "":
+	//	fmt.Println(zap.Any("QueueItem", body.Data.QueueItem).String)
+	//	unescaped, err := strconv.Unquote(body.Data.EventHubMessages)
+	//	if err != nil {
+	//		s.logger.Error("failed to unquote eventHubMessages", zap.Error(err))
+	//		return ctx.String(http.StatusBadRequest, "failed to unquote eventHubMessages")
+	//	}
+	//	body.Data.QueueItem = unescaped
+	//	s.logger.Info(zap.Any("QueueItemUnescaped", body.Data.QueueItem).String)
+	//	return nil
 	default:
 		s.logger.Info(zap.Any("body", body).String)
 		return nil
