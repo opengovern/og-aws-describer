@@ -51,13 +51,11 @@ func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
 		}
 	case len(body.Data["mySbMsg"]) > 0:
 		jsonString := body.Data["mySbMsg"]
-		s.logger.Info("jsonString", zap.String("jsonString", jsonString))
 		unescaped, err := strconv.Unquote(string(jsonString))
 		if err != nil {
 			s.logger.Error("failed to unquote mySbMsg", zap.Error(err))
 			return ctx.String(http.StatusBadRequest, "failed to unquote mySbMsg")
 		}
-		s.logger.Info("unescaped", zap.String("unescaped", unescaped))
 		err = json.Unmarshal([]byte(unescaped), &bodyData)
 		if err != nil {
 			s.logger.Error("failed to unmarshal mySbMsg", zap.Error(err))
