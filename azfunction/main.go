@@ -61,7 +61,6 @@ func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
 			s.logger.Error("failed to unmarshal mySbMsg", zap.Error(err))
 			return ctx.String(http.StatusBadRequest, "failed to unmarshal mySbMsg")
 		}
-		return ctx.JSON(http.StatusOK, InvokeResponse{})
 	default:
 		for k, v := range body.Data {
 			s.logger.Info("data", zap.String("key", k), zap.Any("value", v))
