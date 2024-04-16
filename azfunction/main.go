@@ -58,8 +58,10 @@ func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
 		}
 		body.Data.QueueItem = unescaped
 		fmt.Println(zap.Any("QueueItemUnescaped", body.Data.QueueItem).String)
+		return nil
 	default:
 		fmt.Println(zap.Any("body", body).String)
+		return nil
 	}
 
 	s.logger.Info("azureFunctionsHandler", zap.Any("bodyData", bodyData))
