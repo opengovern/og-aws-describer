@@ -188,5 +188,5 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 	}
 
 	logger.Info("job done", zap.Uint("jobID", input.DescribeJob.JobID))
-	return err
+	return nil
 }
