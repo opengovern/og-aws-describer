@@ -143,7 +143,7 @@ require (
 	github.com/ghodss/yaml v1.0.0
 	github.com/go-errors/errors v1.4.2
 	github.com/gocarina/gocsv v0.0.0-20211203214250-4735fba0c1d9
-	github.com/golang-jwt/jwt/v5 v5.2.0
+	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/golang/protobuf v1.5.3
 	github.com/hashicorp/go-hclog v1.6.2
 	github.com/kaytu-io/kaytu-util v0.0.0-20240415102306-fdc35c00b134
@@ -154,7 +154,7 @@ require (
 	github.com/turbot/steampipe-plugin-sdk/v5 v5.8.0
 	go.uber.org/zap v1.26.0
 	golang.org/x/oauth2 v0.15.0
-	golang.org/x/tools v0.16.1
+	golang.org/x/tools v0.21.1-0.20240508182429-e35e4ccd0d2d
 	google.golang.org/genproto v0.0.0-20231212172506-995d672761c0
 	google.golang.org/grpc v1.61.0
 	google.golang.org/protobuf v1.33.0
@@ -167,12 +167,12 @@ require (
 	cloud.google.com/go/iam v1.1.5 // indirect
 	cloud.google.com/go/longrunning v0.5.4 // indirect
 	cloud.google.com/go/storage v1.36.0 // indirect
-	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.9.1 // indirect
-	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.5.1 // indirect
-	github.com/Azure/azure-sdk-for-go/sdk/internal v1.5.1 // indirect
+	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.11.1 // indirect
+	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.6.0 // indirect
+	github.com/Azure/azure-sdk-for-go/sdk/internal v1.8.0 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/azsecrets v1.1.0 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/security/keyvault/internal v1.0.0 // indirect
-	github.com/AzureAD/microsoft-authentication-library-for-go v1.2.1 // indirect
+	github.com/AzureAD/microsoft-authentication-library-for-go v1.2.2 // indirect
 	github.com/acarl005/stripansi v0.0.0-20180116102854-5a71ef0e047d // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/allegro/bigcache/v3 v3.1.0 // indirect
@@ -302,13 +302,13 @@ require (
 	go.opentelemetry.io/otel/trace v1.23.1 // indirect
 	go.opentelemetry.io/proto/otlp v1.0.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	golang.org/x/crypto v0.20.0 // indirect
+	golang.org/x/crypto v0.24.0 // indirect
 	golang.org/x/exp v0.0.0-20231226003508-02704c960a9b // indirect
-	golang.org/x/net v0.21.0 // indirect
-	golang.org/x/sync v0.5.0 // indirect
-	golang.org/x/sys v0.17.0 // indirect
-	golang.org/x/term v0.17.0 // indirect
-	golang.org/x/text v0.14.0 // indirect
+	golang.org/x/net v0.26.0 // indirect
+	golang.org/x/sync v0.7.0 // indirect
+	golang.org/x/sys v0.21.0 // indirect
+	golang.org/x/term v0.21.0 // indirect
+	golang.org/x/text v0.16.0 // indirect
 	golang.org/x/time v0.5.0 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.4.0 // indirect
 	google.golang.org/api v0.154.0 // indirect
