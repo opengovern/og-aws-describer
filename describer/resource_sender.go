@@ -11,6 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/kaytu-io/kaytu-util/pkg/es"
 	"github.com/kaytu-io/kaytu-util/pkg/source"
+	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/protobuf/types/known/anypb"
 	"io"
 	"net/http"
@@ -79,9 +80,14 @@ func NewResourceSender(workspaceId string, workspaceName string, grpcEndpoint, i
 }
 
 func (s *ResourceSender) Connect() error {
+	creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})
+	if s.authToken == "" {
+		creds = insecure.NewCredentials()
+	}
+
 	conn, err := grpc.NewClient(
 		s.grpcEndpoint,
-		grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})),
+		grpc.WithTransportCredentials(creds),
 		grpc.WithPerRPCCredentials(oauth.TokenSource{
 			TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
 				AccessToken: s.authToken,
