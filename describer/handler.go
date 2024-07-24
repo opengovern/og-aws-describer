@@ -79,7 +79,7 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 	}
 
 	var token string
-	if input.DescribeEndpointAuth {
+	if input.EndpointAuth {
 		token, err = getJWTAuthToken(input.WorkspaceId)
 		if err != nil {
 			return fmt.Errorf("failed to get JWT token: %w", err)
@@ -92,7 +92,7 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 	}))
 	for retry := 0; retry < 5; retry++ {
 		conn, err := grpc.NewClient(
-			input.DescribeEndpoint,
+			input.JobEndpoint,
 			grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})),
 			grpc.WithPerRPCCredentials(oauth.TokenSource{
 				TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
@@ -150,7 +150,7 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 		vaultSc,
 		logger,
 		input.DescribeJob,
-		input.DescribeEndpoint,
+		input.DeliverEndpoint,
 		token,
 		input.IngestionPipelineEndpoint,
 		input.UseOpenSearch,
