@@ -74,10 +74,12 @@ func NewWorker(
 ) (*Worker, error) {
 	jq, err := jq.New(config.NATS.URL, logger)
 	if err != nil {
+		logger.Error("failed to create job queue", zap.Error(err), zap.String("url", config.NATS.URL))
 		return nil, err
 	}
 
 	if err := jq.Stream(ctx, StreamName, "aws describe job runner queue", []string{JobQueueTopic}, 200000); err != nil {
+		logger.Error("failed to create stream", zap.Error(err))
 		return nil, err
 	}
 
