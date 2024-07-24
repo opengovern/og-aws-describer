@@ -78,7 +78,7 @@ func NewResourceSender(workspaceId string, workspaceName string, grpcEndpoint, i
 }
 
 func (s *ResourceSender) Connect() error {
-	conn, err := grpc.Dial(
+	conn, err := grpc.NewClient(
 		s.grpcEndpoint,
 		grpc.WithTransportCredentials(credentials.NewTLS(nil)),
 		grpc.WithPerRPCCredentials(oauth.TokenSource{

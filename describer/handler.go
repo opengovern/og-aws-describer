@@ -46,7 +46,7 @@ func getJWTAuthToken(workspaceId string) (string, error) {
 		"https://app.kaytu.io/workspaceAccess": map[string]string{
 			workspaceId: "admin",
 		},
-		"https://app.kaytu.io/email": "lambda-worker@kaytu.io",
+		"https://app.kaytu.io/email": "describe-worker@kaytu.io",
 	}).SignedString(pk)
 	if err != nil {
 		return "", fmt.Errorf("JWT token generation failed %v", err)
@@ -59,6 +59,7 @@ type TriggeredBy string
 const (
 	TriggeredByAWSLambda     TriggeredBy = "aws-lambda"
 	TriggeredByAzureFunction TriggeredBy = "azure-function"
+	TriggeredByLocal         TriggeredBy = "local"
 )
 
 // DescribeHandler
@@ -82,11 +83,11 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 	}
 
 	var client golang.DescribeServiceClient
-	grpcCtx := metadata.NewOutgoingContext(context.Background(), metadata.New(map[string]string{
+	grpcCtx := metadata.NewOutgoingContext(ctx, metadata.New(map[string]string{
 		"workspace-name": input.WorkspaceName,
 	}))
 	for retry := 0; retry < 5; retry++ {
-		conn, err := grpc.Dial(
+		conn, err := grpc.NewClient(
 			input.DescribeEndpoint,
 			grpc.WithTransportCredentials(credentials.NewTLS(nil)),
 			grpc.WithPerRPCCredentials(oauth.TokenSource{
@@ -133,6 +134,11 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 		vaultSc, err = vault.NewAzureVaultClient(ctx, logger, input.VaultConfig.Azure, input.VaultConfig.KeyId)
 		if err != nil {
 			return fmt.Errorf("failed to initialize Azure vault: %w", err)
+		}
+	case vault.HashiCorpVault:
+		vaultSc, err = vault.NewHashiCorpVaultClient(ctx, logger, input.VaultConfig.HashiCorp, input.VaultConfig.KeyId)
+		if err != nil {
+			return fmt.Errorf("failed to initialize HashiCorp vault: %w", err)
 		}
 	}
 	resourceIds, err := Do(
