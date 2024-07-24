@@ -6,6 +6,9 @@ lambda-build:
 functions-build:
 	CC=/usr/bin/musl-gcc GOPRIVATE="github.com/kaytu-io" GOOS=linux GOARCH=amd64 go build -v -ldflags "-linkmode external -extldflags '-static' -s -w" -tags musl -o ./azfunction/kaytu-aws-describer ./azfunction/main.go
 
+local-build:
+	CC=/usr/bin/musl-gcc GOPRIVATE="github.com/kaytu-io" GOOS=linux GOARCH=amd64 go build -v -ldflags "-linkmode external -extldflags '-static' -s -w" -tags musl -o ./local/kaytu-aws-describer ./local/main/main.go
+
 lambda-docker:
 	docker build -t 435670955331.dkr.ecr.us-east-2.amazonaws.com/kaytu-aws-describer:latest .
 	docker push 435670955331.dkr.ecr.us-east-2.amazonaws.com/kaytu-aws-describer:latest
