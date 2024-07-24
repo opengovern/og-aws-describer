@@ -77,7 +77,7 @@ func NewWorker(
 		return nil, err
 	}
 
-	if err := jq.Stream(ctx, StreamName, "aws describe job runner queue", []string{JobQueueTopic}, 1000000); err != nil {
+	if err := jq.Stream(ctx, StreamName, "aws describe job runner queue", []string{JobQueueTopic}, 200000); err != nil {
 		return nil, err
 	}
 
