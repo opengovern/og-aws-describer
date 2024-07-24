@@ -28,15 +28,11 @@ type Config struct {
 }
 
 func WorkerCommand() *cobra.Command {
-	var (
-		cnf Config
-	)
-	koanf.Provide("aws_describer", &cnf)
-
 	cmd := &cobra.Command{
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
 			cmd.SilenceUsage = true
+			cnf := koanf.Provide("aws_describer", Config{})
 			logger, err := zap.NewProduction()
 			if err != nil {
 				return err
