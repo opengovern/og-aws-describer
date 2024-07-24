@@ -91,19 +91,22 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 	grpcCtx := metadata.NewOutgoingContext(ctx, metadata.New(map[string]string{
 		"workspace-name": input.WorkspaceName,
 	}))
-	creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})
-	if !input.EndpointAuth {
-		creds = insecure.NewCredentials()
+
+	var opts []grpc.DialOption
+	if input.EndpointAuth {
+		opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})))
+		opts = append(opts, grpc.WithPerRPCCredentials(oauth.TokenSource{
+			TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
+				AccessToken: token,
+			}),
+		}))
+	} else {
+		opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	}
 	for retry := 0; retry < 5; retry++ {
 		conn, err := grpc.NewClient(
 			input.JobEndpoint,
-			grpc.WithTransportCredentials(creds),
-			grpc.WithPerRPCCredentials(oauth.TokenSource{
-				TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
-					AccessToken: token,
-				}),
-			}),
+			opts...,
 		)
 		if err != nil {
 			logger.Error("[result delivery] connection failure:", zap.Error(err))
