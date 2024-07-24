@@ -148,9 +148,10 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/golang/protobuf v1.5.4
 	github.com/hashicorp/go-hclog v1.6.3
-	github.com/kaytu-io/kaytu-util v0.0.0-20240724094059-5636acc559aa
+	github.com/kaytu-io/kaytu-util v0.0.0-20240724154122-0700680fbcfa
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/manifoldco/promptui v0.9.0
+	github.com/nats-io/nats.go v1.36.0
 	github.com/spf13/cobra v1.7.0
 	github.com/turbot/go-kit v0.9.0
 	github.com/turbot/steampipe-plugin-sdk/v5 v5.8.0
@@ -296,7 +297,6 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
-	github.com/nats-io/nats.go v1.36.0 // indirect
 	github.com/nats-io/nkeys v0.4.7 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/oklog/run v1.1.0 // indirect

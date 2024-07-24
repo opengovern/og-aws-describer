@@ -3,6 +3,7 @@ package describer
 import (
 	"context"
 	"crypto/sha256"
+	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -80,7 +81,7 @@ func NewResourceSender(workspaceId string, workspaceName string, grpcEndpoint, i
 func (s *ResourceSender) Connect() error {
 	conn, err := grpc.NewClient(
 		s.grpcEndpoint,
-		grpc.WithTransportCredentials(credentials.NewTLS(nil)),
+		grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})),
 		grpc.WithPerRPCCredentials(oauth.TokenSource{
 			TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
 				AccessToken: s.authToken,
