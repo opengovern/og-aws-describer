@@ -292,7 +292,7 @@ jobs:
           tags: |
             ${{ vars.AWS_DOCKER_REGISTRY }}/kaytu-aws-describer:local-latest
             ${{ vars.AWS_DOCKER_REGISTRY }}/kaytu-aws-describer:local-${{ needs.build.outputs.latest_tag }}
-          file: DockerfileLocal
+          file: DockerFileLocal
           context: .
       - name: Azure Docker Login
         uses: azure/docker-login@v1
@@ -307,5 +307,5 @@ jobs:
           tags: |
             ${{ vars.AZURE_DOCKER_REGISTRY }}/kaytu-aws-describer:local-latest
             ${{ vars.AZURE_DOCKER_REGISTRY }}/kaytu-aws-describer:local-${{ needs.build.outputs.latest_tag }}
-          file: DockerfileLocal
+          file: DockerFileLocal
           context: .
