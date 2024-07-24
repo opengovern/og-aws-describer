@@ -2,6 +2,7 @@ package describer
 
 import (
 	"context"
+	"crypto/tls"
 	"encoding/base64"
 	"errors"
 	"fmt"
@@ -77,9 +78,12 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 		return fmt.Errorf("workspace name is required")
 	}
 
-	token, err := getJWTAuthToken(input.WorkspaceId)
-	if err != nil {
-		return fmt.Errorf("failed to get JWT token: %w", err)
+	var token string
+	if input.DescribeEndpointAuth {
+		token, err = getJWTAuthToken(input.WorkspaceId)
+		if err != nil {
+			return fmt.Errorf("failed to get JWT token: %w", err)
+		}
 	}
 
 	var client golang.DescribeServiceClient
@@ -89,7 +93,7 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 	for retry := 0; retry < 5; retry++ {
 		conn, err := grpc.NewClient(
 			input.DescribeEndpoint,
-			grpc.WithTransportCredentials(credentials.NewTLS(nil)),
+			grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})),
 			grpc.WithPerRPCCredentials(oauth.TokenSource{
 				TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
 					AccessToken: token,
