@@ -94,7 +94,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/neptune v1.28.0
 	github.com/aws/aws-sdk-go-v2/service/networkfirewall v1.36.5
 	github.com/aws/aws-sdk-go-v2/service/oam v1.7.5
-	github.com/aws/aws-sdk-go-v2/service/opensearch v1.27.0
+	github.com/aws/aws-sdk-go-v2/service/opensearch v1.39.2
 	github.com/aws/aws-sdk-go-v2/service/opensearchserverless v1.9.5
 	github.com/aws/aws-sdk-go-v2/service/opsworkscm v1.20.5
 	github.com/aws/aws-sdk-go-v2/service/organizations v1.23.5

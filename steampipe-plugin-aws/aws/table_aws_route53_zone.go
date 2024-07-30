@@ -112,6 +112,12 @@ func tableAwsRoute53Zone(_ context.Context) *plugin.Table {
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("ARN").Transform(arnToAkas)},
+			{
+				Name:        "resource_record_set_limit",
+				Description: "The maximum number of resource record sets allowed in the hosted zone.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Limit.Value"),
+			},
 		}),
 	}
 }

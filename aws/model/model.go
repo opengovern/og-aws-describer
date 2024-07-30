@@ -1701,7 +1701,8 @@ type IAMOpenIdConnectProviderDescription struct {
 //index:aws_rds_dbcluster
 //getfilter:db_cluster_identifier=description.DBCluster.DBClusterIdentifier
 type RDSDBClusterDescription struct {
-	DBCluster rds.DBCluster
+	DBCluster                 rds.DBCluster
+	PendingMaintenanceActions []rds.ResourcePendingMaintenanceActions
 }
 
 //index:aws_rds_dbclusterparametergroup
@@ -3057,6 +3058,7 @@ type Route53HostedZoneDescription struct {
 	ID                  string
 	HostedZone          route53.HostedZone
 	QueryLoggingConfigs []route53.QueryLoggingConfig
+	Limit               *route53.HostedZoneLimit
 	DNSSec              route53op.GetDNSSECOutput
 	Tags                []route53.Tag
 }

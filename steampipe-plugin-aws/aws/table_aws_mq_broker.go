@@ -21,6 +21,12 @@ func tableAwsMQBroker(_ context.Context) *plugin.Table {
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
+				Name:        "broker_name",
+				Description: "The broker's name.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.BrokerDescription.BrokerName"),
+			},
+			{
 				Name:        "broker_id",
 				Description: "The unique ID that Amazon MQ generates for the broker.",
 				Type:        proto.ColumnType_STRING,
