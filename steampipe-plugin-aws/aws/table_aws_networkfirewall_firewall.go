@@ -91,6 +91,12 @@ func tableAwsNetworkFirewallFirewall(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.Firewall.SubnetMappings")},
 			{
+				Name:        "logging_configuration",
+				Description: "Defines how Network Firewall performs logging for a Firewall.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.LoggingConfiguration"),
+			},
+			{
 				Name:        "tags_src",
 				Description: "A list of tags associated with the firewall",
 				Type:        proto.ColumnType_JSON,

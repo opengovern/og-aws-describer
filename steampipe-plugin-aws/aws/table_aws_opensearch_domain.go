@@ -2,6 +2,7 @@ package aws
 
 import (
 	"context"
+	"strings"
 
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
@@ -32,6 +33,12 @@ func tableAwsOpenSearchDomain(_ context.Context) *plugin.Table {
 				Description: "The name of the domain.",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.Domain.DomainName")},
+			{
+				Name:        "engine_type",
+				Description: "Specifies the EngineType of the domain.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.From(getOpensearchEngineType),
+			},
 			{
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) of the domain",
@@ -175,4 +182,17 @@ func tableAwsOpenSearchDomain(_ context.Context) *plugin.Table {
 func getOpenSearchDomainTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	tags := d.HydrateItem.(kaytu.OpenSearchDomain).Description.Tags
 	return opensearchV2TagsToMap(tags)
+}
+
+func getOpensearchEngineType(_ context.Context, d *transform.TransformData) (interface{}, error) {
+	domain := d.HydrateItem.(kaytu.OpenSearchDomain).Description.Domain
+	if domain.EngineVersion == nil {
+		return nil, nil
+	}
+	engineVersion := strings.Split(*domain.EngineVersion, "_")
+	if len(engineVersion) < 2 {
+		return *domain.EngineVersion, nil
+	}
+	engineType := engineVersion[0]
+	return engineType, nil
 }

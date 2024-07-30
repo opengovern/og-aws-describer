@@ -143,6 +143,17 @@ func route53HostedZoneHandle(ctx context.Context, cfg aws.Config, v types.Hosted
 		queryLoggingConfigs = &route53.ListQueryLoggingConfigsOutput{}
 	}
 
+	limit, err := client.GetHostedZoneLimit(ctx, &route53.GetHostedZoneLimitInput{
+		HostedZoneId: &id,
+		Type:         types.HostedZoneLimitTypeMaxRrsetsByZone,
+	})
+	if err != nil {
+		if !isErr(err, "NoSuchHostedZone") {
+			return Resource{}, err
+		}
+		limit = &route53.GetHostedZoneLimitOutput{}
+	}
+
 	dnsSec := &route53.GetDNSSECOutput{}
 	if !v.Config.PrivateZone {
 		dnsSec, err = client.GetDNSSEC(ctx, &route53.GetDNSSECInput{
@@ -177,6 +188,7 @@ func route53HostedZoneHandle(ctx context.Context, cfg aws.Config, v types.Hosted
 			ID:                  id,
 			HostedZone:          v,
 			QueryLoggingConfigs: queryLoggingConfigs.QueryLoggingConfigs,
+			Limit:               limit.Limit,
 			DNSSec:              *dnsSec,
 			Tags:                tags.ResourceTagSet.Tags,
 		},

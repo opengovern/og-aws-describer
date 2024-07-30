@@ -31,7 +31,12 @@ func tableAwsEc2RegionalSettings(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.KmsKeyId"),
 			},
-
+			{
+				Name:        "snapshot_block_public_access_state",
+				Description: "Gets the current state of block public access for snapshots setting for the account and Region.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.SnapshotBlockPublicAccessState"),
+			},
 			// Steampipe standard columns
 			{
 				Name:        "title",

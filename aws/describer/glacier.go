@@ -63,6 +63,19 @@ func GlacierVault(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 				tags = &glacier.ListTagsForVaultOutput{}
 			}
 
+			var vaultNotificationConfig types.VaultNotificationConfig
+			notifications, err := client.GetVaultNotifications(ctx, &glacier.GetVaultNotificationsInput{
+				AccountId: &describeCtx.AccountID,
+				VaultName: vault.VaultName,
+			})
+			if err != nil {
+				if !isErr(err, "ResourceNotFoundException") && !isErr(err, "InvalidParameter") {
+					return nil, err
+				}
+			} else if notifications != nil && notifications.VaultNotificationConfig != nil {
+				vaultNotificationConfig = *notifications.VaultNotificationConfig
+			}
+
 			resource := Resource{
 				Region: describeCtx.KaytuRegion,
 				ARN:    *vault.VaultARN,
@@ -73,7 +86,8 @@ func GlacierVault(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 					LockPolicy: types.VaultLockPolicy{
 						Policy: lockPolicy.Policy,
 					},
-					Tags: tags.Tags,
+					VaultNotificationConfig: vaultNotificationConfig,
+					Tags:                    tags.Tags,
 				},
 			}
 			if stream != nil {

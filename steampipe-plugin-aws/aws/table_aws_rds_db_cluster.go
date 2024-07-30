@@ -82,6 +82,11 @@ func tableAwsRDSDBCluster(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_INT,
 				Transform:   transform.FromField("Description.DBCluster.AllocatedStorage")},
 			{
+				Name:        "auto_minor_version_upgrade",
+				Description: "A value that indicates that minor version patches are applied automatically. This setting is only for non-Aurora Multi-AZ DB clusters.",
+				Type:        proto.ColumnType_BOOL,
+				Transform:   transform.FromField("Description.DBCluster.AutoMinorVersionUpgrade")},
+			{
 				Name:        "backtrack_consumed_change_records",
 				Description: "The number of change records stored for Backtrack.",
 				Type:        proto.ColumnType_INT,
@@ -283,6 +288,11 @@ func tableAwsRDSDBCluster(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.DBCluster.EnabledCloudwatchLogsExports")},
 			{
+				Name:        "pending_maintenance_actions",
+				Description: "A list that provides details about the pending maintenance actions for the resource.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.PendingMaintenanceActions")},
+			{
 				Name:        "read_replica_identifiers",
 				Description: "A list of identifiers of the read replicas associated with this DB cluster.",
 				Type:        proto.ColumnType_JSON,
@@ -319,12 +329,6 @@ func tableAwsRDSDBCluster(_ context.Context) *plugin.Table {
 		}),
 	}
 }
-
-//// LIST FUNCTION
-
-//// HYDRATE FUNCTIONS
-
-//// TRANSFORM FUNCTIONS
 
 func getRDSDBClusterTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	dbCluster := d.HydrateItem.(kaytu.RDSDBCluster).Description.DBCluster

@@ -3,6 +3,7 @@ package describer
 import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/service/backup/types"
+	"regexp"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/backup"
@@ -82,12 +83,39 @@ func BackupRecoveryPoint(ctx context.Context, cfg aws.Config, stream *StreamSend
 						return nil, err
 					}
 
+					tags := make(map[string]string)
+					var arn string
+					if out.RecoveryPointArn == nil {
+						arn = ""
+					} else {
+						arn = *out.RecoveryPointArn
+					}
+
+					pattern := `arn:aws:backup:[a-z0-9\-]+:[0-9]{12}:recovery-point:.*`
+
+					re := regexp.MustCompile(pattern)
+
+					if re.MatchString(arn) {
+						params := &backup.ListTagsInput{
+							ResourceArn: aws.String(arn),
+						}
+
+						op, err := client.ListTags(ctx, params)
+						if err != nil {
+							return nil, err
+						}
+						if op.Tags != nil {
+							tags = op.Tags
+						}
+					}
+
 					resource := Resource{
 						Region: describeCtx.KaytuRegion,
 						ARN:    *recoveryPoint.RecoveryPointArn,
 						Name:   nameFromArn(*out.RecoveryPointArn),
 						Description: model.BackupRecoveryPointDescription{
 							RecoveryPoint: out,
+							Tags:          tags,
 						},
 					}
 					if stream != nil {
@@ -244,6 +272,19 @@ func backupVaultHandle(ctx context.Context, cfg aws.Config, v types.BackupVaultL
 			return Resource{}, err
 		}
 	}
+	tags := make(map[string]string)
+	var arn string
+	if v.BackupVaultArn != nil {
+		arn = *v.BackupVaultArn
+	}
+	params := &backup.ListTagsInput{
+		ResourceArn: aws.String(arn),
+	}
+
+	op, err := client.ListTags(ctx, params)
+	if err == nil {
+		tags = op.Tags
+	}
 
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
@@ -254,6 +295,7 @@ func backupVaultHandle(ctx context.Context, cfg aws.Config, v types.BackupVaultL
 			Policy:            accessPolicy.Policy,
 			BackupVaultEvents: notification.BackupVaultEvents,
 			SNSTopicArn:       notification.SNSTopicArn,
+			Tags:              tags,
 		},
 	}
 	return resource, nil
