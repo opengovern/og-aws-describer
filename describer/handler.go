@@ -2,9 +2,11 @@ package describer
 
 import (
 	"context"
+	"crypto/tls"
 	"encoding/base64"
 	"errors"
 	"fmt"
+	"google.golang.org/grpc/credentials/insecure"
 	"os"
 	"time"
 
@@ -46,7 +48,7 @@ func getJWTAuthToken(workspaceId string) (string, error) {
 		"https://app.kaytu.io/workspaceAccess": map[string]string{
 			workspaceId: "admin",
 		},
-		"https://app.kaytu.io/email": "lambda-worker@kaytu.io",
+		"https://app.kaytu.io/email": "describe-worker@kaytu.io",
 	}).SignedString(pk)
 	if err != nil {
 		return "", fmt.Errorf("JWT token generation failed %v", err)
@@ -59,6 +61,7 @@ type TriggeredBy string
 const (
 	TriggeredByAWSLambda     TriggeredBy = "aws-lambda"
 	TriggeredByAzureFunction TriggeredBy = "azure-function"
+	TriggeredByLocal         TriggeredBy = "local"
 )
 
 // DescribeHandler
@@ -76,24 +79,34 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 		return fmt.Errorf("workspace name is required")
 	}
 
-	token, err := getJWTAuthToken(input.WorkspaceId)
-	if err != nil {
-		return fmt.Errorf("failed to get JWT token: %w", err)
+	var token string
+	if input.EndpointAuth {
+		token, err = getJWTAuthToken(input.WorkspaceId)
+		if err != nil {
+			return fmt.Errorf("failed to get JWT token: %w", err)
+		}
 	}
 
 	var client golang.DescribeServiceClient
-	grpcCtx := metadata.NewOutgoingContext(context.Background(), metadata.New(map[string]string{
+	grpcCtx := metadata.NewOutgoingContext(ctx, metadata.New(map[string]string{
 		"workspace-name": input.WorkspaceName,
 	}))
-	for retry := 0; retry < 5; retry++ {
-		conn, err := grpc.Dial(
-			input.DescribeEndpoint,
-			grpc.WithTransportCredentials(credentials.NewTLS(nil)),
-			grpc.WithPerRPCCredentials(oauth.TokenSource{
-				TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
-					AccessToken: token,
-				}),
+
+	var opts []grpc.DialOption
+	if input.EndpointAuth {
+		opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})))
+		opts = append(opts, grpc.WithPerRPCCredentials(oauth.TokenSource{
+			TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
+				AccessToken: token,
 			}),
+		}))
+	} else {
+		opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	}
+	for retry := 0; retry < 5; retry++ {
+		conn, err := grpc.NewClient(
+			input.JobEndpoint,
+			opts...,
 		)
 		if err != nil {
 			logger.Error("[result delivery] connection failure:", zap.Error(err))
@@ -134,13 +147,18 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 		if err != nil {
 			return fmt.Errorf("failed to initialize Azure vault: %w", err)
 		}
+	case vault.HashiCorpVault:
+		vaultSc, err = vault.NewHashiCorpVaultClient(ctx, logger, input.VaultConfig.HashiCorp, input.VaultConfig.KeyId)
+		if err != nil {
+			return fmt.Errorf("failed to initialize HashiCorp vault: %w", err)
+		}
 	}
 	resourceIds, err := Do(
 		ctx,
 		vaultSc,
 		logger,
 		input.DescribeJob,
-		input.DescribeEndpoint,
+		input.DeliverEndpoint,
 		token,
 		input.IngestionPipelineEndpoint,
 		input.UseOpenSearch,

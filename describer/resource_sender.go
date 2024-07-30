@@ -3,6 +3,7 @@ package describer
 import (
 	"context"
 	"crypto/sha256"
+	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -10,6 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/kaytu-io/kaytu-util/pkg/es"
 	"github.com/kaytu-io/kaytu-util/pkg/source"
+	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/protobuf/types/known/anypb"
 	"io"
 	"net/http"
@@ -78,14 +80,21 @@ func NewResourceSender(workspaceId string, workspaceName string, grpcEndpoint, i
 }
 
 func (s *ResourceSender) Connect() error {
-	conn, err := grpc.Dial(
-		s.grpcEndpoint,
-		grpc.WithTransportCredentials(credentials.NewTLS(nil)),
-		grpc.WithPerRPCCredentials(oauth.TokenSource{
+	var opts []grpc.DialOption
+	if s.authToken != "" {
+		opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})))
+		opts = append(opts, grpc.WithPerRPCCredentials(oauth.TokenSource{
 			TokenSource: oauth2.StaticTokenSource(&oauth2.Token{
 				AccessToken: s.authToken,
 			}),
-		}),
+		}))
+	} else {
+		opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	}
+
+	conn, err := grpc.NewClient(
+		s.grpcEndpoint,
+		opts...,
 	)
 	if err != nil {
 		return err
