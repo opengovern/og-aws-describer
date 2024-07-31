@@ -122,7 +122,7 @@ func tableAwsEC2ClientVPNEndpoint(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("Description.ClientVpnEndpoint.ClientConnectOptions"),
 			},
 			{
-				Name:        "client_log_options",
+				Name:        "connection_log_options",
 				Description: "Information about the client connection logging options for the Client VPN endpoint.",
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.ClientVpnEndpoint.ConnectionLogOptions"),

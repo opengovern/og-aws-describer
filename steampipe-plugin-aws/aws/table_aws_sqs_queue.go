@@ -115,6 +115,12 @@ func tableAwsSqsQueue(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("Description.Attributes.ContentBasedDeduplication"),
 			},
 			{
+				Name:        "deduplication_scope",
+				Description: "Specifies whether message deduplication occurs at the message group or queue level.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Attributes.DeduplicationScope"),
+			},
+			{
 				Name:        "kms_master_key_id",
 				Description: "the ID of an AWS-managed customer master key (CMK) for Amazon SQS or a custom CMK.",
 				Type:        proto.ColumnType_STRING,

@@ -20,7 +20,7 @@ func RDSDBCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 		}
 
 		for _, v := range page.DBClusters {
-			resource := rDSDBClusterHandle(ctx, v)
+			resource := rDSDBClusterHandle(ctx, client, v)
 			if stream != nil {
 				if err := (*stream)(resource); err != nil {
 					return nil, err
@@ -33,14 +33,27 @@ func RDSDBCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 
 	return values, nil
 }
-func rDSDBClusterHandle(ctx context.Context, v types.DBCluster) Resource {
+func rDSDBClusterHandle(ctx context.Context, client *rds.Client, v types.DBCluster) Resource {
+	var actions []types.ResourcePendingMaintenanceActions
+	pendingMaintenanceActions, err := client.DescribePendingMaintenanceActions(ctx, &rds.DescribePendingMaintenanceActionsInput{
+		Filters: []types.Filter{
+			{
+				Name:   aws.String("db-cluster-id"),
+				Values: []string{*v.DBClusterIdentifier},
+			},
+		},
+	})
+	if err == nil {
+		actions = pendingMaintenanceActions.PendingMaintenanceActions
+	}
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *v.DBClusterArn,
 		Name:   *v.DBClusterIdentifier,
 		Description: model.RDSDBClusterDescription{
-			DBCluster: v,
+			DBCluster:                 v,
+			PendingMaintenanceActions: actions,
 		},
 	}
 	return resource
@@ -61,7 +74,7 @@ func GetRDSDBCluster(ctx context.Context, cfg aws.Config, fields map[string]stri
 
 	var values []Resource
 	for _, v := range out.DBClusters {
-		resource := rDSDBClusterHandle(ctx, v)
+		resource := rDSDBClusterHandle(ctx, client, v)
 		values = append(values, resource)
 	}
 

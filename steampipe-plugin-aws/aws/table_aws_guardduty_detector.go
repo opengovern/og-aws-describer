@@ -77,7 +77,12 @@ func tableAwsGuardDutyDetector(_ context.Context) *plugin.Table {
 				Description: "Describes which data sources are enabled for the detector.",
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.Detector.DataSources")},
-
+			{
+				Name:        "features",
+				Description: "Describes the features that have been enabled for the detector.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Detector.Features"),
+			},
 			{
 				Name:        "master_account",
 				Description: "Contains information about the administrator account and invitation.",

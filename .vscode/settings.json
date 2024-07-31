@@ -2,5 +2,6 @@
     "azureFunctions.deploySubpath": "azfunction",
     "azureFunctions.projectLanguage": "Custom",
     "azureFunctions.projectRuntime": "~4",
-    "debug.internalConsoleOptions": "neverOpen"
+    "debug.internalConsoleOptions": "neverOpen",
+    "azureFunctions.projectSubpath": "azfunction"
 }

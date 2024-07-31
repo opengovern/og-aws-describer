@@ -1,0 +1,11 @@
+{
+  "bindings": [
+    {
+      "name": "mySbMsg",
+      "type": "serviceBusTrigger",
+      "direction": "in",
+      "queueName": "kaytu-aws-describer",
+      "connection": "SERVICE_BUS_CONNECTION"
+    }
+  ]
+}

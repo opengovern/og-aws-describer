@@ -29,13 +29,12 @@ func tableAwsEC2LaunchTemplate(_ context.Context) *plugin.Table {
 				Name:        "name",
 				Description: "The name of the launchtemplate.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.LaunchTemplateName")},
+				Transform:   transform.FromField("Description.LaunchTemplate.LaunchTemplateName")},
 			{
-				Name:        "arn",
-				Description: "The Amazon Resource Name (ARN) of the launchtemplate",
+				Name:        "launch_template_name",
+				Description: "The name of the launch template.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("ARN")}, // or generate it below
-			//error
+				Transform:   transform.FromField("Description.LaunchTemplate.LaunchTemplateName")},
 			{
 				Name:        "launch_template_id",
 				Description: "The ID of the launch template.",
@@ -82,7 +81,7 @@ func tableAwsEC2LaunchTemplate(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("ARN").Transform(arnToAkas), // or generate it below (keep the Transform(arnToTurbotAkas) or use Transform(transform.EnsureStringArray))
+				Transform:   transform.From(launchTemplateAkas),
 			},
 		}),
 	}
@@ -93,4 +92,14 @@ func tableAwsEC2LaunchTemplate(_ context.Context) *plugin.Table {
 func getEC2LaunchTemplateTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	tags := d.HydrateItem.(kaytu.EC2LaunchTemplate).Description.LaunchTemplate.Tags
 	return ec2V2TagsToMap(tags)
+}
+
+func launchTemplateAkas(_ context.Context, d *transform.TransformData) (interface{}, error) {
+	launchTemplate := d.HydrateItem.(kaytu.EC2LaunchTemplate).Description.LaunchTemplate
+	metadata := d.HydrateItem.(kaytu.EC2AMI).Metadata
+
+	// Get data for Turbot defined properties
+	akas := []string{"arn:" + metadata.Partition + ":ec2:" + metadata.Region + ":" + metadata.AccountID + ":launch-template/" + *launchTemplate.LaunchTemplateId}
+
+	return akas, nil
 }

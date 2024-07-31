@@ -113,6 +113,12 @@ func tableAwsFsxFileSystem(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.FileSystem.OntapConfiguration")},
 			{
+				Name:        "open_zfs_configuration",
+				Description: "The configuration for this FSx for NetApp ONTAP file system.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.FileSystem.OpenZFSConfiguration"),
+			},
+			{
 				Name:        "subnet_ids",
 				Description: "Specifies the IDs of the subnets that the file system is accessible from.",
 				Type:        proto.ColumnType_JSON,

@@ -122,6 +122,11 @@ func tableAwsElasticBeanstalkEnvironment(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.EnvironmentDescription.VersionLabel")},
 			{
+				Name:        "configuration_settings",
+				Description: "Returns a description of the settings for the specified configuration set, that is, either a configuration template or the configuration set associated with a running environment.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.ConfigurationSetting")},
+			{
 				Name:        "environment_links",
 				Description: "A list of links to other environments in the same group.",
 				Type:        proto.ColumnType_JSON,

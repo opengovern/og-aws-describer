@@ -96,6 +96,12 @@ func tableAwsBackupVault(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("Description.BackupVault.BackupVaultName"),
 			},
 			{
+				Name:        "tags",
+				Description: resourceInterfaceDescription("tags"),
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Tags"),
+			},
+			{
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,

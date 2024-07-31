@@ -126,7 +126,11 @@ func tableAwsGlueCatalogTable(_ context.Context) *plugin.Table {
 				Description: "A TableIdentifier structure that describes a target table for resource linking.",
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.Table.TargetTable")},
-
+			{
+				Name:        "lf_tags",
+				Description: "LF-Tags assigned to the table by AWS Lake Formation.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.LfTags")},
 			// Steampipe standard columns
 			{
 				Name:        "title",

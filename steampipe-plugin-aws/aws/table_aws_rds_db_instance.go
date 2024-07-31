@@ -293,6 +293,11 @@ func tableAwsRDSDBInstance(_ context.Context) *plugin.Table {
 				Default:     false,
 				Transform:   transform.FromField("Description.DBInstance.StorageEncrypted")},
 			{
+				Name:        "storage_throughput",
+				Description: "Specifies the storage throughput for the DB instance. This setting applies only to the gp3 storage type.",
+				Type:        proto.ColumnType_INT,
+				Transform:   transform.FromField("Description.DBInstance.StorageThroughput")},
+			{
 				Name:        "storage_type",
 				Description: "Specifies the storage type associated with DB instance.",
 				Type:        proto.ColumnType_STRING,

@@ -55,13 +55,20 @@ func mQBrokerHandle(ctx context.Context, cfg aws.Config, v types.BrokerSummary) 
 		return Resource{}, err
 	}
 
+	brokerDescription, err := client.DescribeBroker(ctx, &mq.DescribeBrokerInput{
+		BrokerId: v.BrokerId,
+	})
+	if err != nil {
+		return Resource{}, err
+	}
+
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *v.BrokerArn,
 		Name:   *v.BrokerName,
 		Description: model.MQBrokerDescription{
-			Broker: v,
-			Tags:   tags.Tags,
+			BrokerDescription: brokerDescription,
+			Tags:              tags.Tags,
 		},
 	}
 	return resource, nil

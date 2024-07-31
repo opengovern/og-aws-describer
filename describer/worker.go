@@ -29,7 +29,7 @@ func Do(ctx context.Context,
 	vlt vault.VaultSourceConfig,
 	logger *zap.Logger,
 	job describe.DescribeJob,
-	describeDeliverEndpoint string,
+	grpcEndpoint string,
 	describeDeliverToken string,
 	ingestionPipelineEndpoint string,
 	useOpenSearch bool,
@@ -54,11 +54,11 @@ func Do(ctx context.Context,
 		return nil, fmt.Errorf("decrypt error: %w", err)
 	}
 
-	return doDescribeAWS(ctx, logger, job, config, workspaceId, workspaceName, describeDeliverEndpoint, ingestionPipelineEndpoint, describeDeliverToken, useOpenSearch)
+	return doDescribeAWS(ctx, logger, job, config, workspaceId, workspaceName, grpcEndpoint, ingestionPipelineEndpoint, describeDeliverToken, useOpenSearch)
 }
 
-func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.DescribeJob, config map[string]any, workspaceId, workspaceName string, describeEndpoint, ingestionPipelineEndpoint string, describeToken string, useOpenSearch bool) ([]string, error) {
-	rs, err := NewResourceSender(workspaceId, workspaceName, describeEndpoint, ingestionPipelineEndpoint, describeToken, job.JobID, useOpenSearch, logger)
+func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.DescribeJob, config map[string]any, workspaceId, workspaceName string, grpcEndpoint, ingestionPipelineEndpoint string, describeToken string, useOpenSearch bool) ([]string, error) {
+	rs, err := NewResourceSender(workspaceId, workspaceName, grpcEndpoint, ingestionPipelineEndpoint, describeToken, job.JobID, useOpenSearch, logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to resource sender: %w", err)
 	}

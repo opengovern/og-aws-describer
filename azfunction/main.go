@@ -17,36 +17,57 @@ type Server struct {
 	logger     *zap.Logger
 }
 
-type EventHubTriggerBody struct {
-	Data struct {
-		EventHubMessages string `json:"eventHubMessages"`
-	}
-	Metadata any
+type InvokeRequest struct {
+	Data     map[string]string
+	Metadata map[string]any
+}
+
+type InvokeResponse struct {
+	Outputs     map[string]any
+	Logs        []string
+	ReturnValue any
 }
 
 func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
-	var body EventHubTriggerBody
+	var body InvokeRequest
 	err := ctx.Bind(&body)
 	if err != nil {
 		s.logger.Error("failed to bind request body", zap.Error(err))
 		return ctx.String(http.StatusBadRequest, "failed to bind request body")
 	}
-
-	unescaped, err := strconv.Unquote(body.Data.EventHubMessages)
-	if err != nil {
-		s.logger.Error("failed to unquote eventHubMessages", zap.Error(err))
-		return ctx.String(http.StatusBadRequest, "failed to unquote eventHubMessages")
-	}
-
-	body.Data.EventHubMessages = unescaped
-
 	var bodyData describe.DescribeWorkerInput
-	err = json.Unmarshal([]byte(body.Data.EventHubMessages), &bodyData)
-	if err != nil {
-		s.logger.Error("failed to unmarshal eventHubMessages", zap.Error(err))
-		return ctx.String(http.StatusBadRequest, "failed to unmarshal eventHubMessages")
-
+	switch {
+	case len(body.Data["eventHubMessages"]) > 0:
+		jsonString := body.Data["mySbMsg"]
+		unescaped, err := strconv.Unquote(jsonString)
+		if err != nil {
+			s.logger.Error("failed to unquote mySbMsg", zap.Error(err))
+			return ctx.String(http.StatusBadRequest, "failed to unquote mySbMsg")
+		}
+		err = json.Unmarshal([]byte(unescaped), &bodyData)
+		if err != nil {
+			s.logger.Error("failed to unmarshal eventHubMessages", zap.Error(err))
+			return ctx.String(http.StatusBadRequest, "failed to unmarshal eventHubMessages")
+		}
+	case len(body.Data["mySbMsg"]) > 0:
+		jsonString := body.Data["mySbMsg"]
+		unescaped, err := strconv.Unquote(string(jsonString))
+		if err != nil {
+			s.logger.Error("failed to unquote mySbMsg", zap.Error(err))
+			return ctx.String(http.StatusBadRequest, "failed to unquote mySbMsg")
+		}
+		err = json.Unmarshal([]byte(unescaped), &bodyData)
+		if err != nil {
+			s.logger.Error("failed to unmarshal mySbMsg", zap.Error(err))
+			return ctx.String(http.StatusBadRequest, "failed to unmarshal mySbMsg")
+		}
+	default:
+		for k, v := range body.Data {
+			s.logger.Info("data", zap.String("key", k), zap.Any("value", v))
+		}
+		return ctx.String(http.StatusBadRequest, "no data found")
 	}
+
 	s.logger.Info("azureFunctionsHandler", zap.Any("bodyData", bodyData))
 
 	err = describer.DescribeHandler(ctx.Request().Context(), s.logger, describer.TriggeredByAzureFunction, bodyData)
@@ -55,7 +76,7 @@ func (s *Server) azureFunctionsHandler(ctx echo.Context) error {
 		return ctx.String(http.StatusInternalServerError, "failed to run describer")
 	}
 
-	return ctx.String(http.StatusOK, "OK")
+	return ctx.JSON(http.StatusOK, InvokeResponse{})
 }
 
 func main() {

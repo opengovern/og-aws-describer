@@ -55,6 +55,12 @@ func tableAwsElasticsearchDomain(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("Description.Domain.ElasticsearchVersion"),
 			},
 			{
+				Name:        "endpoint",
+				Description: "The Elasticsearch domain endpoint that use to submit index and search requests.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Domain.Endpoint"),
+			},
+			{
 				Name:        "endpoints",
 				Description: "The Elasticsearch domain endpoints that use to submit index and search requests.",
 				Type:        proto.ColumnType_JSON,

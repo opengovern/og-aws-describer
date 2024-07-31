@@ -81,6 +81,12 @@ func tableAwsGlacierVault(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("Description.LockPolicy.Policy").Transform(unescape).Transform(policyToCanonical),
 			},
 			{
+				Name:        "vault_notification_config",
+				Description: "Contains the notification configuration set on the vault.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.VaultNotificationConfig"),
+			},
+			{
 				Name:        "tags_src",
 				Description: "A list of tags associated with the vault.",
 				Type:        proto.ColumnType_JSON,
