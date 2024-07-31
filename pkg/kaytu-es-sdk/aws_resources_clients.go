@@ -4504,7 +4504,6 @@ var listESDomainFilters = map[string]string{
 	"endpoints":                    "description.Domain.Endpoints",
 	"kaytu_account_id":             "metadata.SourceID",
 	"log_publishing_options":       "description.Domain.LogPublishingOptions",
-	"policy_std":                   "description.Domain.AccessPolicies",
 	"processing":                   "description.Domain.Processing",
 	"service_software_options":     "description.Domain.ServiceSoftwareOptions",
 	"snapshot_options":             "description.Domain.SnapshotOptions",
@@ -4594,7 +4593,6 @@ var getESDomainFilters = map[string]string{
 	"endpoints":                    "description.Domain.Endpoints",
 	"kaytu_account_id":             "metadata.SourceID",
 	"log_publishing_options":       "description.Domain.LogPublishingOptions",
-	"policy_std":                   "description.Domain.AccessPolicies",
 	"processing":                   "description.Domain.Processing",
 	"service_software_options":     "description.Domain.ServiceSoftwareOptions",
 	"snapshot_options":             "description.Domain.SnapshotOptions",
@@ -68346,6 +68344,7 @@ func (p CloudFormationStackSetPaginator) NextPage(ctx context.Context) ([]CloudF
 var listCloudFormationStackSetFilters = map[string]string{
 	"administration_role_arn":           "description.StackSet.AdministrationRoleARN",
 	"arn":                               "description.StackSet.StackSetARN",
+	"auto_deployment":                   "description.StackSet.AutoDeployment",
 	"capabilities":                      "description.StackSet.Capabilities",
 	"description":                       "description.StackSet.Description",
 	"drift_status":                      "description.StackSet.StackSetDriftDetectionDetails.DriftStatus",
@@ -68427,6 +68426,7 @@ func ListCloudFormationStackSet(ctx context.Context, d *plugin.QueryData, _ *plu
 var getCloudFormationStackSetFilters = map[string]string{
 	"administration_role_arn":           "description.StackSet.AdministrationRoleARN",
 	"arn":                               "description.StackSet.StackSetARN",
+	"auto_deployment":                   "description.StackSet.AutoDeployment",
 	"capabilities":                      "description.StackSet.Capabilities",
 	"description":                       "description.StackSet.Description",
 	"drift_status":                      "description.StackSet.StackSetDriftDetectionDetails.DriftStatus",
