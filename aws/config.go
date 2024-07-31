@@ -26,12 +26,12 @@ func GetPolicyArnFromName(accountId string, policyName string) string {
 	return fmt.Sprintf("arn:aws:iam::%s:policy/%s", accountId, policyName)
 }
 
-// getConfig loads the AWS credentionals and returns the configuration to be used by the AWS services client.
+// GetConfig loads the AWS credentionals and returns the configuration to be used by the AWS services client.
 // If the awsAccessKey is specified, the config will be created for the combination of awsAccessKey, awsSecretKey, awsSessionToken.
 // Else it will use the default AWS SDK logic to load the configuration. See https://aws.github.io/aws-sdk-go-v2/docs/configuring-sdk/
 // If assumeRoleArn is provided, it will use the evaluated configuration to then assume the specified role.
 func GetConfig(ctx context.Context, awsAccessKey, awsSecretKey, awsSessionToken, assumeRoleArn string, externalId *string) (aws.Config, error) {
-	opts := []func(*config.LoadOptions) error{}
+	var opts []func(*config.LoadOptions) error
 
 	if awsAccessKey != "" {
 		opts = append(opts, config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(awsAccessKey, awsSecretKey, awsSessionToken)))
@@ -43,6 +43,10 @@ func GetConfig(ctx context.Context, awsAccessKey, awsSecretKey, awsSessionToken,
 	}
 	if cfg.Region == "" {
 		cfg.Region = "us-east-1"
+	}
+
+	if externalId != nil && *externalId == "" {
+		externalId = nil
 	}
 
 	if assumeRoleArn != "" {
