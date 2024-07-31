@@ -95,7 +95,7 @@ func getEC2LaunchTemplateTurbotTags(_ context.Context, d *transform.TransformDat
 
 func launchTemplateAkas(_ context.Context, d *transform.TransformData) (interface{}, error) {
 	launchTemplate := d.HydrateItem.(kaytu.EC2LaunchTemplate).Description.LaunchTemplate
-	metadata := d.HydrateItem.(kaytu.EC2AMI).Metadata
+	metadata := d.HydrateItem.(kaytu.EC2LaunchTemplate).Metadata
 
 	// Get data for Turbot defined properties
 	akas := []string{"arn:" + metadata.Partition + ":ec2:" + metadata.Region + ":" + metadata.AccountID + ":launch-template/" + *launchTemplate.LaunchTemplateId}

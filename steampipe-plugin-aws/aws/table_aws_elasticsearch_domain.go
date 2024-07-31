@@ -106,7 +106,7 @@ func tableAwsElasticsearchDomain(_ context.Context) *plugin.Table {
 				Name:        "policy_std",
 				Description: "Contains the policy in a canonical form for easier searching.",
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Domain.AccessPolicies"),
+				Transform:   transform.FromField("Description.Domain.AccessPolicies").Transform(unescape).Transform(policyToCanonical),
 			},
 			{
 				Name:        "ebs_options",
