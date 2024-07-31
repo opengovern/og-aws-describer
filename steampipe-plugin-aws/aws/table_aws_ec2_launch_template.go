@@ -13,8 +13,7 @@ func tableAwsEC2LaunchTemplate(_ context.Context) *plugin.Table {
 		Name:        "aws_ec2_launch_template",
 		Description: "AWS EC2 LaunchTemplate",
 		Get: &plugin.GetConfig{
-			KeyColumns: plugin.SingleColumn("arn"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetEC2LaunchTemplate,
+			Hydrate: kaytu.GetEC2LaunchTemplate,
 		},
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListEC2LaunchTemplate,
