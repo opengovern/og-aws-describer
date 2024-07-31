@@ -934,8 +934,6 @@ github.com/json-iterator/go v1.1.12/go.mod h1:e30LSqwooZae/UwlEbR2852Gd8hjQvJoHm
 github.com/jstemmer/go-junit-report v0.0.0-20190106144839-af01ea7f8024/go.mod h1:6v2b51hI/fHJwM22ozAgKL4VKDeJcHhJFhtBdhmNjmU=
 github.com/jstemmer/go-junit-report v0.9.1/go.mod h1:Brl9GWCQeLvo8nXZwPNNblvFj/XSXhF0NWZEnDohbsk=
 github.com/julienschmidt/httprouter v1.2.0/go.mod h1:SYymIcj16QtmaHHD7aYtjjsJG7VTCxuUUipMqKk8s4w=
-github.com/kaytu-io/kaytu-util v0.0.0-20240724154122-0700680fbcfa h1:L/IinF6JkfrazTxn65zisB9JGBOro6n6WvfurNJrHMU=
-github.com/kaytu-io/kaytu-util v0.0.0-20240724154122-0700680fbcfa/go.mod h1:6qM5EwFanHjtfC1E3I7bhFN4dIX7B2eiPQwi8xHavd0=
 github.com/kaytu-io/kaytu-util v0.0.0-20240724155126-e1f25510dde4 h1:8Tl7Xx7VOgdJBJX2vMq6GrUV93S6yDDNJ+aI2PAJCYs=
 github.com/kaytu-io/kaytu-util v0.0.0-20240724155126-e1f25510dde4/go.mod h1:6qM5EwFanHjtfC1E3I7bhFN4dIX7B2eiPQwi8xHavd0=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
