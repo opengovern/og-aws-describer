@@ -97,6 +97,7 @@ func tableAwsCloudFormationStackSet(_ context.Context) *plugin.Table {
 				Name:        "auto_deployment",
 				Description: "Describes whether StackSets automatically deploys to Organizations accounts that are added to a target organizational unit (OU).",
 				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.StackSet.AutoDeployment"),
 			},
 			{
 				Name:        "capabilities",
