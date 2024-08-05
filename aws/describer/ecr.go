@@ -482,3 +482,27 @@ func GetECRImage(ctx context.Context, cfg aws.Config, fields map[string]string) 
 	}
 	return values, nil
 }
+
+func ECRRegistryScanningConfiguration(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := ecr.NewFromConfig(cfg)
+	describeCtx := GetDescribeContext(ctx)
+
+	scanningConfiguration, err := client.GetRegistryScanningConfiguration(ctx, &ecr.GetRegistryScanningConfigurationInput{})
+	if err != nil {
+		return nil, err
+	}
+	var values []Resource
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ID:     *scanningConfiguration.RegistryId,
+		Name:   *scanningConfiguration.RegistryId,
+		Description: model.ECRRegistryScanningConfigurationDescription{
+			RegistryId:            *scanningConfiguration.RegistryId,
+			ScanningConfiguration: scanningConfiguration.ScanningConfiguration,
+		},
+	}
+	values = append(values, resource)
+
+	return values, nil
+}

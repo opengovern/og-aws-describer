@@ -3,11 +3,48 @@ package describer
 import (
 	"context"
 	"fmt"
-
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/servicequotas"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
 )
+
+func ServiceQuotasService(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := servicequotas.NewFromConfig(cfg)
+
+	servicesPaginator := servicequotas.NewListServicesPaginator(client, &servicequotas.ListServicesInput{})
+
+	var values []Resource
+	for servicesPaginator.HasMorePages() {
+		servicesPage, err := servicesPaginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, service := range servicesPage.Services {
+			arn := fmt.Sprintf("arn:%s:servicequotas:%s:%s:%s", describeCtx.Partition, describeCtx.KaytuRegion, describeCtx.AccountID, *service.ServiceCode)
+
+			resource := Resource{
+				Region: describeCtx.KaytuRegion,
+				ARN:    arn,
+				Name:   *service.ServiceName,
+				ID:     *service.ServiceCode,
+				Description: model.ServiceQuotasServiceDescription{
+					Service: service,
+				},
+			}
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
 
 func ServiceQuotasDefaultServiceQuota(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)

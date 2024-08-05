@@ -548,6 +548,14 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"aws_imagebuilder_image":                                       tableAwsImageBuilderImage(ctx),
 			"aws_mq_broker":                                                tableAwsMQBroker(ctx),
 			"aws_redshiftserverless_snapshot":                              tableAwsRedshiftServerlessSnapshot(ctx),
+			"aws_servicequotas_service":                                    tableAwsServiceQuotasService(ctx),
+			"aws_rds_db_engine_version":                                    tableAwsRDSDBEngineVersion(ctx),
+			"aws_neptune_db_cluster_snapshot":                              tableAwsNeptuneDBClusterSnapshot(ctx),
+			"aws_elastic_beanstalk_application_version":                    tableAwsElasticBeanstalkApplicationVersion(ctx),
+			"aws_ecr_registry_scanning_configuration":                      tableAwsEcrRegistryScanningConfiguration(ctx),
+			"aws_docdb_cluster_snapshot":                                   tableAwsDocDBClusterSnapshot(ctx),
+			"aws_dms_replication_task":                                     tableAwsDmsReplicationTask(ctx),
+			"aws_dms_endpoint":                                             tableAwsDmsEndpoint(ctx),
 		},
 	}
 
