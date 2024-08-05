@@ -978,3 +978,41 @@ func GetRDSDBInstanceAutomatedBackup(ctx context.Context, cfg aws.Config, fields
 
 	return values, nil
 }
+
+func RDSDBEngineVersion(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := rds.NewFromConfig(cfg)
+	paginator := rds.NewDescribeDBEngineVersionsPaginator(client, &rds.DescribeDBEngineVersionsInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page.DBEngineVersions {
+			resource := rDSDBEngineVersionHandle(ctx, v)
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+
+func rDSDBEngineVersionHandle(ctx context.Context, v types.DBEngineVersion) Resource {
+	describeCtx := GetDescribeContext(ctx)
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.DBEngineVersionArn,
+		Description: model.RDSDBEngineVersionDescription{
+			EngineVersion: v,
+		},
+	}
+	return resource
+}

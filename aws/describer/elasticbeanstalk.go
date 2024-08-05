@@ -251,3 +251,78 @@ func ElasticBeanstalkPlatform(ctx context.Context, cfg aws.Config, stream *Strea
 
 	return values, nil
 }
+
+func ElasticBeanstalkApplicationVersion(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := elasticbeanstalk.NewFromConfig(cfg)
+
+	pagesLeft := true
+	out, err := client.DescribeApplications(ctx, &elasticbeanstalk.DescribeApplicationsInput{})
+	if err != nil {
+		if !isErr(err, "ResourceNotFoundException") && !isErr(err, "InsufficientPrivilegesException") && !strings.Contains(err.Error(), "Access Denied") {
+			return nil, err
+		}
+		return nil, nil
+	}
+
+	var values []Resource
+	for _, item := range out.Applications {
+		params := &elasticbeanstalk.DescribeApplicationVersionsInput{
+			ApplicationName: item.ApplicationName,
+		}
+
+		if pagesLeft {
+			applicationVersions, err := client.DescribeApplicationVersions(ctx, params)
+			if err != nil {
+				return nil, err
+			}
+
+			for _, v := range applicationVersions.ApplicationVersions {
+				resource, err := elasticBeanstalkApplicationVersionHandle(ctx, cfg, v)
+				if err != nil {
+					return nil, err
+				}
+
+				if stream != nil {
+					if err := (*stream)(resource); err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+			if applicationVersions.NextToken != nil {
+				pagesLeft = true
+				params.NextToken = applicationVersions.NextToken
+			} else {
+				pagesLeft = false
+			}
+		}
+	}
+	return values, nil
+}
+
+func elasticBeanstalkApplicationVersionHandle(ctx context.Context, cfg aws.Config, v types.ApplicationVersionDescription) (Resource, error) {
+	client := elasticbeanstalk.NewFromConfig(cfg)
+	describeCtx := GetDescribeContext(ctx)
+
+	tags, err := client.ListTagsForResource(ctx, &elasticbeanstalk.ListTagsForResourceInput{
+		ResourceArn: v.ApplicationVersionArn,
+	})
+	if err != nil {
+		if !isErr(err, "ResourceNotFoundException") && !isErr(err, "InsufficientPrivilegesException") {
+			return Resource{}, err
+		}
+		tags = &elasticbeanstalk.ListTagsForResourceOutput{}
+	}
+
+	resource := Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.ApplicationVersionArn,
+		Name:   *v.ApplicationName,
+		Description: model.ElasticBeanstalkApplicationVersionDescription{
+			ApplicationVersion: v,
+			Tags:               tags.ResourceTags,
+		},
+	}
+	return resource, nil
+}

@@ -292,6 +292,11 @@ type ElasticBeanstalkPlatformDescription struct {
 	Platform elasticbeanstalk.PlatformDescription
 }
 
+type ElasticBeanstalkApplicationVersionDescription struct {
+	ApplicationVersion elasticbeanstalk.ApplicationVersionDescription
+	Tags               []elasticbeanstalk.Tag
+}
+
 //  ===================   ElastiCache   ===================
 
 //index:aws_elasticache_replicationgroup
@@ -771,6 +776,16 @@ type DAXSubnetGroupDescription struct {
 type DMSReplicationInstanceDescription struct {
 	ReplicationInstance dms.ReplicationInstance
 	Tags                []dms.Tag
+}
+
+type DMSEndpointDescription struct {
+	Endpoint dms.Endpoint
+	Tags     []dms.Tag
+}
+
+type DMSReplicationTaskDescription struct {
+	ReplicationTask dms.ReplicationTask
+	Tags            []dms.Tag
 }
 
 //  ===================   DynamoDb   ===================
@@ -1801,6 +1816,10 @@ type RDSDBInstanceAutomatedBackupDescription struct {
 	InstanceAutomatedBackup rds.DBInstanceAutomatedBackup
 }
 
+type RDSDBEngineVersionDescription struct {
+	EngineVersion rds.DBEngineVersion
+}
+
 //  ===================  Redshift  ===================
 
 //index:aws_redshift_cluster
@@ -2540,6 +2559,11 @@ type ECRRegistryDescription struct {
 	ReplicationRules []ecr.ReplicationRule
 }
 
+type ECRRegistryScanningConfigurationDescription struct {
+	RegistryId            string
+	ScanningConfiguration *ecr.RegistryScanningConfiguration
+}
+
 //  ===================  EventBridge  ===================
 
 //index:aws_eventbridge_eventbus
@@ -2744,6 +2768,11 @@ type NeptuneDatabaseDescription struct {
 type NeptuneDatabaseClusterDescription struct {
 	Cluster neptune.DBCluster
 	Tags    []neptune.Tag
+}
+
+type NeptuneDatabaseClusterSnapshotDescription struct {
+	Snapshot   neptune.DBClusterSnapshot
+	Attributes []map[string]interface{}
 }
 
 //  ===================  OpenSearch  ===================
@@ -3572,6 +3601,12 @@ type DocDBClusterInstanceDescription struct {
 	Tags       []docdb.Tag
 }
 
+type DocDBClusterSnapshotDescription struct {
+	DBClusterSnapshot docdb.DBClusterSnapshot
+	Tags              []docdb.Tag
+	Attributes        *docdb.DBClusterSnapshotAttributesResult
+}
+
 // ===================  Global Accelerator ===================
 
 //index:aws_globalaccelerator_accelerator
@@ -3893,6 +3928,10 @@ type ServiceQuotasServiceQuotaDescription struct {
 type ServiceQuotasServiceQuotaChangeRequestDescription struct {
 	ServiceQuotaChangeRequest servicequotas.RequestedServiceQuotaChange
 	Tags                      []servicequotas.Tag
+}
+
+type ServiceQuotasServiceDescription struct {
+	Service servicequotas.ServiceInfo
 }
 
 // =================== Service Catalog =======================

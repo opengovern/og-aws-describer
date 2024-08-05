@@ -2402,6 +2402,21 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
+	"AWS::ElasticBeanstalk::ApplicationVersion": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::ElasticBeanstalk::ApplicationVersion",
+		ResourceLabel:        "Application Version",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "ElasticBeanstalk",
+		ListDescriber:        ParallelDescribeRegional(describer.ElasticBeanstalkApplicationVersion),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_elastic_beanstalk_application_version"},
+		TerraformServiceName: "elasticbeanstalk",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
 	"AWS::Lambda::FunctionVersion": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::Lambda::FunctionVersion",
@@ -2865,6 +2880,21 @@ var resourceTypes = map[string]ResourceType{
 		ListDescriber:        ParallelDescribeRegional(describer.RDSDBEventSubscription),
 		GetDescriber:         nil,
 		TerraformName:        []string{"aws_db_event_subscription"},
+		TerraformServiceName: "rds",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
+	"AWS::RDS::DBEngineVersion": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::RDS::DBEngineVersion",
+		ResourceLabel:        "Engine Version",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "RDS",
+		ListDescriber:        ParallelDescribeRegional(describer.RDSDBEngineVersion),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_rds_db_engine_version"},
 		TerraformServiceName: "rds",
 		FastDiscovery:        false,
 		Summarize:            true,
@@ -3433,6 +3463,23 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
+	"AWS::ECR::RegistryScanningConfiguration": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::ECR::RegistryScanningConfiguration",
+		ResourceLabel:        "Container Registry Scanning Configuration",
+		Tags:                 map[string][]string{
+            "category": {"Containers"},
+            "logo_uri": {},
+        },
+		ServiceName:          "ECR",
+		ListDescriber:        ParallelDescribeRegional(describer.ECRRegistryScanningConfiguration),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_ecr_registry_scanning_configuration"},
+		TerraformServiceName: "ecr",
+		FastDiscovery:        true,
+		Summarize:            true,
+	},
+
 	"AWS::ElasticLoadBalancingV2::Listener": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElasticLoadBalancingV2::Listener",
@@ -3783,6 +3830,23 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
+	"AWS::DocDB::ClusterSnapshot": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::DocDB::ClusterSnapshot",
+		ResourceLabel:        "Document DB Cluster Snapshots",
+		Tags:                 map[string][]string{
+            "category": {"Database"},
+            "logo_uri": {"https://raw.githubusercontent.com/kaytu-io/awsicons/master/svg-export/icons/DocumentDb.svg"},
+        },
+		ServiceName:          "DocDB",
+		ListDescriber:        ParallelDescribeRegional(describer.DocDBClusterSnapshot),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_docdb_cluster_snapshot"},
+		TerraformServiceName: "docdb",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
 	"AWS::DocDB::ClusterInstance": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DocDB::ClusterInstance",
@@ -3960,6 +4024,21 @@ var resourceTypes = map[string]ResourceType{
 		ListDescriber:        ParallelDescribeRegional(describer.NeptuneDatabaseCluster),
 		GetDescriber:         nil,
 		TerraformName:        []string{"aws_neptune_cluster"},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
+	"AWS::Neptune::DBClusterSnapshot": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::Neptune::DBClusterSnapshot",
+		ResourceLabel:        "Neptune Cluster Snapshot",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "Neptune",
+		ListDescriber:        ParallelDescribeRegional(describer.NeptuneDatabaseClusterSnapshot),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_neptune_cluster_snapshot"},
 		TerraformServiceName: "",
 		FastDiscovery:        false,
 		Summarize:            true,
@@ -5298,6 +5377,36 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
+	"AWS::DMS::Endpoint": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::DMS::Endpoint",
+		ResourceLabel:        "DMS Endpoint",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "DMS",
+		ListDescriber:        ParallelDescribeRegional(describer.DMSEndpoint),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_dms_endpoint"},
+		TerraformServiceName: "dms",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
+	"AWS::DMS::ReplicationTask": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::DMS::ReplicationTask",
+		ResourceLabel:        "Replication Task",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "DMS",
+		ListDescriber:        ParallelDescribeRegional(describer.DMSReplicationTask),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_dms_replication_task"},
+		TerraformServiceName: "dms",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
 	"AWS::DynamoDb::Table": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::DynamoDb::Table",
@@ -5833,6 +5942,21 @@ var resourceTypes = map[string]ResourceType{
         },
 		ServiceName:          "ServiceQuotas",
 		ListDescriber:        ParallelDescribeRegional(describer.ServiceQuotasServiceQuotaChangeRequest),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
+	"AWS::ServiceQuotas::Service": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::ServiceQuotas::Service",
+		ResourceLabel:        "Service Quota Service",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "ServiceQuotas",
+		ListDescriber:        ParallelDescribeRegional(describer.ServiceQuotasService),
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
