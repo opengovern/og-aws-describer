@@ -43071,6 +43071,247 @@ func GetRDSDBEngineVersion(ctx context.Context, d *plugin.QueryData, _ *plugin.H
 
 // ==========================  END: RDSDBEngineVersion =============================
 
+// ==========================  START: RDSDBRecommendation =============================
+
+type RDSDBRecommendation struct {
+	Description   aws.RDSDBRecommendationDescription `json:"description"`
+	Metadata      aws.Metadata                       `json:"metadata"`
+	ResourceJobID int                                `json:"resource_job_id"`
+	SourceJobID   int                                `json:"source_job_id"`
+	ResourceType  string                             `json:"resource_type"`
+	SourceType    string                             `json:"source_type"`
+	ID            string                             `json:"id"`
+	ARN           string                             `json:"arn"`
+	SourceID      string                             `json:"source_id"`
+}
+
+type RDSDBRecommendationHit struct {
+	ID      string              `json:"_id"`
+	Score   float64             `json:"_score"`
+	Index   string              `json:"_index"`
+	Type    string              `json:"_type"`
+	Version int64               `json:"_version,omitempty"`
+	Source  RDSDBRecommendation `json:"_source"`
+	Sort    []interface{}       `json:"sort"`
+}
+
+type RDSDBRecommendationHits struct {
+	Total essdk.SearchTotal        `json:"total"`
+	Hits  []RDSDBRecommendationHit `json:"hits"`
+}
+
+type RDSDBRecommendationSearchResponse struct {
+	PitID string                  `json:"pit_id"`
+	Hits  RDSDBRecommendationHits `json:"hits"`
+}
+
+type RDSDBRecommendationPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewRDSDBRecommendationPaginator(filters []essdk.BoolFilter, limit *int64) (RDSDBRecommendationPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_rds_dbrecommendation", filters, limit)
+	if err != nil {
+		return RDSDBRecommendationPaginator{}, err
+	}
+
+	p := RDSDBRecommendationPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p RDSDBRecommendationPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p RDSDBRecommendationPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p RDSDBRecommendationPaginator) NextPage(ctx context.Context) ([]RDSDBRecommendation, error) {
+	var response RDSDBRecommendationSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []RDSDBRecommendation
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listRDSDBRecommendationFilters = map[string]string{
+	"additional_info":     "description.DBRecommendation.AdditionalInfo",
+	"category":            "description.DBRecommendation.Category",
+	"created_time":        "description.DBRecommendation.CreatedTime",
+	"description":         "description.DBRecommendation.Description",
+	"detection":           "description.DBRecommendation.Detection",
+	"impact":              "description.DBRecommendation.Impact",
+	"issue_details":       "description.DBRecommendation.IssueDetails",
+	"links":               "description.DBRecommendation.Links",
+	"reason":              "description.DBRecommendation.Reason",
+	"recommendation":      "description.DBRecommendation.Recommendation",
+	"recommendation_id":   "description.DBRecommendation.RecommendationId",
+	"recommended_actions": "description.DBRecommendation.RecommendedActions",
+	"resource_arn":        "description.DBRecommendation.ResourceArn",
+	"severity":            "description.DBRecommendation.Severity",
+	"source":              "description.DBRecommendation.Source",
+	"status":              "description.DBRecommendation.Status",
+	"title":               "description.DBRecommendation.RecommendationId",
+	"type_detection":      "description.DBRecommendation.TypeDetection",
+	"type_id":             "description.DBRecommendation.TypeId",
+	"type_recommendation": "description.DBRecommendation.TypeRecommendation",
+}
+
+func ListRDSDBRecommendation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListRDSDBRecommendation")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListRDSDBRecommendation NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListRDSDBRecommendation NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListRDSDBRecommendation GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListRDSDBRecommendation GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListRDSDBRecommendation GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewRDSDBRecommendationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listRDSDBRecommendationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListRDSDBRecommendation NewRDSDBRecommendationPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListRDSDBRecommendation paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getRDSDBRecommendationFilters = map[string]string{
+	"additional_info":     "description.DBRecommendation.AdditionalInfo",
+	"category":            "description.DBRecommendation.Category",
+	"created_time":        "description.DBRecommendation.CreatedTime",
+	"description":         "description.DBRecommendation.Description",
+	"detection":           "description.DBRecommendation.Detection",
+	"impact":              "description.DBRecommendation.Impact",
+	"issue_details":       "description.DBRecommendation.IssueDetails",
+	"links":               "description.DBRecommendation.Links",
+	"reason":              "description.DBRecommendation.Reason",
+	"recommendation":      "description.DBRecommendation.Recommendation",
+	"recommendation_id":   "description.DBRecommendation.RecommendationId",
+	"recommended_actions": "description.DBRecommendation.RecommendedActions",
+	"resource_arn":        "description.DBRecommendation.ResourceArn",
+	"severity":            "description.DBRecommendation.Severity",
+	"source":              "description.DBRecommendation.Source",
+	"status":              "description.DBRecommendation.Status",
+	"title":               "description.DBRecommendation.RecommendationId",
+	"type_detection":      "description.DBRecommendation.TypeDetection",
+	"type_id":             "description.DBRecommendation.TypeId",
+	"type_recommendation": "description.DBRecommendation.TypeRecommendation",
+}
+
+func GetRDSDBRecommendation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetRDSDBRecommendation")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewRDSDBRecommendationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getRDSDBRecommendationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: RDSDBRecommendation =============================
+
 // ==========================  START: RedshiftCluster =============================
 
 type RedshiftCluster struct {
@@ -57608,6 +57849,217 @@ func GetKMSKey(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) 
 }
 
 // ==========================  END: KMSKey =============================
+
+// ==========================  START: KMSKeyRotation =============================
+
+type KMSKeyRotation struct {
+	Description   aws.KMSKeyRotationDescription `json:"description"`
+	Metadata      aws.Metadata                  `json:"metadata"`
+	ResourceJobID int                           `json:"resource_job_id"`
+	SourceJobID   int                           `json:"source_job_id"`
+	ResourceType  string                        `json:"resource_type"`
+	SourceType    string                        `json:"source_type"`
+	ID            string                        `json:"id"`
+	ARN           string                        `json:"arn"`
+	SourceID      string                        `json:"source_id"`
+}
+
+type KMSKeyRotationHit struct {
+	ID      string         `json:"_id"`
+	Score   float64        `json:"_score"`
+	Index   string         `json:"_index"`
+	Type    string         `json:"_type"`
+	Version int64          `json:"_version,omitempty"`
+	Source  KMSKeyRotation `json:"_source"`
+	Sort    []interface{}  `json:"sort"`
+}
+
+type KMSKeyRotationHits struct {
+	Total essdk.SearchTotal   `json:"total"`
+	Hits  []KMSKeyRotationHit `json:"hits"`
+}
+
+type KMSKeyRotationSearchResponse struct {
+	PitID string             `json:"pit_id"`
+	Hits  KMSKeyRotationHits `json:"hits"`
+}
+
+type KMSKeyRotationPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewKMSKeyRotationPaginator(filters []essdk.BoolFilter, limit *int64) (KMSKeyRotationPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_kms_keyrotation", filters, limit)
+	if err != nil {
+		return KMSKeyRotationPaginator{}, err
+	}
+
+	p := KMSKeyRotationPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p KMSKeyRotationPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p KMSKeyRotationPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p KMSKeyRotationPaginator) NextPage(ctx context.Context) ([]KMSKeyRotation, error) {
+	var response KMSKeyRotationSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []KMSKeyRotation
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listKMSKeyRotationFilters = map[string]string{
+	"key_arn":       "description.KeyArn",
+	"key_id":        "description.KeyId",
+	"rotation_date": "description.RotationDate",
+	"rotation_type": "description.RotationType",
+	"title":         "description.KeyId",
+}
+
+func ListKMSKeyRotation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListKMSKeyRotation")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListKMSKeyRotation NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListKMSKeyRotation NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListKMSKeyRotation GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListKMSKeyRotation GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListKMSKeyRotation GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewKMSKeyRotationPaginator(essdk.BuildFilter(ctx, d.QueryContext, listKMSKeyRotationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListKMSKeyRotation NewKMSKeyRotationPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListKMSKeyRotation paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getKMSKeyRotationFilters = map[string]string{
+	"key_arn":       "description.KeyArn",
+	"key_id":        "description.KeyId",
+	"rotation_date": "description.RotationDate",
+	"rotation_type": "description.RotationType",
+	"title":         "description.KeyId",
+}
+
+func GetKMSKeyRotation(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetKMSKeyRotation")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewKMSKeyRotationPaginator(essdk.BuildFilter(ctx, d.QueryContext, getKMSKeyRotationFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: KMSKeyRotation =============================
 
 // ==========================  START: KMSAlias =============================
 

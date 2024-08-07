@@ -2372,6 +2372,21 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
+	"AWS::KMS::KeyRotation": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::KMS::KeyRotation",
+		ResourceLabel:        "Cryptographic Key Rotations",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "KMS",
+		ListDescriber:        ParallelDescribeRegional(describer.KMSKeyRotation),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_kms_key"},
+		TerraformServiceName: "kms",
+		FastDiscovery:        true,
+		Summarize:            true,
+	},
+
 	"AWS::EC2::Ipam": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::EC2::Ipam",
@@ -4217,6 +4232,21 @@ var resourceTypes = map[string]ResourceType{
         },
 		ServiceName:          "RDS",
 		ListDescriber:        ParallelDescribeRegional(describer.RDSDBSubnetGroup),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
+	"AWS::RDS::DBRecommendation": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::RDS::DBRecommendation",
+		ResourceLabel:        "RDS DB Recommendation",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "RDS",
+		ListDescriber:        ParallelDescribeRegional(describer.RDSDBRecommendation),
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",

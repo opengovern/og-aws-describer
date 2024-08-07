@@ -3,6 +3,7 @@ package describer
 import (
 	"context"
 	"errors"
+	"strings"
 
 	"github.com/aws/smithy-go"
 
@@ -277,6 +278,59 @@ func GetKMSKey(ctx context.Context, cfg aws.Config, fields map[string]string) ([
 			Tags:               tags.Tags,
 		},
 	})
+
+	return values, nil
+}
+
+func KMSKeyRotation(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := kms.NewFromConfig(cfg)
+	paginator := kms.NewListKeysPaginator(client, &kms.ListKeysInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page.Keys {
+			input := &kms.ListKeyRotationsInput{
+				KeyId: v.KeyArn,
+			}
+
+			paginator2 := kms.NewListKeyRotationsPaginator(client, input)
+
+			for paginator2.HasMorePages() {
+
+				output, err := paginator2.NextPage(ctx)
+				if err != nil {
+					return nil, err
+				}
+
+				for _, rotation := range output.Rotations {
+					resource := Resource{
+						Region: describeCtx.KaytuRegion,
+						ARN:    *v.KeyArn,
+						Name:   *v.KeyId,
+						Description: model.KMSKeyRotationDescription{
+							KeyId:        strings.Split(*rotation.KeyId, "/")[1],
+							KeyArn:       *rotation.KeyId,
+							RotationDate: *rotation.RotationDate,
+							RotationType: rotation.RotationType,
+						},
+					}
+					if stream != nil {
+						if err := (*stream)(resource); err != nil {
+							return nil, err
+						}
+					} else {
+						values = append(values, resource)
+					}
+				}
+			}
+		}
+	}
 
 	return values, nil
 }

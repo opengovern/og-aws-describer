@@ -1820,6 +1820,10 @@ type RDSDBEngineVersionDescription struct {
 	EngineVersion rds.DBEngineVersion
 }
 
+type RDSDBRecommendationDescription struct {
+	DBRecommendation rds.DBRecommendation
+}
+
 //  ===================  Redshift  ===================
 
 //index:aws_redshift_cluster
@@ -2369,6 +2373,13 @@ type KMSKeyDescription struct {
 	Policy             *string
 	Tags               []kms.Tag
 	Title              string
+}
+
+type KMSKeyRotationDescription struct {
+	KeyId        string
+	KeyArn       string
+	RotationType kms.RotationType
+	RotationDate time.Time
 }
 
 //index:aws_kms_alias
