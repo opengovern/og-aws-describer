@@ -83,7 +83,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/kinesis v1.24.5
 	github.com/aws/aws-sdk-go-v2/service/kinesisanalyticsv2 v1.21.5
 	github.com/aws/aws-sdk-go-v2/service/kinesisvideo v1.21.5
-	github.com/aws/aws-sdk-go-v2/service/kms v1.27.9
+	github.com/aws/aws-sdk-go-v2/service/kms v1.35.3
 	github.com/aws/aws-sdk-go-v2/service/lakeformation v1.35.3
 	github.com/aws/aws-sdk-go-v2/service/lambda v1.49.5
 	github.com/aws/aws-sdk-go-v2/service/lightsail v1.32.5
@@ -104,7 +104,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/pipes v1.9.6
 	github.com/aws/aws-sdk-go-v2/service/pricing v1.24.5
 	github.com/aws/aws-sdk-go-v2/service/ram v1.23.6
-	github.com/aws/aws-sdk-go-v2/service/rds v1.64.6
+	github.com/aws/aws-sdk-go-v2/service/rds v1.82.0
 	github.com/aws/aws-sdk-go-v2/service/redshift v1.39.6
 	github.com/aws/aws-sdk-go-v2/service/redshiftserverless v1.15.4
 	github.com/aws/aws-sdk-go-v2/service/resourceexplorer2 v1.8.5
@@ -189,7 +189,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.11.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.2.9 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.8.10 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.11.15 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.11.17 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.16.9 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sso v1.22.1 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.26.1 // indirect

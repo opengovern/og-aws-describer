@@ -397,6 +397,8 @@ github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.8.10/go.mod 
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.27/go.mod h1:EOwBD4J4S5qYszS5/3DpkejfuK+Z5/1uzICfPaZLtqw=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.11.15 h1:I9zMeF107l0rJrpnHpjEiiTSCKYAIw8mALiXcPsGBiA=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.11.15/go.mod h1:9xWJ3Q/S6Ojusz1UIkfycgD1mGirJfLLKqq3LPT7WN8=
+github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.11.17 h1:HGErhhrxZlQ044RiM+WdoZxp0p+EGM62y3L6pwA4olE=
+github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.11.17/go.mod h1:RkZEx4l0EHYDJpWppMJ3nD9wZJAa8/0lq9aVC+r2UII=
 github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.16.9 h1:iEAeF6YC3l4FzlJPP9H3Ko1TXpdjdqWffxXjp8SY6uk=
 github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.16.9/go.mod h1:kjsXoK23q9Z/tLBrckZLLyvjhZoS+AGrzqzUfEClvMM=
 github.com/aws/aws-sdk-go-v2/service/kafka v1.28.5 h1:yCkyZDGahaCaAkdpVx8Te05t6eW2FarBLunVC8S23nU=
@@ -411,6 +413,8 @@ github.com/aws/aws-sdk-go-v2/service/kinesisvideo v1.21.5 h1:3BVBavJrQrrv8K1McEJ
 github.com/aws/aws-sdk-go-v2/service/kinesisvideo v1.21.5/go.mod h1:6UColZloou6uAkpoJDqgzhd0nKvq5H0BVuXar+OxnDY=
 github.com/aws/aws-sdk-go-v2/service/kms v1.27.9 h1:W9PbZAZAEcelhhjb7KuwUtf+Lbc+i7ByYJRuWLlnxyQ=
 github.com/aws/aws-sdk-go-v2/service/kms v1.27.9/go.mod h1:2tFmR7fQnOdQlM2ZCEPpFnBIQD1U8wmXmduBgZbOag0=
+github.com/aws/aws-sdk-go-v2/service/kms v1.35.3 h1:UPTdlTOwWUX49fVi7cymEN6hDqCwe3LNv1vi7TXUutk=
+github.com/aws/aws-sdk-go-v2/service/kms v1.35.3/go.mod h1:gjDP16zn+WWalyaUqwCCioQ8gU8lzttCCc9jYsiQI/8=
 github.com/aws/aws-sdk-go-v2/service/lakeformation v1.35.3 h1:Rfl7JjXVdriUprd8TTlbgcTyPU/Pl+v/O/nMD9HYpgA=
 github.com/aws/aws-sdk-go-v2/service/lakeformation v1.35.3/go.mod h1:cyogDr92z2UF8fBoRN/+/gKuVTrxBD10bo6PVn3tDeQ=
 github.com/aws/aws-sdk-go-v2/service/lambda v1.49.5 h1:ZHVbzOnoj5nXxUug8iWzqg2Tmp6Jc4CE5tPfoE96qrs=
@@ -453,6 +457,8 @@ github.com/aws/aws-sdk-go-v2/service/ram v1.23.6 h1:iyCwaKDJVIHbmudu8AYsrXGdUWSB
 github.com/aws/aws-sdk-go-v2/service/ram v1.23.6/go.mod h1:VgmJolFAkLhZ5Qnnmyfqqyu6+Dt+5E761HzU2ou0Tjg=
 github.com/aws/aws-sdk-go-v2/service/rds v1.64.6 h1:5aUu86tGOprdKtoIClCYPC6i4xalRDztBOlXgJnQFHk=
 github.com/aws/aws-sdk-go-v2/service/rds v1.64.6/go.mod h1:MYzRMSdY70kcS8AFg0aHmk/xj6VAe0UfaCCoLrBWPow=
+github.com/aws/aws-sdk-go-v2/service/rds v1.82.0 h1:+1qRsLNukmvIDNBjz5Osqy4dvIBLwpCeMhmrh9evOUw=
+github.com/aws/aws-sdk-go-v2/service/rds v1.82.0/go.mod h1:j27FNXhbbHXC3ExFsJkoxq2Y+4dQypf8KFX1IkgwVvM=
 github.com/aws/aws-sdk-go-v2/service/redshift v1.39.6 h1:3F+My2KgZqnc6CPks4bkVoogqFyf1nP0iF4mAQ96XWc=
 github.com/aws/aws-sdk-go-v2/service/redshift v1.39.6/go.mod h1:8hU0Ax6q6QA+jrMcWTE0A4YH594MQoWP3EzGO3GH5Dw=
 github.com/aws/aws-sdk-go-v2/service/redshiftserverless v1.15.4 h1:NUW/8HfY9PsmjyYNO+Juxyi06+x6eKy7NHAS7fIjRFc=

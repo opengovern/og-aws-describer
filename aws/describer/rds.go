@@ -1016,3 +1016,41 @@ func rDSDBEngineVersionHandle(ctx context.Context, v types.DBEngineVersion) Reso
 	}
 	return resource
 }
+
+func RDSDBRecommendation(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	client := rds.NewFromConfig(cfg)
+	paginator := rds.NewDescribeDBRecommendationsPaginator(client, &rds.DescribeDBRecommendationsInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page.DBRecommendations {
+			resource := rDSDBRecommendationHandler(ctx, v)
+			if stream != nil {
+				if err := (*stream)(resource); err != nil {
+					return nil, err
+				}
+			} else {
+				values = append(values, resource)
+			}
+		}
+	}
+
+	return values, nil
+}
+
+func rDSDBRecommendationHandler(ctx context.Context, v types.DBRecommendation) Resource {
+	describeCtx := GetDescribeContext(ctx)
+
+	return Resource{
+		Region: describeCtx.KaytuRegion,
+		ARN:    *v.ResourceArn,
+		Description: model.RDSDBRecommendationDescription{
+			DBRecommendation: v,
+		},
+	}
+}
