@@ -4,8 +4,6 @@ import (
 	"context"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
-	neptunev1 "github.com/aws/aws-sdk-go/service/neptune"
-
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -23,8 +21,7 @@ func tableAwsNeptuneDBClusterSnapshot(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListNeptuneDatabaseClusterSnapshot,
 		},
-		GetMatrixItemFunc: SupportedRegionMatrix(neptunev1.EndpointsID),
-		Columns: awsRegionalColumns([]*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "db_cluster_snapshot_identifier",
 				Description: "Specifies the identifier for a DB cluster snapshot. Must match the identifier of an existing snapshot.",

@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 
-	docdbv1 "github.com/aws/aws-sdk-go/service/docdb"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 
@@ -27,8 +26,7 @@ func tableAwsDocDBClusterSnapshot(_ context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListDocDBClusterSnapshot,
 		},
-		GetMatrixItemFunc: SupportedRegionMatrix(docdbv1.EndpointsID),
-		Columns: awsRegionalColumns([]*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "db_cluster_snapshot_identifier",
 				Description: "The friendly name to identify the cluster snapshot.",
