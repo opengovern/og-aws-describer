@@ -92,6 +92,7 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 		"workspace-name": input.WorkspaceName,
 	}))
 
+	logger.Info("Setting grpc connection opts")
 	var opts []grpc.DialOption
 	if input.EndpointAuth {
 		opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})))
@@ -103,6 +104,7 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 	} else {
 		opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	}
+	logger.Info("Connecting to grpc server")
 	for retry := 0; retry < 5; retry++ {
 		conn, err := grpc.NewClient(
 			input.JobEndpoint,
@@ -120,6 +122,7 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 		break
 	}
 
+	logger.Info("Setting job in progress")
 	for retry := 0; retry < 5; retry++ {
 		_, err := client.SetInProgress(grpcCtx, &golang.SetInProgressRequest{
 			JobId: uint32(input.DescribeJob.JobID),
@@ -135,6 +138,7 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 		break
 	}
 
+	logger.Info("Setting up vault")
 	var vaultSc vault.VaultSourceConfig
 	switch input.VaultConfig.Provider {
 	case vault.AwsKMS:
@@ -153,6 +157,7 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 			return fmt.Errorf("failed to initialize HashiCorp vault: %w", err)
 		}
 	}
+	logger.Info("Vault setup complete")
 	resourceIds, err := Do(
 		ctx,
 		vaultSc,
@@ -165,6 +170,7 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 		input.WorkspaceId,
 		input.WorkspaceName,
 	)
+	logger.Info("Resource IDs fetched", zap.Any("resourceIds", resourceIds))
 
 	errMsg := ""
 	errCode := ""
@@ -178,6 +184,7 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 		status = DescribeResourceJobFailed
 	}
 
+	logger.Info("Delivering result")
 	for retry := 0; retry < 5; retry++ {
 		_, err = client.DeliverResult(grpcCtx, &golang.DeliverResultRequest{
 			JobId:     uint32(input.DescribeJob.JobID),
