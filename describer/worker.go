@@ -53,17 +53,21 @@ func Do(ctx context.Context,
 	if err != nil {
 		return nil, fmt.Errorf("decrypt error: %w", err)
 	}
+	logger.Info("decrypted config", zap.Any("config", config))
 
 	return doDescribeAWS(ctx, logger, job, config, workspaceId, workspaceName, grpcEndpoint, ingestionPipelineEndpoint, describeDeliverToken, useOpenSearch)
 }
 
 func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.DescribeJob, config map[string]any, workspaceId, workspaceName string, grpcEndpoint, ingestionPipelineEndpoint string, describeToken string, useOpenSearch bool) ([]string, error) {
+	logger.Info("Making New Resource Sender")
 	rs, err := NewResourceSender(workspaceId, workspaceName, grpcEndpoint, ingestionPipelineEndpoint, describeToken, job.JobID, useOpenSearch, logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to resource sender: %w", err)
 	}
 
+	logger.Info("Connect to steampipe plugin")
 	plg := steampipe.Plugin()
+	logger.Info("Account Config From Map")
 	creds, err := aws.AccountConfigFromMap(config)
 	if err != nil {
 		return nil, fmt.Errorf("aws account credentials: %w", err)
@@ -155,6 +159,8 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 	}
 	clientStream := (*describer.StreamSender)(&f)
 
+	logger.Info("Created Client Stream")
+
 	output, err := aws.GetResources(
 		ctx, logger,
 		job.ResourceType, job.TriggerType,
@@ -164,6 +170,7 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 	if err != nil {
 		return nil, fmt.Errorf("AWS: %w", err)
 	}
+	logger.Info("Finished getting resources", zap.Any("output", output))
 
 	rs.Finish()
 
