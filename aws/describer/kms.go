@@ -341,6 +341,7 @@ func KMSKeyRotation(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			}
 		}
 	}
+	logger.Info("KMSKeyRotation finished")
 
 	return values, nil
 }

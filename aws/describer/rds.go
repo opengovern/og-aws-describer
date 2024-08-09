@@ -1045,6 +1045,7 @@ func RDSDBRecommendation(ctx context.Context, cfg aws.Config, stream *StreamSend
 			}
 		}
 	}
+	logger.Info("RDSDBRecommendation finished")
 
 	return values, nil
 }

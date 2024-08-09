@@ -51,6 +51,7 @@ func LambdaFunction(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			}
 		}
 	}
+	logger.Info("LambdaFunction finished")
 
 	return values, nil
 }

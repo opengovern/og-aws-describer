@@ -1702,6 +1702,7 @@ func EC2NetworkInterface(ctx context.Context, cfg aws.Config, stream *StreamSend
 			}
 		}
 	}
+	logger.Info("EC2NetworkInterface finished")
 
 	return values, nil
 }
