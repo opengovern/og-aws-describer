@@ -10,20 +10,17 @@ import (
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/smithy-go"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
 func LambdaFunction(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	logger := GetLoggerFromContext(ctx)
 
-	logger.Error("LambdaFunction start working")
-	plugin.Logger(ctx).Error("LambdaFunction start working")
+	logger.Info("LambdaFunction start working")
 
 	client := lambda.NewFromConfig(cfg)
 	paginator := lambda.NewListFunctionsPaginator(client, &lambda.ListFunctionsInput{})
 
-	logger.Error("LambdaFunction start getting pages")
-	plugin.Logger(ctx).Error("LambdaFunction start getting pages")
+	logger.Info("LambdaFunction start getting pages")
 	var values []Resource
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
@@ -31,8 +28,7 @@ func LambdaFunction(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			return nil, err
 		}
 
-		logger.Error("LambdaFunction got page")
-		plugin.Logger(ctx).Error("LambdaFunction got page")
+		logger.Info("LambdaFunction got page")
 		for _, v := range page.Functions {
 			if v.FunctionName == nil {
 				continue
