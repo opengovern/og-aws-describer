@@ -201,8 +201,10 @@ func DocDBClusterSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSen
 
 			for paginator2.HasMorePages() {
 				page2, err := paginator2.NextPage(ctx)
-				if err != nil {
+				if err != nil && !isErr(err, "DBClusterSnapshotNotFoundFault") {
 					return nil, err
+				} else if err != nil && !isErr(err, "DBClusterSnapshotNotFoundFault") {
+					continue
 				}
 				for _, snapshot := range page2.DBClusterSnapshots {
 					resource, err := DocDBClusterSnapshotHandle(ctx, client, cfg, snapshot)
