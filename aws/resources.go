@@ -194,11 +194,12 @@ func GetResources(ctx context.Context, logger *zap.Logger,
 		return regions[i] < regions[j]
 	})
 
-	logger.Info("Running the describer")
+	logger.Info("Running the describer started")
 	resources, err := describe(ctx, logger, cfg, accountId, regions, resourceType, triggerType, stream)
 	if err != nil {
 		return nil, err
 	}
+	logger.Info("Running the describer finished")
 
 	return resources, nil
 }

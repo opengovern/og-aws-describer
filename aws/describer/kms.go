@@ -286,18 +286,15 @@ func GetKMSKey(ctx context.Context, cfg aws.Config, fields map[string]string) ([
 func KMSKeyRotation(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	logger := GetLoggerFromContext(ctx)
 
-	logger.Error("KMSKeyRotation start working")
-	plugin.Logger(ctx).Error("KMSKeyRotation start working")
+	logger.Info("KMSKeyRotation start working")
 
 	describeCtx := GetDescribeContext(ctx)
-	logger.Error("KMSKeyRotation GetDescribeContext")
-	plugin.Logger(ctx).Error("KMSKeyRotation GetDescribeContext")
+	logger.Info("KMSKeyRotation GetDescribeContext")
 
 	client := kms.NewFromConfig(cfg)
 	paginator := kms.NewListKeysPaginator(client, &kms.ListKeysInput{})
 
-	logger.Error("KMSKeyRotation start getting pages")
-	plugin.Logger(ctx).Error("KMSKeyRotation start getting pages")
+	logger.Info("KMSKeyRotation start getting pages")
 	var values []Resource
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
@@ -344,6 +341,7 @@ func KMSKeyRotation(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			}
 		}
 	}
+	logger.Info("KMSKeyRotation finished")
 
 	return values, nil
 }
