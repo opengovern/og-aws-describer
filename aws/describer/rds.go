@@ -989,6 +989,9 @@ func RDSDBEngineVersion(ctx context.Context, cfg aws.Config, stream *StreamSende
 		if err != nil {
 			return nil, err
 		}
+		if page.DBEngineVersions == nil {
+			continue
+		}
 
 		for _, v := range page.DBEngineVersions {
 			resource := rDSDBEngineVersionHandle(ctx, v)
@@ -1006,10 +1009,14 @@ func RDSDBEngineVersion(ctx context.Context, cfg aws.Config, stream *StreamSende
 }
 
 func rDSDBEngineVersionHandle(ctx context.Context, v types.DBEngineVersion) Resource {
+	var arn string
+	if v.DBEngineVersionArn != nil {
+		arn = *v.DBEngineVersionArn
+	}
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
-		ARN:    *v.DBEngineVersionArn,
+		ARN:    arn,
 		Description: model.RDSDBEngineVersionDescription{
 			EngineVersion: v,
 		},

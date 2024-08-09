@@ -3,7 +3,6 @@ package describer
 import (
 	"context"
 	"errors"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"strings"
 
 	"github.com/aws/smithy-go"
@@ -302,8 +301,7 @@ func KMSKeyRotation(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			return nil, err
 		}
 
-		logger.Error("KMSKeyRotation got page")
-		plugin.Logger(ctx).Error("KMSKeyRotation got page")
+		logger.Info("KMSKeyRotation got page")
 		for _, v := range page.Keys {
 			input := &kms.ListKeyRotationsInput{
 				KeyId: v.KeyArn,
