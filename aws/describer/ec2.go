@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/aws/smithy-go"
 	_ "github.com/aws/smithy-go"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"strings"
 	"time"
 
