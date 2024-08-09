@@ -3,6 +3,7 @@ package describer
 import (
 	"context"
 	"errors"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"strings"
 
 	"github.com/aws/smithy-go"
@@ -283,10 +284,20 @@ func GetKMSKey(ctx context.Context, cfg aws.Config, fields map[string]string) ([
 }
 
 func KMSKeyRotation(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	logger := GetLoggerFromContext(ctx)
+
+	logger.Error("KMSKeyRotation start working")
+	plugin.Logger(ctx).Error("KMSKeyRotation start working")
+
 	describeCtx := GetDescribeContext(ctx)
+	logger.Error("KMSKeyRotation GetDescribeContext")
+	plugin.Logger(ctx).Error("KMSKeyRotation GetDescribeContext")
+
 	client := kms.NewFromConfig(cfg)
 	paginator := kms.NewListKeysPaginator(client, &kms.ListKeysInput{})
 
+	logger.Error("KMSKeyRotation start getting pages")
+	plugin.Logger(ctx).Error("KMSKeyRotation start getting pages")
 	var values []Resource
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
@@ -294,6 +305,8 @@ func KMSKeyRotation(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 			return nil, err
 		}
 
+		logger.Error("KMSKeyRotation got page")
+		plugin.Logger(ctx).Error("KMSKeyRotation got page")
 		for _, v := range page.Keys {
 			input := &kms.ListKeyRotationsInput{
 				KeyId: v.KeyArn,
