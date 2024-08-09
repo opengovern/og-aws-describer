@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/aws/smithy-go"
 	_ "github.com/aws/smithy-go"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"strings"
 	"time"
 
@@ -1675,9 +1676,16 @@ func EC2NetworkInsightsPath(ctx context.Context, cfg aws.Config, stream *StreamS
 }
 
 func EC2NetworkInterface(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	logger := GetLoggerFromContext(ctx)
+
+	logger.Error("EC2NetworkInterface start working")
+	plugin.Logger(ctx).Error("EC2NetworkInterface start working")
+
 	client := ec2.NewFromConfig(cfg)
 	paginator := ec2.NewDescribeNetworkInterfacesPaginator(client, &ec2.DescribeNetworkInterfacesInput{})
 
+	logger.Error("EC2NetworkInterface start getting pages")
+	plugin.Logger(ctx).Error("EC2NetworkInterface start getting pages")
 	var values []Resource
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
@@ -1685,6 +1693,8 @@ func EC2NetworkInterface(ctx context.Context, cfg aws.Config, stream *StreamSend
 			return nil, err
 		}
 
+		logger.Error("EC2NetworkInterface got page")
+		plugin.Logger(ctx).Error("EC2NetworkInterface got page")
 		for _, v := range page.NetworkInterfaces {
 			resource := eC2NetworkInterfaceHandle(ctx, v)
 			if stream != nil {

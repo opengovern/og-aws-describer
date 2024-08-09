@@ -6,6 +6,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/rds"
 	"github.com/aws/aws-sdk-go-v2/service/rds/types"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
 func RDSDBCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
@@ -1018,9 +1019,16 @@ func rDSDBEngineVersionHandle(ctx context.Context, v types.DBEngineVersion) Reso
 }
 
 func RDSDBRecommendation(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	logger := GetLoggerFromContext(ctx)
+
+	logger.Error("RDSDBRecommendation start working")
+	plugin.Logger(ctx).Error("RDSDBRecommendation start working")
+
 	client := rds.NewFromConfig(cfg)
 	paginator := rds.NewDescribeDBRecommendationsPaginator(client, &rds.DescribeDBRecommendationsInput{})
 
+	logger.Error("RDSDBRecommendation start getting pages")
+	plugin.Logger(ctx).Error("RDSDBRecommendation start getting pages")
 	var values []Resource
 	for paginator.HasMorePages() {
 		page, err := paginator.NextPage(ctx)
@@ -1028,6 +1036,8 @@ func RDSDBRecommendation(ctx context.Context, cfg aws.Config, stream *StreamSend
 			return nil, err
 		}
 
+		logger.Error("RDSDBRecommendation got page")
+		plugin.Logger(ctx).Error("RDSDBRecommendation got page")
 		for _, v := range page.DBRecommendations {
 			resource := rDSDBRecommendationHandler(ctx, v)
 			if stream != nil {
