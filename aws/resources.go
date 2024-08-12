@@ -410,6 +410,7 @@ func ParallelDescribeRegional(describe func(context.Context, aws.Config, *descri
 		errorCode string
 	}
 	return func(ctx context.Context, cfg aws.Config, account string, regions []string, rType string, triggerType enums.DescribeTriggerType, stream *describer.StreamSender) (*Resources, error) {
+		fmt.Println("ParallelDescribeRegional")
 		input := make(chan result, len(regions))
 		for _, region := range regions {
 			go func(r string) {
@@ -424,6 +425,7 @@ func ParallelDescribeRegional(describe func(context.Context, aws.Config, *descri
 				rCfg := cfg.Copy()
 				rCfg.Region = r
 
+				fmt.Println("ParallelDescribeRegional for region")
 				partition, _ := PartitionOf(r)
 				ctx = describer.WithDescribeContext(ctx, describer.DescribeContext{
 					AccountID:   account,
@@ -432,7 +434,9 @@ func ParallelDescribeRegional(describe func(context.Context, aws.Config, *descri
 					Partition:   partition,
 				})
 				ctx = describer.WithTriggerType(ctx, triggerType)
+				fmt.Println("running describe")
 				resources, err := describe(ctx, rCfg, stream)
+				fmt.Println("describe finished", err)
 				errCode := ""
 				if err != nil {
 					var ae smithy.APIError
@@ -450,7 +454,9 @@ func ParallelDescribeRegional(describe func(context.Context, aws.Config, *descri
 			ErrorCode: "",
 		}
 		for range regions {
+			fmt.Println("ParallelDescribeRegional waiting for result")
 			resp := <-input
+			fmt.Println("ParallelDescribeRegional got a result")
 			if resp.err != nil {
 				if !IsUnsupportedOrInvalidError(rType, resp.region, resp.err) {
 					output.Errors[resp.region] = resp.err.Error()
@@ -473,6 +479,7 @@ func ParallelDescribeRegional(describe func(context.Context, aws.Config, *descri
 
 			output.Resources[resp.region] = resp.resources
 		}
+		fmt.Println("ParallelDescribeRegional finished")
 
 		return &output, nil
 	}
