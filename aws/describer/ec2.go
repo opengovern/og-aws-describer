@@ -3110,6 +3110,8 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 		return nil, err
 	}
 
+	fmt.Println("EC2VPCEndpointService finish")
+
 	return values, nil
 }
 
