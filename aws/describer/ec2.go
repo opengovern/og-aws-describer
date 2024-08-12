@@ -3058,7 +3058,7 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 				}
 			}
 			if permissions == nil {
-				continue
+				break
 			}
 			allowedPrincipals = append(allowedPrincipals, permissions.AllowedPrincipals...)
 		}
