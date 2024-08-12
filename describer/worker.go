@@ -74,6 +74,7 @@ func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.Describ
 	}
 
 	f := func(resource describer.Resource) error {
+		logger.Info("got a new resource", zap.String("resourceID", resource.ID))
 		if resource.Description == nil {
 			return nil
 		}
