@@ -3049,7 +3049,9 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 
 		var allowedPrincipals []types.AllowedPrincipal
 		for paginator.HasMorePages() {
+			fmt.Println("EC2VPCEndpointService NewDescribeVpcEndpointServicePermissionsPaginator next page")
 			permissions, err := paginator.NextPage(ctx)
+			fmt.Println("EC2VPCEndpointService NewDescribeVpcEndpointServicePermissionsPaginator got the page", err)
 			if err != nil {
 				if !strings.Contains(err.Error(), "NotFound") {
 					return nil, err
