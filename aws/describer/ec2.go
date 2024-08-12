@@ -3011,11 +3011,15 @@ func EC2VPCEndpointConnectionNotification(ctx context.Context, cfg aws.Config, s
 }
 
 func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	fmt.Println("EC2VPCEndpointService")
 	describeCtx := GetDescribeContext(ctx)
 
 	client := ec2.NewFromConfig(cfg)
 	var values []Resource
+
+	fmt.Println("EC2VPCEndpointService DescribeVpcEndpointServices")
 	output, err := client.DescribeVpcEndpointServices(ctx, &ec2.DescribeVpcEndpointServicesInput{})
+	fmt.Println("EC2VPCEndpointService DescribeVpcEndpointServices done")
 	if err != nil {
 		return nil, err
 	}
@@ -3034,12 +3038,14 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 			continue
 		}
 
+		fmt.Println("EC2VPCEndpointService NewDescribeVpcEndpointServicePermissionsPaginator")
 		paginator := ec2.NewDescribeVpcEndpointServicePermissionsPaginator(client, &ec2.DescribeVpcEndpointServicePermissionsInput{
 			ServiceId: v.ServiceId,
 		}, func(o *ec2.DescribeVpcEndpointServicePermissionsPaginatorOptions) {
 			o.Limit = 100
 			o.StopOnDuplicateToken = true
 		})
+		fmt.Println("EC2VPCEndpointService NewDescribeVpcEndpointServicePermissionsPaginator done")
 
 		var allowedPrincipals []types.AllowedPrincipal
 		for paginator.HasMorePages() {
@@ -3054,6 +3060,7 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 			}
 			allowedPrincipals = append(allowedPrincipals, permissions.AllowedPrincipals...)
 		}
+		fmt.Println("EC2VPCEndpointService NewDescribeVpcEndpointServicePermissionsPaginator got all pages")
 		var vpcEndpointConnections []types.VpcEndpointConnection
 		if v.ServiceId != nil {
 			op, err := client.DescribeVpcEndpointConnections(ctx, &ec2.DescribeVpcEndpointConnectionsInput{
@@ -3071,6 +3078,7 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 				vpcEndpointConnections = op.VpcEndpointConnections
 			}
 		}
+		fmt.Println("EC2VPCEndpointService DescribeVpcEndpointConnections done")
 
 		resource := Resource{
 			Region: describeCtx.KaytuRegion,
@@ -3084,10 +3092,13 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 		if v.ServiceName != nil {
 			resource.Name = *v.ServiceName
 		}
+
 		if stream != nil {
+			fmt.Println("EC2VPCEndpointService sending to stream")
 			if err := (*stream)(resource); err != nil {
 				return nil, err
 			}
+			fmt.Println("EC2VPCEndpointService sending to stream done")
 		} else {
 			values = append(values, resource)
 		}
