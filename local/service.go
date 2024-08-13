@@ -3,6 +3,7 @@ package local
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"github.com/kaytu-io/kaytu-aws-describer/describer"
 	"github.com/kaytu-io/kaytu-util/pkg/config"
 	"github.com/kaytu-io/kaytu-util/pkg/describe"
@@ -91,10 +92,21 @@ func NewWorker(
 func (w *Worker) Run(ctx context.Context) error {
 	w.logger.Info("starting to consume")
 
-	consumeCtx, err := w.jq.Consume(ctx, ConsumerGroup, StreamName, []string{JobQueueTopic}, ConsumerGroup, func(msg jetstream.Msg) {
+	consumeCtx, err := w.jq.ConsumeWithConfig(ctx, ConsumerGroup, StreamName, []string{JobQueueTopic}, ConsumerGroup, jetstream.ConsumerConfig{
+		Replicas:          1,
+		AckPolicy:         jetstream.AckExplicitPolicy,
+		DeliverPolicy:     jetstream.DeliverAllPolicy,
+		MaxAckPending:     1,
+		AckWait:           time.Minute * 30,
+		InactiveThreshold: time.Hour,
+	}, func(msg jetstream.Msg) {
 		w.logger.Info("received a new job")
 
 		defer msg.Ack()
+
+		ctx, cancel := context.WithTimeoutCause(ctx, time.Minute*25, errors.New("describe worker timed out"))
+		defer cancel()
+
 		if err := w.ProcessMessage(ctx, msg); err != nil {
 			w.logger.Error("failed to process message", zap.Error(err))
 		}
