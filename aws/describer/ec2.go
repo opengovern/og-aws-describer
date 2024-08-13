@@ -3053,7 +3053,12 @@ func EC2VPCEndpointService(ctx context.Context, cfg aws.Config, stream *StreamSe
 			permissions, err := paginator.NextPage(ctx)
 			fmt.Println("EC2VPCEndpointService NewDescribeVpcEndpointServicePermissionsPaginator got the page", err)
 			if err != nil {
-				if !strings.Contains(err.Error(), "NotFound") {
+				if err != nil {
+					var ae smithy.APIError
+					if errors.As(err, &ae) && ae.ErrorCode() == "InvalidVpcEndpointServiceId.NotFound" {
+						// VpcEndpoint doesn't have permissions set. Move on!
+						break
+					}
 					return nil, err
 				}
 			}
