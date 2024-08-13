@@ -395,8 +395,6 @@ github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.2.9/go.mod h1:dN/Of9/f
 github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.8.10 h1:h8uweImUHGgyNKrxIUwpPs6XiH0a6DJ17hSJvFLgPAo=
 github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.8.10/go.mod h1:LZKVtMBiZfdvUWgwg61Qo6kyAmE5rn9Dw36AqnycvG8=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.27/go.mod h1:EOwBD4J4S5qYszS5/3DpkejfuK+Z5/1uzICfPaZLtqw=
-github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.11.15 h1:I9zMeF107l0rJrpnHpjEiiTSCKYAIw8mALiXcPsGBiA=
-github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.11.15/go.mod h1:9xWJ3Q/S6Ojusz1UIkfycgD1mGirJfLLKqq3LPT7WN8=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.11.17 h1:HGErhhrxZlQ044RiM+WdoZxp0p+EGM62y3L6pwA4olE=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.11.17/go.mod h1:RkZEx4l0EHYDJpWppMJ3nD9wZJAa8/0lq9aVC+r2UII=
 github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.16.9 h1:iEAeF6YC3l4FzlJPP9H3Ko1TXpdjdqWffxXjp8SY6uk=
@@ -411,8 +409,6 @@ github.com/aws/aws-sdk-go-v2/service/kinesisanalyticsv2 v1.21.5 h1:tiAP+4wiioNKC
 github.com/aws/aws-sdk-go-v2/service/kinesisanalyticsv2 v1.21.5/go.mod h1:5z6vuLXh0JrIdeLrE9KwWJ+dmzTaAHtBkliGG2XQUHs=
 github.com/aws/aws-sdk-go-v2/service/kinesisvideo v1.21.5 h1:3BVBavJrQrrv8K1McEJ6TsY49NtWBLCtNSVZyyDEGX4=
 github.com/aws/aws-sdk-go-v2/service/kinesisvideo v1.21.5/go.mod h1:6UColZloou6uAkpoJDqgzhd0nKvq5H0BVuXar+OxnDY=
-github.com/aws/aws-sdk-go-v2/service/kms v1.27.9 h1:W9PbZAZAEcelhhjb7KuwUtf+Lbc+i7ByYJRuWLlnxyQ=
-github.com/aws/aws-sdk-go-v2/service/kms v1.27.9/go.mod h1:2tFmR7fQnOdQlM2ZCEPpFnBIQD1U8wmXmduBgZbOag0=
 github.com/aws/aws-sdk-go-v2/service/kms v1.35.3 h1:UPTdlTOwWUX49fVi7cymEN6hDqCwe3LNv1vi7TXUutk=
 github.com/aws/aws-sdk-go-v2/service/kms v1.35.3/go.mod h1:gjDP16zn+WWalyaUqwCCioQ8gU8lzttCCc9jYsiQI/8=
 github.com/aws/aws-sdk-go-v2/service/lakeformation v1.35.3 h1:Rfl7JjXVdriUprd8TTlbgcTyPU/Pl+v/O/nMD9HYpgA=
@@ -455,8 +451,6 @@ github.com/aws/aws-sdk-go-v2/service/pricing v1.24.5 h1:yJniPHxzGy0jtJNkXYTqI8ps
 github.com/aws/aws-sdk-go-v2/service/pricing v1.24.5/go.mod h1:Er8P68q9ayXFNzdTLKH9vGQ5Pq6fzqv0YYjslHxh8GE=
 github.com/aws/aws-sdk-go-v2/service/ram v1.23.6 h1:iyCwaKDJVIHbmudu8AYsrXGdUWSBpQaJCwvox6q1zj4=
 github.com/aws/aws-sdk-go-v2/service/ram v1.23.6/go.mod h1:VgmJolFAkLhZ5Qnnmyfqqyu6+Dt+5E761HzU2ou0Tjg=
-github.com/aws/aws-sdk-go-v2/service/rds v1.64.6 h1:5aUu86tGOprdKtoIClCYPC6i4xalRDztBOlXgJnQFHk=
-github.com/aws/aws-sdk-go-v2/service/rds v1.64.6/go.mod h1:MYzRMSdY70kcS8AFg0aHmk/xj6VAe0UfaCCoLrBWPow=
 github.com/aws/aws-sdk-go-v2/service/rds v1.82.0 h1:+1qRsLNukmvIDNBjz5Osqy4dvIBLwpCeMhmrh9evOUw=
 github.com/aws/aws-sdk-go-v2/service/rds v1.82.0/go.mod h1:j27FNXhbbHXC3ExFsJkoxq2Y+4dQypf8KFX1IkgwVvM=
 github.com/aws/aws-sdk-go-v2/service/redshift v1.39.6 h1:3F+My2KgZqnc6CPks4bkVoogqFyf1nP0iF4mAQ96XWc=
@@ -603,8 +597,8 @@ github.com/dgryski/go-farm v0.0.0-20190423205320-6a90982ecee2 h1:tdlZCpZ/P9DhczC
 github.com/dgryski/go-farm v0.0.0-20190423205320-6a90982ecee2/go.mod h1:SqUrOPUnsFjfmXRMNPybcSiG0BgUW2AuFH8PAnS2iTw=
 github.com/docker/cli v26.0.0+incompatible h1:90BKrx1a1HKYpSnnBFR6AgDq/FqkHxwlUyzJVPxD30I=
 github.com/docker/cli v26.0.0+incompatible/go.mod h1:JLrzqnKDaYBop7H2jaqPtU4hHvMKP+vjCwu2uszcLI8=
-github.com/docker/docker v27.1.0+incompatible h1:rEHVQc4GZ0MIQKifQPHSFGV/dVgaZafgRf8fCPtDYBs=
-github.com/docker/docker v27.1.0+incompatible/go.mod h1:eEKB0N0r5NX/I1kEveEz05bcu8tLC/8azJZsviup8Sk=
+github.com/docker/docker v27.1.1+incompatible h1:hO/M4MtV36kzKldqnA37IWhebRA+LnqqcqDja6kVaKY=
+github.com/docker/docker v27.1.1+incompatible/go.mod h1:eEKB0N0r5NX/I1kEveEz05bcu8tLC/8azJZsviup8Sk=
 github.com/docker/go-connections v0.4.0 h1:El9xVISelRB7BuFusrZozjnkIM5YnzCViNKohAFqRJQ=
 github.com/docker/go-connections v0.4.0/go.mod h1:Gbd7IOopHjR8Iph03tsViu4nIes5XhDvyHbTtUxmeec=
 github.com/docker/go-units v0.5.0 h1:69rxXcBk27SvSaaxTtLh/8llcHD8vYHT7WSdRZ/jvr4=
@@ -942,8 +936,8 @@ github.com/json-iterator/go v1.1.12/go.mod h1:e30LSqwooZae/UwlEbR2852Gd8hjQvJoHm
 github.com/jstemmer/go-junit-report v0.0.0-20190106144839-af01ea7f8024/go.mod h1:6v2b51hI/fHJwM22ozAgKL4VKDeJcHhJFhtBdhmNjmU=
 github.com/jstemmer/go-junit-report v0.9.1/go.mod h1:Brl9GWCQeLvo8nXZwPNNblvFj/XSXhF0NWZEnDohbsk=
 github.com/julienschmidt/httprouter v1.2.0/go.mod h1:SYymIcj16QtmaHHD7aYtjjsJG7VTCxuUUipMqKk8s4w=
-github.com/kaytu-io/kaytu-util v0.0.0-20240724155126-e1f25510dde4 h1:8Tl7Xx7VOgdJBJX2vMq6GrUV93S6yDDNJ+aI2PAJCYs=
-github.com/kaytu-io/kaytu-util v0.0.0-20240724155126-e1f25510dde4/go.mod h1:6qM5EwFanHjtfC1E3I7bhFN4dIX7B2eiPQwi8xHavd0=
+github.com/kaytu-io/kaytu-util v0.0.0-20240813133701-2520d451f101 h1:zkC9tBSEhbBdupHuGli0qQi9ME53KNL4bvbsBFrufgw=
+github.com/kaytu-io/kaytu-util v0.0.0-20240813133701-2520d451f101/go.mod h1:SnfkVk5OhH7HSNWjkYqaGy7wFgRp/wKkzGsqlM8L0Ds=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 github.com/klauspost/compress v1.15.11/go.mod h1:QPwzmACJjUTFsnSHH934V6woptycfrDDJnH7hvFVbGM=

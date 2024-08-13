@@ -92,13 +92,15 @@ func NewWorker(
 func (w *Worker) Run(ctx context.Context) error {
 	w.logger.Info("starting to consume")
 
-	consumeCtx, err := w.jq.ConsumeWithConfig(ctx, ConsumerGroup, StreamName, []string{JobQueueTopic}, ConsumerGroup, jetstream.ConsumerConfig{
+	consumeCtx, err := w.jq.ConsumeWithConfig(ctx, ConsumerGroup, StreamName, []string{JobQueueTopic}, jetstream.ConsumerConfig{
 		Replicas:          1,
 		AckPolicy:         jetstream.AckExplicitPolicy,
 		DeliverPolicy:     jetstream.DeliverAllPolicy,
-		MaxAckPending:     1,
+		MaxAckPending:     -1,
 		AckWait:           time.Minute * 30,
 		InactiveThreshold: time.Hour,
+	}, []jetstream.PullConsumeOpt{
+		jetstream.PullMaxMessages(1),
 	}, func(msg jetstream.Msg) {
 		w.logger.Info("received a new job")
 
