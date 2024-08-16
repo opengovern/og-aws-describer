@@ -425,14 +425,16 @@ func ParallelDescribeRegional(describe func(context.Context, aws.Config, *descri
 				rCfg := cfg.Copy()
 				rCfg.Region = r
 
-				fmt.Println("ParallelDescribeRegional for region")
 				partition, _ := PartitionOf(r)
-				ctx = describer.WithDescribeContext(ctx, describer.DescribeContext{
+				describeCtx := describer.DescribeContext{
 					AccountID:   account,
 					Region:      r,
 					KaytuRegion: r,
 					Partition:   partition,
-				})
+				}
+
+				fmt.Println("ParallelDescribeRegional for region", r, rCfg.Region, describeCtx.Region)
+				ctx = describer.WithDescribeContext(ctx, describeCtx)
 				ctx = describer.WithTriggerType(ctx, triggerType)
 				fmt.Println("running describe")
 				resources, err := describe(ctx, rCfg, stream)

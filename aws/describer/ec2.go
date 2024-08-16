@@ -128,6 +128,7 @@ func EC2VolumeSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender
 func eC2VolumeSnapshotHandle(ctx context.Context, v types.Snapshot, attrs *ec2.DescribeSnapshotAttributeOutput) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	arn := "arn:" + describeCtx.Partition + ":ec2:" + describeCtx.Region + ":" + describeCtx.AccountID + ":snapshot/" + *v.SnapshotId
+	fmt.Println("=======", arn)
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    arn,
