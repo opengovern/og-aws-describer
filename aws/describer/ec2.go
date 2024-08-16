@@ -87,6 +87,9 @@ func eC2LocalGatewayHandle(ctx context.Context, v types.LocalGateway) Resource {
 func EC2VolumeSnapshot(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	var values []Resource
 	client := ec2.NewFromConfig(cfg)
+	describeCtx := GetDescribeContext(ctx)
+
+	fmt.Println("+++++++++", describeCtx.Region, cfg.Region)
 
 	paginator := ec2.NewDescribeSnapshotsPaginator(client, &ec2.DescribeSnapshotsInput{
 		OwnerIds: []string{"self"},
