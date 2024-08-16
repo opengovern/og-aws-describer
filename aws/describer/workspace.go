@@ -24,7 +24,7 @@ func WorkSpacesConnectionAlias(ctx context.Context, cfg aws.Config, stream *Stre
 
 		for _, v := range output.ConnectionAliases {
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ID:          *v.AliasId,
 				Name:        *v.AliasId,
 				Description: v,

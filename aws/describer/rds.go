@@ -204,7 +204,7 @@ func RDSDBClusterParameterGroup(ctx context.Context, cfg aws.Config, stream *Str
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.DBClusterParameterGroupArn,
 				Name:   *v.DBClusterParameterGroupName,
 				Description: model.RDSDBClusterParameterGroupDescription{
@@ -347,7 +347,7 @@ func RDSDBParameterGroup(ctx context.Context, cfg aws.Config, stream *StreamSend
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.DBParameterGroupArn,
 				Name:   *v.DBParameterGroupName,
 				Description: model.RDSDBParameterGroupDescription{
@@ -390,7 +390,7 @@ func RDSDBProxy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.DBProxyArn,
 				Name:   *v.DBProxyName,
 				Description: model.RDSDBProxyDescription{
@@ -425,7 +425,7 @@ func RDSDBProxyEndpoint(ctx context.Context, cfg aws.Config, stream *StreamSende
 
 		for _, v := range page.DBProxyEndpoints {
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ARN:         *v.DBProxyEndpointArn,
 				Name:        *v.DBProxyEndpointName,
 				Description: v,
@@ -467,7 +467,7 @@ func RDSDBProxyTargetGroup(ctx context.Context, cfg aws.Config, stream *StreamSe
 
 			for _, v := range page.TargetGroups {
 				resource := Resource{
-					Region:      describeCtx.Region,
+					Region:      describeCtx.KaytuRegion,
 					ARN:         *v.TargetGroupArn,
 					Name:        *v.TargetGroupName,
 					Description: v,
@@ -500,7 +500,7 @@ func RDSDBSecurityGroup(ctx context.Context, cfg aws.Config, stream *StreamSende
 
 		for _, v := range page.DBSecurityGroups {
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ARN:         *v.DBSecurityGroupArn,
 				Name:        *v.DBSecurityGroupName,
 				Description: v,
@@ -539,7 +539,7 @@ func RDSDBSubnetGroup(ctx context.Context, cfg aws.Config, stream *StreamSender)
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    *v.DBSubnetGroupArn,
 				Name:   *v.DBSubnetGroupName,
 				Description: model.RDSDBSubnetGroupDescription{
@@ -734,7 +734,7 @@ func rDSOptionGroupHandle(ctx context.Context, cfg aws.Config, v types.OptionGro
 	}
 
 	resource := Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ARN:    *v.OptionGroupArn,
 		Name:   *v.OptionGroupName,
 		Description: model.RDSOptionGroupDescription{

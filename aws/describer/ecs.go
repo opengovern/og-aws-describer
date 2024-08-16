@@ -28,7 +28,7 @@ func ECSCapacityProvider(ctx context.Context, cfg aws.Config, stream *StreamSend
 
 		for _, v := range output.CapacityProviders {
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ARN:         *v.CapacityProviderArn,
 				Name:        *v.Name,
 				Description: v,
@@ -576,7 +576,7 @@ func ECSTask(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resou
 						description.TaskProtection = &taskProtection
 					}
 					resource := Resource{
-						Region:      describeCtx.Region,
+						Region:      describeCtx.KaytuRegion,
 						ARN:         *v.TaskArn,
 						Name:        *v.TaskArn,
 						Description: description,

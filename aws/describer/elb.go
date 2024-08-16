@@ -70,7 +70,7 @@ func elasticLoadBalancingV2LoadBalancerHandle(ctx context.Context, cfg aws.Confi
 	}
 
 	resource := Resource{
-		Region:      describeCtx.Region,
+		Region:      describeCtx.KaytuRegion,
 		ARN:         *v.LoadBalancerArn,
 		Name:        *v.LoadBalancerName,
 		Description: description,
@@ -311,7 +311,7 @@ func elasticLoadBalancingLoadBalancerHandle(ctx context.Context, cfg aws.Config,
 
 	arn := "arn:" + describeCtx.Partition + ":elasticloadbalancing:" + describeCtx.Region + ":" + describeCtx.AccountID + ":loadbalancer/" + *v.LoadBalancerName
 	resource := Resource{
-		Region:      describeCtx.Region,
+		Region:      describeCtx.KaytuRegion,
 		ARN:         arn,
 		Name:        *v.LoadBalancerName,
 		Description: description,

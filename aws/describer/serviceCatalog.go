@@ -35,7 +35,7 @@ func ServiceCatalogProduct(ctx context.Context, cfg aws.Config, stream *StreamSe
 				return nil, err
 			}
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ID:     *item.Id,
 				Name:   *item.Name,
 				Description: model.ServiceCatalogProductDescription{

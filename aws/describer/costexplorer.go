@@ -173,7 +173,7 @@ func CostByServiceLastMonth(ctx context.Context, cfg aws.Config, stream *StreamS
 			continue
 		}
 		resource := Resource{
-			Region:      describeCtx.Region,
+			Region:      describeCtx.KaytuRegion,
 			ID:          "service-" + *cost.Dimension1 + "-cost-monthly",
 			Description: model.CostExplorerByServiceMonthlyDescription{CostExplorerRow: cost},
 		}
@@ -207,7 +207,7 @@ func CostByAccountLastMonth(ctx context.Context, cfg aws.Config, stream *StreamS
 			continue
 		}
 		resource := Resource{
-			Region:      describeCtx.Region,
+			Region:      describeCtx.KaytuRegion,
 			ID:          "account-" + *cost.Dimension1 + "-cost-monthly",
 			Description: model.CostExplorerByAccountMonthlyDescription{CostExplorerRow: cost},
 		}
@@ -495,7 +495,7 @@ func CostByServiceLastDay(ctx context.Context, cfg aws.Config, stream *StreamSen
 		costDate := tStart.Add(diff)
 
 		resource := Resource{
-			Region:      describeCtx.Region,
+			Region:      describeCtx.KaytuRegion,
 			ID:          "service-" + *cost.Dimension1 + "-cost-" + *cost.PeriodEnd,
 			Description: model.CostExplorerByServiceDailyDescription{CostExplorerRow: cost, CostDateMillis: costDate.UnixMilli()},
 		}
@@ -530,7 +530,7 @@ func CostByServiceLastDay(ctx context.Context, cfg aws.Config, stream *StreamSen
 		costDate := tStart.Add(diff)
 
 		resource := Resource{
-			Region:      describeCtx.Region,
+			Region:      describeCtx.KaytuRegion,
 			ID:          "service-" + *cost.Dimension1 + "-cost-" + *cost.PeriodEnd,
 			Description: model.CostExplorerByServiceDailyDescription{CostExplorerRow: cost, CostDateMillis: costDate.UnixMilli()},
 		}
@@ -565,7 +565,7 @@ func CostByAccountLastDay(ctx context.Context, cfg aws.Config, stream *StreamSen
 			continue
 		}
 		resource := Resource{
-			Region:      describeCtx.Region,
+			Region:      describeCtx.KaytuRegion,
 			ID:          "account-" + *cost.Dimension1 + "-cost-" + *cost.PeriodEnd,
 			Description: model.CostExplorerByAccountDailyDescription{CostExplorerRow: cost},
 		}
@@ -647,7 +647,7 @@ func CostByRecordTypeLastMonth(ctx context.Context, cfg aws.Config, stream *Stre
 			setRowMetrics(&row, group.Metrics)
 
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ID:          "account-" + *row.Dimension1 + "-" + *row.Dimension2 + "-cost-monthly",
 				Description: model.CostExplorerByRecordTypeMonthlyDescription{CostExplorerRow: row},
 			}
@@ -693,7 +693,7 @@ func CostByRecordTypeLastDay(ctx context.Context, cfg aws.Config, stream *Stream
 			setRowMetrics(&row, group.Metrics)
 
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ID:          "account-" + *row.Dimension1 + "-" + *row.Dimension2 + "-cost-" + *row.PeriodEnd,
 				Description: model.CostExplorerByRecordTypeDailyDescription{CostExplorerRow: row},
 			}
@@ -777,7 +777,7 @@ func CostByServiceUsageLastMonth(ctx context.Context, cfg aws.Config, stream *St
 			setRowMetrics(&row, group.Metrics)
 
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ID:          "service-" + *row.Dimension1 + "-" + *row.Dimension2 + "-cost-monthly",
 				Description: model.CostExplorerByServiceUsageTypeMonthlyDescription{CostExplorerRow: row},
 			}
@@ -823,7 +823,7 @@ func CostByServiceUsageLastDay(ctx context.Context, cfg aws.Config, stream *Stre
 			setRowMetrics(&row, group.Metrics)
 
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ID:          "service-" + *row.Dimension1 + "-" + *row.Dimension2 + "-cost-" + *row.PeriodEnd,
 				Description: model.CostExplorerByServiceUsageTypeDailyDescription{CostExplorerRow: row},
 			}

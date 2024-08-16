@@ -126,7 +126,7 @@ func SSMInventoryEntry(ctx context.Context, cfg aws.Config, stream *StreamSender
 					}
 					for _, v := range op.Entries {
 						resource := Resource{
-							Region: describeCtx.Region,
+							Region: describeCtx.KaytuRegion,
 							ID:     *op.InstanceId,
 							Name:   *op.InstanceId,
 							Description: model.SSMInventoryEntryDescription{
@@ -222,7 +222,7 @@ func SSMAssociation(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 
 			arn := fmt.Sprintf("arn:%s:ssm:%s:%s:association/%s", describeCtx.Partition, describeCtx.Region, describeCtx.AccountID, *v.AssociationId)
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ID:     *v.AssociationId,
 				Name:   *v.Name,
 				ARN:    arn,
@@ -287,7 +287,7 @@ func SSMDocument(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ID:     *v.Name,
 				Name:   *v.Name,
 				ARN:    arn,
@@ -345,7 +345,7 @@ func SSMDocumentPermission(ctx context.Context, cfg aws.Config, stream *StreamSe
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ID:     *v.Name,
 				Name:   *v.Name,
 				Description: model.SSMDocumentPermissionDescription{
@@ -409,7 +409,7 @@ func SSMMaintenanceWindow(ctx context.Context, cfg aws.Config, stream *StreamSen
 			aka := "arn:" + describeCtx.Partition + ":ssm:" + describeCtx.Region + ":" + describeCtx.AccountID + ":maintenancewindow" + "/" + *v.WindowId
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    aka,
 				Name:   *v.Name,
 				Description: model.SSMMaintenanceWindowDescription{
@@ -458,7 +458,7 @@ func SSMMaintenanceWindowTarget(ctx context.Context, cfg aws.Config, stream *Str
 
 			for _, v := range page.Targets {
 				resource := Resource{
-					Region:      describeCtx.Region,
+					Region:      describeCtx.KaytuRegion,
 					ID:          *v.WindowTargetId,
 					Name:        *v.Name,
 					Description: v,
@@ -501,7 +501,7 @@ func SSMMaintenanceWindowTask(ctx context.Context, cfg aws.Config, stream *Strea
 
 			for _, v := range page.Tasks {
 				resource := Resource{
-					Region:      describeCtx.Region,
+					Region:      describeCtx.KaytuRegion,
 					ARN:         *v.TaskArn,
 					Name:        *v.Name,
 					Description: v,
@@ -561,7 +561,7 @@ func SSMParameter(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ID:     *v.Name,
 				Name:   *v.Name,
 				Description: model.SSMParameterDescription{
@@ -626,7 +626,7 @@ func SSMPatchBaseline(ctx context.Context, cfg aws.Config, stream *StreamSender)
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    aka,
 				Name:   *v.BaselineName,
 				Description: model.SSMPatchBaselineDescription{
@@ -663,7 +663,7 @@ func SSMResourceDataSync(ctx context.Context, cfg aws.Config, stream *StreamSend
 
 		for _, v := range page.ResourceDataSyncItems {
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ID:          *v.SyncName,
 				Name:        *v.SyncName,
 				Description: v,
@@ -703,7 +703,7 @@ func SSMManagedInstancePatchState(ctx context.Context, cfg aws.Config, stream *S
 
 				for _, item := range pagePS.InstancePatchStates {
 					resource := Resource{
-						Region: describeCtx.Region,
+						Region: describeCtx.KaytuRegion,
 						ID:     *item.InstanceId,
 						Description: model.SSMManagedInstancePatchStateDescription{
 							PatchState: item,

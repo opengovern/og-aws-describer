@@ -27,7 +27,7 @@ func ServiceDiscoveryService(ctx context.Context, cfg aws.Config, stream *Stream
 			}
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ID:     *item.Id,
 				Description: model.ServiceDiscoveryServiceDescription{
 					Service: item,
@@ -127,7 +127,7 @@ func getServiceDiscoveryInstances(ctx context.Context, cfg aws.Config, id *strin
 		}
 		for _, v := range page.Instances {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ID:     *v.Id,
 				Name:   *v.Id,
 				Description: model.ServiceDiscoveryInstanceDescription{

@@ -295,7 +295,7 @@ func ParallelDescribeRegionalSingleResource(describe func(context.Context, aws.C
 				rCfg.Region = r
 
 				partition, _ := PartitionOf(r)
-				ctx = describer.WithDescribeContext(ctx, describer.DescribeContext{
+				ctx := describer.WithDescribeContext(ctx, describer.DescribeContext{
 					AccountID:   account,
 					Region:      r,
 					KaytuRegion: r,
@@ -360,7 +360,7 @@ func SequentialDescribeRegional(describe func(context.Context, aws.Config, *desc
 			rCfg.Region = region
 
 			partition, _ := PartitionOf(region)
-			ctx = describer.WithDescribeContext(ctx, describer.DescribeContext{
+			ctx := describer.WithDescribeContext(ctx, describer.DescribeContext{
 				AccountID:   account,
 				Region:      region,
 				KaytuRegion: region,
@@ -434,7 +434,7 @@ func ParallelDescribeRegional(describe func(context.Context, aws.Config, *descri
 				}
 
 				fmt.Println("ParallelDescribeRegional for region", r, rCfg.Region, describeCtx.Region)
-				ctx = describer.WithDescribeContext(ctx, describeCtx)
+				ctx := describer.WithDescribeContext(ctx, describeCtx)
 				ctx = describer.WithTriggerType(ctx, triggerType)
 				fmt.Println("running describe")
 				resources, err := describe(ctx, rCfg, stream)
@@ -501,7 +501,7 @@ func SequentialDescribeGlobal(describe func(context.Context, aws.Config, *descri
 			rCfg.Region = region
 
 			partition, _ := PartitionOf(region)
-			ctx = describer.WithDescribeContext(ctx, describer.DescribeContext{
+			ctx := describer.WithDescribeContext(ctx, describer.DescribeContext{
 				AccountID:   account,
 				Region:      region,
 				KaytuRegion: "global",

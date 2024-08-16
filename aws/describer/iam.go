@@ -878,7 +878,7 @@ func IAMInstanceProfile(ctx context.Context, cfg aws.Config, stream *StreamSende
 
 		for _, v := range page.InstanceProfiles {
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ARN:         *v.Arn,
 				Name:        *v.InstanceProfileName,
 				Description: v,
@@ -912,7 +912,7 @@ func IAMManagedPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 		for _, v := range page.Policies {
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ARN:         *v.Arn,
 				Name:        *v.PolicyName,
 				Description: v,
@@ -941,7 +941,7 @@ func IAMOIDCProvider(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 	var values []Resource
 	for _, v := range output.OpenIDConnectProviderList {
 		resource := Resource{
-			Region:      describeCtx.Region,
+			Region:      describeCtx.KaytuRegion,
 			ARN:         *v.Arn,
 			Name:        *v.Arn,
 			Description: v,
@@ -989,7 +989,7 @@ func IAMGroupPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 				}
 
 				resource := Resource{
-					Region:      describeCtx.Region,
+					Region:      describeCtx.KaytuRegion,
 					ID:          CompositeID(*v.GroupName, *v.PolicyName),
 					Name:        *v.GroupName,
 					Description: v,
@@ -1045,7 +1045,7 @@ func IAMUserPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 				}
 
 				resource := Resource{
-					Region:      describeCtx.Region,
+					Region:      describeCtx.KaytuRegion,
 					ID:          CompositeID(*v.UserName, *v.PolicyName),
 					Name:        *v.UserName,
 					Description: v,
@@ -1101,7 +1101,7 @@ func IAMRolePolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 				}
 
 				resource := Resource{
-					Region:      describeCtx.Region,
+					Region:      describeCtx.KaytuRegion,
 					ID:          CompositeID(*v.RoleName, *v.PolicyName),
 					Name:        *v.RoleName,
 					Description: v,

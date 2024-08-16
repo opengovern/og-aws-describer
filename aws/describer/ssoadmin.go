@@ -95,7 +95,7 @@ func ListSSOAdminInstanceAccountAssignments(ctx context.Context, client *ssoadmi
 
 			for _, accountA := range accountAssignment.AccountAssignments {
 				resource := Resource{
-					Region: describeCtx.Region,
+					Region: describeCtx.KaytuRegion,
 					ID:     fmt.Sprintf("%s|%s|%s", *accountA.AccountId, *accountA.PermissionSetArn, *accountA.PrincipalId),
 					Description: model.SSOAdminAccountAssignmentDescription{
 						Instance:          instance,
@@ -190,7 +190,7 @@ func GetSSOAdminPermissionSet(ctx context.Context, client *ssoadmin.Client, inst
 		tagsMap[*tag.Key] = *tag.Value
 	}
 	resource := Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ID:     *detail.PermissionSet.PermissionSetArn,
 		ARN:    *detail.PermissionSet.PermissionSetArn,
 		Description: model.SSOAdminPermissionSetDescription{
@@ -268,7 +268,7 @@ func ListSSOAdminPermissionSetPolicyAttachments(ctx context.Context, client *sso
 
 		for _, item := range output.AttachedManagedPolicies {
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ID:     *item.Arn,
 				ARN:    *item.Arn,
 				Description: model.SSOAdminPolicyAttachmentDescription{
@@ -336,7 +336,7 @@ func UserEffectiveAccess(ctx context.Context, cfg aws.Config, stream *StreamSend
 										return nil, err
 									}
 									resource := Resource{
-										Region: describeCtx.Region,
+										Region: describeCtx.KaytuRegion,
 										ID:     id,
 										Description: model.UserEffectiveAccessDescription{
 											AccountAssignment: accountA,
@@ -364,7 +364,7 @@ func UserEffectiveAccess(ctx context.Context, cfg aws.Config, stream *StreamSend
 								return nil, err
 							}
 							resource := Resource{
-								Region: describeCtx.Region,
+								Region: describeCtx.KaytuRegion,
 								ID:     id,
 								Description: model.UserEffectiveAccessDescription{
 									AccountAssignment: accountA,

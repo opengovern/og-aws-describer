@@ -335,7 +335,7 @@ func ECRRegistryPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender
 
 	var values []Resource
 	resource := Resource{
-		Region:      describeCtx.Region,
+		Region:      describeCtx.KaytuRegion,
 		ID:          *output.RegistryId,
 		Name:        *output.RegistryId,
 		Description: output,
@@ -361,7 +361,7 @@ func ECRRegistry(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 
 	var values []Resource
 	resource := Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ID:     *output.RegistryId,
 		Name:   *output.RegistryId,
 		Description: model.ECRRegistryDescription{
