@@ -21,7 +21,7 @@ func SyntheticsCanary(ctx context.Context, cfg aws.Config, stream *StreamSender)
 
 		for _, v := range page.Canaries {
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ID:          *v.Id,
 				Name:        *v.Name,
 				Description: v,

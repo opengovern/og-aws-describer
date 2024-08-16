@@ -295,7 +295,7 @@ func SESContactList(ctx context.Context, cfg aws.Config, stream *StreamSender) (
 
 		for _, v := range page.ContactLists {
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ID:          *v.ContactListName,
 				Name:        *v.ContactListName,
 				Description: v,
@@ -325,7 +325,7 @@ func SESReceiptFilter(ctx context.Context, cfg aws.Config, stream *StreamSender)
 	var values []Resource
 	for _, v := range output.Filters {
 		resource := Resource{
-			Region:      describeCtx.Region,
+			Region:      describeCtx.KaytuRegion,
 			ID:          *v.Name,
 			Name:        *v.Name,
 			Description: v,
@@ -360,7 +360,7 @@ func SESReceiptRuleSet(ctx context.Context, cfg aws.Config, stream *StreamSender
 			}
 
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ID:          *output.Metadata.Name,
 				Name:        *output.Metadata.Name,
 				Description: output,
@@ -397,7 +397,7 @@ func SESTemplate(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]R
 
 		for _, v := range output.TemplatesMetadata {
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ID:          *v.Name,
 				Name:        *v.Name,
 				Description: v,

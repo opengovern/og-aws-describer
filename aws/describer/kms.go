@@ -44,7 +44,7 @@ func KMSAlias(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Reso
 func KMSAliasHandle(ctx context.Context, v types.AliasListEntry) Resource {
 	describeCtx := GetDescribeContext(ctx)
 	resource := Resource{
-		Region:      describeCtx.Region,
+		Region:      describeCtx.KaytuRegion,
 		ARN:         *v.AliasArn,
 		Name:        *v.AliasName,
 		Description: v,

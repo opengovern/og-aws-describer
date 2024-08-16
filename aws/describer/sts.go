@@ -29,7 +29,7 @@ func STSCallerIdentity(ctx context.Context, cfg aws.Config, stream *StreamSender
 	}
 
 	resource := Resource{
-		Region: describeCtx.Region,
+		Region: describeCtx.KaytuRegion,
 		ID:     *ci.UserId,
 		ARN:    *ci.Arn,
 		Description: model.STSCallerIdentityDescription{

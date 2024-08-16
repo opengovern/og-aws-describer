@@ -269,7 +269,7 @@ func RedshiftClusterSecurityGroup(ctx context.Context, cfg aws.Config, stream *S
 
 		for _, v := range page.ClusterSecurityGroups {
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ID:          *v.ClusterSecurityGroupName,
 				Name:        *v.ClusterSecurityGroupName,
 				Description: v,
@@ -301,7 +301,7 @@ func RedshiftClusterSubnetGroup(ctx context.Context, cfg aws.Config, stream *Str
 
 		for _, v := range page.ClusterSubnetGroups {
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ID:          *v.ClusterSubnetGroupName,
 				Name:        *v.ClusterSubnetGroupName,
 				Description: v,

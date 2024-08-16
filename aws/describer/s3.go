@@ -516,7 +516,7 @@ func S3StorageLens(ctx context.Context, cfg aws.Config, stream *StreamSender) ([
 
 		for _, v := range page.StorageLensConfigurationList {
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ARN:         *v.StorageLensArn,
 				Name:        *v.Id,
 				Description: v,
@@ -728,7 +728,7 @@ func S3MultiRegionAccessPoint(ctx context.Context, cfg aws.Config, stream *Strea
 			arn := "arn:" + describeCtx.Partition + ":s3::" + accountId + ":accesspoint/" + *report.Name
 
 			resource := Resource{
-				Region: describeCtx.Region,
+				Region: describeCtx.KaytuRegion,
 				ARN:    arn,
 				Name:   *report.Name,
 				Description: model.S3MultiRegionAccessPointDescription{

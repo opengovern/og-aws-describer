@@ -33,7 +33,7 @@ func AutoScalingAutoScalingGroup(ctx context.Context, cfg aws.Config, stream *St
 			}
 
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ARN:         *v.AutoScalingGroupARN,
 				Name:        *v.AutoScalingGroupName,
 				Description: desc,
@@ -77,7 +77,7 @@ func GetAutoScalingAutoScalingGroup(ctx context.Context, cfg aws.Config, fields 
 		}
 
 		values = append(values, Resource{
-			Region:      describeCtx.Region,
+			Region:      describeCtx.KaytuRegion,
 			ARN:         *v.AutoScalingGroupARN,
 			Name:        *v.AutoScalingGroupName,
 			Description: desc,
@@ -187,7 +187,7 @@ func AutoScalingLifecycleHook(ctx context.Context, cfg aws.Config, stream *Strea
 
 		for _, v := range output.LifecycleHooks {
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ID:          CompositeID(*v.AutoScalingGroupName, *v.LifecycleHookName),
 				Name:        *v.AutoScalingGroupName,
 				Description: v,
@@ -219,7 +219,7 @@ func AutoScalingScalingPolicy(ctx context.Context, cfg aws.Config, stream *Strea
 
 		for _, v := range page.ScalingPolicies {
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ARN:         *v.PolicyARN,
 				Name:        *v.PolicyName,
 				Description: v,
@@ -251,7 +251,7 @@ func AutoScalingScheduledAction(ctx context.Context, cfg aws.Config, stream *Str
 
 		for _, v := range page.ScheduledUpdateGroupActions {
 			resource := Resource{
-				Region:      describeCtx.Region,
+				Region:      describeCtx.KaytuRegion,
 				ARN:         *v.ScheduledActionARN,
 				Name:        *v.ScheduledActionName,
 				Description: v,
