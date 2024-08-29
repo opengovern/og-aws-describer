@@ -146,11 +146,6 @@ func IAMAccount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 	describeCtx := GetDescribeContext(ctx)
 	orgClient := organizations.NewFromConfig(cfg)
 
-	accountId, err := STSAccount(ctx, cfg)
-	if err != nil {
-		return nil, err
-	}
-
 	output, err := orgClient.DescribeOrganization(ctx, &organizations.DescribeOrganizationInput{})
 	if err != nil {
 		if isErr(err, organizationsNotInUseException) {
@@ -160,7 +155,7 @@ func IAMAccount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 		}
 	}
 
-	account, err := orgClient.DescribeAccount(ctx, &organizations.DescribeAccountInput{AccountId: &accountId})
+	account, err := orgClient.DescribeAccount(ctx, &organizations.DescribeAccountInput{AccountId: &describeCtx.AccountID})
 	if err != nil {
 		if isErr(err, organizationsNotInUseException) {
 			output = &organizations.DescribeOrganizationOutput{}
@@ -186,7 +181,7 @@ func IAMAccount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		// No ID or ARN. Per Account Configuration
-		Name: accountId,
+		Name: describeCtx.AccountID,
 		Description: model.IAMAccountDescription{
 			Aliases:      aliases,
 			Organization: output.Organization,
