@@ -145,6 +145,10 @@ func IAMAccessAdvisor(ctx context.Context, cfg aws.Config, stream *StreamSender)
 func IAMAccount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
 	orgClient := organizations.NewFromConfig(cfg)
+	accountId, err := STSAccount(ctx, cfg)
+	if err != nil {
+		return nil, err
+	}
 
 	output, err := orgClient.DescribeOrganization(ctx, &organizations.DescribeOrganizationInput{})
 	if err != nil {
@@ -155,7 +159,7 @@ func IAMAccount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 		}
 	}
 
-	account, err := orgClient.DescribeAccount(ctx, &organizations.DescribeAccountInput{AccountId: &describeCtx.AccountID})
+	account, err := orgClient.DescribeAccount(ctx, &organizations.DescribeAccountInput{AccountId: &accountId})
 	if err != nil {
 		if isErr(err, organizationsNotInUseException) {
 			output = &organizations.DescribeOrganizationOutput{}
@@ -181,7 +185,7 @@ func IAMAccount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		// No ID or ARN. Per Account Configuration
-		Name: describeCtx.AccountID,
+		Name: accountId,
 		Description: model.IAMAccountDescription{
 			Aliases:      aliases,
 			Organization: output.Organization,
