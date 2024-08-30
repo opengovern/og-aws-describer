@@ -14,7 +14,8 @@ func tableAwsOrganizationsRoot(_ context.Context) *plugin.Table {
 		Name:        "aws_organizations_root",
 		Description: "AWS Organizations Root",
 		Get: &plugin.GetConfig{
-			Hydrate: kaytu.GetOrganizationsRoot,
+			KeyColumns: plugin.SingleColumn("id"),
+			Hydrate:    kaytu.GetOrganizationsRoot,
 		},
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListOrganizationsRoot,
