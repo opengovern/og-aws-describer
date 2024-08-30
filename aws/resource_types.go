@@ -1648,13 +1648,13 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
-	"AWS::IAM::Account": {
+	"AWS::Account::Account": {
 		Connector:            source.CloudAWS,
-		ResourceName:         "AWS::IAM::Account",
-		ResourceLabel:        "IAM Account",
+		ResourceName:         "AWS::Account::Account",
+		ResourceLabel:        "Account",
 		Tags:                 map[string][]string{
         },
-		ServiceName:          "IAM",
+		ServiceName:          "Organizations",
 		ListDescriber:        SequentialDescribeGlobal(describer.IAMAccount),
 		GetDescriber:         nil,
 		TerraformName:        []string{},

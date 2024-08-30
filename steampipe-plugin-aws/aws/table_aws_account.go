@@ -22,18 +22,24 @@ func tableAwsAccount(ctx context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListIAMAccount,
 		},
-		Columns: awsKaytuRegionalColumns([]*plugin.Column{
+		Columns: []*plugin.Column{
 			{
-				Name:        "account_aliases",
-				Description: "A list of aliases associated with the account, if applicable.",
-				Type:        proto.ColumnType_JSON,
-				Transform:   transform.FromField("Description.Aliases"),
+				Name:        "name",
+				Description: "Account Name",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Account.Name"),
 			},
 			{
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) specifying the account.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(accountARN),
+				Transform:   transform.FromField("Description.Account.Arn"),
+			},
+			{
+				Name:        "account_id",
+				Description: resourceInterfaceDescription("title"),
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Description.Account.Id"),
 			},
 			{
 				Name:        "organization_id",
@@ -93,15 +99,33 @@ func tableAwsAccount(ctx context.Context) *plugin.Table {
 				Name:        "title",
 				Description: resourceInterfaceDescription("title"),
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.From(accountDataToTitle),
+				Transform:   transform.FromField("Description.Account.Name"),
 			},
 			{
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Transform:   transform.From(accountARN).Transform(transform.EnsureStringArray),
+				Transform:   transform.FromField("Description.Account.Arn").Transform(transform.EnsureStringArray),
 			},
-		}),
+			{
+				Name:        "account_aliases",
+				Description: "A list of aliases associated with the account, if applicable.",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Aliases"),
+			},
+			{
+				Name:        "partition",
+				Type:        proto.ColumnType_STRING,
+				Description: "The AWS partition in which the resource is located (aws, aws-cn, or aws-us-gov).",
+				Transform:   transform.FromField("Metadata.Partition"),
+			},
+			{
+				Name:        "region",
+				Type:        proto.ColumnType_STRING,
+				Description: "The AWS Region in which the resource is located.",
+				Transform:   transform.FromField("Metadata.Region"),
+			},
+		},
 	}
 }
 
