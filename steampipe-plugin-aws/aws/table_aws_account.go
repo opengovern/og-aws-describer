@@ -15,6 +15,10 @@ func tableAwsAccount(ctx context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "aws_account",
 		Description: "AWS Account",
+		Get: &plugin.GetConfig{
+			KeyColumns: plugin.SingleColumn("arn"),
+			Hydrate:    kaytu.ListIAMAccount,
+		},
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListIAMAccount,
 		},
