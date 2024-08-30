@@ -159,7 +159,7 @@ func IAMAccount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 		}
 	}
 
-	account, err := orgClient.DescribeAccount(ctx, &organizations.DescribeAccountInput{AccountId: &accountId})
+	accounts, err := orgClient.ListAccounts(ctx, &organizations.ListAccountsInput{})
 	if err != nil {
 		if isErr(err, organizationsNotInUseException) {
 			output = &organizations.DescribeOrganizationOutput{}
@@ -167,37 +167,40 @@ func IAMAccount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 			return nil, err
 		}
 	}
-
-	client := iam.NewFromConfig(cfg)
-	paginator := iam.NewListAccountAliasesPaginator(client, &iam.ListAccountAliasesInput{})
-
-	var aliases []string
-	for paginator.HasMorePages() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			return nil, err
-		}
-
-		aliases = append(aliases, page.AccountAliases...)
-	}
-
 	var values []Resource
-	resource := Resource{
-		Region: describeCtx.KaytuRegion,
-		// No ID or ARN. Per Account Configuration
-		Name: accountId,
-		Description: model.IAMAccountDescription{
-			Aliases:      aliases,
-			Organization: output.Organization,
-			Account:      account.Account,
-		},
-	}
-	if stream != nil {
-		if err := (*stream)(resource); err != nil {
-			return nil, err
+	for _, acc := range accounts.Accounts {
+		var aliases []string
+
+		if *acc.Id == accountId {
+			client := iam.NewFromConfig(cfg)
+			paginator := iam.NewListAccountAliasesPaginator(client, &iam.ListAccountAliasesInput{})
+			for paginator.HasMorePages() {
+				page, err := paginator.NextPage(ctx)
+				if err != nil {
+					return nil, err
+				}
+
+				aliases = append(aliases, page.AccountAliases...)
+			}
 		}
-	} else {
-		values = append(values, resource)
+
+		resource := Resource{
+			Region: describeCtx.KaytuRegion,
+			// No ID or ARN. Per Account Configuration
+			Name: accountId,
+			Description: model.IAMAccountDescription{
+				Aliases:      aliases,
+				Organization: output.Organization,
+				Account:      &acc,
+			},
+		}
+		if stream != nil {
+			if err := (*stream)(resource); err != nil {
+				return nil, err
+			}
+		} else {
+			values = append(values, resource)
+		}
 	}
 
 	return values, nil
