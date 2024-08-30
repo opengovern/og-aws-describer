@@ -14,7 +14,8 @@ func tableAwsOrganizationsPolicy(_ context.Context) *plugin.Table {
 		Name:        "aws_organizations_policy",
 		Description: "AWS Organizations Policy",
 		Get: &plugin.GetConfig{
-			Hydrate: kaytu.GetOrganizationsPolicy,
+			KeyColumns: plugin.SingleColumn("id"),
+			Hydrate:    kaytu.GetOrganizationsPolicy,
 		},
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListOrganizationsPolicy,
