@@ -186,8 +186,9 @@ func IAMAccount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Re
 
 		resource := Resource{
 			Region: describeCtx.KaytuRegion,
-			// No ID or ARN. Per Account Configuration
-			Name: accountId,
+			ARN:    *acc.Arn,
+			ID:     *acc.Id,
+			Name:   *acc.Name,
 			Description: model.IAMAccountDescription{
 				Aliases:      aliases,
 				Organization: output.Organization,
