@@ -3363,6 +3363,22 @@ type OrganizationsPolicyDescription struct {
 	Policy organizations.Policy
 }
 
+type OrganizationsRootDescription struct {
+	Root organizations.Root
+}
+
+type OrganizationsOrganizationalUnitDescription struct {
+	Unit     organizations.OrganizationalUnit
+	ParentId string
+	Path     string
+}
+
+type OrganizationsPolicyTargetDescription struct {
+	PolicySummary organizations.PolicySummary
+	PolicyContent *string
+	TargetId      string
+}
+
 // ===================  Pinpoint ===================
 
 //index:aws_pinpoint_app

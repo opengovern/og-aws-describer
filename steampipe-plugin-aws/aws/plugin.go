@@ -558,6 +558,8 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"aws_docdb_cluster_snapshot":                                   tableAwsDocDBClusterSnapshot(ctx),
 			"aws_dms_replication_task":                                     tableAwsDmsReplicationTask(ctx),
 			"aws_dms_endpoint":                                             tableAwsDmsEndpoint(ctx),
+			"aws_organizations_organizational_unit":                        tableAwsOrganizationsOrganizationalUnit(ctx),
+			"aws_organizations_root":                                       tableAwsOrganizationsRoot(ctx),
 		},
 	}
 

@@ -81,6 +81,51 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
+	"AWS::Organizations::PolicyTarget": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::Organizations::PolicyTarget",
+		ResourceLabel:        "Organizations",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "Organizations",
+		ListDescriber:        SequentialDescribeGlobal(describer.OrganizationsPolicyTarget),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_organizations_policy"},
+		TerraformServiceName: "organizations",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
+	"AWS::Organizations::OrganizationalUnit": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::Organizations::OrganizationalUnit",
+		ResourceLabel:        "Organizations",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "Organizations",
+		ListDescriber:        SequentialDescribeGlobal(describer.OrganizationsOrganizationalUnit),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_organizations_organizational_unit"},
+		TerraformServiceName: "organizations",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
+	"AWS::Organizations::Root": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::Organizations::Root",
+		ResourceLabel:        "Organizations",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "Organizations",
+		ListDescriber:        SequentialDescribeGlobal(describer.OrganizationsRoot),
+		GetDescriber:         nil,
+		TerraformName:        []string{"aws_organizations_root"},
+		TerraformServiceName: "organizations",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
 	"AWS::CloudSearch::Domain": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::CloudSearch::Domain",
