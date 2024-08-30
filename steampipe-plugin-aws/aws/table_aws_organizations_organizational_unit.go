@@ -12,6 +12,9 @@ func tableAwsOrganizationsOrganizationalUnit(_ context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "aws_organizations_organizational_unit",
 		Description: "AWS Organizations Organizational Unit",
+		Get: &plugin.GetConfig{
+			Hydrate: kaytu.GetOrganizationsOrganizationalUnit,
+		},
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListOrganizationsOrganizationalUnit,
 		},
