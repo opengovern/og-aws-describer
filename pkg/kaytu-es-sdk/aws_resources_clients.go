@@ -83665,7 +83665,7 @@ func (p OrganizationsPolicyPaginator) NextPage(ctx context.Context) ([]Organizat
 var listOrganizationsPolicyFilters = map[string]string{
 	"arn":              "description.Policy.PolicySummary.Arn",
 	"aws_managed":      "description.Policy.PolicySummary.AwsManaged",
-	"content":          "cDescription.Policy.ontent",
+	"content":          "description.Policy.Content",
 	"description":      "description.Policy.PolicySummary.Description",
 	"id":               "description.Policy.PolicySummary.Id",
 	"kaytu_account_id": "metadata.SourceID",
@@ -83736,7 +83736,7 @@ func ListOrganizationsPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin
 var getOrganizationsPolicyFilters = map[string]string{
 	"arn":              "description.Policy.PolicySummary.Arn",
 	"aws_managed":      "description.Policy.PolicySummary.AwsManaged",
-	"content":          "cDescription.Policy.ontent",
+	"content":          "description.Policy.Content",
 	"description":      "description.Policy.PolicySummary.Description",
 	"id":               "description.Policy.PolicySummary.Id",
 	"kaytu_account_id": "metadata.SourceID",
@@ -83799,6 +83799,645 @@ func GetOrganizationsPolicy(ctx context.Context, d *plugin.QueryData, _ *plugin.
 }
 
 // ==========================  END: OrganizationsPolicy =============================
+
+// ==========================  START: OrganizationsRoot =============================
+
+type OrganizationsRoot struct {
+	Description   aws.OrganizationsRootDescription `json:"description"`
+	Metadata      aws.Metadata                     `json:"metadata"`
+	ResourceJobID int                              `json:"resource_job_id"`
+	SourceJobID   int                              `json:"source_job_id"`
+	ResourceType  string                           `json:"resource_type"`
+	SourceType    string                           `json:"source_type"`
+	ID            string                           `json:"id"`
+	ARN           string                           `json:"arn"`
+	SourceID      string                           `json:"source_id"`
+}
+
+type OrganizationsRootHit struct {
+	ID      string            `json:"_id"`
+	Score   float64           `json:"_score"`
+	Index   string            `json:"_index"`
+	Type    string            `json:"_type"`
+	Version int64             `json:"_version,omitempty"`
+	Source  OrganizationsRoot `json:"_source"`
+	Sort    []interface{}     `json:"sort"`
+}
+
+type OrganizationsRootHits struct {
+	Total essdk.SearchTotal      `json:"total"`
+	Hits  []OrganizationsRootHit `json:"hits"`
+}
+
+type OrganizationsRootSearchResponse struct {
+	PitID string                `json:"pit_id"`
+	Hits  OrganizationsRootHits `json:"hits"`
+}
+
+type OrganizationsRootPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewOrganizationsRootPaginator(filters []essdk.BoolFilter, limit *int64) (OrganizationsRootPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_organizations_root", filters, limit)
+	if err != nil {
+		return OrganizationsRootPaginator{}, err
+	}
+
+	p := OrganizationsRootPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p OrganizationsRootPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p OrganizationsRootPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p OrganizationsRootPaginator) NextPage(ctx context.Context) ([]OrganizationsRoot, error) {
+	var response OrganizationsRootSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []OrganizationsRoot
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listOrganizationsRootFilters = map[string]string{
+	"arn":          "description.Root.Arn",
+	"id":           "description.Root.Id",
+	"name":         "description.Root.Name",
+	"policy_types": "description.Root.PolicyTypes",
+	"title":        "description.Root.Name",
+}
+
+func ListOrganizationsRoot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListOrganizationsRoot")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListOrganizationsRoot NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListOrganizationsRoot NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListOrganizationsRoot GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListOrganizationsRoot GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListOrganizationsRoot GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewOrganizationsRootPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOrganizationsRootFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListOrganizationsRoot NewOrganizationsRootPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListOrganizationsRoot paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getOrganizationsRootFilters = map[string]string{
+	"arn":          "description.Root.Arn",
+	"id":           "description.Root.Id",
+	"name":         "description.Root.Name",
+	"policy_types": "description.Root.PolicyTypes",
+	"title":        "description.Root.Name",
+}
+
+func GetOrganizationsRoot(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetOrganizationsRoot")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewOrganizationsRootPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOrganizationsRootFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: OrganizationsRoot =============================
+
+// ==========================  START: OrganizationsOrganizationalUnit =============================
+
+type OrganizationsOrganizationalUnit struct {
+	Description   aws.OrganizationsOrganizationalUnitDescription `json:"description"`
+	Metadata      aws.Metadata                                   `json:"metadata"`
+	ResourceJobID int                                            `json:"resource_job_id"`
+	SourceJobID   int                                            `json:"source_job_id"`
+	ResourceType  string                                         `json:"resource_type"`
+	SourceType    string                                         `json:"source_type"`
+	ID            string                                         `json:"id"`
+	ARN           string                                         `json:"arn"`
+	SourceID      string                                         `json:"source_id"`
+}
+
+type OrganizationsOrganizationalUnitHit struct {
+	ID      string                          `json:"_id"`
+	Score   float64                         `json:"_score"`
+	Index   string                          `json:"_index"`
+	Type    string                          `json:"_type"`
+	Version int64                           `json:"_version,omitempty"`
+	Source  OrganizationsOrganizationalUnit `json:"_source"`
+	Sort    []interface{}                   `json:"sort"`
+}
+
+type OrganizationsOrganizationalUnitHits struct {
+	Total essdk.SearchTotal                    `json:"total"`
+	Hits  []OrganizationsOrganizationalUnitHit `json:"hits"`
+}
+
+type OrganizationsOrganizationalUnitSearchResponse struct {
+	PitID string                              `json:"pit_id"`
+	Hits  OrganizationsOrganizationalUnitHits `json:"hits"`
+}
+
+type OrganizationsOrganizationalUnitPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewOrganizationsOrganizationalUnitPaginator(filters []essdk.BoolFilter, limit *int64) (OrganizationsOrganizationalUnitPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_organizations_organizationalunit", filters, limit)
+	if err != nil {
+		return OrganizationsOrganizationalUnitPaginator{}, err
+	}
+
+	p := OrganizationsOrganizationalUnitPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p OrganizationsOrganizationalUnitPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p OrganizationsOrganizationalUnitPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p OrganizationsOrganizationalUnitPaginator) NextPage(ctx context.Context) ([]OrganizationsOrganizationalUnit, error) {
+	var response OrganizationsOrganizationalUnitSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []OrganizationsOrganizationalUnit
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listOrganizationsOrganizationalUnitFilters = map[string]string{
+	"arn":   "description.Unit.Arn",
+	"id":    "description.Unit.Id",
+	"name":  "description.Unit.Name",
+	"title": "name",
+}
+
+func ListOrganizationsOrganizationalUnit(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListOrganizationsOrganizationalUnit")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListOrganizationsOrganizationalUnit NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListOrganizationsOrganizationalUnit NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListOrganizationsOrganizationalUnit GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListOrganizationsOrganizationalUnit GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListOrganizationsOrganizationalUnit GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewOrganizationsOrganizationalUnitPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOrganizationsOrganizationalUnitFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListOrganizationsOrganizationalUnit NewOrganizationsOrganizationalUnitPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListOrganizationsOrganizationalUnit paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getOrganizationsOrganizationalUnitFilters = map[string]string{
+	"arn":   "description.Unit.Arn",
+	"id":    "description.Unit.Id",
+	"name":  "description.Unit.Name",
+	"title": "name",
+}
+
+func GetOrganizationsOrganizationalUnit(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetOrganizationsOrganizationalUnit")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewOrganizationsOrganizationalUnitPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOrganizationsOrganizationalUnitFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: OrganizationsOrganizationalUnit =============================
+
+// ==========================  START: OrganizationsPolicyTarget =============================
+
+type OrganizationsPolicyTarget struct {
+	Description   aws.OrganizationsPolicyTargetDescription `json:"description"`
+	Metadata      aws.Metadata                             `json:"metadata"`
+	ResourceJobID int                                      `json:"resource_job_id"`
+	SourceJobID   int                                      `json:"source_job_id"`
+	ResourceType  string                                   `json:"resource_type"`
+	SourceType    string                                   `json:"source_type"`
+	ID            string                                   `json:"id"`
+	ARN           string                                   `json:"arn"`
+	SourceID      string                                   `json:"source_id"`
+}
+
+type OrganizationsPolicyTargetHit struct {
+	ID      string                    `json:"_id"`
+	Score   float64                   `json:"_score"`
+	Index   string                    `json:"_index"`
+	Type    string                    `json:"_type"`
+	Version int64                     `json:"_version,omitempty"`
+	Source  OrganizationsPolicyTarget `json:"_source"`
+	Sort    []interface{}             `json:"sort"`
+}
+
+type OrganizationsPolicyTargetHits struct {
+	Total essdk.SearchTotal              `json:"total"`
+	Hits  []OrganizationsPolicyTargetHit `json:"hits"`
+}
+
+type OrganizationsPolicyTargetSearchResponse struct {
+	PitID string                        `json:"pit_id"`
+	Hits  OrganizationsPolicyTargetHits `json:"hits"`
+}
+
+type OrganizationsPolicyTargetPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewOrganizationsPolicyTargetPaginator(filters []essdk.BoolFilter, limit *int64) (OrganizationsPolicyTargetPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_organizations_policytarget", filters, limit)
+	if err != nil {
+		return OrganizationsPolicyTargetPaginator{}, err
+	}
+
+	p := OrganizationsPolicyTargetPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p OrganizationsPolicyTargetPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p OrganizationsPolicyTargetPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p OrganizationsPolicyTargetPaginator) NextPage(ctx context.Context) ([]OrganizationsPolicyTarget, error) {
+	var response OrganizationsPolicyTargetSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []OrganizationsPolicyTarget
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listOrganizationsPolicyTargetFilters = map[string]string{
+	"arn":         "description.PolicySummary.Arn",
+	"aws_managed": "description.PolicySummary.AwsManaged",
+	"content":     "description.PolicyContent",
+	"description": "description.PolicySummary.Description",
+	"id":          "description.PolicySummary.Id",
+	"name":        "description.PolicySummary.Name",
+	"target_id":   "description.TargetId",
+	"title":       "description.PolicySummary.Name",
+	"type":        "description.PolicySummary.Type",
+}
+
+func ListOrganizationsPolicyTarget(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListOrganizationsPolicyTarget")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListOrganizationsPolicyTarget NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListOrganizationsPolicyTarget NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListOrganizationsPolicyTarget GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListOrganizationsPolicyTarget GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListOrganizationsPolicyTarget GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewOrganizationsPolicyTargetPaginator(essdk.BuildFilter(ctx, d.QueryContext, listOrganizationsPolicyTargetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListOrganizationsPolicyTarget NewOrganizationsPolicyTargetPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListOrganizationsPolicyTarget paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getOrganizationsPolicyTargetFilters = map[string]string{
+	"arn":         "description.PolicySummary.Arn",
+	"aws_managed": "description.PolicySummary.AwsManaged",
+	"content":     "description.PolicyContent",
+	"description": "description.PolicySummary.Description",
+	"id":          "description.PolicySummary.Id",
+	"name":        "description.PolicySummary.Name",
+	"target_id":   "description.TargetId",
+	"title":       "description.PolicySummary.Name",
+	"type":        "description.PolicySummary.Type",
+}
+
+func GetOrganizationsPolicyTarget(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetOrganizationsPolicyTarget")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewOrganizationsPolicyTargetPaginator(essdk.BuildFilter(ctx, d.QueryContext, getOrganizationsPolicyTargetFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: OrganizationsPolicyTarget =============================
 
 // ==========================  START: PinPointApp =============================
 
