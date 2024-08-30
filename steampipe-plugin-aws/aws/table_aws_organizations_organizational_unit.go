@@ -14,11 +14,8 @@ func tableAwsOrganizationsOrganizationalUnit(_ context.Context) *plugin.Table {
 		Description: "AWS Organizations Organizational Unit",
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListOrganizationsOrganizationalUnit,
-			IgnoreConfig: &plugin.IgnoreConfig{
-				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ParentNotFoundException", "InvalidInputException"}),
-			},
 		},
-		Columns: awsKaytuGlobalRegionColumns([]*plugin.Column{
+		Columns: awsKaytuColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Description: "The friendly name of this OU.",

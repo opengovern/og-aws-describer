@@ -15,11 +15,8 @@ func tableAwsOrganizationsRoot(_ context.Context) *plugin.Table {
 		Description: "AWS Organizations Root",
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListOrganizationsRoot,
-			IgnoreConfig: &plugin.IgnoreConfig{
-				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"AWSOrganizationsNotInUseException"}),
-			},
 		},
-		Columns: awsGlobalRegionColumns([]*plugin.Column{
+		Columns: awsKaytuColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Description: "The friendly name of the root.",

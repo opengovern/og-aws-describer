@@ -14,18 +14,12 @@ func tableAwsOrganizationsPolicyTarget(_ context.Context) *plugin.Table {
 		Name:        "aws_organizations_policy_target",
 		Description: "AWS Organizations Policy Target",
 		Get: &plugin.GetConfig{
-			IgnoreConfig: &plugin.IgnoreConfig{
-				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"PolicyNotFoundException", "InvalidInputException"}),
-			},
 			Hydrate: kaytu.GetOrganizationsPolicyTarget,
 		},
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListOrganizationsPolicyTarget,
-			IgnoreConfig: &plugin.IgnoreConfig{
-				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidInputException", "TargetNotFoundException"}),
-			},
 		},
-		Columns: awsKaytuGlobalRegionColumns([]*plugin.Column{
+		Columns: awsKaytuColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Description: "The friendly name of the policy.",
