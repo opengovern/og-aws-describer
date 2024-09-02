@@ -22,7 +22,7 @@ func tableAwsAccount(ctx context.Context) *plugin.Table {
 		List: &plugin.ListConfig{
 			Hydrate: kaytu.ListIAMAccount,
 		},
-		Columns: []*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "name",
 				Description: "Account Name",
@@ -113,19 +113,7 @@ func tableAwsAccount(ctx context.Context) *plugin.Table {
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("Description.Aliases"),
 			},
-			{
-				Name:        "partition",
-				Type:        proto.ColumnType_STRING,
-				Description: "The AWS partition in which the resource is located (aws, aws-cn, or aws-us-gov).",
-				Transform:   transform.FromField("Metadata.Partition"),
-			},
-			{
-				Name:        "region",
-				Type:        proto.ColumnType_STRING,
-				Description: "The AWS Region in which the resource is located.",
-				Transform:   transform.FromField("Metadata.Region"),
-			},
-		},
+		}),
 	}
 }
 
