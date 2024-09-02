@@ -47,7 +47,7 @@ func tableAwsOrganizationsOrganizationalUnit(_ context.Context) *plugin.Table {
 			{
 				Name:        "path",
 				Description: "The OU path is a string representation that uniquely identifies the hierarchical location of an Organizational Unit within the AWS Organizations structure.",
-				Type:        proto.ColumnType_LTREE,
+				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.Path"),
 			},
 
