@@ -1783,6 +1783,21 @@ var resourceTypes = map[string]ResourceType{
 		Summarize:            true,
 	},
 
+	"AWS::AccessAnalyzer::Finding": {
+		Connector:            source.CloudAWS,
+		ResourceName:         "AWS::AccessAnalyzer::Finding",
+		ResourceLabel:        "Access Analyzer Finding",
+		Tags:                 map[string][]string{
+        },
+		ServiceName:          "AccessAnalyzer",
+		ListDescriber:        ParallelDescribeRegional(describer.AccessAnalyzerAnalyzerFinding),
+		GetDescriber:         nil,
+		TerraformName:        []string{},
+		TerraformServiceName: "accessanalyzer",
+		FastDiscovery:        false,
+		Summarize:            true,
+	},
+
 	"AWS::ElastiCache::SubnetGroup": {
 		Connector:            source.CloudAWS,
 		ResourceName:         "AWS::ElastiCache::SubnetGroup",

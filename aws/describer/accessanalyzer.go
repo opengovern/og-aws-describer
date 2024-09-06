@@ -95,3 +95,46 @@ func getAnalyzerFindings(ctx context.Context, client *accessanalyzer.Client, ana
 
 	return findings, nil
 }
+
+func AccessAnalyzerAnalyzerFinding(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+	describeCtx := GetDescribeContext(ctx)
+	client := accessanalyzer.NewFromConfig(cfg)
+	paginator := accessanalyzer.NewListAnalyzersPaginator(client, &accessanalyzer.ListAnalyzersInput{})
+
+	var values []Resource
+	for paginator.HasMorePages() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page.Analyzers {
+			findings, err := getAnalyzerFindings(ctx, client, v.Arn)
+			if err != nil {
+				return nil, err
+			}
+			for _, finding := range findings {
+				resource := Resource{
+					Region: describeCtx.KaytuRegion,
+					ARN:    *v.Arn,
+					Name:   *v.Name,
+					Description: model.AccessAnalyzerAnalyzerFindingDescription{
+						AnalyzerArn: *v.Arn,
+						Finding:     finding,
+					},
+				}
+				if stream != nil {
+					m := *stream
+					err := m(resource)
+					if err != nil {
+						return nil, err
+					}
+				} else {
+					values = append(values, resource)
+				}
+			}
+		}
+	}
+
+	return values, nil
+}
