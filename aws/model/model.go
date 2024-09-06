@@ -191,6 +191,11 @@ type AccessAnalyzerAnalyzerDescription struct {
 	Findings []accessanalyzer.FindingSummary
 }
 
+type AccessAnalyzerAnalyzerFindingDescription struct {
+	AnalyzerArn string
+	Finding     accessanalyzer.FindingSummary
+}
+
 //  ===================   ApiGateway   ===================
 
 //index:aws_apigateway_stage

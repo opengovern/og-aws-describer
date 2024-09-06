@@ -239,6 +239,239 @@ func GetAccessAnalyzerAnalyzer(ctx context.Context, d *plugin.QueryData, _ *plug
 
 // ==========================  END: AccessAnalyzerAnalyzer =============================
 
+// ==========================  START: AccessAnalyzerAnalyzerFinding =============================
+
+type AccessAnalyzerAnalyzerFinding struct {
+	Description   aws.AccessAnalyzerAnalyzerFindingDescription `json:"description"`
+	Metadata      aws.Metadata                                 `json:"metadata"`
+	ResourceJobID int                                          `json:"resource_job_id"`
+	SourceJobID   int                                          `json:"source_job_id"`
+	ResourceType  string                                       `json:"resource_type"`
+	SourceType    string                                       `json:"source_type"`
+	ID            string                                       `json:"id"`
+	ARN           string                                       `json:"arn"`
+	SourceID      string                                       `json:"source_id"`
+}
+
+type AccessAnalyzerAnalyzerFindingHit struct {
+	ID      string                        `json:"_id"`
+	Score   float64                       `json:"_score"`
+	Index   string                        `json:"_index"`
+	Type    string                        `json:"_type"`
+	Version int64                         `json:"_version,omitempty"`
+	Source  AccessAnalyzerAnalyzerFinding `json:"_source"`
+	Sort    []interface{}                 `json:"sort"`
+}
+
+type AccessAnalyzerAnalyzerFindingHits struct {
+	Total essdk.SearchTotal                  `json:"total"`
+	Hits  []AccessAnalyzerAnalyzerFindingHit `json:"hits"`
+}
+
+type AccessAnalyzerAnalyzerFindingSearchResponse struct {
+	PitID string                            `json:"pit_id"`
+	Hits  AccessAnalyzerAnalyzerFindingHits `json:"hits"`
+}
+
+type AccessAnalyzerAnalyzerFindingPaginator struct {
+	paginator *essdk.BaseESPaginator
+}
+
+func (k Client) NewAccessAnalyzerAnalyzerFindingPaginator(filters []essdk.BoolFilter, limit *int64) (AccessAnalyzerAnalyzerFindingPaginator, error) {
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_accessanalyzer_finding", filters, limit)
+	if err != nil {
+		return AccessAnalyzerAnalyzerFindingPaginator{}, err
+	}
+
+	p := AccessAnalyzerAnalyzerFindingPaginator{
+		paginator: paginator,
+	}
+
+	return p, nil
+}
+
+func (p AccessAnalyzerAnalyzerFindingPaginator) HasNext() bool {
+	return !p.paginator.Done()
+}
+
+func (p AccessAnalyzerAnalyzerFindingPaginator) Close(ctx context.Context) error {
+	return p.paginator.Deallocate(ctx)
+}
+
+func (p AccessAnalyzerAnalyzerFindingPaginator) NextPage(ctx context.Context) ([]AccessAnalyzerAnalyzerFinding, error) {
+	var response AccessAnalyzerAnalyzerFindingSearchResponse
+	err := p.paginator.Search(ctx, &response)
+	if err != nil {
+		return nil, err
+	}
+
+	var values []AccessAnalyzerAnalyzerFinding
+	for _, hit := range response.Hits.Hits {
+		values = append(values, hit.Source)
+	}
+
+	hits := int64(len(response.Hits.Hits))
+	if hits > 0 {
+		p.paginator.UpdateState(hits, response.Hits.Hits[hits-1].Sort, response.PitID)
+	} else {
+		p.paginator.UpdateState(hits, nil, "")
+	}
+
+	return values, nil
+}
+
+var listAccessAnalyzerAnalyzerFindingFilters = map[string]string{
+	"access_analyzer_arn":    "description.AnalyzerArn",
+	"action":                 "description.Finding.Action",
+	"analyzed_at":            "description.Finding.AnalyzedAt",
+	"condition":              "description.Finding.Condition",
+	"created_at":             "description.Finding.CreatedAt",
+	"error":                  "description.Finding.Error",
+	"id":                     "description.Finding.Id",
+	"is_public":              "description.Finding.IsPublic",
+	"principal":              "description.Finding.Principal",
+	"resource":               "description.Finding.Resource",
+	"resource_owner_account": "description.Finding.ResourceOwnerAccount",
+	"resource_type":          "description.Finding.ResourceType",
+	"sources":                "description.Finding.Sources",
+	"status":                 "description.Finding.Status",
+	"title":                  "description.Finding.Id",
+	"updated_at":             "description.Finding.UpdatedAt",
+}
+
+func ListAccessAnalyzerAnalyzerFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("ListAccessAnalyzerAnalyzerFinding")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAccessAnalyzerAnalyzerFinding NewClientCached", "error", err)
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAccessAnalyzerAnalyzerFinding NewSelfClientCached", "error", err)
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAccessAnalyzerAnalyzerFinding GetConfigTableValueOrNil for KaytuConfigKeyAccountID", "error", err)
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAccessAnalyzerAnalyzerFinding GetConfigTableValueOrNil for KaytuConfigKeyResourceCollectionFilters", "error", err)
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAccessAnalyzerAnalyzerFinding GetConfigTableValueOrNil for KaytuConfigKeyClientType", "error", err)
+		return nil, err
+	}
+
+	paginator, err := k.NewAccessAnalyzerAnalyzerFindingPaginator(essdk.BuildFilter(ctx, d.QueryContext, listAccessAnalyzerAnalyzerFindingFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), d.QueryContext.Limit)
+	if err != nil {
+		plugin.Logger(ctx).Error("ListAccessAnalyzerAnalyzerFinding NewAccessAnalyzerAnalyzerFindingPaginator", "error", err)
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			plugin.Logger(ctx).Error("ListAccessAnalyzerAnalyzerFinding paginator.NextPage", "error", err)
+			return nil, err
+		}
+
+		for _, v := range page {
+			d.StreamListItem(ctx, v)
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+var getAccessAnalyzerAnalyzerFindingFilters = map[string]string{
+	"access_analyzer_arn":    "description.AnalyzerArn",
+	"action":                 "description.Finding.Action",
+	"analyzed_at":            "description.Finding.AnalyzedAt",
+	"condition":              "description.Finding.Condition",
+	"created_at":             "description.Finding.CreatedAt",
+	"error":                  "description.Finding.Error",
+	"id":                     "description.Finding.Id",
+	"is_public":              "description.Finding.IsPublic",
+	"principal":              "description.Finding.Principal",
+	"resource":               "description.Finding.Resource",
+	"resource_owner_account": "description.Finding.ResourceOwnerAccount",
+	"resource_type":          "description.Finding.ResourceType",
+	"sources":                "description.Finding.Sources",
+	"status":                 "description.Finding.Status",
+	"title":                  "description.Finding.Id",
+	"updated_at":             "description.Finding.UpdatedAt",
+}
+
+func GetAccessAnalyzerAnalyzerFinding(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+	plugin.Logger(ctx).Trace("GetAccessAnalyzerAnalyzerFinding")
+	runtime.GC()
+	// create service
+	cfg := essdk.GetConfig(d.Connection)
+	ke, err := essdk.NewClientCached(cfg, d.ConnectionCache, ctx)
+	if err != nil {
+		return nil, err
+	}
+	k := Client{Client: ke}
+
+	sc, err := steampipesdk.NewSelfClientCached(ctx, d.ConnectionCache)
+	if err != nil {
+		return nil, err
+	}
+	accountId, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyAccountID)
+	if err != nil {
+		return nil, err
+	}
+	encodedResourceCollectionFilters, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyResourceCollectionFilters)
+	if err != nil {
+		return nil, err
+	}
+	clientType, err := sc.GetConfigTableValueOrNil(ctx, steampipesdk.KaytuConfigKeyClientType)
+	if err != nil {
+		return nil, err
+	}
+
+	limit := int64(1)
+	paginator, err := k.NewAccessAnalyzerAnalyzerFindingPaginator(essdk.BuildFilter(ctx, d.QueryContext, getAccessAnalyzerAnalyzerFindingFilters, "aws", accountId, encodedResourceCollectionFilters, clientType), &limit)
+	if err != nil {
+		return nil, err
+	}
+
+	for paginator.HasNext() {
+		page, err := paginator.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, v := range page {
+			return v, nil
+		}
+	}
+
+	err = paginator.Close(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
+
+// ==========================  END: AccessAnalyzerAnalyzerFinding =============================
+
 // ==========================  START: ApiGatewayStage =============================
 
 type ApiGatewayStage struct {
@@ -35811,7 +36044,7 @@ type IAMAccountPaginator struct {
 }
 
 func (k Client) NewIAMAccountPaginator(filters []essdk.BoolFilter, limit *int64) (IAMAccountPaginator, error) {
-	paginator, err := essdk.NewPaginator(k.ES(), "aws_iam_account", filters, limit)
+	paginator, err := essdk.NewPaginator(k.ES(), "aws_account_account", filters, limit)
 	if err != nil {
 		return IAMAccountPaginator{}, err
 	}
@@ -35856,8 +36089,11 @@ func (p IAMAccountPaginator) NextPage(ctx context.Context) ([]IAMAccount, error)
 var listIAMAccountFilters = map[string]string{
 	"account_aliases":                     "description.Aliases",
 	"account_email":                       "description.Account.Email",
+	"account_id":                          "description.Account.Id",
 	"account_status":                      "description.Account.Status",
+	"arn":                                 "description.Account.Arn",
 	"kaytu_account_id":                    "metadata.SourceID",
+	"name":                                "description.Account.Name",
 	"organization_arn":                    "description.Organization.Arn",
 	"organization_available_policy_types": "description.Organization.AvailablePolicyTypes",
 	"organization_feature_set":            "description.Organization.FeatureSet",
@@ -35865,6 +36101,7 @@ var listIAMAccountFilters = map[string]string{
 	"organization_master_account_arn":     "description.Organization.MasterAccountArn",
 	"organization_master_account_email":   "description.Organization.MasterAccountEmail",
 	"organization_master_account_id":      "description.Organization.MasterAccountId",
+	"title":                               "description.Account.Name",
 }
 
 func ListIAMAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -35929,8 +36166,11 @@ func ListIAMAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 var getIAMAccountFilters = map[string]string{
 	"account_aliases":                     "description.Aliases",
 	"account_email":                       "description.Account.Email",
+	"account_id":                          "description.Account.Id",
 	"account_status":                      "description.Account.Status",
+	"arn":                                 "description.Account.Arn",
 	"kaytu_account_id":                    "metadata.SourceID",
+	"name":                                "description.Account.Name",
 	"organization_arn":                    "description.Organization.Arn",
 	"organization_available_policy_types": "description.Organization.AvailablePolicyTypes",
 	"organization_feature_set":            "description.Organization.FeatureSet",
@@ -35938,6 +36178,7 @@ var getIAMAccountFilters = map[string]string{
 	"organization_master_account_arn":     "description.Organization.MasterAccountArn",
 	"organization_master_account_email":   "description.Organization.MasterAccountEmail",
 	"organization_master_account_id":      "description.Organization.MasterAccountId",
+	"title":                               "description.Account.Name",
 }
 
 func GetIAMAccount(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -84093,10 +84334,12 @@ func (p OrganizationsOrganizationalUnitPaginator) NextPage(ctx context.Context) 
 }
 
 var listOrganizationsOrganizationalUnitFilters = map[string]string{
-	"arn":   "description.Unit.Arn",
-	"id":    "description.Unit.Id",
-	"name":  "description.Unit.Name",
-	"title": "name",
+	"arn":       "description.Unit.Arn",
+	"id":        "description.Unit.Id",
+	"name":      "description.Unit.Name",
+	"parent_id": "description.ParentId",
+	"path":      "description.Path",
+	"title":     "description.Unit.Name",
 }
 
 func ListOrganizationsOrganizationalUnit(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
@@ -84159,10 +84402,12 @@ func ListOrganizationsOrganizationalUnit(ctx context.Context, d *plugin.QueryDat
 }
 
 var getOrganizationsOrganizationalUnitFilters = map[string]string{
-	"arn":   "description.Unit.Arn",
-	"id":    "description.Unit.Id",
-	"name":  "description.Unit.Name",
-	"title": "name",
+	"arn":       "description.Unit.Arn",
+	"id":        "description.Unit.Id",
+	"name":      "description.Unit.Name",
+	"parent_id": "description.ParentId",
+	"path":      "description.Path",
+	"title":     "description.Unit.Name",
 }
 
 func GetOrganizationsOrganizationalUnit(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
