@@ -24,6 +24,9 @@ func NeptuneDatabase(ctx context.Context, cfg aws.Config, stream *StreamSender) 
 			if v.DBInstanceArn == nil {
 				continue
 			}
+			if *v.Engine != "neptune" {
+				continue
+			}
 			tags, err := client.ListTagsForResource(ctx, &neptune.ListTagsForResourceInput{
 				ResourceName: v.DBInstanceArn,
 			})
@@ -72,6 +75,9 @@ func NeptuneDatabaseCluster(ctx context.Context, cfg aws.Config, stream *StreamS
 
 		for _, v := range page.DBClusters {
 			if v.DBClusterArn == nil {
+				continue
+			}
+			if *v.Engine != "neptune" {
 				continue
 			}
 			tags, err := client.ListTagsForResource(ctx, &neptune.ListTagsForResourceInput{
@@ -135,6 +141,9 @@ func NeptuneDatabaseClusterSnapshot(ctx context.Context, cfg aws.Config, stream 
 				}
 
 				for _, item := range output.DBClusterSnapshots {
+					if *item.Engine != "neptune" {
+						continue
+					}
 					resource, err := neptuneDatabaseClusterSnapshotHandler(ctx, client, item)
 					if err != nil {
 						return nil, err
