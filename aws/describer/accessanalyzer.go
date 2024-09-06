@@ -116,8 +116,7 @@ func AccessAnalyzerAnalyzerFinding(ctx context.Context, cfg aws.Config, stream *
 			for _, finding := range findings {
 				resource := Resource{
 					Region: describeCtx.KaytuRegion,
-					ARN:    *v.Arn,
-					Name:   *v.Name,
+					ID:     *finding.Id,
 					Description: model.AccessAnalyzerAnalyzerFindingDescription{
 						AnalyzerArn: *v.Arn,
 						Finding:     finding,
