@@ -64,7 +64,7 @@ jobs:
       - name: Upload lambda describer artifact
         uses: actions/upload-artifact@v3
         with:
-          name: lambda-kaytu-aws-describer
+          name: lambda-og-aws-describer
           path: ./build.tar
           retention-days: 1
       - name: Build az functions describer app
@@ -77,7 +77,7 @@ jobs:
       - name: Upload az functions artifact
         uses: actions/upload-artifact@v3
         with:
-          name: azfunction-kaytu-aws-describer
+          name: azfunction-og-aws-describer
           path: ./azfunction.tar
           retention-days: 1
       - name: Build local describer app
@@ -90,7 +90,7 @@ jobs:
       - name: Upload local artifact
         uses: actions/upload-artifact@v3
         with:
-          name: local-kaytu-aws-describer
+          name: local-og-aws-describer
           path: ./local.tar
           retention-days: 1
       - name: Set latest tag output
@@ -151,7 +151,7 @@ jobs:
       - name: Download lambda describer artifact
         uses: actions/download-artifact@v3
         with:
-          name: lambda-kaytu-aws-describer
+          name: lambda-og-aws-describer
           path: .
       - name: Unpack lambda describer artifact
         run: |
@@ -169,8 +169,8 @@ jobs:
         with:
           push: true
           tags: |
-            ${{ vars.AWS_DOCKER_REGISTRY }}/kaytu-aws-describer:latest
-            ${{ vars.AWS_DOCKER_REGISTRY }}/kaytu-aws-describer:${{ needs.build.outputs.latest_tag }}
+            ${{ vars.AWS_DOCKER_REGISTRY }}/og-aws-describer:latest
+            ${{ vars.AWS_DOCKER_REGISTRY }}/og-aws-describer:${{ needs.build.outputs.latest_tag }}
           file: Dockerfile
           context: .
       - name: Azure Docker Login
@@ -184,8 +184,8 @@ jobs:
         with:
           push: true
           tags: |
-            ${{ vars.AZURE_DOCKER_REGISTRY }}/kaytu-aws-describer:latest
-            ${{ vars.AZURE_DOCKER_REGISTRY }}/kaytu-aws-describer:${{ needs.build.outputs.latest_tag }}
+            ${{ vars.AZURE_DOCKER_REGISTRY }}/og-aws-describer:latest
+            ${{ vars.AZURE_DOCKER_REGISTRY }}/og-aws-describer:${{ needs.build.outputs.latest_tag }}
           file: Dockerfile
           context: .
       - name: Configure AWS credentials for uploading lambda
@@ -195,7 +195,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME_FOR_LAMBDA }}
       - name: AWS Lambda Deploy
         run: |
-          aws lambda update-function-code --function-name kaytu-aws-describer --image-uri ${{ vars.AWS_DOCKER_REGISTRY }}/kaytu-aws-describer:${{ needs.build.outputs.latest_tag }}
+          aws lambda update-function-code --function-name og-aws-describer --image-uri ${{ vars.AWS_DOCKER_REGISTRY }}/og-aws-describer:${{ needs.build.outputs.latest_tag }}
   deploy-azfunction-describer:
     needs:
       - build
@@ -211,7 +211,7 @@ jobs:
       - name: Download az functions describer artifact
         uses: actions/download-artifact@v3
         with:
-          name: azfunction-kaytu-aws-describer
+          name: azfunction-og-aws-describer
           path: .
       - name: Unpack az functions describer artifact
         run: |
@@ -233,13 +233,13 @@ jobs:
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            az functionapp deployment source config-zip -g kaytu-development -n kaytu-aws-describer --src azfunction/azfunction.zip
+            az functionapp deployment source config-zip -g kaytu-development -n og-aws-describer --src azfunction/azfunction.zip
       - name: Restart function app
         uses: azure/cli@v2
         with:
           azcliversion: 2.30.0
           inlineScript: |
-            az functionapp restart -g kaytu-development -n kaytu-aws-describer
+            az functionapp restart -g kaytu-development -n og-aws-describer
   deploy-local-describer:
     needs:
       - build
@@ -255,7 +255,7 @@ jobs:
       - name: Download plugin artifact
         uses: actions/download-artifact@v3
         with:
-          name: local-kaytu-aws-describer
+          name: local-og-aws-describer
           path: .
       - name: Unpack plugin artifact
         run: |
@@ -271,7 +271,7 @@ jobs:
         with:
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/kaytu-aws-describer:local-latest
-            ghcr.io/${{ github.repository_owner }}/kaytu-aws-describer:local-${{ needs.build.outputs.latest_tag }}
+            ghcr.io/${{ github.repository_owner }}/og-aws-describer:local-latest
+            ghcr.io/${{ github.repository_owner }}/og-aws-describer:local-${{ needs.build.outputs.latest_tag }}
           file: DockerFileLocal
           context: .
