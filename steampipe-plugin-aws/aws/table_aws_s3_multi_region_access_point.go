@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/s3control"
@@ -20,7 +20,7 @@ func tableAwsS3MultiRegionAccessPoint(_ context.Context) *plugin.Table {
 		Name:        "aws_s3_multi_region_access_point",
 		Description: "AWS S3 Multi Region Access Point",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListS3MultiRegionAccessPoint,
+			Hydrate: opengovernance.ListS3MultiRegionAccessPoint,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameter", "InvalidRequest"}),
 			},
@@ -30,7 +30,7 @@ func tableAwsS3MultiRegionAccessPoint(_ context.Context) *plugin.Table {
 		},
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "account_id"}),
-			Hydrate:    kaytu.GetS3MultiRegionAccessPoint,
+			Hydrate:    opengovernance.GetS3MultiRegionAccessPoint,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NoSuchMultiRegionAccessPoint", "InvalidParameter", "InvalidRequest"}),
 			},

@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 	"errors"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/wellarchitected"
@@ -29,10 +29,10 @@ func tableAwsWellArchitectedAnswer(_ context.Context) *plugin.Table {
 				{Name: "workload_id", Require: plugin.Required},
 				{Name: "milestone_number", Require: plugin.Optional},
 			},
-			Hydrate: kaytu.GetWellArchitectedAnswer,
+			Hydrate: opengovernance.GetWellArchitectedAnswer,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListWellArchitectedAnswer,
+			Hydrate: opengovernance.ListWellArchitectedAnswer,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "lens_alias", Require: plugin.Optional},
 				{Name: "pillar_id", Require: plugin.Optional},

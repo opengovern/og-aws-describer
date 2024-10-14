@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -14,10 +14,10 @@ func tableAwsCloudwatchLogGroup(_ context.Context) *plugin.Table {
 		Description: "AWS CloudWatch Log Group",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    kaytu.GetCloudWatchLogsLogGroup,
+			Hydrate:    opengovernance.GetCloudWatchLogsLogGroup,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCloudWatchLogsLogGroup,
+			Hydrate: opengovernance.ListCloudWatchLogsLogGroup,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "name",

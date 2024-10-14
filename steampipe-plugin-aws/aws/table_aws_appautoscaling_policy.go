@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -16,7 +16,7 @@ func tableAwsAppAutoScalingPolicy(_ context.Context) *plugin.Table {
 		Name:        "aws_appautoscaling_policy",
 		Description: "AWS Application Auto Scaling Policy",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListApplicationAutoScalingPolicy,
+			Hydrate: opengovernance.ListApplicationAutoScalingPolicy,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "service_namespace",

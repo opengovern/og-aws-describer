@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"strings"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -21,10 +21,10 @@ func tableAwsVpcFlowlog(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"Client.InvalidInstanceID.NotFound", "InvalidParameterValue"}),
 			},
-			Hydrate: kaytu.GetEC2FlowLog,
+			Hydrate: opengovernance.GetEC2FlowLog,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2FlowLog,
+			Hydrate: opengovernance.ListEC2FlowLog,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "deliver_logs_status", Require: plugin.Optional},
 				{Name: "log_destination_type", Require: plugin.Optional},
@@ -154,8 +154,8 @@ func tableAwsVpcFlowlog(_ context.Context) *plugin.Table {
 //// HYDRATE FUNCTIONS
 
 func getVpcFlowlogAkas(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	vpcFlowlog := d.HydrateItem.(kaytu.EC2FlowLog).Description.FlowLog
-	metadata := d.HydrateItem.(kaytu.EC2FlowLog).Metadata
+	vpcFlowlog := d.HydrateItem.(opengovernance.EC2FlowLog).Description.FlowLog
+	metadata := d.HydrateItem.(opengovernance.EC2FlowLog).Metadata
 
 	akas := []string{"arn:" + metadata.Partition + ":ec2:" + metadata.Region + ":" + metadata.AccountID + ":vpc-flow-log/" + *vpcFlowlog.FlowLogId}
 
@@ -165,7 +165,7 @@ func getVpcFlowlogAkas(_ context.Context, d *transform.TransformData) (interface
 //// TRANSFORM FUNCTIONS
 
 func vpcFlowlogTurbotData(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	vpcFlowlog := d.HydrateItem.(kaytu.EC2FlowLog).Description.FlowLog
+	vpcFlowlog := d.HydrateItem.(opengovernance.EC2FlowLog).Description.FlowLog
 	param := d.Param.(string)
 
 	// Get resource title
@@ -191,7 +191,7 @@ func vpcFlowlogTurbotData(_ context.Context, d *transform.TransformData) (interf
 }
 
 func logDestinationBucketName(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.EC2FlowLog).Description.FlowLog
+	data := d.HydrateItem.(opengovernance.EC2FlowLog).Description.FlowLog
 	if data.LogDestination == nil {
 		return nil, nil
 	}

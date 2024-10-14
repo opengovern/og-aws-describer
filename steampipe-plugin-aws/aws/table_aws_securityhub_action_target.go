@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -17,13 +17,13 @@ func tableAwsSecurityHubActionTarget(_ context.Context) *plugin.Table {
 		Description: "AWS Security Hub Action Target",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("arn"),
-			Hydrate:    kaytu.GetSecurityHubActionTarget,
+			Hydrate:    opengovernance.GetSecurityHubActionTarget,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidInputException"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSecurityHubActionTarget,
+			Hydrate: opengovernance.ListSecurityHubActionTarget,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException"}),
 			},

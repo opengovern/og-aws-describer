@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -20,10 +20,10 @@ func tableAwsRegion(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameterValue"}),
 			},
-			Hydrate: kaytu.GetEC2Region,
+			Hydrate: opengovernance.GetEC2Region,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2Region,
+			Hydrate: opengovernance.ListEC2Region,
 		},
 		Columns: awsKaytuDefaultColumns([]*plugin.Column{
 			{
@@ -74,8 +74,8 @@ func tableAwsRegion(_ context.Context) *plugin.Table {
 
 func getAwsRegionAkas(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("getAwsRegionAkas")
-	region := d.HydrateItem.(kaytu.EC2Region).Description.Region
-	metadata := d.HydrateItem.(kaytu.EC2Region).Metadata
+	region := d.HydrateItem.(opengovernance.EC2Region).Description.Region
+	metadata := d.HydrateItem.(opengovernance.EC2Region).Metadata
 
 	akas := []string{"arn:" + metadata.Partition + "::" + *region.RegionName + ":" + metadata.AccountID}
 	return akas, nil

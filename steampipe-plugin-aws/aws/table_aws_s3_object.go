@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,7 +15,7 @@ func tableAwsS3Object(_ context.Context) *plugin.Table {
 		Name:        "aws_s3_object",
 		Description: "List AWS S3 Objects in S3 buckets by bucket name.",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListS3Object,
+			Hydrate: opengovernance.ListS3Object,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "bucket_name", Require: plugin.Required, CacheMatch: "exact"},
 				{Name: "prefix", Require: plugin.Optional},

@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/kaytu-io/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -14,10 +14,10 @@ func tableAwsEC2ElasticIP(_ context.Context) *plugin.Table {
 		Description: "AWS EC2 ElasticIP",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetEC2ElasticIP,
+			Hydrate:    opengovernance.GetEC2ElasticIP,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2ElasticIP,
+			Hydrate: opengovernance.ListEC2ElasticIP,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

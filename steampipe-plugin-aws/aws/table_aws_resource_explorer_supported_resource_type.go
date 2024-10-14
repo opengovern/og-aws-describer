@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -17,7 +17,7 @@ func tableAWSResourceExplorerSupportedResourceType(_ context.Context) *plugin.Ta
 		Name:        "aws_resource_explorer_supported_resource_type",
 		Description: "AWS Resource Explorer Supported Resource Type",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListResourceExplorer2SupportedResourceType,
+			Hydrate: opengovernance.ListResourceExplorer2SupportedResourceType,
 		},
 		Columns: awsKaytuColumns([]*plugin.Column{
 			{

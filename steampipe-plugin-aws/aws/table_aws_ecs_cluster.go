@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/service/ecs/types"
 
@@ -22,10 +22,10 @@ func tableAwsEcsCluster(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException", "InvalidParameterException"}),
 			},
-			Hydrate: kaytu.GetECSCluster,
+			Hydrate: opengovernance.GetECSCluster,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListECSCluster,
+			Hydrate: opengovernance.ListECSCluster,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

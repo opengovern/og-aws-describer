@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/service/directoryservice/types"
@@ -22,10 +22,10 @@ func tableAwsDirectoryServiceCertificate(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"CertificateDoesNotExistException", "DirectoryDoesNotExistException", "InvalidParameterException"}),
 			},
-			Hydrate: kaytu.GetDirectoryServiceCertificate,
+			Hydrate: opengovernance.GetDirectoryServiceCertificate,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDirectoryServiceCertificate,
+			Hydrate: opengovernance.ListDirectoryServiceCertificate,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"DirectoryDoesNotExistException"}),
 			},

@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -20,10 +20,10 @@ func tableAwsEc2KeyPair(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidKeyPair.NotFound", "InvalidKeyPair.Unavailable", "InvalidKeyPair.Malformed"}),
 			},
-			Hydrate: kaytu.GetEC2KeyPair,
+			Hydrate: opengovernance.GetEC2KeyPair,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2KeyPair,
+			Hydrate: opengovernance.ListEC2KeyPair,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "key_pair_id", Require: plugin.Optional},
 				{Name: "key_fingerprint", Require: plugin.Optional},
@@ -90,14 +90,14 @@ func tableAwsEc2KeyPair(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getEC2KeyPairAkas(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	keyPair := d.HydrateItem.(kaytu.EC2KeyPair).Description.KeyPair
-	metadata := d.HydrateItem.(kaytu.EC2KeyPair).Metadata
+	keyPair := d.HydrateItem.(opengovernance.EC2KeyPair).Description.KeyPair
+	metadata := d.HydrateItem.(opengovernance.EC2KeyPair).Metadata
 
 	akas := []string{"arn:" + metadata.Partition + ":ec2:" + metadata.Region + ":" + metadata.AccountID + ":key-pair/" + *keyPair.KeyName}
 	return akas, nil
 }
 
 func getEc2KeyPairTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	keyPair := d.HydrateItem.(kaytu.EC2KeyPair)
+	keyPair := d.HydrateItem.(opengovernance.EC2KeyPair)
 	return ec2V2TagsToMap(keyPair.Description.KeyPair.Tags)
 }

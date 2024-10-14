@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,10 +15,10 @@ func tableAwsStorageGatewayStorageGateway(_ context.Context) *plugin.Table {
 		Description: "AWS StorageGateway StorageGateway",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("gateway_id"),
-			Hydrate:    kaytu.GetStorageGatewayStorageGateway,
+			Hydrate:    opengovernance.GetStorageGatewayStorageGateway,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListStorageGatewayStorageGateway,
+			Hydrate: opengovernance.ListStorageGatewayStorageGateway,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -60,6 +60,6 @@ func tableAwsStorageGatewayStorageGateway(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getStorageGatewayStorageGatewayTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.StorageGatewayStorageGateway).Description.Tags
+	tags := d.HydrateItem.(opengovernance.StorageGatewayStorageGateway).Description.Tags
 	return storageGatewayV2TagsToMap(tags)
 }

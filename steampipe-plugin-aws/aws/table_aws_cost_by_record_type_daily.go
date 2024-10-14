@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -14,7 +14,7 @@ func tableAwsCostByRecordTypeDaily(_ context.Context) *plugin.Table {
 		Name:        "aws_cost_by_record_type_daily",
 		Description: "AWS Cost Explorer - Cost by Record Type (Daily)",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCostExplorerByRecordTypeDaily,
+			Hydrate: opengovernance.ListCostExplorerByRecordTypeDaily,
 		},
 		Columns: awsKaytuColumns(
 			kaytuCostExplorerColumns([]*plugin.Column{

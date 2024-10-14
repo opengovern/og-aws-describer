@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -14,7 +14,7 @@ func tableAwsIamAccessKey(_ context.Context) *plugin.Table {
 		Name:        "aws_iam_access_key",
 		Description: "AWS IAM User Access Key",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListIAMAccessKey,
+			Hydrate: opengovernance.ListIAMAccessKey,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "user_name", Require: plugin.Optional},
 			},
@@ -83,7 +83,7 @@ func tableAwsIamAccessKey(_ context.Context) *plugin.Table {
 //// HYDRATE FUNCTIONS
 
 func getIamAccessKeyAka(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	arn := d.HydrateItem.(kaytu.IAMAccessKey).ARN
+	arn := d.HydrateItem.(opengovernance.IAMAccessKey).ARN
 
 	aka := []string{arn}
 	return aka, nil

@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -19,10 +19,10 @@ func tableAwsEc2AmiShared(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidAMIID.NotFound", "InvalidAMIID.Unavailable", "InvalidAMIID.Malformed"}),
 			},
-			Hydrate: kaytu.GetEC2AMI,
+			Hydrate: opengovernance.GetEC2AMI,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2AMI,
+			Hydrate: opengovernance.ListEC2AMI,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "owner_id", Require: plugin.Optional, CacheMatch: "exact"},
 				{Name: "architecture", Require: plugin.Optional},
@@ -209,8 +209,8 @@ func tableAwsEc2AmiShared(_ context.Context) *plugin.Table {
 //// LIST FUNCTION
 
 func getImageOwnerAlias(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	image := h.Item.(kaytu.EC2AMI).Description.AMI
-	metadata := h.Item.(kaytu.EC2AMI).Metadata
+	image := h.Item.(opengovernance.EC2AMI).Description.AMI
+	metadata := h.Item.(opengovernance.EC2AMI).Metadata
 
 	if image.ImageOwnerAlias == nil && metadata.AccountID != *image.OwnerId {
 		return *image.OwnerId, nil

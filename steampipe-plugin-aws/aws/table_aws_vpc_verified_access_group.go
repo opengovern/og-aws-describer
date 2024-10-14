@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -20,10 +20,10 @@ func tableAwsVpcVerifiedAccessGroup(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameterValue", "InvalidVerifiedAccessGroupId.NotFound", "InvalidAction"}),
 			},
-			Hydrate: kaytu.GetEC2VerifiedAccessGroup,
+			Hydrate: opengovernance.GetEC2VerifiedAccessGroup,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2VerifiedAccessGroup,
+			Hydrate: opengovernance.ListEC2VerifiedAccessGroup,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameterValue"}),
 			},
@@ -110,7 +110,7 @@ func tableAwsVpcVerifiedAccessGroup(_ context.Context) *plugin.Table {
 }
 
 func verifiedAccessGroupTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	group := d.HydrateItem.(kaytu.EC2VerifiedAccessGroup).Description.VerifiedAccountGroup
+	group := d.HydrateItem.(opengovernance.EC2VerifiedAccessGroup).Description.VerifiedAccountGroup
 
 	// Get the resource tags
 	var turbotTagsMap map[string]string
@@ -125,7 +125,7 @@ func verifiedAccessGroupTurbotTags(_ context.Context, d *transform.TransformData
 }
 
 func verifiedAccessGroupTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	group := d.HydrateItem.(kaytu.EC2VerifiedAccessGroup).Description.VerifiedAccountGroup
+	group := d.HydrateItem.(opengovernance.EC2VerifiedAccessGroup).Description.VerifiedAccountGroup
 	title := group.VerifiedAccessGroupId
 
 	if group.Tags != nil {

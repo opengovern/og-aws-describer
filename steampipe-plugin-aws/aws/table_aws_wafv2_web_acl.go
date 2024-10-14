@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsWafv2WebAcl(_ context.Context) *plugin.Table {
 			KeyColumns: plugin.AllColumns([]string{"id", "name", "scope"}),
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"WAFNonexistentItemException", "WAFInvalidParameterException"}),
-			}, Hydrate: kaytu.GetWAFv2WebACL,
+			}, Hydrate: opengovernance.GetWAFv2WebACL,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListWAFv2WebACL,
+			Hydrate: opengovernance.ListWAFv2WebACL,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
@@ -147,7 +147,7 @@ func tableAwsWafv2WebAcl(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func webAclLocation(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.WAFv2WebACL)
+	data := d.HydrateItem.(opengovernance.WAFv2WebACL)
 	loc := strings.Split(strings.Split(*data.Description.WebACL.ARN, ":")[5], "/")[0]
 	if loc == "regional" {
 		return "REGIONAL", nil
@@ -157,7 +157,7 @@ func webAclLocation(_ context.Context, d *transform.TransformData) (interface{},
 
 func webAclTagListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("webAclTagListToTurbotTags")
-	data := d.HydrateItem.(kaytu.WAFv2WebACL).Description
+	data := d.HydrateItem.(opengovernance.WAFv2WebACL).Description
 
 	if data.TagInfoForResource.TagList == nil || len(data.TagInfoForResource.TagList) < 1 {
 		return nil, nil
@@ -176,11 +176,11 @@ func webAclTagListToTurbotTags(ctx context.Context, d *transform.TransformData) 
 }
 
 func webAclRegion(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.WAFv2WebACL).Description
+	data := d.HydrateItem.(opengovernance.WAFv2WebACL).Description
 	loc := strings.Split(strings.Split(*data.WebACL.ARN, ":")[5], "/")[0]
 	if loc == "global" {
 		return "global", nil
 	}
-	region := d.HydrateItem.(kaytu.WAFv2WebACL).Metadata.Region
+	region := d.HydrateItem.(opengovernance.WAFv2WebACL).Metadata.Region
 	return region, nil
 }

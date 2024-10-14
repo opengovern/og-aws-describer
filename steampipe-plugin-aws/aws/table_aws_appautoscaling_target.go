@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/kaytu-io/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -17,10 +17,10 @@ func tableAwsAppAutoScalingTarget(_ context.Context) *plugin.Table {
 		Description: "AWS Application Auto Scaling Target",
 		Get: &plugin.GetConfig{
 			//KeyColumns: plugin.AllColumns([]string{"service_namespace", "resource_id"}),
-			Hydrate: kaytu.GetApplicationAutoScalingTarget,
+			Hydrate: opengovernance.GetApplicationAutoScalingTarget,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListApplicationAutoScalingTarget,
+			Hydrate: opengovernance.ListApplicationAutoScalingTarget,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "service_namespace",

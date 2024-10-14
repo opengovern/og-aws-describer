@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -17,10 +17,10 @@ func tableAwsAccount(ctx context.Context) *plugin.Table {
 		Description: "AWS Account",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("arn"),
-			Hydrate:    kaytu.ListIAMAccount,
+			Hydrate:    opengovernance.ListIAMAccount,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListIAMAccount,
+			Hydrate: opengovernance.ListIAMAccount,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -125,7 +125,7 @@ func tableAwsAccount(ctx context.Context) *plugin.Table {
 
 func accountDataToTitle(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("getAwsAccountAkas")
-	accountInfo := d.HydrateItem.(kaytu.IAMAccount)
+	accountInfo := d.HydrateItem.(opengovernance.IAMAccount)
 
 	if len(accountInfo.Description.Aliases) > 0 {
 		return accountInfo.Description.Aliases[0], nil
@@ -136,7 +136,7 @@ func accountDataToTitle(ctx context.Context, d *transform.TransformData) (interf
 
 func accountARN(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("accountARN")
-	metadata := d.HydrateItem.(kaytu.IAMAccount).Metadata
+	metadata := d.HydrateItem.(opengovernance.IAMAccount).Metadata
 
 	arn := "arn:" + metadata.Partition + ":::" + metadata.AccountID
 

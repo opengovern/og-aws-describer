@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsDmsReplicationInstance(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameterValueException", "ResourceNotFoundFault", "InvalidParameterCombinationException"}),
 			},
-			Hydrate: kaytu.GetDMSReplicationInstance,
+			Hydrate: opengovernance.GetDMSReplicationInstance,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDMSReplicationInstance,
+			Hydrate: opengovernance.ListDMSReplicationInstance,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "replication_instance_identifier",
@@ -196,7 +196,7 @@ func tableAwsDmsReplicationInstance(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func dmsReplicationInstanceTagListToTagsMap(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.DMSReplicationInstance).Description
+	data := d.HydrateItem.(opengovernance.DMSReplicationInstance).Description
 
 	// Mapping the resource tags inside turbotTags
 	if data.Tags != nil {

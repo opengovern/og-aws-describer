@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -16,7 +16,7 @@ func tableAwsDirectoryServiceLogSubscription(_ context.Context) *plugin.Table {
 		Name:        "aws_directory_service_log_subscription",
 		Description: "AWS Directory Service Log Subscription",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDirectoryServiceLogSubscription,
+			Hydrate: opengovernance.ListDirectoryServiceLogSubscription,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"EntityDoesNotExistException"}),
 			},

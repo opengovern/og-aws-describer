@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -19,14 +19,14 @@ func tableAwsServiceQuotasServiceQuotaChangeRequest(_ context.Context) *plugin.T
 			ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NoSuchResourceException"}),
 		},
 		Get: &plugin.GetConfig{
-			Hydrate:    kaytu.GetServiceQuotasServiceQuotaChangeRequest,
+			Hydrate:    opengovernance.GetServiceQuotasServiceQuotaChangeRequest,
 			KeyColumns: plugin.SingleColumn("id"),
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NoSuchResourceException"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListServiceQuotasServiceQuotaChangeRequest,
+			Hydrate: opengovernance.ListServiceQuotasServiceQuotaChangeRequest,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NoSuchResourceException"}),
 			},
@@ -135,7 +135,7 @@ func tableAwsServiceQuotasServiceQuotaChangeRequest(_ context.Context) *plugin.T
 }
 
 func serviceQuotaChangeRequestTagsToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.ServiceQuotasServiceQuotaChangeRequest).Description.Tags
+	tags := d.HydrateItem.(opengovernance.ServiceQuotasServiceQuotaChangeRequest).Description.Tags
 
 	// Mapping the resource tags inside turbotTags
 	var turbotTagsMap map[string]string

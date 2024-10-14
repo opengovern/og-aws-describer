@@ -19,13 +19,13 @@ func tableAwsServiceQuotasServiceQuota(_ context.Context) *plugin.Table {
 		},
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"service_code", "quota_code"}),
-			//Hydrate:    kaytu.GetServiceQuotasServiceQuota,
+			//Hydrate:    opengovernance.GetServiceQuotasServiceQuota,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NoSuchResourceException"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			//Hydrate: kaytu.ListServiceQuotasServiceQuota,
+			//Hydrate: opengovernance.ListServiceQuotasServiceQuota,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NoSuchResourceException"}),
 			},
@@ -126,7 +126,7 @@ func tableAwsServiceQuotasServiceQuota(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 //func serviceQuotaTagsToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-//	tags := d.HydrateItem.(kaytu.ServiceQuotasServiceQuota).Description.Tags
+//	tags := d.HydrateItem.(opengovernance.ServiceQuotasServiceQuota).Description.Tags
 //
 //	// Mapping the resource tags inside turbotTags
 //	var turbotTagsMap map[string]string

@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/service/ssm/types"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -18,10 +18,10 @@ func tableAwsSSMDocument(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationException", "InvalidDocument"}),
 			},
-			Hydrate: kaytu.GetSSMDocument,
+			Hydrate: opengovernance.GetSSMDocument,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSSMDocument,
+			Hydrate: opengovernance.ListSSMDocument,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "document_type", Require: plugin.Optional},
 				{Name: "owner_type", Require: plugin.Optional},

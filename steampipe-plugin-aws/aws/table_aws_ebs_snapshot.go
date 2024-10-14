@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -18,10 +18,10 @@ func tableAwsEBSSnapshot(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidSnapshot.NotFound", "InvalidSnapshotID.Malformed"}),
 			},
-			Hydrate: kaytu.GetEC2VolumeSnapshot,
+			Hydrate: opengovernance.GetEC2VolumeSnapshot,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2VolumeSnapshot,
+			Hydrate: opengovernance.ListEC2VolumeSnapshot,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "description",
@@ -176,7 +176,7 @@ func tableAwsEBSSnapshot(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func ec2SnapshotTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.EC2VolumeSnapshot).Description.Snapshot.Tags
+	tags := d.HydrateItem.(opengovernance.EC2VolumeSnapshot).Description.Snapshot.Tags
 
 	var turbotTagsMap map[string]string
 	if tags == nil {

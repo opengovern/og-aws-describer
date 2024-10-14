@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -18,10 +18,10 @@ func tableAwsPipes(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NotFoundException"}),
 			},
-			Hydrate: kaytu.GetPipesPipe,
+			Hydrate: opengovernance.GetPipesPipe,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListPipesPipe,
+			Hydrate: opengovernance.ListPipesPipe,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "current_state", Require: plugin.Optional},
 				{Name: "desired_state", Require: plugin.Optional},

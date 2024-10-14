@@ -11,15 +11,15 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/kaytu-io/kaytu-util/pkg/vault"
-	"github.com/kaytu-io/kaytu-util/proto/src/golang"
+	"github.com/opengovern/og-util/pkg/vault"
+	"github.com/opengovern/og-util/proto/src/golang"
 	"golang.org/x/oauth2"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/oauth"
 	"google.golang.org/grpc/metadata"
 
-	"github.com/kaytu-io/kaytu-util/pkg/describe"
+	"github.com/opengovern/og-util/pkg/describe"
 	"go.uber.org/zap"
 )
 

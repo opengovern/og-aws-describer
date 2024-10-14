@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -14,10 +14,10 @@ func tableAwsSESv2EmailIdentity(_ context.Context) *plugin.Table {
 		Description: "AWS SESv2 EmailIdentity",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("arn"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetSESv2EmailIdentity,
+			Hydrate:    opengovernance.GetSESv2EmailIdentity,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSESv2EmailIdentity,
+			Hydrate: opengovernance.ListSESv2EmailIdentity,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

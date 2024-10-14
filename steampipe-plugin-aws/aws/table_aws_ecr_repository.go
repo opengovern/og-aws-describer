@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -20,10 +20,10 @@ func tableAwsEcrRepository(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"RepositoryNotFoundException", "RepositoryPolicyNotFoundException", "LifecyclePolicyNotFoundException"}),
 			},
-			Hydrate: kaytu.GetECRRepository,
+			Hydrate: opengovernance.GetECRRepository,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListECRRepository,
+			Hydrate: opengovernance.ListECRRepository,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
@@ -66,7 +66,7 @@ func tableAwsEcrRepository(_ context.Context) *plugin.Table {
 			{
 				Name:        "max_results",
 				Description: "The maximum number of repository results returned by DescribeRepositories.",
-				Hydrate:     kaytu.GetECRRepository,
+				Hydrate:     opengovernance.GetECRRepository,
 				Type:        proto.ColumnType_INT,
 			},
 			{
@@ -141,7 +141,7 @@ func tableAwsEcrRepository(_ context.Context) *plugin.Table {
 
 func ecrTagListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("ecrTagListToTurbotTags")
-	tags := d.HydrateItem.(kaytu.ECRRepository).Description.Tags
+	tags := d.HydrateItem.(opengovernance.ECRRepository).Description.Tags
 
 	// Mapping the resource tags inside turbotTags
 	var turbotTagsMap map[string]string

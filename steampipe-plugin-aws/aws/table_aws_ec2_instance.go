@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"regexp"
 	"strings"
 
@@ -25,10 +25,10 @@ func tableAwsEc2Instance(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidInstanceID.NotFound", "InvalidInstanceID.Unavailable", "InvalidInstanceID.Malformed"}),
 			},
-			Hydrate: kaytu.GetEC2Instance,
+			Hydrate: opengovernance.GetEC2Instance,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2Instance,
+			Hydrate: opengovernance.ListEC2Instance,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "hypervisor", Require: plugin.Optional},
 				{Name: "iam_instance_profile_arn", Require: plugin.Optional},
@@ -505,13 +505,13 @@ func tableAwsEc2Instance(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getEc2InstanceTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	desc := d.HydrateItem.(kaytu.EC2Instance).Description
+	desc := d.HydrateItem.(opengovernance.EC2Instance).Description
 	instance := desc.Instance
 	return ec2V2TagsToMap(instance.Tags)
 }
 
 func getEc2InstanceTurbotTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	desc := d.HydrateItem.(kaytu.EC2Instance).Description
+	desc := d.HydrateItem.(opengovernance.EC2Instance).Description
 	data := desc.Instance
 	title := data.InstanceId
 	if data.Tags != nil {
@@ -525,7 +525,7 @@ func getEc2InstanceTurbotTitle(_ context.Context, d *transform.TransformData) (i
 }
 
 func ec2InstanceStateChangeTime(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	desc := d.HydrateItem.(kaytu.EC2Instance).Description
+	desc := d.HydrateItem.(opengovernance.EC2Instance).Description
 	data := desc.Instance
 
 	if *desc.Instance.StateTransitionReason != "" {

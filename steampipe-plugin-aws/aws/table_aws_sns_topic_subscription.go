@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/go-kit/types"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -22,10 +22,10 @@ func tableAwsSnsTopicSubscription(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NotFound", "InvalidParameter"}),
 			},
-			Hydrate: kaytu.GetSNSSubscription,
+			Hydrate: opengovernance.GetSNSSubscription,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSNSSubscription,
+			Hydrate: opengovernance.ListSNSSubscription,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

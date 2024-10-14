@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,13 +20,13 @@ func tableAwsGlobalAcceleratorEndpointGroup(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"EntityNotFoundException"}),
 			},
-			Hydrate: kaytu.GetGlobalAcceleratorEndpointGroup,
+			Hydrate: opengovernance.GetGlobalAcceleratorEndpointGroup,
 		},
 		List: &plugin.ListConfig{
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "listener_arn", Require: plugin.Optional},
 			},
-			Hydrate: kaytu.ListGlobalAcceleratorEndpointGroup,
+			Hydrate: opengovernance.ListGlobalAcceleratorEndpointGroup,
 		},
 		Columns: awsKaytuColumns([]*plugin.Column{
 			{

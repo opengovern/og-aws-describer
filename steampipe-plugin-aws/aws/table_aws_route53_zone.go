@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -15,13 +15,13 @@ func tableAwsRoute53Zone(_ context.Context) *plugin.Table {
 		Description: "AWS Route53 Zone",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"),
-			Hydrate:    kaytu.GetRoute53HostedZone,
+			Hydrate:    opengovernance.GetRoute53HostedZone,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NoSuchHostedZone"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRoute53HostedZone,
+			Hydrate: opengovernance.ListRoute53HostedZone,
 		},
 		Columns: awsKaytuColumns([]*plugin.Column{
 			{
@@ -129,7 +129,7 @@ func route53HostedZoneTurbotTags(ctx context.Context, d *transform.TransformData
 		return turbotTagsMap, nil
 	}
 
-	tags := d.Value.(kaytu.Route53HostedZone).Description.Tags
+	tags := d.Value.(opengovernance.Route53HostedZone).Description.Tags
 
 	// Mapping the resource tags inside turbotTags
 	if tags != nil {

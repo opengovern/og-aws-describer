@@ -5,7 +5,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/service/inspector/types"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -23,7 +23,7 @@ func tableAwsInspectorExclusion(_ context.Context) *plugin.Table {
 		Name:        "aws_inspector_exclusion",
 		Description: "AWS Inspector Exclusion",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListInspectorExclusion,
+			Hydrate: opengovernance.ListInspectorExclusion,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "assessment_run_arn", Require: plugin.Optional},
 			},

@@ -6,7 +6,7 @@ import (
 	go_kit_packs "github.com/turbot/go-kit/types"
 	"net/url"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -23,10 +23,10 @@ func tableAwsAPIGatewayRestAPI(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NotFoundException"}),
 			},
-			Hydrate: kaytu.GetApiGatewayRestAPI,
+			Hydrate: opengovernance.GetApiGatewayRestAPI,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListApiGatewayRestAPI,
+			Hydrate: opengovernance.ListApiGatewayRestAPI,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

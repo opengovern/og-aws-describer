@@ -9,7 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/cloudtrail/types"
 	"github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs"
 	"github.com/aws/aws-sdk-go-v2/service/sts"
-	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
+	"github.com/opengovern/og-aws-describer/aws/model"
 )
 
 func CloudTrailTrail(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

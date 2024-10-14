@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"strings"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -22,10 +22,10 @@ func tableAwsRDSDBEventSubscription(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"SubscriptionNotFound"}),
 			},
-			Hydrate: kaytu.GetRDSDBEventSubscription,
+			Hydrate: opengovernance.GetRDSDBEventSubscription,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRDSDBEventSubscription,
+			Hydrate: opengovernance.ListRDSDBEventSubscription,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
@@ -105,7 +105,7 @@ func tableAwsRDSDBEventSubscription(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTION
 
 func convertStringToRFC3339Timestamp(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.RDSDBEventSubscription).Description.EventSubscription
+	data := d.HydrateItem.(opengovernance.RDSDBEventSubscription).Description.EventSubscription
 	parsedTime := strings.Replace(*data.SubscriptionCreationTime, " ", "T", 1)
 
 	return parsedTime, nil

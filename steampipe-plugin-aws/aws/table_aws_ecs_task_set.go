@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,10 +15,10 @@ func tableAwsEcsTaskSet(_ context.Context) *plugin.Table {
 		Description: "AWS ECS TaskSet",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"),
-			Hydrate:    kaytu.GetECSTaskSet,
+			Hydrate:    opengovernance.GetECSTaskSet,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListECSTaskSet,
+			Hydrate: opengovernance.ListECSTaskSet,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -53,6 +53,6 @@ func tableAwsEcsTaskSet(_ context.Context) *plugin.Table {
 }
 
 func getEcsTaskSetTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.ECSTaskSet).Description.TaskSet.Tags
+	tags := d.HydrateItem.(opengovernance.ECSTaskSet).Description.TaskSet.Tags
 	return ecsV2TagsToMap(tags)
 }

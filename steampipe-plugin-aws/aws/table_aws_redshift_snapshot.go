@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -19,10 +19,10 @@ func tableAwsRedshiftSnapshot(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ClusterSnapshotNotFound"}),
 			},
-			Hydrate: kaytu.GetRedshiftSnapshot,
+			Hydrate: opengovernance.GetRedshiftSnapshot,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRedshiftSnapshot,
+			Hydrate: opengovernance.ListRedshiftSnapshot,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "cluster_identifier", Require: plugin.Optional},
 				{Name: "owner_account", Require: plugin.Optional},
@@ -227,7 +227,7 @@ func tableAwsRedshiftSnapshot(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func redshiftSnapshotTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	snapshot := d.HydrateItem.(kaytu.RedshiftSnapshot).Description.Snapshot
+	snapshot := d.HydrateItem.(opengovernance.RedshiftSnapshot).Description.Snapshot
 
 	// Get the resource tags
 	if snapshot.Tags != nil {

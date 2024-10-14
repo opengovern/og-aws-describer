@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -18,10 +18,10 @@ func tableAwsVpcNatGateway(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NatGatewayMalformed", "NatGatewayNotFound"}),
 			},
-			Hydrate: kaytu.GetEC2NatGateway,
+			Hydrate: opengovernance.GetEC2NatGateway,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2NatGateway,
+			Hydrate: opengovernance.ListEC2NatGateway,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "state", Require: plugin.Optional},
 				{Name: "subnet_id", Require: plugin.Optional},
@@ -126,7 +126,7 @@ func tableAwsVpcNatGateway(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getVpcNatGatewayTurbotData(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	natGateway := d.HydrateItem.(kaytu.EC2NatGateway).Description.NatGateway
+	natGateway := d.HydrateItem.(opengovernance.EC2NatGateway).Description.NatGateway
 	param := d.Param.(string)
 
 	// Get resource title

@@ -15,7 +15,7 @@ func tableAwsEc2ApplicationLoadBalancerMetricRequestCountDaily(_ context.Context
 		Name:        "aws_ec2_application_load_balancer_metric_request_count_daily",
 		Description: "AWS EC2 Application Load Balancer Metrics - Request Count (Daily)",
 		List:        &plugin.ListConfig{
-			//Hydrate: kaytu.ListApplicationLoadBalancerMetricRequestCountDaily,
+			//Hydrate: opengovernance.ListApplicationLoadBalancerMetricRequestCountDaily,
 		},
 
 		Columns: awsKaytuRegionalColumns(kaytuCwMetricColumns(

@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -21,10 +21,10 @@ func tableAwsSageMakerApp(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationException", "NotFoundException", "ResourceNotFound"}),
 			},
-			Hydrate: kaytu.GetSageMakerApp,
+			Hydrate: opengovernance.GetSageMakerApp,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSageMakerApp,
+			Hydrate: opengovernance.ListSageMakerApp,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "user_profile_name", Require: plugin.Optional},
 				{Name: "domain_id", Require: plugin.Optional},

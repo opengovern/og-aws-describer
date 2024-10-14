@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -16,7 +16,7 @@ func tableAwsEcsTask(_ context.Context) *plugin.Table {
 		Name:        "aws_ecs_task",
 		Description: "AWS ECS Task",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListECSTask,
+			Hydrate: opengovernance.ListECSTask,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ClusterNotFoundException", "ServiceNotFoundException", "InvalidParameterException"}),
 			},
@@ -257,14 +257,14 @@ func tableAwsEcsTask(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func extractClusterName(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	task := d.HydrateItem.(kaytu.ECSTask).Description.Task
+	task := d.HydrateItem.(opengovernance.ECSTask).Description.Task
 	clusterName := strings.Split(string(*task.ClusterArn), "/")[1]
 
 	return clusterName, nil
 }
 
 func ecsTaskTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	task := d.HydrateItem.(kaytu.ECSTask).Description.Task
+	task := d.HydrateItem.(opengovernance.ECSTask).Description.Task
 
 	var turbotTagsMap map[string]string
 	if len(task.Tags) > 0 {

@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -18,10 +18,10 @@ func tableAwsMediaStoreContainer(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameter", "ContainerNotFoundException", "ContainerInUseException"}),
 			},
-			Hydrate: kaytu.GetMediaStoreContainer,
+			Hydrate: opengovernance.GetMediaStoreContainer,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListMediaStoreContainer,
+			Hydrate: opengovernance.ListMediaStoreContainer,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ContainerInUseException"}),
 			},
@@ -102,7 +102,7 @@ func tableAwsMediaStoreContainer(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTION
 
 func containerTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	item := d.HydrateItem.(kaytu.MediaStoreContainer).Description
+	item := d.HydrateItem.(opengovernance.MediaStoreContainer).Description
 	tags := item.Tags
 	var turbotTagsMap map[string]string
 	if tags != nil {

@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsElasticFileSystem(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"FileSystemNotFound", "ValidationException"}),
 			},
-			Hydrate: kaytu.GetEFSFileSystem,
+			Hydrate: opengovernance.GetEFSFileSystem,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEFSFileSystem,
+			Hydrate: opengovernance.ListEFSFileSystem,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "creation_token", Require: plugin.Optional},
 			},
@@ -168,7 +168,7 @@ func tableAwsElasticFileSystem(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func elasticFileSystemTurbotData(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	fileSystemTag := d.HydrateItem.(kaytu.EFSFileSystem).Description.FileSystem
+	fileSystemTag := d.HydrateItem.(opengovernance.EFSFileSystem).Description.FileSystem
 	if fileSystemTag.Tags == nil {
 		return nil, nil
 	}
@@ -185,7 +185,7 @@ func elasticFileSystemTurbotData(_ context.Context, d *transform.TransformData) 
 }
 
 func getElasticFileSystemTurbotTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	fileSystemTitle := d.HydrateItem.(kaytu.EFSFileSystem).Description.FileSystem
+	fileSystemTitle := d.HydrateItem.(opengovernance.EFSFileSystem).Description.FileSystem
 
 	if fileSystemTitle.Tags != nil {
 		for _, i := range fileSystemTitle.Tags {
@@ -199,7 +199,7 @@ func getElasticFileSystemTurbotTitle(_ context.Context, d *transform.TransformDa
 }
 
 func automaticBackupsValue(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.EFSFileSystem).Description.FileSystem.Tags
+	tags := d.HydrateItem.(opengovernance.EFSFileSystem).Description.FileSystem.Tags
 
 	for _, i := range tags {
 		if *i.Key == "aws:elasticfilesystem:default-backup" {

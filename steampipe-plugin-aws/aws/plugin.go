@@ -40,8 +40,8 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			ShouldIgnoreErrorFunc: shouldIgnoreErrorPluginDefault(),
 		},
 		ConnectionConfigSchema: &plugin.ConnectionConfigSchema{
-			NewInstance: kaytu.ConfigInstance,
-			Schema:      kaytu.ConfigSchema(),
+			NewInstance: opengovernance.ConfigInstance,
+			Schema:      opengovernance.ConfigSchema(),
 		},
 		TableMap: map[string]*plugin.Table{
 			"aws_accessanalyzer_analyzer":                                  tableAwsAccessAnalyzer(ctx),

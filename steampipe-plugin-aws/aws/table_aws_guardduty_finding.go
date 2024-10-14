@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -16,8 +16,8 @@ func tableAwsGuardDutyFinding(_ context.Context) *plugin.Table {
 		Name:        "aws_guardduty_finding",
 		Description: "AWS GuardDuty Finding",
 		List: &plugin.ListConfig{
-			ParentHydrate: kaytu.ListGuardDutyFinding,
-			Hydrate:       kaytu.ListGuardDutyFinding,
+			ParentHydrate: opengovernance.ListGuardDutyFinding,
+			Hydrate:       opengovernance.ListGuardDutyFinding,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "detector_id", Require: plugin.Optional},
 				{Name: "id", Require: plugin.Optional, Operators: []string{"=", "<>"}},

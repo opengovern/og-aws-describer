@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/wellarchitected"
@@ -19,7 +19,7 @@ func tableAwsWellArchitectedNotification(_ context.Context) *plugin.Table {
 		Name:        "aws_wellarchitected_notification",
 		Description: "AWS Well-Architected Notification",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListWellArchitectedNotification,
+			Hydrate: opengovernance.ListWellArchitectedNotification,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "workload_id", Require: plugin.Optional},
 			},

@@ -11,7 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/elasticloadbalancing"
 	"github.com/aws/aws-sdk-go-v2/service/elasticloadbalancingv2"
 	"github.com/aws/aws-sdk-go-v2/service/elasticloadbalancingv2/types"
-	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
+	"github.com/opengovern/og-aws-describer/aws/model"
 )
 
 func ElasticLoadBalancingV2LoadBalancer(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

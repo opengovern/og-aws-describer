@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsRDSDBParameterGroup(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"DBParameterGroupNotFound"}),
 			},
-			Hydrate: kaytu.GetRDSDBParameterGroup,
+			Hydrate: opengovernance.GetRDSDBParameterGroup,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRDSDBParameterGroup,
+			Hydrate: opengovernance.ListRDSDBParameterGroup,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
@@ -100,7 +100,7 @@ func tableAwsRDSDBParameterGroup(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getRDSDBParameterGroupTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	dbParameterGroup := d.HydrateItem.(kaytu.RDSDBParameterGroup).Description
+	dbParameterGroup := d.HydrateItem.(opengovernance.RDSDBParameterGroup).Description
 
 	if dbParameterGroup.Tags != nil {
 		turbotTagsMap := map[string]string{}

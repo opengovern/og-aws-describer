@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -17,13 +17,13 @@ func tableAwsIamSamlProvider(_ context.Context) *plugin.Table {
 		Description: "AWS IAM Saml Provider",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"arn"}),
-			Hydrate:    kaytu.GetIAMSamlProvider,
+			Hydrate:    opengovernance.GetIAMSamlProvider,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NoSuchEntity"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListIAMSamlProvider,
+			Hydrate: opengovernance.ListIAMSamlProvider,
 		},
 		Columns: awsKaytuColumns([]*plugin.Column{
 			{
@@ -72,7 +72,7 @@ func tableAwsIamSamlProvider(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTION
 
 func samlProviderTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	provider := d.HydrateItem.(kaytu.IAMSamlProvider).Description.SamlProvider
+	provider := d.HydrateItem.(opengovernance.IAMSamlProvider).Description.SamlProvider
 	if len(provider.Tags) == 0 {
 		return nil, nil
 	}

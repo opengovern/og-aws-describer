@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -20,10 +20,10 @@ func tableAwsCodeBuildProject(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidInputException"}),
 			},
-			Hydrate: kaytu.GetCodeBuildProject,
+			Hydrate: opengovernance.GetCodeBuildProject,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCodeBuildProject,
+			Hydrate: opengovernance.ListCodeBuildProject,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -214,7 +214,7 @@ func tableAwsCodeBuildProject(_ context.Context) *plugin.Table {
 
 func codeBuildProjectTurbotTags(_ context.Context, d *transform.TransformData) (interface{},
 	error) {
-	data := d.HydrateItem.(kaytu.CodeBuildProject).Description.Project
+	data := d.HydrateItem.(opengovernance.CodeBuildProject).Description.Project
 
 	if data.Tags == nil {
 		return nil, nil

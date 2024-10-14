@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -18,10 +18,10 @@ func tableAwsEventBridgeBus(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameter", "ResourceNotFoundException", "ValidationException"}),
 			},
-			Hydrate: kaytu.GetEventBridgeBus,
+			Hydrate: opengovernance.GetEventBridgeBus,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEventBridgeBus,
+			Hydrate: opengovernance.ListEventBridgeBus,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -77,7 +77,7 @@ func tableAwsEventBridgeBus(_ context.Context) *plugin.Table {
 
 func eventBridgeBusTagListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("eventBridgeBusTagListToTurbotTags")
-	tagList := d.HydrateItem.(kaytu.EventBridgeBus).Description.Tags
+	tagList := d.HydrateItem.(opengovernance.EventBridgeBus).Description.Tags
 
 	if tagList == nil {
 		return nil, nil

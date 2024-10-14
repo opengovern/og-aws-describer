@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -18,10 +18,10 @@ func tableAwsAcmCertificate(_ context.Context) *plugin.Table {
 		Description: "AWS ACM Certificate",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("certificate_arn"),
-			Hydrate:    kaytu.GetCertificateManagerCertificate,
+			Hydrate:    opengovernance.GetCertificateManagerCertificate,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCertificateManagerCertificate,
+			Hydrate: opengovernance.ListCertificateManagerCertificate,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "status",
@@ -221,7 +221,7 @@ func tableAwsAcmCertificate(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func certificateTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.CertificateManagerCertificate).Description.Tags
+	tags := d.HydrateItem.(opengovernance.CertificateManagerCertificate).Description.Tags
 	var turbotTagsMap map[string]string
 	if tags != nil {
 		turbotTagsMap = map[string]string{}

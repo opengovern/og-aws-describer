@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/go-kit/types"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -21,10 +21,10 @@ func tableAwsSqsQueue(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"AWS.SimpleQueueService.NonExistentQueue"}),
 			},
-			Hydrate: kaytu.GetSQSQueue,
+			Hydrate: opengovernance.GetSQSQueue,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSQSQueue,
+			Hydrate: opengovernance.ListSQSQueue,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

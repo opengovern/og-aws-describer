@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/service/route53resolver/types"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -21,10 +21,10 @@ func tableAwsRoute53ResolverRule(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException"}),
 			},
-			Hydrate: kaytu.GetRoute53ResolverResolverRule,
+			Hydrate: opengovernance.GetRoute53ResolverResolverRule,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRoute53ResolverResolverRule,
+			Hydrate: opengovernance.ListRoute53ResolverResolverRule,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "creator_request_id", Require: plugin.Optional},
 				{Name: "domain_name", Require: plugin.Optional},

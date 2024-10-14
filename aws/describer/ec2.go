@@ -12,7 +12,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
-	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
+	"github.com/opengovern/og-aws-describer/aws/model"
 )
 
 func EC2ElasticIP(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

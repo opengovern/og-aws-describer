@@ -2,9 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/kaytu-io/kaytu-aws-describer/describer"
-	"github.com/kaytu-io/kaytu-util/pkg/describe"
 	"github.com/labstack/echo/v4"
+	"github.com/opengovern/og-aws-describer/describer"
+	"github.com/opengovern/og-util/pkg/describe"
 	"go.uber.org/zap"
 	"net/http"
 	"os"

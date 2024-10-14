@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -20,10 +20,10 @@ func tableAwsCloudFormationStackResource(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationError", "ResourceNotFoundException"}),
 			},
-			Hydrate: kaytu.GetCloudFormationStackResource,
+			Hydrate: opengovernance.GetCloudFormationStackResource,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCloudFormationStackResource,
+			Hydrate: opengovernance.ListCloudFormationStackResource,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "stack_name",

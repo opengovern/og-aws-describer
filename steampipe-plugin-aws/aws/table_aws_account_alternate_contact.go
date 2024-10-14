@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -16,7 +16,7 @@ func tableAwsAccountAlternateContact(_ context.Context) *plugin.Table {
 		Name:        "aws_account_alternate_contact",
 		Description: "AWS Account Alternate Contact",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAccountAlternateContact,
+			Hydrate: opengovernance.ListAccountAlternateContact,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException"}),
 			},

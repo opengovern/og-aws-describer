@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsElastiCacheReservedCacheNode(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ReservedCacheNodeNotFound"}),
 			},
-			Hydrate: kaytu.GetElastiCacheReservedCacheNode,
+			Hydrate: opengovernance.GetElastiCacheReservedCacheNode,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListElastiCacheReservedCacheNode,
+			Hydrate: opengovernance.ListElastiCacheReservedCacheNode,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "cache_node_type", Require: plugin.Optional},
 				{Name: "duration", Require: plugin.Optional},

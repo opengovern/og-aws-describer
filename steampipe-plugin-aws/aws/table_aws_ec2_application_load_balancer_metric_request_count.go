@@ -15,7 +15,7 @@ func tableAwsEc2ApplicationLoadBalancerMetricRequestCount(_ context.Context) *pl
 		Name:        "aws_ec2_application_load_balancer_metric_request_count",
 		Description: "AWS EC2 Application Load Balancer Metrics - Request Count",
 		List:        &plugin.ListConfig{
-			//Hydrate: kaytu.ListApplicationLoadBalancerMetricRequestCount,
+			//Hydrate: opengovernance.ListApplicationLoadBalancerMetricRequestCount,
 		},
 
 		Columns: awsKaytuRegionalColumns(kaytuCwMetricColumns(

@@ -15,7 +15,7 @@ func tableAwsEbsVolumeMetricWriteOpsHourly(_ context.Context) *plugin.Table {
 		Name:        "aws_ebs_volume_metric_write_ops_hourly",
 		Description: "AWS EBS Volume Cloudwatch Metrics - Write Ops (Hourly)",
 		List:        &plugin.ListConfig{
-			//Hydrate: kaytu.ListEbsVolumeMetricReadOpsHourly,
+			//Hydrate: opengovernance.ListEbsVolumeMetricReadOpsHourly,
 		},
 
 		Columns: awsKaytuRegionalColumns(kaytuCwMetricColumns(

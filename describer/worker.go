@@ -6,16 +6,16 @@ import (
 	"fmt"
 	"strings"
 
-	awsmodel "github.com/kaytu-io/kaytu-aws-describer/aws/model"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/steampipe"
+	awsmodel "github.com/opengovern/og-aws-describer/aws/model"
+	"github.com/opengovern/og-aws-describer/pkg/steampipe"
 
 	"github.com/go-errors/errors"
-	"github.com/kaytu-io/kaytu-aws-describer/aws"
-	"github.com/kaytu-io/kaytu-aws-describer/aws/describer"
-	"github.com/kaytu-io/kaytu-util/pkg/describe"
-	"github.com/kaytu-io/kaytu-util/pkg/source"
-	"github.com/kaytu-io/kaytu-util/pkg/vault"
-	"github.com/kaytu-io/kaytu-util/proto/src/golang"
+	"github.com/opengovern/og-aws-describer/aws"
+	"github.com/opengovern/og-aws-describer/aws/describer"
+	"github.com/opengovern/og-util/pkg/describe"
+	"github.com/opengovern/og-util/pkg/source"
+	"github.com/opengovern/og-util/pkg/vault"
+	"github.com/opengovern/og-util/proto/src/golang"
 	"go.uber.org/zap"
 )
 

@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"strings"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -17,7 +17,7 @@ func tableAwsCodeBuildSourceCredential(_ context.Context) *plugin.Table {
 		Name:        "aws_codebuild_source_credential",
 		Description: "AWS CodeBuild Source Credential",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCodeBuildSourceCredential,
+			Hydrate: opengovernance.ListCodeBuildSourceCredential,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -59,7 +59,7 @@ func tableAwsCodeBuildSourceCredential(_ context.Context) *plugin.Table {
 
 func codebuildSourceCredentialTitle(_ context.Context, d *transform.TransformData) (interface{},
 	error) {
-	data := d.HydrateItem.(kaytu.CodeBuildSourceCredential).Description.SourceCredentialsInfo
+	data := d.HydrateItem.(opengovernance.CodeBuildSourceCredential).Description.SourceCredentialsInfo
 
 	splitPart := strings.Split(*data.Arn, ":")
 	title := string(data.ServerType) + " - " + splitPart[3]

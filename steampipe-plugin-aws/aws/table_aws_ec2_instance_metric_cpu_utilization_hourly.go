@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -16,7 +16,7 @@ func tableAwsEc2InstanceMetricCpuUtilizationHourly(_ context.Context) *plugin.Ta
 		Name:        "aws_ec2_instance_metric_cpu_utilization_hourly",
 		Description: "AWS EC2 Instance Cloudwatch Metrics - CPU Utilization (Hourly)",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2InstanceMetricCpuUtilizationHourly,
+			Hydrate: opengovernance.ListEC2InstanceMetricCpuUtilizationHourly,
 		},
 
 		Columns: awsKaytuColumns([]*plugin.Column{

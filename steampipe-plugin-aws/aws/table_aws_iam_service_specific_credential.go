@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -16,7 +16,7 @@ func tableAwsIamUserServiceSpecificCredential(ctx context.Context) *plugin.Table
 		Name:        "aws_iam_service_specific_credential",
 		Description: "AWS IAM User Service Specific Credential",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListIAMServiceSpecificCredential,
+			Hydrate: opengovernance.ListIAMServiceSpecificCredential,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "service_name", Require: plugin.Optional},
 				{Name: "user_name", Require: plugin.Optional},

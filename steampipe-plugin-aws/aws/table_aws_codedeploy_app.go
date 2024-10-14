@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -17,10 +17,10 @@ func tableAwsCodeDeployApplication(_ context.Context) *plugin.Table {
 		Description: "AWS CodeDeploy Application",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("application_name"),
-			Hydrate:    kaytu.GetCodeDeployApplication,
+			Hydrate:    opengovernance.GetCodeDeployApplication,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCodeDeployApplication,
+			Hydrate: opengovernance.ListCodeDeployApplication,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -90,6 +90,6 @@ func tableAwsCodeDeployApplication(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getCodeDeployApplicationTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.CodeDeployApplication).Description.Tags
+	tags := d.HydrateItem.(opengovernance.CodeDeployApplication).Description.Tags
 	return codeDeployV2TagsToMap(tags)
 }

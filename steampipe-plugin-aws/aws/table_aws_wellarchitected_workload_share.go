@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -21,7 +21,7 @@ func tableAwsWellArchitectedWorkloadShare(_ context.Context) *plugin.Table {
 		Name:        "aws_wellarchitected_workload_share",
 		Description: "AWS Well-Architected Workload Share",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListWellArchitectedWorkloadShare,
+			Hydrate: opengovernance.ListWellArchitectedWorkloadShare,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "workload_id", Require: plugin.Optional},
 				{Name: "shared_with", Require: plugin.Optional},

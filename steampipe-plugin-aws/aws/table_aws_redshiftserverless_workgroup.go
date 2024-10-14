@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/service/redshiftserverless"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/kaytu-io/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -21,10 +21,10 @@ func tableAwsRedshiftServerlessWorkgroup(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException"}),
 			},
-			Hydrate: kaytu.GetRedshiftServerlessWorkgroup,
+			Hydrate: opengovernance.GetRedshiftServerlessWorkgroup,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRedshiftServerlessWorkgroup,
+			Hydrate: opengovernance.ListRedshiftServerlessWorkgroup,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

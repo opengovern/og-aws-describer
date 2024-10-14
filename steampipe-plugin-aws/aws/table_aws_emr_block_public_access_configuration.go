@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -16,7 +16,7 @@ func tableAwsEmrBlockPublicAccessConfiguration(_ context.Context) *plugin.Table 
 		Name:        "aws_emr_block_public_access_configuration",
 		Description: "AWS EMR Block Public Access Configuration",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEMRBlockPublicAccessConfiguration,
+			Hydrate: opengovernance.ListEMRBlockPublicAccessConfiguration,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

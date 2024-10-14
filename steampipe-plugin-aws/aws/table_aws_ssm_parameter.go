@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/service/ssm/types"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -20,10 +20,10 @@ func tableAwsSSMParameter(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationException"}),
 			},
-			Hydrate: kaytu.GetSSMParameter,
+			Hydrate: opengovernance.GetSSMParameter,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSSMParameter,
+			Hydrate: opengovernance.ListSSMParameter,
 			//KeyColumns: []*plugin.KeyColumn{
 			//	{Name: "type", Require: plugin.Optional},
 			//	{Name: "key_id", Require: plugin.Optional},

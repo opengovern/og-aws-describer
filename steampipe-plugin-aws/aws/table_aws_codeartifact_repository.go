@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -30,10 +30,10 @@ func tableAwsCodeArtifactRepository(_ context.Context) *plugin.Table {
 					Require: plugin.Optional,
 				},
 			},
-			Hydrate: kaytu.GetCodeArtifactRepository,
+			Hydrate: opengovernance.GetCodeArtifactRepository,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCodeArtifactRepository,
+			Hydrate: opengovernance.ListCodeArtifactRepository,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -123,6 +123,6 @@ func tableAwsCodeArtifactRepository(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getCodeArtifactRepositoryTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.CodeArtifactRepository).Description.Tags
+	tags := d.HydrateItem.(opengovernance.CodeArtifactRepository).Description.Tags
 	return codeArtifactV2TagsToMap(tags)
 }

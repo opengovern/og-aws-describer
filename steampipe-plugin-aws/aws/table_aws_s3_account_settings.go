@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -16,7 +16,7 @@ func tableAwsS3AccountSettings(_ context.Context) *plugin.Table {
 		Name:        "aws_s3_account_settings",
 		Description: "AWS S3 Account Block Public Access Settings",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListS3AccountSetting,
+			Hydrate: opengovernance.ListS3AccountSetting,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -67,7 +67,7 @@ func tableAwsS3AccountSettings(_ context.Context) *plugin.Table {
 
 func s3AccountDataToAkas(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("s3AccountDataToAkas")
-	metadata := d.HydrateItem.(kaytu.S3AccountSetting).Metadata
+	metadata := d.HydrateItem.(opengovernance.S3AccountSetting).Metadata
 
 	akas := []string{"arn:" + metadata.Partition + ":s3::" + metadata.AccountID + ":account"}
 

@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsEc2ReservedInstance(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameterValue", "InvalidInstanceID.Unavailable", "InvalidInstanceID.Malformed"}),
 			},
-			Hydrate: kaytu.GetEC2ReservedInstances,
+			Hydrate: opengovernance.GetEC2ReservedInstances,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2ReservedInstances,
+			Hydrate: opengovernance.ListEC2ReservedInstances,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "availability_zone", Require: plugin.Optional},
 				{Name: "duration", Require: plugin.Optional},
@@ -164,6 +164,6 @@ func tableAwsEc2ReservedInstance(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTION
 
 func getEc2ReservedInstanceTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	instance := d.HydrateItem.(kaytu.EC2ReservedInstances).Description.ReservedInstances
+	instance := d.HydrateItem.(opengovernance.EC2ReservedInstances).Description.ReservedInstances
 	return ec2V2TagsToMap(instance.Tags)
 }

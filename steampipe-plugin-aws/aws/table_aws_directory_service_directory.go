@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -19,10 +19,10 @@ func tableAwsDirectoryServiceDirectory(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameterValueException", "ResourceNotFoundFault", "EntityDoesNotExistException"}),
 			},
-			Hydrate: kaytu.GetDirectoryServiceDirectory,
+			Hydrate: opengovernance.GetDirectoryServiceDirectory,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDirectoryServiceDirectory,
+			Hydrate: opengovernance.ListDirectoryServiceDirectory,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "directory_id",
@@ -209,7 +209,7 @@ func tableAwsDirectoryServiceDirectory(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func directoryServiceDirectoryTurbotData(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.DirectoryServiceDirectory).Description.Tags
+	tags := d.HydrateItem.(opengovernance.DirectoryServiceDirectory).Description.Tags
 
 	// Mapping the resource tags inside turbotTags
 	if tags != nil {

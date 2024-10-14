@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -19,10 +19,10 @@ func tableAwsCloudFrontDistribution(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NoSuchDistribution"}),
 			},
-			Hydrate: kaytu.GetCloudFrontDistribution,
+			Hydrate: opengovernance.GetCloudFrontDistribution,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCloudFrontDistribution,
+			Hydrate: opengovernance.ListCloudFrontDistribution,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -225,7 +225,7 @@ func tableAwsCloudFrontDistribution(_ context.Context) *plugin.Table {
 
 func cloudFrontDistributionTagListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("cloudFrontDistributionTagListToTurbotTags")
-	tagList := d.HydrateItem.(kaytu.CloudFrontDistribution).Description.Tags
+	tagList := d.HydrateItem.(opengovernance.CloudFrontDistribution).Description.Tags
 
 	// Mapping the resource tags inside turbotTags
 	var turbotTagsMap map[string]string

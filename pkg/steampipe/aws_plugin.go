@@ -7,7 +7,7 @@ import (
 
 	"github.com/hashicorp/go-hclog"
 
-	"github.com/kaytu-io/kaytu-aws-describer/steampipe-plugin-aws/aws"
+	"github.com/opengovern/og-aws-describer/steampipe-plugin-aws/aws"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/context_key"
@@ -16,7 +16,7 @@ import (
 import (
 	"fmt"
 
-	"github.com/kaytu-io/kaytu-util/pkg/steampipe"
+	"github.com/opengovern/og-util/pkg/steampipe"
 )
 
 func buildContext() context.Context {

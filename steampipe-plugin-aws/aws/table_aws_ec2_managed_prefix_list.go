@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -19,7 +19,7 @@ func tableAwsEc2ManagedPrefixList(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidAction", "InvalidRequest"}),
 			},
-			Hydrate: kaytu.ListEC2ManagedPrefixList,
+			Hydrate: opengovernance.ListEC2ManagedPrefixList,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "name", Require: plugin.Optional},
 				{Name: "id", Require: plugin.Optional},
@@ -106,7 +106,7 @@ func tableAwsEc2ManagedPrefixList(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTION
 
 func prefixListTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	prefixList := d.HydrateItem.(kaytu.EC2ManagedPrefixList).Description.ManagedPrefixList
+	prefixList := d.HydrateItem.(opengovernance.EC2ManagedPrefixList).Description.ManagedPrefixList
 
 	var turbotTagsMap map[string]string
 	if prefixList.Tags != nil {

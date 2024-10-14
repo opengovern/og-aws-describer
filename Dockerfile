@@ -1,4 +1,4 @@
 FROM public.ecr.aws/lambda/provided:al2
-COPY ./build/kaytu-aws-describer ./
-ENTRYPOINT [ "./kaytu-aws-describer" ]
-CMD [ "./kaytu-aws-describer" ]
+COPY ./build/og-aws-describer ./
+ENTRYPOINT [ "./og-aws-describer" ]
+CMD [ "./og-aws-describer" ]

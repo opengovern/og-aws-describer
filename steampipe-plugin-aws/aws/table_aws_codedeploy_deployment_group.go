@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -16,10 +16,10 @@ func tableAwsCodeDeployDeploymentGroup(_ context.Context) *plugin.Table {
 		Description: "AWS CodeDeploy DeploymentGroup",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("deployment_group_name"),
-			Hydrate:    kaytu.GetCodeDeployDeploymentGroup,
+			Hydrate:    opengovernance.GetCodeDeployDeploymentGroup,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCodeDeployDeploymentGroup,
+			Hydrate: opengovernance.ListCodeDeployDeploymentGroup,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -168,6 +168,6 @@ func tableAwsCodeDeployDeploymentGroup(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getCodeDeployDeploymentGroupTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.CodeDeployDeploymentGroup).Description.Tags
+	tags := d.HydrateItem.(opengovernance.CodeDeployDeploymentGroup).Description.Tags
 	return codeDeployV2TagsToMap(tags)
 }

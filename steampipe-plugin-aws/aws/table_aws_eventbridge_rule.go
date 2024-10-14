@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -18,10 +18,10 @@ func tableAwsEventBridgeRule(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException", "ValidationException"}),
 			},
-			Hydrate: kaytu.GetEventBridgeRule,
+			Hydrate: opengovernance.GetEventBridgeRule,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEventBridgeRule,
+			Hydrate: opengovernance.ListEventBridgeRule,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "event_bus_name", Require: plugin.Optional},
 				{Name: "name_prefix", Require: plugin.Optional},
@@ -111,7 +111,7 @@ func tableAwsEventBridgeRule(_ context.Context) *plugin.Table {
 
 func eventBridgeTagListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("eventBridgeTagListToTurbotTags")
-	tagList := d.HydrateItem.(kaytu.EventBridgeRule).Description.Tags
+	tagList := d.HydrateItem.(opengovernance.EventBridgeRule).Description.Tags
 
 	// Mapping the resource tags inside turbotTags
 	var turbotTagsMap map[string]string

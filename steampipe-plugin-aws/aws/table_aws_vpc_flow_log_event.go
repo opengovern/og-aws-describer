@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -36,7 +36,7 @@ func tableAwsVpcFlowLogEvent(_ context.Context) *plugin.Table {
 		Name:        "aws_vpc_flow_log_event",
 		Description: "AWS VPC Flow Log events from CloudWatch Logs",
 		List: &plugin.ListConfig{
-			Hydrate:    kaytu.ListCloudWatchLogEvent,
+			Hydrate:    opengovernance.ListCloudWatchLogEvent,
 			KeyColumns: tableAwsVpcFlowLogEventListKeyColumns(),
 		},
 

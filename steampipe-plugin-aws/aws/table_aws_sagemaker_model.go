@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/kaytu-io/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsSageMakerModel(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationException", "NotFoundException", "RecordNotFound"}),
 			},
-			Hydrate: kaytu.GetSageMakerModel,
+			Hydrate: opengovernance.GetSageMakerModel,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSageMakerModel,
+			Hydrate: opengovernance.ListSageMakerModel,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "creation_time", Require: plugin.Optional, Operators: []string{">", ">=", "<", "<="}},
 			},
@@ -105,7 +105,7 @@ func tableAwsSageMakerModel(_ context.Context) *plugin.Table {
 }
 
 func sageMakerModelTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.SageMakerModel).Description.Tags
+	tags := d.HydrateItem.(opengovernance.SageMakerModel).Description.Tags
 
 	if tags != nil {
 		turbotTagsMap := map[string]string{}

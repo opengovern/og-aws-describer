@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsAPIGatewayV2Integration(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NotFoundException", "TooManyRequestsException"}),
 			},
-			Hydrate: kaytu.GetApiGatewayV2Integration,
+			Hydrate: opengovernance.GetApiGatewayV2Integration,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListApiGatewayV2Integration,
+			Hydrate: opengovernance.ListApiGatewayV2Integration,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

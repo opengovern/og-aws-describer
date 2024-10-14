@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsEfsAccessPoint(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"AccessPointNotFound"}),
 			},
-			Hydrate: kaytu.GetEFSAccessPoint,
+			Hydrate: opengovernance.GetEFSAccessPoint,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEFSAccessPoint,
+			Hydrate: opengovernance.ListEFSAccessPoint,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"FileSystemNotFound"}),
 			},
@@ -110,7 +110,7 @@ func tableAwsEfsAccessPoint(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func efsAccessPointTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	tagList := d.HydrateItem.(kaytu.EFSAccessPoint).Description.AccessPoint
+	tagList := d.HydrateItem.(opengovernance.EFSAccessPoint).Description.AccessPoint
 
 	if tagList.Tags == nil {
 		return nil, nil
@@ -131,7 +131,7 @@ func efsAccessPointTurbotTags(ctx context.Context, d *transform.TransformData) (
 
 // Generate title for the resource
 func efsAccessPointTitle(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.EFSAccessPoint).Description.AccessPoint
+	data := d.HydrateItem.(opengovernance.EFSAccessPoint).Description.AccessPoint
 
 	// If name is available, then setting name as title, else setting Access Point ID as title
 	if data.Name != nil {

@@ -15,7 +15,7 @@ func tableAwsEc2NetworkLoadBalancerMetricNetFlowCountDaily(_ context.Context) *p
 		Name:        "aws_ec2_network_load_balancer_metric_net_flow_count_daily",
 		Description: "AWS EC2 Network Load Balancer Metrics - Net Flow Count (Daily)",
 		List:        &plugin.ListConfig{
-			//Hydrate: kaytu.ListNetworkLoadBalancerMetricNetFlowCountDaily,
+			//Hydrate: opengovernance.ListNetworkLoadBalancerMetricNetFlowCountDaily,
 		},
 
 		Columns: awsKaytuRegionalColumns(kaytuCwMetricColumns(

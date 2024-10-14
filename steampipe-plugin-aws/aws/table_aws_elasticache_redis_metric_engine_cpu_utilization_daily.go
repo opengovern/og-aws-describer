@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/service/elasticache/types"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -17,7 +17,7 @@ func tableAwsElasticacheRedisEngineCPUUtilizationDaily(_ context.Context) *plugi
 		Name:        "aws_elasticache_redis_metric_engine_cpu_utilization_daily",
 		Description: "AWS Elasticache Redis EngineCPUUtilization metric (Daily)",
 		List: &plugin.ListConfig{
-			ParentHydrate: kaytu.ListElastiCacheCluster,
+			ParentHydrate: opengovernance.ListElastiCacheCluster,
 			Hydrate:       listElastiCacheMetricEngineCPUUtilizationDaily,
 		},
 

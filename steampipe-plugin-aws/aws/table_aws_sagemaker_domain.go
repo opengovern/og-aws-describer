@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsSageMakerDomain(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationException", "NotFoundException", "ResourceNotFound"}),
 			},
-			Hydrate: kaytu.GetSageMakerDomain,
+			Hydrate: opengovernance.GetSageMakerDomain,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSageMakerDomain,
+			Hydrate: opengovernance.ListSageMakerDomain,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -149,7 +149,7 @@ func tableAwsSageMakerDomain(_ context.Context) *plugin.Table {
 }
 
 func sageMakerDomainTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.SageMakerDomain).Description.Tags
+	tags := d.HydrateItem.(opengovernance.SageMakerDomain).Description.Tags
 
 	if tags != nil {
 		turbotTagsMap := map[string]string{}

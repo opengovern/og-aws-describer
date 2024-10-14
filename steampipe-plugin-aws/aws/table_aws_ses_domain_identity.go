@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/service/ses/types"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -80,5 +80,5 @@ func ListSESDomainIdentities(ctx context.Context, d *plugin.QueryData, data *plu
 			StringValue: string(types.IdentityTypeDomain),
 		},
 	}
-	return kaytu.ListSESIdentity(ctx, d, data)
+	return opengovernance.ListSESIdentity(ctx, d, data)
 }

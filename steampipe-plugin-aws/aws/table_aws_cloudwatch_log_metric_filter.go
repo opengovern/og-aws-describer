@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -15,10 +15,10 @@ func tableAwsCloudwatchLogMetricFilter(_ context.Context) *plugin.Table {
 		Description: "AWS CloudWatch Log Metric Filter",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    kaytu.GetCloudWatchLogsMetricFilter,
+			Hydrate:    opengovernance.GetCloudWatchLogsMetricFilter,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCloudWatchLogsMetricFilter,
+			Hydrate: opengovernance.ListCloudWatchLogsMetricFilter,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "name",
@@ -100,8 +100,8 @@ func tableAwsCloudwatchLogMetricFilter(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getCloudwatchLogMetricFilterAkas(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	metricFilter := d.HydrateItem.(kaytu.CloudWatchLogsMetricFilter).Description.MetricFilter
-	metadata := d.HydrateItem.(kaytu.CloudWatchLogsMetricFilter).Metadata
+	metricFilter := d.HydrateItem.(opengovernance.CloudWatchLogsMetricFilter).Description.MetricFilter
+	metadata := d.HydrateItem.(opengovernance.CloudWatchLogsMetricFilter).Metadata
 
 	// Get data for turbot defined properties
 	akas := []string{"arn:" + metadata.Partition + ":logs:" + metadata.Region + ":" + metadata.AccountID + ":log-group:" + *metricFilter.LogGroupName + ":metric-filter:" + *metricFilter.FilterName}
@@ -111,7 +111,7 @@ func getCloudwatchLogMetricFilterAkas(ctx context.Context, d *transform.Transfor
 
 func logMetricTransformationsData(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("logMetricTransformationsData")
-	metricFilterData := d.HydrateItem.(kaytu.CloudWatchLogsMetricFilter).Description.MetricFilter
+	metricFilterData := d.HydrateItem.(opengovernance.CloudWatchLogsMetricFilter).Description.MetricFilter
 
 	if metricFilterData.MetricTransformations != nil && len(metricFilterData.MetricTransformations) > 0 {
 		if d.Param.(string) == "MetricName" {

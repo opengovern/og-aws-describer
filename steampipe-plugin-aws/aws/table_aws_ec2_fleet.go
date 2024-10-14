@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -14,10 +14,10 @@ func tableAwsEc2Fleet(_ context.Context) *plugin.Table {
 		Description: "AWS Ec2 Fleet",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("fleet_id"),
-			Hydrate:    kaytu.GetEC2Fleet,
+			Hydrate:    opengovernance.GetEC2Fleet,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2Fleet,
+			Hydrate: opengovernance.ListEC2Fleet,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -54,6 +54,6 @@ func tableAwsEc2Fleet(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getEc2FleetTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.EC2Fleet).Description.Fleet.Tags
+	tags := d.HydrateItem.(opengovernance.EC2Fleet).Description.Fleet.Tags
 	return ec2V2TagsToMap(tags)
 }

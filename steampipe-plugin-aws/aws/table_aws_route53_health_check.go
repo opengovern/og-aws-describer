@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/service/route53/types"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -17,13 +17,13 @@ func tableAwsRoute53HealthCheck(_ context.Context) *plugin.Table {
 		Description: "AWS Route53 Health Check",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"),
-			Hydrate:    kaytu.GetRoute53HealthCheck,
+			Hydrate:    opengovernance.GetRoute53HealthCheck,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NoSuchHealthCheck"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRoute53HealthCheck,
+			Hydrate: opengovernance.ListRoute53HealthCheck,
 		},
 		Columns: awsKaytuColumns([]*plugin.Column{
 			{
@@ -96,7 +96,7 @@ func tableAwsRoute53HealthCheck(_ context.Context) *plugin.Table {
 }
 
 func getRoute53HealthCheckTurbotAkas(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	healthCheck := h.Item.(kaytu.Route53HealthCheck)
+	healthCheck := h.Item.(opengovernance.Route53HealthCheck)
 
 	// Get data for turbot defined prconfigurationerties
 	akas := []string{"arn:" + healthCheck.Metadata.Partition + ":route53:::" + "healthcheck/" + *healthCheck.Description.HealthCheck.Id}

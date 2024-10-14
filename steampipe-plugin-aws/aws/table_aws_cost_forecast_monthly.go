@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/kaytu-io/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -14,7 +14,7 @@ func tableAwsCostForecastMonthly(_ context.Context) *plugin.Table {
 		Name:        "aws_cost_forecast_monthly",
 		Description: "AWS Cost Explorer - Cost Forecast (Monthly)",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCostExplorerForcastMonthly,
+			Hydrate: opengovernance.ListCostExplorerForcastMonthly,
 		},
 		Columns: awsKaytuColumns([]*plugin.Column{
 			{

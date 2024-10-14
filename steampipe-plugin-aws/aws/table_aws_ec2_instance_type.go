@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/kaytu-io/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsInstanceType(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidInstanceType"}),
 			},
-			Hydrate: kaytu.GetEC2InstanceType,
+			Hydrate: opengovernance.GetEC2InstanceType,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2InstanceType,
+			Hydrate: opengovernance.ListEC2InstanceType,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

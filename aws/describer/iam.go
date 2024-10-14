@@ -12,7 +12,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/organizations"
 	iam2 "github.com/aws/aws-sdk-go/service/iam"
 	"github.com/gocarina/gocsv"
-	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
+	"github.com/opengovern/og-aws-describer/aws/model"
 	"strings"
 	"time"
 )

@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/kaytu-io/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -17,10 +17,10 @@ func tableAwsAppConfigApplication(_ context.Context) *plugin.Table {
 		Description: "AWS AppConfig Application",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"),
-			Hydrate:    kaytu.GetAppConfigApplication,
+			Hydrate:    opengovernance.GetAppConfigApplication,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAppConfigApplication,
+			Hydrate: opengovernance.ListAppConfigApplication,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

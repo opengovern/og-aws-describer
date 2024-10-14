@@ -4,7 +4,7 @@ import (
 	"context"
 	"go.uber.org/zap"
 
-	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
+	"github.com/opengovern/og-util/pkg/describe/enums"
 )
 
 var (

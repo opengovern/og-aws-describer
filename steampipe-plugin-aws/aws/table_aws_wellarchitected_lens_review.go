@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -29,10 +29,10 @@ func tableAwsWellArchitectedLensReview(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException", "ValidationException"}),
 			},
-			Hydrate: kaytu.GetWellArchitectedLensReview,
+			Hydrate: opengovernance.GetWellArchitectedLensReview,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListWellArchitectedLensReview,
+			Hydrate: opengovernance.ListWellArchitectedLensReview,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "workload_id", Require: plugin.Optional},
 				{Name: "milestone_number", Require: plugin.Optional, CacheMatch: "exact"},

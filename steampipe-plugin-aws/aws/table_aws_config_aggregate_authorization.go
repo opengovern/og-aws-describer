@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -14,7 +14,7 @@ func tableAwsConfigAggregateAuthorization(_ context.Context) *plugin.Table {
 		Name:        "aws_config_aggregate_authorization",
 		Description: "AWS Config Aggregate Authorization",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListConfigAggregationAuthorization,
+			Hydrate: opengovernance.ListConfigAggregationAuthorization,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
@@ -68,7 +68,7 @@ func tableAwsConfigAggregateAuthorization(_ context.Context) *plugin.Table {
 }
 
 func configAggregateAuthorizationsTagListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	tagList := d.HydrateItem.(kaytu.ConfigAggregationAuthorization).Description.Tags
+	tagList := d.HydrateItem.(opengovernance.ConfigAggregationAuthorization).Description.Tags
 
 	// Mapping the resource tags inside turbotTags
 	var turbotTagsMap map[string]string

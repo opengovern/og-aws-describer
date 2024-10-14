@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -22,7 +22,7 @@ func tableAwsIamAccountPasswordPolicy(_ context.Context) *plugin.Table {
 		Name:        "aws_iam_account_password_policy",
 		Description: "AWS IAM Account Password Policy",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListIAMAccountPasswordPolicy,
+			Hydrate: opengovernance.ListIAMAccountPasswordPolicy,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -14,7 +14,7 @@ func tableAwsSsoAdminAccountAssignment(_ context.Context) *plugin.Table {
 		Name:        "aws_ssoadmin_account_assignment",
 		Description: "AWS SSO Account Assignment",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSSOAdminAccountAssignment,
+			Hydrate: opengovernance.ListSSOAdminAccountAssignment,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

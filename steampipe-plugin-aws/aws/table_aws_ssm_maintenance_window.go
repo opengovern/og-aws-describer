@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/service/ssm/types"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -18,10 +18,10 @@ func tableAwsSSMMaintenanceWindow(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"DoesNotExistException"}),
 			},
-			Hydrate: kaytu.GetSSMMaintenanceWindow,
+			Hydrate: opengovernance.GetSSMMaintenanceWindow,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSSMMaintenanceWindow,
+			Hydrate: opengovernance.ListSSMMaintenanceWindow,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "name", Require: plugin.Optional},
 				{Name: "enabled", Require: plugin.Optional, Operators: []string{"=", "<>"}},

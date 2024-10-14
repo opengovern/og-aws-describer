@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -16,13 +16,13 @@ func tableAwsCloudtrailTrail(_ context.Context) *plugin.Table {
 		Description: "AWS CloudTrail Trail",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AnyColumn([]string{"name", "arn"}),
-			Hydrate:    kaytu.GetCloudTrailTrail,
+			Hydrate:    opengovernance.GetCloudTrailTrail,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidTrailNameException", "TrailNotFoundException", "CloudTrailARNInvalidException"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCloudTrailTrail,
+			Hydrate: opengovernance.ListCloudTrailTrail,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidTrailNameException", "TrailNotFoundException", "CloudTrailARNInvalidException"}),
 			}},
@@ -242,7 +242,7 @@ func tableAwsCloudtrailTrail(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getCloudtrailTrailTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.CloudTrailTrail).Description.Tags
+	tags := d.HydrateItem.(opengovernance.CloudTrailTrail).Description.Tags
 	if tags == nil {
 		return nil, nil
 	}

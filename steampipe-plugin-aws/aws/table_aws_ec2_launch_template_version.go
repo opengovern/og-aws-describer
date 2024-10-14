@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -16,7 +16,7 @@ func tableAwsEc2LaunchTemplateVersion(_ context.Context) *plugin.Table {
 		Name:        "aws_ec2_launch_template_version",
 		Description: "AWS EC2 Launch Template Version",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2LaunchTemplateVersion,
+			Hydrate: opengovernance.ListEC2LaunchTemplateVersion,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "launch_template_id",

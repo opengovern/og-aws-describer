@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsEc2SslPolicy(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"SSLPolicyNotFound"}),
 			},
-			Hydrate: kaytu.GetElasticLoadBalancingV2SslPolicy,
+			Hydrate: opengovernance.GetElasticLoadBalancingV2SslPolicy,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListElasticLoadBalancingV2SslPolicy,
+			Hydrate: opengovernance.ListElasticLoadBalancingV2SslPolicy,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

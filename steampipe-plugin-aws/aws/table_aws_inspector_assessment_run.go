@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -16,7 +16,7 @@ func tableAwsInspectorAssessmentRun(_ context.Context) *plugin.Table {
 		Name:        "aws_inspector_assessment_run",
 		Description: "AWS Inspector Assessment Run",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListInspectorAssessmentRun,
+			Hydrate: opengovernance.ListInspectorAssessmentRun,
 			KeyColumns: plugin.KeyColumnSlice{
 				{Name: "assessment_template_arn", Require: plugin.Optional},
 				{Name: "name", Require: plugin.Optional},

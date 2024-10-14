@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -17,10 +17,10 @@ func tableAwsRedshiftServerlessNamespace(_ context.Context) *plugin.Table {
 		Description: "AWS Redshift Serverless Namespace",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("namespace_name"),
-			Hydrate:    kaytu.GetRedshiftServerlessNamespace,
+			Hydrate:    opengovernance.GetRedshiftServerlessNamespace,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRedshiftServerlessNamespace,
+			Hydrate: opengovernance.ListRedshiftServerlessNamespace,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -109,6 +109,6 @@ func tableAwsRedshiftServerlessNamespace(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getRedshiftServerlessNamespaceTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.RedshiftServerlessNamespace).Description.Tags
+	tags := d.HydrateItem.(opengovernance.RedshiftServerlessNamespace).Description.Tags
 	return redshiftServerlessV2TagsToMap(tags)
 }

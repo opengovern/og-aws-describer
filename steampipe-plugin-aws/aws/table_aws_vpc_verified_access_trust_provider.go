@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -16,7 +16,7 @@ func tableAwsVpcVerifiedAccessTrustProvider(_ context.Context) *plugin.Table {
 		Name:        "aws_vpc_verified_access_trust_provider",
 		Description: "AWS VPC Verified Access Trust Provider",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2VerifiedAccessTrustProvider,
+			Hydrate: opengovernance.ListEC2VerifiedAccessTrustProvider,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameterValue"}),
 			},
@@ -98,7 +98,7 @@ func tableAwsVpcVerifiedAccessTrustProvider(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func trustProviderTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	accessPoint := d.HydrateItem.(kaytu.EC2VerifiedAccessTrustProvider).Description.VerifiedAccessTrustProvider
+	accessPoint := d.HydrateItem.(opengovernance.EC2VerifiedAccessTrustProvider).Description.VerifiedAccessTrustProvider
 
 	// Get the resource tags
 	var turbotTagsMap map[string]string
@@ -113,7 +113,7 @@ func trustProviderTurbotTags(_ context.Context, d *transform.TransformData) (int
 }
 
 func trustProviderTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	accessPoint := d.HydrateItem.(kaytu.EC2VerifiedAccessTrustProvider).Description.VerifiedAccessTrustProvider
+	accessPoint := d.HydrateItem.(opengovernance.EC2VerifiedAccessTrustProvider).Description.VerifiedAccessTrustProvider
 	title := accessPoint.VerifiedAccessTrustProviderId
 
 	if accessPoint.Tags != nil {

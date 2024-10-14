@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/service/guardduty"
 
@@ -28,10 +28,10 @@ func tableAwsGuardDutyDetector(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidInputException", "BadRequestException"}),
 			},
-			Hydrate: kaytu.GetGuardDutyDetector,
+			Hydrate: opengovernance.GetGuardDutyDetector,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListGuardDutyDetector,
+			Hydrate: opengovernance.ListGuardDutyDetector,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

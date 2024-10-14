@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsCodepipelinePipeline(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"PipelineNotFoundException"}),
 			},
-			Hydrate: kaytu.GetCodePipelinePipeline,
+			Hydrate: opengovernance.GetCodePipelinePipeline,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCodePipelinePipeline,
+			Hydrate: opengovernance.ListCodePipelinePipeline,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
@@ -104,7 +104,7 @@ func tableAwsCodepipelinePipeline(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func codepipelineTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.CodePipelinePipeline).Description.Tags
+	tags := d.HydrateItem.(opengovernance.CodePipelinePipeline).Description.Tags
 
 	if len(tags) <= 0 {
 		return map[string]string{}, nil

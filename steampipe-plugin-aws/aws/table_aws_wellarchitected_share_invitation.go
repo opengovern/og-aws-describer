@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 	"fmt"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/wellarchitected"
@@ -21,7 +21,7 @@ func tableAwsWellArchitectedShareInvitation(_ context.Context) *plugin.Table {
 		Name:        "aws_wellarchitected_share_invitation",
 		Description: "AWS Well-Architected Share Invitation",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListWellArchitectedShareInvitation,
+			Hydrate: opengovernance.ListWellArchitectedShareInvitation,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "workload_name", Require: plugin.Optional},
 				{Name: "lens_name", Require: plugin.Optional},

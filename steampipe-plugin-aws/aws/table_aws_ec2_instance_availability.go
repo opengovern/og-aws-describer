@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -16,7 +16,7 @@ func tableAwsInstanceAvailability(_ context.Context) *plugin.Table {
 		Name:        "aws_ec2_instance_availability",
 		Description: "AWS EC2 Instance Availability",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2InstanceAvailability,
+			Hydrate: opengovernance.ListEC2InstanceAvailability,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "instance_type",

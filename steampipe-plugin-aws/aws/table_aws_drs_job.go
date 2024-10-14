@@ -22,7 +22,7 @@ func tableAwsDRSJob(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"UninitializedAccountException", "BadRequestException"}),
 			},
-			//Hydrate: kaytu.ListDRSJob,
+			//Hydrate: opengovernance.ListDRSJob,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

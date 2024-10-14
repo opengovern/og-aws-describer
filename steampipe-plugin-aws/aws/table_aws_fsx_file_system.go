@@ -3,7 +3,6 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +19,10 @@ func tableAwsFsxFileSystem(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"FileSystemNotFound", "ValidationException"}),
 			},
-			Hydrate: kaytu.GetFSXFileSystem,
+			Hydrate: opengovernance.GetFSXFileSystem,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListFSXFileSystem,
+			Hydrate: opengovernance.ListFSXFileSystem,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -165,7 +164,7 @@ func tableAwsFsxFileSystem(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func fsxFileSystemTurbotData(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	fileSystemTag := d.HydrateItem.(kaytu.FSXFileSystem).Description.FileSystem
+	fileSystemTag := d.HydrateItem.(opengovernance.FSXFileSystem).Description.FileSystem
 	if fileSystemTag.Tags == nil {
 		return nil, nil
 	}
@@ -182,7 +181,7 @@ func fsxFileSystemTurbotData(_ context.Context, d *transform.TransformData) (int
 }
 
 func getFsxFileSystemTurbotTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	fileSystemTitle := d.HydrateItem.(kaytu.FSXFileSystem).Description.FileSystem
+	fileSystemTitle := d.HydrateItem.(opengovernance.FSXFileSystem).Description.FileSystem
 
 	if fileSystemTitle.Tags != nil {
 		for _, i := range fileSystemTitle.Tags {

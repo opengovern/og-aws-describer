@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/service/accessanalyzer/types"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -25,11 +25,11 @@ func tableAwsAccessAnalyzerFinding(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException", "ValidationException"}),
 			},
-			Hydrate: kaytu.GetAccessAnalyzerAnalyzerFinding,
+			Hydrate: opengovernance.GetAccessAnalyzerAnalyzerFinding,
 			Tags:    map[string]string{"service": "access-analyzer", "action": "GetFinding"},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAccessAnalyzerAnalyzerFinding,
+			Hydrate: opengovernance.ListAccessAnalyzerAnalyzerFinding,
 			Tags:    map[string]string{"service": "access-analyzer", "action": "ListFindings"},
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException", "ValidationException"}),

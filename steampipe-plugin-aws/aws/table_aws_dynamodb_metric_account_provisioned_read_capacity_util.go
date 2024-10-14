@@ -13,7 +13,7 @@ func tableAwsDynamoDBMetricAccountProvisionedReadCapacityUtilization(_ context.C
 		Name:        "aws_dynamodb_metric_account_provisioned_read_capacity_util",
 		Description: "AWS DynamoDB Metric Account Provisioned Read Capacity Utilization",
 		List:        &plugin.ListConfig{
-			//Hydrate: kaytu.ListDynamoDBMetricAccountProvisionedReadCapacityUtilization,
+			//Hydrate: opengovernance.ListDynamoDBMetricAccountProvisionedReadCapacityUtilization,
 		},
 
 		Columns: awsKaytuRegionalColumns(kaytuCwMetricColumns([]*plugin.Column{})),

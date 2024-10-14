@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -20,10 +20,10 @@ func tableAwsAPIGatewayV2Stage(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NotFoundException"}),
 			},
-			Hydrate: kaytu.GetApiGatewayV2Stage,
+			Hydrate: opengovernance.GetApiGatewayV2Stage,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListApiGatewayV2Stage,
+			Hydrate: opengovernance.ListApiGatewayV2Stage,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -138,8 +138,8 @@ func tableAwsAPIGatewayV2Stage(_ context.Context) *plugin.Table {
 //// HYDRATE FUNCTIONS
 
 func apiGatewayV2StageAkas(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.ApiGatewayV2Stage).Description
-	metadata := d.HydrateItem.(kaytu.ApiGatewayV2Stage).Metadata
+	data := d.HydrateItem.(opengovernance.ApiGatewayV2Stage).Description
+	metadata := d.HydrateItem.(opengovernance.ApiGatewayV2Stage).Metadata
 	akas := []string{"arn:" + metadata.Partition + ":apigateway:" + metadata.Region + "::/apis/" + *data.ApiId + "/stages/" + *data.Stage.StageName}
 
 	return akas, nil

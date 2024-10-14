@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -16,7 +16,7 @@ func tableAWSResourceExplorerIndex(_ context.Context) *plugin.Table {
 		Name:        "aws_resource_explorer_index",
 		Description: "AWS Resource Explorer Index",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListResourceExplorer2Index,
+			Hydrate: opengovernance.ListResourceExplorer2Index,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				// ValidationException error thrown for below cases in the table
 				// 1. Type of the index type passed as input is not a valid value

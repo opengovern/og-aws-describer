@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -16,7 +16,7 @@ func tableAwsDaxParameter(_ context.Context) *plugin.Table {
 		Name:        "aws_dax_parameter",
 		Description: "AWS DAX Parameter",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDAXParameter,
+			Hydrate: opengovernance.ListDAXParameter,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ParameterGroupNotFoundFault"}),
 			},

@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/kaytu-io/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,7 +15,7 @@ func tableAwsEcsService(_ context.Context) *plugin.Table {
 		Name:        "aws_ecs_service",
 		Description: "AWS ECS Service",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListECSService,
+			Hydrate: opengovernance.ListECSService,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -233,7 +233,7 @@ func tableAwsEcsService(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getEcsServiceTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.ECSService).Description.Tags
+	tags := d.HydrateItem.(opengovernance.ECSService).Description.Tags
 
 	if len(tags) == 0 {
 		return nil, nil

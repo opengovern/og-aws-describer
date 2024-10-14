@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -17,10 +17,10 @@ func tableAwsEksFargateProfile(_ context.Context) *plugin.Table {
 		Description: "AWS Elastic Kubernetes Service Fargate Profile",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"cluster_name", "fargate_profile_name"}),
-			Hydrate:    kaytu.GetEKSFargateProfile,
+			Hydrate:    opengovernance.GetEKSFargateProfile,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEKSFargateProfile,
+			Hydrate: opengovernance.ListEKSFargateProfile,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "cluster_name",

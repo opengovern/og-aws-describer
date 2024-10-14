@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,10 +15,10 @@ func tableAwsFsxStorageVirtualMachine(_ context.Context) *plugin.Table {
 		Description: "AWS FSX StorageVirtualMachine",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("storage_virtual_machine_id"),
-			Hydrate:    kaytu.GetFSXStorageVirtualMachine,
+			Hydrate:    opengovernance.GetFSXStorageVirtualMachine,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListFSXStorageVirtualMachine,
+			Hydrate: opengovernance.ListFSXStorageVirtualMachine,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -60,6 +60,6 @@ func tableAwsFsxStorageVirtualMachine(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getFsxStorageVirtualMachineTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.FSXStorageVirtualMachine).Description.StorageVirtualMachine.Tags
+	tags := d.HydrateItem.(opengovernance.FSXStorageVirtualMachine).Description.StorageVirtualMachine.Tags
 	return fsxV2TagsToMap(tags)
 }

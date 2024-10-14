@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -18,10 +18,10 @@ func tableAwsVpcEgressOnlyIGW(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidEgressOnlyInternetGatewayId.NotFound", "InvalidEgressOnlyInternetGatewayId.Malformed"}),
 			},
-			Hydrate: kaytu.GetEC2EgressOnlyInternetGateway,
+			Hydrate: opengovernance.GetEC2EgressOnlyInternetGateway,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2EgressOnlyInternetGateway,
+			Hydrate: opengovernance.ListEC2EgressOnlyInternetGateway,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
@@ -65,7 +65,7 @@ func tableAwsVpcEgressOnlyIGW(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func egressOnlyIGWApiDataToTurbotData(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	egw := d.HydrateItem.(kaytu.EC2EgressOnlyInternetGateway).Description.EgressOnlyInternetGateway
+	egw := d.HydrateItem.(opengovernance.EC2EgressOnlyInternetGateway).Description.EgressOnlyInternetGateway
 	param := d.Param.(string)
 
 	// Get resource title

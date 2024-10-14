@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -14,10 +14,10 @@ func tableAwsOrganizationsOrganizationalUnit(_ context.Context) *plugin.Table {
 		Description: "AWS Organizations Organizational Unit",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"),
-			Hydrate:    kaytu.GetOrganizationsOrganizationalUnit,
+			Hydrate:    opengovernance.GetOrganizationsOrganizationalUnit,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListOrganizationsOrganizationalUnit,
+			Hydrate: opengovernance.ListOrganizationsOrganizationalUnit,
 		},
 		Columns: awsKaytuColumns([]*plugin.Column{
 			{

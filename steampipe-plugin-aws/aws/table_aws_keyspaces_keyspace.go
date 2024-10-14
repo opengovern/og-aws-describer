@@ -3,7 +3,6 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,10 +14,10 @@ func tableAwsKeyspacesKeyspace(_ context.Context) *plugin.Table {
 		Description: "AWS Keyspaces Keyspace",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("keyspace_name"),
-			Hydrate:    kaytu.GetKeyspacesKeyspace,
+			Hydrate:    opengovernance.GetKeyspacesKeyspace,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListKeyspacesKeyspace,
+			Hydrate: opengovernance.ListKeyspacesKeyspace,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -55,6 +54,6 @@ func tableAwsKeyspacesKeyspace(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getKeyspacesKeyspaceTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.KeyspacesKeyspace).Description.Tags
+	tags := d.HydrateItem.(opengovernance.KeyspacesKeyspace).Description.Tags
 	return keyspacesV2TagsToMap(tags)
 }

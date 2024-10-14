@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"strings"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -19,10 +19,10 @@ func tableAwsRedshiftParameterGroup(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ClusterParameterGroupNotFound"}),
 			},
-			Hydrate: kaytu.GetRedshiftClusterParameterGroup,
+			Hydrate: opengovernance.GetRedshiftClusterParameterGroup,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRedshiftClusterParameterGroup,
+			Hydrate: opengovernance.ListRedshiftClusterParameterGroup,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -81,8 +81,8 @@ func tableAwsRedshiftParameterGroup(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getAwsRedshiftParameterGroupAkas(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	parameterData := d.HydrateItem.(kaytu.RedshiftClusterParameterGroup).Description.ClusterParameterGroup
-	metadata := d.HydrateItem.(kaytu.RedshiftClusterParameterGroup).Metadata
+	parameterData := d.HydrateItem.(opengovernance.RedshiftClusterParameterGroup).Description.ClusterParameterGroup
+	metadata := d.HydrateItem.(opengovernance.RedshiftClusterParameterGroup).Metadata
 
 	aka := "arn:" + metadata.Partition + ":redshift:" + metadata.Region + ":" + metadata.AccountID + ":parametergroup"
 
@@ -98,7 +98,7 @@ func getAwsRedshiftParameterGroupAkas(ctx context.Context, d *transform.Transfor
 func tagListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("tagListToTurbotTags")
 
-	tagList := d.HydrateItem.(kaytu.RedshiftClusterParameterGroup).Description.ClusterParameterGroup
+	tagList := d.HydrateItem.(opengovernance.RedshiftClusterParameterGroup).Description.ClusterParameterGroup
 
 	// Mapping the resource tags inside turbotTags
 	var turbotTagsMap map[string]string

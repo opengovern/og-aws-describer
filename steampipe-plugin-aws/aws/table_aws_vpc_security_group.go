@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -17,10 +17,10 @@ func tableAwsVpcSecurityGroup(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidGroupId.Malformed", "InvalidGroupId.NotFound", "InvalidGroup.NotFound"}),
 			},
-			Hydrate: kaytu.GetEC2SecurityGroup,
+			Hydrate: opengovernance.GetEC2SecurityGroup,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2SecurityGroup,
+			Hydrate: opengovernance.ListEC2SecurityGroup,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "description", Require: plugin.Optional},
 				{Name: "group_name", Require: plugin.Optional},
@@ -108,7 +108,7 @@ func tableAwsVpcSecurityGroup(_ context.Context) *plugin.Table {
 }
 
 func getVpcSecurityGroupTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	securityGroup := d.HydrateItem.(kaytu.EC2SecurityGroup).Description.SecurityGroup
+	securityGroup := d.HydrateItem.(opengovernance.EC2SecurityGroup).Description.SecurityGroup
 
 	// Get the resource tags
 	if securityGroup.Tags != nil {

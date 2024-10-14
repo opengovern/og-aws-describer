@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -18,10 +18,10 @@ func tableAwsVpcEndpoint(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidVpcEndpointId.NotFound", "InvalidVpcEndpointId.Malformed"}),
 			},
-			Hydrate: kaytu.GetEC2VPCEndpoint,
+			Hydrate: opengovernance.GetEC2VPCEndpoint,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2VPCEndpoint,
+			Hydrate: opengovernance.ListEC2VPCEndpoint,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "service_name", Require: plugin.Optional},
 				{Name: "vpc_id", Require: plugin.Optional},
@@ -162,8 +162,8 @@ func tableAwsVpcEndpoint(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getVpcEndpointAkas(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	vpcEndpoint := d.HydrateItem.(kaytu.EC2VPCEndpoint).Description.VpcEndpoint
-	metadata := d.HydrateItem.(kaytu.EC2VPCEndpoint).Metadata
+	vpcEndpoint := d.HydrateItem.(opengovernance.EC2VPCEndpoint).Description.VpcEndpoint
+	metadata := d.HydrateItem.(opengovernance.EC2VPCEndpoint).Metadata
 
 	akas := []string{"arn:" + metadata.Partition + ":ec2:" + metadata.Region + ":" + metadata.AccountID + ":vpc-endpoint/" + *vpcEndpoint.VpcEndpointId}
 
@@ -173,7 +173,7 @@ func getVpcEndpointAkas(_ context.Context, d *transform.TransformData) (interfac
 //// TRANSFORM FUNCTIONS
 
 func getVpcEndpointTurbotData(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	vpcEndpoint := d.HydrateItem.(kaytu.EC2VPCEndpoint).Description.VpcEndpoint
+	vpcEndpoint := d.HydrateItem.(opengovernance.EC2VPCEndpoint).Description.VpcEndpoint
 	param := d.Param.(string)
 
 	// Get resource title

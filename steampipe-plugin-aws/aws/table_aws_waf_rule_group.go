@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -20,10 +20,10 @@ func tableAwsWafRuleGroup(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NonexistentItemException", "WAFNonexistentItemException"}),
 			},
-			Hydrate: kaytu.GetWAFRuleGroup,
+			Hydrate: opengovernance.GetWAFRuleGroup,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListWAFRuleGroup,
+			Hydrate: opengovernance.ListWAFRuleGroup,
 		},
 		Columns: awsKaytuColumns([]*plugin.Column{
 			{
@@ -83,7 +83,7 @@ func tableAwsWafRuleGroup(_ context.Context) *plugin.Table {
 
 //
 //func classicRuleGroupTagListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-//	data := d.HydrateItem.(kaytu.WAFRuleGroup).Description.Tags
+//	data := d.HydrateItem.(opengovernance.WAFRuleGroup).Description.Tags
 //
 //	if data == nil || len(data) < 1 {
 //		return nil, nil

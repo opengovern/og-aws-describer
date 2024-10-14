@@ -16,10 +16,10 @@ func tableAwsEksIdentityProviderConfig(_ context.Context) *plugin.Table {
 		Description: "AWS EKS Identity Provider Config",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "type", "cluster_name"}),
-			//Hydrate:    kaytu.GetEKSIdentityProviderConfig,
+			//Hydrate:    opengovernance.GetEKSIdentityProviderConfig,
 		},
 		List: &plugin.ListConfig{
-			//Hydrate: kaytu.ListEKSIdentityProviderConfig,
+			//Hydrate: opengovernance.ListEKSIdentityProviderConfig,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

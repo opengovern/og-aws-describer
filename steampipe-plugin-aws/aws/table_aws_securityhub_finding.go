@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -18,13 +18,13 @@ func tableAwsSecurityHubFinding(_ context.Context) *plugin.Table {
 		Description: "AWS Security Hub Finding",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"),
-			Hydrate:    kaytu.GetSecurityHubFinding,
+			Hydrate:    opengovernance.GetSecurityHubFinding,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidAccessException"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSecurityHubFinding,
+			Hydrate: opengovernance.ListSecurityHubFinding,
 			KeyColumns: plugin.KeyColumnSlice{
 				{Name: "company_name", Require: plugin.Optional, Operators: []string{"=", "<>"}},
 				{Name: "compliance_status", Require: plugin.Optional, Operators: []string{"=", "<>"}},
@@ -256,7 +256,7 @@ func tableAwsSecurityHubFinding(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func extractStandardControlArn(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	findingArn := d.HydrateItem.(kaytu.SecurityHubFinding).Description.Finding.Id
+	findingArn := d.HydrateItem.(opengovernance.SecurityHubFinding).Description.Finding.Id
 
 	if strings.Contains(*findingArn, "arn:aws:securityhub") {
 		standardControlArn := strings.Replace(strings.Split(*findingArn, "/finding")[0], "subscription", "control", 1)

@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
 
@@ -22,10 +22,10 @@ func tableAwsEC2ClientVPNEndpoint(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationError", "InvalidQueryParameter", "InvalidParameterValue", "InvalidClientVpnEndpointId.NotFound"}),
 			},
-			Hydrate: kaytu.GetEC2ClientVpnEndpoint,
+			Hydrate: opengovernance.GetEC2ClientVpnEndpoint,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2ClientVpnEndpoint,
+			Hydrate: opengovernance.ListEC2ClientVpnEndpoint,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "transport_protocol", Require: plugin.Optional},
 			},

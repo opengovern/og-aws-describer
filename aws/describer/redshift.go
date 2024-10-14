@@ -12,7 +12,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/redshift/types"
 	"github.com/aws/aws-sdk-go-v2/service/redshiftserverless"
 	"github.com/aws/smithy-go"
-	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
+	"github.com/opengovern/og-aws-describer/aws/model"
 )
 
 func RedshiftCluster(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

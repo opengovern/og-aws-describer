@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -20,10 +20,10 @@ func tableAwsEc2TransitGateway(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidTransitGatewayID.NotFound", "InvalidTransitGatewayID.Unavailable", "InvalidTransitGatewayID.Malformed"}),
 			},
-			Hydrate: kaytu.GetEC2TransitGateway,
+			Hydrate: opengovernance.GetEC2TransitGateway,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2TransitGateway,
+			Hydrate: opengovernance.ListEC2TransitGateway,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "propagation_default_route_table_id", Require: plugin.Optional},
 				{Name: "amazon_side_asn", Require: plugin.Optional},
@@ -160,12 +160,12 @@ func tableAwsEc2TransitGateway(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getEc2TransitGatewayTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.EC2TransitGateway).Description.TransitGateway
+	data := d.HydrateItem.(opengovernance.EC2TransitGateway).Description.TransitGateway
 	return ec2V2TagsToMap(data.Tags)
 }
 
 func getEc2TransitGatewayTurbotTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.EC2TransitGateway).Description.TransitGateway
+	data := d.HydrateItem.(opengovernance.EC2TransitGateway).Description.TransitGateway
 	title := data.TransitGatewayId
 	if data.Tags != nil {
 		for _, i := range data.Tags {

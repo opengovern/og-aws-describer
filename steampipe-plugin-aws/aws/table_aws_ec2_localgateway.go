@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -14,10 +14,10 @@ func tableAwsEC2LocalGateway(_ context.Context) *plugin.Table {
 		Description: "AWS EC2 LocalGateway",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("arn"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetEC2LocalGateway,
+			Hydrate:    opengovernance.GetEC2LocalGateway,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2LocalGateway,
+			Hydrate: opengovernance.ListEC2LocalGateway,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

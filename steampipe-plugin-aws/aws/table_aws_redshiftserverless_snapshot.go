@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,10 +15,10 @@ func tableAwsRedshiftServerlessSnapshot(_ context.Context) *plugin.Table {
 		Description: "AWS RedshiftServerless Snapshot",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("snapshot_name"),
-			Hydrate:    kaytu.GetRedshiftServerlessSnapshot,
+			Hydrate:    opengovernance.GetRedshiftServerlessSnapshot,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRedshiftServerlessSnapshot,
+			Hydrate: opengovernance.ListRedshiftServerlessSnapshot,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -55,6 +55,6 @@ func tableAwsRedshiftServerlessSnapshot(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getRedshiftServerlessSnapshotTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.RedshiftServerlessSnapshot).Description.Tags
+	tags := d.HydrateItem.(opengovernance.RedshiftServerlessSnapshot).Description.Tags
 	return redshiftServerlessV2TagsToMap(tags)
 }

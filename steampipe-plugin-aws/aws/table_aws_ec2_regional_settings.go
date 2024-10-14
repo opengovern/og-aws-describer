@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/kaytu-io/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -16,7 +16,7 @@ func tableAwsEc2RegionalSettings(_ context.Context) *plugin.Table {
 		Name:        "aws_ec2_regional_settings",
 		Description: "AWS EC2 Regional Settings",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2RegionalSettings,
+			Hydrate: opengovernance.ListEC2RegionalSettings,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -55,7 +55,7 @@ func tableAwsEc2RegionalSettings(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getEc2SettingTitle(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	metadata := d.HydrateItem.(kaytu.EC2RegionalSettings).Metadata
+	metadata := d.HydrateItem.(opengovernance.EC2RegionalSettings).Metadata
 
 	title := metadata.Region + " EC2 Settings"
 	return title, nil

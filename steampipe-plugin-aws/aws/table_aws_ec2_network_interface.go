@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -19,10 +19,10 @@ func tableAwsEc2NetworkInterface(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidNetworkInterfaceID.NotFound", "InvalidNetworkInterfaceID.Unavailable", "InvalidNetworkInterfaceID.Malformed"}),
 			},
-			Hydrate: kaytu.GetEC2NetworkInterface,
+			Hydrate: opengovernance.GetEC2NetworkInterface,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2NetworkInterface,
+			Hydrate: opengovernance.ListEC2NetworkInterface,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "association_id", Require: plugin.Optional},
 				{Name: "association_allocation_id", Require: plugin.Optional},
@@ -246,8 +246,8 @@ func tableAwsEc2NetworkInterface(_ context.Context) *plugin.Table {
 //// HYDRATE FUNCTIONS
 
 func getAwsEc2NetworkInterfaceAkas(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	networkInterface := h.Item.(kaytu.EC2NetworkInterface).Description.NetworkInterface
-	metadata := h.Item.(kaytu.EC2NetworkInterface).Metadata
+	networkInterface := h.Item.(opengovernance.EC2NetworkInterface).Description.NetworkInterface
+	metadata := h.Item.(opengovernance.EC2NetworkInterface).Metadata
 
 	// Get data for turbot defined properties
 	akas := []string{"arn:" + metadata.Partition + ":ec2:" + metadata.Region + ":" + metadata.AccountID + ":network-interface/" + *networkInterface.NetworkInterfaceId}
@@ -258,7 +258,7 @@ func getAwsEc2NetworkInterfaceAkas(ctx context.Context, d *plugin.QueryData, h *
 //// TRANSFORM FUNCTIONS
 
 func getEc2NetworkInterfaceTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.EC2NetworkInterface).Description.NetworkInterface
+	data := d.HydrateItem.(opengovernance.EC2NetworkInterface).Description.NetworkInterface
 
 	// Get resource tags
 	var turbotTags map[string]string

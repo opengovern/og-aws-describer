@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -21,7 +21,7 @@ func tableAwsWellArchitectedCheckSummary(_ context.Context) *plugin.Table {
 		Name:        "aws_wellarchitected_check_summary",
 		Description: "AWS Well-Architected Check Summary",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListWellArchitectedCheckSummary,
+			Hydrate: opengovernance.ListWellArchitectedCheckSummary,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException", "ValidationException"}),
 			},

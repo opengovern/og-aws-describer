@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/kaytu-io/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -20,10 +20,10 @@ func tableAwsVpcSubnet(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidSubnetID.Malformed", "InvalidSubnetID.NotFound"}),
 			},
-			Hydrate: kaytu.GetEC2Subnet,
+			Hydrate: opengovernance.GetEC2Subnet,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2Subnet,
+			Hydrate: opengovernance.ListEC2Subnet,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "availability_zone", Require: plugin.Optional},
 				{Name: "availability_zone_id", Require: plugin.Optional},
@@ -188,7 +188,7 @@ func subnetTagListToTurbotTags(ctx context.Context, d *transform.TransformData) 
 }
 
 func getSubnetTurbotTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	subnet := d.HydrateItem.(kaytu.EC2Subnet).Description.Subnet
+	subnet := d.HydrateItem.(opengovernance.EC2Subnet).Description.Subnet
 	var title string
 	tags := subnet.Tags
 	for _, i := range tags {

@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/lambda"
@@ -17,10 +17,10 @@ func tableAwsLambdaFunction(_ context.Context) *plugin.Table {
 		Description: "AWS Lambda Function",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    kaytu.GetLambdaFunction,
+			Hydrate:    opengovernance.GetLambdaFunction,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListLambdaFunction,
+			Hydrate: opengovernance.ListLambdaFunction,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

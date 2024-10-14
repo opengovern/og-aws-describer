@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -19,10 +19,10 @@ func tableAwsWorkspace(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationException"}),
 			},
-			Hydrate: kaytu.GetWorkspacesWorkspace,
+			Hydrate: opengovernance.GetWorkspacesWorkspace,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListWorkspacesWorkspace,
+			Hydrate: opengovernance.ListWorkspacesWorkspace,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "bundle_id", Require: plugin.Optional},
 				{Name: "directory_id", Require: plugin.Optional},
@@ -139,7 +139,7 @@ func tableAwsWorkspace(_ context.Context) *plugin.Table {
 }
 
 func workspaceTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.WorkspacesWorkspace).Description.Tags
+	tags := d.HydrateItem.(opengovernance.WorkspacesWorkspace).Description.Tags
 
 	if tags != nil {
 		turbotTagsMap := map[string]string{}

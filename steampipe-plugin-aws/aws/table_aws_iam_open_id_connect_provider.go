@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/service/iam"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -17,11 +17,11 @@ func tableAwsIamOpenIdConnectProvider(ctx context.Context) *plugin.Table {
 		Name:        "aws_iam_open_id_connect_provider",
 		Description: "AWS IAM OpenID Connect Provider",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListIAMOpenIdConnectProvider,
+			Hydrate: opengovernance.ListIAMOpenIdConnectProvider,
 		},
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"arn"}),
-			Hydrate:    kaytu.GetIAMOpenIdConnectProvider,
+			Hydrate:    opengovernance.GetIAMOpenIdConnectProvider,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NoSuchEntity", "InvalidInput"}),
 			},
@@ -88,7 +88,7 @@ type OpenIDConnectProvider struct {
 //// TRANSFORM FUNCTION
 
 func openIDConnectTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.IAMOpenIdConnectProvider).Description
+	tags := d.HydrateItem.(opengovernance.IAMOpenIdConnectProvider).Description
 	var turbotTagsMap map[string]string
 	if len(tags.Tags) > 0 {
 		turbotTagsMap = map[string]string{}

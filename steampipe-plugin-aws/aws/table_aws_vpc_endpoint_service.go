@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -19,10 +19,10 @@ func tableAwsVpcEndpointService(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidServiceName"}),
 			},
-			Hydrate: kaytu.GetEC2VPCEndpointService,
+			Hydrate: opengovernance.GetEC2VPCEndpointService,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2VPCEndpointService,
+			Hydrate: opengovernance.ListEC2VPCEndpointService,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
@@ -122,7 +122,7 @@ func tableAwsVpcEndpointService(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getVpcEndpointServiceTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	endpointService := d.HydrateItem.(kaytu.EC2VPCEndpointService).Description.VpcEndpointService
+	endpointService := d.HydrateItem.(opengovernance.EC2VPCEndpointService).Description.VpcEndpointService
 	if endpointService.Tags != nil {
 		return ec2V2TagsToMap(endpointService.Tags)
 	} else {

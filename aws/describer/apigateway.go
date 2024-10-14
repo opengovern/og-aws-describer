@@ -9,7 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/apigateway/types"
 	"github.com/aws/aws-sdk-go-v2/service/apigatewayv2"
 	typesv2 "github.com/aws/aws-sdk-go-v2/service/apigatewayv2/types"
-	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
+	"github.com/opengovern/og-aws-describer/aws/model"
 )
 
 func ApiGatewayStage(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

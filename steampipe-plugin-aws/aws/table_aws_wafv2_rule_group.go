@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -21,10 +21,10 @@ func tableAwsWafv2RuleGroup(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"WAFInvalidParameterException", "WAFNonexistentItemException", "ValidationException", "InvalidParameter"}),
 			},
-			Hydrate: kaytu.GetWAFv2RuleGroup,
+			Hydrate: opengovernance.GetWAFv2RuleGroup,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListWAFv2RuleGroup,
+			Hydrate: opengovernance.ListWAFv2RuleGroup,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -136,7 +136,7 @@ func tableAwsWafv2RuleGroup(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func ruleGroupLocation(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.WAFv2RuleGroup)
+	data := d.HydrateItem.(opengovernance.WAFv2RuleGroup)
 	loc := strings.Split(strings.Split(*data.Description.RuleGroup.ARN, ":")[5], "/")[0]
 	if loc == "regional" {
 		return "REGIONAL", nil
@@ -145,7 +145,7 @@ func ruleGroupLocation(_ context.Context, d *transform.TransformData) (interface
 }
 
 func ruleGroupTagListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.WAFv2RuleGroup).Description.Tags
+	data := d.HydrateItem.(opengovernance.WAFv2RuleGroup).Description.Tags
 
 	if data.TagInfoForResource.TagList == nil || len(data.TagInfoForResource.TagList) < 1 {
 		return nil, nil
@@ -164,7 +164,7 @@ func ruleGroupTagListToTurbotTags(ctx context.Context, d *transform.TransformDat
 }
 
 func ruleGroupRegion(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.WAFv2RuleGroup)
+	data := d.HydrateItem.(opengovernance.WAFv2RuleGroup)
 	loc := strings.Split(strings.Split(*data.Description.RuleGroup.ARN, ":")[5], "/")[0]
 
 	if loc == "global" {

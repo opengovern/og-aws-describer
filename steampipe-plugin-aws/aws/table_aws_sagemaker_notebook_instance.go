@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -19,10 +19,10 @@ func tableAwsSageMakerNotebookInstance(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationException", "NotFoundException", "RecordNotFound"}),
 			},
-			Hydrate: kaytu.GetSageMakerNotebookInstance,
+			Hydrate: opengovernance.GetSageMakerNotebookInstance,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSageMakerNotebookInstance,
+			Hydrate: opengovernance.ListSageMakerNotebookInstance,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "default_code_repository", Require: plugin.Optional},
 				{Name: "notebook_instance_lifecycle_config_name", Require: plugin.Optional},
@@ -170,7 +170,7 @@ func tableAwsSageMakerNotebookInstance(_ context.Context) *plugin.Table {
 
 func kaytuSageMakerNotebookInstanceTurbotTags(_ context.Context, d *transform.TransformData) (interface{},
 	error) {
-	tags := d.HydrateItem.(kaytu.SageMakerNotebookInstance).Description.Tags
+	tags := d.HydrateItem.(opengovernance.SageMakerNotebookInstance).Description.Tags
 
 	if tags != nil {
 		turbotTagsMap := map[string]string{}

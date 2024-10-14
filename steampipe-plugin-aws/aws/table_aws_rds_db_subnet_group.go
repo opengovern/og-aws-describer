@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,11 +20,11 @@ func tableAwsRDSDBSubnetGroup(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"DBSubnetGroupNotFoundFault"}),
 			},
-			Hydrate: kaytu.GetRDSDBSubnetGroup,
+			Hydrate: opengovernance.GetRDSDBSubnetGroup,
 		},
 
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRDSDBSubnetGroup,
+			Hydrate: opengovernance.ListRDSDBSubnetGroup,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -92,7 +92,7 @@ func tableAwsRDSDBSubnetGroup(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getRDSDBSubnetGroupTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	dbSubnetGroup := d.HydrateItem.(kaytu.RDSDBSubnetGroup).Description.Tags
+	dbSubnetGroup := d.HydrateItem.(opengovernance.RDSDBSubnetGroup).Description.Tags
 	if dbSubnetGroup == nil {
 		return nil, nil
 	}

@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -16,7 +16,7 @@ func tableAwsMGNApplication(_ context.Context) *plugin.Table {
 		Name:        "aws_mgn_application",
 		Description: "AWS MGN Application",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListMgnApplication,
+			Hydrate: opengovernance.ListMgnApplication,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				// UninitializedAccountException - This error comes up when the service is not enabled for the account.
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"UninitializedAccountException"}),

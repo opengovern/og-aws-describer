@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/kaytu-io/og-aws-describer/pkg/opengovernance-es-sdk"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -19,7 +19,7 @@ func tableAwsCostByLinkedAccountMonthly(_ context.Context) *plugin.Table {
 		Name:        "aws_cost_by_account_monthly",
 		Description: "AWS Cost Explorer - Cost by Linked Account (Monthly)",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCostExplorerByAccountMonthly,
+			Hydrate: opengovernance.ListCostExplorerByAccountMonthly,
 		},
 		Columns: awsKaytuColumns(
 			kaytuCostExplorerColumns([]*plugin.Column{

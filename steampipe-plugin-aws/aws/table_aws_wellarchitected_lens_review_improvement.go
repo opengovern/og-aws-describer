@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/wellarchitected"
@@ -23,7 +23,7 @@ func tableAwsWellArchitectedLensReviewImprovement(_ context.Context) *plugin.Tab
 		Name:        "aws_wellarchitected_lens_review_improvement",
 		Description: "AWS Well-Architected Lens Review Improvement",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListWellArchitectedLensReviewImprovement,
+			Hydrate: opengovernance.ListWellArchitectedLensReviewImprovement,
 			// TODO: Uncomment and remove extra check in
 			// listWellArchitectedLensReviewImprovements function once this works again
 			// IgnoreConfig: &plugin.IgnoreConfig{

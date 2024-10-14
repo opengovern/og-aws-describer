@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -17,10 +17,10 @@ func tableAwsVpcNetworkACL(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidNetworkAclID.NotFound"}),
 			},
-			Hydrate: kaytu.GetEC2NetworkAcl,
+			Hydrate: opengovernance.GetEC2NetworkAcl,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2NetworkAcl,
+			Hydrate: opengovernance.ListEC2NetworkAcl,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "is_default", Require: plugin.Optional, Operators: []string{"=", "<>"}},
 				{Name: "owner_id", Require: plugin.Optional},
@@ -101,7 +101,7 @@ func tableAwsVpcNetworkACL(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getVpcNetworkACLTurbotData(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	networkACL := d.HydrateItem.(kaytu.EC2NetworkAcl).Description.NetworkAcl
+	networkACL := d.HydrateItem.(opengovernance.EC2NetworkAcl).Description.NetworkAcl
 	param := d.Param.(string)
 
 	// Get resource title

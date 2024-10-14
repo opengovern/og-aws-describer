@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -16,7 +16,7 @@ func tableAwsSSMManagedInstancePatchState(_ context.Context) *plugin.Table {
 		Name:        "aws_ssm_managed_instance_patch_state",
 		Description: "AWS SSM Managed Instance Patch State",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSSMManagedInstancePatchState,
+			Hydrate: opengovernance.ListSSMManagedInstancePatchState,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "instance_id", Require: plugin.Optional},
 			},

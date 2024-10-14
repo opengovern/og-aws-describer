@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -14,7 +14,7 @@ func tableAwsUserEffectiveAccess(_ context.Context) *plugin.Table {
 		Name:        "aws_user_effective_access",
 		Description: "AWS User Effective Access",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListUserEffectiveAccess,
+			Hydrate: opengovernance.ListUserEffectiveAccess,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

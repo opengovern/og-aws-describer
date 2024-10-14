@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -19,10 +19,10 @@ func tableAwsEBSVolume(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidVolume.NotFound", "InvalidParameterValue"}),
 			},
-			Hydrate: kaytu.GetEC2Volume,
+			Hydrate: opengovernance.GetEC2Volume,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2Volume,
+			Hydrate: opengovernance.ListEC2Volume,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "availability_zone", Require: plugin.Optional},
 				{Name: "encrypted", Require: plugin.Optional, Operators: []string{"=", "<>"}},
@@ -177,7 +177,7 @@ func tableAwsEBSVolume(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getEBSVolumeTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.EC2Volume).Description.Volume.Tags
+	tags := d.HydrateItem.(opengovernance.EC2Volume).Description.Volume.Tags
 	var turbotTagsMap map[string]string
 	if tags == nil {
 		return nil, nil
@@ -192,7 +192,7 @@ func getEBSVolumeTurbotTags(_ context.Context, d *transform.TransformData) (inte
 }
 
 func getEBSVolumeTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	volume := d.HydrateItem.(kaytu.EC2Volume).Description.Volume
+	volume := d.HydrateItem.(opengovernance.EC2Volume).Description.Volume
 
 	if volume.Tags != nil {
 		for _, i := range volume.Tags {

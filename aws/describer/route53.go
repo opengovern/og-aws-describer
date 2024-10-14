@@ -15,7 +15,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/route53/types"
 	"github.com/aws/aws-sdk-go-v2/service/route53resolver"
 	resolvertypes "github.com/aws/aws-sdk-go-v2/service/route53resolver/types"
-	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
+	"github.com/opengovern/og-aws-describer/aws/model"
 )
 
 func Route53HealthCheck(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

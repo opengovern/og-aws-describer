@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -14,7 +14,7 @@ func tableAwsCloudwatchLogResourcePolicy(_ context.Context) *plugin.Table {
 		Name:        "aws_cloudwatch_log_resource_policy",
 		Description: "AWS CloudWatch Log Resource Policy",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCloudWatchLogResourcePolicy,
+			Hydrate: opengovernance.ListCloudWatchLogResourcePolicy,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

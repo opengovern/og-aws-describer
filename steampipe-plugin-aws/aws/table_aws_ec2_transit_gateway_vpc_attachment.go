@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -17,10 +17,10 @@ func tableAwsEc2TransitGatewayVpcAttachment(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidTransitGatewayAttachmentID.NotFound", "InvalidTransitGatewayAttachmentID.Unavailable", "InvalidTransitGatewayAttachmentID.Malformed", "InvalidAction"}),
 			},
-			Hydrate: kaytu.GetEC2TransitGatewayAttachment,
+			Hydrate: opengovernance.GetEC2TransitGatewayAttachment,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2TransitGatewayAttachment,
+			Hydrate: opengovernance.ListEC2TransitGatewayAttachment,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "association_state", Require: plugin.Optional},
 				{Name: "association_transit_gateway_route_table_id", Require: plugin.Optional},
@@ -118,7 +118,7 @@ func tableAwsEc2TransitGatewayVpcAttachment(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func transitGatewayAttachmentRawTagsToTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.EC2TransitGatewayAttachment).Description.TransitGatewayAttachment
+	data := d.HydrateItem.(opengovernance.EC2TransitGatewayAttachment).Description.TransitGatewayAttachment
 	var turbotTagsMap map[string]string
 	if data.Tags == nil {
 		return nil, nil
@@ -133,7 +133,7 @@ func transitGatewayAttachmentRawTagsToTurbotTags(_ context.Context, d *transform
 }
 
 func getEc2TransitGatewayAttachmentTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.EC2TransitGatewayAttachment).Description.TransitGatewayAttachment
+	data := d.HydrateItem.(opengovernance.EC2TransitGatewayAttachment).Description.TransitGatewayAttachment
 	title := data.TransitGatewayAttachmentId
 	if data.Tags != nil {
 		for _, i := range data.Tags {

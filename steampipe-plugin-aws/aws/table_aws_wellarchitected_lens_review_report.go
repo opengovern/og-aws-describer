@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -24,7 +24,7 @@ func tableAwsWellArchitectedLensReviewReport(_ context.Context) *plugin.Table {
 		Name:        "aws_wellarchitected_lens_review_report",
 		Description: "AWS Well-Architected Lens Review Report",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListWellArchitectedLensReviewReport,
+			Hydrate: opengovernance.ListWellArchitectedLensReviewReport,
 			// TODO: Uncomment and remove extra check in
 			// IgnoreConfig: &plugin.IgnoreConfig{
 			// 	ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException"}),

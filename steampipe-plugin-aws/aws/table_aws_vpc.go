@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 	"fmt"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -23,10 +23,10 @@ func tableAwsVpc(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NotFoundException", "InvalidVpcID.NotFound"}),
 			},
-			Hydrate: kaytu.ListEC2Vpc,
+			Hydrate: opengovernance.ListEC2Vpc,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2Vpc,
+			Hydrate: opengovernance.ListEC2Vpc,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "cidr_block", Require: plugin.Optional},
 				{Name: "dhcp_options_id", Require: plugin.Optional},
@@ -129,7 +129,7 @@ func tableAwsVpc(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getVpcTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	vpc := d.HydrateItem.(kaytu.EC2Vpc).Description.Vpc
+	vpc := d.HydrateItem.(opengovernance.EC2Vpc).Description.Vpc
 	if vpc.Tags != nil {
 		// Mapping the resource tags inside turbotTags
 		var turbotTagsMap map[string]string
@@ -144,7 +144,7 @@ func getVpcTurbotTags(_ context.Context, d *transform.TransformData) (interface{
 }
 
 func getVpcTurbotTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	vpc := d.HydrateItem.(kaytu.EC2Vpc).Description.Vpc
+	vpc := d.HydrateItem.(opengovernance.EC2Vpc).Description.Vpc
 
 	if vpc.Tags != nil {
 		for _, i := range vpc.Tags {

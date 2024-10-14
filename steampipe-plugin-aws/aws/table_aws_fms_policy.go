@@ -14,10 +14,10 @@ func tableAwsFMSPolicy(_ context.Context) *plugin.Table {
 		Description: "AWS FMS Policy",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("policy_name"),
-			//Hydrate:    kaytu.GetFMSPolicy,
+			//Hydrate:    opengovernance.GetFMSPolicy,
 		},
 		List: &plugin.ListConfig{
-			//Hydrate: kaytu.ListFMSPolicy,
+			//Hydrate: opengovernance.ListFMSPolicy,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -59,6 +59,6 @@ func tableAwsFMSPolicy(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 //
 //func getFMSPolicyTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-//	tags := d.HydrateItem.(kaytu.FMSPolicy).Description.Tags
+//	tags := d.HydrateItem.(opengovernance.FMSPolicy).Description.Tags
 //	return fmsV2TagsToMap(tags)
 //}

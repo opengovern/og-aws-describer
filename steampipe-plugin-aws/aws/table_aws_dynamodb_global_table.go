@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -18,10 +18,10 @@ func tableAwsDynamoDBGlobalTable(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException"}),
 			},
-			Hydrate: kaytu.GetDynamoDbGlobalTable,
+			Hydrate: opengovernance.GetDynamoDbGlobalTable,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDynamoDbGlobalTable,
+			Hydrate: opengovernance.ListDynamoDbGlobalTable,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "global_table_name",

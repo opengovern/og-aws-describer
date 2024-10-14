@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsRDSDBSnapshot(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"DBSnapshotNotFound"}),
 			},
-			Hydrate: kaytu.GetRDSDBSnapshot,
+			Hydrate: opengovernance.GetRDSDBSnapshot,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRDSDBSnapshot,
+			Hydrate: opengovernance.ListRDSDBSnapshot,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "db_instance_identifier", Require: plugin.Optional},
 				{Name: "dbi_resource_id", Require: plugin.Optional},
@@ -243,7 +243,7 @@ func tableAwsRDSDBSnapshot(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getRDSDBSnapshotTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	dbSnapshot := d.HydrateItem.(kaytu.RDSDBSnapshot).Description.DBSnapshot
+	dbSnapshot := d.HydrateItem.(opengovernance.RDSDBSnapshot).Description.DBSnapshot
 
 	if dbSnapshot.TagList != nil {
 		turbotTagsMap := map[string]string{}

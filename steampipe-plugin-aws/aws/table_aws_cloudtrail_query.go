@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -16,14 +16,14 @@ func tableAwsCloudTrailQuery(_ context.Context) *plugin.Table {
 		Name:        "aws_cloudtrail_query",
 		Description: "AWS CloudTrail Query",
 		Get: &plugin.GetConfig{
-			Hydrate:    kaytu.GetCloudTrailQuery,
+			Hydrate:    opengovernance.GetCloudTrailQuery,
 			KeyColumns: plugin.AllColumns([]string{"event_data_store_arn", "query_id"}),
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"EventDataStoreNotFoundException", "QueryIdNotFoundException"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCloudTrailQuery,
+			Hydrate: opengovernance.ListCloudTrailQuery,
 			KeyColumns: plugin.KeyColumnSlice{
 				{
 					Name:    "event_data_store_arn",

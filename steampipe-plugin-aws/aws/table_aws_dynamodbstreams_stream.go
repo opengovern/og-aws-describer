@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,10 +15,10 @@ func tableAwsDynamodbstreamsStream(_ context.Context) *plugin.Table {
 		Description: "AWS DynamoDb Stream",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("stream_arn"),
-			Hydrate:    kaytu.GetDynamoDbStream,
+			Hydrate:    opengovernance.GetDynamoDbStream,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDynamoDbStream,
+			Hydrate: opengovernance.ListDynamoDbStream,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

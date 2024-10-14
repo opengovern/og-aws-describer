@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsWafWebAcl(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"WAFNonexistentItemException", "WAFInvalidParameterException"}),
 			},
-			Hydrate: kaytu.GetWAFWebAcl,
+			Hydrate: opengovernance.GetWAFWebAcl,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListWAFWebAcl,
+			Hydrate: opengovernance.ListWAFWebAcl,
 		},
 		Columns: awsKaytuColumns([]*plugin.Column{
 			{
@@ -95,7 +95,7 @@ func tableAwsWafWebAcl(_ context.Context) *plugin.Table {
 }
 
 func classicWebAclTagListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.WAFWebAcl).Description.Tags
+	data := d.HydrateItem.(opengovernance.WAFWebAcl).Description.Tags
 
 	if data == nil {
 		return nil, nil

@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,10 +15,10 @@ func tableAwsRDSGlobalCluster(_ context.Context) *plugin.Table {
 		Description: "AWS RDS GlobalCluster",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("global_cluster_identifier"),
-			Hydrate:    kaytu.GetRDSGlobalCluster,
+			Hydrate:    opengovernance.GetRDSGlobalCluster,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRDSGlobalCluster,
+			Hydrate: opengovernance.ListRDSGlobalCluster,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -55,6 +55,6 @@ func tableAwsRDSGlobalCluster(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getRDSGlobalClusterTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.RDSGlobalCluster).Description.Tags
+	tags := d.HydrateItem.(opengovernance.RDSGlobalCluster).Description.Tags
 	return rdsV2TagsToMap(tags)
 }

@@ -13,14 +13,14 @@ func tableAwsTaggingResource(_ context.Context) *plugin.Table {
 		Name:        "aws_tagging_resource",
 		Description: "AWS Tagging Resource",
 		Get: &plugin.GetConfig{
-			//Hydrate:    kaytu.GetTaggingResources,
+			//Hydrate:    opengovernance.GetTaggingResources,
 			KeyColumns: plugin.SingleColumn("arn"),
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameterException"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			//Hydrate: kaytu.ListTaggingResources,
+			//Hydrate: opengovernance.ListTaggingResources,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

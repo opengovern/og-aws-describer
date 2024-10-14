@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,10 +15,10 @@ func tableAwsFsxTask(_ context.Context) *plugin.Table {
 		Description: "AWS FSX Task",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("task_id"),
-			Hydrate:    kaytu.GetFSXTask,
+			Hydrate:    opengovernance.GetFSXTask,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListFSXTask,
+			Hydrate: opengovernance.ListFSXTask,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -55,6 +55,6 @@ func tableAwsFsxTask(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getFsxTaskTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.FSXTask).Description.Task.Tags
+	tags := d.HydrateItem.(opengovernance.FSXTask).Description.Task.Tags
 	return fsxV2TagsToMap(tags)
 }

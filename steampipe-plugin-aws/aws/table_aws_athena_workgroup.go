@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/athena"
@@ -19,10 +19,10 @@ func tableAwsAthenaWorkGroup(_ context.Context) *plugin.Table {
 		Description: "AWS Athena Workgroup",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    kaytu.GetAthenaWorkGroup,
+			Hydrate:    opengovernance.GetAthenaWorkGroup,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAthenaWorkGroup,
+			Hydrate: opengovernance.ListAthenaWorkGroup,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

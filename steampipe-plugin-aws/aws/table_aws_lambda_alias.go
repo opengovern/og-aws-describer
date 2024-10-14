@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/kaytu-io/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -18,10 +18,10 @@ func tableAwsLambdaAlias(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameter", "ResourceNotFoundException"}),
 			},
-			Hydrate: kaytu.GetLambdaAlias,
+			Hydrate: opengovernance.GetLambdaAlias,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListLambdaAlias,
+			Hydrate: opengovernance.ListLambdaAlias,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "function_version", Require: plugin.Optional},
 				{Name: "function_name", Require: plugin.Optional},

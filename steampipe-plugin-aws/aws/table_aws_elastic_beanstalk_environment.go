@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsElasticBeanstalkEnvironment(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException"}),
 			},
-			Hydrate: kaytu.GetElasticBeanstalkEnvironment,
+			Hydrate: opengovernance.GetElasticBeanstalkEnvironment,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListElasticBeanstalkEnvironment,
+			Hydrate: opengovernance.ListElasticBeanstalkEnvironment,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "environment_id", Require: plugin.Optional},
 				{Name: "application_name", Require: plugin.Optional},
@@ -182,7 +182,7 @@ func tableAwsElasticBeanstalkEnvironment(_ context.Context) *plugin.Table {
 // // TRANSFORM FUNCTIONS
 func elasticBeanstalkEnvironmentTagListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("elasticBeanstalkEnvironmentTagListToTurbotTags")
-	tags := d.HydrateItem.(kaytu.ElasticBeanstalkEnvironment).Description.Tags
+	tags := d.HydrateItem.(opengovernance.ElasticBeanstalkEnvironment).Description.Tags
 
 	// Mapping the resource tags inside turbotTags
 	if tags == nil {

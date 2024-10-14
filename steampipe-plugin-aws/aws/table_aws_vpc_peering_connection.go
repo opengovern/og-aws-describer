@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -17,7 +17,7 @@ func tableAwsVpcPeeringConnection(_ context.Context) *plugin.Table {
 		Name:        "aws_vpc_peering_connection",
 		Description: "AWS VPC Peering Connection",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2VpcPeeringConnection,
+			Hydrate: opengovernance.ListEC2VpcPeeringConnection,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "accepter_cidr_block", Require: plugin.Optional},
 				{Name: "accepter_owner_id", Require: plugin.Optional},
@@ -148,7 +148,7 @@ func tableAwsVpcPeeringConnection(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTION
 
 func vpcPeeringConnectionTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	connection := d.HydrateItem.(kaytu.EC2VpcPeeringConnection).Description.VpcPeeringConnection
+	connection := d.HydrateItem.(opengovernance.EC2VpcPeeringConnection).Description.VpcPeeringConnection
 
 	var turbotTagsMap map[string]string
 	if connection.Tags != nil {

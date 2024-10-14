@@ -14,10 +14,10 @@ func tableAwsElasticBeanstalkPlatform(_ context.Context) *plugin.Table {
 		Description: "AWS ElasticBeanstalk Platform",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("platform_name"),
-			//Hydrate:    kaytu.GetElasticBeanstalkPlatform,
+			//Hydrate:    opengovernance.GetElasticBeanstalkPlatform,
 		},
 		List: &plugin.ListConfig{
-			//Hydrate: kaytu.ListElasticBeanstalkPlatform,
+			//Hydrate: opengovernance.ListElasticBeanstalkPlatform,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

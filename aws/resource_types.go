@@ -1,8 +1,8 @@
 package aws
 
 import (
-	"github.com/kaytu-io/kaytu-aws-describer/aws/describer"
-	"github.com/kaytu-io/kaytu-util/pkg/source"
+	"github.com/opengovern/og-aws-describer/aws/describer"
+	"github.com/opengovern/og-util/pkg/source"
 )
 
 var resourceTypes = map[string]ResourceType{

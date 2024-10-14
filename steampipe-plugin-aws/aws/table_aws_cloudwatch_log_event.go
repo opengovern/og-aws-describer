@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 	"encoding/json"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"strings"
 
 	"github.com/turbot/go-kit/types"
@@ -27,7 +27,7 @@ func tableAwsCloudwatchLogEvent(_ context.Context) *plugin.Table {
 		Name:        "aws_cloudwatch_log_event",
 		Description: "AWS CloudWatch Log Event",
 		List: &plugin.ListConfig{
-			Hydrate:    kaytu.ListCloudWatchLogEvent,
+			Hydrate:    opengovernance.ListCloudWatchLogEvent,
 			KeyColumns: tableAwsCloudwatchLogEventListKeyColumns(),
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException"}),
@@ -93,7 +93,7 @@ func trim(_ context.Context, d *transform.TransformData) (interface{}, error) {
 //// TRANSFORM FUNCTIONS
 
 func cloudwatchLogsMesssageJson(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	event := d.HydrateItem.(kaytu.CloudWatchLogEvent).Description.LogEvent
+	event := d.HydrateItem.(opengovernance.CloudWatchLogEvent).Description.LogEvent
 	var eventMessage interface{}
 	err := json.Unmarshal([]byte(*event.Message), &eventMessage)
 	if err != nil {

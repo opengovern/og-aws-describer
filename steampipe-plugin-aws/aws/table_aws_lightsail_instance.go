@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/service/lightsail/types"
 
@@ -20,13 +20,13 @@ func tableAwsLightsailInstance(_ context.Context) *plugin.Table {
 		Description: "AWS Lightsail Instance",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    kaytu.GetLightsailInstance,
+			Hydrate:    opengovernance.GetLightsailInstance,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidResourceName", "DoesNotExist"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListLightsailInstance,
+			Hydrate: opengovernance.ListLightsailInstance,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

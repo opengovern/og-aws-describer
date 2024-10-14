@@ -4,7 +4,7 @@ import (
 	"context"
 	ec2 "github.com/aws/aws-sdk-go-v2/service/ec2/types"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -21,10 +21,10 @@ func tableAwsEc2CapacityReservation(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidCapacityReservationId.NotFound", "InvalidCapacityReservationId.Unavailable", "InvalidCapacityReservationId.Malformed"}),
 			},
-			Hydrate: kaytu.GetEC2CapacityReservation,
+			Hydrate: opengovernance.GetEC2CapacityReservation,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2CapacityReservation,
+			Hydrate: opengovernance.ListEC2CapacityReservation,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "instance_type", Require: plugin.Optional},
 				{Name: "owner_id", Require: plugin.Optional},

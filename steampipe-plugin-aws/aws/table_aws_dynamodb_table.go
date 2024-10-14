@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -21,10 +21,10 @@ func tableAwsDynamoDBTable(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException"}),
 			},
-			Hydrate: kaytu.GetDynamoDbTable,
+			Hydrate: opengovernance.GetDynamoDbTable,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDynamoDbTable,
+			Hydrate: opengovernance.ListDynamoDbTable,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "name",
@@ -192,7 +192,7 @@ func getTableBillingMode(_ context.Context, d *transform.TransformData) (interfa
 }
 
 func getTableTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.DynamoDbTable).Description.Tags
+	tags := d.HydrateItem.(opengovernance.DynamoDbTable).Description.Tags
 
 	// Mapping the resource tags inside turbotTags
 	var turbotTagsMap map[string]string

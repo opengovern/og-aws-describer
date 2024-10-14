@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/service/wellarchitected"
 	"github.com/aws/aws-sdk-go-v2/service/wellarchitected/types"
@@ -20,7 +20,7 @@ func tableAwsWellArchitectedConsolidatedReport(_ context.Context) *plugin.Table 
 		Name:        "aws_wellarchitected_consolidated_report",
 		Description: "AWS Well-Architected Consolidated Report",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListWellArchitectedCheckConsolidatedReport,
+			Hydrate: opengovernance.ListWellArchitectedCheckConsolidatedReport,
 			KeyColumns: plugin.KeyColumnSlice{
 				{
 					Name:    "include_shared_resources",

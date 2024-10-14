@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,10 +15,10 @@ func tableAwsElasticLoadBalancingV2Rule(_ context.Context) *plugin.Table {
 		Description: "AWS ElasticLoadBalancingV2 Rule",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("arn"),
-			Hydrate:    kaytu.GetElasticLoadBalancingV2Rule,
+			Hydrate:    opengovernance.GetElasticLoadBalancingV2Rule,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListElasticLoadBalancingV2Rule,
+			Hydrate: opengovernance.ListElasticLoadBalancingV2Rule,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

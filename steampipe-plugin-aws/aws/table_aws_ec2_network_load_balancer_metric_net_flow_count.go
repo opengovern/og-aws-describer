@@ -14,7 +14,7 @@ func tableAwsEc2NetworkLoadBalancerMetricNetFlowCount(_ context.Context) *plugin
 		Name:        "aws_ec2_network_load_balancer_metric_net_flow_count",
 		Description: "AWS EC2 Network Load Balancer Metrics - Net Flow Count",
 		List:        &plugin.ListConfig{
-			//Hydrate: kaytu.ListNetworkLoadBalancerMetricNetFlowCount,
+			//Hydrate: opengovernance.ListNetworkLoadBalancerMetricNetFlowCount,
 		},
 
 		Columns: awsKaytuRegionalColumns(kaytuCwMetricColumns(

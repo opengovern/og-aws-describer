@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -17,13 +17,13 @@ func tableAwsDLMLifecyclePolicy(_ context.Context) *plugin.Table {
 		Description: "AWS DLM Lifecycle Policy",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("policy_id"),
-			Hydrate:    kaytu.GetDLMLifecyclePolicy,
+			Hydrate:    opengovernance.GetDLMLifecyclePolicy,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFound"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDLMLifecyclePolicy,
+			Hydrate: opengovernance.ListDLMLifecyclePolicy,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

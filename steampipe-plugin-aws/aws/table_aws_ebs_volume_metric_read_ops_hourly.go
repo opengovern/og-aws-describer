@@ -15,7 +15,7 @@ func tableAwsEbsVolumeMetricReadOpsHourly(_ context.Context) *plugin.Table {
 		Name:        "aws_ebs_volume_metric_read_ops_hourly",
 		Description: "AWS EBS Volume Cloudwatch Metrics - Read Ops (Hourly)",
 		List:        &plugin.ListConfig{
-			//Hydrate: kaytu.ListEbsVolumeMetricReadOpsHourly,
+			//Hydrate: opengovernance.ListEbsVolumeMetricReadOpsHourly,
 		},
 
 		Columns: awsKaytuRegionalColumns(kaytuCwMetricColumns(

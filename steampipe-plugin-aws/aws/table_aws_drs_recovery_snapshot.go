@@ -23,7 +23,7 @@ func tableAwsDRSRecoverySnapshot(_ context.Context) *plugin.Table {
 				// UninitializedAccountException - This error comes up when default replication settings are not set for a particular region.
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"UninitializedAccountException", "BadRequestException"}),
 			},
-			//Hydrate: kaytu.ListDRSRecoverySnapshot,
+			//Hydrate: opengovernance.ListDRSRecoverySnapshot,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

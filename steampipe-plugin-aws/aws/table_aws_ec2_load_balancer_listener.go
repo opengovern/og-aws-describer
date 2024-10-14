@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"strings"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -21,10 +21,10 @@ func tableAwsEc2ApplicationLoadBalancerListener(_ context.Context) *plugin.Table
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ListenerNotFound", "LoadBalancerNotFound"}),
 			},
-			Hydrate: kaytu.GetElasticLoadBalancingV2Listener,
+			Hydrate: opengovernance.GetElasticLoadBalancingV2Listener,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListElasticLoadBalancingV2Listener,
+			Hydrate: opengovernance.ListElasticLoadBalancingV2Listener,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -95,7 +95,7 @@ func tableAwsEc2ApplicationLoadBalancerListener(_ context.Context) *plugin.Table
 //// TRANSFORM FUNCTIONS ////
 
 func getEc2ApplicationLoadBalancerListenerTurbotTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.ElasticLoadBalancingV2Listener).Description.Listener
+	data := d.HydrateItem.(opengovernance.ElasticLoadBalancingV2Listener).Description.Listener
 	splitID := strings.Split(*data.ListenerArn, "/")
 	title := splitID[2] + "-" + splitID[4]
 	return title, nil

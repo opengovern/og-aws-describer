@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -20,7 +20,7 @@ func tableAwsSSMManagedInstanceCompliance(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidResourceId", "ValidationException"}),
 			},
-			Hydrate: kaytu.ListSSMManagedInstanceCompliance,
+			Hydrate: opengovernance.ListSSMManagedInstanceCompliance,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -93,8 +93,8 @@ func tableAwsSSMManagedInstanceCompliance(_ context.Context) *plugin.Table {
 
 func getSSMManagedInstanceComplianceAkas(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("getSSMInstanceComplianceAkas")
-	data := h.Item.(kaytu.SSMManagedInstanceCompliance).Description.ComplianceItem
-	metadata := h.Item.(kaytu.SSMManagedInstanceCompliance).Metadata
+	data := h.Item.(opengovernance.SSMManagedInstanceCompliance).Description.ComplianceItem
+	metadata := h.Item.(opengovernance.SSMManagedInstanceCompliance).Metadata
 	region := d.EqualsQualString(matrixKeyRegion)
 
 	akas := []string{"arn:" + metadata.Partition + ":ssm:" + region + ":" + metadata.AccountID + ":managed-instance/" + *data.ResourceId + "/compliance-item/" + *data.Id + ":" + *data.ComplianceType}
@@ -105,7 +105,7 @@ func getSSMManagedInstanceComplianceAkas(ctx context.Context, d *plugin.QueryDat
 //// TRANSFORM FUNCTIONS
 
 func ssmManagedInstanceComplianceTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.SSMManagedInstanceCompliance).Description.ComplianceItem
+	data := d.HydrateItem.(opengovernance.SSMManagedInstanceCompliance).Description.ComplianceItem
 	title := ""
 	if data.Id != nil {
 		title = *data.Id

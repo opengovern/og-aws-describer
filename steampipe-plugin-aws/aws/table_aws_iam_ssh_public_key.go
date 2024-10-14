@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -13,7 +13,7 @@ func tableAwsIamSshPublicKey(_ context.Context) *plugin.Table {
 		Name:        "aws_iam_ssh_public_key",
 		Description: "AWS IAM User Access Key",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListIAMSSHPublicKey,
+			Hydrate: opengovernance.ListIAMSSHPublicKey,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "user_name", Require: plugin.Optional},
 			},
@@ -60,7 +60,7 @@ func tableAwsIamSshPublicKey(_ context.Context) *plugin.Table {
 }
 
 func getIamSSHPublicKeyAka(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	arn := d.HydrateItem.(kaytu.IAMSSHPublicKey).ARN
+	arn := d.HydrateItem.(opengovernance.IAMSSHPublicKey).ARN
 
 	aka := []string{arn}
 	return aka, nil

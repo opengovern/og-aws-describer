@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -14,10 +14,10 @@ func tableAwsResourceGroupsGroup(_ context.Context) *plugin.Table {
 		Description: "AWS ResourceGroups Group",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("arn"), //TODO: change this to the primary key columns in model.go
-			Hydrate:    kaytu.GetResourceGroupsGroup,
+			Hydrate:    opengovernance.GetResourceGroupsGroup,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListResourceGroupsGroup,
+			Hydrate: opengovernance.ListResourceGroupsGroup,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -52,7 +52,7 @@ func tableAwsResourceGroupsGroup(_ context.Context) *plugin.Table {
 }
 
 func getresourceGroupGroupTag(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	snapshot := d.HydrateItem.(kaytu.ResourceGroupsGroup).Description.Tags
+	snapshot := d.HydrateItem.(opengovernance.ResourceGroupsGroup).Description.Tags
 
 	// Get the resource tags
 	if snapshot.Tags != nil {

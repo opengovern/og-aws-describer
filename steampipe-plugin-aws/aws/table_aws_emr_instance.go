@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -16,7 +16,7 @@ func tableAwsEmrInstance(_ context.Context) *plugin.Table {
 		Name:        "aws_emr_instance",
 		Description: "AWS EMR Instance",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEMRInstance,
+			Hydrate: opengovernance.ListEMRInstance,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "cluster_id", Require: plugin.Optional},
 				{Name: "instance_fleet_id", Require: plugin.Optional},

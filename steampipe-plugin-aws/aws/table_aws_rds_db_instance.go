@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/rds"
@@ -25,10 +25,10 @@ func tableAwsRDSDBInstance(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"DBInstanceNotFound"}),
 			},
-			Hydrate: kaytu.GetRDSDBInstance,
+			Hydrate: opengovernance.GetRDSDBInstance,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRDSDBInstance,
+			Hydrate: opengovernance.ListRDSDBInstance,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "db_cluster_identifier", Require: plugin.Optional},
 				{Name: "resource_id", Require: plugin.Optional},
@@ -489,7 +489,7 @@ func listRDSDBInstances(ctx context.Context, d *plugin.QueryData, _ *plugin.Hydr
 //// TRANSFORM FUNCTIONS
 
 func getRDSDBInstanceTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	dbInstance := d.HydrateItem.(kaytu.RDSDBInstance).Description.DBInstance
+	dbInstance := d.HydrateItem.(opengovernance.RDSDBInstance).Description.DBInstance
 
 	if dbInstance.TagList != nil {
 		turbotTagsMap := map[string]string{}

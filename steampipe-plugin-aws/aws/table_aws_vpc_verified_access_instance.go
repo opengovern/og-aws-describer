@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -16,7 +16,7 @@ func tableAwsVpcVerifiedAccessInstance(_ context.Context) *plugin.Table {
 		Name:        "aws_vpc_verified_access_instance",
 		Description: "AWS VPC Verified Access Instance",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2VerifiedAccessInstance,
+			Hydrate: opengovernance.ListEC2VerifiedAccessInstance,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameterValue"}),
 			},
@@ -76,7 +76,7 @@ func tableAwsVpcVerifiedAccessInstance(_ context.Context) *plugin.Table {
 }
 
 func verifiedAccessInstanceTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	accessPoint := d.HydrateItem.(kaytu.EC2VerifiedAccessInstance).Description.VerifiedAccountInstance
+	accessPoint := d.HydrateItem.(opengovernance.EC2VerifiedAccessInstance).Description.VerifiedAccountInstance
 
 	// Get the resource tags
 	var turbotTagsMap map[string]string
@@ -91,7 +91,7 @@ func verifiedAccessInstanceTurbotTags(_ context.Context, d *transform.TransformD
 }
 
 func verifiedAccessInstanceTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	accessPoint := d.HydrateItem.(kaytu.EC2VerifiedAccessInstance).Description.VerifiedAccountInstance
+	accessPoint := d.HydrateItem.(opengovernance.EC2VerifiedAccessInstance).Description.VerifiedAccountInstance
 	title := accessPoint.VerifiedAccessInstanceId
 
 	if accessPoint.Tags != nil {

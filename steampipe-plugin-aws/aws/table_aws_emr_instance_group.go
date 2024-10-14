@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -16,7 +16,7 @@ func tableAwsEmrInstanceGroup(_ context.Context) *plugin.Table {
 		Name:        "aws_emr_instance_group",
 		Description: "AWS EMR Instance Group",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEMRInstanceGroup,
+			Hydrate: opengovernance.ListEMRInstanceGroup,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
@@ -147,7 +147,7 @@ func tableAwsEmrInstanceGroup(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func EmrInstanceGroupTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.EMRInstanceGroup).Description.InstanceGroup
+	data := d.HydrateItem.(opengovernance.EMRInstanceGroup).Description.InstanceGroup
 
 	if data.Name == nil || *data.Name == "" {
 		return data.Id, nil

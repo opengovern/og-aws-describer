@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -13,7 +13,7 @@ func tableAwsSsoAdminManagedPolicyAttachment(_ context.Context) *plugin.Table {
 		Name:        "aws_ssoadmin_managed_policy_attachment",
 		Description: "AWS SSO Managed Policy Attachment",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSSOAdminPolicyAttachment,
+			Hydrate: opengovernance.ListSSOAdminPolicyAttachment,
 		},
 
 		Columns: awsRegionalColumns([]*plugin.Column{

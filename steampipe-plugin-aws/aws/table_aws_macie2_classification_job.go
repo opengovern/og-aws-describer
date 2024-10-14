@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsMacie2ClassificationJob(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationException", "InvalidParameter"}),
 			},
-			Hydrate: kaytu.GetMacie2ClassificationJob,
+			Hydrate: opengovernance.GetMacie2ClassificationJob,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListMacie2ClassificationJob,
+			Hydrate: opengovernance.ListMacie2ClassificationJob,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "name", Require: plugin.Optional, Operators: []string{"=", "<>"}},
 				{Name: "job_status", Require: plugin.Optional, Operators: []string{"=", "<>"}},

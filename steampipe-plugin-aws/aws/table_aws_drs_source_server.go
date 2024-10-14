@@ -15,10 +15,10 @@ func tableAwsDRSSourceServer(_ context.Context) *plugin.Table {
 		Description: "AWS DRS SourceServer",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("source_server_id"),
-			//Hydrate:    kaytu.GetDRSSourceServer,
+			//Hydrate:    opengovernance.GetDRSSourceServer,
 		},
 		List: &plugin.ListConfig{
-			//Hydrate: kaytu.ListDRSSourceServer,
+			//Hydrate: opengovernance.ListDRSSourceServer,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

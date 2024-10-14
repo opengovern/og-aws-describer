@@ -5,7 +5,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -25,7 +25,7 @@ func tableAwsVpcRoute(_ context.Context) *plugin.Table {
 		// 	Hydrate:           getAwsVpcRoute,
 		// },
 		List: &plugin.ListConfig{
-			ParentHydrate: kaytu.ListEC2RouteTable,
+			ParentHydrate: opengovernance.ListEC2RouteTable,
 			Hydrate:       listAwsVpcRoute,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
@@ -152,8 +152,8 @@ type routeTableRoute struct {
 func listAwsVpcRoute(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("listAwsVpcRoute")
 
-	routeTable := h.Item.(kaytu.EC2RouteTable).Description.RouteTable
-	metadata := h.Item.(kaytu.EC2RouteTable).Metadata
+	routeTable := h.Item.(opengovernance.EC2RouteTable).Description.RouteTable
+	metadata := h.Item.(opengovernance.EC2RouteTable).Metadata
 
 	for _, route := range routeTable.Routes {
 		d.StreamLeafListItem(ctx, routeTableRoute{

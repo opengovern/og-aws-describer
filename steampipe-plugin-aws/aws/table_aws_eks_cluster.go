@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -17,10 +17,10 @@ func tableAwsEksCluster(_ context.Context) *plugin.Table {
 		Description: "AWS Elastic Kubernetes Service Cluster",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    kaytu.GetEKSCluster,
+			Hydrate:    opengovernance.GetEKSCluster,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEKSCluster,
+			Hydrate: opengovernance.ListEKSCluster,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

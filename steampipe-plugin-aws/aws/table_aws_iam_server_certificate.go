@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -16,13 +16,13 @@ func tableAwsIamServerCertificate(_ context.Context) *plugin.Table {
 		Name:        "aws_iam_server_certificate",
 		Description: "AWS IAM Server Certificate",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListIAMServerCertificate,
+			Hydrate: opengovernance.ListIAMServerCertificate,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "path", Require: plugin.Optional},
 			},
 		},
 		Get: &plugin.GetConfig{
-			Hydrate:    kaytu.GetIAMServerCertificate,
+			Hydrate:    opengovernance.GetIAMServerCertificate,
 			KeyColumns: plugin.AllColumns([]string{"name"}),
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

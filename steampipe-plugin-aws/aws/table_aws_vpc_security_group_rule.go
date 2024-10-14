@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -24,7 +24,7 @@ func tableAwsVpcSecurityGroupRule(_ context.Context) *plugin.Table {
 		//	Hydrate: getSecurityGroupRule,
 		//},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2SecurityGroupRule,
+			Hydrate: opengovernance.ListEC2SecurityGroupRule,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "group_id",
@@ -204,8 +204,8 @@ func tableAwsVpcSecurityGroupRule(_ context.Context) *plugin.Table {
 //// HYDRATE FUNCTIONS
 
 func getSecurityGroupRuleTurbotData(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	sgRule := h.Item.(kaytu.EC2SecurityGroupRule).Description
-	metadata := h.Item.(kaytu.EC2SecurityGroupRule).Metadata
+	sgRule := h.Item.(opengovernance.EC2SecurityGroupRule).Description
+	metadata := h.Item.(opengovernance.EC2SecurityGroupRule).Metadata
 
 	// To create uninque aka
 	hashCode := sgRule.Type + "_" + *sgRule.Permission.IpProtocol

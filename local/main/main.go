@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/kaytu-io/kaytu-aws-describer/local"
+	"github.com/opengovern/og-aws-describer/local"
 	"os"
 	"os/signal"
 	"syscall"

@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsRDSDBClusterSnapshot(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"DBSnapshotNotFound", "DBClusterSnapshotNotFoundFault"}),
 			},
-			Hydrate: kaytu.GetRDSDBClusterSnapshot,
+			Hydrate: opengovernance.GetRDSDBClusterSnapshot,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRDSDBClusterSnapshot,
+			Hydrate: opengovernance.ListRDSDBClusterSnapshot,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "db_cluster_identifier", Require: plugin.Optional},
 				{Name: "db_cluster_snapshot_identifier", Require: plugin.Optional},
@@ -173,7 +173,7 @@ func tableAwsRDSDBClusterSnapshot(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getRDSDBClusterSnapshotTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	dbClusterSnapshot := d.HydrateItem.(kaytu.RDSDBClusterSnapshot).Description.DBClusterSnapshot
+	dbClusterSnapshot := d.HydrateItem.(opengovernance.RDSDBClusterSnapshot).Description.DBClusterSnapshot
 
 	if dbClusterSnapshot.TagList != nil {
 		turbotTagsMap := map[string]string{}

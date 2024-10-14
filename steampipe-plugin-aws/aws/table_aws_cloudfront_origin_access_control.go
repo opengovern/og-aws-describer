@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/kaytu-io/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -14,10 +14,10 @@ func tableAwsCloudFrontOriginAccessControl(_ context.Context) *plugin.Table {
 		Description: "AWS CloudFront OriginAccessControl",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"),
-			Hydrate:    kaytu.GetCloudFrontOriginAccessControl,
+			Hydrate:    opengovernance.GetCloudFrontOriginAccessControl,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCloudFrontOriginAccessControl,
+			Hydrate: opengovernance.ListCloudFrontOriginAccessControl,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -59,6 +59,6 @@ func tableAwsCloudFrontOriginAccessControl(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getCloudFrontOriginAccessControlTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.CloudFrontOriginAccessControl).Description.Tags
+	tags := d.HydrateItem.(opengovernance.CloudFrontOriginAccessControl).Description.Tags
 	return cloudfrontV2TagsToMap(tags)
 }

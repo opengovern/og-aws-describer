@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -18,13 +18,13 @@ func tableAwsEksNodeGroup(_ context.Context) *plugin.Table {
 		Description: "AWS EKS Node Group",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"nodegroup_name", "cluster_name"}),
-			Hydrate:    kaytu.GetEKSNodegroup,
+			Hydrate:    opengovernance.GetEKSNodegroup,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException", "InvalidParameterException", "InvalidParameter"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEKSNodegroup,
+			Hydrate: opengovernance.ListEKSNodegroup,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "cluster_name", Require: plugin.Optional},
 			},

@@ -7,8 +7,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/kaytu-io/kaytu-aws-describer/aws"
-	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
+	"github.com/opengovern/og-aws-describer/aws"
+	"github.com/opengovern/og-util/pkg/describe/enums"
 	"github.com/spf13/cobra"
 )
 

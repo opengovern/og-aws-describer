@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsRDSDBOptionGroup(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"OptionGroupNotFoundFault"}),
 			},
-			Hydrate: kaytu.GetRDSOptionGroup,
+			Hydrate: opengovernance.GetRDSOptionGroup,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRDSOptionGroup,
+			Hydrate: opengovernance.ListRDSOptionGroup,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "engine_name", Require: plugin.Optional},
 				{Name: "major_engine_version", Require: plugin.Optional},
@@ -105,7 +105,7 @@ func tableAwsRDSDBOptionGroup(_ context.Context) *plugin.Table {
 }
 
 func getRDSDBOptionGroupTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	optionGroup := d.HydrateItem.(kaytu.RDSOptionGroup).Description.Tags
+	optionGroup := d.HydrateItem.(opengovernance.RDSOptionGroup).Description.Tags
 
 	if optionGroup != nil && optionGroup.TagList != nil {
 		turbotTagsMap := map[string]string{}

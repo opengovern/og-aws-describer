@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -18,10 +18,10 @@ func tableAwsSageMakerTrainingJob(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationException", "NotFoundException", "RecordNotFound"}),
 			},
-			Hydrate: kaytu.GetSageMakerTrainingJob,
+			Hydrate: opengovernance.GetSageMakerTrainingJob,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSageMakerTrainingJob,
+			Hydrate: opengovernance.ListSageMakerTrainingJob,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "creation_time", Require: plugin.Optional, Operators: []string{">", ">=", "<", "<="}},
 				{Name: "last_modified_time", Require: plugin.Optional, Operators: []string{">", ">=", "<", "<="}},
@@ -255,7 +255,7 @@ func tableAwsSageMakerTrainingJob(_ context.Context) *plugin.Table {
 }
 
 func sageMakerTrainingJobTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.SageMakerTrainingJob).Description.Tags
+	tags := d.HydrateItem.(opengovernance.SageMakerTrainingJob).Description.Tags
 
 	if tags != nil {
 		turbotTagsMap := map[string]string{}

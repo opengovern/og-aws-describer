@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -21,10 +21,10 @@ func tableAwsEmrCluster(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidRequestException"}),
 			},
-			Hydrate: kaytu.GetEMRCluster,
+			Hydrate: opengovernance.GetEMRCluster,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEMRCluster,
+			Hydrate: opengovernance.ListEMRCluster,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -209,7 +209,7 @@ func tableAwsEmrCluster(_ context.Context) *plugin.Table {
 
 func getEmrClusterTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("getEmrClusterTurbotTags")
-	clusterTags := d.HydrateItem.(kaytu.EMRCluster).Description.Cluster
+	clusterTags := d.HydrateItem.(opengovernance.EMRCluster).Description.Cluster
 
 	if clusterTags == nil {
 		return nil, nil

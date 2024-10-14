@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 	"encoding/json"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -16,10 +16,10 @@ func tableAwsS3Bucket(_ context.Context) *plugin.Table {
 		Description: "AWS S3 Bucket",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    kaytu.GetS3Bucket,
+			Hydrate:    opengovernance.GetS3Bucket,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListS3Bucket,
+			Hydrate: opengovernance.ListS3Bucket,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -189,7 +189,7 @@ func tableAwsS3Bucket(_ context.Context) *plugin.Table {
 //// HYDRATE FUNCTIONS
 
 func getS3BucketLifecycleRules(_ context.Context, d *transform.TransformData) (any, error) {
-	bucket := d.HydrateItem.(kaytu.S3Bucket).Description
+	bucket := d.HydrateItem.(opengovernance.S3Bucket).Description
 
 	var p any
 	err := json.Unmarshal([]byte(bucket.LifecycleRules), &p)
@@ -203,7 +203,7 @@ func getS3BucketLifecycleRules(_ context.Context, d *transform.TransformData) (a
 //// TRANSFORM FUNCTIONS
 
 func s3TagsToTurbotTags(_ context.Context, d *transform.TransformData) (any, error) {
-	tags := d.HydrateItem.(kaytu.S3Bucket).Description.Tags
+	tags := d.HydrateItem.(opengovernance.S3Bucket).Description.Tags
 
 	// Mapping the resource tags inside turbotTags
 	var turbotTagsMap map[string]string

@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsDaxCluster(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ClusterNotFoundFault", "ServiceLinkedRoleNotFoundFault"}),
 			},
-			Hydrate: kaytu.GetDAXCluster,
+			Hydrate: opengovernance.GetDAXCluster,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDAXCluster,
+			Hydrate: opengovernance.ListDAXCluster,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "cluster_name",
@@ -154,7 +154,7 @@ func tableAwsDaxCluster(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTION
 
 func daxClusterTurbotData(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.DAXCluster).Description
+	data := d.HydrateItem.(opengovernance.DAXCluster).Description
 	if data.Tags == nil {
 		return nil, nil
 	}

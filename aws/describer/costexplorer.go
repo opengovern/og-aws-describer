@@ -8,9 +8,9 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/service/costexplorer"
 	"github.com/aws/aws-sdk-go-v2/service/costexplorer/types"
-	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
-	"github.com/kaytu-io/kaytu-util/pkg/describe/enums"
-	pointerUtil "github.com/kaytu-io/kaytu-util/pkg/pointer"
+	"github.com/opengovern/og-aws-describer/aws/model"
+	"github.com/opengovern/og-util/pkg/describe/enums"
+	pointerUtil "github.com/opengovern/og-util/pkg/pointer"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 )

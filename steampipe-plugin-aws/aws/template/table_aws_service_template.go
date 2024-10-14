@@ -19,7 +19,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/kaytu-io/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -31,10 +31,10 @@ func tableAws{{.Service}}{{.Name}}(_ context.Context) *plugin.Table {
 		Description: "AWS {{.Service}} {{.Name}}",
 		Get: &plugin.GetConfig{
 			KeyColumns:        plugin.SingleColumn("arn"), //TODO: change this to the primary key columns in model.go
-			Hydrate:           kaytu.Get{{.Service}}{{.Name}},
+			Hydrate:           opengovernance.Get{{.Service}}{{.Name}},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.List{{.Service}}{{.Name}},
+			Hydrate: opengovernance.List{{.Service}}{{.Name}},
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -76,7 +76,7 @@ func tableAws{{.Service}}{{.Name}}(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func get{{.Service}}{{.Name}}TurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.{{.Service}}{{.Name}}).Description.{{.Name}}.Tags
+	tags := d.HydrateItem.(opengovernance.{{.Service}}{{.Name}}).Description.{{.Name}}.Tags
 	return ec2V2TagsToMap(tags)
 }
 `

@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -14,10 +14,10 @@ func tableAwsDirectConnectConnection(_ context.Context) *plugin.Table {
 		Description: "AWS DirectConnect Connection",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("connection_id"),
-			Hydrate:    kaytu.GetDirectConnectConnection,
+			Hydrate:    opengovernance.GetDirectConnectConnection,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDirectConnectConnection,
+			Hydrate: opengovernance.ListDirectConnectConnection,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -59,6 +59,6 @@ func tableAwsDirectConnectConnection(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getDirectConnectConnectionTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.DirectConnectConnection).Description.Connection.Tags
+	tags := d.HydrateItem.(opengovernance.DirectConnectConnection).Description.Connection.Tags
 	return directConnectV2TagsToMap(tags)
 }

@@ -3,10 +3,10 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"github.com/kaytu-io/kaytu-aws-describer/describer"
-	config2 "github.com/kaytu-io/kaytu-util/pkg/config"
-	"github.com/kaytu-io/kaytu-util/pkg/describe"
-	"github.com/kaytu-io/kaytu-util/pkg/queue"
+	"github.com/opengovern/og-aws-describer/describer"
+	config2 "github.com/opengovern/og-util/pkg/config"
+	"github.com/opengovern/og-util/pkg/describe"
+	"github.com/opengovern/og-util/pkg/queue"
 	"go.uber.org/zap"
 )
 

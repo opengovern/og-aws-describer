@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
 
@@ -20,10 +20,10 @@ func tableAwsVpcDhcpOptions(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidDhcpOptionID.NotFound"}),
 			},
-			Hydrate: kaytu.GetEC2DhcpOptions,
+			Hydrate: opengovernance.GetEC2DhcpOptions,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2DhcpOptions,
+			Hydrate: opengovernance.ListEC2DhcpOptions,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "owner_id", Require: plugin.Optional},
 			},
@@ -112,7 +112,7 @@ func dhcpConfigurationToStringSlice(_ context.Context, d *transform.TransformDat
 }
 
 func vpcDhcpOptionsAPIDataToTurbotData(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	vpcDhcpOptions := d.HydrateItem.(kaytu.EC2DhcpOptions).Description.DhcpOptions
+	vpcDhcpOptions := d.HydrateItem.(opengovernance.EC2DhcpOptions).Description.DhcpOptions
 	param := d.Param.(string)
 
 	// Get resource title

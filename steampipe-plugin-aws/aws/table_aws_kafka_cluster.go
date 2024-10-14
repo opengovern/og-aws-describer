@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,10 +15,10 @@ func tableAwsKafkaCluster(_ context.Context) *plugin.Table {
 		Description: "AWS Kafka Cluster",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("cluster_name"),
-			Hydrate:    kaytu.GetKafkaCluster,
+			Hydrate:    opengovernance.GetKafkaCluster,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListKafkaCluster,
+			Hydrate: opengovernance.ListKafkaCluster,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

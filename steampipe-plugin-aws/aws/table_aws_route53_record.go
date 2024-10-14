@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/go-kit/types"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -23,7 +23,7 @@ func tableAwsRoute53Record(_ context.Context) *plugin.Table {
 			//	{Name: "set_identifier", Require: plugin.Optional},
 			//	{Name: "type", Require: plugin.Optional},
 			//},
-			Hydrate: kaytu.ListRoute53Record,
+			Hydrate: opengovernance.ListRoute53Record,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NoSuchHostedZone"}),
 			},
@@ -118,7 +118,7 @@ func tableAwsRoute53Record(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTION
 
 func flattenResourceRecords(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	hostedZone := d.HydrateItem.(kaytu.Route53Record).Description
+	hostedZone := d.HydrateItem.(opengovernance.Route53Record).Description
 	typeStr := types.SafeString(hostedZone.Record.Type)
 
 	strs := make([]string, 0, len(hostedZone.Record.ResourceRecords))

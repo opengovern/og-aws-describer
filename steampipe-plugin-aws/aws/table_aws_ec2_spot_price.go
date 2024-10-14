@@ -15,7 +15,7 @@ func tableAwsEc2SpotPrice(_ context.Context) *plugin.Table {
 		Name:        "aws_ec2_spot_price",
 		Description: "AWS EC2 Spot Price History",
 		List: &plugin.ListConfig{
-			//Hydrate: kaytu.ListEC2SpotPrice,
+			//Hydrate: opengovernance.ListEC2SpotPrice,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameterValue"}),
 			},

@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -13,7 +13,7 @@ func tableAwsSsoAdminPermissionSet(_ context.Context) *plugin.Table {
 		Name:        "aws_ssoadmin_permission_set",
 		Description: "AWS SSO Permission Set",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSSOAdminPermissionSet,
+			Hydrate: opengovernance.ListSSOAdminPermissionSet,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "instance_arn", Require: plugin.Optional},
 			},

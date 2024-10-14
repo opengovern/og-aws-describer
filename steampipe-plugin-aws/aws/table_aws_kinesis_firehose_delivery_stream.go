@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/aws/aws-sdk-go-v2/service/firehose/types"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/kaytu-io/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -21,10 +21,10 @@ func tableAwsKinesisFirehoseDeliveryStream(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationException", "InvalidParameter", "ResourceNotFoundException"}),
 			},
-			Hydrate: kaytu.GetFirehoseDeliveryStream,
+			Hydrate: opengovernance.GetFirehoseDeliveryStream,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListFirehoseDeliveryStream,
+			Hydrate: opengovernance.ListFirehoseDeliveryStream,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "delivery_stream_type", Require: plugin.Optional},
 			},

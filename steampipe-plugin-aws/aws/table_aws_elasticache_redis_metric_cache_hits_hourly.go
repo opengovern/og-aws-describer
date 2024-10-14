@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/aws/aws-sdk-go/service/elasticache"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -16,7 +16,7 @@ func tableAwsElasticacheRedisMetricCacheHitsHourly(_ context.Context) *plugin.Ta
 		Name:        "aws_elasticache_redis_metric_cache_hits_hourly",
 		Description: "AWS Elasticache Redis CacheHits metric (Hourly)",
 		List: &plugin.ListConfig{
-			ParentHydrate: kaytu.ListElastiCacheCluster,
+			ParentHydrate: opengovernance.ListElastiCacheCluster,
 			Hydrate:       listElastiCacheMetricCacheHitsHourly,
 		},
 

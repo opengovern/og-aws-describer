@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 	"errors"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/wellarchitected"
@@ -22,7 +22,7 @@ func tableAwsWellArchitectedLensShare(_ context.Context) *plugin.Table {
 		Name:        "aws_wellarchitected_lens_share",
 		Description: "AWS Well-Architected Lens Share",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListWellArchitectedLensShare,
+			Hydrate: opengovernance.ListWellArchitectedLensShare,
 			// TODO: Uncomment and remove extra check in
 			// listWellArchitectedLensShares function once this works again
 			// IgnoreConfig: &plugin.IgnoreConfig{

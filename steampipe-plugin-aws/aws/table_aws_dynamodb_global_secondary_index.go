@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,10 +15,10 @@ func tableAwsDynamodbGlobalSecondaryIndex(_ context.Context) *plugin.Table {
 		Description: "AWS DynamoDb GlobalSecondaryIndex",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("index_arn"),
-			Hydrate:    kaytu.GetDynamoDbGlobalSecondaryIndex,
+			Hydrate:    opengovernance.GetDynamoDbGlobalSecondaryIndex,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDynamoDbGlobalSecondaryIndex,
+			Hydrate: opengovernance.ListDynamoDbGlobalSecondaryIndex,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

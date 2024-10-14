@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -17,13 +17,13 @@ func tableAwsCloudtrailImport(_ context.Context) *plugin.Table {
 		Description: "AWS CloudTrail Import",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("import_id"),
-			Hydrate:    kaytu.GetCloudTrailImport,
+			Hydrate:    opengovernance.GetCloudTrailImport,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"UnsupportedOperationException", "ImportNotFoundException"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCloudTrailImport,
+			Hydrate: opengovernance.ListCloudTrailImport,
 			// For the location where the API operation is not supported, we receive UnsupportedOperationException.
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"UnsupportedOperationException"}),

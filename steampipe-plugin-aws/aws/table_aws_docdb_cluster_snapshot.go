@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -21,10 +21,10 @@ func tableAwsDocDBClusterSnapshot(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"DBSnapshotNotFound", "DBClusterSnapshotNotFoundFault"}),
 			},
-			Hydrate: kaytu.GetDocDBClusterSnapshot,
+			Hydrate: opengovernance.GetDocDBClusterSnapshot,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDocDBClusterSnapshot,
+			Hydrate: opengovernance.ListDocDBClusterSnapshot,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

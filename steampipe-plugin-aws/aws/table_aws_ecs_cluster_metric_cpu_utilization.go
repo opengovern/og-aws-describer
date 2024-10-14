@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"strings"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -17,7 +17,7 @@ func tableAwsEcsClusterMetricCpuUtilization(_ context.Context) *plugin.Table {
 		Name:        "aws_ecs_cluster_metric_cpu_utilization",
 		Description: "AWS ECS Cluster Cloudwatch Metrics - CPU Utilization",
 		List: &plugin.ListConfig{
-			ParentHydrate: kaytu.ListECSCluster,
+			ParentHydrate: opengovernance.ListECSCluster,
 			Hydrate:       listEcsClusterMetricCpuUtilization,
 		},
 
@@ -34,7 +34,7 @@ func tableAwsEcsClusterMetricCpuUtilization(_ context.Context) *plugin.Table {
 }
 
 func listEcsClusterMetricCpuUtilization(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	data := h.Item.(kaytu.ECSCluster).Description.Cluster
+	data := h.Item.(opengovernance.ECSCluster).Description.Cluster
 	clusterName := strings.Split(*data.ClusterArn, "/")[1]
 	return listCWMetricStatistics(ctx, d, "5_MIN", "AWS/ECS", "CPUUtilization", "ClusterName", clusterName)
 }

@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	ecrv1 "github.com/aws/aws-sdk-go/service/ecr"
 
@@ -18,7 +18,7 @@ func tableAwsEcrRegistryScanningConfiguration(_ context.Context) *plugin.Table {
 		Name:        "aws_ecr_registry_scanning_configuration",
 		Description: "AWS ECR Registry Scanning Configuration",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.GetECRRegistryScanningConfiguration,
+			Hydrate: opengovernance.GetECRRegistryScanningConfiguration,
 		},
 		GetMatrixItemFunc: SupportedRegionMatrix(ecrv1.EndpointsID),
 		Columns: awsRegionalColumns([]*plugin.Column{

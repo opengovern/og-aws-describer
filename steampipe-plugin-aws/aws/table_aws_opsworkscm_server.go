@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,10 +15,10 @@ func tableAwsOpsWorksCMServer(_ context.Context) *plugin.Table {
 		Description: "AWS OpsWorksCM Server",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("server_name"),
-			Hydrate:    kaytu.GetOpsWorksCMServer,
+			Hydrate:    opengovernance.GetOpsWorksCMServer,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListOpsWorksCMServer,
+			Hydrate: opengovernance.ListOpsWorksCMServer,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -55,6 +55,6 @@ func tableAwsOpsWorksCMServer(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getOpsWorksCMServerTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.OpsWorksCMServer).Description.Tags
+	tags := d.HydrateItem.(opengovernance.OpsWorksCMServer).Description.Tags
 	return opsWorksCMV2TagsToMap(tags)
 }

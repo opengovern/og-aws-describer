@@ -7,7 +7,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	es "github.com/aws/aws-sdk-go-v2/service/elasticsearchservice"
-	"github.com/kaytu-io/kaytu-aws-describer/aws/model"
+	"github.com/opengovern/og-aws-describer/aws/model"
 )
 
 func ESDomain(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {

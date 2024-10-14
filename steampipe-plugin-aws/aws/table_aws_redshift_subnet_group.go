@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsRedshiftSubnetGroup(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ClusterSubnetGroupNotFoundFault"}),
 			},
-			Hydrate: kaytu.GetRedshiftSubnetGroup,
+			Hydrate: opengovernance.GetRedshiftSubnetGroup,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRedshiftSubnetGroup,
+			Hydrate: opengovernance.ListRedshiftSubnetGroup,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
@@ -81,7 +81,7 @@ func tableAwsRedshiftSubnetGroup(_ context.Context) *plugin.Table {
 }
 
 func redshiftSubnetGroupTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	clusterSubnetGroup := d.HydrateItem.(kaytu.RedshiftSubnetGroup).Description.ClusterSubnetGroup
+	clusterSubnetGroup := d.HydrateItem.(opengovernance.RedshiftSubnetGroup).Description.ClusterSubnetGroup
 
 	// Get the resource tags
 	var turbotTagsMap map[string]string

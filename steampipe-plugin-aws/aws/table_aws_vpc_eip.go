@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -19,10 +19,10 @@ func tableAwsVpcEip(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidAllocationID.NotFound", "InvalidAllocationID.Malformed"}),
 			},
-			Hydrate: kaytu.GetEC2EIP,
+			Hydrate: opengovernance.GetEC2EIP,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2EIP,
+			Hydrate: opengovernance.ListEC2EIP,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "association_id", Require: plugin.Optional},
 				{Name: "domain", Require: plugin.Optional},
@@ -155,6 +155,6 @@ func tableAwsVpcEip(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getVpcEipTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	eip := d.HydrateItem.(kaytu.EC2EIP).Description.Address
+	eip := d.HydrateItem.(opengovernance.EC2EIP).Description.Address
 	return ec2V2TagsToMap(eip.Tags)
 }

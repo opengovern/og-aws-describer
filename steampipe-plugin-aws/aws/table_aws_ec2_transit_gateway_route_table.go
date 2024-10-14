@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -20,10 +20,10 @@ func tableAwsEc2TransitGatewayRouteTable(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidRouteTableID.NotFound", "InvalidRouteTableId.Unavailable", "InvalidRouteTableId.Malformed"}),
 			},
-			Hydrate: kaytu.GetEC2TransitGatewayRouteTable,
+			Hydrate: opengovernance.GetEC2TransitGatewayRouteTable,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2TransitGatewayRouteTable,
+			Hydrate: opengovernance.ListEC2TransitGatewayRouteTable,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
@@ -86,12 +86,12 @@ func tableAwsEc2TransitGatewayRouteTable(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getEc2TransitGatewayRouteTableTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.EC2TransitGatewayRouteTable).Description.TransitGatewayRouteTable
+	data := d.HydrateItem.(opengovernance.EC2TransitGatewayRouteTable).Description.TransitGatewayRouteTable
 	return ec2V2TagsToMap(data.Tags)
 }
 
 func getEc2TransitGatewayRouteTableTurbotTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.EC2TransitGatewayRouteTable).Description.TransitGatewayRouteTable
+	data := d.HydrateItem.(opengovernance.EC2TransitGatewayRouteTable).Description.TransitGatewayRouteTable
 	title := data.TransitGatewayRouteTableId
 	if data.Tags != nil {
 		for _, i := range data.Tags {

@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -19,10 +19,10 @@ func tableAwsAccessAnalyzer(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException", "ValidationException", "InvalidParameter"}),
 			},
-			Hydrate: kaytu.GetAccessAnalyzerAnalyzer,
+			Hydrate: opengovernance.GetAccessAnalyzerAnalyzer,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAccessAnalyzerAnalyzer,
+			Hydrate: opengovernance.ListAccessAnalyzerAnalyzer,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "type",

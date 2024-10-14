@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/service/rds/types"
 
@@ -18,7 +18,7 @@ func tableAwsRDSDBEngineVersion(_ context.Context) *plugin.Table {
 		Name:        "aws_rds_db_engine_version",
 		Description: "AWS RDS DB Engine Version",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRDSDBEngineVersion,
+			Hydrate: opengovernance.ListRDSDBEngineVersion,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

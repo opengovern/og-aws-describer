@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 	"encoding/json"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -17,7 +17,7 @@ func tableAwsCloudtrailTrailEvent(_ context.Context) *plugin.Table {
 		Name:        "aws_cloudtrail_trail_event",
 		Description: "CloudTrail events from cloudwatch service.",
 		List: &plugin.ListConfig{
-			Hydrate:    kaytu.ListCloudTrailTrailEvent,
+			Hydrate:    opengovernance.ListCloudTrailTrailEvent,
 			KeyColumns: tableAwsCloudtrailEventsListKeyColumns(),
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException"}),
@@ -353,7 +353,7 @@ func tableAwsCloudtrailEventsListKeyColumns() []*plugin.KeyColumn {
 }
 
 func getCloudtrailMessageField(ctx context.Context, _ *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	e := h.Item.(kaytu.CloudTrailTrailEvent).Description.TrailEvent
+	e := h.Item.(opengovernance.CloudTrailTrailEvent).Description.TrailEvent
 	cte := cloudtrailEvent{}
 	err := json.Unmarshal([]byte(*e.Message), &cte)
 	if err != nil {

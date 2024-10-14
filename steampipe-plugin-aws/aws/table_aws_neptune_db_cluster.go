@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -18,13 +18,13 @@ func tableAwsNeptuneDBCluster(_ context.Context) *plugin.Table {
 		Description: "AWS Neptune DB Cluster",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("db_cluster_identifier"),
-			Hydrate:    kaytu.GetNeptuneDatabaseCluster,
+			Hydrate:    opengovernance.GetNeptuneDatabaseCluster,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"DBClusterNotFoundFault"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListNeptuneDatabaseCluster,
+			Hydrate: opengovernance.ListNeptuneDatabaseCluster,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
@@ -244,7 +244,7 @@ func tableAwsNeptuneDBCluster(_ context.Context) *plugin.Table {
 }
 
 func neptuneDBClusterTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	tagsDetails := d.HydrateItem.(kaytu.NeptuneDatabaseCluster).Description.Tags
+	tagsDetails := d.HydrateItem.(opengovernance.NeptuneDatabaseCluster).Description.Tags
 
 	// Mapping the resource tags inside turbotTags
 	var turbotTagsMap map[string]string

@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,10 +15,10 @@ func tableAwsAMPWorkspace(_ context.Context) *plugin.Table {
 		Description: "AWS AMP Workspace",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("workspace_id"),
-			Hydrate:    kaytu.GetAMPWorkspace,
+			Hydrate:    opengovernance.GetAMPWorkspace,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAMPWorkspace,
+			Hydrate: opengovernance.ListAMPWorkspace,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

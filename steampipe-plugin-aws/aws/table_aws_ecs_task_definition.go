@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"strings"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -21,10 +21,10 @@ func tableAwsEcsTaskDefinition(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameterException", "ClientException"}),
 			},
-			Hydrate: kaytu.GetECSTaskDefinition,
+			Hydrate: opengovernance.GetECSTaskDefinition,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListECSTaskDefinition,
+			Hydrate: opengovernance.ListECSTaskDefinition,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
@@ -172,7 +172,7 @@ func tableAwsEcsTaskDefinition(_ context.Context) *plugin.Table {
 func getAwsEcsTaskDefinitionTurbotData(_ context.Context, d *transform.TransformData) (interface{},
 	error) {
 	param := d.Param.(string)
-	ecsTaskDefinition := d.HydrateItem.(kaytu.ECSTaskDefinition).Description
+	ecsTaskDefinition := d.HydrateItem.(opengovernance.ECSTaskDefinition).Description
 
 	// Get resource title
 	arn := ecsTaskDefinition.TaskDefinition.TaskDefinitionArn

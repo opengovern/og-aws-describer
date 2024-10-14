@@ -1,4 +1,4 @@
-//go:generate go run ./gen/main.go --file $GOFILE --output ../../pkg/kaytu-es-sdk/aws_resources_clients.go --type aws
+//go:generate go run ./gen/main.go --file $GOFILE --output ../../pkg/og-es-sdk/aws_resources_clients.go --type aws
 
 package model
 

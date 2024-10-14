@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -21,10 +21,10 @@ func tableAwsEfsMountTarget(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"MountTargetNotFound", "InvalidParameter"}),
 			},
-			Hydrate: kaytu.GetEFSMountTarget,
+			Hydrate: opengovernance.GetEFSMountTarget,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEFSMountTarget,
+			Hydrate: opengovernance.ListEFSMountTarget,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -21,10 +21,10 @@ func tableAwsWafv2RegexPatternSet(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"WAFInvalidParameterException", "WAFNonexistentItemException", "ValidationException", "InvalidParameter"}),
 			},
-			Hydrate: kaytu.GetWAFv2RegexPatternSet,
+			Hydrate: opengovernance.GetWAFv2RegexPatternSet,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListWAFv2RegexPatternSet,
+			Hydrate: opengovernance.ListWAFv2RegexPatternSet,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -165,7 +165,7 @@ func tableAwsWafv2RegexPatternSet(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func regexPatternSetLocation(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.WAFv2RegexPatternSet)
+	data := d.HydrateItem.(opengovernance.WAFv2RegexPatternSet)
 	loc := strings.Split(strings.Split(*data.Description.RegexPatternSet.ARN, ":")[5], "/")[0]
 	if loc == "regional" {
 		return "REGIONAL", nil
@@ -174,7 +174,7 @@ func regexPatternSetLocation(_ context.Context, d *transform.TransformData) (int
 }
 
 func regexPatternSetTagListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.WAFv2RegexPatternSet).Description.Tags
+	data := d.HydrateItem.(opengovernance.WAFv2RegexPatternSet).Description.Tags
 
 	if data.TagInfoForResource.TagList == nil || len(data.TagInfoForResource.TagList) < 1 {
 		return nil, nil
@@ -193,7 +193,7 @@ func regexPatternSetTagListToTurbotTags(ctx context.Context, d *transform.Transf
 }
 
 func regularExpressionObjectListToRegularExpressionList(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.WAFv2RegexPatternSet).Description
+	data := d.HydrateItem.(opengovernance.WAFv2RegexPatternSet).Description
 
 	if data.RegexPatternSet.RegularExpressionList == nil || len(data.RegexPatternSet.RegularExpressionList) < 1 {
 		return nil, nil
@@ -211,7 +211,7 @@ func regularExpressionObjectListToRegularExpressionList(ctx context.Context, d *
 }
 
 func regexPatternSetRegion(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.WAFv2RegexPatternSet)
+	data := d.HydrateItem.(opengovernance.WAFv2RegexPatternSet)
 	loc := strings.Split(strings.Split(*data.Description.RegexPatternSet.ARN, ":")[5], "/")[0]
 
 	if loc == "global" {

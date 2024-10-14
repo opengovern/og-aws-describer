@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/service/elasticbeanstalk"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -17,10 +17,10 @@ func tableAwsElasticBeanstalkApplicationVersion(_ context.Context) *plugin.Table
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException"}),
 			},
-			Hydrate: kaytu.GetElasticBeanstalkApplicationVersion,
+			Hydrate: opengovernance.GetElasticBeanstalkApplicationVersion,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListElasticBeanstalkApplicationVersion,
+			Hydrate: opengovernance.ListElasticBeanstalkApplicationVersion,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

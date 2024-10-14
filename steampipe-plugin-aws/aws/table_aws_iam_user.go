@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsIamUser(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationError", "NoSuchEntity", "InvalidParameter"}),
 			},
-			Hydrate: kaytu.GetIAMUser,
+			Hydrate: opengovernance.GetIAMUser,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListIAMUser,
+			Hydrate: opengovernance.ListIAMUser,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "path", Require: plugin.Optional},
 			},
@@ -157,7 +157,7 @@ func tableAwsIamUser(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTION
 
 func getAwsIamTurboTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.IAMUser).Description.User.Tags
+	tags := d.HydrateItem.(opengovernance.IAMUser).Description.User.Tags
 
 	var turbotTags map[string]string
 	if tags != nil {
@@ -171,7 +171,7 @@ func getAwsIamTurboTags(_ context.Context, d *transform.TransformData) (interfac
 }
 
 func userMfaStatus(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.IAMUser).Description
+	data := d.HydrateItem.(opengovernance.IAMUser).Description
 	if data.MFADevices != nil && len(data.MFADevices) > 0 {
 		return true, nil
 	}

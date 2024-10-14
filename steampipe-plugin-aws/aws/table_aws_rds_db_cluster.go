@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -19,10 +19,10 @@ func tableAwsRDSDBCluster(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"DBClusterNotFoundFault"}),
 			},
-			Hydrate: kaytu.GetRDSDBCluster,
+			Hydrate: opengovernance.GetRDSDBCluster,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRDSDBCluster,
+			Hydrate: opengovernance.ListRDSDBCluster,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "clone_group_id", Require: plugin.Optional},
 				{Name: "engine", Require: plugin.Optional},
@@ -331,7 +331,7 @@ func tableAwsRDSDBCluster(_ context.Context) *plugin.Table {
 }
 
 func getRDSDBClusterTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	dbCluster := d.HydrateItem.(kaytu.RDSDBCluster).Description.DBCluster
+	dbCluster := d.HydrateItem.(opengovernance.RDSDBCluster).Description.DBCluster
 
 	if dbCluster.TagList != nil {
 		turbotTagsMap := map[string]string{}

@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -16,7 +16,7 @@ func tableAwsSecurityLakeDataLake(_ context.Context) *plugin.Table {
 		Name:        "aws_securitylake_data_lake",
 		Description: "AWS Security Lake Data Lake",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.GetSecurityLakeDataLake,
+			Hydrate: opengovernance.GetSecurityLakeDataLake,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,10 +15,10 @@ func tableAwsFsxVolume(_ context.Context) *plugin.Table {
 		Description: "AWS FSX Volume",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("volume_id"),
-			Hydrate:    kaytu.GetFSXVolume,
+			Hydrate:    opengovernance.GetFSXVolume,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListFSXVolume,
+			Hydrate: opengovernance.ListFSXVolume,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -60,6 +60,6 @@ func tableAwsFsxVolume(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getFsxVolumeTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.FSXVolume).Description.Volume.Tags
+	tags := d.HydrateItem.(opengovernance.FSXVolume).Description.Volume.Tags
 	return fsxV2TagsToMap(tags)
 }

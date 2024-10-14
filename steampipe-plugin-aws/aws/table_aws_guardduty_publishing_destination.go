@@ -5,7 +5,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/service/guardduty/types"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -30,10 +30,10 @@ func tableAwsGuardDutyPublishingDestination(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidInputException", "NoSuchEntityException", "BadRequestException"}),
 			},
-			Hydrate: kaytu.GetGuardDutyPublishingDestination,
+			Hydrate: opengovernance.GetGuardDutyPublishingDestination,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListGuardDutyPublishingDestination,
+			Hydrate: opengovernance.ListGuardDutyPublishingDestination,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "detector_id", Require: plugin.Optional},
 			},

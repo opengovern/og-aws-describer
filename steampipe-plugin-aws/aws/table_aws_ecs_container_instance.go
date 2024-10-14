@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -14,8 +14,8 @@ func tableAwsEcsContainerInstance(_ context.Context) *plugin.Table {
 		Name:        "aws_ecs_container_instance",
 		Description: "AWS ECS Container Instance",
 		List: &plugin.ListConfig{
-			ParentHydrate: kaytu.ListECSCluster,
-			Hydrate:       kaytu.ListECSContainerInstance,
+			ParentHydrate: opengovernance.ListECSCluster,
+			Hydrate:       opengovernance.ListECSContainerInstance,
 		},
 		Columns: awsKaytuColumns([]*plugin.Column{
 			{
@@ -129,7 +129,7 @@ func tableAwsEcsContainerInstance(_ context.Context) *plugin.Table {
 
 func containerInstanceTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("containerInstanceTagsToTurbotTags")
-	tags := d.HydrateItem.(kaytu.ECSContainerInstance).Description.ContainerInstance.Tags
+	tags := d.HydrateItem.(opengovernance.ECSContainerInstance).Description.ContainerInstance.Tags
 
 	// Mapping the resource tags inside turbotTags
 	var turbotTagsMap map[string]string

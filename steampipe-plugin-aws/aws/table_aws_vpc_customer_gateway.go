@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -18,10 +18,10 @@ func tableAwsVpcCustomerGateway(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidCustomerGatewayID.NotFound", "InvalidCustomerGatewayID.Malformed"}),
 			},
-			Hydrate: kaytu.GetEC2CustomerGateway,
+			Hydrate: opengovernance.GetEC2CustomerGateway,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2CustomerGateway,
+			Hydrate: opengovernance.ListEC2CustomerGateway,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "ip_address", Require: plugin.Optional},
 				{Name: "bgp_asn", Require: plugin.Optional},
@@ -98,7 +98,7 @@ func tableAwsVpcCustomerGateway(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getVpcCustomerGatewayTurbotData(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	customerGateway := d.HydrateItem.(kaytu.EC2CustomerGateway).Description.CustomerGateway
+	customerGateway := d.HydrateItem.(opengovernance.EC2CustomerGateway).Description.CustomerGateway
 	param := d.Param.(string)
 
 	// Get resource title

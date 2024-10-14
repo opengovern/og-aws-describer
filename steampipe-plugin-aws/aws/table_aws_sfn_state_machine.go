@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -18,10 +18,10 @@ func tableAwsStepFunctionsStateMachine(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException", "StateMachineDoesNotExist", "InvalidArn"}),
 			},
-			Hydrate: kaytu.GetStepFunctionsStateMachine,
+			Hydrate: opengovernance.GetStepFunctionsStateMachine,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListStepFunctionsStateMachine,
+			Hydrate: opengovernance.ListStepFunctionsStateMachine,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
@@ -102,7 +102,7 @@ func tableAwsStepFunctionsStateMachine(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func stateMachineTagsToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.StepFunctionsStateMachine).Description.Tags
+	tags := d.HydrateItem.(opengovernance.StepFunctionsStateMachine).Description.Tags
 
 	if tags == nil {
 		return nil, nil

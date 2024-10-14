@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -18,10 +18,10 @@ func tableAwsElasticsearchDomain(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ResourceNotFoundException"}),
 			},
-			Hydrate: kaytu.GetESDomain,
+			Hydrate: opengovernance.GetESDomain,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListESDomain,
+			Hydrate: opengovernance.ListESDomain,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -204,7 +204,7 @@ func tableAwsElasticsearchDomain(_ context.Context) *plugin.Table {
 				Name:        "akas",
 				Description: resourceInterfaceDescription("akas"),
 				Type:        proto.ColumnType_JSON,
-				Hydrate:     kaytu.GetESDomain,
+				Hydrate:     opengovernance.GetESDomain,
 				Transform:   transform.FromField("Description.Domain.ARN").Transform(arnToAkas),
 			},
 		}),
@@ -219,7 +219,7 @@ func tableAwsElasticsearchDomain(_ context.Context) *plugin.Table {
 
 func getAwsElasticsearchDomaintagListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("getAwsElasticsearchDomaintagListToTurbotTags")
-	tagList := d.HydrateItem.(kaytu.ESDomain).Description.Tags
+	tagList := d.HydrateItem.(opengovernance.ESDomain).Description.Tags
 
 	if tagList == nil {
 		return nil, nil

@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -16,10 +16,10 @@ func tableAwsNeptuneDBClusterSnapshot(_ context.Context) *plugin.Table {
 		Name:        "aws_neptune_db_cluster_snapshot",
 		Description: "AWS Neptune DB Cluster Snapshot",
 		Get: &plugin.GetConfig{
-			Hydrate: kaytu.GetNeptuneDatabaseClusterSnapshot,
+			Hydrate: opengovernance.GetNeptuneDatabaseClusterSnapshot,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListNeptuneDatabaseClusterSnapshot,
+			Hydrate: opengovernance.ListNeptuneDatabaseClusterSnapshot,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

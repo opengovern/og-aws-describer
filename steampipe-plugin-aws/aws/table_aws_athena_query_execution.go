@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -15,10 +15,10 @@ func tableAwsAthenaQueryExecution(_ context.Context) *plugin.Table {
 		Description: "AWS Athena Query Execution",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("id"),
-			Hydrate:    kaytu.GetAthenaQueryExecution,
+			Hydrate:    opengovernance.GetAthenaQueryExecution,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAthenaQueryExecution,
+			Hydrate: opengovernance.ListAthenaQueryExecution,
 			KeyColumns: plugin.KeyColumnSlice{
 				{
 					Name:    "workgroup",

@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -16,7 +16,7 @@ func tableAwsS3AccessPoint(_ context.Context) *plugin.Table {
 		Name:        "aws_s3_access_point",
 		Description: "AWS S3 Access Point",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListS3AccessPoint,
+			Hydrate: opengovernance.ListS3AccessPoint,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NoSuchAccessPoint", "InvalidParameter", "InvalidRequest"}),
 			},
@@ -26,7 +26,7 @@ func tableAwsS3AccessPoint(_ context.Context) *plugin.Table {
 		},
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"name", "region"}),
-			Hydrate:    kaytu.GetS3AccessPoint,
+			Hydrate:    opengovernance.GetS3AccessPoint,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NoSuchAccessPoint\", \"AccessDenied\", \"InvalidParameter"}),
 			},

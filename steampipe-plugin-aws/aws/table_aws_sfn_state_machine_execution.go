@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -18,10 +18,10 @@ func tableAwsStepFunctionsStateMachineExecution(_ context.Context) *plugin.Table
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameter", "ExecutionDoesNotExist", "InvalidArn"}),
 			},
-			Hydrate: kaytu.GetStepFunctionsStateMachineExecution,
+			Hydrate: opengovernance.GetStepFunctionsStateMachineExecution,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListStepFunctionsStateMachineExecution,
+			Hydrate: opengovernance.ListStepFunctionsStateMachineExecution,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "status", Require: plugin.Optional},
 				{Name: "state_machine_arn", Require: plugin.Optional},

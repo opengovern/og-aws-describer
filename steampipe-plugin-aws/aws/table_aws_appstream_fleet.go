@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,10 +15,10 @@ func tableAwsAppstreamFleet(_ context.Context) *plugin.Table {
 		Description: "AWS AppStream Fleet",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    kaytu.GetAppStreamFleet,
+			Hydrate:    opengovernance.GetAppStreamFleet,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAppStreamFleet,
+			Hydrate: opengovernance.ListAppStreamFleet,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

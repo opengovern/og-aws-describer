@@ -16,10 +16,10 @@ func tableAwsDRSRecoveryInstance(_ context.Context) *plugin.Table {
 		Description: "AWS DRS RecoveryInstance",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("recovery_instance_id"),
-			//Hydrate:    kaytu.GetDRSRecoveryInstance,
+			//Hydrate:    opengovernance.GetDRSRecoveryInstance,
 		},
 		List: &plugin.ListConfig{
-			//Hydrate: kaytu.ListDRSRecoveryInstance,
+			//Hydrate: opengovernance.ListDRSRecoveryInstance,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

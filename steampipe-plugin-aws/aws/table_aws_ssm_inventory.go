@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -14,7 +14,7 @@ func tableAwsSSMInventory(_ context.Context) *plugin.Table {
 		Name:        "aws_ssm_inventory",
 		Description: "AWS SSM Inventory",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSSMInventory,
+			Hydrate: opengovernance.ListSSMInventory,
 			KeyColumns: plugin.KeyColumnSlice{
 				{Name: "id", Require: plugin.Optional, Operators: []string{"=", "<>"}},
 				{Name: "type_name", Require: plugin.Optional},

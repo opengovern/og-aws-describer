@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/kaytu-io/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -18,10 +18,10 @@ func tableAwsVpcInternetGateway(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidInternetGatewayID.NotFound", "InvalidInternetGatewayID.Malformed"}),
 			},
-			Hydrate: kaytu.GetEC2InternetGateway,
+			Hydrate: opengovernance.GetEC2InternetGateway,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2InternetGateway,
+			Hydrate: opengovernance.ListEC2InternetGateway,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "owner_id", Require: plugin.Optional},
 			},
@@ -80,8 +80,8 @@ func tableAwsVpcInternetGateway(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getVpcInternetGatewayTurbotAkas(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	internetGateway := d.HydrateItem.(kaytu.EC2InternetGateway).Description.InternetGateway
-	metadata := d.HydrateItem.(kaytu.EC2InternetGateway).Metadata
+	internetGateway := d.HydrateItem.(opengovernance.EC2InternetGateway).Description.InternetGateway
+	metadata := d.HydrateItem.(opengovernance.EC2InternetGateway).Metadata
 
 	// Get data for turbot defined properties
 	akas := []string{"arn:" + metadata.Partition + ":ec2:" + metadata.Region + ":" + metadata.AccountID + ":internet-gateway/" + *internetGateway.InternetGatewayId}
@@ -92,7 +92,7 @@ func getVpcInternetGatewayTurbotAkas(_ context.Context, d *transform.TransformDa
 //// TRANSFORM FUNCTIONS
 
 func getVpcInternetGatewayTurbotData(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	internetGateway := d.HydrateItem.(kaytu.EC2InternetGateway).Description.InternetGateway
+	internetGateway := d.HydrateItem.(opengovernance.EC2InternetGateway).Description.InternetGateway
 	param := d.Param.(string)
 
 	// Get resource title

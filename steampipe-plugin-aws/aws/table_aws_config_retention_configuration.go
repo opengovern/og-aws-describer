@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -14,7 +14,7 @@ func tableAwsConfigRetentionConfiguration(_ context.Context) *plugin.Table {
 		Name:        "aws_config_retention_configuration",
 		Description: "AWS Config Retention Configuration",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListConfigRetentionConfiguration,
+			Hydrate: opengovernance.ListConfigRetentionConfiguration,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

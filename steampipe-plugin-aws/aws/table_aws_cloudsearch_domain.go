@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/kaytu-io/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -17,10 +17,10 @@ func tableAwsCloudSearchDomain(_ context.Context) *plugin.Table {
 		Description: "AWS CloudSearch Domain",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("domain_name"),
-			Hydrate:    kaytu.GetCloudSearchDomain,
+			Hydrate:    opengovernance.GetCloudSearchDomain,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCloudSearchDomain,
+			Hydrate: opengovernance.ListCloudSearchDomain,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

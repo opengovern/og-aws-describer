@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsGlobalAcceleratorAccelerator(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"EntityNotFoundException"}),
 			},
-			Hydrate: kaytu.GetGlobalAcceleratorAccelerator,
+			Hydrate: opengovernance.GetGlobalAcceleratorAccelerator,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListGlobalAcceleratorAccelerator,
+			Hydrate: opengovernance.ListGlobalAcceleratorAccelerator,
 		},
 		Columns: awsKaytuColumns([]*plugin.Column{
 			{
@@ -108,7 +108,7 @@ func tableAwsGlobalAcceleratorAccelerator(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func globalacceleratorAcceleratorTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.GlobalAcceleratorAccelerator).Description.Tags
+	tags := d.HydrateItem.(opengovernance.GlobalAcceleratorAccelerator).Description.Tags
 
 	// Mapping the resource tags inside turbotTags
 	var turbotTagsMap map[string]string

@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -21,10 +21,10 @@ func tableAwsElastiCacheCluster(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"CacheClusterNotFound", "InvalidParameterValue"}),
 			},
-			Hydrate: kaytu.GetElastiCacheCluster,
+			Hydrate: opengovernance.GetElastiCacheCluster,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListElastiCacheCluster,
+			Hydrate: opengovernance.ListElastiCacheCluster,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
@@ -224,7 +224,7 @@ func tableAwsElastiCacheCluster(_ context.Context) *plugin.Table {
 
 func clusterTagListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
 	plugin.Logger(ctx).Trace("clusterTagListToTurbotTags")
-	clusterTag := d.HydrateItem.(kaytu.ElastiCacheCluster).Description
+	clusterTag := d.HydrateItem.(opengovernance.ElastiCacheCluster).Description
 
 	if clusterTag.TagList == nil {
 		return nil, nil

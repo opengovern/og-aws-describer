@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -17,7 +17,7 @@ func tableAwsEc2TransitGatewayRoute(_ context.Context) *plugin.Table {
 		Name:        "aws_ec2_transit_gateway_route",
 		Description: "AWS EC2 Transit Gateway Route",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2TransitGatewayRoute,
+			Hydrate: opengovernance.ListEC2TransitGatewayRoute,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "prefix_list_id", Require: plugin.Optional},
 				{Name: "state", Require: plugin.Optional},

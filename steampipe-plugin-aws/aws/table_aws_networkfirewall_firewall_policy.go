@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -17,10 +17,10 @@ func tableAwsNetworkFirewallPolicy(_ context.Context) *plugin.Table {
 		Description: "AWS Network Firewall Policy",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AnyColumn([]string{"arn", "name"}),
-			Hydrate:    kaytu.GetNetworkFirewallFirewallPolicy,
+			Hydrate:    opengovernance.GetNetworkFirewallFirewallPolicy,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListNetworkFirewallFirewallPolicy,
+			Hydrate: opengovernance.ListNetworkFirewallFirewallPolicy,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
@@ -110,7 +110,7 @@ func tableAwsNetworkFirewallPolicy(_ context.Context) *plugin.Table {
 }
 
 func networkFirewallPolicyTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	policy := d.HydrateItem.(kaytu.NetworkFirewallFirewallPolicy).Description
+	policy := d.HydrateItem.(opengovernance.NetworkFirewallFirewallPolicy).Description
 
 	// Mapping the resource tags inside turbotTags
 	var turbotTagsMap map[string]string

@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -20,10 +20,10 @@ func tableAwsVpcVpnConnection(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidVpnConnectionID.NotFound", "InvalidVpnConnectionID.Malformed"}),
 			},
-			Hydrate: kaytu.GetEC2VPNConnection,
+			Hydrate: opengovernance.GetEC2VPNConnection,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2VPNConnection,
+			Hydrate: opengovernance.ListEC2VPNConnection,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameterValue"}),
 			},
@@ -141,7 +141,7 @@ func tableAwsVpcVpnConnection(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func vpnConnectionTurbotData(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	vpnConnection := d.HydrateItem.(kaytu.EC2VPNConnection).Description.VpnConnection
+	vpnConnection := d.HydrateItem.(opengovernance.EC2VPNConnection).Description.VpnConnection
 	param := d.Param.(string)
 
 	// Get resource title

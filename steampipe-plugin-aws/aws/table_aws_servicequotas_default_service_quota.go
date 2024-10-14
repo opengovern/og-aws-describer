@@ -19,13 +19,13 @@ func tableAwsServiceQuotasDefaultServiceQuota(_ context.Context) *plugin.Table {
 		},
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"service_code", "quota_code"}),
-			//Hydrate:    kaytu.GetServiceQuotasDefaultServiceQuota,
+			//Hydrate:    opengovernance.GetServiceQuotasDefaultServiceQuota,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NoSuchResourceException"}),
 			},
 		},
 		List: &plugin.ListConfig{
-			//Hydrate: kaytu.ListServiceQuotasDefaultServiceQuota,
+			//Hydrate: opengovernance.ListServiceQuotasDefaultServiceQuota,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NoSuchResourceException"}),
 			},

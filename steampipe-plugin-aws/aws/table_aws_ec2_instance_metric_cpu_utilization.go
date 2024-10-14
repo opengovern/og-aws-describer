@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -16,7 +16,7 @@ func tableAwsEc2InstanceMetricCpuUtilization(_ context.Context) *plugin.Table {
 		Name:        "aws_ec2_instance_metric_cpu_utilization",
 		Description: "AWS EC2 Instance Cloudwatch Metrics - CPU Utilization",
 		List: &plugin.ListConfig{
-			ParentHydrate: kaytu.ListEC2Instance,
+			ParentHydrate: opengovernance.ListEC2Instance,
 			Hydrate:       listEc2InstanceMetricCpuUtilization,
 		},
 
@@ -33,6 +33,6 @@ func tableAwsEc2InstanceMetricCpuUtilization(_ context.Context) *plugin.Table {
 }
 
 func listEc2InstanceMetricCpuUtilization(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-	instance := h.Item.(kaytu.EC2Instance).Description.Instance
+	instance := h.Item.(opengovernance.EC2Instance).Description.Instance
 	return listCWMetricStatistics(ctx, d, "5_MIN", "AWS/EC2", "CPUUtilization", "InstanceId", *instance.InstanceId)
 }

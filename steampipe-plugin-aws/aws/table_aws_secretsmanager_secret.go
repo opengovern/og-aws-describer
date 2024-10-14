@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/service/secretsmanager/types"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -21,10 +21,10 @@ func tableAwsSecretsManagerSecret(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationException", "InvalidParameter", "ResourceNotFoundException"}),
 			},
-			Hydrate: kaytu.GetSecretsManagerSecret,
+			Hydrate: opengovernance.GetSecretsManagerSecret,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSecretsManagerSecret,
+			Hydrate: opengovernance.ListSecretsManagerSecret,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{

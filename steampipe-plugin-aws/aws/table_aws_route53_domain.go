@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -17,10 +17,10 @@ func tableAwsRoute53Domain(_ context.Context) *plugin.Table {
 		Description: "AWS Route53 Domain",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("domain_name"),
-			Hydrate:    kaytu.GetRoute53Domain,
+			Hydrate:    opengovernance.GetRoute53Domain,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRoute53Domain,
+			Hydrate: opengovernance.ListRoute53Domain,
 		},
 		Columns: awsKaytuColumns([]*plugin.Column{
 			{
@@ -172,7 +172,7 @@ func tableAwsRoute53Domain(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func route53DomainTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.Route53Domain).Description.Tags
+	tags := d.HydrateItem.(opengovernance.Route53Domain).Description.Tags
 	// Mapping the resource tags inside turbotTags
 	var turbotTagsMap map[string]string
 	if tags != nil {

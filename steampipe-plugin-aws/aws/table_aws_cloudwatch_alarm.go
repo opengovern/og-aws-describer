@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -17,10 +17,10 @@ func tableAwsCloudWatchAlarm(_ context.Context) *plugin.Table {
 		Description: "AWS CloudWatch Alarm",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("name"),
-			Hydrate:    kaytu.GetCloudWatchAlarm,
+			Hydrate:    opengovernance.GetCloudWatchAlarm,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListCloudWatchAlarm,
+			Hydrate: opengovernance.ListCloudWatchAlarm,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "name",
@@ -232,7 +232,7 @@ func tableAwsCloudWatchAlarm(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getAwsCloudWatchAlarmTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	cloudWatchAlarm := d.HydrateItem.(kaytu.CloudWatchAlarm).Description
+	cloudWatchAlarm := d.HydrateItem.(opengovernance.CloudWatchAlarm).Description
 
 	if cloudWatchAlarm.Tags == nil {
 		return nil, nil

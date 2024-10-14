@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,10 +15,10 @@ func tableAwsShieldProtectionGroup(_ context.Context) *plugin.Table {
 		Description: "AWS Shield ProtectionGroup",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("protection_group_id"),
-			Hydrate:    kaytu.GetShieldProtectionGroup,
+			Hydrate:    opengovernance.GetShieldProtectionGroup,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListShieldProtectionGroup,
+			Hydrate: opengovernance.ListShieldProtectionGroup,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -55,6 +55,6 @@ func tableAwsShieldProtectionGroup(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getShieldProtectionGroupTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.ShieldProtectionGroup).Description.Tags
+	tags := d.HydrateItem.(opengovernance.ShieldProtectionGroup).Description.Tags
 	return shieldV2TagsToMap(tags)
 }

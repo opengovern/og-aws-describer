@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,10 +15,10 @@ func tableAwsEC2IpamPool(_ context.Context) *plugin.Table {
 		Description: "AWS EC2 IpamPool",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("ipam_pool_id"),
-			Hydrate:    kaytu.GetEC2IpamPool,
+			Hydrate:    opengovernance.GetEC2IpamPool,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2IpamPool,
+			Hydrate: opengovernance.ListEC2IpamPool,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -55,6 +55,6 @@ func tableAwsEC2IpamPool(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getEC2IpamPoolTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.EC2IpamPool).Description.IpamPool.Tags
+	tags := d.HydrateItem.(opengovernance.EC2IpamPool).Description.IpamPool.Tags
 	return ec2V2TagsToMap(tags)
 }

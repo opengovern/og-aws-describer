@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -14,7 +14,7 @@ func tableAwsHealthAffectedEntity(_ context.Context) *plugin.Table {
 		Name:        "aws_health_affected_entity",
 		Description: "AWS Health Affected Entity",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListHealthAffectedEntity,
+			Hydrate: opengovernance.ListHealthAffectedEntity,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"SubscriptionRequiredException"}),
 			},
@@ -82,7 +82,7 @@ func tableAwsHealthAffectedEntity(_ context.Context) *plugin.Table {
 }
 
 func getHealthAffectedEntityAkas(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	clusterTags := d.HydrateItem.(kaytu.HealthAffectedEntity)
+	clusterTags := d.HydrateItem.(opengovernance.HealthAffectedEntity)
 	if clusterTags.Description.Entity.EntityArn != nil {
 		return []string{*clusterTags.Description.Entity.EntityArn}, nil
 	}

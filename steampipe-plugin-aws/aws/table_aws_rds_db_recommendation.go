@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -16,7 +16,7 @@ func tableAwsRDSDBRecommendation(_ context.Context) *plugin.Table {
 		Name:        "aws_rds_db_recommendation",
 		Description: "AWS RDS DB Recommendation",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRDSDBRecommendation,
+			Hydrate: opengovernance.ListRDSDBRecommendation,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{

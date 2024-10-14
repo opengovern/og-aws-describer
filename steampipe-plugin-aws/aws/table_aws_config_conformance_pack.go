@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -18,10 +18,10 @@ func tableAwsConfigConformancePack(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NoSuchConformancePackException"}),
 			},
-			Hydrate: kaytu.GetConfigConformancePack,
+			Hydrate: opengovernance.GetConfigConformancePack,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListConfigConformancePack,
+			Hydrate: opengovernance.ListConfigConformancePack,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:    "name",

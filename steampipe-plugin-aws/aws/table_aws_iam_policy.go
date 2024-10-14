@@ -2,7 +2,6 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
 	"strings"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -20,10 +19,10 @@ func tableAwsIamPolicy(_ context.Context) *plugin.Table {
 		Description: "AWS IAM Policy",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.AllColumns([]string{"arn"}),
-			Hydrate:    kaytu.GetIAMPolicy,
+			Hydrate:    opengovernance.GetIAMPolicy,
 		},
 		List: &plugin.ListConfig{
-			Hydrate:    kaytu.ListIAMPolicy,
+			Hydrate:    opengovernance.ListIAMPolicy,
 			KeyColumns: plugin.KeyColumnSlice{
 				//TODO The code generator doesn't support any of these type of filters. For now, don't pass them to the backend
 				// instead, let PostgreSQL handle them
@@ -154,8 +153,8 @@ func tableAwsIamPolicy(_ context.Context) *plugin.Table {
 
 // isPolicyAwsManaged returns true if policy is aws managed
 func isPolicyAwsManaged(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	policy := d.HydrateItem.(kaytu.IAMPolicy).Description.Policy
-	metadata := d.HydrateItem.(kaytu.IAMPolicy).Metadata
+	policy := d.HydrateItem.(opengovernance.IAMPolicy).Description.Policy
+	metadata := d.HydrateItem.(opengovernance.IAMPolicy).Metadata
 
 	// policy arn for aws managed policy
 	// arn:aws-us-gov:iam::aws:policy/aws-service-role/AccessAnalyzerServiceRolePolicy in us gov cloud
@@ -170,7 +169,7 @@ func isPolicyAwsManaged(_ context.Context, d *transform.TransformData) (interfac
 //// TRANSFORM FUNCTIONS
 
 func iamPolicyTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	policy := d.HydrateItem.(kaytu.IAMPolicy).Description.Policy
+	policy := d.HydrateItem.(opengovernance.IAMPolicy).Description.Policy
 	var turbotTagsMap map[string]string
 	if policy.Tags == nil {
 		return nil, nil

@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -15,7 +15,7 @@ func tableAwsIamVirtualMfaDevice(_ context.Context) *plugin.Table {
 		Name:        "aws_iam_virtual_mfa_device",
 		Description: "AWS IAM Virtual MFA device",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListIAMVirtualMFADevice,
+			Hydrate: opengovernance.ListIAMVirtualMFADevice,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "assignment_status", Require: plugin.Optional},
 			},
@@ -111,7 +111,7 @@ func tableAwsIamVirtualMfaDevice(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func virtualMfaDeviceTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.IAMVirtualMFADevice).Description.Tags
+	tags := d.HydrateItem.(opengovernance.IAMVirtualMFADevice).Description.Tags
 	var turbotTagsMap map[string]string
 	if tags == nil {
 		return nil, nil
@@ -126,7 +126,7 @@ func virtualMfaDeviceTurbotTags(_ context.Context, d *transform.TransformData) (
 }
 
 func getAssignmentStatus(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.IAMVirtualMFADevice).Description.VirtualMFADevice
+	data := d.HydrateItem.(opengovernance.IAMVirtualMFADevice).Description.VirtualMFADevice
 	if data.User != nil {
 		return "Assigned", nil
 	}

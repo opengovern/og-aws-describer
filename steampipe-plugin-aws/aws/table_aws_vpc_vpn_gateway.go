@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -17,10 +17,10 @@ func tableAwsVpcVpnGateway(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidVpnGatewayID.NotFound", "InvalidVpnGatewayID.Malformed"}),
 			},
-			Hydrate: kaytu.GetEC2VPNGateway,
+			Hydrate: opengovernance.GetEC2VPNGateway,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2VPNGateway,
+			Hydrate: opengovernance.ListEC2VPNGateway,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "amazon_side_asn", Require: plugin.Optional},
 				{Name: "availability_zone", Require: plugin.Optional},
@@ -91,7 +91,7 @@ func tableAwsVpcVpnGateway(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getVpcVpnGatewayTurbotData(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	vpnGateway := d.HydrateItem.(kaytu.EC2VPNGateway).Description.VPNGateway
+	vpnGateway := d.HydrateItem.(opengovernance.EC2VPNGateway).Description.VPNGateway
 	param := d.Param.(string)
 
 	// Get resource title

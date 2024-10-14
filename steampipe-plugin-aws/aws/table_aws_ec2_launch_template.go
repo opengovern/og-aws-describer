@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -13,10 +13,10 @@ func tableAwsEC2LaunchTemplate(_ context.Context) *plugin.Table {
 		Name:        "aws_ec2_launch_template",
 		Description: "AWS EC2 LaunchTemplate",
 		Get: &plugin.GetConfig{
-			Hydrate: kaytu.GetEC2LaunchTemplate,
+			Hydrate: opengovernance.GetEC2LaunchTemplate,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2LaunchTemplate,
+			Hydrate: opengovernance.ListEC2LaunchTemplate,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -89,13 +89,13 @@ func tableAwsEC2LaunchTemplate(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getEC2LaunchTemplateTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.EC2LaunchTemplate).Description.LaunchTemplate.Tags
+	tags := d.HydrateItem.(opengovernance.EC2LaunchTemplate).Description.LaunchTemplate.Tags
 	return ec2V2TagsToMap(tags)
 }
 
 func launchTemplateAkas(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	launchTemplate := d.HydrateItem.(kaytu.EC2LaunchTemplate).Description.LaunchTemplate
-	metadata := d.HydrateItem.(kaytu.EC2LaunchTemplate).Metadata
+	launchTemplate := d.HydrateItem.(opengovernance.EC2LaunchTemplate).Description.LaunchTemplate
+	metadata := d.HydrateItem.(opengovernance.EC2LaunchTemplate).Metadata
 
 	// Get data for Turbot defined properties
 	akas := []string{"arn:" + metadata.Partition + ":ec2:" + metadata.Region + ":" + metadata.AccountID + ":launch-template/" + *launchTemplate.LaunchTemplateId}

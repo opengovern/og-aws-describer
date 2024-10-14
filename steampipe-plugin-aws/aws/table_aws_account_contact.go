@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -16,7 +16,7 @@ func tableAwsAccountContact(_ context.Context) *plugin.Table {
 		Name:        "aws_account_contact",
 		Description: "AWS Account Contact",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListAccountContact,
+			Hydrate: opengovernance.ListAccountContact,
 			KeyColumns: []*plugin.KeyColumn{
 				{
 					Name:       "linked_account_id",

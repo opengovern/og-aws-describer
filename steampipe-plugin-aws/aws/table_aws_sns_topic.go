@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -21,10 +21,10 @@ func tableAwsSnsTopic(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NotFound", "InvalidParameter"}),
 			},
-			Hydrate: kaytu.GetSNSTopic,
+			Hydrate: opengovernance.GetSNSTopic,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSNSTopic,
+			Hydrate: opengovernance.ListSNSTopic,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -219,7 +219,7 @@ func tableAwsSnsTopic(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func snsTopicTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.SNSTopic).Description.Tags
+	tags := d.HydrateItem.(opengovernance.SNSTopic).Description.Tags
 	var turbotTagsMap map[string]string
 	if tags != nil {
 		turbotTagsMap = map[string]string{}

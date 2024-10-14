@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -19,10 +19,10 @@ func tableAwsEc2Ami(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidAMIID.NotFound", "InvalidAMIID.Unavailable", "InvalidAMIID.Malformed"}),
 			},
-			Hydrate: kaytu.GetEC2AMI,
+			Hydrate: opengovernance.GetEC2AMI,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2AMI,
+			Hydrate: opengovernance.ListEC2AMI,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "architecture", Require: plugin.Optional},
 				{Name: "description", Require: plugin.Optional},
@@ -219,20 +219,20 @@ func tableAwsEc2Ami(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getEC2AMIAkas(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	image := d.HydrateItem.(kaytu.EC2AMI).Description.AMI
-	metadata := d.HydrateItem.(kaytu.EC2AMI).Metadata
+	image := d.HydrateItem.(opengovernance.EC2AMI).Description.AMI
+	metadata := d.HydrateItem.(opengovernance.EC2AMI).Metadata
 
 	akas := []string{"arn:" + metadata.Partition + ":ec2:" + metadata.Region + ":" + metadata.AccountID + ":image/" + *image.ImageId}
 	return akas, nil
 }
 
 func getEc2AmiTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	image := d.HydrateItem.(kaytu.EC2AMI).Description.AMI
+	image := d.HydrateItem.(opengovernance.EC2AMI).Description.AMI
 	return ec2V2TagsToMap(image.Tags)
 }
 
 func getEc2AmiTurbotTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.EC2AMI).Description.AMI
+	data := d.HydrateItem.(opengovernance.EC2AMI).Description.AMI
 
 	title := data.ImageId
 	if data.Name != nil {
@@ -243,7 +243,7 @@ func getEc2AmiTurbotTitle(_ context.Context, d *transform.TransformData) (interf
 }
 
 func isAWSBackupManaged(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.EC2AMI).Description.AMI.Tags
+	tags := d.HydrateItem.(opengovernance.EC2AMI).Description.AMI.Tags
 	isAWSManaged := false
 	for _, tag := range tags {
 		if tag.Key != nil && *tag.Key == "aws:backup:source-resource" {

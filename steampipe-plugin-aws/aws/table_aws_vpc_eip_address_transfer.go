@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
@@ -18,7 +18,7 @@ func tableAwsVpcEipAddressTransfer(_ context.Context) *plugin.Table {
 		Name:        "aws_vpc_eip_address_transfer",
 		Description: "AWS VPC Elastic IP Address Transfer",
 		List: &plugin.ListConfig{
-			ParentHydrate: kaytu.ListEC2EIP,
+			ParentHydrate: opengovernance.ListEC2EIP,
 			Hydrate:       listVpcEipAddressTransfers,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "allocation_id", Require: plugin.Optional},

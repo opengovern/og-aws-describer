@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 	elbv2types "github.com/aws/aws-sdk-go-v2/service/elasticloadbalancingv2/types"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -177,7 +177,7 @@ func listELBV2LoadBalancer(t string) plugin.HydrateFunc {
 			},
 		}
 
-		return kaytu.ListElasticLoadBalancingV2LoadBalancer(ctx, d, h)
+		return opengovernance.ListElasticLoadBalancingV2LoadBalancer(ctx, d, h)
 	}
 }
 
@@ -210,7 +210,7 @@ func getELBV2LoadBalancer(t string) plugin.HydrateFunc {
 			},
 		}
 
-		return kaytu.GetElasticLoadBalancingV2LoadBalancer(ctx, d, h)
+		return opengovernance.GetElasticLoadBalancingV2LoadBalancer(ctx, d, h)
 	}
 }
 
@@ -219,7 +219,7 @@ func getELBV2LoadBalancer(t string) plugin.HydrateFunc {
 //// TRANSFORM FUNCTIONS ////
 
 func getELBV2LoadBalancerTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	applicationLoadBalancerTags := d.HydrateItem.(kaytu.ElasticLoadBalancingV2LoadBalancer).Description.Tags
+	applicationLoadBalancerTags := d.HydrateItem.(opengovernance.ElasticLoadBalancingV2LoadBalancer).Description.Tags
 
 	if applicationLoadBalancerTags != nil {
 		turbotTagsMap := map[string]string{}

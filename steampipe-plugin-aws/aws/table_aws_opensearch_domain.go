@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -17,10 +17,10 @@ func tableAwsOpenSearchDomain(_ context.Context) *plugin.Table {
 		Description: "AWS OpenSearch Domain",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("domain_name"),
-			Hydrate:    kaytu.GetOpenSearchDomain,
+			Hydrate:    opengovernance.GetOpenSearchDomain,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListOpenSearchDomain,
+			Hydrate: opengovernance.ListOpenSearchDomain,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -180,12 +180,12 @@ func tableAwsOpenSearchDomain(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getOpenSearchDomainTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.OpenSearchDomain).Description.Tags
+	tags := d.HydrateItem.(opengovernance.OpenSearchDomain).Description.Tags
 	return opensearchV2TagsToMap(tags)
 }
 
 func getOpensearchEngineType(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	domain := d.HydrateItem.(kaytu.OpenSearchDomain).Description.Domain
+	domain := d.HydrateItem.(opengovernance.OpenSearchDomain).Description.Domain
 	if domain.EngineVersion == nil {
 		return nil, nil
 	}

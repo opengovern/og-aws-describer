@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"strings"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -19,10 +19,10 @@ func tableAwsRedshiftEventSubscription(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"SubscriptionNotFound"}),
 			},
-			Hydrate: kaytu.GetRedshiftEventSubscription,
+			Hydrate: opengovernance.GetRedshiftEventSubscription,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListRedshiftEventSubscription,
+			Hydrate: opengovernance.ListRedshiftEventSubscription,
 		},
 
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
@@ -108,7 +108,7 @@ func tableAwsRedshiftEventSubscription(_ context.Context) *plugin.Table {
 
 func getRedshiftEventSubscriptionAkas(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	region := d.EqualsQualString(matrixKeyRegion)
-	parameterData := h.Item.(kaytu.RedshiftEventSubscription)
+	parameterData := h.Item.(opengovernance.RedshiftEventSubscription)
 
 	aka := "arn:" + parameterData.Metadata.Partition + ":redshift:" + region + ":" + parameterData.Metadata.AccountID + ":eventsubscription"
 
@@ -122,7 +122,7 @@ func getRedshiftEventSubscriptionAkas(ctx context.Context, d *plugin.QueryData, 
 }
 
 func redshiftEventSubListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	tagList := d.HydrateItem.(kaytu.RedshiftEventSubscription)
+	tagList := d.HydrateItem.(opengovernance.RedshiftEventSubscription)
 
 	if len(tagList.Description.EventSubscription.Tags) > 0 {
 		turbotTagsMap := map[string]string{}

@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -19,10 +19,10 @@ func tableAwsVpcRouteTable(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidRouteTableID.NotFound", "InvalidRouteTableID.Malformed"}),
 			},
-			Hydrate: kaytu.GetEC2RouteTable,
+			Hydrate: opengovernance.GetEC2RouteTable,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2RouteTable,
+			Hydrate: opengovernance.ListEC2RouteTable,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "owner_id", Require: plugin.Optional},
 				{Name: "vpc_id", Require: plugin.Optional},
@@ -102,7 +102,7 @@ func tableAwsVpcRouteTable(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getVpcRouteTableTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	routeTable := d.HydrateItem.(kaytu.EC2RouteTable).Description.RouteTable
+	routeTable := d.HydrateItem.(opengovernance.EC2RouteTable).Description.RouteTable
 	var turbotTagsMap map[string]string
 
 	// Get the resource tags

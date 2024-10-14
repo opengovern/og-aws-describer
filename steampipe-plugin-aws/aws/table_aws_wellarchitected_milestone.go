@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -25,10 +25,10 @@ func tableAwsWellArchitectedMilestone(_ context.Context) *plugin.Table {
 				{Name: "milestone_number", Require: plugin.Required},
 				{Name: "workload_id", Require: plugin.Required},
 			},
-			Hydrate: kaytu.ListWellArchitectedMilestone,
+			Hydrate: opengovernance.ListWellArchitectedMilestone,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListWellArchitectedMilestone,
+			Hydrate: opengovernance.ListWellArchitectedMilestone,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "workload_id", Require: plugin.Optional},
 			},

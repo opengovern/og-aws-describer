@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -16,7 +16,7 @@ func tableAwsEmrInstanceFleet(_ context.Context) *plugin.Table {
 		Name:        "aws_emr_instance_fleet",
 		Description: "AWS EMR Instance Fleet",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEMRInstanceFleet,
+			Hydrate: opengovernance.ListEMRInstanceFleet,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidRequestException"}),
 			},
@@ -115,7 +115,7 @@ func tableAwsEmrInstanceFleet(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func emrInstanceFleetTitle(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.EMRInstanceFleet).Description.InstanceFleet
+	data := d.HydrateItem.(opengovernance.EMRInstanceFleet).Description.InstanceFleet
 
 	if *data.Name == "" {
 		return data.Id, nil

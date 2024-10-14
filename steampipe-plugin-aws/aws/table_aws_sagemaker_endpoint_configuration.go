@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -19,10 +19,10 @@ func tableAwsSageMakerEndpointConfiguration(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationException", "NotFoundException"}),
 			},
-			Hydrate: kaytu.GetSageMakerEndpointConfiguration,
+			Hydrate: opengovernance.GetSageMakerEndpointConfiguration,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListSageMakerEndpointConfiguration,
+			Hydrate: opengovernance.ListSageMakerEndpointConfiguration,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "creation_time", Require: plugin.Optional, Operators: []string{">", ">=", "<", "<="}},
 			},
@@ -96,7 +96,7 @@ func tableAwsSageMakerEndpointConfiguration(_ context.Context) *plugin.Table {
 
 func sageMakerEndpointConfigurationTurbotTags(_ context.Context, d *transform.TransformData) (interface{},
 	error) {
-	tags := d.HydrateItem.(kaytu.SageMakerEndpointConfiguration).Description.Tags
+	tags := d.HydrateItem.(opengovernance.SageMakerEndpointConfiguration).Description.Tags
 
 	if tags != nil {
 		turbotTagsMap := map[string]string{}

@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -21,10 +21,10 @@ func tableAwsWafv2IpSet(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"WAFNonexistentItemException", "WAFInvalidParameterException", "InvalidParameter", "ValidationException"}),
 			},
-			Hydrate: kaytu.GetWAFv2IPSet,
+			Hydrate: opengovernance.GetWAFv2IPSet,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListWAFv2IPSet,
+			Hydrate: opengovernance.ListWAFv2IPSet,
 		},
 		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
@@ -125,7 +125,7 @@ func tableAwsWafv2IpSet(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func ipSetLocation(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.WAFv2IPSet)
+	data := d.HydrateItem.(opengovernance.WAFv2IPSet)
 	loc := strings.Split(strings.Split(*data.Description.IPSet.ARN, ":")[5], "/")[0]
 	if loc == "regional" {
 		return "REGIONAL", nil
@@ -134,7 +134,7 @@ func ipSetLocation(_ context.Context, d *transform.TransformData) (interface{}, 
 }
 
 func ipSetTagListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.WAFv2IPSet).Description.Tags
+	data := d.HydrateItem.(opengovernance.WAFv2IPSet).Description.Tags
 	// Mapping the resource tags inside turbotTags
 	var turbotTagsMap map[string]string
 	if data != nil {
@@ -148,7 +148,7 @@ func ipSetTagListToTurbotTags(ctx context.Context, d *transform.TransformData) (
 }
 
 func ipSetRegion(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.WAFv2IPSet)
+	data := d.HydrateItem.(opengovernance.WAFv2IPSet)
 	loc := strings.Split(strings.Split(*data.Description.IPSet.ARN, ":")[5], "/")[0]
 
 	if loc == "global" {

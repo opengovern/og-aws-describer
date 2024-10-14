@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/docdb"
@@ -22,7 +22,7 @@ func tableAwsDocDBClusterInstance(_ context.Context) *plugin.Table {
 		Name:        "aws_docdb_cluster_instance",
 		Description: "AWS DocumentDB Cluster Instance",
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListDocDBClusterInstance,
+			Hydrate: opengovernance.ListDocDBClusterInstance,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameterValue", "DBInstanceNotFound"}),
 			},
@@ -328,7 +328,7 @@ func listDocDBClusterInstances(ctx context.Context, d *plugin.QueryData, _ *plug
 //// TRANSFORM FUNCTIONS
 
 func DocDBClusterInstanceTagListToTurbotTags(ctx context.Context, d *transform.TransformData) (interface{}, error) {
-	tags := d.HydrateItem.(kaytu.DocDBClusterInstance).Description.Tags
+	tags := d.HydrateItem.(opengovernance.DocDBClusterInstance).Description.Tags
 
 	// Mapping the resource tags inside turbotTags
 	var turbotTagsMap map[string]string

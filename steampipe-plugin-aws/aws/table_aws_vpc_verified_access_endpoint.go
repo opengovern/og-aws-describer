@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
 
@@ -22,10 +22,10 @@ func tableAwsVpcVerifiedAccessEndpoint(_ context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameterValue", "InvalidVerifiedAccessEndpointId.NotFound", "InvalidAction"}),
 			},
-			Hydrate: kaytu.GetEC2VerifiedAccessEndpoint,
+			Hydrate: opengovernance.GetEC2VerifiedAccessEndpoint,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListEC2VerifiedAccessEndpoint,
+			Hydrate: opengovernance.ListEC2VerifiedAccessEndpoint,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"InvalidParameterValue"}),
 			},
@@ -153,7 +153,7 @@ func tableAwsVpcVerifiedAccessEndpoint(_ context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func endpointTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	accessPoint := d.HydrateItem.(kaytu.EC2VerifiedAccessEndpoint).Description.VerifiedAccountEndpoint
+	accessPoint := d.HydrateItem.(opengovernance.EC2VerifiedAccessEndpoint).Description.VerifiedAccountEndpoint
 
 	// Get the resource tags
 	var turbotTagsMap map[string]string

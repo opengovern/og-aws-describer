@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 
-	"github.com/kaytu-io/kaytu-aws-describer/pkg/kaytu-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -20,10 +20,10 @@ func tableAwsIamRole(ctx context.Context) *plugin.Table {
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationError", "NoSuchEntity", "InvalidParameter"}),
 			},
-			Hydrate: kaytu.GetIAMRole,
+			Hydrate: opengovernance.GetIAMRole,
 		},
 		List: &plugin.ListConfig{
-			Hydrate: kaytu.ListIAMRole,
+			Hydrate: opengovernance.ListIAMRole,
 			KeyColumns: []*plugin.KeyColumn{
 				{Name: "path", Require: plugin.Optional},
 			},
@@ -176,7 +176,7 @@ func tableAwsIamRole(ctx context.Context) *plugin.Table {
 //// TRANSFORM FUNCTIONS
 
 func getIamRoleTurbotTags(_ context.Context, d *transform.TransformData) (interface{}, error) {
-	data := d.HydrateItem.(kaytu.IAMRole).Description.Role
+	data := d.HydrateItem.(opengovernance.IAMRole).Description.Role
 	var turbotTagsMap map[string]string
 
 	if data.Tags != nil {
