@@ -10,6 +10,7 @@ import (
 	"github.com/opengovern/og-util/pkg/describe"
 	esSinkClient "github.com/opengovern/og-util/pkg/es/ingest/client"
 	"github.com/opengovern/og-util/pkg/jq"
+	"github.com/opengovern/og-util/pkg/koanf"
 	"github.com/opengovern/og-util/pkg/opengovernance-es-sdk"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
@@ -64,7 +65,7 @@ func WorkerCommand() *cobra.Command {
 type Worker struct {
 	config   Config
 	logger   *zap.Logger
-	esClient kaytu.Client
+	esClient opengovernance.Client
 	jq       *jq.JobQueue
 
 	esSinkClient esSinkClient.EsSinkServiceClient

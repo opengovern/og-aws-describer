@@ -61,7 +61,7 @@ func (h *DescriberJob) Run() error {
 			continue
 		}
 
-		err := describer.DescribeHandler(context.Background(), describer.TriggeredByAWSLambda, job)
+		err := describer.DescribeHandler(context.Background(), logger, describer.TriggeredByAWSLambda, job)
 		if err != nil {
 			logger.Error("failure while handling job", zap.Uint("jobID", job.DescribeJob.JobID))
 			continue
