@@ -2,7 +2,7 @@ package aws
 
 import (
 	"context"
-	"github.com/kaytu-io/og-aws-describer/pkg/opengovernance-es-sdk"
+	"github.com/opengovern/og-aws-describer/pkg/opengovernance-es-sdk"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"

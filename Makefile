@@ -23,4 +23,4 @@ build-cli:
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -ldflags "-w -extldflags -static" -o ./build/og-aws-cli ./command/main.go
 	cd build && zip ./og-aws-cli.zip ./og-aws-cli
 	scp ./build/og-aws-cli.zip steampipe:
-	ssh steampipe unzip -o kaytu-aws-cli.zip
+	ssh steampipe unzip -o os-aws-cli.zip

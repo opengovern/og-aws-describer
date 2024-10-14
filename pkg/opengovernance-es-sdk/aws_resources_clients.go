@@ -3,9 +3,9 @@ package opengovernance
 
 import (
 	"context"
-	aws "github.com/kaytu-io/kaytu-aws-describer/aws/model"
-	essdk "github.com/kaytu-io/kaytu-util/pkg/kaytu-es-sdk"
-	steampipesdk "github.com/kaytu-io/kaytu-util/pkg/steampipe"
+	aws "github.com/opengovern/og-aws-describer/aws/model"
+	essdk "github.com/opengovern/og-util/pkg/opengovernance-es-sdk"
+	steampipesdk "github.com/opengovern/og-utilpkg/steampipe"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"runtime"
 )
