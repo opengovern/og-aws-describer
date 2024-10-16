@@ -288,8 +288,11 @@ func listAllNestedOUs(ctx context.Context, svc *organizations.Client, parentId s
 
 		for _, unit := range output.OrganizationalUnits {
 			ouPath := strings.Replace(currentPath, "-", "_", -1) + "." + strings.Replace(*unit.Id, "-", "_", -1)
-			resource := organizationsOrganizationalUnitHandle(ctx, unit, parentId, ouPath)
-			values = append(values, resource)
+			resource, err := organizationsOrganizationalUnitHandle(ctx, svc, unit, parentId, ouPath)
+			if err != nil {
+				return nil, err
+			}
+			values = append(values, *resource)
 
 			// Recursively list units for this child
 			resources, err := listAllNestedOUs(ctx, svc, *unit.Id, ouPath)
@@ -305,8 +308,18 @@ func listAllNestedOUs(ctx context.Context, svc *organizations.Client, parentId s
 	return values, nil
 }
 
-func organizationsOrganizationalUnitHandle(ctx context.Context, unit types.OrganizationalUnit, parentId, path string) Resource {
+func organizationsOrganizationalUnitHandle(ctx context.Context, svc *organizations.Client, unit types.OrganizationalUnit, parentId, path string) (*Resource, error) {
 	describeCtx := GetDescribeContext(ctx)
+	tagsResponse, err := svc.ListTagsForResource(ctx, &organizations.ListTagsForResourceInput{
+		ResourceId: unit.Id,
+	})
+	if err != nil {
+		return nil, err
+	}
+	var tags []types.Tag
+	if tagsResponse != nil {
+		tags = tagsResponse.Tags
+	}
 	resource := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *unit.Arn,
@@ -316,9 +329,10 @@ func organizationsOrganizationalUnitHandle(ctx context.Context, unit types.Organ
 			Unit:     unit,
 			Path:     path,
 			ParentId: parentId,
+			Tags:     tags,
 		},
 	}
-	return resource
+	return &resource, nil
 }
 
 func OrganizationsPolicyTarget(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
