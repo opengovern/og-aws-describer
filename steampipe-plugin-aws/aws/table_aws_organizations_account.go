@@ -36,10 +36,10 @@ func tableAwsOrganizationsAccount(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.Account.Id")},
 			{
-				Name:        "id",
-				Description: "The unique identifier (account ID) of the member account.",
+				Name:        "parent_id",
+				Description: "The unique identifier (ID) for the parent root or organization unit (OU) whose accounts you want to list.",
 				Type:        proto.ColumnType_STRING,
-				Transform:   transform.FromField("Description.Account.Id")},
+				Transform:   transform.FromField("Description.ParentID")},
 			{
 				Name:        "arn",
 				Description: "The Amazon Resource Name (ARN) of the account.",
