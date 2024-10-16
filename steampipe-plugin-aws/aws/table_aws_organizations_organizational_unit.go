@@ -50,7 +50,12 @@ func tableAwsOrganizationsOrganizationalUnit(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("Description.Path"),
 			},
-
+			{
+				Name:        "tags",
+				Description: "Organizational Unit Tags",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("Description.Tags"),
+			},
 			// Steampipe standard columns
 			{
 				Name:        "title",
