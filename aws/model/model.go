@@ -3376,6 +3376,7 @@ type OrganizationsOrganizationalUnitDescription struct {
 	Unit     organizations.OrganizationalUnit
 	ParentId string
 	Path     string
+	Tags     []organizations.Tag
 }
 
 type OrganizationsPolicyTargetDescription struct {
