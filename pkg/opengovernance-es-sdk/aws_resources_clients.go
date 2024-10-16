@@ -84339,6 +84339,7 @@ var listOrganizationsOrganizationalUnitFilters = map[string]string{
 	"name":      "description.Unit.Name",
 	"parent_id": "description.ParentId",
 	"path":      "description.Path",
+	"tags":      "description.Tags",
 	"title":     "description.Unit.Name",
 }
 
@@ -84407,6 +84408,7 @@ var getOrganizationsOrganizationalUnitFilters = map[string]string{
 	"name":      "description.Unit.Name",
 	"parent_id": "description.ParentId",
 	"path":      "description.Path",
+	"tags":      "description.Tags",
 	"title":     "description.Unit.Name",
 }
 
