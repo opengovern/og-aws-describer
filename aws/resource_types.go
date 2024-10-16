@@ -59,7 +59,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"aws_organizations_organization"},
 		TerraformServiceName: "organizations",
-		FastDiscovery:        false,
+		FastDiscovery:        true,
 		Summarize:            true,
 	},
 
@@ -73,7 +73,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"aws_organizations_policy"},
 		TerraformServiceName: "organizations",
-		FastDiscovery:        false,
+		FastDiscovery:        true,
 		Summarize:            true,
 	},
 
@@ -87,7 +87,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"aws_organizations_policy"},
 		TerraformServiceName: "organizations",
-		FastDiscovery:        false,
+		FastDiscovery:        true,
 		Summarize:            true,
 	},
 
@@ -101,7 +101,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"aws_organizations_organizational_unit"},
 		TerraformServiceName: "organizations",
-		FastDiscovery:        false,
+		FastDiscovery:        true,
 		Summarize:            true,
 	},
 
@@ -115,7 +115,7 @@ var resourceTypes = map[string]ResourceType{
 		GetDescriber:         nil,
 		TerraformName:        []string{"aws_organizations_root"},
 		TerraformServiceName: "organizations",
-		FastDiscovery:        false,
+		FastDiscovery:        true,
 		Summarize:            true,
 	},
 
@@ -3936,7 +3936,7 @@ var resourceTypes = map[string]ResourceType{
 		ResourceLabel:        "Organizations Account",
 		Tags:                 map[string][]string{},
 		ServiceName:          "OAM",
-		ListDescriber:        ParallelDescribeRegional(describer.OrganizationsAccount),
+		ListDescriber:        SequentialDescribeGlobal(describer.OrganizationsAccount),
 		GetDescriber:         nil,
 		TerraformName:        []string{},
 		TerraformServiceName: "",
