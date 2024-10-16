@@ -100,51 +100,51 @@ func OrganizationAccounts(ctx context.Context, cfg aws.Config) ([]types.Account,
 	return values, nil
 }
 
-func OrganizationsAccount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
-	describeCtx := GetDescribeContext(ctx)
-	client := organizations.NewFromConfig(cfg)
-
-	paginator := organizations.NewListAccountsPaginator(client, &organizations.ListAccountsInput{})
-
-	var values []Resource
-	for paginator.HasMorePages() {
-		page, err := paginator.NextPage(ctx)
-		if err != nil {
-			if isErr(err, "AccessDeniedException") {
-				continue
-			}
-			return nil, err
-		}
-
-		for _, acc := range page.Accounts {
-			tags, err := client.ListTagsForResource(ctx, &organizations.ListTagsForResourceInput{
-				ResourceId: acc.Id,
-			})
-			if err != nil {
-				return nil, err
-			}
-
-			resource := Resource{
-				Region: describeCtx.KaytuRegion,
-				ARN:    *acc.Arn,
-				Name:   *acc.Name,
-				Description: model.OrganizationsAccountDescription{
-					Account: acc,
-					Tags:    tags.Tags,
-				},
-			}
-			if stream != nil {
-				if err := (*stream)(resource); err != nil {
-					return nil, err
-				}
-			} else {
-				values = append(values, resource)
-			}
-		}
-	}
-
-	return values, nil
-}
+//func OrganizationsAccount(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
+//	describeCtx := GetDescribeContext(ctx)
+//	client := organizations.NewFromConfig(cfg)
+//
+//	paginator := organizations.NewListAccountsPaginator(client, &organizations.ListAccountsInput{})
+//
+//	var values []Resource
+//	for paginator.HasMorePages() {
+//		page, err := paginator.NextPage(ctx)
+//		if err != nil {
+//			if isErr(err, "AccessDeniedException") {
+//				continue
+//			}
+//			return nil, err
+//		}
+//
+//		for _, acc := range page.Accounts {
+//			tags, err := client.ListTagsForResource(ctx, &organizations.ListTagsForResourceInput{
+//				ResourceId: acc.Id,
+//			})
+//			if err != nil {
+//				return nil, err
+//			}
+//
+//			resource := Resource{
+//				Region: describeCtx.KaytuRegion,
+//				ARN:    *acc.Arn,
+//				Name:   *acc.Name,
+//				Description: model.OrganizationsAccountDescription{
+//					Account: acc,
+//					Tags:    tags.Tags,
+//				},
+//			}
+//			if stream != nil {
+//				if err := (*stream)(resource); err != nil {
+//					return nil, err
+//				}
+//			} else {
+//				values = append(values, resource)
+//			}
+//		}
+//	}
+//
+//	return values, nil
+//}
 
 func OrganizationsPolicy(ctx context.Context, cfg aws.Config, stream *StreamSender) ([]Resource, error) {
 	var values []Resource

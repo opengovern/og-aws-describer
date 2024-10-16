@@ -3358,8 +3358,9 @@ type OrganizationsOrganizationDescription struct {
 //index:aws_organizations_account
 //getfilter:id=description.Account.Id
 type OrganizationsAccountDescription struct {
-	Tags    []organizations.Tag
-	Account organizations.Account
+	Tags     []organizations.Tag
+	Account  organizations.Account
+	ParentID string
 }
 
 //index:aws_organizations_policy
