@@ -209,6 +209,7 @@ func processAccount(ctx context.Context, orgClient *organizations.Client, acct o
 	details := Resource{
 		Region: describeCtx.KaytuRegion,
 		ARN:    *acct.Arn,
+		ID:     *acct.Id,
 		Name:   *acct.Name,
 		Description: model.OrganizationsAccountDescription{
 			Account:  acct,
