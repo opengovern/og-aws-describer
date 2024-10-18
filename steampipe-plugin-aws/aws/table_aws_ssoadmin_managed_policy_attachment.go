@@ -16,7 +16,7 @@ func tableAwsSsoAdminManagedPolicyAttachment(_ context.Context) *plugin.Table {
 			Hydrate: opengovernance.ListSSOAdminPolicyAttachment,
 		},
 
-		Columns: awsRegionalColumns([]*plugin.Column{
+		Columns: awsKaytuRegionalColumns([]*plugin.Column{
 			{
 				Name:        "permission_set_arn",
 				Description: "The ARN of the permission set.",
