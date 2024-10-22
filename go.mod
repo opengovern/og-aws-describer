@@ -152,7 +152,7 @@ require (
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/manifoldco/promptui v0.9.0
 	github.com/nats-io/nats.go v1.36.0
-	github.com/opengovern/og-util v0.0.0-20241014001006-42f25ad9090c
+	github.com/opengovern/og-util v0.0.0-20241022113340-233b90264435
 	github.com/spf13/cobra v1.7.0
 	github.com/turbot/go-kit v0.9.0
 	github.com/turbot/steampipe-plugin-sdk/v5 v5.8.0

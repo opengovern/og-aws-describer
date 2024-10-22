@@ -32,9 +32,7 @@ func Do(ctx context.Context,
 	grpcEndpoint string,
 	describeDeliverToken string,
 	ingestionPipelineEndpoint string,
-	useOpenSearch bool,
-	workspaceId string,
-	workspaceName string) (resourceIDs []string, err error) {
+	useOpenSearch bool) (resourceIDs []string, err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			err = fmt.Errorf("paniced with error: %v", r)
@@ -55,12 +53,12 @@ func Do(ctx context.Context,
 	}
 	logger.Info("decrypted config", zap.Any("config", config))
 
-	return doDescribeAWS(ctx, logger, job, config, workspaceId, workspaceName, grpcEndpoint, ingestionPipelineEndpoint, describeDeliverToken, useOpenSearch)
+	return doDescribeAWS(ctx, logger, job, config, grpcEndpoint, ingestionPipelineEndpoint, describeDeliverToken, useOpenSearch)
 }
 
-func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.DescribeJob, config map[string]any, workspaceId, workspaceName string, grpcEndpoint, ingestionPipelineEndpoint string, describeToken string, useOpenSearch bool) ([]string, error) {
+func doDescribeAWS(ctx context.Context, logger *zap.Logger, job describe.DescribeJob, config map[string]any, grpcEndpoint, ingestionPipelineEndpoint string, describeToken string, useOpenSearch bool) ([]string, error) {
 	logger.Info("Making New Resource Sender")
-	rs, err := NewResourceSender(workspaceId, workspaceName, grpcEndpoint, ingestionPipelineEndpoint, describeToken, job.JobID, useOpenSearch, logger)
+	rs, err := NewResourceSender(grpcEndpoint, ingestionPipelineEndpoint, describeToken, job.JobID, useOpenSearch, logger)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to resource sender: %w", err)
 	}

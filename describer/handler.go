@@ -28,7 +28,7 @@ const (
 	DescribeResourceJobSucceeded string = "SUCCEEDED"
 )
 
-func getJWTAuthToken(workspaceId string) (string, error) {
+func getJWTAuthToken() (string, error) {
 	privateKey, ok := os.LookupEnv("JWT_PRIVATE_KEY")
 	if !ok {
 		return "", fmt.Errorf("JWT_PRIVATE_KEY not set")
@@ -45,10 +45,7 @@ func getJWTAuthToken(workspaceId string) (string, error) {
 	}
 
 	token, err := jwt.NewWithClaims(jwt.SigningMethodRS256, jwt.MapClaims{
-		"https://app.kaytu.io/workspaceAccess": map[string]string{
-			workspaceId: "admin",
-		},
-		"https://app.kaytu.io/email": "describe-worker@kaytu.io",
+		"email": "describe-worker@kaytu.io",
 	}).SignedString(pk)
 	if err != nil {
 		return "", fmt.Errorf("JWT token generation failed %v", err)
@@ -75,22 +72,16 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 		logger.Sync()
 	}()
 
-	if input.WorkspaceName == "" {
-		return fmt.Errorf("workspace name is required")
-	}
-
 	var token string
 	if input.EndpointAuth {
-		token, err = getJWTAuthToken(input.WorkspaceId)
+		token, err = getJWTAuthToken()
 		if err != nil {
 			return fmt.Errorf("failed to get JWT token: %w", err)
 		}
 	}
 
 	var client golang.DescribeServiceClient
-	grpcCtx := metadata.NewOutgoingContext(ctx, metadata.New(map[string]string{
-		"workspace-name": input.WorkspaceName,
-	}))
+	grpcCtx := metadata.NewOutgoingContext(ctx, metadata.New(map[string]string{}))
 
 	logger.Info("Setting grpc connection opts")
 	var opts []grpc.DialOption
@@ -167,8 +158,6 @@ func DescribeHandler(ctx context.Context, logger *zap.Logger, _ TriggeredBy, inp
 		token,
 		input.IngestionPipelineEndpoint,
 		input.UseOpenSearch,
-		input.WorkspaceId,
-		input.WorkspaceName,
 	)
 	logger.Info("Resource IDs fetched", zap.Any("resourceIds", resourceIds))
 
