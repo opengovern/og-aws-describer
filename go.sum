@@ -1059,6 +1059,8 @@ github.com/opencontainers/runc v1.1.12 h1:BOIssBaW1La0/qbNZHXOOa71dZfZEQOzW7dqQf
 github.com/opencontainers/runc v1.1.12/go.mod h1:S+lQwSfncpBha7XTy/5lBwWgm5+y5Ma/O44Ekby9FK8=
 github.com/opengovern/og-util v0.0.0-20241014001006-42f25ad9090c h1:UY1NT2J9cObak76fsHAZu5OZZPR6wm3eSQkZI+n2wzc=
 github.com/opengovern/og-util v0.0.0-20241014001006-42f25ad9090c/go.mod h1:7l7fNhK6uewIwA0cs7QagJuhjt/E6hEAC01SR8Y0kKk=
+github.com/opengovern/og-util v0.0.0-20241022113340-233b90264435 h1:/skBXSSWSc+s5KBu90jKuhQoILFNd4lW0TBUV7mYDZQ=
+github.com/opengovern/og-util v0.0.0-20241022113340-233b90264435/go.mod h1:7l7fNhK6uewIwA0cs7QagJuhjt/E6hEAC01SR8Y0kKk=
 github.com/opensearch-project/opensearch-go/v2 v2.3.0 h1:nQIEMr+A92CkhHrZgUhcfsrZjibvB3APXf2a1VwCmMQ=
 github.com/opensearch-project/opensearch-go/v2 v2.3.0/go.mod h1:8LDr9FCgUTVoT+5ESjc2+iaZuldqE+23Iq0r1XeNue8=
 github.com/ory/dockertest/v3 v3.10.0 h1:4K3z2VMe8Woe++invjaTB7VRyQXQy5UY+loujO4aNE4=
