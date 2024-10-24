@@ -20,10 +20,10 @@ import (
 )
 
 const (
-	StreamName           = "kaytu_aws_describer"
-	JobQueueTopic        = "kaytu_aws_describer_job_queue"
+	StreamName           = "og_aws_describer"
+	JobQueueTopic        = "og_aws_describer_job_queue"
 	ConsumerGroup        = "aws-describer"
-	JobQueueTopicManuals = "kaytu_aws_describer_manuals_job_queue"
+	JobQueueTopicManuals = "og_aws_describer_manuals_job_queue"
 	ConsumerGroupManuals = "aws-describer-manuals"
 )
 
